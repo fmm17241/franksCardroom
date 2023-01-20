@@ -1,5 +1,5 @@
-%Instead of slicing the data into chunks, this instead moves a window and
-%gives us glimpses at chunks of the larger set.
+%TESTING EDIT FMFMFMF
+
 
 figure()
 SunriseSunsetUTC
