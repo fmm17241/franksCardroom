@@ -3,7 +3,7 @@
 
 %Tidal predictions, rotated to be along vs cross-shore. Uses tideDT,
 %rotUtide
-tidalAnalysis2020
+tidalAnalysis2014
 
 %Detections with one transceiver pair, ~0.53 km. Uses
 %hourlyDetections{X}.time/detections
@@ -13,10 +13,10 @@ mooredEfficiency
 %NOAA buoy SST measurements. Uses bottom.bottomTime, buoyStratification,
 %bottom.tilt, and leftovers (disconnected pings, measure of transmission
 %failure)
-sstAnalysis2020
+sstAnalysis2014
 
 %Winds magnitude and direction from the buoy. Uses windsDN/U/V.
-windsAnalysis2020
+windsAnalysis2014
 
 %TESTING: Detections on the wind rose for different seasons
 windsAverage(691:8445,3) = hourlyDetections{1,1};
