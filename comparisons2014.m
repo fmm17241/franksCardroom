@@ -1,7 +1,7 @@
 % truthing2014.m has become corrupted and we shall not speak of it going
 % forward, under penalty of intense frowning and sighing.
 %Go to correct data folder
-cd G:\Glider\Data\2014
+cd D:\Glider\Data\2014
 
 % Load in processed receiver and detection data 
 load receiver_reordered.mat
