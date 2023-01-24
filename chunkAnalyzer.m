@@ -20,9 +20,6 @@ windsAnalysis2020
 
 %TESTING: Detections on the wind rose for different seasons
 windsAverage(691:8445,3) = hourlyDetections{1,1};
-
-WindRose(windsAverage.WDIR,windsAverage.Var3,'AngleNorth',0,'AngleEast',90,'nDirections',5,'FreqLabelAngle','ruler');
-
 % %Astronomical
 % %Winter start to March 20th 1:11349 OR 691:1898
 % WindRose(windsAverage.WDIR(691:1898),windsAverage.Var3(691:1898),'AngleNorth',0,'AngleEast',90,'nDirections',5,'FreqLabelAngle','ruler');
@@ -81,7 +78,7 @@ end
 % the times to compare them quantitatively.
 
 %I want to put my cycles back to hourly, less focused on visualization
-cycleTime2 = cycleTime - offset;
+cycleTime2 = cycleTime;
 
 % for k = 1:length(hourlyDetections)
 %     hourlyDetections{k}.time = hourlyDetections{k}.time - offset; 
@@ -104,7 +101,7 @@ for P = 1:length(chunkTime)
     currentChunk2 = cycleTime2(P+1);
     chunkTime{P}  = [currentChunk1,currentChunk2];
 end
-
+%%
 %Currently this shows chunks of time and has the values for characteristics
 %at those times. Compared to detections, might tell us something.
 for PT = 1:length(chunkTime)
@@ -127,8 +124,8 @@ for PT = 1:length(chunkTime)
      cStructure{PT}.winds.windSpd(isnan(cStructure{PT}.winds.windSpd)) = 0;
     
     % Bulk Thermal stratification
-    indexStrat = isbetween(bottom.bottomTime,chunkTime{PT}(1),chunkTime{PT}(2));
-    cStructure{PT}.strat = timetable(bottom.bottomTime(indexStrat),buoyStratification(indexStrat));
+    indexStrat = isbetween(bottom{PT}.Time,chunkTime{PT}(1),chunkTime{PT}(2));
+    cStructure{PT}.strat = timetable(bottom{PT}.Time(indexStrat),stratification{PT}(indexStrat));
     cStructure{PT}.strat.Properties.VariableNames = {'bulkTstrat'};
 
     %Noise
@@ -136,12 +133,8 @@ for PT = 1:length(chunkTime)
     indexNoise = isbetween(noiseDT,chunkTime{PT}(1),chunkTime{PT}(2));
     cStructure{PT}.noise = timetable(noiseDT(indexNoise),receiverData{1,1}.avgNoise(indexNoise,2));
     cStructure{PT}.noise.Properties.VariableNames = {'noise'};
-
-
-
-    
 end
-
+%%
 %%
 %This finds correlation each week between noise and detections
 % for k = 2:11
