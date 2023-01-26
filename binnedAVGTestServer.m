@@ -230,10 +230,10 @@ xlabel('Windspeed, m/s')
 
 x = 0.5:14.5;
 figure()
-scatter(x,normalizedAlong{1},'filled','MarkerFaceAlpha',.6,'MarkerEdgeAlpha',1)
+scatter(x,normalizedWindA{1},'filled','MarkerFaceAlpha',.6,'MarkerEdgeAlpha',1)
 hold on
 for COUNT = 2:length(seasons)
-    scatter(x,normalizedAlong{COUNT},'filled','MarkerFaceAlpha',.6,'MarkerEdgeAlpha',1)
+    scatter(x,normalizedWindA{COUNT},'filled','MarkerFaceAlpha',.6,'MarkerEdgeAlpha',1)
 end
 legend('Winter','Spring','Summer','Fall','Mariners Fall')
 title('Normalized Detections, 2020 Along-shore Transceiver Pairings')

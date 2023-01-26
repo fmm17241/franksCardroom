@@ -1,4 +1,4 @@
-cd G:\Moored\WeatherData
+cd D:\WeatherData
 %
 % winds2019 = readtable ('continuousWeatherData2019.csv'); %IN UTC!!!!!
 % winds2020 = readtable ('continuousWeatherData2020.csv'); %IN UTC!!!!!
@@ -41,19 +41,17 @@ scrange(windsU)
 scrange(windsV)
 
 
-ax = [737907.958333333 737920 -15 15];
-figure()
-tt = stickplot(windsDN(2688:3233),windsU(2688:3233),windsV(2688:3233),ax);
-% datetick('x','keeplimits')
-dynamicDateTicks()
-title('Wind Speed & Magnitude 2020');
-ylabel('Velocity (m/s)');
+% ax = [737907.958333333 737920 -15 15];
+% figure()
+% tt = stickplot(windsDN(2688:3233),windsU(2688:3233),windsV(2688:3233),ax);
+% % datetick('x','keeplimits')
+% title('Wind Speed & Magnitude 2020');
+% ylabel('Velocity (m/s)');
 
 
 
 figure()
 plot(windsDN,windsU);
-dynamicDateTicks();
 
 
 %%
@@ -62,10 +60,9 @@ dynamicDateTicks();
 theta = 0.5825;
 
 [rotUwinds,rotVwinds] = rot(windsU,windsV,theta);
-
-figure()
-plot(windsDN,rotUwinds);
-dynamicDateTicks();
+% 
+% figure()
+% plot(windsDN,rotUwinds);
 
 %%
 
@@ -79,17 +76,16 @@ hold on
 plot(windsMonthly.time,windsMonthly.WSPD);
 
 
-figure()
-plot(windsAverage.time,WSPD);
-dynamicDateTicks()
-hold on
-% yValue = [0 100];
-% for k = 1:length(sunset)-1
-%     x = [sunset(k) sunrise(k+1)];
-%     area(x,yValue,'FaceColor','k','FaceAlpha',0.2);
-% end
-title('Wind Speeds');
-ylabel('Magnitude, m/s');
+% figure()
+% plot(windsAverage.time,WSPD);
+% hold on
+% % yValue = [0 100];
+% % for k = 1:length(sunset)-1
+% %     x = [sunset(k) sunrise(k+1)];
+% %     area(x,yValue,'FaceColor','k','FaceAlpha',0.2);
+% % end
+% title('Wind Speeds');
+% ylabel('Magnitude, m/s');
 
 
 windy = sin(WDIR).*WSPD;
@@ -106,11 +102,11 @@ speedSignal = detrend(WSPD);
 
 %Cite WindRose, from Daniel Pereira on matlab filexchange
 
-WindRose(winds.WDIR(1:20),winds.WSPD(1:20),'AngleNorth',0,'AngleEast',90);
-
-WindRose(winds.WDIR,winds.WSPD,'AngleNorth',0,'AngleEast',90,'nDirections',10,'FreqLabelAngle','ruler');
-
-WindRose(windsAverage.WDIR,windsAverage.WSPD,'AngleNorth',0,'AngleEast',90,'nDirections',10,'FreqLabelAngle','ruler');
+% WindRose(winds.WDIR(1:20),winds.WSPD(1:20),'AngleNorth',0,'AngleEast',90);
+% 
+% WindRose(winds.WDIR,winds.WSPD,'AngleNorth',0,'AngleEast',90,'nDirections',10,'FreqLabelAngle','ruler');
+% 
+% WindRose(windsAverage.WDIR,windsAverage.WSPD,'AngleNorth',0,'AngleEast',90,'nDirections',10,'FreqLabelAngle','ruler');
 
 
 
