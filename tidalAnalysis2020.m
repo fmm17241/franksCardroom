@@ -1,6 +1,6 @@
 % load the data
 % cd G:\Glider\Data\ADCP\
-cd G:\Glider\Data\ADCP\
+cd D:\Glider\Data\ADCP
 
 load GR_adcp_30minave_magrot.mat
 adcp
@@ -13,7 +13,7 @@ xin = (uz+sqrt(-1)*vz);
 %Checking: clear semidiurnal signal in 2014 tidal data, as expected
 figure()
 plot(adcp.dn,uz);
-dynamicDateTicks();
+% dynamicDateTicks();
 
 %t_tide, separating currents into constituents
 [struct, xout] = t_tide(xin,'interval',adcp.dth,'start time',adcp.dn(1),'latitude',adcp.lat);
@@ -117,45 +117,45 @@ ylabel('Cross-Shore Velocity');
 
 
 
-
-cutoff = (1/144000);     %40 hours
+% 
+% cutoff = (1/144000);     %40 hours
 % cutoff   = (1/259200); % 3 days
 % cutoff = (1/345600)    % 4 days
 % cutoff = (1/432000)      % 5 days
 
 %Sampling rate
-fs     = (1/3600);
-Wn = cutoff/(0.5*fs);
-[B,A] = butter(5,Wn,'low');
-tideVx = filtfilt(B,A,rotUtide);
-tideVy = filtfilt(B,A,rotVtide);
-
-figure()
-plot(tideVx,tideVy);
-
-
-figure()
-ax = [[737903.020833333] [737906.041666667] -0.4 0.4];
-stickplot(tideDN,ut,vt,ax);
-datetick('x','KeepLimits');
-xlabel('Time');
-ylabel('Current Magnitude,m/s');
-title('Tidal Currents');
-
-
-[ebbindex,floodindex,floodtime,floodpoints,floodDT,ebbDT,ebbtime,ebbpoints,tidalrange,tidalduration,highTide,lowTide,crosspoints] = findebbflood(tideDN,rotUtide);
-
-
-figure()
-plot(tideDT,rotUtide,'k','LineWidth',2);
-yline(0);
-dynamicDateTicks();
-hold on
-scatter(tideDT(floodindex),rotUtide(floodindex),'r*');
-scatter(tideDT(ebbindex),rotUtide(ebbindex),'b*');
-% hold off
-title('Max Flood Velocities(-) and Max Ebb Velocities(+), GR 2020');
-ylabel('Velocity (m/s)');
+% fs     = (1/3600);
+% Wn = cutoff/(0.5*fs);
+% [B,A] = butter(5,Wn,'low');
+% tideVx = filtfilt(B,A,rotUtide);
+% tideVy = filtfilt(B,A,rotVtide);
+% 
+% figure()
+% plot(tideVx,tideVy);
+% 
+% 
+% figure()
+% ax = [[737903.020833333] [737906.041666667] -0.4 0.4];
+% stickplot(tideDN,ut,vt,ax);
+% datetick('x','KeepLimits');
+% xlabel('Time');
+% ylabel('Current Magnitude,m/s');
+% title('Tidal Currents');
+% 
+% 
+% [ebbindex,floodindex,floodtime,floodpoints,floodDT,ebbDT,ebbtime,ebbpoints,tidalrange,tidalduration,highTide,lowTide,crosspoints] = findebbflood(tideDN,rotUtide);
+% 
+% 
+% figure()
+% plot(tideDT,rotUtide,'k','LineWidth',2);
+% yline(0);
+% dynamicDateTicks();
+% hold on
+% scatter(tideDT(floodindex),rotUtide(floodindex),'r*');
+% scatter(tideDT(ebbindex),rotUtide(ebbindex),'b*');
+% % hold off
+% title('Max Flood Velocities(-) and Max Ebb Velocities(+), GR 2020');
+% ylabel('Velocity (m/s)');
 
 %This date "startSN" is later than it looks on the graph; not sure why.
 %Originally picked 117; 168 gives a more accurate line for our graph for
