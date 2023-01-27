@@ -80,6 +80,7 @@ for k = 1:length(cycleTime)-1
     plot(rec.timeDT,detsCompare1(:,1),'k');
     %     title('Detections, ~500 m, East to West, Transceiver Depth: 13.72 m');
     title('Receiver 1, 4M');
+    ylim([0 45])
     xlim(ax);
     datetick('x','mmm,dd,yyyy','keeplimits');
     ylabel('Detections');
@@ -100,6 +101,7 @@ for k = 1:length(cycleTime)-1
     plot(rec.timeDT,detsCompare1(:,2),'k');
     %     title('Detections, ~500 m, East to West, Transceiver Depth: 13.72 m');
     title('Receiver 4, 1M');
+    ylim([0 45])
     xlim(ax);
     datetick('x','mmm,dd,yyyy','keeplimits');
     ylabel('Detections');

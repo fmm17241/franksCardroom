@@ -377,6 +377,22 @@ title('2020 XShore current, Xshore Oriented Pairs')
 
 
 figure()
+scatter(x,averageXA{1},'filled')
+hold on
+for k = 2:length(averageXA)
+    scatter(x,averageXA{k},'filled')
+end
+legend('Winter','Spring','Summer','Fall','Mariners Fall')
+xlim([-.5 .5])
+ylim([0 1.1])
+%     xline(0)
+%     legend('Onshore (-)', 'Offshore (+)')
+xlabel('Current Magnitude')
+ylabel('Normalized Detection Efficiency')
+title('2020 XShore current, Ashore Oriented Pairs')
+
+
+figure()
 scatter(x,moddedAverageXA{1},'filled')
 hold on
 for k = 2:length(moddedAverageXA)
@@ -390,6 +406,27 @@ ylim([0 1.1])
 xlabel('Current Magnitude')
 ylabel('Normalized Detection Efficiency')
 title('2020 XShore current, Ashore Oriented Pairs')
+
+
+%% 
+%Just fall
+figure()
+scatter(x,moddedAverageXA{4},'filled')
+hold on
+for k = 5
+    scatter(x,moddedAverageXA{k},'filled')
+end
+legend('Fall','Mariners Fall')
+xlim([-.5 .5])
+ylim([0 1.1])
+%     xline(0)
+%     legend('Onshore (-)', 'Offshore (+)')
+xlabel('Current Magnitude')
+ylabel('Normalized Detection Efficiency')
+title('2020 XShore current, Ashore Oriented Pairs')
+%%
+
+
 %
 figure()
 scatter(x,moddedAverageX45{1},'filled')
