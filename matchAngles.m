@@ -156,9 +156,9 @@ for COUNT = 1:length(Angles)
     axis equal
 end
 
-
-
-
+for COUNT = 1:height(paraTide)
+    fullTideData{COUNT} = [paraTide(COUNT,:); perpTide(COUNT,:)]
+end
 
 
 

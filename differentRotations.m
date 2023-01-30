@@ -56,8 +56,15 @@ fullTime.TimeZone = 'UTC';
 
 fullTideIndex = isbetween(tideDT,fullTime(1,1),fullTime(1,2),'closed');
 
-fullTideData = [paraTide(:,fullTideIndex);perpTide(:,fullTideIndex)]
-fullTideData = fullTideData(:,1:2:end);
+% fullTideData = [paraTide(:,fullTideIndex);perpTide(:,fullTideIndex)]
+% fullTideData = fullTideData(:,1:2:end);
+for COUNT = 1:length(fullTideData)
+    fullTideData{COUNT} = fullTideData{COUNT}(:,fullTideIndex)
+    fullTideData{COUNT} = fullTideData{COUNT}(:,1:2:end);
+
+end
+
+
 
 windsIndex = isbetween(windsAverage.time,fullTime(1,1),fullTime(1,2),'closed');
 fullWindsData = [windsU(windsIndex) windsV(windsIndex) rotUwinds(windsIndex) rotVwinds(windsIndex) WSPD(windsIndex) WDIR(windsIndex)];
@@ -129,7 +136,7 @@ seasonCounter(winter) = 1; seasonCounter(spring) = 2; seasonCounter(summer) = 3;
 %1/30/23, Need to change this to all of the different transceiver pairings;
 %shouldn't be too crazy of a change but many chances for FM to messup.
 for COUNT = 1:length(Angles)
-    fullData{COUNT} = table2timetable(table(time, seasonCounter', detsAlong,detsCross,dets45, sunlight', rotUwinds(windsIndex), rotVwinds(windsIndex), WSPD(windsIndex), WDIR(windsIndex), fullTideData(COUNT,:)',noise,waveHt.waveHeight));
+    fullData{COUNT} = table2timetable(table(time, seasonCounter', detsAlong,detsCross,dets45, sunlight', rotUwinds(windsIndex), rotVwinds(windsIndex), WSPD(windsIndex), WDIR(windsIndex), fullTideData{COUNT}',noise,waveHt.waveHeight));
     fullData{COUNT}.Properties.VariableNames = {'season', 'detsAlong','detsCross','dets45','sunlight', 'windsCross','windsAlong','windSpeed','windDir','tidalData','noise','waveHeight'};
 end
 
