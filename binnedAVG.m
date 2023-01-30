@@ -1,5 +1,5 @@
-%Instead of slicing the data into chunks, this instead moves a window and
-%gives us glimpses at chunks of the larger set.
+%TESTING EDIT FMFMFMF
+
 
 figure()
 SunriseSunsetUTC
@@ -10,36 +10,39 @@ sunRun = [sunrise; sunset];
 %rotUtide
 tidalAnalysis2020
 
+mooredReceiverData2020
 %Detections with one transceiver pair, ~0.53 km. Uses
 %hourlyDetections{X}.time/detections
 mooredEfficiency
 % experiment1
-reefAverage
+% reefAverage
 
 %Thermal stratification between transceiver temperature measurements and
 %NOAA buoy SST measurements. Uses bottom.bottomTime, buoyStratification,
 %bottom.tilt, and leftovers (disconnected pings, measure of transmission
 %failure)
-sstAnalysis2020
+
 
 %Winds magnitude and direction from the buoy. Uses windsDN/U/V.
 windsAnalysis2020
 %12/22 added "waveHeight" for waveheight.
 
 
-close all
+% close all
 
 %Okay, Frank. Instead of plotting every hour for 2 weeks/months/whatever,
 %we've got to average it out. Example: all the times when the wind is
 %between 0-1, what's avg dets?
 % our Variables:
 % Tidal Currents: tideDT, rotUtide, rotVtide
-% Detections:  hourlyDetections{2}.time,  hourlyDetections{2}.detections
+% Detections:  hourlyDetections{}.time,  hourlyDetections{}.detections
 % Stratification: bottom.bottomTime, buoyStratification
 % Winds: windsDT, windsU, windsV, rotUwinds, rotVwinds, WSPD, WDIR
+% Waveheight: seas.waveHeight
+% Tilt: bottom.tilt
 
 %Lets start at 2020-01-29 16:30, ending on 2020-12-17 22:30
-fullTime = [datetime(2020,01,29,17,00,00),datetime(2020,12,17,22,00,00)];
+fullTime = [datetime(2020,01,29,17,00,00),datetime(2020,12,10,13,00,00)];
 fullTime.TimeZone = 'UTC';
 
 fullTideIndex = isbetween(tideDT,fullTime(1,1),fullTime(1,2),'closed');
@@ -56,23 +59,34 @@ for COUNT = 1:length(hourlyDetections)
     fullDetsIndex{COUNT} = isbetween(hourlyDetections{COUNT}.time,fullTime(1,1),fullTime(1,2),'closed');
 end
 
-clearvars detections
+clearvars detections time
+
 for COUNT = 1:length(fullDetsIndex)
-    detTimes{COUNT}   = [hourlyDetections{COUNT}.time(fullDetsIndex{COUNT})]
+    detTimes{COUNT}   = [hourlyDetections{COUNT}.time(fullDetsIndex{COUNT})];
     detections{COUNT} = [hourlyDetections{COUNT}.detections(fullDetsIndex{COUNT})];
 end
 
-%W2E is missing the very bottom hours, adding these as placeholders:
-detections{1}(7756:7758) = 0;
+% detsAlong1 = [detections{1:2}]; detsAlong = mean(detsAlong1,2);
+detsAlong1 = [detections{3:4}]; detsAlong = mean(detsAlong1,2);
+detsCross1 = [detections{7:10}]; detsCross = mean(detsCross1,2);
+dets451     = [detections{1:2},detections{5:6}]; dets45 = mean(dets451,2);
 
-stratIndex = isbetween(bottom.bottomTime,fullTime(1,1),fullTime(1,2),'closed');
-time = bottom.bottomTime(stratIndex);
-fixInd = isnan(buoyStratification)
-buoyStratification(fixInd) = 0;
-fullStratData = buoyStratification(stratIndex);
+time = waveHt.time;
 
-noiseIndex = isbetween(datetime(receiverData{1,1}.avgNoise(:,1),'ConvertFrom','datenum','TimeZone','UTC'),fullTime(1,1),fullTime(1,2),'closed')
-noise = receiverData{1,1}.avgNoise(noiseIndex,2)
+
+%FRANKFRANKFRANK Fix Buoy Stratification, any NaNs?
+
+for COUNT = 1:length(bottom)
+    stratIndex = isbetween(bottom{COUNT}.Time,fullTime(1,1),fullTime(1,2),'closed');
+    bottomStats{COUNT} = bottom{COUNT}(stratIndex,:);
+%     fixInd = isnan(buoyStats{COUNT}.botTemp)
+%     buoyStratification{COUNT}(fixInd) = 0;
+%     fullStratData{COUNT} = buoyStats{COUNT}(stratIndex);
+end
+
+
+noiseIndex = isbetween(datetime(receiverData{1,1}.avgNoise(:,1),'ConvertFrom','datenum','TimeZone','UTC'),fullTime(1,1),fullTime(1,2),'closed');
+noise = receiverData{1,1}.avgNoise(noiseIndex,2);
 
 
 %creating daylight variable
@@ -80,7 +94,7 @@ xx = length(sunRun);
 sunlight = zeros(1,height(time));
 for k = 1:xx
     currentSun = sunRun(:,k);
-    currentHours = isbetween(time,currentSun(1,1),currentSun(2,1))
+    currentHours = isbetween(time,currentSun(1,1),currentSun(2,1));
     currentDays = find(currentHours);
     sunlight(currentDays) = 1;
 end
@@ -88,7 +102,7 @@ end
 %creating season variable
 %%Five seasonal wind regimes from Blanton's wind, 1980
 % Winter:           Nov-Feb
-winter  = [1:751,6632:7758];
+winter  = [1:751,6632:7581];
 % Spring:           Mar-May
 spring   = 752:2959;
 % Summer:           June, July
@@ -103,72 +117,20 @@ seasonCounter(winter) = 1; seasonCounter(spring) = 2; seasonCounter(summer) = 3;
 
 
 %Okay, basics are set.
+fullData = table2timetable(table(time, seasonCounter', detsAlong,detsCross,dets45, sunlight', rotUwinds(windsIndex), rotVwinds(windsIndex), WSPD(windsIndex), WDIR(windsIndex), fullTideData',noise,waveHt.waveHeight));
+fullData.Properties.VariableNames = {'season', 'detsAlong','detsCross','dets45','sunlight', 'windsCross','windsAlong','windSpeed','windDir','tidalData','noise','waveHeight'};
+%ALSO HAVE: 
+% detections{}
+% bottomStats: have tilt and bottom temp, can be stratification.
 
-fullData = table2timetable(table(time, seasonCounter', sunlight', detections{1}, detections{2}, rotUwinds(windsIndex), rotVwinds(windsIndex), WSPD(windsIndex), WDIR(windsIndex), fullTideData', buoyStratification(stratIndex),noise,waveHt.waveHeight));
-fullData.Properties.VariableNames = {'season','sunlight','detections1','detections2', 'windsCross','windsAlong','windSpeed','windDir','tidalData','thermalStrat','noise','WaveHeight'};
 
-% clearvars -except fullData
+
+clearvars -except fullData detections time bottom* receiverData
 
 %%
-%using this to compare 2014 time periods
-% oldTime = [datetime(2020,08,20,16,00,00),datetime(2020,10,12,19,00,00)];
-% oldTime.TimeZone = 'UTC';
-% 
-% oldTest = isbetween(fullData.time,oldTime(1,1),oldTime(1,2))
-% oldData = fullData(oldTest,:)
-% 
-% windBins(1,:) = oldData.windSpeed < 1;
-% windBins(2,:) = oldData.windSpeed > 1 & oldData.windSpeed < 2 ;
-% windBins(3,:) = oldData.windSpeed > 2 & oldData.windSpeed < 3 ;
-% windBins(4,:) = oldData.windSpeed > 3 & oldData.windSpeed < 4 ;
-% windBins(5,:) = oldData.windSpeed > 4 & oldData.windSpeed < 5 ;
-% windBins(6,:) = oldData.windSpeed > 5 & oldData.windSpeed < 6 ;
-% windBins(7,:) = oldData.windSpeed > 6 & oldData.windSpeed < 7 ;
-% windBins(8,:) = oldData.windSpeed > 7 & oldData.windSpeed < 8 ;
-% windBins(9,:) = oldData.windSpeed > 8 & oldData.windSpeed < 9 ;
-% windBins(10,:) = oldData.windSpeed > 9 & oldData.windSpeed < 10 ;
-% windBins(11,:) = oldData.windSpeed > 10 & oldData.windSpeed < 11 ;
-% windBins(12,:) = oldData.windSpeed > 11 & oldData.windSpeed < 12 ;
-% windBins(13,:) = oldData.windSpeed > 12 & oldData.windSpeed < 13 ;
-% windBins(14,:) = oldData.windSpeed > 13 & oldData.windSpeed < 14 ;
-% windBins(15,:) = oldData.windSpeed > 14 ;
-% 
-% for k = 1:height(windBins)
-%     windScenario{k}= oldData(windBins(k,:),:);
-% 
-%     average(1,k) = nanmean(windScenario{k}.detectionsE2W);
-%     averagePercent(k) = (average(1,k)/6)*100;
-% 
-%     noiseCompare(k) = nanmean(windScenario{k}.noise);
-%     wavesCompare(k) = nanmean(windScenario{k}.WaveHeight)
-%     averageTest(k) = averagePercent(k)^2
-% end
-% 
-% for k = 1:length(average)
-%     moddedAVG = average/(max(average))
-% end
-% 
-% 
-% x = 0.5:14.5;
-% figure()
-% scatter(x, noiseCompare, averageTest, 'filled','MarkerFaceAlpha',.6,'MarkerEdgeAlpha',1)
-% legend('Winter','Spring','Summer','Fall','Mariners Fall')
-% xlabel('Windspeed, m/s')
-% ylabel('Average Noise (Db)')
-% title('Increasing Winds: Less Noise, More Detections')
-% 
-% 
-% figure()
-% yyaxis left
-% scatter(x,averagePercent,'filled','b','MarkerFaceAlpha',.6,'MarkerEdgeAlpha',1)
-% xlabel('Windspeed, m/s')
-% ylabel('2020 Detection Efficiency (%)')
-% title('2020')
+%Okay. Doable. Leggo.
 
-%Verified these numbers are correct for the entire dataset, lined up with
-%times. Now we can do some conditional averaging.
 
-%% WINDY DUDES
 seasons = unique(fullData.season)
 
 for season = 1:length(seasons)
@@ -190,332 +152,110 @@ for season = 1:length(seasons)
 end
 
 %%
+
 % average = zeros(1,height(windBins))
 for seasonBin = 1:length(seasons)
     for k = 1:height(windBins{1})
         windScenario{seasonBin}{k}= fullData(windBins{seasonBin}(k,:),:);
+        averageWindX{seasonBin}(1,k) = mean(windScenario{seasonBin}{1,k}.detsCross);
+        noiseCompareWX{seasonBin}(k) = mean(windScenario{seasonBin}{1,k}.noise);
+        wavesCompareWX{seasonBin}(k) = mean(windScenario{seasonBin}{1,k}.waveHeight)
+%         averageCrossTest{seasonBin}(k) = averagePercentCross{seasonBin}(k)^2
+    end
+    normalizedWindX{seasonBin}  = averageWindX{seasonBin}/(max(averageWindX{seasonBin}));
+end
 
-        average{seasonBin}(1,k) = mean(windScenario{seasonBin}{1,k}.detections2);
-        averagePercent{seasonBin}(k) = (average{seasonBin}(1,k)/6)*100;
 
-        noiseCompare{seasonBin}(k) = mean(windScenario{seasonBin}{1,k}.noise);
-        wavesCompare{seasonBin}(k) = mean(windScenario{seasonBin}{1,k}.WaveHeight)
-        averageTest{seasonBin}(k) = averagePercent{seasonBin}(k)^2
+for seasonBin = 1:length(seasons)
+    for k = 1:height(windBins{1})
+        averageWindA{seasonBin}(1,k) = mean(windScenario{seasonBin}{1,k}.detsAlong);
+        noiseCompareWA{seasonBin}(k) = mean(windScenario{seasonBin}{1,k}.noise);
+        wavesCompareWA{seasonBin}(k) = mean(windScenario{seasonBin}{1,k}.waveHeight)
+%         averageAlongTest{seasonBin}(k) = averagePercentAlong{seasonBin}(k)^2
+    end
+    normalizedWindA{seasonBin}  = averageWindA{seasonBin}/(max(averageWindA{seasonBin}));
+end
+
+for COUNT = 1:length(normalizedWindA)
+% for COUNT = 4:5
+    completeAlong(COUNT,:) = normalizedWindA{COUNT};
+    completeCross(COUNT,:) = normalizedWindX{COUNT};
+    completeWHeightX(COUNT,:) = wavesCompareWX{COUNT};
+    completeWHeightA(COUNT,:) = wavesCompareWA{COUNT};
+end
+for COUNT = 1:length(completeAlong)
+    completeAlongAvg = nanmean(completeAlong,1)
+    completeCrossAvg = nanmean(completeCross,1)
+    completeWHeightAvgX = nanmean(completeWHeightX,1)
+    completeWHeightAvgA = nanmean(completeWHeightA,1)
+end
+
+
+%Count up hours spent in bins
+startCount = zeros(5,15);
+for season = 1:length(seasons)
+    for COUNT = 1:height(windBins{1})
+        startCount(season,COUNT) = height(windScenario{season}{COUNT})
     end
 end
-%%
-% 
-% for seasonBin = 1:length(seasons)
-%     for k =1:length(windScenario{1})
-%         howMany(seasonBin,k) = height(windScenario{seasonBin}{1,k});
-%     end
-% end
 
+countEm = sum(startCount,1);
 
-% x = 0.5:14.5;
-% figure()
-% plot(x,howMany{1},'LineWidth',2)
-% hold on
-% % scatter(x,howMany{1},'filled','k')
-% for seasonBin = 2:length(seasons)
-%     plot(x,howMany{seasonBin},'LineWidth',2)
-% %     scatter(x,howMany{seasonBin},'filled','k')
-% end
-% legend('Winter','Spring','Summer','Fall','Mariners Fall')
-% ylabel('Hours')
-% xlabel('Wind Magnitude (1 m/s bins)')
-% title('Wind bins: How many hours in each?')
 
 
 x = 0.5:14.5;
 figure()
-scatter(x, noiseCompare{1}, averagePercent{1}, 'filled','MarkerFaceAlpha',.6,'MarkerEdgeAlpha',1)
+
+scatter(x,completeAlongAvg,'r','filled','MarkerFaceAlpha',.6,'MarkerEdgeAlpha',1)
 hold on
-for count = 2:length(seasons)
-    scatter(x, noiseCompare{count}, averagePercent{count}, 'filled','MarkerFaceAlpha',.6,'MarkerEdgeAlpha',1)
-end
-legend('Winter','Spring','Summer','Fall','Mariners Fall')
-xlabel('Windspeed, m/s')
-ylabel('Average Noise (Db)')
-title('Increasing Winds: Less Noise, More Detections')
+scatter(x,completeCrossAvg,'b','filled','MarkerFaceAlpha',.6,'MarkerEdgeAlpha',1)
+xlabel('Windspeed (m/s)');
+ylabel('Normalized Detections');
+legend({'Along-Pairs','Cross-Pairs'});
+title('2020 Cross and Alongshore Pairs');
 
 
-%%
-figure()
-scatter(noiseCompare{1},averagePercent{1},'filled','MarkerFaceAlpha',.6,'MarkerEdgeAlpha',1)
-hold on
-for count = 2:length(seasons)
-    scatter(noiseCompare{count},averagePercent{count},'filled','MarkerFaceAlpha',.6,'MarkerEdgeAlpha',1)
-end
-legend('Winter','Spring','Summer','Fall','Mariners Fall')
 
-%%
 x = 0.5:14.5;
 figure()
-scatter(x, noiseCompare{1}, averageTest{1}, 'filled','MarkerFaceAlpha',.6,'MarkerEdgeAlpha',1)
+scatter(x,normalizedWindX{1},'filled','MarkerFaceAlpha',.6,'MarkerEdgeAlpha',1)
 hold on
-for count = 2:length(seasons)
-    scatter(x, noiseCompare{count}, averageTest{count}, 'filled','MarkerFaceAlpha',.6,'MarkerEdgeAlpha',1)
+for COUNT = 2:length(seasons)
+    scatter(x,normalizedWindX{COUNT},'filled','MarkerFaceAlpha',.6,'MarkerEdgeAlpha',1)
 end
 legend('Winter','Spring','Summer','Fall','Mariners Fall')
+title('Normalized Detections, 2020 Cross-shore Transceiver Pairings')
+ylabel('Normalized Detections')
 xlabel('Windspeed, m/s')
-ylabel('Average Noise (Db)')
-title('Increasing Winds: Less Noise, More Detections')
 
-
-
-
-%% Tidal Currents
-% clearvars average averagePercent
-% %Averaging from absolute value of tidal magnitude, Cross-Shore
-% tideBinsX(1,:) = fullData.tidalData(:,1) < .05;
-% tideBinsX(2,:) = fullData.tidalData(:,1) > .05 & fullData.tidalData(:,1) < .1;
-% tideBinsX(3,:) = fullData.tidalData(:,1) > .1 & fullData.tidalData(:,1) < .15;
-% tideBinsX(4,:) = fullData.tidalData(:,1) > .15 & fullData.tidalData(:,1) < .2;
-% tideBinsX(5,:) = fullData.tidalData(:,1) > .2 & fullData.tidalData(:,1) < .25;
-% tideBinsX(6,:) = fullData.tidalData(:,1) > .25 & fullData.tidalData(:,1) < .3;
-% tideBinsX(7,:) = fullData.tidalData(:,1) > .3 & fullData.tidalData(:,1) < .35;
-% tideBinsX(8,:) = fullData.tidalData(:,1) > .35 & fullData.tidalData(:,1) < .4;
-% tideBinsX(9,:) = fullData.tidalData(:,1) > .4
-% 
-% average = zeros(1,height(tideBinsX));
-% for k = 1:height(tideBinsX)
-%     tideScenario{k}= fullData(tideBinsX(k,:),:);
-%     average(1,k) = mean(tideScenario{1,k}.detectionsE2W);
-%     averagePercent(1,k) = (average(1,k)/6)*100;
-% end
-% 
-% x = 0.025:0.05:.425
-% figure()
-% scatter(x,averagePercent,'filled')
-% hold on 
-% errorbar(x,averagePercent,std(averagePercent,[],2))
-% xlim([0 .45])
-% ylim([0 60])
-% xlabel('Crossshore Current (m/s)')
-% ylabel('Detection Efficiency (%)')
-% title('Yearlong Averages, Binned')
-% 
-% 
-% %Averaging from absolute value of tidal magnitude, Along-Shore
-% clearvars average averagePercent
-% tideBinsAlong(1,:) = fullData.tidalData(:,2) < .01;
-% tideBinsAlong(2,:) = fullData.tidalData(:,2) > .01 & fullData.tidalData(:,2) < .02;
-% tideBinsAlong(3,:) = fullData.tidalData(:,2) > .02 & fullData.tidalData(:,2) < .03;
-% tideBinsAlong(4,:) = fullData.tidalData(:,2) > .03 & fullData.tidalData(:,2) < .04;
-% tideBinsAlong(5,:) = fullData.tidalData(:,2) > .04 & fullData.tidalData(:,2) < .05;
-% tideBinsAlong(6,:) = fullData.tidalData(:,2) > .05 & fullData.tidalData(:,2) < .06;
-% tideBinsAlong(7,:) = fullData.tidalData(:,2) > .06 & fullData.tidalData(:,2) < .07;
-% tideBinsAlong(8,:) = fullData.tidalData(:,2) > .07 & fullData.tidalData(:,2) < .08;
-% tideBinsAlong(9,:) = fullData.tidalData(:,2) > .08 & fullData.tidalData(:,2) < .09;
-% tideBinsAlong(10,:) = fullData.tidalData(:,2) > .09 & fullData.tidalData(:,2) < .1;
-% tideBinsAlong(11,:) = fullData.tidalData(:,2) > .1;
-% 
-% 
-% average = zeros(1,height(tideBinsAlong));
-% for k = 1:height(tideBinsAlong)
-%     tideScenario2{k}= fullData(tideBinsAlong(k,:),:);
-%     average(1,k) = mean(tideScenario2{1,k}.detectionsE2W);
-%     averagePercent(1,k) = (average(1,k)/6)*100;
-% end
-% 
-% x = .005:.01:.105
-% figure()
-% scatter(x,averagePercent,'filled')
-% hold on 
-% errorbar(x,averagePercent,std(averagePercent,[],2))
-% xlim([0 .11])
-% ylim([10 60])
-% xlabel('Alongshore Current (m/s)')
-% ylabel('Detection Efficiency (%)')
-% title('Yearlong Averages, Binned')
-
-%% ABSOLUTE VALUES
-%% Tidal Currents
-clearvars average averagePercent
-%Averaging from absolute value of tidal magnitude, Cross-Shore
-tideBinsX(1,:) = abs(fullData.tidalData(:,1)) < .05 ;
-tideBinsX(2,:) =  abs(fullData.tidalData(:,1)) > .05 &  abs(fullData.tidalData(:,1)) < .1;
-tideBinsX(3,:) =  abs(fullData.tidalData(:,1)) > .1 &  abs(fullData.tidalData(:,1)) < .15;
-tideBinsX(4,:) =  abs(fullData.tidalData(:,1)) > .15 & abs(fullData.tidalData(:,1)) < .2;
-tideBinsX(5,:) =  abs(fullData.tidalData(:,1)) > .2 &  abs(fullData.tidalData(:,1)) < .25;
-tideBinsX(6,:) =  abs(fullData.tidalData(:,1)) > .25& abs( fullData.tidalData(:,1)) < .3;
-tideBinsX(7,:) =  abs(fullData.tidalData(:,1)) > .3 &  abs(fullData.tidalData(:,1)) < .35;
-tideBinsX(8,:) =  abs(fullData.tidalData(:,1)) > .35 &  abs(fullData.tidalData(:,1)) < .4;
-tideBinsX(9,:) =  abs(fullData.tidalData(:,1)) > .4;
-
-average = zeros(1,height(tideBinsX));
-for k = 1:height(tideBinsX)
-    tideScenario{k}= fullData(tideBinsX(k,:),:);
-    average(1,k) = mean(tideScenario{1,k}.detections2);
-    averagePercent1(1,k) = (average(1,k)/6)*100;
-end
-
-x1 = 0.025:0.05:.425
+x = 0.5:14.5;
 figure()
-scatter(x1,averagePercent1,'filled')
-hold on 
-errorbar(x1,averagePercent1,std(averagePercent1,[],2))
-xlim([0 .45])
-ylim([0 60])
-xlabel('Crossshore Current (m/s,absValue)')
-ylabel('Detection Efficiency (%)')
-title('Yearlong Averages, Binned')
-
-
-%Averaging from absolute value of tidal magnitude, Along-Shore
-clearvars average averagePercent tideBinsAlong averagePercent2 tideBins*
-tideBinsAlong(1,:) = abs(fullData.tidalData(:,2)) < .02;
-tideBinsAlong(2,:) = abs(fullData.tidalData(:,2)) > .02 & abs(fullData.tidalData(:,2)) < .04;
-tideBinsAlong(3,:) = abs(fullData.tidalData(:,2)) > .04 & abs(fullData.tidalData(:,2)) < .06;
-tideBinsAlong(4,:) = abs(fullData.tidalData(:,2)) > .06 & abs(fullData.tidalData(:,2)) < .08;
-tideBinsAlong(5,:) = abs(fullData.tidalData(:,2)) > .08 & abs(fullData.tidalData(:,2)) < .1;
-tideBinsAlong(6,:) = abs(fullData.tidalData(:,2)) > .1;
-
-average = zeros(1,height(tideBinsAlong));
-for k = 1:height(tideBinsAlong)
-    tideScenario2{k}= fullData(tideBinsAlong(k,:),:);
-    average(1,k) = mean(tideScenario2{1,k}.detections2);
-    averagePercent2(1,k) = (average(1,k)/6)*100;
-end
-
-x2 = .005:.02:.105
-figure()
-scatter(x2,averagePercent2,'filled')
-hold on 
-errorbar(x2,averagePercent2,std(averagePercent2,[],2))
-xlim([0 .11])
-ylim([5 50])
-xlabel('Alongshore Current (m/s, Abs)')
-ylabel('Detection Efficiency (%)')
-title('Yearlong Averages, Binned')
-
-figure()
-scatter(x1,averagePercent1,'b','filled')
-hold on 
-scatter(x2,averagePercent2,'r','filled')
-xlabel('Current Velocity (m/s, Abs)')
-ylabel('Detection Efficiency (%)')
-title('Cross-shore (B) and Along-Shore (R) Efficiency')
-
-%%
-%Diurnal differences by season
-% clearvars -except fullData
-
-for k = 1:length(unique(fullData.season))
-    dayLong(k,:) = fullData.sunlight == 1 & fullData.season ==k;
-    nightLong(k,:) = fullData.sunlight == 0 & fullData.season ==k;
-end
-
-averageDay = zeros(1,height(dayLong));
-for k = 1:height(dayLong)
-    dayScenario{k}= fullData(dayLong(k,:),:);
-    averageDay(1,k) = mean(dayScenario{1,k}.detections2);
-    averageDayPercent(1,k) = (averageDay(1,k)/6)*100;
-end
-
-averageNight = zeros(1,height(nightLong));
-for k = 1:height(nightLong)
-    nightScenario{k}= fullData(nightLong(k,:),:);
-    averageNight(1,k) = mean(nightScenario{1,k}.detections2);
-    averageNightPercent(1,k) = (averageNight(1,k)/6)*100;
-end
-
-x = 1:5
-
-figure()
-scatter(x,averageDayPercent,'r','filled')
+scatter(x,normalizedWindA{1},'filled','MarkerFaceAlpha',.6,'MarkerEdgeAlpha',1)
 hold on
-scatter(x,averageNightPercent,'b','filled')
-xlim([0 6])
-ylim([15 35])
-xlabel('Season')
-ylabel('Detection Efficiency (%)')
-title('Seasonal Diurnal (Night Blue, Day Red)')
-
-averagePercents = [averageDayPercent;averageNightPercent];
-figure()
-hb = bar(averagePercents')
-legend('Day','Night')
-hb(1).FaceColor = 'y'
-hb(2).FaceColor = 'b' 
-ylim([15 35])
-xlabel('Season')
-ylabel('Detection Efficiency (%)')
-title('Seasonal Diurnal Differences')
-
-%%
-
-
-
-clearvars -except fullData
-
-%Did some math cause I'm awesome:
-% 0-2 m/s, 577 hours, 7.6%
-% > 10 m/s, 616, 8.2%
-% 0-3 m/s, 1268, 16%
-% > 9 m/s, 1012, 13.4%
-% 0-4 m/s, 2216, 29.4%
-% > 7 m/s, 2239, 29.7%
-
-%%
-for k = 1:length(unique(fullData.season))
-    lowWind(k,:) = fullData.windSpeed < 4 & fullData.season ==k;
-    lowerWind(k,:) = fullData.windSpeed < 3 & fullData.season ==k;
-    lowestWind(k,:) = fullData.windSpeed < 2 & fullData.season ==k;
-    highWind(k,:) = fullData.windSpeed > 7 & fullData.season ==k;
-    higherWind(k,:) = fullData.windSpeed > 9 & fullData.season ==k;
-    highestWind(k,:) = fullData.windSpeed > 10 & fullData.season ==k;
+for COUNT = 2:length(seasons)
+    scatter(x,normalizedWindA{COUNT},'filled','MarkerFaceAlpha',.6,'MarkerEdgeAlpha',1)
 end
+legend('Winter','Spring','Summer','Fall','Mariners Fall')
+title('Normalized Detections, 2020 Along-shore Transceiver Pairings')
+ylabel('Normalized Detections')
+xlabel('Windspeed, m/s')
 
-for k = 1:height(lowWind)
-% for k = 1
-    lowScenario{k}= fullData(lowWind(k,:),:);
-    averageLow(:,k) = mean(lowScenario{1,k}.detections2);
-    averageLowPercent(:,k) = (averageLow(1,k)/6)*100;
-
-    lowerScenario{k}= fullData(lowerWind(k,:),:);
-    averageLower(:,k) = mean(lowerScenario{1,k}.detections2);
-    averageLowerPercent(:,k) = (averageLower(1,k)/6)*100;
-
-    lowestScenario{k}= fullData(lowestWind(k,:),:);
-    averageLowest(:,k) = mean(lowestScenario{1,k}.detections2);
-    averageLowestPercent(:,k) = (averageLowest(1,k)/6)*100;
-
-    %
-    highScenario{k}= fullData(highWind(k,:),:);
-    averageHigh(:,k) = mean(highScenario{1,k}.detections2);
-    averageHighPercent(:,k) = (averageHigh(1,k)/6)*100;
-
-    higherScenario{k}= fullData(higherWind(k,:),:);
-    averageHigher(:,k) = mean(higherScenario{1,k}.detections2);
-    averageHigherPercent(:,k) = (averageHigher(1,k)/6)*100;
-
-    highestScenario{k}= fullData(highestWind(k,:),:);
-    averageHighest(:,k) = mean(highestScenario{1,k}.detections2);
-    averageHighestPercent(:,k) = (averageHighest(1,k)/6)*100;
-end
-
-%%
-
-
-x = 1:length(highScenario)
-
+x = 0.5:14.5;
 figure()
-scatter(x,averageLowPercent,'filled','b')
+scatter(x,completeAlongAvg,'filled','MarkerFaceAlpha',.6,'MarkerEdgeAlpha',1)
 hold on
-scatter(x,averageLowestPercent,'filled','g')
-scatter(x,averageHighPercent,'filled','r')
-scatter(x,averageHighestPercent,'filled','k')
-legend('Low Winds  (< 4 m/s, 29.4%)','Lowest Winds  (<2 m/s, 7.6%)','High Winds (> 7 m/s, 29.7%)','Highest Winds (> 10 m/s, 8.2%)')
-xlabel('Season')
-ylabel('Detection Efficiency (%)')
-title('Wind Effects on Efficiency')
+scatter(x,completeCrossAvg,'filled','MarkerFaceAlpha',.6,'MarkerEdgeAlpha',1)
+legend('Along-Shore Pairs','Cross-Shore Pairs')
+title('Normalized Detections, 2020 Transceiver Pairings')
+ylabel('Normalized Detections')
+xlabel('Windspeed, m/s')
+
+% figure()
+% scatter(x,wavesCompareX)
+
 
 
 %%
-%Now I want both in one, negative and positive
-%Same tidal breakdown but now also by season
 clearvars -except fullData
 
 seasons = unique(fullData.season)
@@ -565,182 +305,254 @@ for k = 1:length(seasons)
     tideBinsAlong{k}(20,:) = fullData.tidalData(:,2) > .1 & fullData.season ==k;
 end
 
-%Considering fixing the "7"s that show up. 6 is supposed to be 100%
-%efficiency. 
-%%
-%FMFMFMF EDITED EXPERIMENT1 TO REMOVE 7s
 
-% average = zeros(1,height(tideBinsX{1}));
+%I can edit this to choose which seasons. 4 & 5 to compare to 2014
 for season = 1:length(seasons)
+% for season = 4:5
     for k = 1:height(tideBinsX{season})
         tideScenarioX{season}{k}= fullData(tideBinsX{season}(k,:),:);
-        averageX{season}(1,k) = mean(tideScenarioX{season}{1,k}.detections2);
-        averagePercentX{season}(1,k) = (averageX{season}(1,k)/6)*100;
-        if isnan(averagePercentX{season}(1,k))
-            averagePercentX{season}(1,k) = 0;
-            continue
-        end
+        averageXX{season}(1,k) = mean(tideScenarioX{season}{1,k}.detsCross);
+        averageXA{season}(1,k) = mean(tideScenarioX{season}{1,k}.detsAlong);
+        averageX45{season}(1,k) = mean(tideScenarioX{season}{1,k}.dets45);
     end
-    moddedPercentX{season}  = averagePercentX{season}/(max(averagePercentX{season}));
+    moddedAverageXX{season}  = averageXX{season}/(max(averageXX{season}));
+    moddedAverageXA{season}  = averageXA{season}/(max(averageXA{season}));
+    moddedAverageX45{season}  = averageX45{season}/(max(averageX45{season}));
 end
-%%
 
 for season = 1:length(seasons)
+% for season = 4:5
     for k = 1:height(tideBinsAlong{season})
-        tideScenarioAlong{season}{k}= fullData(tideBinsAlong{season}(k,:),:);
-        averageAlong{season}(1,k) = mean(tideScenarioAlong{season}{1,k}.detections2);
-        averagePercentAlong{season}(1,k) = (averageAlong{season}(1,k)/6)*100;
-        if isnan(averagePercentAlong{season}(1,k))
-            averagePercentAlong{season}(1,k) = 0;
-            continue
-        end
+        tideScenarioA{season}{k}= fullData(tideBinsAlong{season}(k,:),:);
+        averageAA{season}(1,k) = mean(tideScenarioA{season}{1,k}.detsAlong);
+        averageAX{season}(1,k) = mean(tideScenarioA{season}{1,k}.detsCross);
+        averageA45{season}(1,k) = mean(tideScenarioA{season}{1,k}.dets45);
     end
-    moddedPercentAlong{season}  = averagePercentAlong{season}/(max(averagePercentAlong{season}));
+    moddedAverageAA{season}  = averageAA{season}/(max(averageAA{season}));
+    moddedAverageAX{season}  = averageAX{season}/(max(averageAX{season}));
+    moddedAverageA45{season}  = averageA45{season}/(max(averageA45{season}));
 end
 
-%%
+for COUNT = 1:length(moddedAverageXX)
+% for COUNT = 4:5
+    completeAA(COUNT,:) = moddedAverageAA{COUNT};
+    completeAX(COUNT,:) = moddedAverageAX{COUNT};
+    completeA45(COUNT,:) = moddedAverageA45{COUNT};
+    completeXA(COUNT,:) = moddedAverageXA{COUNT};
+    completeXX(COUNT,:) = moddedAverageXX{COUNT};
+    completeX45(COUNT,:) = moddedAverageX45{COUNT};
+end
+
+%Whole year
+completeAAavg = nanmean(completeAA,1)
+completeAXavg = nanmean(completeAX,1)
+completeA45avg = nanmean(completeA45,1)
+completeXAavg = nanmean(completeXA,1)
+completeXXavg = nanmean(completeXX,1)
+completeX45avg = nanmean(completeX45,1)
+%Below is for only fall:
+% completeAAavg = nanmean(completeAA(4:5,:),1)
+% completeAXavg = nanmean(completeAX(4:5,:),1)
+% completeXAavg = nanmean(completeXA(4:5,:),1)
+% completeXXavg = nanmean(completeXX(4:5,:),1)
+
+
 
 seasonName = {'Winter','Spring','Summer','Fall','Mariner''s Fall'}
 x = -0.4:0.05:.4;
-for k = 1:length(averagePercentX)
-    figure()
-    scatter(x,averagePercentX{k},'filled')
-    xlim([-.5 .5])
-    ylim([0 60])
-    xline(0)
-%     hold on 
-%     errorbar(x,averagePercent{k}(1:9),std(averagePercent{k}(1:9),[],2))
-%     scatter(x,averagePercent{k}(10:18),'filled')
-%     errorbar(x,averagePercent{k}(10:18),std(averagePercent{k}(10:18),[],2))
+figure()
+scatter(x,moddedAverageXX{1},'filled')
+hold on
+for k = 2:length(moddedAverageXX)
+    scatter(x,moddedAverageXX{k},'filled')
+end
+legend('Winter','Spring','Summer','Fall','Mariners Fall')
+xlim([-.5 .5])
+ylim([0 1.1])
+% xline(0)
+%     legend('Onshore (-)', 'Offshore (+)')
+xlabel('Current Magnitude')
+ylabel('Normalized Detection Efficiency')
+title('2020 XShore current, Xshore Oriented Pairs')
+
+
+figure()
+scatter(x,averageXA{1},'filled')
+hold on
+for k = 2:length(averageXA)
+    scatter(x,averageXA{k},'filled')
+end
+legend('Winter','Spring','Summer','Fall','Mariners Fall')
+xlim([-.5 .5])
+ylim([0 1.1])
+%     xline(0)
+%     legend('Onshore (-)', 'Offshore (+)')
+xlabel('Current Magnitude')
+ylabel('Normalized Detection Efficiency')
+title('2020 XShore current, Ashore Oriented Pairs')
+
+
+figure()
+scatter(x,moddedAverageXA{1},'filled')
+hold on
+for k = 2:length(moddedAverageXA)
+    scatter(x,moddedAverageXA{k},'filled')
+end
+legend('Winter','Spring','Summer','Fall','Mariners Fall')
+xlim([-.5 .5])
+ylim([0 1.1])
+%     xline(0)
+%     legend('Onshore (-)', 'Offshore (+)')
+xlabel('Current Magnitude')
+ylabel('Normalized Detection Efficiency')
+title('2020 XShore current, Ashore Oriented Pairs')
+
+
+%% 
+%Just fall
+figure()
+scatter(x,moddedAverageXA{4},'filled')
+hold on
+for k = 5
+    scatter(x,moddedAverageXA{k},'filled')
+end
+legend('Fall','Mariners Fall')
+xlim([-.5 .5])
+ylim([0 1.1])
+%     xline(0)
+%     legend('Onshore (-)', 'Offshore (+)')
+xlabel('Current Magnitude')
+ylabel('Normalized Detection Efficiency')
+title('2020 XShore current, Ashore Oriented Pairs')
+%%
+
+
+%
+figure()
+scatter(x,moddedAverageX45{1},'filled')
+hold on
+for k = 2:length(moddedAverageX45)
+    scatter(x,moddedAverageX45{k},'filled')
+end
+legend('Winter','Spring','Summer','Fall','Mariners Fall')
+xlim([-.5 .5])
+ylim([0 1.1])
+%     xline(0)
+%     legend('Onshore (-)', 'Offshore (+)')
+xlabel('Current Magnitude')
+ylabel('Normalized Detection Efficiency')
+title('2020 XShore current, 45deg Oriented Pairs')
+
+x = -.09:.01:.1;
+figure()
+scatter(x,moddedAverageAX{1},'filled')
+hold on
+for k = 2:length(moddedAverageAX)
+    scatter(x,moddedAverageAX{k},'filled')
+end
+legend('Winter','Spring','Summer','Fall','Mariners Fall')
+xlim([-.1 .11])
+ylim([0 1])
+%     xline(0)
 %     legend('Onshore (-)', 'Offshore (+)')
     xlabel('Current Magnitude')
     ylabel('Normalized Detection Efficiency')
-    title('Tidal Magnitude''s Effect on Detections')
-    title (sprintf('Tidal Magnitude''s Effect on Detections, %s',seasonName{k}))
+    title('2020 AShore current, Xshore Oriented Pairs')
+
+
+figure()
+scatter(x,moddedAverageAA{1},'filled')
+hold on
+for k = 2:length(moddedAverageAA)
+    scatter(x,moddedAverageAA{k},'filled')
 end
-
-%%
-x = -0.4:0.05:.4;
- figure()
-scatter(x,averagePercentX{1},'filled')
-xlim([-.5 .5])
-ylim([0 60])
-hold on 
-scatter(x,averagePercentX{2},'filled')
-scatter(x,averagePercentX{3},'filled')
-scatter(x,averagePercentX{4},'filled')
-scatter(x,averagePercentX{5},'filled')
-xline(0)
 legend('Winter','Spring','Summer','Fall','Mariners Fall')
-
-xlabel('Current Magnitude (m/s)')
-ylabel('Detection Efficiency (%)')
-title('Crossshore Tidal Magnitude''s Effect on Detections')
-%%
-x = -0.4:0.05:.4;
- figure()
-scatter(x,moddedPercentX{1},'filled')
-xlim([-.5 .5])
-ylim([0 1.2])
-hold on 
-scatter(x,moddedPercentX{2},'filled')
-scatter(x,moddedPercentX{3},'filled')
-scatter(x,moddedPercentX{4},'filled')
-scatter(x,moddedPercentX{5},'filled')
-xline(0)
-legend('Winter','Spring','Summer','Fall','Mariners Fall')
-
-xlabel('Current Magnitude (m/s)')
+xlim([-.1 .11])
+ylim([0 1.1])
+%     xline(0)
+%     legend('Onshore (-)', 'Offshore (+)')
+xlabel('Current Magnitude')
 ylabel('Normalized Detection Efficiency')
-title('Normalized Xshore Tide''s Effect on Detections')
-%%
+title('2020 AShore current, Ashore Oriented Pairs')
 
-%%
-x = -0.1:0.01:.09;
- figure()
-scatter(x,moddedPercentAlong{1},'filled')
-xlim([-.15 .15])
-ylim([0 1.2])
-hold on 
-scatter(x,moddedPercentAlong{2},'filled')
-scatter(x,moddedPercentAlong{3},'filled')
-scatter(x,moddedPercentAlong{4},'filled')
-scatter(x,moddedPercentAlong{5},'filled')
-xline(0)
+figure()
+scatter(x,moddedAverageA45{1},'filled')
+hold on
+for k = 2:length(moddedAverageA45)
+    scatter(x,moddedAverageA45{k},'filled')
+end
 legend('Winter','Spring','Summer','Fall','Mariners Fall')
-
-xlabel('Current Magnitude (m/s)')
+xlim([-.1 .11])
+ylim([0 1.1])
+%     xline(0)
+%     legend('Onshore (-)', 'Offshore (+)')
+xlabel('Current Magnitude')
 ylabel('Normalized Detection Efficiency')
-title('Normalized Alongshore Tide''s Effect on Detections')
+title('2020 AShore current, 45deg Oriented Pairs')
+
+
+
+x = -.09:.01:.1;
+figure()
+scatter(x,completeAAavg,'k','filled');
+hold on
+scatter(x,completeAXavg,'m','filled');
+scatter(x,completeA45avg,'o','filled');
+legend('Along-Shore','Cross-shore','45');
+xlabel('Current Magnitude')
+ylabel('Normalized Detection Efficiency')
+title('2020year AShore current vs Transceiver Pairs')
+
+
+
+x = -0.4:0.05:.4;
+figure()
+scatter(x,completeXAavg,'r','filled');
+hold on
+scatter(x,completeXXavg,'b','filled');
+scatter(x,completeX45avg,'k','filled');
+legend('Along-Shore','Cross-shore','45');
+xlabel('Current Magnitude')
+ylabel('Normalized Detection Efficiency')
+title('2020year XShore current vs Transceiver Pairs')
+
+
 %%
+% seasons = unique(fullData.season)
 % 
-% x = -0.4:0.05:.4;
-% figure()
-% scatter(x,moddedPercentX{1},'filled')
-% xlim([-.5 .5])
-% ylim([0 1])
-% hold on 
-% scatter(x,moddedAverageX{2},'filled')
-% scatter(x,moddedAverageX{3},'filled')
-% scatter(x,moddedAverageX{4},'filled')
-% scatter(x,moddedAverageX{5},'filled')
-% xline(0)
-% legend('Winter','Spring','Summer','Fall','Mariners Fall')
+% for season = 1:length(seasons)
+%     waveBins{season}(1,:) = fullData.waveHeight < .02 & fullData.season == season;
+%     waveBins{season}(2,:) = fullData.waveHeight > .02 & fullData.waveHeight < .04 & fullData.season ==season;
+%     waveBins{season}(3,:) = fullData.waveHeight > .04 & fullData.waveHeight < .06 & fullData.season ==season;
+%     waveBins{season}(4,:) = fullData.waveHeight > .06 & fullData.waveHeight < .08 & fullData.season ==season;
+%     waveBins{season}(5,:) = fullData.waveHeight > .08 & fullData.waveHeight < 1 & fullData.season ==season;
+%     waveBins{season}(6,:) = fullData.waveHeight > 1.0 & fullData.waveHeight < 1.2 & fullData.season ==season;
+%     waveBins{season}(7,:) = fullData.waveHeight > 1.2 & fullData.waveHeight < 1.4 & fullData.season ==season;
+%     waveBins{season}(8,:) = fullData.waveHeight > 1.4 & fullData.waveHeight < 1.6 & fullData.season ==season;
+%     waveBins{season}(9,:) = fullData.waveHeight > 1.6 & fullData.waveHeight < 1.8 & fullData.season ==season;
+%     waveBins{season}(10,:) = fullData.waveHeight > 1.8 & fullData.waveHeight < 2.0 & fullData.season ==season;
+%     waveBins{season}(11,:) = fullData.waveHeight > 2.0 & fullData.waveHeight < 2.2 & fullData.season ==season;
+%     waveBins{season}(12,:) = fullData.waveHeight > 2.2 & fullData.waveHeight < 2.4 & fullData.season ==season;
+%     waveBins{season}(13,:) = fullData.waveHeight > 2.4 & fullData.season ==season;
+% end
 % 
-% xlabel('Current Magnitude (m/s)')
-% ylabel('Detection Efficiency (%)')
-% title('Tidal Magnitude''s Effect on Detections')
-% 
-% %
-%  figure()
-% scatter(x,moddedPercentX{1},'filled')
-% xlim([-.5 .5])
-% ylim([0 60])
-% hold on 
-% scatter(x,moddedPercentX{2},'filled')
-% scatter(x,moddedPercentX{3},'filled')
-% scatter(x,moddedPercentX{4},'filled')
-% scatter(x,moddedPercentX{5},'filled')
-% xline(0)
-% legend('Winter','Spring','Summer','Fall','Mariners Fall')
-% 
-% xlabel('Current Magnitude (m/s)')
-% ylabel('Detection Efficiency (%)')
-% title('Tidal Magnitude''s Effect on Detections')
-%     %Okay. Need to add some type of tidal range. right now we just see
-%     %tides as a seasonal variable, need to break down the differences
-%     %within that time frame.
-% 
-% %findebbflood gives us tidalrange, an array of the difference between max
-% %and min tides, and floodDT/ebbDT or high tide/low tide
-% 
-% 
-% for kk = 1:length(ebbDT)
-%     test = isbetween(fullData.time,floodDT(kk,1),ebbDT(kk+1,1))
-%     playgroundMean(kk) = mean(fullData.detections2(test))
+% for season = 1:length(seasons)
+%     for k = 1:height(waveBins{season})
+%         waveScenario{season}{k}= fullData(waveBins{season}(k,:),:);
+%         averageX{season}(1,k) = mean(waveScenario{season}{1,k}.allDets);
+%         averagePercentW{season}(1,k) = (averageWave{season}(1,k)/6)*100;
+%         if isnan(averagePercentW{season}(1,k))
+%             averagePercentW{season}(1,k) = 0;
+%             continue
+%         end
+%     end
+%     moddedPercentW{season}  = averagePercentW{season}/(max(averagePercentW{season}));
 % end
 % 
 % 
 % 
 % 
 % 
-% x = 1:707;
 % 
-% figure()
-% scatter(tidalrange,playgroundMean,'filled');
+% 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    

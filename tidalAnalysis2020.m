@@ -24,7 +24,6 @@ tideU = real(xout);
 tideV = imag(xout);
 
 datetide = [00,00,01,2020];
-endtide  = [23,14,05,2020];
 
 %t_tide order of constituents:
 % 15 = M2, Lunar semidiurnal
@@ -80,15 +79,17 @@ theta = coef(3);
 
 [rotUtide,rotVtide] = rot(ut,vt,theta);
 tides = [tideDN'; rotUtide'; rotVtide']';
-% writematrix(tides,'tidals.csv');
-
-[testU,testV] = rot(ut,vt,327);
-
-figure()
-plot(testU,testV);
-
+% writematrix(tides,'tidals.csv')
 figure()
 plot(tideU,tideV);
+title('ADCP Tides')
+
+figure()
+plot(ut,vt)
+axis equal
+title('Tides, Entire 2020')
+
+
 
 figure()
 plot(ut,vt);
