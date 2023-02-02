@@ -1,16 +1,19 @@
-%TESTING EDIT FMFMFMF
+% This file is Fmac messing with the orientation of the tides/currents during the 2020 mission. This is done because our transceiver pairs are not lined up ...
+    ... cross and alongshore, they have different angles; this means that we can't just tilt our tidal ellipses like we did for the 2014 array.
 
-
+%Create a sunlight variable, night vs daytime
 figure()
 SunriseSunsetUTC
 %Day timing
 sunRun = [sunrise; sunset];
 
 %Tidal predictions, rotated to be along vs cross-shore. Uses tideDT,
-%rotUtide
+%rotUtide. 
 % tidalAnalysis2020
 %OKAY: Now looking to test the new rotations. Rather than using
-%tidalAnalysis2020, we have:
+%tidalAnalysis2020, we have matchAngles. This may not be how we end up doing it. First stab ...
+... was Frank attempting to create tidal ellipses for all transceiver pairs; this required ...
+... rotation of the tidal ellipses so that perpendicular and parallel were the axes. 
 matchAngles
 
 %....which gives us 12 different X and Y arrays for the currents. Just need
