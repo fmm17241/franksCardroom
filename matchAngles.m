@@ -160,6 +160,12 @@ for COUNT = 1:height(paraTide)
     fullTideData{COUNT} = [paraTide(COUNT,:); perpTide(COUNT,:)]
 end
 
+%%
+% Frank's second attempt: instead of creating that many sets of vectors, find and plot the angle on top of the tidal ellipses to
+% more clearly show which way they're oriented; it got confusing when I started working with 12 different ellipses in addition to my original AND
+% rotated tides. Got silly!
+
+
 
 
 
