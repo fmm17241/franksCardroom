@@ -47,7 +47,7 @@ AnglesDeg(10) = atan2d((mooredGPS(13,2)-mooredGPS(14,2)),(mooredGPS(13,1)-moored
 AnglesDeg(11) = atan2d((mooredGPS(11,2)-mooredGPS(12,2)),(mooredGPS(11,1)-mooredGPS(12,1)));
 AnglesDeg(12) = atan2d((mooredGPS(12,2)-mooredGPS(11,2)),(mooredGPS(12,1)-mooredGPS(11,1)));
 
-Angles = deg2rad(AnglesDeg);
+AnglesRad = deg2rad(AnglesDeg);
 
 %%
 %Testing my rotations: plot a random ellipses and rotate it
@@ -132,18 +132,18 @@ theta = coef(3);
 
 %Stepping out of the box like I got probation:
 %pre-allocation
-paraTide = zeros(length(Angles),length(tideDT)); perpTide = zeros(length(Angles),length(tideDT));
-for COUNT = 1:length(Angles)
-    [paraTide(COUNT,:), perpTide(COUNT,:)] = rot(ut,vt,Angles(COUNT));
+paraTide = zeros(length(AnglesRad),length(tideDT)); perpTide = zeros(length(AnglesRad),length(tideDT));
+for COUNT = 1:length(AnglesRad)
+    [paraTide(COUNT,:), perpTide(COUNT,:)] = rot(ut,vt,AnglesRad(COUNT));
 end
 
 
-figure()
-plot(paraTide,perpTide)
-xlabel('Magnitude, X (m/s)')
-ylabel('Magnitude, Y (m/s)')
-title('Range of Transmission Directions')
-axis equal
+% figure()
+% plot(paraTide,perpTide)
+% xlabel('Magnitude, X (m/s)')
+% ylabel('Magnitude, Y (m/s)')
+% title('Range of Transmission Directions')
+% axis equal
 
 
 for COUNT = 1:length(Angles)
@@ -164,6 +164,23 @@ end
 % Frank's second attempt: instead of creating that many sets of vectors, find and plot the angle on top of the tidal ellipses to
 % more clearly show which way they're oriented; it got confusing when I started working with 12 different ellipses in addition to my original AND
 % rotated tides. Got silly!
+
+x = ones(1,12);
+
+figure()
+polarscatter(AnglesRad,x,'filled')
+title('Transceiver Pairing')
+hold on
+polarscatter(AnglesRad(1,6),x(6),'filled','r')
+
+
+
+
+
+
+
+
+
 
 
 
