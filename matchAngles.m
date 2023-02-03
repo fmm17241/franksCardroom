@@ -168,13 +168,15 @@ end
 x = ones(1,12);
 
 figure()
-polarscatter(AnglesRad,x,'filled')
+h = polarscatter(AnglesRad,x,'filled','ThetaZeroLocation','top')
 title('Transceiver Pairing')
 hold on
-polarscatter(AnglesRad(1,6),x(6),'filled','r')
+h = polarscatter(AnglesRad(1,6),x(6),'filled','r')
 
+info = ancestor(h,'polaraxes')
 
-
+h.ThetaZeroLocation = 'top';
+h.ThetaDir = 'clockwise';
 
 
 
