@@ -64,8 +64,8 @@ axis equal
 title('No Rotation')
 
 %Plot the same ellipses, rotating by each calculated orientation angle.
-for COUNT = 1:length(Angles) 
-    [X Y] = rot(x,y,-Angles(COUNT))
+for COUNT = 1:length(AnglesDeg) 
+    [X Y] = rot(x,y,-AnglesDeg(COUNT))
     nameit = sprintf('Pairing Angle %d',COUNT);
     figure()
     plot(X,Y)
@@ -146,7 +146,7 @@ end
 % axis equal
 
 
-for COUNT = 1:length(Angles)
+for COUNT = 1:length(AnglesDeg)
     nameit = sprintf('Pairing Angle %d',COUNT);
     figure()
     plot(paraTide(COUNT,:),perpTide(COUNT,:))
@@ -163,18 +163,28 @@ end
 %%
 % Frank's second attempt: instead of creating that many sets of vectors, find and plot the angle on top of the tidal ellipses to
 % more clearly show which way they're oriented; it got confusing when I started working with 12 different ellipses in addition to my original AND
-% rotated tides. Got silly!
+% rotated tides. 
 
 x = ones(1,12);
+x = x+.5;
+
 
 figure()
-h = polarscatter(AnglesRad,x,'filled','ThetaZeroLocation','top')
+h = polarscatter(AnglesRad,x,'filled','k')
+
 title('Transceiver Pairing')
 hold on
 h = polarscatter(AnglesRad(1,6),x(6),'filled','r')
+for COUNT = 1:2:length(AnglesRad)
+    polarplot(AnglesRad(1,COUNT:COUNT+1),x(1:2),'LineWidth',2);
+end
+pax = gca;
+pax.ThetaZeroLocation = 'top';
+pax.ThetaDir = 'clockwise';
+
+
 
 info = ancestor(h,'polaraxes')
-
 h.ThetaZeroLocation = 'top';
 h.ThetaDir = 'clockwise';
 
