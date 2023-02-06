@@ -184,17 +184,11 @@ pax.ThetaDir = 'clockwise';
 
 
 
-figure()
-h = polarscatter(AnglesRad(11),x(11),'filled','k')
-hold on
-h = polarscatter(AnglesRad(12),x(12),'filled','r')
-pax = gca;
-pax.ThetaZeroLocation = 'top';
-pax.ThetaDir = 'clockwise';
 
 
-%From tidalAnalysis's PCA check, angle of principal rotation is 0.5825rad,
-%or 33.3748 degrees counter clockwise
+
+
+
 
 
 

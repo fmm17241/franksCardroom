@@ -22,7 +22,7 @@
 
 cd D:\Moored\GRNMS\VRLs
 
-call = readtable('VR2Tx_483080_20211223_1.csv'); %SURTASSSTN20
+% call = readtable('VR2Tx_483080_20211223_1.csv'); %SURTASSSTN20
 rawDetFile{1,1} = readtable('VR2Tx_483062_20211112_1.csv'); %SURTASSSTN20
 rawDetFile{2,1} = readtable('VR2Tx_483064_20211025_1.csv'); %SURTASS05IN
 rawDetFile{3,1} = readtable('VR2Tx_483066_20211018_1.csv'); %Roldan
