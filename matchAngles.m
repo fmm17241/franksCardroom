@@ -194,7 +194,18 @@ pax.ThetaDir = 'clockwise';
 
 
 %From tidalAnalysis's PCA check, angle of principal rotation is 0.5825rad,
-%or 33.3748 degrees counter clockwise
+%or 33.3748 degrees counterclockwise, (326.6252 clockwise?)
+
+figure()
+plot(tideU,tideV)
+axis equal
+
+theta2 = -5.700;
+[test1, test2] = rot(ut,vt,theta2);
+figure()
+plot(test1,test2)
+axis equal
+title('Reverse Rotation')
 
 
 
