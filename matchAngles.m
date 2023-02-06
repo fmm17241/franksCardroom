@@ -194,18 +194,53 @@ pax.ThetaDir = 'clockwise';
 
 
 %From tidalAnalysis's PCA check, angle of principal rotation is 0.5825rad,
-%or 33.3748 degrees counterclockwise, (326.6252 clockwise?)
+%or 33.3748 degrees/0.5825 radians counterclockwise, (326.6252 clockwise?)
 
 figure()
-plot(tideU,tideV)
+plot(ut,vt)
 axis equal
+title('Raw Prediction')
 
-theta2 = -5.700;
-[test1, test2] = rot(ut,vt,theta2);
 figure()
-plot(test1,test2)
+plot(rotUtide,rotVtide)
 axis equal
-title('Reverse Rotation')
+title('Rotated Tides: Original, -33.4')
+
+%NOW need to figure out how to use these rotations and orientations
+%together. Let's experiment. REMEMBER ROT() is CCWise
+OGtideCoefficient = rad2deg(theta);
+
+orientationVsTide = deg2rad(AnglesDeg-OGtideCoefficient);
+
+
+
+
+for COUNT = 1:2:length(orientationVsTide)
+    [uTide(COUNT,:),vTide(COUNT,:)] = rot(ut,vt,orientationVsTide(COUNT));
+end
+%Use 2, 4, 6, 8, 9, 12 because these are in the positive directions. Still
+%have to make sure this rotation is correct, may be wrong direction.
+for COUNT = [2,4,6,8,9,12]
+    figure()
+    plot(uTide(COUNT,:),vTide(COUNT,:))
+    axis equal
+    nameit = sprintf('Pair %d, rotation %s',COUNT,orientationVsTide(COUNT))
+    title(nameit)
+end
+
+figure()
+nexttile()
+plot(tideDT,uTide(2,:))
+title('''U'' Velocity')
+nexttile()
+plot(tideDT,vTide(2,:))
+title('''V'' Velocity')
+
+
+
+
+
+
 
 
 
