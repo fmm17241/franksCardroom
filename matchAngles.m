@@ -4,6 +4,18 @@
 %instead of using the major axes of the ellipses, we can compare magnitude
 %in different directions to see if the relationship is clear.
 
+%Frank testing angles, cause why not. Ugh.
+
+x = [1 0 -1 0];
+y = [0 1 0 -1];
+
+d=atan2d(y,x)
+
+
+
+
+
+
 %Transceiver pairings:
 % 1.  SURTASSSTN20 hearing STSNew1
 % 2.  STSNew1 hearing SURTASSSTN20
@@ -17,7 +29,6 @@
 % 10. SURTASS05IN hearing 39IN
 % 11. STSNEW2 hearing FS6
 % 12. FS6 hearing STSNew2
-
 
 load mooredGPS 
 % transmitters = {'63068' '63073' '63067' '63079' '63080' '63066' '63076' '63078' '63063'...
@@ -174,7 +185,7 @@ h = polarscatter(AnglesRad,x,'filled','k')
 
 title('Transceiver Pairing')
 hold on
-h = polarscatter(AnglesRad(1,6),x(6),'filled','r')
+h = polarscatter(AnglesRad(1,6),x(1),'filled','r')
 for COUNT = 1:2:length(AnglesRad)
     polarplot(AnglesRad(1,COUNT:COUNT+1),x(1:2),'LineWidth',2);
 end
