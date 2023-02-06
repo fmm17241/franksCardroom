@@ -21,7 +21,7 @@ mooredEfficiency
 %NOAA buoy SST measurements. Uses bottom.bottomTime, buoyStratification,
 %bottom.tilt, and leftovers (disconnected pings, measure of transmission
 %failure)
-
+mooredReceiverData2020
 
 %Winds magnitude and direction from the buoy. Uses windsDN/U/V.
 windsAnalysis2020

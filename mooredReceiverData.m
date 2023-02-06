@@ -24,7 +24,7 @@
 % West15         63063
 % SURTASS_FS15   63071
 
-cd G:\Moored\GRNMS\VRLs
+cd D:\Moored\GRNMS\VRLs
 
 rawDetFile{1,1} = readtable('VR2Tx_483062_20211112_1.csv');
 rawDetFile{2,1} = readtable('VR2Tx_483064_20211025_1.csv');

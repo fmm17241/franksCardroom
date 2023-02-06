@@ -215,26 +215,20 @@ orientationVsTide = deg2rad(AnglesDeg-OGtideCoefficient);
 
 
 
-for COUNT = 1:2:length(orientationVsTide)
+for COUNT = 1:length(orientationVsTide)
     [uTide(COUNT,:),vTide(COUNT,:)] = rot(ut,vt,orientationVsTide(COUNT));
 end
 %Use 2, 4, 6, 8, 9, 12 because these are in the positive directions. Still
 %have to make sure this rotation is correct, may be wrong direction.
-for COUNT = [2,4,6,8,9,12]
+useThese = [2,4,6,8,9,12]
+for COUNT = 1:length(useThese)
     figure()
-    plot(uTide(COUNT,:),vTide(COUNT,:))
-    axis equal
-    nameit = sprintf('Pair %d, rotation %s',COUNT,orientationVsTide(COUNT))
+    plot(tideDT,uTide(useThese(COUNT),:))
+    ylabel('UMagnitude')
+%     axis equal
+    nameit = sprintf('Pair %d, rotation %s',COUNT,orientationVsTide(useThese(COUNT)))
     title(nameit)
 end
-
-figure()
-nexttile()
-plot(tideDT,uTide(2,:))
-title('''U'' Velocity')
-nexttile()
-plot(tideDT,vTide(2,:))
-title('''V'' Velocity')
 
 
 

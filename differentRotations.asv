@@ -58,7 +58,6 @@ fullTime = [datetime(2020,01,29,17,00,00),datetime(2020,12,10,13,00,00)];
 fullTime.TimeZone = 'UTC';
 
 fullTideIndex = isbetween(tideDT,fullTime(1,1),fullTime(1,2),'closed');
-operationalTideIndex = isbetween()
 
 
 % fullTideData = [paraTide(:,fullTideIndex);perpTide(:,fullTideIndex)]
@@ -66,7 +65,6 @@ operationalTideIndex = isbetween()
 for COUNT = 1:length(fullTideData)
     fullTideData{COUNT} = fullTideData{COUNT}(:,fullTideIndex)
     fullTideData{COUNT} = fullTideData{COUNT}(:,1:2:end);
-    comparedRotations{COUNT} = [uTide(COUNT,fullTideIndex); vTide(COUNT,fullTideIndex)];
 end
 
 
@@ -143,7 +141,7 @@ seasonCounter(winter) = 1; seasonCounter(spring) = 2; seasonCounter(summer) = 3;
 %Frank needs to add the different tides to this.
 for COUNT = 1:length(AnglesDeg)
     fullData{COUNT} = table2timetable(table(time, seasonCounter', detsAlong,detsCross,dets45, sunlight', rotUwinds(windsIndex), rotVwinds(windsIndex), WSPD(windsIndex), WDIR(windsIndex), fullTideData{COUNT}',noise,waveHt.waveHeight,...
-        ******uTide(COUNT)));
+        uTide(COU)));
     fullData{COUNT}.Properties.VariableNames = {'season', 'detsAlong','detsCross','dets45','sunlight', 'windsCross','windsAlong','windSpeed','windDir','tidalData','noise','waveHeight'};
 end
 
