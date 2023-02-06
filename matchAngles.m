@@ -178,9 +178,21 @@ h = polarscatter(AnglesRad(1,6),x(6),'filled','r')
 for COUNT = 1:2:length(AnglesRad)
     polarplot(AnglesRad(1,COUNT:COUNT+1),x(1:2),'LineWidth',2);
 end
-pax = gca;
-pax.ThetaZeroLocation = 'top';
-pax.ThetaDir = 'clockwise';
+
+[test1 test2] = rot(x,AnglesRad,1.5708)
+
+figure()
+polarscatter(test1,test2,'filled')
+hold on
+h = polarscatter(test1(1,6),x(6),'filled','r')
+for COUNT = 1:2:length(AnglesRad)
+    polarplot(test1(1,COUNT:COUNT+1),x(1:2),'LineWidth',2);
+end
+
+% 
+% pax = gca;
+% pax.ThetaZeroLocation = 'top';
+% pax.ThetaDir = 'clockwise';
 
 
 
