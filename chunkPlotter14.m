@@ -97,16 +97,16 @@ for k = 1:length(cycleTime)-1
     
     
     
-    nexttile([1 2])
-    plot(rec.timeDT,detsCompare1(:,2),'k');
-    %     title('Detections, ~500 m, East to West, Transceiver Depth: 13.72 m');
-    title('Receiver 4, 1M');
-    ylim([0 45])
-    xlim(ax);
-    datetick('x','mmm,dd,yyyy','keeplimits');
-    ylabel('Detections');
-%     ylim([0 6]);
-    hold on
+%     nexttile([1 2])
+%     plot(rec.timeDT,detsCompare1(:,2),'k');
+%     %     title('Detections, ~500 m, East to West, Transceiver Depth: 13.72 m');
+%     title('Receiver 4, 1M');
+%     ylim([0 45])
+%     xlim(ax);
+%     datetick('x','mmm,dd,yyyy','keeplimits');
+%     ylabel('Detections');
+% %     ylim([0 6]);
+%     hold on
 %     a = fill([findersX(1) findersX(1) findersX(2) findersX(2)],findersY,[0 0 0]);
 %     a.FaceAlpha = 0.15;
 %     b = fill([findersX(3) findersX(3) findersX(4) findersX(4)],findersY,[0 0 0]);
@@ -131,6 +131,15 @@ for k = 1:length(cycleTime)-1
     ylabel('Cross-Shore Velocity');
     xlim(ax);
     ylim([-0.5 0.5]);
+    datetick('x','keeplimits');
+    yline(0);
+
+    nexttile([1 2])
+    plot(tideDT,rotVtide)
+    title('Rotated Tidal Predictions, V');
+    ylabel('Along-Shore Velocity');
+    xlim(ax);
+    ylim([-0.11 0.11]);
     datetick('x','keeplimits');
     yline(0);
     
