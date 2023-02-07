@@ -4,18 +4,6 @@
 %instead of using the major axes of the ellipses, we can compare magnitude
 %in different directions to see if the relationship is clear.
 
-%Frank testing angles, cause why not. Ugh.
-
-x = [1 0 -1 0];
-y = [0 1 0 -1];
-
-d=atan2d(y,x)
-
-
-
-
-
-
 %Transceiver pairings:
 % 1.  SURTASSSTN20 hearing STSNew1
 % 2.  STSNew1 hearing SURTASSSTN20
@@ -37,7 +25,6 @@ load mooredGPS
 % moored = {'FS17','STSNew1','33OUT','34ALTOUT','09T','Roldan',...
 %           '08ALTIN','14IN','West15','08C','STSNew2','FS6','39IN','SURTASS_05IN',...
 %           'SURTASS_STN20','SURTASS_FS15'}.';
-
 
 %SURTASSSTN20 and STSNew1
 AnglesDeg(1) = atan2d((mooredGPS(2,2)-mooredGPS(15,2)),(mooredGPS(2,1)-mooredGPS(15,1)));
@@ -62,27 +49,27 @@ AnglesRad = deg2rad(AnglesDeg);
 
 %%
 %Testing my rotations: plot a random ellipses and rotate it
-a=5; % horizontal radius
-b=10; % vertical radius
-x0=0; % x0,y0 ellipse centre coordinates
-y0=0;
-t=-pi:0.01:pi;
-x=x0+a*cos(t);
-y=y0+b*sin(t);
-figure()
-plot(x,y)
-axis equal
-title('No Rotation')
-
-%Plot the same ellipses, rotating by each calculated orientation angle.
-for COUNT = 1:length(AnglesDeg) 
-    [X Y] = rot(x,y,-AnglesDeg(COUNT))
-    nameit = sprintf('Pairing Angle %d',COUNT);
-    figure()
-    plot(X,Y)
-    axis equal
-    title(nameit)
-end
+% a=5; % horizontal radius
+% b=10; % vertical radius
+% x0=0; % x0,y0 ellipse centre coordinates
+% y0=0;
+% t=-pi:0.01:pi;
+% x=x0+a*cos(t);
+% y=y0+b*sin(t);
+% figure()
+% plot(x,y)
+% axis equal
+% title('No Rotation')
+% 
+% %Plot the same ellipses, rotating by each calculated orientation angle.
+% for COUNT = 1:length(AnglesDeg) 
+%     [X Y] = rot(x,y,-AnglesDeg(COUNT))
+%     nameit = sprintf('Pairing Angle %d',COUNT);
+%     figure()
+%     plot(X,Y)
+%     axis equal
+%     title(nameit)
+% end
 %%
 %Okay: How do I use that information?
 
@@ -157,15 +144,15 @@ end
 % axis equal
 
 
-for COUNT = 1:length(AnglesDeg)
-    nameit = sprintf('Pairing Angle %d',COUNT);
-    figure()
-    plot(paraTide(COUNT,:),perpTide(COUNT,:))
-    xlabel('Magnitude, X (m/s)')
-    ylabel('Magnitude, Y (m/s)')
-    title(nameit)
-    axis equal
-end
+% for COUNT = 1:length(AnglesDeg)
+%     nameit = sprintf('Pairing Angle %d',COUNT);
+%     figure()
+%     plot(paraTide(COUNT,:),perpTide(COUNT,:))
+%     xlabel('Magnitude, X (m/s)')
+%     ylabel('Magnitude, Y (m/s)')
+%     title(nameit)
+%     axis equal
+% end
 
 for COUNT = 1:height(paraTide)
     fullTideData{COUNT} = [paraTide(COUNT,:); perpTide(COUNT,:)]
@@ -183,17 +170,25 @@ x = x+.5;
 figure()
 h = polarscatter(AnglesRad,x,'filled','k')
 
-title('Transceiver Pairing')
+title('Transceiver Pairing, Raw')
 hold on
 h = polarscatter(AnglesRad(1,6),x(1),'filled','r')
 for COUNT = 1:2:length(AnglesRad)
     polarplot(AnglesRad(1,COUNT:COUNT+1),x(1:2),'LineWidth',2);
 end
+pax = gca;
+pax.ThetaZeroLocation = 'top';
+pax.ThetaDir = 'clockwise';
+
 
 [test1 test2] = rot(x,AnglesRad,1.5708)
 
+test = AnglesRad + 1.5708;
+
+
+
 figure()
-polarscatter(test1,test2,'filled')
+polarscatter(test,x,'filled')
 hold on
 h = polarscatter(test1(1,6),x(6),'filled','r')
 for COUNT = 1:2:length(AnglesRad)
@@ -201,9 +196,9 @@ for COUNT = 1:2:length(AnglesRad)
 end
 
 % 
-% pax = gca;
-% pax.ThetaZeroLocation = 'top';
-% pax.ThetaDir = 'clockwise';
+pax = gca;
+pax.ThetaZeroLocation = 'top';
+pax.ThetaDir = 'clockwise';
 
 
 
