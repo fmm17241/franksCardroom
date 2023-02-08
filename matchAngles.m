@@ -197,8 +197,9 @@ diff = [60 60 85.5 85.5 144.7 144.7 -6.6 -6.6 -0.2 -0.2 121.3 121.3]
 for COUNT = 1:2:length(AnglesRad)
     nameit= sprintf('Pairing %d Angle vs Tidal Ellipses, Diff: %d',pairing(COUNT),round(diff(COUNT)))
     figure()
-    polarscatter(AnglesRad(1,COUNT:COUNT+1),x(1:2),'filled','k','x')
+    polarscatter(AnglesRad(1,COUNT),x(1),'filled','square')
     hold on
+    polarscatter(AnglesRad(1,COUNT+1),x(1),'X')
     polarplot(AnglesRad(1,COUNT:COUNT+1),x(1:2),'-.');
     polarplot(tideAnglesRad,x2(1:2),'r')
     polarscatter(tideAnglesRad,x2(1:2),'r')
