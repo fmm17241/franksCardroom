@@ -27,8 +27,8 @@ load mooredGPS
 %           'SURTASS_STN20','SURTASS_FS15'}.';
 
 %SURTASSSTN20 and STSNew1
-AnglesDeg(1) = atan2d((mooredGPS(2,2)-mooredGPS(15,2)),(mooredGPS(2,1)-mooredGPS(15,1)));
-AnglesDeg(2) = atan2d((mooredGPS(15,2)-mooredGPS(2,2)),(mooredGPS(15,1)-mooredGPS(2,1)));
+AnglesDeg(1) = atan2d((mooredGPS(15,2)-mooredGPS(2,2)),(mooredGPS(15,1)-mooredGPS(2,1)));
+AnglesDeg(2) = atan2d((mooredGPS(2,2)-mooredGPS(15,2)),(mooredGPS(2,1)-mooredGPS(15,1)));
 %SURTASS05IN and FS6
 AnglesDeg(3) = atan2d((mooredGPS(14,2)-mooredGPS(12,2)),(mooredGPS(14,1)-mooredGPS(12,1)));
 AnglesDeg(4) = atan2d((mooredGPS(12,2)-mooredGPS(14,2)),(mooredGPS(12,1)-mooredGPS(14,1)));
@@ -44,9 +44,14 @@ AnglesDeg(10) = atan2d((mooredGPS(13,2)-mooredGPS(14,2)),(mooredGPS(13,1)-moored
 %STSNEW2 and FS6
 AnglesDeg(11) = atan2d((mooredGPS(11,2)-mooredGPS(12,2)),(mooredGPS(11,1)-mooredGPS(12,1)));
 AnglesDeg(12) = atan2d((mooredGPS(12,2)-mooredGPS(11,2)),(mooredGPS(12,1)-mooredGPS(11,1)));
+%FMFMFMFM Adding in tidal ellipses angle, 2/8/23. These are found using
+% PCA coefficients in tidalAnalysis scripts.
+tideAnglesDeg(1) = 326.6;
+tideAnglesDeg(2) = 146.6;
+
 
 AnglesRad = deg2rad(AnglesDeg);
-
+tideAnglesRad = deg2rad(tideAnglesDeg);
 %%
 %Testing my rotations: plot a random ellipses and rotate it
 % a=5; % horizontal radius
@@ -165,50 +170,29 @@ end
 
 x = ones(1,12);
 x = x+.5;
+x2 = x +1;
 
 
 figure()
 h = polarscatter(AnglesRad,x,'filled','k')
 
-title('Transceiver Pairing, Raw')
+title('Transceiver Pairing, Full Array')
 hold on
 h = polarscatter(AnglesRad(1,6),x(1),'filled','r')
 for COUNT = 1:2:length(AnglesRad)
-    polarplot(AnglesRad(1,COUNT:COUNT+1),x(1:2),'LineWidth',2);
+    polarplot(AnglesRad(1,COUNT:COUNT+1),x(1:2),'--','LineWidth',2);
 end
+polarplot(tideAnglesRad,x2(1:2))
+polarscatter(tideAnglesRad,x2(1:2),'r')
 pax = gca;
 pax.ThetaZeroLocation = 'top';
 pax.ThetaDir = 'clockwise';
 
+% Make rotations for each transceiver pairing
 
-[test1 test2] = rot(x,AnglesRad,1.5708)
-
-test = AnglesRad + 1.5708;
-
-
-
-figure()
-polarscatter(test,x,'filled')
-hold on
-h = polarscatter(test1(1,6),x(6),'filled','r')
 for COUNT = 1:2:length(AnglesRad)
-    polarplot(test1(1,COUNT:COUNT+1),x(1:2),'LineWidth',2);
+    
 end
-
-% 
-pax = gca;
-pax.ThetaZeroLocation = 'top';
-pax.ThetaDir = 'clockwise';
-
-
-
-figure()
-h = polarscatter(AnglesRad(11),x(11),'filled','k')
-hold on
-h = polarscatter(AnglesRad(12),x(12),'filled','r')
-pax = gca;
-pax.ThetaZeroLocation = 'top';
-pax.ThetaDir = 'clockwise';
 
 
 %From tidalAnalysis's PCA check, angle of principal rotation is 0.5825rad,
