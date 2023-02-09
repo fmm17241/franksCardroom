@@ -197,12 +197,12 @@ diff = [60 60 85.5 85.5 144.7 144.7 -6.6 -6.6 -0.2 -0.2 121.3 121.3]
 for COUNT = 1:2:length(AnglesRad)
     nameit= sprintf('Pairing %d Angle vs Tidal Ellipses, Diff: %d',pairing(COUNT),round(diff(COUNT)))
     figure()
-    polarscatter(AnglesRad(1,COUNT),x(1),'filled','square')
+    polarscatter(AnglesRad(1,COUNT),x(1),280,'X')
     hold on
-    polarscatter(AnglesRad(1,COUNT+1),x(1),'X')
     polarplot(AnglesRad(1,COUNT:COUNT+1),x(1:2),'-.');
+    polarscatter(AnglesRad(1,COUNT+1),x(1),250,'square','filled','k')
     polarplot(tideAnglesRad,x2(1:2),'r')
-    polarscatter(tideAnglesRad,x2(1:2),'r')
+    polarscatter(tideAnglesRad,x2(1:2),250,'r','filled')
     pax = gca;
     pax.ThetaZeroLocation = 'top';
     pax.ThetaDir = 'clockwise';
@@ -229,12 +229,16 @@ OGtideCoefficient = rad2deg(theta);
 
 orientationVsTide = deg2rad(AnglesDeg-OGtideCoefficient);
 
-
-
-
 for COUNT = 1:length(orientationVsTide)
     [uTide(COUNT,:),vTide(COUNT,:)] = rot(ut,vt,orientationVsTide(COUNT));
 end
+
+figure()
+plot(uTide(5,:),vTide(5,:));
+axis equal
+
+
+
 %Use 2, 4, 6, 8, 9, 12 because these are in the positive directions. Still
 %have to make sure this rotation is correct, may be wrong direction.
 useThese = [2,4,6,8,9,12]
