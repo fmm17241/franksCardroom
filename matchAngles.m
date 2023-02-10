@@ -45,6 +45,7 @@ AnglesD(10) = atan2d((mooredGPS(13,2)-mooredGPS(14,2)),(mooredGPS(13,1)-mooredGP
 %STSNEW2 and FS6
 AnglesD(11) = atan2d((mooredGPS(12,2)-mooredGPS(11,2)),(mooredGPS(12,1)-mooredGPS(11,1)));
 AnglesD(12) = atan2d((mooredGPS(11,2)-mooredGPS(12,2)),(mooredGPS(11,1)-mooredGPS(12,1)));
+
 %FMFMFMFM Adding in tidal ellipses angle, 2/8/23. These are found using
 % PCA coefficients in tidalAnalysis scripts.
 tideAnglesD(1) = 326.6;
@@ -150,9 +151,9 @@ for COUNT = 1:2:length(AnglesR)
     polarscatter(AnglesR(1,COUNT),x(1),280,'X')
     hold on
     polarplot(AnglesR(1,COUNT:COUNT+1),x(1:2),'-.');
-    polarscatter(AnglesR(1,COUNT+1),x(1),250,'square','filled','k')
+    polarscatter(AnglesR(1,COUNT+1),x(1),200,'square','filled','k')
     polarplot(tideAnglesR,x2(1:2),'r')
-    polarscatter(tideAnglesR,x2(1:2),250,'r','filled')
+    polarscatter(tideAnglesR,x2(1:2),130,'r','filled')
     pax = gca;
     pax.ThetaZeroLocation = 'top';
     pax.ThetaDir = 'clockwise';
