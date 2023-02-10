@@ -48,6 +48,8 @@ AnglesD(12) = atan2d((mooredGPS(11,2)-mooredGPS(12,2)),(mooredGPS(11,1)-mooredGP
 % PCA coefficients in tidalAnalysis scripts.
 tideAnglesD(1) = 326.6;
 tideAnglesD(2) = 146.6;
+tideAnglesD(3) = tideAnglesD(1)-90;
+tideAnglesD(4) = tideAnglesD(2)-90;
 AnglesR = deg2rad(AnglesD);
 tideAnglesR = deg2rad(tideAnglesD);
 %%
@@ -100,6 +102,9 @@ close all
 x = ones(1,12);
 x = x+.5;
 x2 = x +1;
+x3 = x2 -.75;
+
+
 
 
 figure()
@@ -111,8 +116,11 @@ h = polarscatter(AnglesR(1,6),x(1),'filled','r')
 for COUNT = 1:2:length(AnglesR)
     polarplot(AnglesR(1,COUNT:COUNT+1),x(1:2),'--','LineWidth',2);
 end
-polarplot(tideAnglesR,x2(1:2))
-polarscatter(tideAnglesR,x2(1:2),'r')
+polarplot(tideAnglesR(1:2),x2(1:2))
+polarplot(tideAnglesR(3:4),x3(1:2))
+polarscatter(tideAnglesR(1:2),x2(1:2),'r','filled')
+polarscatter(tideAnglesR(3:4),x3(1:2),'r','filled')
+
 pax = gca;
 pax.ThetaZeroLocation = 'top';
 pax.ThetaDir = 'clockwise';
@@ -127,8 +135,10 @@ for COUNT = 1:2:length(AnglesR)
     hold on
     polarplot(AnglesR(1,COUNT:COUNT+1),x(1:2),'-.');
     polarscatter(AnglesR(1,COUNT+1),x(1),200,'square','filled','k')
-    polarplot(tideAnglesR,x2(1:2),'r')
-    polarscatter(tideAnglesR,x2(1:2),130,'r','filled')
+    polarplot(tideAnglesR(1:2),x2(1:2),'r')
+    polarplot(tideAnglesR(3:4),x3(1:2))
+    polarscatter(tideAnglesR(1:2),x2(1:2),130,'r','filled')
+    polarscatter(tideAnglesR(3:4),x3(1:2),'r','filled')
     pax = gca;
     pax.ThetaZeroLocation = 'top';
     pax.ThetaDir = 'clockwise';
@@ -213,14 +223,19 @@ yline(0)
 for COUNT = 1:2:length(AnglesR)
     nameit= sprintf('Pairing %d Angle vs Tidal Ellipses, Diff: %d',pairing(COUNT),round(diff(COUNT)))
     figure()
+    set(gcf, 'Position',  [0, 0, 1000, 1000])
+
+
     tiledlayout(2,2)
     nexttile
     polarscatter(AnglesR(1,COUNT),x(1),280,'X')
     hold on
     polarplot(AnglesR(1,COUNT:COUNT+1),x(1:2),'-.');
     polarscatter(AnglesR(1,COUNT+1),x(1),200,'square','filled','k')
-    polarplot(tideAnglesR,x2(1:2),'r')
-    polarscatter(tideAnglesR,x2(1:2),130,'r','filled')
+    polarplot(tideAnglesR(1:2),x2(1:2),'r')
+    polarplot(tideAnglesR(3:4),x3(1:2),'r')
+    polarscatter(tideAnglesR(1:2),x2(1:2),130,'r','filled')
+    polarscatter(tideAnglesR(3:4),x3(1:2),'r','filled')
     pax = gca;
     pax.ThetaZeroLocation = 'top';
     pax.ThetaDir = 'clockwise';
@@ -255,8 +270,6 @@ for COUNT = 1:2:length(AnglesR)
     xline(0)
     yline(0)
     title(sprintf('Should be %0.1f CCW',rotatorsD(1,COUNT+1)))
-
-
 end
 
 

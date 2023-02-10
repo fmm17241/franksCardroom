@@ -180,13 +180,25 @@ title('Rotated Tides: Original, -33.4')
 transRotations = deg2rad(AnglesD-thetaDegree);
 transRotationsDeg = rad2deg(transRotations)
 
+%Create test vectors as 0/1
+yOriginal = [0 0; 0 0.35];
+xOriginal = [0 0.35;0 0];
 
 
 for COUNT = 1:length(transRotations)
     [rotatedUTide(COUNT,:),rotatedVTide(COUNT,:)] = rot(ut,vt,transRotations(COUNT));
+    [rotatedXOriginalX(COUNT,:),rotatedXOriginalY(COUNT,:)] = rot(xOriginal(1,:),xOriginal(2,:),transRotations(COUNT));
+    [rotatedYOriginalX(COUNT,:),rotatedYOriginalY(COUNT,:)] = rot(yOriginal(1,:),yOriginal(2,:),transRotations(COUNT));
 end
 
-
+figure()
+scatter(rotatedXOriginalX(1,:),rotatedXOriginalY(1,:),'filled','r')
+hold on
+scatter(rotatedYOriginalX(1,:),rotatedYOriginalY(1,:),'filled','g')
+plot(xOriginal(1,:),xOriginal(2,:))
+scatter(xOriginal(1,:),xOriginal(2,:),100,'filled','r')
+plot(yOriginal(1,:),yOriginal(2,:),'r')
+scatter(yOriginal(1,:),yOriginal(2,:),100,'filled','k')
 
 
 
@@ -199,6 +211,11 @@ xlabel('X')
 ylabel('Y')
 xline(0)
 yline(0)
+hold on
+plot(xOriginal(1,:),xOriginal(2,:))
+scatter(xOriginal(1,:),xOriginal(2,:),100,'filled','r')
+plot(yOriginal(1,:),yOriginal(2,:),'r')
+scatter(yOriginal(1,:),yOriginal(2,:),100,'filled','k')
 
 
 figure()
