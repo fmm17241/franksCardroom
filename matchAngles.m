@@ -192,6 +192,7 @@ for COUNT = 1:length(transRotations)
 end
 
 figure()
+plot(rotatedXOriginalX(1,:),rotatedXOriginalY(1,:),'r')
 scatter(rotatedXOriginalX(1,:),rotatedXOriginalY(1,:),'filled','r')
 hold on
 scatter(rotatedYOriginalX(1,:),rotatedYOriginalY(1,:),'filled','g')
