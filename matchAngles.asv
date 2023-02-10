@@ -53,7 +53,29 @@ tideAnglesDeg(2) = 146.6;
 
 AnglesRad = deg2rad(AnglesDeg);
 tideAnglesRad = deg2rad(tideAnglesDeg);
-
+%%
+%Testing my rotations: plot a random ellipses and rotate it
+% a=5; % horizontal radius
+% b=10; % vertical radius
+% x0=0; % x0,y0 ellipse centre coordinates
+% y0=0;
+% t=-pi:0.01:pi;
+% x=x0+a*cos(t);
+% y=y0+b*sin(t);
+% figure()
+% plot(x,y)
+% axis equal
+% title('No Rotation')
+% 
+% %Plot the same ellipses, rotating by each calculated orientation angle.
+% for COUNT = 1:length(AnglesDeg) 
+%     [X Y] = rot(x,y,-AnglesDeg(COUNT))
+%     nameit = sprintf('Pairing Angle %d',COUNT);
+%     figure()
+%     plot(X,Y)
+%     axis equal
+%     title(nameit)
+% end
 %%
 %Okay: How do I use that information?
 
@@ -208,7 +230,7 @@ title('Rotated Tides: Original, -33.4')
 %together. Let's experiment. REMEMBER ROT() is CCWise
 
 transRotations = deg2rad(AnglesDeg-thetaDegree);
-transRotationsDeg = rad2deg(transRotations)
+
 
 
 
@@ -239,7 +261,7 @@ yline(0)
 
 
 figure()
-plot(rotatedUTide(5,:),rotatedVTide(5,:));
+plot(rotatedUTide(5,:),rotatedTide(5,:));
 axis equal
 
 
