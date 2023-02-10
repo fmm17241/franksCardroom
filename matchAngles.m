@@ -28,31 +28,31 @@ load mooredGPS
 %           'SURTASS_STN20','SURTASS_FS15'}.';
 
 %SURTASSSTN20 and STSNew1
-AnglesDeg(1) = atan2d((mooredGPS(15,2)-mooredGPS(2,2)),(mooredGPS(15,1)-mooredGPS(2,1)));
-AnglesDeg(2) = atan2d((mooredGPS(2,2)-mooredGPS(15,2)),(mooredGPS(2,1)-mooredGPS(15,1)));
+AnglesD(1) = atan2d((mooredGPS(15,2)-mooredGPS(2,2)),(mooredGPS(15,1)-mooredGPS(2,1)));
+AnglesD(2) = atan2d((mooredGPS(2,2)-mooredGPS(15,2)),(mooredGPS(2,1)-mooredGPS(15,1)));
 %SURTASS05IN and FS6
-AnglesDeg(3) = atan2d((mooredGPS(12,2)-mooredGPS(14,2)),(mooredGPS(12,1)-mooredGPS(14,1)));
-AnglesDeg(4) = atan2d((mooredGPS(14,2)-mooredGPS(12,2)),(mooredGPS(14,1)-mooredGPS(12,1)));
+AnglesD(3) = atan2d((mooredGPS(12,2)-mooredGPS(14,2)),(mooredGPS(12,1)-mooredGPS(14,1)));
+AnglesD(4) = atan2d((mooredGPS(14,2)-mooredGPS(12,2)),(mooredGPS(14,1)-mooredGPS(12,1)));
 %Roldan and 08ALTIN
-AnglesDeg(5) = atan2d((mooredGPS(6,2)-mooredGPS(7,2)),(mooredGPS(6,1)-mooredGPS(7,1)));
-AnglesDeg(6) = atan2d((mooredGPS(7,2)-mooredGPS(6,2)),(mooredGPS(7,1)-mooredGPS(6,1)));
+AnglesD(5) = atan2d((mooredGPS(6,2)-mooredGPS(7,2)),(mooredGPS(6,1)-mooredGPS(7,1)));
+AnglesD(6) = atan2d((mooredGPS(7,2)-mooredGPS(6,2)),(mooredGPS(7,1)-mooredGPS(6,1)));
 %SURTASS05IN and STSNew2
-AnglesDeg(7) = atan2d((mooredGPS(11,2)-mooredGPS(14,2)),(mooredGPS(11,1)-mooredGPS(14,1)));
-AnglesDeg(8) = atan2d((mooredGPS(14,2)-mooredGPS(11,2)),(mooredGPS(14,1)-mooredGPS(11,1)));
+AnglesD(7) = atan2d((mooredGPS(11,2)-mooredGPS(14,2)),(mooredGPS(11,1)-mooredGPS(14,1)));
+AnglesD(8) = atan2d((mooredGPS(14,2)-mooredGPS(11,2)),(mooredGPS(14,1)-mooredGPS(11,1)));
 %39IN and SURTASS05IN
-AnglesDeg(9) = atan2d((mooredGPS(14,2)-mooredGPS(13,2)),(mooredGPS(14,1)-mooredGPS(13,1)));
-AnglesDeg(10) = atan2d((mooredGPS(13,2)-mooredGPS(14,2)),(mooredGPS(13,1)-mooredGPS(14,1)));
+AnglesD(9) = atan2d((mooredGPS(14,2)-mooredGPS(13,2)),(mooredGPS(14,1)-mooredGPS(13,1)));
+AnglesD(10) = atan2d((mooredGPS(13,2)-mooredGPS(14,2)),(mooredGPS(13,1)-mooredGPS(14,1)));
 %STSNEW2 and FS6
-AnglesDeg(11) = atan2d((mooredGPS(12,2)-mooredGPS(11,2)),(mooredGPS(12,1)-mooredGPS(11,1)));
-AnglesDeg(12) = atan2d((mooredGPS(11,2)-mooredGPS(12,2)),(mooredGPS(11,1)-mooredGPS(12,1)));
+AnglesD(11) = atan2d((mooredGPS(12,2)-mooredGPS(11,2)),(mooredGPS(12,1)-mooredGPS(11,1)));
+AnglesD(12) = atan2d((mooredGPS(11,2)-mooredGPS(12,2)),(mooredGPS(11,1)-mooredGPS(12,1)));
 %FMFMFMFM Adding in tidal ellipses angle, 2/8/23. These are found using
 % PCA coefficients in tidalAnalysis scripts.
-tideAnglesDeg(1) = 326.6;
-tideAnglesDeg(2) = 146.6;
+tideAnglesD(1) = 326.6;
+tideAnglesD(2) = 146.6;
 
 
-AnglesRad = deg2rad(AnglesDeg);
-tideAnglesRad = deg2rad(tideAnglesDeg);
+AnglesR = deg2rad(AnglesD);
+tideAnglesR = deg2rad(tideAnglesD);
 
 %%
 %Okay: How do I use that information?
@@ -109,41 +109,10 @@ tideDT=datetime(tideDN,'ConvertFrom','datenum','TimeZone','UTC')';
 %Classic rotation like a DJ's record
 tidalz = [tideU;tideV].';
 [coef, ~,~,~] = pca(tidalz);
-theta = coef(3);
-thetaDegree = rad2deg(theta);
+tidalTheta = coef(3);
+thetaDegree = rad2deg(tidalTheta);
 
-[rotUtide,rotVtide] = rot(ut,vt,theta);
-
-
-%Stepping out of the box like I got probation:
-%pre-allocation
-paraTide = zeros(length(AnglesRad),length(tideDT)); perpTide = zeros(length(AnglesRad),length(tideDT));
-for COUNT = 1:length(AnglesRad)
-    [paraTide(COUNT,:), perpTide(COUNT,:)] = rot(ut,vt,AnglesRad(COUNT));
-end
-
-
-% figure()
-% plot(paraTide,perpTide)
-% xlabel('Magnitude, X (m/s)')
-% ylabel('Magnitude, Y (m/s)')
-% title('Range of Transmission Directions')
-% axis equal
-
-
-% for COUNT = 1:length(AnglesDeg)
-%     nameit = sprintf('Pairing Angle %d',COUNT);
-%     figure()
-%     plot(paraTide(COUNT,:),perpTide(COUNT,:))
-%     xlabel('Magnitude, X (m/s)')
-%     ylabel('Magnitude, Y (m/s)')
-%     title(nameit)
-%     axis equal
-% end
-
-for COUNT = 1:height(paraTide)
-    fullTideData{COUNT} = [paraTide(COUNT,:); perpTide(COUNT,:)]
-end
+[rotUtide,rotVtide] = rot(ut,vt,tidalTheta);
 
 %%
 % Frank's second attempt: instead of creating that many sets of vectors, find and plot the angle on top of the tidal ellipses to
@@ -156,16 +125,16 @@ x2 = x +1;
 
 
 figure()
-h = polarscatter(AnglesRad,x,'filled','k')
+h = polarscatter(AnglesR,x,'filled','k')
 
 title('Transceiver Pairing, Full Array')
 hold on
-h = polarscatter(AnglesRad(1,6),x(1),'filled','r')
-for COUNT = 1:2:length(AnglesRad)
-    polarplot(AnglesRad(1,COUNT:COUNT+1),x(1:2),'--','LineWidth',2);
+h = polarscatter(AnglesR(1,6),x(1),'filled','r')
+for COUNT = 1:2:length(AnglesR)
+    polarplot(AnglesR(1,COUNT:COUNT+1),x(1:2),'--','LineWidth',2);
 end
-polarplot(tideAnglesRad,x2(1:2))
-polarscatter(tideAnglesRad,x2(1:2),'r')
+polarplot(tideAnglesR,x2(1:2))
+polarscatter(tideAnglesR,x2(1:2),'r')
 pax = gca;
 pax.ThetaZeroLocation = 'top';
 pax.ThetaDir = 'clockwise';
@@ -175,15 +144,15 @@ pax.ThetaDir = 'clockwise';
 pairing = [1 1 2 2 3 3 4 4 5 5 6 6];
 
 diff = [60 60 85.5 85.5 144.7 144.7 -6.6 -6.6 -0.2 -0.2 121.3 121.3]
-for COUNT = 1:2:length(AnglesRad)
+for COUNT = 1:2:length(AnglesR)
     nameit= sprintf('Pairing %d Angle vs Tidal Ellipses, Diff: %d',pairing(COUNT),round(diff(COUNT)))
     figure()
-    polarscatter(AnglesRad(1,COUNT),x(1),280,'X')
+    polarscatter(AnglesR(1,COUNT),x(1),280,'X')
     hold on
-    polarplot(AnglesRad(1,COUNT:COUNT+1),x(1:2),'-.');
-    polarscatter(AnglesRad(1,COUNT+1),x(1),250,'square','filled','k')
-    polarplot(tideAnglesRad,x2(1:2),'r')
-    polarscatter(tideAnglesRad,x2(1:2),250,'r','filled')
+    polarplot(AnglesR(1,COUNT:COUNT+1),x(1:2),'-.');
+    polarscatter(AnglesR(1,COUNT+1),x(1),250,'square','filled','k')
+    polarplot(tideAnglesR,x2(1:2),'r')
+    polarscatter(tideAnglesR,x2(1:2),250,'r','filled')
     pax = gca;
     pax.ThetaZeroLocation = 'top';
     pax.ThetaDir = 'clockwise';
@@ -207,7 +176,7 @@ title('Rotated Tides: Original, -33.4')
 %NOW need to figure out how to use these rotations and orientations
 %together. Let's experiment. REMEMBER ROT() is CCWise
 
-transRotations = deg2rad(AnglesDeg-thetaDegree);
+transRotations = deg2rad(AnglesD-thetaDegree);
 transRotationsDeg = rad2deg(transRotations)
 
 
@@ -215,6 +184,11 @@ transRotationsDeg = rad2deg(transRotations)
 for COUNT = 1:length(transRotations)
     [rotatedUTide(COUNT,:),rotatedVTide(COUNT,:)] = rot(ut,vt,transRotations(COUNT));
 end
+
+
+
+
+
 
 figure()
 plot(ut,vt)
@@ -236,11 +210,6 @@ xline(0)
 yline(0)
 
 
-
-
-figure()
-plot(rotatedUTide(5,:),rotatedVTide(5,:));
-axis equal
 
 
 
