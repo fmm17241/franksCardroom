@@ -191,6 +191,20 @@ for COUNT = 1:length(transRotations)
     [rotatedYOriginalX(COUNT,:),rotatedYOriginalY(COUNT,:)] = rot(yOriginal(1,:),yOriginal(2,:),transRotations(COUNT));
 end
 
+
+[rotate1 rotate2] = rot(xOriginal(1,:),xOriginal(2,:),tidalTheta);
+[rotate3 rotate4] = rot(yOriginal(1,:),yOriginal(2,:),tidalTheta);
+figure()
+plot(rotUtide,rotVtide)
+axis equal
+hold on
+scatter(rotate1,rotate2,'filled','r')
+plot(rotate1,rotate2,'k')
+scatter(rotate3,rotate4,'filled','k')
+plot(rotate3,rotate4,'k')
+title('Rotated Tides; Black = original Axes')
+
+
 figure()
 plot(rotatedXOriginalX(1,:),rotatedXOriginalY(1,:),'r')
 scatter(rotatedXOriginalX(1,:),rotatedXOriginalY(1,:),'filled','r')
@@ -200,8 +214,6 @@ plot(xOriginal(1,:),xOriginal(2,:))
 scatter(xOriginal(1,:),xOriginal(2,:),100,'filled','r')
 plot(yOriginal(1,:),yOriginal(2,:),'r')
 scatter(yOriginal(1,:),yOriginal(2,:),100,'filled','k')
-
-
 
 
 figure()
@@ -219,6 +231,11 @@ plot(yOriginal(1,:),yOriginal(2,:),'r')
 scatter(yOriginal(1,:),yOriginal(2,:),100,'filled','k')
 
 
+
+
+
+
+
 figure()
 plot(rotUtide,rotVtide)
 axis equal
@@ -227,6 +244,7 @@ xlabel('Cross')
 ylabel('Along')
 xline(0)
 yline(0)
+hold on
 
 
 

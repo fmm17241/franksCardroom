@@ -218,6 +218,24 @@ title('Should be -265d CCW')
 xline(0)
 yline(0)
 
+%%
+%Working on rotation the original axes as some points to truth my rotation
+transRotations = deg2rad(AnglesD-thetaDegree);
+transRotationsDeg = rad2deg(transRotations)
+
+%Create test vectors as 0/1
+yOriginal = [0 0; 0 0.35];
+xOriginal = [0 0.35;0 0];
+%%
+
+for COUNT = 1:length(transRotations)
+    [rotatedUTide(COUNT,:),rotatedVTide(COUNT,:)] = rot(ut,vt,transRotations(COUNT));
+    [rotated1(COUNT,:),rotated2(COUNT,:)] = rot(xOriginal(1,:),xOriginal(2,:),transRotations(COUNT));
+    [rotated3(COUNT,:),rotated4(COUNT,:)] = rot(yOriginal(1,:),yOriginal(2,:),transRotations(COUNT));
+end
+
+
+
 
 %%Combine in big tiled picture. You can do this!!!!
 for COUNT = 1:2:length(AnglesR)
@@ -257,6 +275,10 @@ for COUNT = 1:2:length(AnglesR)
     hold on
     scatter(rotatedTidesX(COUNT,15393),rotatedTidesY(COUNT,15393),'filled','r')
     scatter(rotatedTidesX(COUNT,15430),rotatedTidesY(COUNT,15430),'filled','k')
+    plot(rotated1(COUNT,:),rotated2(COUNT,:),'k')
+    plot(rotated3(COUNT,:),rotated4(COUNT,:),'k')
+    scatter(rotated1(COUNT,:),rotated2(COUNT,:),'r','filled')
+    scatter(rotated3(COUNT,:),rotated4(COUNT,:),'k','filled')
     xline(0)
     yline(0)
     title(sprintf('Should be %0.1f CCW',rotatorsD(1,COUNT)))
@@ -270,6 +292,10 @@ for COUNT = 1:2:length(AnglesR)
     xline(0)
     yline(0)
     title(sprintf('Should be %0.1f CCW',rotatorsD(1,COUNT+1)))
+    plot(rotated1(COUNT+1,:),rotated2(COUNT+1,:),'k')
+    plot(rotated3(COUNT+1,:),rotated4(COUNT+1,:),'k')
+    scatter(rotated1(COUNT+1,:),rotated2(COUNT+1,:),'r','filled')
+    scatter(rotated3(COUNT+1,:),rotated4(COUNT+1,:),'k','filled')
 end
 
 
