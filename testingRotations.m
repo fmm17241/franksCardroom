@@ -112,7 +112,7 @@ h = polarscatter(AnglesR,x,'filled','k')
 
 title('Transceiver Pairing, Full Array')
 hold on
-h = polarscatter(AnglesR(1,6),x(1),'filled','r')
+h = polarscatter(AnglesR(1,5),x(1),'filled','r')
 for COUNT = 1:2:length(AnglesR)
     polarplot(AnglesR(1,COUNT:COUNT+1),x(1:2),'--','LineWidth',2);
 end
