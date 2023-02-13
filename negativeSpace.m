@@ -1,8 +1,11 @@
-%Frank's attempt at rotating the currents to be parallel or perpendicular
-%to a transceiver pairing. In 2014, this was done purposefully so cross and
-%along shore are easy to separate; in 2020, it is much more challenging. So
-%instead of using the major axes of the ellipses, we can compare magnitude
-%in different directions to see if the relationship is clear.
+%Frank's first assault on the SW-positive-peoples. We do not do this
+%because it is easy, but because it is hard.
+%Objective: Cross-shore, off positive. Along-shore, NE positive.
+
+%BIG DIFFERENCE: CHANGING ALONG SHORE TO BE POSITIVE
+%NE.***********************************************************************************
+% *************************************
+% ***********************************************************************************
 
 %Transceiver pairings:
 %FRANK SWITCHED SO POSITIVE ALWAYS FIRST
@@ -69,9 +72,12 @@ uz = nanmean(adcp.u);
 vz = nanmean(adcp.v);
 xin = (uz+sqrt(-1)*vz);
 [struct, xout] = t_tide(xin,'interval',adcp.dth,'start time',adcp.dn(1),'latitude',adcp.lat);
-%Separate tidal output into vectors
+
+
+%Separate tides into vectors
 tideU = real(xout);
 tideV = imag(xout);
+
 
 %Sets timing
 datetide = [00,00,01,2020];
@@ -99,6 +105,8 @@ UVOrder    = [1,2,3,4,6,26];% Full tides for consideration
 tideDN=datenum(2020,1,01):0.5/24:datenum(2021,1,01);
 tideDT=datetime(tideDN,'ConvertFrom','datenum','TimeZone','UTC')';
 
+
+
 %Results: ut and vt are the tides for the timing tideDT
 %%
 
@@ -113,6 +121,21 @@ tidalTheta = coef(3);
 thetaDegree = rad2deg(tidalTheta);
 
 [rotUtide,rotVtide] = rot(ut,vt,tidalTheta);
+%*******************************************************************************************
+%Here is where I turn the rotated along-shore tide! NOW: Positive rotVtide
+%is NE, negative rotVtide is SW!!!
+rotVtide = -rotVtide;
+%********************************************************************************************
+
+figure()
+plot(rotUtide,rotVtide)
+axis equal
+
+figure()
+plot(rotUtide,-rotVtide)
+axis equal
+
+
 
 %%
 % Frank's second attempt: instead of creating that many sets of vectors, find and plot the angle on top of the tidal ellipses to
@@ -161,9 +184,8 @@ diff = [60 60 85.5 85.5 144.7 144.7 -6.6 -6.6 -0.2 -0.2 121.3 121.3]
 % end
 
 %NOW need to figure out how to use these rotations and orientations
-%together. Let's experiment. REMEMBER ROT() is CCWise, so adding negatives
-%to both angles to make it clockwise like our compass.
-
+%together. Let's experiment. REMEMBER ROT() is CCWise: these negative signs
+%make it clockwise like our compass.
 
 rotatorsR = -AnglesR;
 rotatorsD = -AnglesD;
@@ -172,6 +194,7 @@ rotatorsD = -AnglesD;
 for COUNT = 1:length(rotatorsR)
     [rotatedTidesX(COUNT,:) rotatedTidesY(COUNT,:)] = rot(ut,vt,rotatorsR(1,COUNT));
 end
+
 
 %Create test vectors as 0/1
 yOriginal = [0 0; 0 0.35];
