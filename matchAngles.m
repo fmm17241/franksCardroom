@@ -112,7 +112,7 @@ tidalz = [tideU;tideV].';
 tidalTheta = coef(3);
 thetaDegree = rad2deg(tidalTheta);
 
-[rotUtide,rotVtide] = rot(ut,vt,tidalTheta);
+% [rotUtide,rotVtide] = rot(ut,vt,tidalTheta);
 
 %%
 % Frank's second attempt: instead of creating that many sets of vectors, find and plot the angle on top of the tidal ellipses to
@@ -170,7 +170,7 @@ rotatorsD = -AnglesD;
 
 
 for COUNT = 1:length(rotatorsR)
-    [rotatedTidesX(COUNT,:) rotatedTidesY(COUNT,:)] = rot(ut,vt,rotatorsR(1,COUNT));
+    [rotUtide(COUNT,:) rotVtide(COUNT,:)] = rot(ut,vt,rotatorsR(1,COUNT));
 end
 
 %Create test vectors as 0/1
@@ -179,7 +179,7 @@ xOriginal = [0 0.35;0 0];
 
 
 for COUNT = 1:length(rotatorsR)
-    [rotatedUTide(COUNT,:),rotatedVTide(COUNT,:)] = rot(ut,vt,rotatorsR(COUNT));
+    [rotUTide(COUNT,:),rotVTide(COUNT,:)] = rot(ut,vt,rotatorsR(COUNT));
     [rotatedXOriginalX(COUNT,:),rotatedXOriginalY(COUNT,:)] = rot(xOriginal(1,:),xOriginal(2,:),rotatorsR(COUNT));
     [rotatedYOriginalX(COUNT,:),rotatedYOriginalY(COUNT,:)] = rot(yOriginal(1,:),yOriginal(2,:),rotatorsR(COUNT));
 end
@@ -248,11 +248,11 @@ for COUNT = 1:2:length(AnglesR)
     yline(0)
 
     nexttile
-    plot(rotatedTidesX(COUNT,:),rotatedTidesY(COUNT,:))
+    plot(rotUtide(COUNT,:),rotVtide(COUNT,:))
     axis equal
     hold on
-    scatter(rotatedTidesX(COUNT,15393),rotatedTidesY(COUNT,15393),'filled','r')
-    scatter(rotatedTidesX(COUNT,15430),rotatedTidesY(COUNT,15430),'filled','k')
+    scatter(rotUtide(COUNT,15393),rotVtide(COUNT,15393),'filled','r')
+    scatter(rotUtide(COUNT,15430),rotVtide(COUNT,15430),'filled','k')
     plot(rotated1(COUNT,:),rotated2(COUNT,:),'k')
     plot(rotated3(COUNT,:),rotated4(COUNT,:),'k')
     scatter(rotated1(COUNT,:),rotated2(COUNT,:),'r','filled')
@@ -262,11 +262,11 @@ for COUNT = 1:2:length(AnglesR)
     title(sprintf('Should be %0.1f CCW',rotatorsD(1,COUNT)))
     
     nexttile
-    plot(rotatedTidesX(COUNT+1,:),rotatedTidesY(COUNT+1,:))
+    plot(rotUtide(COUNT+1,:),rotVtide(COUNT+1,:))
     axis equal
     hold on
-    scatter(rotatedTidesX(COUNT+1,15393),rotatedTidesY(COUNT+1,15393),'filled','r')
-    scatter(rotatedTidesX(COUNT+1,15430),rotatedTidesY(COUNT+1,15430),'filled','k')
+    scatter(rotUtide(COUNT+1,15393),rotVtide(COUNT+1,15393),'filled','r')
+    scatter(rotUtide(COUNT+1,15430),rotVtide(COUNT+1,15430),'filled','k')
     xline(0)
     yline(0)
     title(sprintf('Should be %0.1f CCW',rotatorsD(1,COUNT+1)))
@@ -281,17 +281,21 @@ end
 %Okay, Frank has now changed the axes to be parallel and perpendicular with
 %acoustic transmissions. WHAT WILL HE DO WITH THIS NEW FOUND POWER???
 %
-figure()
-nexttile
-plot(tideDT,rotUtide)
-title('Cross-shore tide 2020')
-nexttile
-plot(tideDT,rotatedTidesX(1,:));
-title('First rotation, X')
-ylabel('Velocity')
-nexttile
-plot(tideDT,rotatedTidesY(1,:));
-title('First rotation, Y')
+
+% for COUNT = 1:length(rotatorsD)
+%     figure()
+%     nexttile
+%     plot(tideDT,rotUtide)
+%     title('Cross-shore tide 2020')
+%     nexttile
+%     plot(tideDT,rotUtide(COUNT,:));
+%     title(sprintf('%d rotation, X',COUNT))
+%     ylabel('Velocity')
+%     nexttile
+%     plot(tideDT,rotVtide(COUNT,:))
+%     title(sprintf('%d rotation, Y',COUNT))
+% end
+
 
 
 

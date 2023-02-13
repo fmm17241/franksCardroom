@@ -3,8 +3,10 @@
 
 %Tidal predictions, rotated to be along vs cross-shore. Uses tideDT,
 %rotUtide
-tidalAnalysis2020
-
+% tidalAnalysis2020
+%FRANK TEST: ADD ON angles
+matchAngles
+close all
 %Detections with one transceiver pair, ~0.53 km. Uses
 %hourlyDetections{X}.time/detections
 mooredEfficiency
