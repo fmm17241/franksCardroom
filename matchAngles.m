@@ -50,8 +50,8 @@ AnglesD(12) = atan2d((mooredGPS(11,2)-mooredGPS(12,2)),(mooredGPS(11,1)-mooredGP
 % PCA coefficients in tidalAnalysis scripts.
 tideAnglesD(1) = 326.6;
 tideAnglesD(2) = 146.6;
-
-
+tideAnglesD(3) = tideAnglesD(1)-90;
+tideAnglesD(4) = tideAnglesD(2)-90;
 AnglesR = deg2rad(AnglesD);
 tideAnglesR = deg2rad(tideAnglesD);
 
@@ -120,10 +120,11 @@ thetaDegree = rad2deg(tidalTheta);
 % more clearly show which way they're oriented; it got confusing when I started working with 12 different ellipses in addition to my original AND
 % rotated tides. 
 
+%Make values to polarplot with. Not pretty.
 x = ones(1,12);
 x = x+.5;
 x2 = x +1;
-
+x3 = x2 -.75;
 
 figure()
 h = polarscatter(AnglesR,x,'filled','k')
@@ -134,8 +135,8 @@ h = polarscatter(AnglesR(1,6),x(1),'filled','r')
 for COUNT = 1:2:length(AnglesR)
     polarplot(AnglesR(1,COUNT:COUNT+1),x(1:2),'--','LineWidth',2);
 end
-polarplot(tideAnglesR,x2(1:2))
-polarscatter(tideAnglesR,x2(1:2),'r')
+polarplot(tideAnglesR,x2(1:4))
+polarscatter(tideAnglesR,x2(1:4),'r')
 pax = gca;
 pax.ThetaZeroLocation = 'top';
 pax.ThetaDir = 'clockwise';
@@ -145,63 +146,61 @@ pax.ThetaDir = 'clockwise';
 pairing = [1 1 2 2 3 3 4 4 5 5 6 6];
 
 diff = [60 60 85.5 85.5 144.7 144.7 -6.6 -6.6 -0.2 -0.2 121.3 121.3]
-for COUNT = 1:2:length(AnglesR)
-    nameit= sprintf('Pairing %d Angle vs Tidal Ellipses, Diff: %d',pairing(COUNT),round(diff(COUNT)))
-    figure()
-    polarscatter(AnglesR(1,COUNT),x(1),280,'X')
-    hold on
-    polarplot(AnglesR(1,COUNT:COUNT+1),x(1:2),'-.');
-    polarscatter(AnglesR(1,COUNT+1),x(1),200,'square','filled','k')
-    polarplot(tideAnglesR,x2(1:2),'r')
-    polarscatter(tideAnglesR,x2(1:2),130,'r','filled')
-    pax = gca;
-    pax.ThetaZeroLocation = 'top';
-    pax.ThetaDir = 'clockwise';
-    title(nameit)
-end
-
-
-%From tidalAnalysis's PCA check, angle of principal rotation is 0.5825rad,
-%or 33.3748 degrees/0.5825 radians counterclockwise, (326.6252 clockwise?)
-
-figure()
-plot(ut,vt)
-axis equal
-title('Raw Prediction')
-
-figure()
-plot(rotUtide,rotVtide)
-axis equal
-title('Rotated Tides: Original, -33.4')
+% for COUNT = 1:2:length(AnglesR)
+%     nameit= sprintf('Pairing %d Angle vs Tidal Ellipses, Diff: %d',pairing(COUNT),round(diff(COUNT)))
+%     figure()
+%     polarscatter(AnglesR(1,COUNT),x(1),280,'X')
+%     hold on
+%     polarplot(AnglesR(1,COUNT:COUNT+1),x(1:2),'-.');
+%     polarscatter(AnglesR(1,COUNT+1),x(1),200,'square','filled','k')
+%     polarplot(tideAnglesR,x2(1:2),'r')
+%     polarscatter(tideAnglesR,x2(1:2),130,'r','filled')
+%     pax = gca;
+%     pax.ThetaZeroLocation = 'top';
+%     pax.ThetaDir = 'clockwise';
+%     title(nameit)
+% end
 
 %NOW need to figure out how to use these rotations and orientations
 %together. Let's experiment. REMEMBER ROT() is CCWise
 
-transRotations = deg2rad(AnglesD-thetaDegree);
-transRotationsDeg = rad2deg(transRotations)
+% transRotations = deg2rad(AnglesD-thetaDegree);
+% transRotationsDeg = rad2deg(transRotations)
+
+rotatorsR = -AnglesR;
+rotatorsD = -AnglesD;
+
+
+for COUNT = 1:length(rotatorsR)
+    [rotatedTidesX(COUNT,:) rotatedTidesY(COUNT,:)] = rot(ut,vt,rotatorsR(1,COUNT));
+end
 
 %Create test vectors as 0/1
 yOriginal = [0 0; 0 0.35];
 xOriginal = [0 0.35;0 0];
 
 
-for COUNT = 1:length(transRotations)
-    [rotatedUTide(COUNT,:),rotatedVTide(COUNT,:)] = rot(ut,vt,transRotations(COUNT));
-    [rotatedXOriginalX(COUNT,:),rotatedXOriginalY(COUNT,:)] = rot(xOriginal(1,:),xOriginal(2,:),transRotations(COUNT));
-    [rotatedYOriginalX(COUNT,:),rotatedYOriginalY(COUNT,:)] = rot(yOriginal(1,:),yOriginal(2,:),transRotations(COUNT));
+for COUNT = 1:length(rotatorsR)
+    [rotatedUTide(COUNT,:),rotatedVTide(COUNT,:)] = rot(ut,vt,rotatorsR(COUNT));
+    [rotatedXOriginalX(COUNT,:),rotatedXOriginalY(COUNT,:)] = rot(xOriginal(1,:),xOriginal(2,:),rotatorsR(COUNT));
+    [rotatedYOriginalX(COUNT,:),rotatedYOriginalY(COUNT,:)] = rot(yOriginal(1,:),yOriginal(2,:),rotatorsR(COUNT));
 end
 
 
-[rotate1 rotate2] = rot(xOriginal(1,:),xOriginal(2,:),tidalTheta);
-[rotate3 rotate4] = rot(yOriginal(1,:),yOriginal(2,:),tidalTheta);
+for COUNT = 1:length(rotatorsR)
+    [rotatedUTide(COUNT,:),rotatedVTide(COUNT,:)] = rot(ut,vt,rotatorsR(COUNT));
+    [rotated1(COUNT,:),rotated2(COUNT,:)] = rot(xOriginal(1,:),xOriginal(2,:),rotatorsR(COUNT));
+    [rotated3(COUNT,:),rotated4(COUNT,:)] = rot(yOriginal(1,:),yOriginal(2,:),rotatorsR(COUNT));
+end
+
 figure()
 plot(rotUtide,rotVtide)
 axis equal
 hold on
-scatter(rotate1,rotate2,'filled','r')
-plot(rotate1,rotate2,'k')
-scatter(rotate3,rotate4,'filled','k')
-plot(rotate3,rotate4,'k')
+scatter(rotated1,rotated2,'filled','r')
+plot(rotated1,rotated2,'k')
+scatter(rotated3,rotated4,'filled','k')
+plot(rotated3,rotated4,'k')
 title('Rotated Tides; Black = original Axes')
 
 
@@ -216,54 +215,68 @@ plot(yOriginal(1,:),yOriginal(2,:),'r')
 scatter(yOriginal(1,:),yOriginal(2,:),100,'filled','k')
 
 
-figure()
-plot(ut,vt)
-axis equal
-title('Tide Predicts, X/Y')
-xlabel('X')
-ylabel('Y')
-xline(0)
-yline(0)
-hold on
-plot(xOriginal(1,:),xOriginal(2,:))
-scatter(xOriginal(1,:),xOriginal(2,:),100,'filled','r')
-plot(yOriginal(1,:),yOriginal(2,:),'r')
-scatter(yOriginal(1,:),yOriginal(2,:),100,'filled','k')
 
 
-
-
-
-
-
-figure()
-plot(rotUtide,rotVtide)
-axis equal
-title('Tide Predicts,Cross/Along')
-xlabel('Cross')
-ylabel('Along')
-xline(0)
-yline(0)
-hold on
-
-
-
-
-
-%Use 2, 4, 6, 8, 9, 12 because these are in the positive directions. Still
-%have to make sure this rotation is correct, may be wrong direction.
-useThese = [2,4,6,8,9,12]
-for COUNT = 1:length(useThese)
+%%Combine in big tiled picture. You can do this!!!!
+for COUNT = 1:2:length(AnglesR)
+    nameit= sprintf('Pairing %d Angle vs Tidal Ellipses, Diff: %d',pairing(COUNT),round(diff(COUNT)))
     figure()
-    plot(tideDT,uTide(useThese(COUNT),:))
-    ylabel('UMagnitude')
-%     axis equal
-    nameit = sprintf('Pair %d, rotation %s',COUNT,transRotations(useThese(COUNT)))
+    set(gcf, 'Position',  [0, 0, 1000, 1000])
+
+
+    tiledlayout(2,2)
+    nexttile
+    polarscatter(AnglesR(1,COUNT),x(1),280,'X')
+    hold on
+    polarplot(AnglesR(1,COUNT:COUNT+1),x(1:2),'-.');
+    polarscatter(AnglesR(1,COUNT+1),x(1),200,'square','filled','k')
+    polarplot(tideAnglesR(1:2),x2(1:2),'r')
+    polarplot(tideAnglesR(3:4),x3(1:2),'r')
+    polarscatter(tideAnglesR(1:2),x2(1:2),130,'r','filled')
+    polarscatter(tideAnglesR(3:4),x3(1:2),'r','filled')
+    pax = gca;
+    pax.ThetaZeroLocation = 'top';
+    pax.ThetaDir = 'clockwise';
     title(nameit)
+    
+    nexttile
+    plot(ut,vt)
+    axis equal
+    hold on
+    scatter(ut(15393),vt(15393),'filled','r')
+    scatter(ut(15430),vt(15430),'filled','k')
+    title('OG')
+    xline(0)
+    yline(0)
+
+    nexttile
+    plot(rotatedTidesX(COUNT,:),rotatedTidesY(COUNT,:))
+    axis equal
+    hold on
+    scatter(rotatedTidesX(COUNT,15393),rotatedTidesY(COUNT,15393),'filled','r')
+    scatter(rotatedTidesX(COUNT,15430),rotatedTidesY(COUNT,15430),'filled','k')
+    plot(rotated1(COUNT,:),rotated2(COUNT,:),'k')
+    plot(rotated3(COUNT,:),rotated4(COUNT,:),'k')
+    scatter(rotated1(COUNT,:),rotated2(COUNT,:),'r','filled')
+    scatter(rotated3(COUNT,:),rotated4(COUNT,:),'k','filled')
+    xline(0)
+    yline(0)
+    title(sprintf('Should be %0.1f CCW',rotatorsD(1,COUNT)))
+    
+    nexttile
+    plot(rotatedTidesX(COUNT+1,:),rotatedTidesY(COUNT+1,:))
+    axis equal
+    hold on
+    scatter(rotatedTidesX(COUNT+1,15393),rotatedTidesY(COUNT+1,15393),'filled','r')
+    scatter(rotatedTidesX(COUNT+1,15430),rotatedTidesY(COUNT+1,15430),'filled','k')
+    xline(0)
+    yline(0)
+    title(sprintf('Should be %0.1f CCW',rotatorsD(1,COUNT+1)))
+    plot(rotated1(COUNT+1,:),rotated2(COUNT+1,:),'k')
+    plot(rotated3(COUNT+1,:),rotated4(COUNT+1,:),'k')
+    scatter(rotated1(COUNT+1,:),rotated2(COUNT+1,:),'r','filled')
+    scatter(rotated3(COUNT+1,:),rotated4(COUNT+1,:),'k','filled')
 end
-
-
-
 
 
 
