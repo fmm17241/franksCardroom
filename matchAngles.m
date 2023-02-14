@@ -48,12 +48,32 @@ AnglesD(12) = atan2d((mooredGPS(11,2)-mooredGPS(12,2)),(mooredGPS(11,1)-mooredGP
 
 %FMFMFMFM Adding in tidal ellipses angle, 2/8/23. These are found using
 % PCA coefficients in tidalAnalysis scripts.
-tideAnglesD(1) = 326.6;
-tideAnglesD(2) = 146.6;
+% tideAnglesD(1) = 326.6;
+% tideAnglesD(2) = 146.6;
+% tideAnglesD(3) = tideAnglesD(1)-90;
+% tideAnglesD(4) = tideAnglesD(2)-90;
+% AnglesR = deg2rad(AnglesD);
+% tideAnglesR = deg2rad(tideAnglesD);
+
+%testing real tidal angles to fix discrepancy
+%%FRANK TESTING: Adding +90 degrees to the angle measurements; this is so
+%%that, when I rotate my perspective, my X axis will be source to receiver.
+%%Let's try it, what do i have to lose.
+
+tideAnglesD(1) = 123.3773;
+tideAnglesD(2) = 303.3773;
 tideAnglesD(3) = tideAnglesD(1)-90;
 tideAnglesD(4) = tideAnglesD(2)-90;
-AnglesR = deg2rad(AnglesD);
+AnglesR = deg2rad(AnglesD-90);
 tideAnglesR = deg2rad(tideAnglesD);
+
+%% Original
+% tideAnglesD(1) = 123.3773;
+% tideAnglesD(2) = 303.3773;
+% tideAnglesD(3) = tideAnglesD(1)-90;
+% tideAnglesD(4) = tideAnglesD(2)-90;
+% AnglesR = deg2rad(AnglesD);
+% tideAnglesR = deg2rad(tideAnglesD);
 
 %%
 %Okay: How do I use that information?
@@ -134,7 +154,8 @@ h = polarscatter(AnglesR(1,6),x(1),'filled','r')
 for COUNT = 1:2:length(AnglesR)
     polarplot(AnglesR(1,COUNT:COUNT+1),x(1:2),'--','LineWidth',2);
 end
-polarplot(tideAnglesR,x2(1:4))
+polarplot(tideAnglesR(1:2),x2(1:2))
+polarplot(tideAnglesR(3:4),x2(3:4))
 polarscatter(tideAnglesR,x2(1:4),'r')
 pax = gca;
 pax.ThetaZeroLocation = 'top';
@@ -166,7 +187,7 @@ diff = [60 60 85.5 85.5 144.7 144.7 -6.6 -6.6 -0.2 -0.2 121.3 121.3]
 
 
 rotatorsR = -AnglesR;
-rotatorsD = -AnglesD;
+rotatorsD = rad2deg(rotatorsR);
 
 
 for COUNT = 1:length(rotatorsR)
@@ -217,7 +238,8 @@ scatter(yOriginal(1,:),yOriginal(2,:),100,'filled','k')
 
 %%Combine in big tiled picture. You can do this!!!!
 for COUNT = 1:2:length(AnglesR)
-    nameit= sprintf('Pairing %d Angle vs Tidal Ellipses, Diff: %d',pairing(COUNT),round(diff(COUNT)))
+    nameit= sprintf('Pairing %d Angle vs Tidal Ellipses',pairing(COUNT),))
+    
     figure()
     set(gcf, 'Position',  [0, 0, 1000, 1000])
 
@@ -253,10 +275,10 @@ for COUNT = 1:2:length(AnglesR)
     hold on
     scatter(rotUtide(COUNT,15393),rotVtide(COUNT,15393),'filled','r')
     scatter(rotUtide(COUNT,15430),rotVtide(COUNT,15430),'filled','k')
-    plot(rotated1(COUNT,:),rotated2(COUNT,:),'k')
-    plot(rotated3(COUNT,:),rotated4(COUNT,:),'k')
-    scatter(rotated1(COUNT,:),rotated2(COUNT,:),'r','filled')
-    scatter(rotated3(COUNT,:),rotated4(COUNT,:),'k','filled')
+%     plot(rotated1(COUNT,:),rotated2(COUNT,:),'k')
+%     plot(rotated3(COUNT,:),rotated4(COUNT,:),'k')
+%     scatter(rotated1(COUNT,:),rotated2(COUNT,:),'r','filled')
+%     scatter(rotated3(COUNT,:),rotated4(COUNT,:),'k','filled')
     xline(0)
     yline(0)
     title(sprintf('Should be %0.1f CCW',rotatorsD(1,COUNT)))
@@ -270,10 +292,10 @@ for COUNT = 1:2:length(AnglesR)
     xline(0)
     yline(0)
     title(sprintf('Should be %0.1f CCW',rotatorsD(1,COUNT+1)))
-    plot(rotated1(COUNT+1,:),rotated2(COUNT+1,:),'k')
-    plot(rotated3(COUNT+1,:),rotated4(COUNT+1,:),'k')
-    scatter(rotated1(COUNT+1,:),rotated2(COUNT+1,:),'r','filled')
-    scatter(rotated3(COUNT+1,:),rotated4(COUNT+1,:),'k','filled')
+%     plot(rotated1(COUNT+1,:),rotated2(COUNT+1,:),'k')
+%     plot(rotated3(COUNT+1,:),rotated4(COUNT+1,:),'k')
+%     scatter(rotated1(COUNT+1,:),rotated2(COUNT+1,:),'r','filled')
+%     scatter(rotated3(COUNT+1,:),rotated4(COUNT+1,:),'k','filled')
 end
 
 
