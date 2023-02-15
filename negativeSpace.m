@@ -78,6 +78,24 @@ xin = (uz+sqrt(-1)*vz);
 tideU = real(xout);
 tideV = imag(xout);
 
+figure()
+plot(tideU,tideV)
+hold on
+scatter(tideU(937),tideV(937),'filled','r')
+axis equal
+legend('Tide','Offshore')
+title('Tidal Ellipses')
+
+change = deg2rad(90)
+[testU testV] = rot(tideU,tideV,change);
+
+figure()
+plot(testU,testV)
+hold on
+scatter(testU(937),testV(937),'filled','r')
+axis equal
+
+
 
 %Sets timing
 datetide = [00,00,01,2020];

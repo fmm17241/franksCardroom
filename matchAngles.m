@@ -239,41 +239,34 @@ for COUNT = 1:2:length(AnglesR)
     
     nexttile
     plot(ut,vt)
-    axis equal
+
     hold on
     scatter(ut(15393),vt(15393),'filled','r')
     scatter(ut(15430),vt(15430),'filled','k')
     title('OG')
     xline(0)
     yline(0)
+    axis equal
 
     nexttile
     plot(rotUtide(COUNT,:),rotVtide(COUNT,:))
-    axis equal
     hold on
     scatter(rotUtide(COUNT,15393),rotVtide(COUNT,15393),'filled','r')
     scatter(rotUtide(COUNT,15430),rotVtide(COUNT,15430),'filled','k')
-    plot(rotated1(COUNT,:),rotated2(COUNT,:),'k')
-    plot(rotated3(COUNT,:),rotated4(COUNT,:),'k')
-    scatter(rotated1(COUNT,:),rotated2(COUNT,:),'r','filled')
-    scatter(rotated3(COUNT,:),rotated4(COUNT,:),'k','filled')
     xline(0)
     yline(0)
     title(sprintf('Should be %0.1f CCW',rotatorsD(1,COUNT)))
-    
+    axis equal
+
     nexttile
     plot(rotUtide(COUNT+1,:),rotVtide(COUNT+1,:))
-    axis equal
     hold on
     scatter(rotUtide(COUNT+1,15393),rotVtide(COUNT+1,15393),'filled','r')
     scatter(rotUtide(COUNT+1,15430),rotVtide(COUNT+1,15430),'filled','k')
     xline(0)
     yline(0)
     title(sprintf('Should be %0.1f CCW',rotatorsD(1,COUNT+1)))
-    plot(rotated1(COUNT+1,:),rotated2(COUNT+1,:),'k')
-    plot(rotated3(COUNT+1,:),rotated4(COUNT+1,:),'k')
-    scatter(rotated1(COUNT+1,:),rotated2(COUNT+1,:),'r','filled')
-    scatter(rotated3(COUNT+1,:),rotated4(COUNT+1,:),'k','filled')
+    axis equal
 end
 
 
