@@ -11,14 +11,11 @@
 % thetaHourly = YY-XX
 % closeNuff = thetaHourly < 5 & thetaHourly >-5
 
+matchAngles
+close all
+
+figure()
+plot(ut,vt)
+title('Original tides')
 
 
-
-
-
-
-
-
-orifice place flowrate
-
-4gal/min
