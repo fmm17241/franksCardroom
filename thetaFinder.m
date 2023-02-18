@@ -14,8 +14,36 @@
 matchAngles
 close all
 
+tideAnglesD(1) = 326.6;
+tideAnglesD(2) = 146.6;
+tideAnglesD(3) = tideAnglesD(1)-90;
+tideAnglesD(4) = tideAnglesD(2)-90;
+
+
 figure()
 plot(ut,vt)
 title('Original tides')
+
+
+hourlyAngle = atan2d(tideV,tideU);
+
+
+histogram(hourlyAngle)
+
+
+figure()
+plot(tideU,tideV)
+hold on
+scatter(tideU(50),tideV(50),'filled','r')
+scatter(tideU(55),tideV(55),'filled','k')
+axis equal
+
+
+
+
+
+
+thetaHourly = 
+
 
 
