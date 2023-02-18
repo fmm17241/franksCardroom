@@ -26,9 +26,8 @@ title('Original tides')
 
 
 hourlyAngle = atan2d(tideV,tideU);
+test = deg2rad(hourlyAngle)
 
-
-histogram(hourlyAngle)
 
 
 figure()
@@ -36,11 +35,24 @@ plot(tideU,tideV)
 hold on
 scatter(tideU(50),tideV(50),'filled','r')
 scatter(tideU(55),tideV(55),'filled','k')
+scatter(tideU(62),tideV(62),'filled','g')
 axis equal
 
 
 
+x = ones(1,12);
 
+figure()
+polarscatter(test(50),x(1),'filled','r')
+hold on
+polarscatter(test(55),x(1),'filled','k')
+polarscatter(test(62),x(1),'filled','g')
+
+
+
+pax = gca;
+pax.ThetaZeroLocation = 'top';
+pax.ThetaDir = 'clockwise';
 
 
 thetaHourly = 
