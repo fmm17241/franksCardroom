@@ -14,8 +14,8 @@
 matchAngles
 close all
 
-tideAnglesD(1) = 326.6;
-tideAnglesD(2) = 146.6;
+tideAnglesD(1) = 303.3761;
+tideAnglesD(2) = 123.3761;
 tideAnglesD(3) = tideAnglesD(1)-90;
 tideAnglesD(4) = tideAnglesD(2)-90;
 
