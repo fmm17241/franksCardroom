@@ -64,7 +64,7 @@ tideAnglesD(1) = 123.3773;
 tideAnglesD(2) = 303.3773;
 tideAnglesD(3) = tideAnglesD(1)-90;
 tideAnglesD(4) = tideAnglesD(2)-90;
-AnglesR = deg2rad(AnglesD-90);
+AnglesR = deg2rad(AnglesD);
 tideAnglesR = deg2rad(tideAnglesD);
 
 %% Original
@@ -238,7 +238,7 @@ scatter(yOriginal(1,:),yOriginal(2,:),100,'filled','k')
 
 %%Combine in big tiled picture. You can do this!!!!
 for COUNT = 1:2:length(AnglesR)
-    nameit= sprintf('Pairing %d Angle vs Tidal Ellipses',pairing(COUNT),))
+    nameit= sprintf('Pairing %d Angle vs Tidal Ellipses',pairing(COUNT))
     
     figure()
     set(gcf, 'Position',  [0, 0, 1000, 1000])
