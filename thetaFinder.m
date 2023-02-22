@@ -5,14 +5,12 @@
 % two will let us know when the tides are parallel or perpendicular to the
 % known transceiver angle (+/- a few degrees, TBD).
 
-
-%Idea: Tide is XX degrees, Transceivers are oriented forever at YY
-
-% thetaHourly = YY-XX
-% closeNuff = thetaHourly < 5 & thetaHourly >-5
-
+%rotUtide/rotVtide (1-12,:)
 matchAngles
 close all
+
+%Gives hourlyDetections {1-12}
+mooredEfficiency
 
 %%
 %Isolating when transceivers were deployed
@@ -98,7 +96,6 @@ end
 %% 
 %Frank's adding in detections for each transceiver pair, cause he's
 %fantastic at this. 
-mooredEfficiency
 
 for COUNT = 1:length(hourlyDetections)
     fullDetsIndex{COUNT} = isbetween(hourlyDetections{COUNT}.time,fullTime(1,1),fullTime(1,2),'closed');
