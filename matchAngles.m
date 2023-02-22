@@ -207,34 +207,23 @@ for COUNT = 1:length(rotatorsR)
     [rotatedXOriginalX(COUNT,:),rotatedXOriginalY(COUNT,:)] = rot(xOriginal(1,:),xOriginal(2,:),rotatorsR(COUNT));
     [rotatedYOriginalX(COUNT,:),rotatedYOriginalY(COUNT,:)] = rot(yOriginal(1,:),yOriginal(2,:),rotatorsR(COUNT));
 end
+% 
+% 
+% for COUNT = 1:length(rotatorsR)
+%     [rotatedUTide(COUNT,:),rotatedVTide(COUNT,:)] = rot(ut,vt,rotatorsR(COUNT));
+%     [rotated1(COUNT,:),rotated2(COUNT,:)] = rot(xOriginal(1,:),xOriginal(2,:),rotatorsR(COUNT));
+%     [rotated3(COUNT,:),rotated4(COUNT,:)] = rot(yOriginal(1,:),yOriginal(2,:),rotatorsR(COUNT));
+% end
 
-
-for COUNT = 1:length(rotatorsR)
-    [rotatedUTide(COUNT,:),rotatedVTide(COUNT,:)] = rot(ut,vt,rotatorsR(COUNT));
-    [rotated1(COUNT,:),rotated2(COUNT,:)] = rot(xOriginal(1,:),xOriginal(2,:),rotatorsR(COUNT));
-    [rotated3(COUNT,:),rotated4(COUNT,:)] = rot(yOriginal(1,:),yOriginal(2,:),rotatorsR(COUNT));
-end
-
-figure()
-plot(rotUtide,rotVtide)
-axis equal
-hold on
-scatter(rotated1,rotated2,'filled','r')
-plot(rotated1,rotated2,'k')
-scatter(rotated3,rotated4,'filled','k')
-plot(rotated3,rotated4,'k')
-title('Rotated Tides; Black = original Axes')
-
-
-figure()
-plot(rotatedXOriginalX(1,:),rotatedXOriginalY(1,:),'r')
-scatter(rotatedXOriginalX(1,:),rotatedXOriginalY(1,:),'filled','r')
-hold on
-scatter(rotatedYOriginalX(1,:),rotatedYOriginalY(1,:),'filled','g')
-plot(xOriginal(1,:),xOriginal(2,:))
-scatter(xOriginal(1,:),xOriginal(2,:),100,'filled','r')
-plot(yOriginal(1,:),yOriginal(2,:),'r')
-scatter(yOriginal(1,:),yOriginal(2,:),100,'filled','k')
+% figure()
+% plot(rotUtide,rotVtide)
+% axis equal
+% hold on
+% scatter(rotated1,rotated2,'filled','r')
+% plot(rotated1,rotated2,'k')
+% scatter(rotated3,rotated4,'filled','k')
+% plot(rotated3,rotated4,'k')
+% title('Rotated Tides; Black = original Axes')
 
 
 
