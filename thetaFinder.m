@@ -14,6 +14,20 @@
 matchAngles
 close all
 
+%%
+%Isolating when transceivers were deployed
+fullTime = [datetime(2020,01,29,17,00,00),datetime(2020,12,10,13,00,00)];
+fullTime.TimeZone = 'UTC';
+
+fullTideIndex = isbetween(tideDT,fullTime(1,1),fullTime(1,2),'closed');
+
+tideDT = tideDT(fullTideIndex);
+rotUtide = rotUtide(:,fullTideIndex);
+rotVtide = rotVtide(:,fullTideIndex);
+
+%%
+
+
 tideAnglesD(1) = 303.3761;
 tideAnglesD(2) = 123.3761;
 tideAnglesD(3) = tideAnglesD(1)-90;
@@ -47,11 +61,11 @@ for COUNT = 1:height(hourlyAngle)
 end
 
 
-figure()
-plot(tideDT,ut)
-hold on
-scatter(parallelDT{1},parallelU{1},'r','filled')
-scatter(perpendicularDT{1},perpendicularU{1})
+% figure()
+% plot(tideDT,ut)
+% hold on
+% scatter(parallelDT{1},parallelU{1},'r','filled')
+% scatter(perpendicularDT{1},perpendicularU{1})
 
 for COUNT = 1:length(parallelDT)
     nameit= sprintf('Pairing %d Parallel(R) and Perp.(G) to Tides',COUNT)
@@ -81,8 +95,22 @@ end
 %     title(nameit)
 % end
 
+%% 
+%Frank's adding in detections for each transceiver pair, cause he's
+%fantastic at this. 
+mooredEfficiency
 
+for COUNT = 1:length(hourlyDetections)
+    fullDetsIndex{COUNT} = isbetween(hourlyDetections{COUNT}.time,fullTime(1,1),fullTime(1,2),'closed');
+end
 
+clearvars detections time
+
+for COUNT = 1:length(fullDetsIndex)
+    detTimes{COUNT}   = [hourlyDetections{COUNT}.time(fullDetsIndex{COUNT})];
+    detections{COUNT} = [hourlyDetections{COUNT}.detections(fullDetsIndex{COUNT})];
+end
+%%
 
 
 

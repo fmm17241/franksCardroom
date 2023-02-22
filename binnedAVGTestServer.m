@@ -125,7 +125,7 @@ fullData.Properties.VariableNames = {'season', 'detsAlong','detsCross','dets45',
 
 
 
-clearvars -except fullData detections time bottom* receiverData
+clearvars -except fullData detections time bottom* receiverData fullTide*
 
 %%
 %Okay. Doable. Leggo.
@@ -256,7 +256,7 @@ xlabel('Windspeed, m/s')
 
 
 %%
-clearvars -except fullData
+clearvars -except fullData fullTide*
 
 seasons = unique(fullData.season)
 for k = 1:length(seasons)

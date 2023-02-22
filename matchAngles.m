@@ -203,7 +203,7 @@ xOriginal = [0 0.35;0 0];
 
 
 for COUNT = 1:length(rotatorsR)
-    [rotUTide(COUNT,:),rotVTide(COUNT,:)] = rot(ut,vt,rotatorsR(COUNT));
+%     [rotUTide(COUNT,:),rotVTide(COUNT,:)] = rot(ut,vt,rotatorsR(COUNT));
     [rotatedXOriginalX(COUNT,:),rotatedXOriginalY(COUNT,:)] = rot(xOriginal(1,:),xOriginal(2,:),rotatorsR(COUNT));
     [rotatedYOriginalX(COUNT,:),rotatedYOriginalY(COUNT,:)] = rot(yOriginal(1,:),yOriginal(2,:),rotatorsR(COUNT));
 end
