@@ -67,6 +67,7 @@ tideAnglesD(4) = tideAnglesD(2)-90;
 AnglesR = deg2rad(AnglesD);
 tideAnglesR = deg2rad(tideAnglesD);
 
+
 %% Original
 % tideAnglesD(1) = 123.3773;
 % tideAnglesD(2) = 303.3773;
@@ -185,8 +186,10 @@ diff = [60 60 85.5 85.5 144.7 144.7 -6.6 -6.6 -0.2 -0.2 121.3 121.3]
 %together. Let's experiment. REMEMBER ROT() is CCWise, so adding negatives
 %to both angles to make it clockwise like our compass.
 
-
-rotatorsR = -AnglesR;
+%%%%%%%% FM 2/22/23
+rotatorsR = deg2rad(90)+AnglesR;
+% rotatorsR = -AnglesR;
+%%%%%%%
 rotatorsD = rad2deg(rotatorsR);
 
 
@@ -243,7 +246,6 @@ for COUNT = 1:2:length(AnglesR)
     figure()
     set(gcf, 'Position',  [0, 0, 1000, 1000])
 
-
     tiledlayout(2,2)
     nexttile
     polarscatter(AnglesR(1,COUNT),x(1),280,'X')
@@ -261,17 +263,27 @@ for COUNT = 1:2:length(AnglesR)
     
     nexttile
     plot(ut,vt)
-    axis equal
     hold on
     scatter(ut(15393),vt(15393),'filled','r')
     scatter(ut(15430),vt(15430),'filled','k')
     title('OG')
     xline(0)
     yline(0)
+    axis equal
 
     nexttile
-    plot(rotUtide(COUNT,:),rotVtide(COUNT,:))
+    plot(rotUtide(COUNT+1,:),rotVtide(COUNT+1,:))
+    hold on
+    scatter(rotUtide(COUNT+1,15393),rotVtide(COUNT+1,15393),'filled','r')
+    scatter(rotUtide(COUNT+1,15430),rotVtide(COUNT+1,15430),'filled','k')
+    xline(0)
+    yline(0)
+%     title(sprintf('Should be %0.1f CCW',rotatorsD(1,COUNT+1)))
+    title('X Axis: Square to X +')
     axis equal
+    
+    nexttile
+    plot(rotUtide(COUNT,:),rotVtide(COUNT,:))
     hold on
     scatter(rotUtide(COUNT,15393),rotVtide(COUNT,15393),'filled','r')
     scatter(rotUtide(COUNT,15430),rotVtide(COUNT,15430),'filled','k')
@@ -281,21 +293,10 @@ for COUNT = 1:2:length(AnglesR)
 %     scatter(rotated3(COUNT,:),rotated4(COUNT,:),'k','filled')
     xline(0)
     yline(0)
-    title(sprintf('Should be %0.1f CCW',rotatorsD(1,COUNT)))
-    
-    nexttile
-    plot(rotUtide(COUNT+1,:),rotVtide(COUNT+1,:))
+%     title(sprintf('Should be %0.1f CCW',rotatorsD(1,COUNT)))
+    title('X Axis: X to Square +')
     axis equal
-    hold on
-    scatter(rotUtide(COUNT+1,15393),rotVtide(COUNT+1,15393),'filled','r')
-    scatter(rotUtide(COUNT+1,15430),rotVtide(COUNT+1,15430),'filled','k')
-    xline(0)
-    yline(0)
-    title(sprintf('Should be %0.1f CCW',rotatorsD(1,COUNT+1)))
-%     plot(rotated1(COUNT+1,:),rotated2(COUNT+1,:),'k')
-%     plot(rotated3(COUNT+1,:),rotated4(COUNT+1,:),'k')
-%     scatter(rotated1(COUNT+1,:),rotated2(COUNT+1,:),'r','filled')
-%     scatter(rotated3(COUNT+1,:),rotated4(COUNT+1,:),'k','filled')
+
 end
 
 
