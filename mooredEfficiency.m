@@ -76,29 +76,30 @@ index{1} = mooredReceivers{1,1}.detections == 63073; %SURTASSSTN20 hearing STSNe
 index{2} = mooredReceivers{5,1}.detections == 63062; %STSNew1 hearing SURTASSSTN20, transmits East to West
 
 %Second pairing
-index{3} = mooredReceivers{2,1}.detections == 63075; %SURTASS05In hearing FS6, transmits WSW
-index{4} = mooredReceivers{7,1}.detections == 63064; %FS6 hearing SURTASS05In, transmits ENE
+index{3} = mooredReceivers{7,1}.detections == 63064; %FS6 hearing SURTASS05In, transmits ENE
+index{4} = mooredReceivers{2,1}.detections == 63075; %SURTASS05In hearing FS6, transmits WSW
 
 %Third pairing
 index{5} = mooredReceivers{3,1}.detections == 63076; %Roldan hearing 08ALTIN, transmits South to North
 index{6} = mooredReceivers{8,1}.detections == 63066; %08ALTIN hearing Roldan, transmits North to South
 
 %Fourth pairing
-index{7} = mooredReceivers{2,1}.detections == 63074; % SURTASS05IN hearing STSNEW2, transmits SE to NW
-index{8} = mooredReceivers{6,1}.detections == 63064; % STSNEW2 hearing SURTASS05IN, transmits NW to SE
+index{7} = mooredReceivers{6,1}.detections == 63064; % STSNEW2 hearing SURTASS05IN, transmits NW to SE
+index{8} = mooredReceivers{2,1}.detections == 63074; % SURTASS05IN hearing STSNEW2, transmits SE to NW
 
 %Fifth pairing
-index{9} = mooredReceivers{10,1}.detections == 63064; % 39IN hearing SURTASS05IN, transmits SE to NW
-index{10} = mooredReceivers{2,1}.detections == 63081; % SURTASS05IN hearing 39IN, transmits NW to SE
+index{9} = mooredReceivers{2,1}.detections == 63081; % SURTASS05IN hearing 39IN, transmits NW to SE
+index{10} = mooredReceivers{10,1}.detections == 63064; % 39IN hearing SURTASS05IN, transmits SE to NW
 
 %Sixth Pairing
-index{11} = mooredReceivers{6,1}.detections == 63075; % STSNew2 hearing FS6, Along
-index{12} = mooredReceivers{7,1}.detections == 63074; % FS6 hearing STSNew2, Along, barely any
+index{11} = mooredReceivers{7,1}.detections == 63074; % FS6 hearing STSNew2, Along, barely any
+index{12} = mooredReceivers{6,1}.detections == 63075; % STSNew2 hearing FS6, Along
+
 
 %FM this is my "key" for the index. I didn't want to load data twice so
 %this key tells the loop which order to use
 % receiverOrder = [1;5;2;7;3;8;2;6;10;2;6;7];
-receiverOrder = [1;5;2;7;3;8;2;6;10;2;6;7];
+receiverOrder = [1;5;7;2;3;8;6;2;2;10;7;6];
 
 
 % %Making the visualizations more correct: instead of 06:00 representing
