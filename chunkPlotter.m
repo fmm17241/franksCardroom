@@ -31,9 +31,9 @@
 
 %This converts :00 to :30; when plotting, middle of the bin looks more
 %correct when visualizing the phases of the detections.
-for k = 1:length(hourlyDetections)
-    hourlyDetections{k}.time = hourlyDetections{k}.time + offset; 
-end
+% for k = 1:length(hourlyDetections)
+%     hourlyDetections{k}.time = hourlyDetections{k}.time + offset; 
+% end
 
 %%Set limits for our figures.
 % limitsTide  = [min(rotUtide) max(rotUtide)]; % Chosen to be abs(0.4).
@@ -45,7 +45,7 @@ axDN(1,1:4) = [0 0 -12 12];
 % axDN(1,1:4) = [0 0 -0.5 0.5]; For currents
 
 %Change this to one of the pairings listed above to save
-cd G:\Moored\tidalCycles\pairing1
+cd D:\Moored\tidalCycles\pairing1
 
 %These modify the mooredEfficiency transceiver pairings to use. 2 is the
 %one that has been most successful, but we want to analyze other pairings.

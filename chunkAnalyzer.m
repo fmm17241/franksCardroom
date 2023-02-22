@@ -114,7 +114,7 @@ for PT = 1:length(chunkTime)
 
     % Tides for time period
     indexTide = isbetween(tideDT,chunkTime{PT}(1),chunkTime{PT}(2));
-    cStructure{PT}.tides = timetable(tideDT(indexTide),rotUtide(indexTide)',rotVtide(indexTide)');
+    cStructure{PT}.tides = timetable(tideDT(indexTide),rotUtide(useThisTransceiver,indexTide)',rotVtide(useThisTransceiver,indexTide)');
     cStructure{PT}.tides = cStructure{PT}.tides(1:2:end,:);
     cStructure{PT}.tides.Properties.VariableNames = {'XShore','AlongShore'}';
     
@@ -125,10 +125,10 @@ for PT = 1:length(chunkTime)
      cStructure{PT}.winds.Properties.VariableNames = {'Uwinds','Vwinds','rotUwinds','rotVwinds','windSpd','windDir'};
      cStructure{PT}.winds.windSpd(isnan(cStructure{PT}.winds.windSpd)) = 0;
     
-    % Bulk Thermal stratification
-    indexStrat = isbetween(bottom{PT}.Time,chunkTime{PT}(1),chunkTime{PT}(2));
-    cStructure{PT}.strat = timetable(bottom{PT}.Time(indexStrat),stratification{PT}(indexStrat));
-    cStructure{PT}.strat.Properties.VariableNames = {'bulkTstrat'};
+%     % Bulk Thermal stratification
+%     indexStrat = isbetween(bottom{PT}.Time,chunkTime{PT}(1),chunkTime{PT}(2));
+%     cStructure{PT}.strat = timetable(bottom{PT}.Time(indexStrat),stratification{PT}(indexStrat));
+%     cStructure{PT}.strat.Properties.VariableNames = {'bulkTstrat'};
 
     %Noise
    
