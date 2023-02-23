@@ -113,15 +113,21 @@ end
 %Frank needs to use the indices above, perp and parallel, to compare the
 %two directions
 
-test1  = detections{1,10}(thetaIndex{1}(10,:));
-test2  = detections{1,10}(thetaIndex{2}(10,:));
+for COUNT = 1:10
+    parallel{COUNT}      = detections{1,COUNT}(thetaIndex{1}(COUNT,:));
+    perpendicular{COUNT} = detections{1,COUNT}(thetaIndex{2}(COUNT,:));
+    paraAverage{COUNT}   = mean(parallel{COUNT});
+    perpAverage{COUNT}   = mean(perpendicular{COUNT});
+    difference{COUNT}    = paraAverage{COUNT}-perpAverage{COUNT}
+end
 
-test3  = detections{1,12}(thetaIndex{1}(12,:));
-test4  = detections{1,12}(thetaIndex{2}(12,:));
 
-%Parallel
-para1 = mean(test1)
-para2 = mean(test3)
-%Perpendicular
-perp1 = mean(test2)
-perp2 = mean(test4)
+
+
+
+
+
+
+
+
+
