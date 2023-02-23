@@ -20,9 +20,11 @@ fullTime.TimeZone = 'UTC';
 fullTideIndex = isbetween(tideDT,fullTime(1,1),fullTime(1,2),'closed');
 
 tideDT = tideDT(fullTideIndex);
+tideDT = tideDT(:,1:2:end);
 rotUtide = rotUtide(:,fullTideIndex);
+rotUtide = rotUtide(:,1:2:end);
 rotVtide = rotVtide(:,fullTideIndex);
-
+rotVtide = rotVtide(:,1:2:end);
 %%
 
 
@@ -108,6 +110,18 @@ for COUNT = 1:length(fullDetsIndex)
     detections{COUNT} = [hourlyDetections{COUNT}.detections(fullDetsIndex{COUNT})];
 end
 %%
+%Frank needs to use the indices above, perp and parallel, to compare the
+%two directions
 
+test1  = detections{1,10}(thetaIndex{1}(10,:));
+test2  = detections{1,10}(thetaIndex{2}(10,:));
 
+test3  = detections{1,12}(thetaIndex{1}(12,:));
+test4  = detections{1,12}(thetaIndex{2}(12,:));
 
+%Parallel
+para1 = mean(test1)
+para2 = mean(test3)
+%Perpendicular
+perp1 = mean(test2)
+perp2 = mean(test4)
