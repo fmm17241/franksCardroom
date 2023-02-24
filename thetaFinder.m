@@ -120,8 +120,8 @@ for COUNT = 1:10
     perpendicular{COUNT} = detections{1,COUNT}(thetaIndex{2}(COUNT,:));
     paraAverage{COUNT}   = mean(parallel{COUNT});
     perpAverage{COUNT}   = mean(perpendicular{COUNT});
+    countDiff{COUNT}     = [length(parallel{COUNT}), length(perpendicular{COUNT})]
     difference{COUNT}    = paraAverage{COUNT}-perpAverage{COUNT}
-
 end
 
 
