@@ -41,12 +41,12 @@ tideAnglesD(4) = tideAnglesD(2)-90;
 hourlyAngle = atan2d(rotVtide,rotUtide);
 hourlyAngleR = deg2rad(hourlyAngle);
 
-
+%FM: Can change this number to change the length/width of the fan
 % Parallel:
-thetaIndex{1} = hourlyAngle > -10 & hourlyAngle < 10| hourlyAngle > 170 | hourlyAngle <-170;
+thetaIndex{1} = hourlyAngle > -5 & hourlyAngle < 5| hourlyAngle > 175 | hourlyAngle <-175;
 
 %Perpendicular:
-thetaIndex{2} = hourlyAngle < -80 & hourlyAngle > -100 | hourlyAngle > 80 & hourlyAngle < 100;
+thetaIndex{2} = hourlyAngle < -85 & hourlyAngle > -95 | hourlyAngle > 85 & hourlyAngle < 95;
 
 
 
