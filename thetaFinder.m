@@ -43,10 +43,10 @@ hourlyAngleR = deg2rad(hourlyAngle);
 
 %FM: Can change this number to change the length/width of the fan
 % Parallel:
-thetaIndex{1} = hourlyAngle > -3 & hourlyAngle < 3| hourlyAngle > 177 | hourlyAngle <-177;
+thetaIndex{1} = hourlyAngle > -10 & hourlyAngle < 10| hourlyAngle > 170 | hourlyAngle <-170;
 
 %Perpendicular:
-thetaIndex{2} = hourlyAngle < -87 & hourlyAngle > -93 | hourlyAngle > 87 & hourlyAngle < 93;
+thetaIndex{2} = hourlyAngle < -80 & hourlyAngle > -100 | hourlyAngle > 80 & hourlyAngle < 100;
 
 
 
