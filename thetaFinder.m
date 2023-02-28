@@ -78,23 +78,6 @@ for COUNT = 1:length(parallelDT)
     title(nameit)
 end
 
-
-%%
-%FM: Adding my bowties to main panel figures
-
-% figure()
-% 
-% for COUNT = 1:length(parallelDT)
-%     nameit= sprintf('Pairing %d Parallel(R) and Perp.(G) to Tides',COUNT)
-%     nexttile
-%     plot(rotUtide(COUNT,:),rotVtide(COUNT,:))
-%     hold on
-%     scatter(parallelU{COUNT},parallelV{COUNT},'r','filled')
-%     scatter(perpendicularU{COUNT},perpendicularV{COUNT},'g','filled')
-%     axis equal
-%     title(nameit)
-% end
-
 %% 
 %Frank's adding in detections for each transceiver pair, cause he's
 %fantastic at this. 
@@ -126,6 +109,153 @@ end
 
 
 
+%%
+Damnit Frank
+
+% for COUNT = 1:length(rotatorsD)
+%     figure()
+%     nexttile
+%     plot(tideDT,rotUtide)
+%     title('Cross-shore tide 2020')
+%     nexttile
+%     plot(tideDT,rotUtide(COUNT,:));
+%     title(sprintf('%d rotation, X',COUNT))
+%     ylabel('Velocity')
+%     nexttile
+%     plot(tideDT,rotVtide(COUNT,:))
+%     title(sprintf('%d rotation, Y',COUNT))
+% end
+close all
+%Detections with one transceiver pair, ~0.53 km. Uses
+%hourlyDetections{X}.time/detections
+mooredEfficiency
+
+%Thermal stratification between transceiver temperature measurements and
+%NOAA buoy SST measurements. Uses bottom.bottomTime, buoyStratification,
+%bottom.tilt, and leftovers (disconnected pings, measure of transmission
+%failure)
+sstAnalysis2020
+
+%Winds magnitude and direction from the buoy. Uses windsDN/U/V.
+windsAnalysis2020
+
+%TESTING: Detections on the wind rose for different seasons
+windsAverage(691:8445,3) = hourlyDetections{1,1};
+% %Astronomical
+% %Winter start to March 20th 1:11349 OR 691:1898
+% WindRose(windsAverage.WDIR(691:1898),windsAverage.Var3(691:1898),'AngleNorth',0,'AngleEast',90,'nDirections',5,'FreqLabelAngle','ruler');
+% title('Wind Rose, Winter');
+% %Spring March 20th to June 21st 11350:24715 OR 1899:4130
+% WindRose(windsAverage.WDIR(1899:4130),windsAverage.Var3(1899:4130),'AngleNorth',0,'AngleEast',90,'nDirections',5,'FreqLabelAngle','ruler');
+% title('Wind Rose, Spring');
+% %Summer June 21st to Sept 22nd 24716:37689 OR 4131:6362
+% WindRose(windsAverage.WDIR(4131:6362),windsAverage.Var3(4131:6362),'AngleNorth',0,'AngleEast',90,'nDirections',5,'FreqLabelAngle','ruler');
+% title('Wind Rose, Summer');
+% %Fall Sept 22nd to December 21st 37689:end OR 6363:8445
+% WindRose(windsAverage.WDIR(6363:8445),windsAverage.Var3(6363:8445),'AngleNorth',0,'AngleEast',90,'nDirections',5,'FreqLabelAngle','ruler');
+% title('Wind Rose, Fall');
+
+
+
+close all
+%% Aims to break up our time series into chunks of time.
+%Begins Jan 4th, 2020 11:30 UTC.
+% startCyclePre = tideDT(168)
+
+% FM CHANGE 8/4/2022 Wanted to start at midnight
+startCyclePre = tideDT(97);
+%THIS IS WHERE I SET MY CHUNKS! 2 days gives clear patterns and is visually
+%appealing, but can be changed for longer dataset analysis.
+% 
+% % Basic:
+% cycleDuration  = duration(days(2));
+
+%Changed:
+cycleDuration  = duration(days(4));
+
+
+%old
+% fixOffset = 0.5*cycleDuration;
+
+% startCycle = startCyclePre - fixOffset
+startCycle = startCyclePre
+
+cycleTime = startCycle;
+% for k = 1:181 %roughly a full year of 2 day chunks
+for k  = 1:95 % for 4 day chunks
+% for k = 1:35 %~30 day chunks
+% for k = 1:25     %15 day chunks
+% for k = 1:53 %weeks
+%    cycleTime(k+1) = cycleTime(k) + fixOffset;  Use this to put in :30
+%    offset here, but I've changed that.
+   cycleTime(k+1) = cycleTime(k) + cycleDuration;
+end
+
+
+
+
+%% 
+% Okay. I can plot the chunks with "chunkPlotter", now I need to correctly separate 
+% the times to compare them quantitatively.
+
+%I want to put my cycles back to hourly, less focused on visualization
+cycleTime2 = cycleTime;
+
+% for k = 1:length(hourlyDetections)
+%     hourlyDetections{k}.time = hourlyDetections{k}.time - offset; 
+% end
+% This little section is to make things hourly. Please refer to this if
+% anything gets messed up.
+
+
+%These modify the mooredEfficiency transceiver pairings to use. 2 is the
+%one that has been most successful, but we want to analyze other pairings.
+useThisTransceiver = 1;
+alsoUseThis        = 2;
+noiseDT = datetime(receiverData{1,1}.avgNoise(:,1),'convertfrom','datenum');
+noiseDT.TimeZone = 'UTC';
+
+chunkTime = cell(1,length(cycleTime2)-1);
+
+for P = 1:length(chunkTime)
+    currentChunk1 = cycleTime2(P);
+    currentChunk2 = cycleTime2(P+1);
+    chunkTime{P}  = [currentChunk1,currentChunk2];
+end
+%%
+%Currently this shows chunks of time and has the values for characteristics
+%at those times. Compared to detections, might tell us something.
+%Frank has to make tides ALSO a loop I guess?
+for PT = 1:length(chunkTime)
+    % Detections, chose transceivers above
+    indexDet = isbetween(hourlyDetections{useThisTransceiver}.time,...
+         chunkTime{PT}(1),chunkTime{PT}(2));
+    cStructure{PT}.detections = hourlyDetections{useThisTransceiver}(indexDet,:);
+
+    % Tides for time period
+    indexTide = isbetween(tideDT,chunkTime{PT}(1),chunkTime{PT}(2));
+    cStructure{PT}.tides = timetable(tideDT(indexTide),rotUtide(useThisTransceiver,indexTide)',rotVtide(useThisTransceiver,indexTide)');
+    cStructure{PT}.tides = cStructure{PT}.tides(1:2:end,:);
+    cStructure{PT}.tides.Properties.VariableNames = {'XShore','AlongShore'}';
+    
+    % Winds
+    indexWinds = isbetween(windsDT,chunkTime{PT}(1),chunkTime{PT}(2));
+    cStructure{PT}.winds = timetable(windsDT(indexWinds),windsU(indexWinds),windsV(indexWinds),rotUwinds(indexWinds),...
+        rotVwinds(indexWinds),windsAverage.WSPD(indexWinds),windsAverage.WDIR(indexWinds));
+     cStructure{PT}.winds.Properties.VariableNames = {'Uwinds','Vwinds','rotUwinds','rotVwinds','windSpd','windDir'};
+     cStructure{PT}.winds.windSpd(isnan(cStructure{PT}.winds.windSpd)) = 0;
+    
+%     % Bulk Thermal stratification
+%     indexStrat = isbetween(bottom{PT}.Time,chunkTime{PT}(1),chunkTime{PT}(2));
+%     cStructure{PT}.strat = timetable(bottom{PT}.Time(indexStrat),stratification{PT}(indexStrat));
+%     cStructure{PT}.strat.Properties.VariableNames = {'bulkTstrat'};
+
+    %Noise
+   
+    indexNoise = isbetween(noiseDT,chunkTime{PT}(1),chunkTime{PT}(2));
+    cStructure{PT}.noise = timetable(noiseDT(indexNoise),receiverData{1,1}.avgNoise(indexNoise,2));
+    cStructure{PT}.noise.Properties.VariableNames = {'noise'};
+end
 
 
 
