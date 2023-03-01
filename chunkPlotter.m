@@ -136,14 +136,14 @@ for COUNT = 1:2:length(receiverData)
     %     f.FaceAlpha = 0.15;
     %     g = fill([findersX(13) findersX(13) findersX(14) findersX(14)],findersY,[0 0 0]);
     %     g.FaceAlpha = 0.15;
-        nexttile([1 2])
-        plot(noiseDT{COUNT},receiverData{1,COUNT}.avgNoise(:,2));
-        ylabel('Ambient Noise');
-        ylim([500 900])
-        yline(650)
-        xlim(ax);
-        datetick('x','keeplimits');
-        title('Ambient Noise');
+%         nexttile([1 2])
+%         plot(noiseDT{COUNT},receiverData{1,COUNT}.avgNoise(:,2));
+%         ylabel('Ambient Noise');
+%         ylim([500 900])
+%         yline(650)
+%         xlim(ax);
+%         datetick('x','keeplimits');
+%         title('Ambient Noise');
         
         %     
         nexttile([1 2])

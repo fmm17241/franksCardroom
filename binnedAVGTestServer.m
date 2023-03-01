@@ -250,11 +250,6 @@ title('Normalized Detections, 2020 Transceiver Pairings')
 ylabel('Normalized Detections')
 xlabel('Windspeed, m/s')
 
-% figure()
-% scatter(x,wavesCompareX)
-
-
-
 %%
 clearvars -except fullData fullTide*
 

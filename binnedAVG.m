@@ -10,7 +10,7 @@ sunRun = [sunrise; sunset];
 %rotUtide
 tidalAnalysis2020
 
-mooredReceiverData2020
+% mooredReceiverData2020
 %Detections with one transceiver pair, ~0.53 km. Uses
 %hourlyDetections{X}.time/detections
 mooredEfficiency
@@ -21,7 +21,7 @@ mooredEfficiency
 %NOAA buoy SST measurements. Uses bottom.bottomTime, buoyStratification,
 %bottom.tilt, and leftovers (disconnected pings, measure of transmission
 %failure)
-
+mooredReceiverData2020
 
 %Winds magnitude and direction from the buoy. Uses windsDN/U/V.
 windsAnalysis2020
@@ -125,7 +125,7 @@ fullData.Properties.VariableNames = {'season', 'detsAlong','detsCross','dets45',
 
 
 
-clearvars -except fullData detections time bottom* receiverData
+clearvars -except fullData detections time bottom* receiverData fullTide*
 
 %%
 %Okay. Doable. Leggo.
@@ -250,13 +250,8 @@ title('Normalized Detections, 2020 Transceiver Pairings')
 ylabel('Normalized Detections')
 xlabel('Windspeed, m/s')
 
-% figure()
-% scatter(x,wavesCompareX)
-
-
-
 %%
-clearvars -except fullData
+clearvars -except fullData fullTide*
 
 seasons = unique(fullData.season)
 for k = 1:length(seasons)
