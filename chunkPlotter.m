@@ -49,6 +49,8 @@ cd D:\Moored\tidalCycles\pairing1
 
 %These modify the mooredEfficiency transceiver pairings to use. 2 is the
 %one that has been most successful, but we want to analyze other pairings.
+% Changing this to reflect that we will be using all transceiver's data in
+% a huge loop, not just 2 chosen ones.
 useThisTransceiver = 3;
 alsoUseThis         = 4;
 
