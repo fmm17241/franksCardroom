@@ -110,7 +110,6 @@ end
 
 
 %%
-Damnit Frank
 
 % for COUNT = 1:length(rotatorsD)
 %     figure()
@@ -128,7 +127,6 @@ Damnit Frank
 close all
 %Detections with one transceiver pair, ~0.53 km. Uses
 %hourlyDetections{X}.time/detections
-mooredEfficiency
 
 %Thermal stratification between transceiver temperature measurements and
 %NOAA buoy SST measurements. Uses bottom.bottomTime, buoyStratification,

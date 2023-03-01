@@ -40,7 +40,12 @@ data(ismember(data.Receiver,forbiddenReceivers),:)=[];
 
 %%
 dataDN = datenum(data.DateAndTime_UTC_);
-uniqueReceivers = unique(data.Receiver);
+% uniqueReceivers = unique(data.Receiver);
+%Frank edits the uniqueReceivers to be in the order he wants them. He is
+%all powerful; long may he reign.
+uniqueReceivers = [{'VR2Tx-483062'};{'VR2Tx-483073'};{'VR2Tx-483075'};{'VR2Tx-483064'};{'VR2Tx-483066'};...
+    {'VR2Tx-483076'};{'VR2Tx-483074'};{'VR2Tx-483064'};{'VR2Tx-483064'};{'VR2Tx-483081'};{'VR2Tx-483075'};{'VR2Tx-483074'}]
+
 for PT = 1:length(uniqueReceivers)
     clearvars tempIndex detectionIndex noiseIndex pingIndex tiltIndex
     tempIndex{PT,1}      = strcmp(data.Receiver,uniqueReceivers(PT)) & strcmp(data.Description,'Temperature');
@@ -75,20 +80,20 @@ end
 
 
 % clear detectionIndex PT noiseIndex pingIndex detectionIndex tempIndex forbiddenReceivers data dataDN bottomTime startTime
-
+%%
 %cutting seas down 
 for PT = 1:length(bottom)
     startTime = [datetime(2020,01,29,17,00,00,'TimeZone','UTC'); datetime(2020,12,10,13,00,00,'TimeZone','UTC')];
     stratIndex1 = isbetween(seas.time,startTime(1,1),startTime(2,1));
     stratIndex2 = isbetween(bottomTime{1,PT},startTime(1,1),startTime(2,1));
-    if PT == 9 | 10
-        continue
-    end
+%     if PT == 9 | 10
+%         continue
+%     end
     stratification{PT} = seas.SST(stratIndex1)-bottom{1,PT}.botTemp(stratIndex2);
     nullindex = stratification{1,PT} < .000000001;
     stratification{PT}(nullindex) = 0;
 end 
-
+%%
 % 
 % figure()
 % plot(bottom.bottomTime,buoyStratification);
