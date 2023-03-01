@@ -51,285 +51,176 @@ cd D:\Moored\tidalCycles\pairing1
 %one that has been most successful, but we want to analyze other pairings.
 % Changing this to reflect that we will be using all transceiver's data in
 % a huge loop, not just 2 chosen ones.
-useThisTransceiver = 3;
-alsoUseThis         = 4;
+
+%Frank has erased the need for these, long may he reign. 3/1/23
+% useThisTransceiver = 3;
+% alsoUseThis         = 4;
 
 
 %Turned shading off for 30 days, too distracting
-for k = 1:length(cycleTime)-1
-% for k = 145 %Way to make a specific plot that I need
-    %Creates axis for each part of the figure
-   ax = [cycleTime(k) cycleTime(k+1)];
-   axDN(1,1:2) = [datenum(ax(1)) datenum(ax(2))];
-
-%    %Attempting to automatically shade certain hours for diurnal differences
-   findersX(1) = ax(1) + duration(hours(12.5));
-   findersX(2) = ax(1) + duration(hours(23.5));
-   findersX(3) = findersX(1) + duration(hours(24));
-   findersX(4) = findersX(2) + duration(hours(24));
-   findersY    = [0 6 6 0];
-   
-   %add other findersX when doing 4 days instead of 2 to shade
-   findersX(5) = findersX(3) + duration(hours(24));
-   findersX(6) = findersX(4) + duration(hours(24));
-   findersX(7) = findersX(5) + duration(hours(24));
-   findersX(8) = findersX(6) + duration(hours(24));
-% 
-%    %Ugh, doing 7 for posterity
-%    findersX(9) = findersX(7) + duration(hours(24));
-%    findersX(10) = findersX(8) + duration(hours(24));
-%    findersX(11) = findersX(9) + duration(hours(24));
-%    findersX(12) = findersX(10) + duration(hours(24));
-%     
-%    findersX(13) = findersX(11) + duration(hours(24));
-%    findersX(14) = findersX(12) + duration(hours(24));
+for COUNT = 1:2:length(receiverData)
+    for k = 1:length(cycleTime)-1
+    % for k = 145 %Way to make a specific plot that I need
+        %Creates axis for each part of the figure
+       ax = [cycleTime(k) cycleTime(k+1)];
+       axDN(1,1:2) = [datenum(ax(1)) datenum(ax(2))];
     
-
-    ff = figure()
-    set(gcf, 'Position',  [30, 20, 1100, 950])
-    nexttile([1 2])
-    plot(hourlyDetections{useThisTransceiver}.time,hourlyDetections{useThisTransceiver}.detections,'k');
-    %     title('Detections, ~500 m, East to West, Transceiver Depth: 13.72 m');
-    title('Detections, hourly binned');
-    xlim(ax);
-    datetick('x','mmm,dd,yyyy','keeplimits');
-    ylabel('Hourly Detections');
-    ylim([0 6]);
-    hold on
-%     a = fill([findersX(1) findersX(1) findersX(2) findersX(2)],findersY,[0 0 0]);
-%     a.FaceAlpha = 0.15;
-%     b = fill([findersX(3) findersX(3) findersX(4) findersX(4)],findersY,[0 0 0]);
-%     b.FaceAlpha = 0.15;
-%     %Below adds shading for extra 2 days when showing 4 days instead of 2.
-%     c = fill([findersX(5) findersX(5) findersX(6) findersX(6)],findersY,[0 0 0]);
-%     c.FaceAlpha = 0.15;
-%     d = fill([findersX(7) findersX(7) findersX(8) findersX(8)],findersY,[0 0 0]);
-%     d.FaceAlpha = 0.15;
-    
-    
-    
-    nexttile([1 2])
-    plot(hourlyDetections{alsoUseThis}.time,hourlyDetections{alsoUseThis}.detections,'k');
-    %     title('Detections, ~500 m, East to West, Transceiver Depth: 13.72 m');
-    title('Detections, hourly binned');
-    xlim(ax);
-    datetick('x','mmm,dd,yyyy','keeplimits');
-    ylabel('Hourly Detections');
-    ylim([0 6]);
-    hold on
-%     a = fill([findersX(1) findersX(1) findersX(2) findersX(2)],findersY,[0 0 0]);
-%     a.FaceAlpha = 0.15;
-%     b = fill([findersX(3) findersX(3) findersX(4) findersX(4)],findersY,[0 0 0]);
-%     b.FaceAlpha = 0.15;
-%     %Below adds shading for extra 2 days when showing 4 days instead of 2.
-%     c = fill([findersX(5) findersX(5) findersX(6) findersX(6)],findersY,[0 0 0]);
-%     c.FaceAlpha = 0.15;
-%     d = fill([findersX(7) findersX(7) findersX(8) findersX(8)],findersY,[0 0 0]);
-%     d.FaceAlpha = 0.15;
-%     %MORE!!!
-%     e = fill([findersX(9) findersX(9) findersX(10) findersX(10)],findersY,[0 0 0]);
-%     e.FaceAlpha = 0.15;
-%     f = fill([findersX(11) findersX(11) findersX(12) findersX(12)],findersY,[0 0 0]);
-%     f.FaceAlpha = 0.15;
-%     g = fill([findersX(13) findersX(13) findersX(14) findersX(14)],findersY,[0 0 0]);
-%     g.FaceAlpha = 0.15;
-    nexttile([1 2])
-    plot(noiseDT,receiverData{1,1}.avgNoise(:,2));
-    ylabel('Ambient Noise');
-    ylim([500 900])
-    yline(650)
-    xlim(ax);
-    datetick('x','keeplimits');
-    title('Ambient Noise');
-    
+    %    %Attempting to automatically shade certain hours for diurnal differences
+%        findersX(1) = ax(1) + duration(hours(12.5));
+%        findersX(2) = ax(1) + duration(hours(23.5));
+%        findersX(3) = findersX(1) + duration(hours(24));
+%        findersX(4) = findersX(2) + duration(hours(24));
+%        findersY    = [0 6 6 0];
+%        
+%        %add other findersX when doing 4 days instead of 2 to shade
+%        findersX(5) = findersX(3) + duration(hours(24));
+%        findersX(6) = findersX(4) + duration(hours(24));
+%        findersX(7) = findersX(5) + duration(hours(24));
+%        findersX(8) = findersX(6) + duration(hours(24));
+    % 
+    %    %Ugh, doing 7 for posterity
+    %    findersX(9) = findersX(7) + duration(hours(24));
+    %    findersX(10) = findersX(8) + duration(hours(24));
+    %    findersX(11) = findersX(9) + duration(hours(24));
+    %    findersX(12) = findersX(10) + duration(hours(24));
     %     
-%     nexttile([1 2])
-%     plot(tideDT,rotUtide)
-%     title('Rotated Tidal Predictions, U');
-%     ylabel('Cross-Shore Velocity');
-%     xlim(ax);
-%     ylim([-0.5 0.5]);
-%     datetick('x','keeplimits');
-%     yline(0);
+    %    findersX(13) = findersX(11) + duration(hours(24));
+    %    findersX(14) = findersX(12) + duration(hours(24));
+        
     
+        ff = figure()
+        set(gcf, 'Position',  [30, 20, 800, 1100])
+        nexttile([1 2])
+        plot(hourlyDetections{COUNT}.time,hourlyDetections{COUNT}.detections,'k');
+        %     title('Detections, ~500 m, East to West, Transceiver Depth: 13.72 m');
+        title('Detections, hourly binned');
+        xlim(ax);
+        datetick('x','mmm,dd,yyyy','keeplimits');
+        ylabel('Hourly Detections');
+        ylim([0 6]);
+        hold on
+    %     a = fill([findersX(1) findersX(1) findersX(2) findersX(2)],findersY,[0 0 0]);
+    %     a.FaceAlpha = 0.15;
+    %     b = fill([findersX(3) findersX(3) findersX(4) findersX(4)],findersY,[0 0 0]);
+    %     b.FaceAlpha = 0.15;
+    %     %Below adds shading for extra 2 days when showing 4 days instead of 2.
+    %     c = fill([findersX(5) findersX(5) findersX(6) findersX(6)],findersY,[0 0 0]);
+    %     c.FaceAlpha = 0.15;
+    %     d = fill([findersX(7) findersX(7) findersX(8) findersX(8)],findersY,[0 0 0]);
+    %     d.FaceAlpha = 0.15;
+        
+        
+        
+        nexttile([1 2])
+        plot(hourlyDetections{COUNT+1}.time,hourlyDetections{COUNT+1}.detections,'k');
+        %     title('Detections, ~500 m, East to West, Transceiver Depth: 13.72 m');
+        title('Detections, hourly binned');
+        xlim(ax);
+        datetick('x','mmm,dd,yyyy','keeplimits');
+        ylabel('Hourly Detections');
+        ylim([0 6]);
+        hold on
+    %     a = fill([findersX(1) findersX(1) findersX(2) findersX(2)],findersY,[0 0 0]);
+    %     a.FaceAlpha = 0.15;
+    %     b = fill([findersX(3) findersX(3) findersX(4) findersX(4)],findersY,[0 0 0]);
+    %     b.FaceAlpha = 0.15;
+    %     %Below adds shading for extra 2 days when showing 4 days instead of 2.
+    %     c = fill([findersX(5) findersX(5) findersX(6) findersX(6)],findersY,[0 0 0]);
+    %     c.FaceAlpha = 0.15;
+    %     d = fill([findersX(7) findersX(7) findersX(8) findersX(8)],findersY,[0 0 0]);
+    %     d.FaceAlpha = 0.15;
+    %     %MORE!!!
+    %     e = fill([findersX(9) findersX(9) findersX(10) findersX(10)],findersY,[0 0 0]);
+    %     e.FaceAlpha = 0.15;
+    %     f = fill([findersX(11) findersX(11) findersX(12) findersX(12)],findersY,[0 0 0]);
+    %     f.FaceAlpha = 0.15;
+    %     g = fill([findersX(13) findersX(13) findersX(14) findersX(14)],findersY,[0 0 0]);
+    %     g.FaceAlpha = 0.15;
+        nexttile([1 2])
+        plot(noiseDT{COUNT},receiverData{1,COUNT}.avgNoise(:,2));
+        ylabel('Ambient Noise');
+        ylim([500 900])
+        yline(650)
+        xlim(ax);
+        datetick('x','keeplimits');
+        title('Ambient Noise');
+        
+        %     
+        nexttile([1 2])
+        plot(tideDT,rotUtide(COUNT,:))
+        title('Rotated Tides, Parallel');
+        ylabel('Parallel Velocity');
+        xlim(ax);
+        ylim([-0.3 0.3]);
+        datetick('x','keeplimits');
+        yline(0);
+        
+        nexttile([1 2])
+        plot(tideDT,rotVtide(COUNT,:))
+        title('Rotated Tides, Perpendicular');
+        ylabel('Pependicular Velocity');
+        xlim(ax);
+        ylim([-0.3 0.3]);
+        datetick('x','keeplimits');
+        yline(0);
+        
+        
+    %     nexttile([1 2])
+    %     plot(leftoversDT,leftovers)
+    %     title('Failed Pieces of Transmissions');
+    %     ylim([0 80])
+    %     xlim(ax)
+    %     datetick('x','keeplimits');
+        
     
+    %     hold on
+    %     a = fill([findersX(1) findersX(1) findersX(2) findersX(2)],findersY,[0 0 0]);
+    %     a.FaceAlpha = 0.15;
+    %     b = fill([findersX(3) findersX(3) findersX(4) findersX(4)],findersY,[0 0 0]);
+    %     b.FaceAlpha = 0.15;
     
-%     nexttile([1 2])
-%     plot(leftoversDT,leftovers)
-%     title('Failed Pieces of Transmissions');
-%     ylim([0 80])
-%     xlim(ax)
-%     datetick('x','keeplimits');
+    %     nexttile([1 2])
+    %     plot(bottom.bottomTime,bottom.Tilt,'r');
+    %     ylabel('Tilt Angle, °');
+    %     ylim([0 40]);
+    %     xlim(ax);
+    %     title('Transceiver Tilt, 1');
+    %     
+    %     nexttile ([1 2])
+    %     plot(receiverData{1,5}.tilt(:,1),receiverData{1,5}.tilt(:,2))
+    %     ylim([0 40])
+    %     xlim(datenum(ax));
+    %     datetick('x','keeplimits');
+    %     title('Transceiver Tilt, 2');
     
-
-%     hold on
-%     a = fill([findersX(1) findersX(1) findersX(2) findersX(2)],findersY,[0 0 0]);
-%     a.FaceAlpha = 0.15;
-%     b = fill([findersX(3) findersX(3) findersX(4) findersX(4)],findersY,[0 0 0]);
-%     b.FaceAlpha = 0.15;
-
-%     nexttile([1 2])
-%     plot(bottom.bottomTime,bottom.Tilt,'r');
-%     ylabel('Tilt Angle, °');
-%     ylim([0 40]);
-%     xlim(ax);
-%     title('Transceiver Tilt, 1');
-%     
-%     nexttile ([1 2])
-%     plot(receiverData{1,5}.tilt(:,1),receiverData{1,5}.tilt(:,2))
-%     ylim([0 40])
-%     xlim(datenum(ax));
-%     datetick('x','keeplimits');
-%     title('Transceiver Tilt, 2');
-
-    
-%     nexttile([1 2])
-%     plot(bottom.bottomTime,buoyStratification,'r');
-%     ylabel('Temp \Delta °C)');
-%     ylim(limitsStrat);
-%     xlim(ax);
-%     title('Bulk Stratification at Gray''s Reef, ~20m Depth');
-    nexttile([1 2])
-    stickplot(windsDN,windsU,windsV,axDN);
-    ylabel('Wind Velocity, m/s');
-    datetick('x','keeplimits');
-    title('Wind Velocities, Gray''s Reef Buoy');
-%     
-%     nexttile([1 2])
-%     plot(seas.time,seas.waveHeight);
-%     title('Wave Height, Gray''s Reef');
-%     ylabel('Wave height (m)');
-%     ylim(limitsHeight);
-%     xlim(ax);
-
+        
+    %     nexttile([1 2])
+    %     plot(bottom.bottomTime,buoyStratification,'r');
+    %     ylabel('Temp \Delta °C)');
+    %     ylim(limitsStrat);
+    %     xlim(ax);
+    %     title('Bulk Stratification at Gray''s Reef, ~20m Depth');
 %         nexttile([1 2])
-%     plot(bottom.bottomTime,bottom.Tilt,'r');
-%     ylabel('Tilt Angle, °');
-%     ylim([0 40]);
-%     xlim(ax);
-%     title('Transceiver Tilt from 90°, Straight up');
+%         stickplot(windsDN,windsU,windsV,axDN);
+%         ylabel('Wind Velocity, m/s');
+%         datetick('x','keeplimits');
+%         title('Wind Velocities, Gray''s Reef Buoy');
+    %     
+    %     nexttile([1 2])
+    %     plot(seas.time,seas.waveHeight);
+    %     title('Wave Height, Gray''s Reef');
+    %     ylabel('Wave height (m)');
+    %     ylim(limitsHeight);
+    %     xlim(ax);
     
-    exportgraphics(ff,sprintf('SpringNeap%d.png',k))
+    %         nexttile([1 2])
+    %     plot(bottom.bottomTime,bottom.Tilt,'r');
+    %     ylabel('Tilt Angle, °');
+    %     ylim([0 40]);
+    %     xlim(ax);
+    %     title('Transceiver Tilt from 90°, Straight up');
+%         
+        exportgraphics(ff,sprintf('saveIt%dand%d.png',COUNT,k))
+        close all
+    end
 end
-
-
-%Make similar graphs focusing on tilt of the transceiver
-% for k = 5:length(cycleTime)-1
-% for k = 145 %Way to make a specific plot that I need
-%     Creates axis for each part of the figure
-%    ax = [cycleTime(k) cycleTime(k+1)];
-%    axWinds(1,1:2) = [datenum(ax(1)) datenum(ax(2))];
-%    axTides(1,1:2) = [datenum(ax(1,1)) datenum(ax(1,2))];
-%    
-%    %Attempting to automatically shade certain hours for diurnal differences
-%    findersX(1) = ax(1) + duration(hours(12.5));
-%    findersX(2) = ax(1) + duration(hours(23.5));
-%    findersX(3) = findersX(1) + duration(hours(24));
-%    findersX(4) = findersX(2) + duration(hours(24));
-%    findersY    = [0 6 6 0];
-%    
-%    %add other findersX when doing 4 days instead of 2 to shade
-%    findersX(5) = findersX(3) + duration(hours(24));
-%    findersX(6) = findersX(4) + duration(hours(24));
-%    findersX(7) = findersX(5) + duration(hours(24));
-%    findersX(8) = findersX(6) + duration(hours(24));
-% 
-%     f = figure()
-%     set(gcf, 'Position',  [30, 20, 800, 950])
-%     nexttile([1 2])
-%     plot(hourlyDetections{useThisTransceiver}.time,hourlyDetections{useThisTransceiver}.detections,'k');
-%         title('Detections, ~500 m, East to West, Transceiver Depth: 13.72 m');
-%     title('Detections, hourly binned');
-%     xlim(ax);
-%     datetick('x','mmm,dd,yyyy','keeplimits');
-%     ylabel('Hourly Detections');
-%     ylim([0 6]);
-%     hold on
-%     a = fill([findersX(1) findersX(1) findersX(2) findersX(2)],findersY,[0 0 0]);
-%     a.FaceAlpha = 0.15;
-%     b = fill([findersX(3) findersX(3) findersX(4) findersX(4)],findersY,[0 0 0]);
-%     b.FaceAlpha = 0.15;
-%     %Below adds shading for extra 2 days when showing 4 days instead of 2.
-%     c = fill([findersX(5) findersX(5) findersX(6) findersX(6)],findersY,[0 0 0]);
-%     c.FaceAlpha = 0.15;
-%     d = fill([findersX(7) findersX(7) findersX(8) findersX(8)],findersY,[0 0 0]);
-%     d.FaceAlpha = 0.15;
-%     
-%     
-%     
-%     nexttile([1 2])
-%     plot(hourlyDetections{alsoUseThis}.time,hourlyDetections{alsoUseThis}.detections,'k');
-%         title('Detections, ~500 m, East to West, Transceiver Depth: 13.72 m');
-%     title('Detections, hourly binned');
-%     xlim(ax);
-%     datetick('x','mmm,dd,yyyy','keeplimits');
-%     ylabel('Hourly Detections');
-%     ylim([0 6]);
-%     hold on
-%     a = fill([findersX(1) findersX(1) findersX(2) findersX(2)],findersY,[0 0 0]);
-%     a.FaceAlpha = 0.15;
-%     b = fill([findersX(3) findersX(3) findersX(4) findersX(4)],findersY,[0 0 0]);
-%     b.FaceAlpha = 0.15;
-%     %Below adds shading for extra 2 days when showing 4 days instead of 2.
-%     c = fill([findersX(5) findersX(5) findersX(6) findersX(6)],findersY,[0 0 0]);
-%     c.FaceAlpha = 0.15;
-%     d = fill([findersX(7) findersX(7) findersX(8) findersX(8)],findersY,[0 0 0]);
-%     d.FaceAlpha = 0.15;
-%     
-%     nexttile([1 2])
-%     plot(tideDT,rotUtide)
-%     title('Rotated Tidal Predictions, U');
-%     ylabel('Cross-Shore Velocity');
-%     xlim(ax);
-%     ylim([-0.5 0.5]);
-%     datetick('x','keeplimits');
-%     yline(0);
-%     
-%     nexttile([1 2])
-%     stickplot(tideDN,ut,vt,axTides);
-%     ylabel('Tide Velocity, m/s');
-%     datetick('x','keeplimits');
-%     title('Tide Velocities, Gray''s Reef Buoy');
-%     
-%     nexttile([1 2])
-%     plot(bottom.bottomTime,bottom.Tilt,'r');
-%     ylabel('Tilt Angle, °');
-%     ylim([0 40]);
-%     xlim(ax);
-%     title('Transceiver Tilt from 90°, Straight up');
-%     nexttile([1 2])
-%     plot(receiverData{1,11}.tilt(:,1),receiverData{1,11}.tilt(:,2))
-%     ylim([0 40])
-%     xlim(datenum(ax));
-%     datetick('x','keeplimits');
-%     title('Tilt of moored transceiver 1');
-%     
-%     nexttile ([1 2])
-%     plot(receiverData{1,2}.tilt(:,1),receiverData{1,2}.tilt(:,2))
-%     ylim([0 40])
-%     xlim(datenum(ax));
-%     datetick('x','keeplimits');
-%     title('Tilt of moored transceiver 2');
-%     nexttile([1 2])
-%     plot(bottom.bottomTime,buoyStratification,'r');
-%     ylabel('Temp \Delta °C)');
-%     ylim(limitsStrat);
-%     xlim(ax);
-%     title('Bulk Stratification at Gray''s Reef, ~20m Depth');
-%     
-%     nexttile([1 2])
-%     plot(seas.time,seas.waveHeight);
-%     title('Wave Height, Gray''s Reef');
-%     ylabel('Wave height (m)');
-%     ylim(limitsHeight);
-%     xlim(ax);
-%     saveas(f,sprintf('SpringNeap%d.png',k))
-%     nexttile([1 2])
-%     stickplot(windsDN,windsU,windsV,axWinds);
-%     ylabel('Wind Velocity, m/s');
-%     datetick('x','keeplimits');
-%     title('Wind Velocities, Gray''s Reef Buoy');
-    
-%     exportgraphics(f,sprintf('SpringNeapTilt%d.png',k))
-% end
-

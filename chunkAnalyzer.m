@@ -93,8 +93,11 @@ cycleTime2 = cycleTime;
 %one that has been most successful, but we want to analyze other pairings.
 useThisTransceiver = 1;
 alsoUseThis        = 2;
-noiseDT = datetime(receiverData{1,1}.avgNoise(:,1),'convertfrom','datenum');
-noiseDT.TimeZone = 'UTC';
+
+for COUNT = 1:length(receiverData)
+    noiseDT{COUNT} = datetime(receiverData{1,COUNT}.avgNoise(:,1),'convertfrom','datenum');
+    noiseDT{COUNT}.TimeZone = 'UTC';
+end
 
 chunkTime = cell(1,length(cycleTime2)-1);
 
@@ -106,24 +109,25 @@ end
 %%
 %Currently this shows chunks of time and has the values for characteristics
 %at those times. Compared to detections, might tell us something.
+for COUNT = 1:length(receiverData)
 for PT = 1:length(chunkTime)
     % Detections, chose transceivers above
-    indexDet = isbetween(hourlyDetections{useThisTransceiver}.time,...
+    indexDet = isbetween(hourlyDetections{COUNT}.time,...
          chunkTime{PT}(1),chunkTime{PT}(2));
-    cStructure{PT}.detections = hourlyDetections{useThisTransceiver}(indexDet,:);
+    cStructure{COUNT}{PT}.detections = hourlyDetections{COUNT}(indexDet,:);
 
     % Tides for time period
     indexTide = isbetween(tideDT,chunkTime{PT}(1),chunkTime{PT}(2));
-    cStructure{PT}.tides = timetable(tideDT(indexTide),rotUtide(useThisTransceiver,indexTide)',rotVtide(useThisTransceiver,indexTide)');
-    cStructure{PT}.tides = cStructure{PT}.tides(1:2:end,:);
-    cStructure{PT}.tides.Properties.VariableNames = {'XShore','AlongShore'}';
+    cStructure{COUNT}{PT}.tides = timetable(tideDT(indexTide),rotUtide(COUNT,indexTide)',rotVtide(COUNT,indexTide)');
+    cStructure{COUNT}{PT}.tides = cStructure{COUNT}{PT}.tides(1:2:end,:);
+    cStructure{COUNT}{PT}.tides.Properties.VariableNames = {'XShore','AlongShore'}';
     
     % Winds
     indexWinds = isbetween(windsDT,chunkTime{PT}(1),chunkTime{PT}(2));
-    cStructure{PT}.winds = timetable(windsDT(indexWinds),windsU(indexWinds),windsV(indexWinds),rotUwinds(indexWinds),...
+    cStructure{COUNT}{PT}.winds = timetable(windsDT(indexWinds),windsU(indexWinds),windsV(indexWinds),rotUwinds(indexWinds),...
         rotVwinds(indexWinds),windsAverage.WSPD(indexWinds),windsAverage.WDIR(indexWinds));
-     cStructure{PT}.winds.Properties.VariableNames = {'Uwinds','Vwinds','rotUwinds','rotVwinds','windSpd','windDir'};
-     cStructure{PT}.winds.windSpd(isnan(cStructure{PT}.winds.windSpd)) = 0;
+     cStructure{COUNT}{PT}.winds.Properties.VariableNames = {'Uwinds','Vwinds','rotUwinds','rotVwinds','windSpd','windDir'};
+     cStructure{COUNT}{PT}.winds.windSpd(isnan(cStructure{COUNT}{PT}.winds.windSpd)) = 0;
     
 %     % Bulk Thermal stratification
 %     indexStrat = isbetween(bottom{PT}.Time,chunkTime{PT}(1),chunkTime{PT}(2));
@@ -132,10 +136,12 @@ for PT = 1:length(chunkTime)
 
     %Noise
    
-    indexNoise = isbetween(noiseDT,chunkTime{PT}(1),chunkTime{PT}(2));
-    cStructure{PT}.noise = timetable(noiseDT(indexNoise),receiverData{1,1}.avgNoise(indexNoise,2));
-    cStructure{PT}.noise.Properties.VariableNames = {'noise'};
+    indexNoise = isbetween(noiseDT{COUNT},chunkTime{PT}(1),chunkTime{PT}(2));
+    cStructure{COUNT}{PT}.noise = timetable(noiseDT{COUNT}(indexNoise),receiverData{1,COUNT}.avgNoise(indexNoise,2));
+    cStructure{COUNT}{PT}.noise.Properties.VariableNames = {'noise'};
 end
+end
+
 %%
 %%
 %This finds correlation each week between noise and detections
