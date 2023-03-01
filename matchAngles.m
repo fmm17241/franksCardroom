@@ -83,7 +83,7 @@ tideAnglesR = deg2rad(tideAnglesD);
 % pca, lets rotate the vectors by these values. That gives a parallel and
 % perpendicular current for each pairing.
 
-cd D:\Glider\Data\ADCP
+cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\ADCP'
 load GR_adcp_30minave_magrot.mat;
 % Cleaning data
 uz = nanmean(adcp.u);

@@ -45,7 +45,7 @@ axDN(1,1:4) = [0 0 -12 12];
 % axDN(1,1:4) = [0 0 -0.5 0.5]; For currents
 
 %Change this to one of the pairings listed above to save
-cd D:\Moored\tidalCycles\pairing1
+cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Moored\tidalCycles\pairing2'
 
 %These modify the mooredEfficiency transceiver pairings to use. 2 is the
 %one that has been most successful, but we want to analyze other pairings.

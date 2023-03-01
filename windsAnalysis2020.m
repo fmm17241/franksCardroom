@@ -1,4 +1,4 @@
-cd D:\WeatherData
+cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\WeatherData'
 %
 % winds2019 = readtable ('continuousWeatherData2019.csv'); %IN UTC!!!!!
 % winds2020 = readtable ('continuousWeatherData2020.csv'); %IN UTC!!!!!

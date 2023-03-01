@@ -20,7 +20,7 @@
 %gotta keep them straight. If I lose that numbering, all of this is for naught and I may join the circus.
 
 
-cd D:\Moored\GRNMS\VRLs
+cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Moored\GRNMS\VRLs'
 
 % call = readtable('VR2Tx_483080_20211223_1.csv'); %SURTASSSTN20
 rawDetFile{1,1} = readtable('VR2Tx_483062_20211112_1.csv'); %SURTASSSTN20
