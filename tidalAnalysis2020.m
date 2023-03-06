@@ -1,6 +1,7 @@
 % load the data
 % cd G:\Glider\Data\ADCP\
-cd D:\Glider\Data\ADCP
+% cd D:\Glider\Data\ADCP
+cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\ADCP'
 
 load GR_adcp_30minave_magrot.mat
 adcp

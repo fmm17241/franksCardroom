@@ -72,7 +72,7 @@ for PT = 1:length(uniqueReceivers)
     botIndex       = isbetween(bottomTime{PT},startTime(1,1),startTime(2,1));
     bottom{PT} = timetable(bottomTime{PT}(botIndex),receiverData{PT}.bottomTemp(botIndex,2),receiverData{PT}.hourlyDets(botIndex,2),receiverData{PT}.tilt(botIndex,2),receiverData{PT}.avgNoise(botIndex,2),receiverData{PT}.pings(botIndex,2));
     bottom{PT}.Properties.VariableNames = {'botTemp','Detections','Tilt','Noise','Pings'};
-    bottom{PT}.Tilt(bottom{PT}.Tilt>70) = 0;
+    bottom{PT}.Tilt(bottom{PT}.Tilt>90) = 0;
 end
 
 
