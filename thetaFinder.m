@@ -20,7 +20,7 @@ fullTime.TimeZone = 'UTC';
 fullTideIndex = isbetween(tideDT,fullTime(1,1),fullTime(1,2),'closed');
 
 tideDT = tideDT(fullTideIndex);
-tideDT = tideDT(:,1:2:end);
+tideDT = tideDT(1:2:end);
 rotUtide = rotUtide(:,fullTideIndex);
 rotUtide = rotUtide(:,1:2:end);
 rotVtide = rotVtide(:,fullTideIndex);
@@ -132,7 +132,7 @@ close all
 %NOAA buoy SST measurements. Uses bottom.bottomTime, buoyStratification,
 %bottom.tilt, and leftovers (disconnected pings, measure of transmission
 %failure)
-sstAnalysis2020
+bottomAnalysis2020
 
 %Winds magnitude and direction from the buoy. Uses windsDN/U/V.
 windsAnalysis2020
@@ -211,8 +211,10 @@ cycleTime2 = cycleTime;
 %I'm replacing this when I added the rotated tides
 % useThisTransceiver = 1;
 % alsoUseThis        = 2;
-noiseDT = datetime(receiverData{1,1}.avgNoise(:,1),'convertfrom','datenum');
-noiseDT.TimeZone = 'UTC';
+for COUNT = 1:length(mooredReceivers)   
+    bottomDT{COUNT} = datetime(receiverData{1,COUNT}.avgNoise(:,1),'convertfrom','datenum');
+    bottomDT{COUNT}.TimeZone = 'UTC';
+end
 
 chunkTime = cell(1,length(cycleTime2)-1);
 
@@ -225,9 +227,9 @@ end
 %Currently this shows chunks of time and has the values for characteristics
 %at those times. Compared to detections, might tell us something.
 %Frank has to make tides ALSO a loop I guess?
-Frank needs to fix "sstAnalysis2020" so I can bring each transceiver's noise and tilt data in.
+% Frank needs to fix "sstAnalysis2020" so I can bring each transceiver's noise and tilt data in.
 
-for COUNT = 1:2:height(rotUtide)
+for COUNT = 1:10
     for PT = 1:length(chunkTime)
         % Detections, chose transceivers above
         indexDet = isbetween(hourlyDetections{COUNT}.time,...
@@ -254,8 +256,8 @@ for COUNT = 1:2:height(rotUtide)
     
         %Noise
        
-        indexNoise = isbetween(noiseDT,chunkTime{PT}(1),chunkTime{PT}(2));
-        cStructure{COUNT}{PT}.noise = timetable(noiseDT(indexNoise),receiverData{1,1}.avgNoise(indexNoise,2));
+        indexNoise = isbetween(bottomDT{COUNT},chunkTime{PT}(1),chunkTime{PT}(2));
+        cStructure{COUNT}{PT}.noise = timetable(bottomDT{COUNT}(indexNoise),receiverData{1,COUNT}.avgNoise(indexNoise,2));
         cStructure{COUNT}{PT}.noise.Properties.VariableNames = {'noise'};
     end
 

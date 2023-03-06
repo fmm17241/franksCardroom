@@ -47,12 +47,12 @@ UVOrder    = [1,2,3,4,6,26];% Full tides for consideration
 
 %Below is the one I use. Commenting out to test
 [timePrediction,ut,vt] = uvpred(struct.tidecon(tTideOrder,1),struct.tidecon(tTideOrder,3),struct.tidecon(tTideOrder,7),...
-    struct.tidecon(tTideOrder,5),UVOrder,datetide,0.5,366);
+    struct.tidecon(tTideOrder,5),UVOrder,datetide,1,366);
 
 
 
 
-tideDN=datenum(2020,1,01):0.5/24:datenum(2021,1,01);
+tideDN=datenum(2020,1,01):1/24:datenum(2021,1,01);
 tideDT=datetime(tideDN,'ConvertFrom','datenum','TimeZone','UTC')';
 
 

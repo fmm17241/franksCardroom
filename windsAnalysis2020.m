@@ -36,9 +36,9 @@ windsDN = datenum(windsAverage.time);
 windsDT = datetime(windsDN,'ConvertFrom','datenum','TimeZone','UTC');
 
 [windsU, windsV] = ndbc2cart(WSPD,WDIR);
-scrange(windsDN)
-scrange(windsU)
-scrange(windsV)
+% scrange(windsDN)
+% scrange(windsU)
+% scrange(windsV)
 
 
 % ax = [737907.958333333 737920 -15 15];
