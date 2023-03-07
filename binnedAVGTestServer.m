@@ -199,7 +199,6 @@ for COUNT= 1:length(fullData)
         tideBinsPerpendicular{COUNT}{k}(15,:) = fullData{COUNT}.perpTide > .30 & fullData{COUNT}.perpTide < .35 & fullData{COUNT}.season ==k;
         tideBinsPerpendicular{COUNT}{k}(16,:) = fullData{COUNT}.perpTide > .35 & fullData{COUNT}.perpTide < .40 & fullData{COUNT}.season ==k;
         tideBinsPerpendicular{COUNT}{k}(17,:) = fullData{COUNT}.perpTide > .40 & fullData{COUNT}.season ==k;
-
     end
 end
 
@@ -225,7 +224,7 @@ for COUNT = 1:length(fullData)
 %             continue
 %         end
         moddedAveragePara{COUNT}{season}  = averageParaTide{COUNT}{season}/(max(averageParaTide{COUNT}{season}));
-        moddedAveragePerp{COUNT}{season}  = averageParaTide{COUNT}{season}/(max(averagePerpTide{COUNT}{season}));
+        moddedAveragePerp{COUNT}{season}  = averagePerpTide{COUNT}{season}/(max(averagePerpTide{COUNT}{season}));
     end
 end
 
@@ -243,6 +242,12 @@ for COUNT = 1:length(completePara)
     yearlyPerpAVG{COUNT} = mean(completePerp{COUNT},1)
 end
 
+
+
+%%
+%Now to plot visualization
+
+%Yearly plots
 x = -0.4:0.05:.4;
 figure()
 hold on
@@ -251,12 +256,18 @@ for COUNT = 1:length(yearlyParaAVG)
 end
 title('Parallel Currents')
 
+
 figure()
 hold on
 for COUNT = 1:length(yearlyPerpAVG)
     scatter(x,yearlyPerpAVG{COUNT},'filled')
 end
 title('Perpendicular Currents')
+
+%Seasonal Plots
+
+
+%Single Transceiver plots
 
 
 
