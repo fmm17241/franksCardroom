@@ -157,6 +157,7 @@ seasons = unique(fullData{1}.season)
 
 for COUNT= 1:length(fullData)
     for k = 1:length(seasons)
+        %Parallel: X-axis of our tides, aligned with transmissions
         tideBinsParallel{COUNT}{k}(1,:) = fullData{COUNT}.paraTide < -.4 & fullData{COUNT}.season ==k;
         tideBinsParallel{COUNT}{k}(2,:) =  fullData{COUNT}.paraTide > -.4 &  fullData{COUNT}.paraTide < -.35 & fullData{COUNT}.season ==k;
         tideBinsParallel{COUNT}{k}(3,:) =  fullData{COUNT}.paraTide > -.35 &  fullData{COUNT}.paraTide < -.30 & fullData{COUNT}.season ==k;
@@ -165,8 +166,9 @@ for COUNT= 1:length(fullData)
         tideBinsParallel{COUNT}{k}(6,:) =  fullData{COUNT}.paraTide > -.20 &  fullData{COUNT}.paraTide < -.15 & fullData{COUNT}.season ==k;
         tideBinsParallel{COUNT}{k}(7,:) =  fullData{COUNT}.paraTide > -.15 &  fullData{COUNT}.paraTide < -.10 & fullData{COUNT}.season ==k;
         tideBinsParallel{COUNT}{k}(8,:) =  fullData{COUNT}.paraTide > -.1 &  fullData{COUNT}.paraTide < -.05 & fullData{COUNT}.season ==k;
+
         tideBinsParallel{COUNT}{k}(9,:) =  fullData{COUNT}.paraTide > -.05 &  fullData{COUNT}.paraTide < 0.05 & fullData{COUNT}.season ==k;
-    %     tideBinsParallel{COUNT}{k}(10,:) = fullData{COUNT}.paraTide < .05 &  fullData{COUNT}.paraTide > 0 & fullData{COUNT}.season ==k;
+
         tideBinsParallel{COUNT}{k}(10,:) =  fullData{COUNT}.paraTide > .05 &  fullData{COUNT}.paraTide < .1 & fullData{COUNT}.season ==k;
         tideBinsParallel{COUNT}{k}(11,:) =  fullData{COUNT}.paraTide > .1 &  fullData{COUNT}.paraTide < .15 & fullData{COUNT}.season ==k;
         tideBinsParallel{COUNT}{k}(12,:) =  fullData{COUNT}.paraTide > .15 & fullData{COUNT}.paraTide < .2 & fullData{COUNT}.season ==k;
@@ -176,7 +178,7 @@ for COUNT= 1:length(fullData)
         tideBinsParallel{COUNT}{k}(16,:) =  fullData{COUNT}.paraTide > .35 &  fullData{COUNT}.paraTide < .4 & fullData{COUNT}.season ==k;
         tideBinsParallel{COUNT}{k}(17,:) =  fullData{COUNT}.paraTide > .4 & fullData{COUNT}.season ==k;
     
-    %Alongshore
+    %Perpendicular: Y-axis of our tides, perpendicular to transmissions
         tideBinsPerpendicular{COUNT}{k}(1,:) = fullData{COUNT}.perpTide < -.4  & fullData{COUNT}.season ==k;
         tideBinsPerpendicular{COUNT}{k}(2,:) = fullData{COUNT}.perpTide > -.4 & fullData{COUNT}.perpTide < -.35 & fullData{COUNT}.season ==k;
         tideBinsPerpendicular{COUNT}{k}(3,:) = fullData{COUNT}.perpTide > -.35 & fullData{COUNT}.perpTide < -.30 & fullData{COUNT}.season ==k;
@@ -185,12 +187,12 @@ for COUNT= 1:length(fullData)
         tideBinsPerpendicular{COUNT}{k}(6,:) = fullData{COUNT}.perpTide > -.20 & fullData{COUNT}.perpTide < -.15 & fullData{COUNT}.season ==k;
         tideBinsPerpendicular{COUNT}{k}(7,:) = fullData{COUNT}.perpTide > -.15 & fullData{COUNT}.perpTide < -.10 & fullData{COUNT}.season ==k;
         tideBinsPerpendicular{COUNT}{k}(8,:) = fullData{COUNT}.perpTide > -.10 & fullData{COUNT}.perpTide < -.05 & fullData{COUNT}.season ==k;
+
         tideBinsPerpendicular{COUNT}{k}(9,:) = fullData{COUNT}.perpTide > -.05 & fullData{COUNT}.perpTide < 0.05 & fullData{COUNT}.season ==k;
+
         tideBinsPerpendicular{COUNT}{k}(10,:) = fullData{COUNT}.perpTide > 0.05 & fullData{COUNT}.perpTide < .10 & fullData{COUNT}.season ==k;
         tideBinsPerpendicular{COUNT}{k}(11,:) = fullData{COUNT}.perpTide > 0.10 & fullData{COUNT}.perpTide < 0.15 & fullData{COUNT}.season ==k;
-    
         tideBinsPerpendicular{COUNT}{k}(12,:) = fullData{COUNT}.perpTide > .15 & fullData{COUNT}.perpTide < .20 & fullData{COUNT}.season ==k;
-        
         tideBinsPerpendicular{COUNT}{k}(13,:) = fullData{COUNT}.perpTide > .20 & fullData{COUNT}.perpTide < .25 & fullData{COUNT}.season ==k;
         tideBinsPerpendicular{COUNT}{k}(14,:) = fullData{COUNT}.perpTide > .25 & fullData{COUNT}.perpTide < .30 & fullData{COUNT}.season ==k;
         tideBinsPerpendicular{COUNT}{k}(15,:) = fullData{COUNT}.perpTide > .30 & fullData{COUNT}.perpTide < .35 & fullData{COUNT}.season ==k;
