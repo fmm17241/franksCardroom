@@ -210,19 +210,20 @@ for COUNT = 1:length(fullData)
         for k = 1:height(tideBinsParallel{COUNT}{season})
             tideScenarioPara{COUNT}{season}{k}= fullData{COUNT}(tideBinsParallel{COUNT}{season}(k,:),:);
             tideScenarioPerp{COUNT}{season}{k}= fullData{COUNT}(tideBinsPerpendicular{COUNT}{season}(k,:),:);
-            if isempty(tideScenarioPerp{COUNT}{season}{1,k}) == 1
-                averageParaTide{COUNT}{season}(1,k) = 0;
-                averagePerpTide{COUNT}{season}(1,k) = 0;
-                continue
-            end
             averageParaTide{COUNT}{season}(1,k) = mean(tideScenarioPara{COUNT}{season}{1,k}.detections);
             averagePerpTide{COUNT}{season}(1,k) = mean(tideScenarioPerp{COUNT}{season}{1,k}.detections);
+            if isnan(averageParaTide{COUNT}{season}(1,k))
+                averageParaTide{COUNT}{season}(1,k) = 0;
+            end
+            if isnan(averagePerpTide{COUNT}{season}(1,k))
+                averagePerpTide{COUNT}{season}(1,k) = 0;
+            end
         end
-        if isempty(averageParaTide{COUNT}{season}) ==1
-            moddedAveragePara{COUNT}{season}  = 0;
-            moddedAveragePerp{COUNT}{season}  = 0;
-            continue
-        end
+%         if isempty(averageParaTide{COUNT}{season}) ==1
+%             moddedAveragePara{COUNT}{season}  = 0;
+%             moddedAveragePerp{COUNT}{season}  = 0;
+%             continue
+%         end
         moddedAveragePara{COUNT}{season}  = averageParaTide{COUNT}{season}/(max(averageParaTide{COUNT}{season}));
         moddedAveragePerp{COUNT}{season}  = averageParaTide{COUNT}{season}/(max(averagePerpTide{COUNT}{season}));
     end
@@ -233,13 +234,30 @@ for COUNT = 1:length(moddedAveragePara)
     for season = 1:length(seasons)
         completePara{COUNT}(season,:) = moddedAveragePara{COUNT}{season};
         completePerp{COUNT}(season,:) = moddedAveragePerp{COUNT}{season};
-        
     end
 end
 
 %Whole year
-completeParaAVG = nanmean(completePara,1)
-completePerpAVG = nanmean(completePerp,1)
+for COUNT = 1:length(completePara)
+    yearlyParaAVG{COUNT} = mean(completePara{COUNT},1)
+    yearlyPerpAVG{COUNT} = mean(completePerp{COUNT},1)
+end
+
+x = -0.4:0.05:.4;
+figure()
+hold on
+for COUNT = 1:length(yearlyParaAVG)
+    scatter(x,yearlyParaAVG{COUNT},'filled')
+end
+title('Parallel Currents')
+
+figure()
+hold on
+for COUNT = 1:length(yearlyPerpAVG)
+    scatter(x,yearlyPerpAVG{COUNT},'filled')
+end
+title('Perpendicular Currents')
+
 
 
 seasonName = {'Winter','Spring','Summer','Fall','Mariner''s Fall'}
