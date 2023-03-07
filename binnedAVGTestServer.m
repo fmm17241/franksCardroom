@@ -28,6 +28,7 @@ mooredEfficiency
 %bottom{}
 mooredReceiverData2020
 
+
 %Winds magnitude and direction from the buoy. Uses windsDN/U/V.
 windsAnalysis2020
 %12/22 added "waveHeight" for waveheight.
@@ -170,17 +171,17 @@ for COUNT= 1:length(fullData)
         tideBinsParallel{COUNT}{k}(9,:) =  fullData{COUNT}.paraTide > -.05 &  fullData{COUNT}.paraTide < 0.05 & fullData{COUNT}.season ==k;
 
         tideBinsParallel{COUNT}{k}(10,:) =  fullData{COUNT}.paraTide > .05 &  fullData{COUNT}.paraTide < .1 & fullData{COUNT}.season ==k;
-        tideBinsParallel{COUNT}{k}(11,:) =  fullData{COUNT}.paraTide > .1 &  fullData{COUNT}.paraTide < .15 & fullData{COUNT}.season ==k;
+        tideBinsParallel{COUNT}{k}(11,:) =  fullData{COUNT}.paraTide > .10 &  fullData{COUNT}.paraTide < .15 & fullData{COUNT}.season ==k;
         tideBinsParallel{COUNT}{k}(12,:) =  fullData{COUNT}.paraTide > .15 & fullData{COUNT}.paraTide < .2 & fullData{COUNT}.season ==k;
-        tideBinsParallel{COUNT}{k}(13,:) =  fullData{COUNT}.paraTide > .2 &  fullData{COUNT}.paraTide < .25 & fullData{COUNT}.season ==k;
-        tideBinsParallel{COUNT}{k}(14,:) =  fullData{COUNT}.paraTide > .25&  fullData{COUNT}.paraTide < .3 & fullData{COUNT}.season ==k;
-        tideBinsParallel{COUNT}{k}(15,:) =  fullData{COUNT}.paraTide > .3 &  fullData{COUNT}.paraTide < .35 & fullData{COUNT}.season ==k;
+        tideBinsParallel{COUNT}{k}(13,:) =  fullData{COUNT}.paraTide > .20 &  fullData{COUNT}.paraTide < .25 & fullData{COUNT}.season ==k;
+        tideBinsParallel{COUNT}{k}(14,:) =  fullData{COUNT}.paraTide > .25 &  fullData{COUNT}.paraTide < .3 & fullData{COUNT}.season ==k;
+        tideBinsParallel{COUNT}{k}(15,:) =  fullData{COUNT}.paraTide > .30 &  fullData{COUNT}.paraTide < .35 & fullData{COUNT}.season ==k;
         tideBinsParallel{COUNT}{k}(16,:) =  fullData{COUNT}.paraTide > .35 &  fullData{COUNT}.paraTide < .4 & fullData{COUNT}.season ==k;
-        tideBinsParallel{COUNT}{k}(17,:) =  fullData{COUNT}.paraTide > .4 & fullData{COUNT}.season ==k;
+        tideBinsParallel{COUNT}{k}(17,:) =  fullData{COUNT}.paraTide > .40 & fullData{COUNT}.season ==k;
     
     %Perpendicular: Y-axis of our tides, perpendicular to transmissions
-        tideBinsPerpendicular{COUNT}{k}(1,:) = fullData{COUNT}.perpTide < -.4  & fullData{COUNT}.season ==k;
-        tideBinsPerpendicular{COUNT}{k}(2,:) = fullData{COUNT}.perpTide > -.4 & fullData{COUNT}.perpTide < -.35 & fullData{COUNT}.season ==k;
+        tideBinsPerpendicular{COUNT}{k}(1,:) = fullData{COUNT}.perpTide < -.40  & fullData{COUNT}.season ==k;
+        tideBinsPerpendicular{COUNT}{k}(2,:) = fullData{COUNT}.perpTide > -.40 & fullData{COUNT}.perpTide < -.35 & fullData{COUNT}.season ==k;
         tideBinsPerpendicular{COUNT}{k}(3,:) = fullData{COUNT}.perpTide > -.35 & fullData{COUNT}.perpTide < -.30 & fullData{COUNT}.season ==k;
         tideBinsPerpendicular{COUNT}{k}(4,:) = fullData{COUNT}.perpTide > -.30 & fullData{COUNT}.perpTide < -.25 & fullData{COUNT}.season ==k;
         tideBinsPerpendicular{COUNT}{k}(5,:) = fullData{COUNT}.perpTide > -.25 & fullData{COUNT}.perpTide < -.20 & fullData{COUNT}.season ==k;
@@ -190,8 +191,8 @@ for COUNT= 1:length(fullData)
 
         tideBinsPerpendicular{COUNT}{k}(9,:) = fullData{COUNT}.perpTide > -.05 & fullData{COUNT}.perpTide < 0.05 & fullData{COUNT}.season ==k;
 
-        tideBinsPerpendicular{COUNT}{k}(10,:) = fullData{COUNT}.perpTide > 0.05 & fullData{COUNT}.perpTide < .10 & fullData{COUNT}.season ==k;
-        tideBinsPerpendicular{COUNT}{k}(11,:) = fullData{COUNT}.perpTide > 0.10 & fullData{COUNT}.perpTide < 0.15 & fullData{COUNT}.season ==k;
+        tideBinsPerpendicular{COUNT}{k}(10,:) = fullData{COUNT}.perpTide > .05 & fullData{COUNT}.perpTide < .10 & fullData{COUNT}.season ==k;
+        tideBinsPerpendicular{COUNT}{k}(11,:) = fullData{COUNT}.perpTide > .10 & fullData{COUNT}.perpTide < 0.15 & fullData{COUNT}.season ==k;
         tideBinsPerpendicular{COUNT}{k}(12,:) = fullData{COUNT}.perpTide > .15 & fullData{COUNT}.perpTide < .20 & fullData{COUNT}.season ==k;
         tideBinsPerpendicular{COUNT}{k}(13,:) = fullData{COUNT}.perpTide > .20 & fullData{COUNT}.perpTide < .25 & fullData{COUNT}.season ==k;
         tideBinsPerpendicular{COUNT}{k}(14,:) = fullData{COUNT}.perpTide > .25 & fullData{COUNT}.perpTide < .30 & fullData{COUNT}.season ==k;
@@ -210,10 +211,17 @@ for COUNT = 1:length(fullData)
             tideScenarioPara{COUNT}{season}{k}= fullData{COUNT}(tideBinsParallel{COUNT}{season}(k,:),:);
             tideScenarioPerp{COUNT}{season}{k}= fullData{COUNT}(tideBinsPerpendicular{COUNT}{season}(k,:),:);
             if isempty(tideScenarioPerp{COUNT}{season}{1,k}) == 1
+                averageParaTide{COUNT}{season}(1,k) = 0;
+                averagePerpTide{COUNT}{season}(1,k) = 0;
                 continue
             end
-            averageParaTide{COUNT}{season}(1,k) = mean(tideScenarioPara{COUNT}{season}{1,k}.paraTide);
-            averagePerpTide{COUNT}{season}(1,k) = mean(tideScenarioPerp{COUNT}{season}{1,k}.perpTide);
+            averageParaTide{COUNT}{season}(1,k) = mean(tideScenarioPara{COUNT}{season}{1,k}.detections);
+            averagePerpTide{COUNT}{season}(1,k) = mean(tideScenarioPerp{COUNT}{season}{1,k}.detections);
+        end
+        if isempty(averageParaTide{COUNT}{season}) ==1
+            moddedAveragePara{COUNT}{season}  = 0;
+            moddedAveragePerp{COUNT}{season}  = 0;
+            continue
         end
         moddedAveragePara{COUNT}{season}  = averageParaTide{COUNT}{season}/(max(averageParaTide{COUNT}{season}));
         moddedAveragePerp{COUNT}{season}  = averageParaTide{COUNT}{season}/(max(averagePerpTide{COUNT}{season}));
@@ -221,29 +229,17 @@ for COUNT = 1:length(fullData)
 end
 
 
-for COUNT = 1:length(moddedAverageXX)
-% for COUNT = 4:5
-    completeAA(COUNT,:) = moddedAverageAA{COUNT};
-    completeAX(COUNT,:) = moddedAverageAX{COUNT};
-    completeA45(COUNT,:) = moddedAverageA45{COUNT};
-    completeXA(COUNT,:) = moddedAverageXA{COUNT};
-    completeXX(COUNT,:) = moddedAverageXX{COUNT};
-    completeX45(COUNT,:) = moddedAverageX45{COUNT};
+for COUNT = 1:length(moddedAveragePara)
+    for season = 1:length(seasons)
+        completePara{COUNT}(season,:) = moddedAveragePara{COUNT}{season};
+        completePerp{COUNT}(season,:) = moddedAveragePerp{COUNT}{season};
+        
+    end
 end
 
 %Whole year
-completeAAavg = nanmean(completeAA,1)
-completeAXavg = nanmean(completeAX,1)
-completeA45avg = nanmean(completeA45,1)
-completeXAavg = nanmean(completeXA,1)
-completeXXavg = nanmean(completeXX,1)
-completeX45avg = nanmean(completeX45,1)
-%Below is for only fall:
-% completeAAavg = nanmean(completeAA(4:5,:),1)
-% completeAXavg = nanmean(completeAX(4:5,:),1)
-% completeXAavg = nanmean(completeXA(4:5,:),1)
-% completeXXavg = nanmean(completeXX(4:5,:),1)
-
+completeParaAVG = nanmean(completePara,1)
+completePerpAVG = nanmean(completePerp,1)
 
 
 seasonName = {'Winter','Spring','Summer','Fall','Mariner''s Fall'}
