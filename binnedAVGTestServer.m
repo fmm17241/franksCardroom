@@ -248,23 +248,77 @@ end
 %Now to plot visualization
 
 cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\exportedFigures'
-%Yearly plots
 x = -0.4:0.05:.4;
+
+%Yearly plots
 figure()
 hold on
 for COUNT = 1:length(yearlyParaAVG)
     scatter(x,yearlyParaAVG{COUNT},'filled')
 end
-title('Parallel Currents')
-exportgraphics(gcf,'yearlyPara.png','Resolution',300)
+ylabel('Normalized Det. Efficiency')
+xlabel('Parallel Current Velocity (m/s)')
+title('Parallel Currents vs 10 Transmission Directions')
+% exportgraphics(gcf,'yearlyPara.png','Resolution',300)
 
 figure()
 hold on
 for COUNT = 1:length(yearlyPerpAVG)
     scatter(x,yearlyPerpAVG{COUNT},'filled')
 end
-title('Perpendicular Currents')
-exportgraphics(gcf,'yearlyPerp.png','Resolution',300)
+ylabel('Normalized Det. Efficiency')
+xlabel('Perpendicular Current Velocity (m/s)')
+title('Perpendicular Currents vs 10 Transmission Directions')
+% exportgraphics(gcf,'yearlyPerp.png','Resolution',300)
+  
+%All on one graph
+figure()
+set(gcf, 'Position', get(0, 'Screensize'));
+tiledlayout(10,5,'TileSpacing','Compact','Padding','Compact');)
+for COUNT = 1:length(yearlyPerpAVG)
+
+    for season = 1:length(seasons)
+        nexttile()
+        scatter(x,moddedAveragePara{COUNT}{season},'filled')
+        nameit = sprintf('Parallel %d, %d',COUNT,season);
+        title(nameit)
+    end
+    exportgraphics(gcf,sprintf('Transceiver%dParaSeasonal2.png',COUNT),'Resolution',300)
+end
+
+% All seasons for each pairing
+figure()
+set(gcf, 'Position', get(0, 'Screensize'));
+tiledlayout(5,2,'TileSpacing','Compact','Padding','Compact')
+for COUNT = 1:length(yearlyPerpAVG)
+    nexttile()
+    hold on
+
+    for season = 1:length(seasons)
+        scatter(x,moddedAveragePara{COUNT}{season},'filled')
+    end
+    nameit = sprintf('Parallel %d, %d',COUNT,season);
+    title(nameit)
+    hold off
+    exportgraphics(gcf,sprintf('Transceiver%dParaSeasonal2.png',COUNT),'Resolution',300)
+end
+
+figure()
+set(gcf, 'Position', get(0, 'Screensize'));
+tiledlayout(5,2,'TileSpacing','Compact','Padding','Compact')
+for COUNT = 1:length(yearlyPerpAVG)
+    nexttile()
+    hold on
+
+    for season = 1:length(seasons)
+        scatter(x,moddedAveragePerp{COUNT}{season},'filled')
+    end
+    nameit = sprintf('Perpendicular %d, %d',COUNT,season);
+    title(nameit)
+    hold off
+    exportgraphics(gcf,sprintf('Transceiver%dPerpSeasonal2.png',COUNT),'Resolution',300)
+end
+
 
 
 
@@ -295,6 +349,38 @@ for COUNT = 1:length(moddedAveragePerp)
     legend('Winter','Spring','Summer','Fall','Mariners Fall')
     exportgraphics(gcf,sprintf('Transceiver%dPerpSeasonal.png',COUNT),'Resolution',300)
 end
+
+seasonName = [{'Winter','Spring','Summer','Fall','Mariner''s Fall','Fall'}]
+%%
+%All seasons together
+for season = 1:length(seasons)
+    figure()
+    hold on
+    for COUNT = 1:length(moddedAveragePara)
+        scatter(x,moddedAveragePara{COUNT}{season},'filled')
+    end
+    nameit = sprintf('Parallel %s',seasonName{season});
+    title(nameit)
+    ylabel('Normalized Det. Efficiency')
+    xlabel('Current Velocity (m/s)')
+%     legend('Winter','Spring','Summer','Fall','Mariners Fall')
+%     exportgraphics(gcf,sprintf('Transceiver%dParaSeasonal.png',COUNT),'Resolution',300)
+end
+for season = 1:length(seasons)
+    figure()
+    hold on
+    for COUNT = 1:length(moddedAveragePerp)
+        scatter(x,moddedAveragePerp{COUNT}{season},'filled')
+    end
+    nameit = sprintf('Perpendicular %s',seasonName{season});
+    title(nameit)
+    ylabel('Normalized Det. Efficiency')
+    xlabel('Current Velocity (m/s)')
+%     exportgraphics(gcf,sprintf('Transceiver%dPerpSeasonal.png',COUNT),'Resolution',300)
+end
+
+
+%%
 
 %Single Transceiver/season Plots
 for COUNT = 1:length(moddedAveragePara)
