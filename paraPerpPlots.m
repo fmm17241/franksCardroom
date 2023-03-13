@@ -265,6 +265,31 @@ for COUNT = 1:length(moddedAveragePerp)
     exportgraphics(gcf,sprintf('Trans%dPerpendicular.png',COUNT),'Resolution',300)
 end
 
+%%
+%Frank has deemed it necessary to add absolute values SO IT IS WRITTEN
+%SO SHALL IT BE DONE. IN HIS NAME.
+
+cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\exportedFigures'
+x = 0:0.05:.4;
+seasonName = [{'Winter','Spring','Summer','Fall','Mariner''s Fall','Fall'}]
+
+for COUNT = 1:length(moddedAveragePerpABS)
+    f = figure;
+    f.Position = [100 100 450 800];
+    tiledlayout(5,1,'TileSpacing','Compact','Padding','Compact')
+    for season = 1:length(seasons)
+        nexttile()
+        scatter(x,moddedAverageParaABS{COUNT}{season},'r','filled')
+        hold on
+        scatter(x,moddedAveragePerpABS{COUNT}{season},'k','filled')
+        nameit = sprintf('bothABS %d, %s',COUNT,seasonName{season});
+        title(nameit)
+    end
+    ylabel('Normalized Det. Efficiency')
+    xlabel('Current Magnitude (m/s)')
+    exportgraphics(gcf,sprintf('Trans%dABS.png',COUNT),'Resolution',300)
+end
+
 
 
 
@@ -415,43 +440,4 @@ end
 % title('Normalized Detections, 2020 Transceiver Pairings')
 % ylabel('Normalized Detections')
 % xlabel('Windspeed, m/s')
-% 
-% %%
-% % seasons = unique(fullData.season)
-% % 
-% % for season = 1:length(seasons)
-% %     waveBins{season}(1,:) = fullData.waveHeight < .02 & fullData.season == season;
-% %     waveBins{season}(2,:) = fullData.waveHeight > .02 & fullData.waveHeight < .04 & fullData.season ==season;
-% %     waveBins{season}(3,:) = fullData.waveHeight > .04 & fullData.waveHeight < .06 & fullData.season ==season;
-% %     waveBins{season}(4,:) = fullData.waveHeight > .06 & fullData.waveHeight < .08 & fullData.season ==season;
-% %     waveBins{season}(5,:) = fullData.waveHeight > .08 & fullData.waveHeight < 1 & fullData.season ==season;
-% %     waveBins{season}(6,:) = fullData.waveHeight > 1.0 & fullData.waveHeight < 1.2 & fullData.season ==season;
-% %     waveBins{season}(7,:) = fullData.waveHeight > 1.2 & fullData.waveHeight < 1.4 & fullData.season ==season;
-% %     waveBins{season}(8,:) = fullData.waveHeight > 1.4 & fullData.waveHeight < 1.6 & fullData.season ==season;
-% %     waveBins{season}(9,:) = fullData.waveHeight > 1.6 & fullData.waveHeight < 1.8 & fullData.season ==season;
-% %     waveBins{season}(10,:) = fullData.waveHeight > 1.8 & fullData.waveHeight < 2.0 & fullData.season ==season;
-% %     waveBins{season}(11,:) = fullData.waveHeight > 2.0 & fullData.waveHeight < 2.2 & fullData.season ==season;
-% %     waveBins{season}(12,:) = fullData.waveHeight > 2.2 & fullData.waveHeight < 2.4 & fullData.season ==season;
-% %     waveBins{season}(13,:) = fullData.waveHeight > 2.4 & fullData.season ==season;
-% % end
-% % 
-% % for season = 1:length(seasons)
-% %     for k = 1:height(waveBins{season})
-% %         waveScenario{season}{k}= fullData(waveBins{season}(k,:),:);
-% %         averageX{season}(1,k) = mean(waveScenario{season}{1,k}.allDets);
-% %         averagePercentW{season}(1,k) = (averageWave{season}(1,k)/6)*100;
-% %         if isnan(averagePercentW{season}(1,k))
-% %             averagePercentW{season}(1,k) = 0;
-% %             continue
-% %         end
-% %     end
-% %     moddedPercentW{season}  = averagePercentW{season}/(max(averagePercentW{season}));
-% % end
-% % 
-% % 
-% % 
-% % 
-% % 
-% % 
-% % 
 % 
