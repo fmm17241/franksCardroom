@@ -227,6 +227,7 @@ end
 
 
 
+cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\exportedFigures'
 
 %%Combine in big tiled picture. You can do this!!!!
 for COUNT = 1:2:length(AnglesR)
@@ -285,7 +286,7 @@ for COUNT = 1:2:length(AnglesR)
 %     title(sprintf('Should be %0.1f CCW',rotatorsD(1,COUNT)))
     title('X Axis: X to Square +')
     axis equal
-
+    exportgraphics(gcf,sprintf('AnglesTides%d.png',COUNT),'Resolution',300)
 end
 
 
