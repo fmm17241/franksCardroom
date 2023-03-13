@@ -228,6 +228,29 @@ end
 
 cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\exportedFigures'
 
+
+
+for COUNT = 1:2:length(AnglesR)
+    nameit= sprintf('Pairing %d Angle vs Tidal Ellipses',pairing(COUNT))
+    
+    figure()
+    set(gcf, 'Position',  [0, 0, 1000, 1000])
+    polarscatter(AnglesR(1,COUNT),x(1),280,'X')
+    hold on
+    polarplot(AnglesR(1,COUNT:COUNT+1),x(1:2),'-.');
+    polarscatter(AnglesR(1,COUNT+1),x(1),200,'square','filled','k')
+    polarplot(tideAnglesR(1:2),x2(1:2),'r')
+    polarplot(tideAnglesR(3:4),x3(1:2),'r')
+    polarscatter(tideAnglesR(1:2),x2(1:2),130,'r','filled')
+    polarscatter(tideAnglesR(3:4),x3(1:2),'r','filled')
+    pax = gca;
+    pax.ThetaZeroLocation = 'top';
+    pax.ThetaDir = 'clockwise';
+    title(nameit)
+end
+
+
+
 %%Combine in big tiled picture. You can do this!!!!
 for COUNT = 1:2:length(AnglesR)
     nameit= sprintf('Pairing %d Angle vs Tidal Ellipses',pairing(COUNT))

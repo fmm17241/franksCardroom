@@ -210,7 +210,46 @@ for COUNT = 1:length(moddedAveragePara)
     xlabel('Current Velocity (m/s)')
     exportgraphics(gcf,sprintf('Trans%dBOTH.png',COUNT),'Resolution',300)
 end
+%%
 
+%Transceiver pair, both directions? Workshopping this viz.
+for COUNT = 1:2:length(moddedAveragePerp)
+    f = figure;
+    f.Position = [100 100 450 800];
+    tiledlayout(5,1,'TileSpacing','Compact','Padding','Compact')
+    for season = 1:length(seasons)
+        nexttile()
+        scatter(x,moddedAveragePerp{COUNT}{season},'r','filled')
+        hold on
+        scatter(x,moddedAveragePerp{COUNT+1}{season},'k','filled')
+        nameit = sprintf('Perp., Transceivers %d, %s',COUNT,seasonName{season});
+        title(nameit)
+        hold off
+    end
+    ylabel('Normalized Det. Efficiency')
+    xlabel('Current Velocity (m/s)')
+    exportgraphics(gcf,sprintf('PerpTrans%dBOTHdirections.png',COUNT),'Resolution',300)
+end
+for COUNT = 1:2:length(moddedAveragePara)
+    f = figure;
+    f.Position = [100 100 450 800];
+    tiledlayout(5,1,'TileSpacing','Compact','Padding','Compact')
+    for season = 1:length(seasons)
+        nexttile()
+        scatter(x,moddedAveragePara{COUNT}{season},'r','filled')
+        hold on
+        scatter(x,moddedAveragePara{COUNT+1}{season},'k','filled')
+        nameit = sprintf('Para., Transceivers %d, %s',COUNT,seasonName{season});
+        title(nameit)
+        hold off
+    end
+    ylabel('Normalized Det. Efficiency')
+    xlabel('Current Velocity (m/s)')
+    exportgraphics(gcf,sprintf('ParaTrans%dBOTHdirections.png',COUNT),'Resolution',300)
+end
+%%
+
+%Separate plots
 for COUNT = 1:length(moddedAveragePerp)
     f = figure;
     f.Position = [100 100 450 800];
@@ -226,31 +265,36 @@ for COUNT = 1:length(moddedAveragePerp)
     exportgraphics(gcf,sprintf('Trans%dPerpendicular.png',COUNT),'Resolution',300)
 end
 
+
+
+
+
+
 %%
 %Single Transceiver/season Plots
-for COUNT = 1:length(moddedAveragePara)
-    
-    for season = 1:length(seasons)
-        figure()
-        hold on
-        scatter(x,moddedAveragePara{COUNT}{season},'filled')
-        nameit = sprintf('Parallel %d and %d',COUNT,season);
-        title(nameit)
-        ylabel('Normalized Det. Efficiency')
-        xlabel('Current Velocity (m/s)')
-        exportgraphics(gcf,sprintf('Transceiver %d Parallel Season %d.png',COUNT,season),'Resolution',300)
-
-
-        figure()
-        hold on
-        scatter(x,moddedAveragePerp{COUNT}{season},'filled')
-        nameit = sprintf('Perpendicular %d and %d',COUNT,season);
-        title(nameit)
-        ylabel('Normalized Det. Efficiency')
-        xlabel('Current Velocity (m/s)')
-        exportgraphics(gcf,sprintf('Transceiver %d Perpendicular Season %d.png',COUNT,season),'Resolution',300)
-    end
-end
+% for COUNT = 1:length(moddedAveragePara)
+%     
+%     for season = 1:length(seasons)
+%         figure()
+%         hold on
+%         scatter(x,moddedAveragePara{COUNT}{season},'filled')
+%         nameit = sprintf('Parallel %d and %d',COUNT,season);
+%         title(nameit)
+%         ylabel('Normalized Det. Efficiency')
+%         xlabel('Current Velocity (m/s)')
+%         exportgraphics(gcf,sprintf('Transceiver %d Parallel Season %d.png',COUNT,season),'Resolution',300)
+% 
+% 
+%         figure()
+%         hold on
+%         scatter(x,moddedAveragePerp{COUNT}{season},'filled')
+%         nameit = sprintf('Perpendicular %d and %d',COUNT,season);
+%         title(nameit)
+%         ylabel('Normalized Det. Efficiency')
+%         xlabel('Current Velocity (m/s)')
+%         exportgraphics(gcf,sprintf('Transceiver %d Perpendicular Season %d.png',COUNT,season),'Resolution',300)
+%     end
+% end
 
 
 %%
