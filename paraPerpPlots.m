@@ -291,6 +291,20 @@ for COUNT = 1:length(moddedAveragePerpABS)
 end
 
 
+f = figure;
+f.Position = [100 100 450 800];
+tiledlayout(5,1,'TileSpacing','Compact','Padding','Compact')
+for COUNT = 1:length(completeParaABS)
+    nexttile()
+    scatter(x,completeParaABS{COUNT},'r','filled')
+    hold on
+    scatter(x,completePerpABS{COUNT},'k','filled')
+    nameit = sprintf('bothABS %d',COUNT);
+    title(nameit)
+end
+ylabel('Normalized Det. Efficiency')
+xlabel('Current Magnitude (m/s)')
+exportgraphics(gcf,sprintf('Trans%dABS.png',COUNT),'Resolution',300)
 
 
 
