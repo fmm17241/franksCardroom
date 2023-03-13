@@ -5,7 +5,6 @@
 %in different directions to see if the relationship is clear.
 
 %Transceiver pairings:
-%FRANK SWITCHED SO POSITIVE ALWAYS FIRST
 % 1.  SURTASSSTN20 hearing STSNew1
 % 2.  STSNew1 hearing SURTASSSTN20
 % 3.  SURTASS05In hearing FS6
