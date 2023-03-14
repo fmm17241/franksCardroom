@@ -293,7 +293,7 @@ end
 
 f = figure;
 f.Position = [100 100 450 800];
-tiledlayout(5,1,'TileSpacing','Compact','Padding','Compact')
+tiledlayout(5,2,'TileSpacing','Compact','Padding','Compact')
 for COUNT = 1:length(completeParaABS)
     nexttile()
     scatter(x,completeParaABS{COUNT},'r','filled')
