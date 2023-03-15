@@ -42,69 +42,18 @@ title('Perpendicular Currents vs 10 Transmission Directions')
 % exportgraphics(gcf,'yearlyPerp.png','Resolution',300)
   
 %All on one graph
-figure()
-set(gcf, 'Position', get(0, 'Screensize'));
-tiledlayout(10,5,'TileSpacing','Compact','Padding','Compact')
-for COUNT = 1:length(yearlyPerpAVG)
-
-    for season = 1:length(seasons)
-        nexttile()
-        scatter(x,normalizedPara{COUNT}{season},'filled')
-        nameit = sprintf('Parallel %d, %d',COUNT,season);
-        title(nameit)
-    end
-    exportgraphics(gcf,sprintf('Transceiver%dParaSeasonal2.png',COUNT),'Resolution',300)
-end
-
-figure()
-set(gcf, 'Position', get(0, 'Screensize'));
-tiledlayout(10,5,'TileSpacing','Compact','Padding','Compact')
-for COUNT = 1:length(yearlyPerpAVG)
-
-    for season = 1:length(seasons)
-        nexttile()
-        scatter(x,normalizedPerp{COUNT}{season},'filled')
-        nameit = sprintf('Perpendicular %d, %d',COUNT,season);
-        title(nameit)
-    end
-    exportgraphics(gcf,sprintf('Transceiver%dPerpSeasonal2.png',COUNT),'Resolution',300)
-end
-
-
-% All seasons for each pairing
-figure()
-set(gcf, 'Position', get(0, 'Screensize'));
-tiledlayout(5,2,'TileSpacing','Compact','Padding','Compact')
-for COUNT = 1:length(yearlyPerpAVG)
-    nexttile()
-    hold on
-
-    for season = 1:length(seasons)
-        scatter(x,normalizedPara{COUNT}{season},'filled')
-    end
-    nameit = sprintf('Parallel %d',COUNT);
-    title(nameit)
-    hold off
+% figure()
+% set(gcf, 'Position', get(0, 'Screensize'));
+% tiledlayout(10,5,'TileSpacing','Compact','Padding','Compact')
+% for COUNT = 1:length(yearlyPerpAVG)
+%     for season = 1:length(seasons)
+%         nexttile()
+%         scatter(x,normalizedPara{COUNT}{season},'filled')
+%         nameit = sprintf('Parallel %d, %d',COUNT,season);
+%         title(nameit)
+%     end
+% end
 %     exportgraphics(gcf,sprintf('Transceiver%dParaSeasonal2.png',COUNT),'Resolution',300)
-end
-
-figure()
-set(gcf, 'Position', get(0, 'Screensize'));
-tiledlayout(5,2,'TileSpacing','Compact','Padding','Compact')
-for COUNT = 1:length(yearlyPerpAVG)
-    nexttile()
-    hold on
-
-    for season = 1:length(seasons)
-        scatter(x,normalizedPerp{COUNT}{season},'filled')
-    end
-    nameit = sprintf('Perpendicular %d',COUNT);
-    title(nameit)
-    hold off
-%     exportgraphics(gcf,sprintf('Transceiver%dPerpSeasonal2.png',COUNT),'Resolution',300)
-end
-
-
 
 
 %Seasonal Plots
@@ -220,23 +169,9 @@ end
 %%
 
 %Transceiver pair, both directions? Workshopping this viz.
-for COUNT = 1:2:length(normalizedPerp)
-    f = figure;
-    f.Position = [100 100 450 800];
-    tiledlayout(5,1,'TileSpacing','Compact','Padding','Compact')
-    for season = 1:length(seasons)
-        nexttile()
-        scatter(x,normalizedPerp{COUNT}{season},'r','filled')
-        hold on
-        scatter(x,normalizedPerp{COUNT+1}{season},'k','filled')
-        nameit = sprintf('Perp., Transceivers %d, %s',COUNT,seasonName{season});
-        title(nameit)
-        hold off
-    end
-    ylabel('Normalized Det. Efficiency')
-    xlabel('Current Velocity (m/s)')
-    exportgraphics(gcf,sprintf('PerpTrans%dBOTHdirections.png',COUNT),'Resolution',300)
-end
+
+
+pairingNumb = [1;1;2;2;3;3;4;4;5;5]
 for COUNT = 1:2:length(normalizedPara)
     f = figure;
     f.Position = [100 100 450 800];
@@ -246,13 +181,13 @@ for COUNT = 1:2:length(normalizedPara)
         scatter(x,normalizedPara{COUNT}{season},'r','filled')
         hold on
         scatter(x,normalizedPara{COUNT+1}{season},'k','filled')
-        nameit = sprintf('Para., Transceivers %d, %s',COUNT,seasonName{season});
+        nameit = sprintf('Para., Transceivers %d, %s',pairingNumb(COUNT),seasonName{season});
         title(nameit)
         hold off
     end
     ylabel('Normalized Det. Efficiency')
     xlabel('Current Velocity (m/s)')
-    exportgraphics(gcf,sprintf('ParaTrans%dBOTHdirections.png',COUNT),'Resolution',300)
+    exportgraphics(gcf,sprintf('ParaTrans%dBOTHdirections.png',pairingNumb(COUNT)),'Resolution',300)
 end
 %%
 
@@ -280,26 +215,12 @@ cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\exportedFigures'
 x = 0:0.05:.4;
 seasonName = [{'Winter','Spring','Summer','Fall','Mariner''s Fall','Fall'}]
 
-for COUNT = 1:length(normalizedPerpABS)
-    f = figure;
-    f.Position = [100 100 450 800];
-    tiledlayout(5,1,'TileSpacing','Compact','Padding','Compact')
-    for season = 1:length(seasons)
-        nexttile()
-        scatter(x,normalizedParaABS{COUNT}{season},'r','filled')
-        hold on
-        scatter(x,normalizedPerpABS{COUNT}{season},'k','filled')
-        nameit = sprintf('bothABS %d, %s',COUNT,seasonName{season});
-        title(nameit)
-    end
-    ylabel('Normalized Det. Efficiency')
-    xlabel('Current Magnitude (m/s)')
-    exportgraphics(gcf,sprintf('Trans%dABS.png',COUNT),'Resolution',300)
-end
-
 pairingNumb = [1;1;2;2;3;3;4;4;5;5]
+
+
+
 % Both parallel directions
-for COUNT = 1:2:length(normalizedPerpABS)
+for COUNT = 1:2:length(normalizedParaABS)
     f = figure;
     f.Position = [100 100 450 800];
     tiledlayout(5,1,'TileSpacing','Compact','Padding','Compact')
@@ -310,6 +231,10 @@ for COUNT = 1:2:length(normalizedPerpABS)
         scatter(x,normalizedParaABS{COUNT+1}{season},'k','filled')
         nameit = sprintf('Both Directions, Absolute. Pairing %d, %s',pairingNumb(COUNT),seasonName{season});
         title(nameit)
+        if season == 1
+            legend('Sq to X','X to Sq')
+        end
+
     end
     ylabel('Normalized Det. Efficiency')
     xlabel('Current Magnitude (m/s)')
@@ -317,51 +242,82 @@ for COUNT = 1:2:length(normalizedPerpABS)
 end
 
 
-
-
-f = figure;
-f.Position = [100 100 450 800];
-tiledlayout(5,2,'TileSpacing','Compact','Padding','Compact')
-for COUNT = 1:length(completeParaABS)
-    nexttile()
-    scatter(x,completeParaABS{COUNT},'r','filled')
-    hold on
-    scatter(x,completePerpABS{COUNT},'k','filled')
-    nameit = sprintf('bothABS %d',COUNT);
-    title(nameit)
+x = -0.4:0.05:.4;
+for COUNT = 1:2:length(normalizedPara)
+    f = figure;
+    f.Position = [100 100 450 800];
+    tiledlayout(5,1,'TileSpacing','Compact','Padding','Compact')
+    for season = 1:length(seasons)
+        nexttile()
+        scatter(x,normalizedPara{COUNT}{season},'r','filled')
+        hold on
+        scatter(x,normalizedPara{COUNT+1}{season},'k','filled')
+        nameit = sprintf('Para., Transceivers %d, %s',pairingNumb(COUNT),seasonName{season});
+        title(nameit)
+        hold off
+    end
+    ylabel('Normalized Det. Efficiency')
+    xlabel('Current Velocity (m/s)')
+    exportgraphics(gcf,sprintf('ParaTrans%dBOTHdirections.png',pairingNumb(COUNT)),'Resolution',300)
 end
-ylabel('Normalized Det. Efficiency')
-xlabel('Current Magnitude (m/s)')
-exportgraphics(gcf,sprintf('Trans%dABS.png',COUNT),'Resolution',300)
-
-
-
 
 %%
-%Single Transceiver/season Plots
-% for COUNT = 1:length(normalizedPara)
-%     
-%     for season = 1:length(seasons)
-%         figure()
-%         hold on
-%         scatter(x,normalizedPara{COUNT}{season},'filled')
-%         nameit = sprintf('Parallel %d and %d',COUNT,season);
-%         title(nameit)
-%         ylabel('Normalized Det. Efficiency')
-%         xlabel('Current Velocity (m/s)')
-%         exportgraphics(gcf,sprintf('Transceiver %d Parallel Season %d.png',COUNT,season),'Resolution',300)
-% 
-% 
-%         figure()
-%         hold on
-%         scatter(x,normalizedPerp{COUNT}{season},'filled')
-%         nameit = sprintf('Perpendicular %d and %d',COUNT,season);
-%         title(nameit)
-%         ylabel('Normalized Det. Efficiency')
-%         xlabel('Current Velocity (m/s)')
-%         exportgraphics(gcf,sprintf('Transceiver %d Perpendicular Season %d.png',COUNT,season),'Resolution',300)
-%     end
-% end
+%Above is normalized, below is Average!! Less procssed
+cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\exportedFigures'
+x = 0:0.05:.4;
+seasonName = [{'Winter','Spring','Summer','Fall','Mariner''s Fall','Fall'}]
+pairingNumb = [1;1;2;2;3;3;4;4;5;5];
+changeYlol = [4;4;1;1;3;3;3.5;3.5;3.5;3.5];
+
+
+% Both parallel directions
+for COUNT = 1:2:length(averageParaTideABS)
+    f = figure;
+    f.Position = [100 100 450 800];
+    tiledlayout(5,1,'TileSpacing','Compact','Padding','Compact')
+    for season = 1:length(seasons)
+        nexttile()
+        scatter(x,averageParaTideABS{COUNT}{season},'r','filled')
+        hold on
+        scatter(x,averageParaTideABS{COUNT+1}{season},'k','filled')
+        errorbar(x,averageParaTideABS{COUNT}{season},errorDataABS{COUNT}(season,:),"LineStyle","none")
+        errorbar(x,averageParaTideABS{COUNT+1}{season},errorDataABS{COUNT+1}(season,:),"LineStyle","none")
+%         ylim([0 changeYlol(COUNT)])
+        nameit = sprintf('Both Directions, Absolute. Pairing %d, %s',pairingNumb(COUNT),seasonName{season});
+        title(nameit)
+        if season == 1
+            legend('Sq to X','X to Sq')
+        end
+
+    end
+    ylabel('Det. Efficiency')
+    xlabel('Current Magnitude (m/s)')
+%     exportgraphics(gcf,sprintf('Trans%dABS.png',pairingNumb(COUNT)),'Resolution',300)
+end
+
+
+x = -0.4:0.05:.4;
+for COUNT = 1:2:length(averageParaTide)
+    f = figure;
+    f.Position = [100 100 450 800];
+    tiledlayout(5,1,'TileSpacing','Compact','Padding','Compact')
+    for season = 1:length(seasons)
+        nexttile()
+        scatter(x,averageParaTide{COUNT}{season},'r','filled')
+        hold on
+        errorbar(x,averageParaTide{COUNT}{season},errorData{COUNT}(season,:),"LineStyle","none")
+        scatter(x,averageParaTide{COUNT+1}{season},'k','filled')
+        errorbar(x,averageParaTide{COUNT+1}{season},errorData{COUNT+1}(season,:),"LineStyle","none")
+%         ylim([0 4])
+        nameit = sprintf('Para., Transceivers %d, %s',pairingNumb(COUNT),seasonName{season});
+        title(nameit)
+        hold off
+    end
+    ylabel('Det. Efficiency')
+    xlabel('Current Velocity (m/s)')
+    exportgraphics(gcf,sprintf('ParaTrans%dBOTHdirections.png',pairingNumb(COUNT)),'Resolution',300)
+end
+
 
 
 %%

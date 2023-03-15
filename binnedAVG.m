@@ -214,11 +214,6 @@ for COUNT = 1:length(fullData)
                 averagePerpTide{COUNT}{season}(1,k) = 0;
             end
         end
-%         if isempty(averageParaTide{COUNT}{season}) ==1
-%             moddedAveragePara{COUNT}{season}  = 0;
-%             moddedAveragePerp{COUNT}{season}  = 0;
-%             continue
-%         end
         normalizedPara{COUNT}{season}  = averageParaTide{COUNT}{season}/(max(averageParaTide{COUNT}{season}));
         normalizedPerp{COUNT}{season}  = averagePerpTide{COUNT}{season}/(max(averagePerpTide{COUNT}{season}));
     end
@@ -313,3 +308,30 @@ for COUNT = 1:length(completeParaABS)
 end
 
 %%
+
+%Frank is finding standard deviation
+
+%Normal
+for COUNT = 1:length(fullData)
+    for season = 1:length(seasons)
+        for k = 1:height(tideBinsPara{COUNT}{season})
+            if isempty(tideScenarioPara{COUNT}{season}{1,k}) == 1
+                errorData{COUNT}(season,k) = 0;
+                continue
+            end
+            errorData{COUNT}(season,k) = std(tideScenarioPara{COUNT}{season}{1,k}.detections)
+        end
+    end
+end
+%Absolute values
+for COUNT = 1:length(fullData)
+    for season = 1:length(seasons)
+        for k = 1:height(tideBinsParaABS{COUNT}{season})
+            if isempty(tideScenarioParaABS{COUNT}{season}{1,k}) == 1
+                errorDataABS{COUNT}(season,k) = 0;
+                continue
+            end
+            errorDataABS{COUNT}(season,k) = std(tideScenarioParaABS{COUNT}{season}{1,k}.detections)
+        end
+    end
+end
