@@ -290,7 +290,7 @@ changeYlol = [4;4;1;1;3;3;3.5;3.5;3.5;3.5];
 % Both parallel directions
 for COUNT = 1:2:length(averageParaTideABS)
     f = figure;
-    f.Position = [100 100 450 800];
+    f.Position = [50 0 450 800];
     tiledlayout(5,1,'TileSpacing','Compact','Padding','Compact')
     for season = 1:length(seasons)
         nexttile()
@@ -309,14 +309,17 @@ for COUNT = 1:2:length(averageParaTideABS)
     end
     ylabel('Det. Efficiency')
     xlabel('Current Magnitude (m/s)')
-%     exportgraphics(gcf,sprintf('Trans%dABS.png',pairingNumb(COUNT)),'Resolution',300)
+    exportgraphics(gcf,sprintf('Trans%dABS.png',pairingNumb(COUNT)),'Resolution',300)
 end
+
+setYlim = [0 0 0 0 0 0 0 0 0 0;
+           4.5 4.5 1.5 1.5 4 4 4 4 4 4];
 
 
 x = -0.4:0.05:.4;
 for COUNT = 1:2:length(averageParaTide)
     f = figure;
-    f.Position = [100 100 450 800];
+    f.Position = [50 0 450 800];
     tiledlayout(5,1,'TileSpacing','Compact','Padding','Compact')
     for season = 1:length(seasons)
         nexttile()
@@ -325,7 +328,7 @@ for COUNT = 1:2:length(averageParaTide)
         errorbar(x,averageParaTide{COUNT}{season},errorData{COUNT}(season,:),"LineStyle","none")
         scatter(x,averageParaTide{COUNT+1}{season},'k','filled')
         errorbar(x,averageParaTide{COUNT+1}{season},errorData{COUNT+1}(season,:),"LineStyle","none")
-%         ylim([0 4])
+        ylim(setYlim(:,COUNT))
         nameit = sprintf('Para., Transceivers %d, %s',pairingNumb(COUNT),seasonName{season});
         title(nameit)
         hold off
