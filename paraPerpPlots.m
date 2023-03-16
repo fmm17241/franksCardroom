@@ -7,7 +7,9 @@
 
 %Now to plot visualization
 
-cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\exportedFigures'
+cd ([oneDrive,'exportedFigures'])
+
+% cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\exportedFigures'
 x = -0.4:0.05:.4;
 seasonName = [{'Winter','Spring','Summer','Fall','Mariner''s Fall','Fall'}]
 
@@ -210,8 +212,6 @@ end
 %%
 %Frank has deemed it necessary to add absolute values SO IT IS WRITTEN
 %SO SHALL IT BE DONE. IN HIS NAME.
-
-cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\exportedFigures'
 x = 0:0.05:.4;
 seasonName = [{'Winter','Spring','Summer','Fall','Mariner''s Fall','Fall'}]
 
@@ -281,7 +281,6 @@ end
 
 %%
 %Above is normalized, below is Average!! Less procssed
-cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\exportedFigures'
 x = 0:0.05:.4;
 seasonName = [{'Winter','Spring','Summer','Fall','Mariner''s Fall','Fall'}]
 pairingNumb = [1;1;2;2;3;3;4;4;5;5];

@@ -1,4 +1,6 @@
-cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\WeatherData'
+% cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\WeatherData'
+
+cd([oneDrive,'WeatherData'])
 
 
 % fullsst2019 = readtable ('temp2019.csv'); %IN UTC!!!!!
@@ -28,7 +30,9 @@ clear fullsst* time timeVectorsst
 
 
 %%FM 5/24: trying bulk strat using bottom receiver + buoy info
-cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Moored'
+cd ([oneDrive,'Moored'])
+
+% cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Moored'
 %%
 % Separate dets, temps, and noise by which receiver is giving the data
 data = readtable('VUE_Export.csv');

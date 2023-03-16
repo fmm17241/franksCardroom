@@ -140,13 +140,13 @@ for COUNT = 1:10
     fullData{COUNT}.Properties.VariableNames = {'season', 'detections','sunlight', 'windsCross','windsAlong','windSpeed','windDir','paraTide','perpTide','noise','tilt','waveHeight'};
 end
 
-clearvars -except fullData detections time bottom* receiverData fullTide*
+% clearvars -except fullData detections time bottom* receiverData fullTide*
 
 %%
 %Okay. now I have to convert all to go through all the transceiver pairs,
 %not just the cross and along. Aight, got this, bodybag
 
-clearvars -except fullData fullTide*
+% clearvars -except fullData fullTide*
 
 %Changing this from just seasons to different transceiver pairings +
 %seasons

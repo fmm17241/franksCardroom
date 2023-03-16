@@ -1,4 +1,7 @@
-cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\WeatherData'
+
+cd ([oneDrive,'WeatherData'])
+
+% cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\WeatherData'
 %
 % winds2019 = readtable ('continuousWeatherData2019.csv'); %IN UTC!!!!!
 % winds2020 = readtable ('continuousWeatherData2020.csv'); %IN UTC!!!!!
@@ -114,18 +117,18 @@ speedSignal = detrend(WSPD);
 
 %Astronomical
 %Winter start to March 20th 1:11349
-WindRose(winds.WDIR(1:11349),winds.WSPD(1:11349),'AngleNorth',0,'AngleEast',90,'nDirections',10,'FreqLabelAngle','ruler');
-title('Wind Rose, Winter');
-%Spring March 20th to June 21st 11350:24715
-WindRose(winds.WDIR(11350:24715),winds.WSPD(11350:24715),'AngleNorth',0,'AngleEast',90,'nDirections',10,'FreqLabelAngle','ruler');
-title('Wind Rose, Spring');
-%Summer June 21st to Sept 22nd 24716:37689
-WindRose(winds.WDIR(24716:37689),winds.WSPD(24716:37689),'AngleNorth',0,'AngleEast',90,'nDirections',10,'FreqLabelAngle','ruler');
-title('Wind Rose, Summer');
-%Fall Sept 22nd to December 21st 37689:end
-WindRose(winds.WDIR(37689:end),winds.WSPD(37689:end),'AngleNorth',0,'AngleEast',90,'nDirections',10,'FreqLabelAngle','ruler');
-title('Wind Rose, Fall');
-
+% WindRose(winds.WDIR(1:11349),winds.WSPD(1:11349),'AngleNorth',0,'AngleEast',90,'nDirections',10,'FreqLabelAngle','ruler');
+% title('Wind Rose, Winter');
+% %Spring March 20th to June 21st 11350:24715
+% WindRose(winds.WDIR(11350:24715),winds.WSPD(11350:24715),'AngleNorth',0,'AngleEast',90,'nDirections',10,'FreqLabelAngle','ruler');
+% title('Wind Rose, Spring');
+% %Summer June 21st to Sept 22nd 24716:37689
+% WindRose(winds.WDIR(24716:37689),winds.WSPD(24716:37689),'AngleNorth',0,'AngleEast',90,'nDirections',10,'FreqLabelAngle','ruler');
+% title('Wind Rose, Summer');
+% %Fall Sept 22nd to December 21st 37689:end
+% WindRose(winds.WDIR(37689:end),winds.WSPD(37689:end),'AngleNorth',0,'AngleEast',90,'nDirections',10,'FreqLabelAngle','ruler');
+% title('Wind Rose, Fall');
+% 
 
 
 % directionSignal = WDIR;
