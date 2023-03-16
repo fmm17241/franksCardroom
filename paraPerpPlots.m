@@ -241,6 +241,24 @@ for COUNT = 1:2:length(normalizedParaABS)
     exportgraphics(gcf,sprintf('Trans%dABS.png',pairingNumb(COUNT)),'Resolution',300)
 end
 
+for COUNT = 1:2:length(normalizedParaABS)
+    for season = 1:length(seasons)
+        f = figure;
+        f.Position = [100 100 450 800];
+        scatter(x,normalizedParaABS{COUNT}{season},'r','filled')
+        hold on
+        scatter(x,normalizedParaABS{COUNT+1}{season},'k','filled')
+        nameit = sprintf('Both Directions, Absolute. Pairing %d, %s',pairingNumb(COUNT),seasonName{season});
+        title(nameit)
+        ylabel('Normalized Det. Efficiency')
+        xlabel('Current Magnitude (m/s)')
+        if season == 1
+            legend('Sq to X','X to Sq')
+        end
+    end
+end
+
+
 
 x = -0.4:0.05:.4;
 for COUNT = 1:2:length(normalizedPara)
