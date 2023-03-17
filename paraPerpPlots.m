@@ -119,59 +119,38 @@ end
 
 %%
 %One plot = all seasons for 1 transceiver, parallel + perp
-for COUNT = 1:length(normalizedPara)
-    f = figure;
-    f.Position = [100 100 450 800];
-    tiledlayout(5,1,'TileSpacing','Compact','Padding','Compact')
-    for season = 1:length(seasons)
-        nexttile()
-        scatter(x,normalizedPara{COUNT}{season},'r','filled')
-        nameit = sprintf('Parallel %d, %s',COUNT,seasonName{season});
-        title(nameit)
-    end
-    ylabel('Normalized Det. Efficiency')
-    xlabel('Current Velocity (m/s)')
-    exportgraphics(gcf,sprintf('Trans%dParallel.png',COUNT),'Resolution',300)
-end
+% for COUNT = 1:length(normalizedPara)
+%     f = figure;
+%     f.Position = [100 100 450 800];
+%     tiledlayout(5,1,'TileSpacing','Compact','Padding','Compact')
+%     for season = 1:length(seasons)
+%         nexttile()
+%         scatter(x,normalizedPara{COUNT}{season},'r','filled')
+%         nameit = sprintf('Parallel %d, %s',COUNT,seasonName{season});
+%         title(nameit)
+%     end
+%     ylabel('Normalized Det. Efficiency')
+%     xlabel('Current Velocity (m/s)')
+%     exportgraphics(gcf,sprintf('Trans%dParallel.png',COUNT),'Resolution',300)
+% end
 
-for COUNT = 1:length(normalizedPerp)
-    f = figure;
-    f.Position = [100 100 450 800];
-    tiledlayout(5,1,'TileSpacing','Compact','Padding','Compact')
-    for season = 1:length(seasons)
-        nexttile()
-        scatter(x,normalizedPerp{COUNT}{season},'b','filled')
-        nameit = sprintf('Perpendicular %d, %s',COUNT,seasonName{season});
-        title(nameit)
-    end
-    ylabel('Normalized Det. Efficiency')
-    xlabel('Current Velocity (m/s)')
-    exportgraphics(gcf,sprintf('Trans%dPerpendicular.png',COUNT),'Resolution',300)
-end
-%%
-
-%One plot = all seasons for 1 transceiver, BOTH perp and para
-for COUNT = 1:length(normalizedPara)
-    f = figure;
-    f.Position = [100 100 450 800];
-    tiledlayout(5,1,'TileSpacing','Compact','Padding','Compact')
-    for season = 1:length(seasons)
-        nexttile()
-        scatter(x,normalizedPara{COUNT}{season},'r','filled')
-        hold on
-        scatter(x,normalizedPerp{COUNT}{season},'k','filled')
-        nameit = sprintf('Transceivers %d, %s',COUNT,seasonName{season});
-        title(nameit)
-        hold off
-    end
-    ylabel('Normalized Det. Efficiency')
-    xlabel('Current Velocity (m/s)')
-    exportgraphics(gcf,sprintf('Trans%dBOTH.png',COUNT),'Resolution',300)
-end
+% for COUNT = 1:length(normalizedPerp)
+%     f = figure;
+%     f.Position = [100 100 450 800];
+%     tiledlayout(5,1,'TileSpacing','Compact','Padding','Compact')
+%     for season = 1:length(seasons)
+%         nexttile()
+%         scatter(x,normalizedPerp{COUNT}{season},'b','filled')
+%         nameit = sprintf('Perpendicular %d, %s',COUNT,seasonName{season});
+%         title(nameit)
+%     end
+%     ylabel('Normalized Det. Efficiency')
+%     xlabel('Current Velocity (m/s)')
+%     exportgraphics(gcf,sprintf('Trans%dPerpendicular.png',COUNT),'Resolution',300)
+% end
 %%
 
 %Transceiver pair, both directions? Workshopping this viz.
-
 
 pairingNumb = [1;1;2;2;3;3;4;4;5;5]
 for COUNT = 1:2:length(normalizedPara)
@@ -191,23 +170,6 @@ for COUNT = 1:2:length(normalizedPara)
     xlabel('Current Velocity (m/s)')
     exportgraphics(gcf,sprintf('ParaTrans%dBOTHdirections.png',pairingNumb(COUNT)),'Resolution',300)
 end
-%%
-
-%Separate plots
-for COUNT = 1:length(normalizedPerp)
-    f = figure;
-    f.Position = [100 100 450 800];
-    tiledlayout(5,1,'TileSpacing','Compact','Padding','Compact')
-    for season = 1:length(seasons)
-        nexttile()
-        scatter(x,normalizedPerp{COUNT}{season},'b','filled')
-        nameit = sprintf('Perpendicular %d, %s',COUNT,seasonName{season});
-        title(nameit)
-    end
-    ylabel('Normalized Det. Efficiency')
-    xlabel('Current Velocity (m/s)')
-    exportgraphics(gcf,sprintf('Trans%dPerpendicular.png',COUNT),'Resolution',300)
-end
 
 %%
 %Frank has deemed it necessary to add absolute values SO IT IS WRITTEN
@@ -216,7 +178,6 @@ x = 0:0.05:.4;
 seasonName = [{'Winter','Spring','Summer','Fall','Mariner''s Fall','Fall'}]
 
 pairingNumb = [1;1;2;2;3;3;4;4;5;5]
-
 
 
 % Both parallel directions

@@ -11,7 +11,9 @@ sunRun = [sunrise; sunset];
 
 %Tidal predictions, rotated to be parallel and perpendicular. Uses tideDT,
 %rotUtide{} is parallel to transmissions and rotVtide{} is perpendicular.
-matchAngles
+
+%FRANK THIS IS ALREADY FLIPPED, YOOOO
+matchAnglesFlipped
 close all
 
 

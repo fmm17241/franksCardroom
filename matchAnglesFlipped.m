@@ -90,6 +90,7 @@ tideAnglesR = deg2rad(tideAnglesD);
 % pca, lets rotate the vectors by these values. That gives a parallel and
 % perpendicular current for each pairing.
 
+
 % cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\ADCP'
 load GR_adcp_30minave_magrot.mat;
 % Cleaning data
@@ -134,6 +135,11 @@ tideDT=datetime(tideDN,'ConvertFrom','datenum','TimeZone','UTC')';
 % normally, I find the major axes using Principle Component Analysis and
 % rotate my axes to better fit the ellipses.
 
+
+%%
+
+
+%%
 %Classic rotation like a DJ's record
 tidalz = [tideU;tideV].';
 [coef, ~,~,~] = pca(tidalz);
@@ -141,6 +147,17 @@ tidalTheta = coef(3);
 thetaDegree = rad2deg(tidalTheta);
 
 [rotUtideShore,rotVtideShore] = rot(ut,vt,tidalTheta);
+
+%%
+%HERE'S FM'S NEW ROTATIONS
+%FRANK needs to take ut and vt, and rotate it once to x/alongshore, flip
+%it, then rotate it back.
+flippedAlong = -rotVtideShore;
+tidalThetaEvil = -coef(3);
+thetaDegreeEvil = rad2deg(tidalTheta);
+
+[ut,vt] = rot(rotUtideShore,flippedAlong,tidalThetaEvil);
+%%
 
 %%
 % Frank's second attempt: instead of creating that many sets of vectors, find and plot the angle on top of the tidal ellipses to
@@ -351,26 +368,26 @@ hold on
 title('Flip')
 scatter(rotUtideShore(5:10),-rotVtideShore(5:10),'filled')
 
-flippedDude = -rotVtideShore;
+flippedAlong = -rotVtideShore;
 
 figure()
-plot(rotUtideShore,flippedDude)
+plot(rotUtideShore,flippedAlong)
 axis equal
 hold on
 title('Flip')
-scatter(rotUtideShore(5:10),flippedDude(5:10),'filled')
-scatter(rotUtideShore(11:15),flippedDude(11:15),'k','filled')
+scatter(rotUtideShore(5:10),flippedAlong(5:10),'filled')
+scatter(rotUtideShore(11:15),flippedAlong(11:15),'k','filled')
 
 
 %FM's attempt at rotating back the other way now that I've mirrored over
 %the X axis.
-
+flippedAlong = -rotVtideShore;
 tidalz = [tideU;tideV].';
 [coef, ~,~,~] = pca(tidalz);
 tidalThetaEvil = -coef(3);
 thetaDegreeEvil = rad2deg(tidalTheta);
 
-[rotUtideShoreEvil,rotVtideShoreEvil] = rot(rotUtideShore,flippedDude,tidalThetaEvil);
+[rotUtideShoreEvil,rotVtideShoreEvil] = rot(rotUtideShore,flippedAlong,tidalThetaEvil);
 
 figure()
 plot(rotUtideShoreEvil,rotVtideShoreEvil)
