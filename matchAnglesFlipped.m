@@ -1,3 +1,11 @@
+%%
+
+%Frank's attempt at flipping the tides so NE is top right, SW is bottom
+%left. Should've done this long ago but I'm a COWARD.
+
+
+
+
 %Frank's attempt at rotating the currents to be parallel or perpendicular
 %to a transceiver pairing. In 2014, this was done purposefully so cross and
 %along shore are easy to separate; in 2020, it is much more challenging. So
@@ -372,3 +380,6 @@ title('Evil')
 scatter(rotUtideShoreEvil(5:10),rotVtideShoreEvil(5:10),'r','filled')
 scatter(rotUtideShoreEvil(11:15),rotVtideShoreEvil(11:15),'y','filled')
 scatter(rotUtideShoreEvil(16:20),rotVtideShoreEvil(16:20),'k','filled')
+
+
+
