@@ -337,3 +337,60 @@ for COUNT = 1:length(fullData)
         end
     end
 end
+
+%%
+%Doing the same for my wind data
+for COUNT = 1:length(fullData)
+    for season = 1:length(seasons)
+        windBins{COUNT}{season}(1,:) = fullData{COUNT}.windSpeed < 1 & fullData{COUNT}.season == season;
+        windBins{COUNT}{season}(2,:) = fullData{COUNT}.windSpeed > 1 & fullData{COUNT}.windSpeed < 2 & fullData{COUNT}.season ==season;
+        windBins{COUNT}{season}(3,:) = fullData{COUNT}.windSpeed > 2 & fullData{COUNT}.windSpeed < 3 & fullData{COUNT}.season ==season;
+        windBins{COUNT}{season}(4,:) = fullData{COUNT}.windSpeed > 3 & fullData{COUNT}.windSpeed < 4 & fullData{COUNT}.season ==season;
+        windBins{COUNT}{season}(5,:) = fullData{COUNT}.windSpeed > 4 & fullData{COUNT}.windSpeed < 5 & fullData{COUNT}.season ==season;
+        windBins{COUNT}{season}(6,:) = fullData{COUNT}.windSpeed > 5 & fullData{COUNT}.windSpeed < 6 & fullData{COUNT}.season ==season;
+        windBins{COUNT}{season}(7,:) = fullData{COUNT}.windSpeed > 6 & fullData{COUNT}.windSpeed < 7 & fullData{COUNT}.season ==season;
+        windBins{COUNT}{season}(8,:) = fullData{COUNT}.windSpeed > 7 & fullData{COUNT}.windSpeed < 8 & fullData{COUNT}.season ==season;
+        windBins{COUNT}{season}(9,:) = fullData{COUNT}.windSpeed > 8 & fullData{COUNT}.windSpeed < 9 & fullData{COUNT}.season ==season;
+        windBins{COUNT}{season}(10,:) = fullData{COUNT}.windSpeed > 9 & fullData{COUNT}.windSpeed < 10 & fullData{COUNT}.season ==season;
+        windBins{COUNT}{season}(11,:) = fullData{COUNT}.windSpeed > 10 & fullData{COUNT}.windSpeed < 11 & fullData{COUNT}.season ==season;
+        windBins{COUNT}{season}(12,:) = fullData{COUNT}.windSpeed > 11 & fullData{COUNT}.windSpeed < 12 & fullData{COUNT}.season ==season;
+        windBins{COUNT}{season}(13,:) = fullData{COUNT}.windSpeed > 12 & fullData{COUNT}.windSpeed < 13 & fullData{COUNT}.season ==season;
+        windBins{COUNT}{season}(14,:) = fullData{COUNT}.windSpeed > 13 & fullData{COUNT}.windSpeed < 14 & fullData{COUNT}.season ==season;
+        windBins{COUNT}{season}(15,:) = fullData{COUNT}.windSpeed > 14 & fullData{COUNT}.season ==season;
+    end
+end
+
+
+%%
+
+% average = zeros(1,height(windBins))
+for COUNT = 1:length(fullData)
+    for season = 1:length(seasons)
+        for k = 1:height(windBins{COUNT}{season})
+            windScenario{COUNT}{season}{k}= fullData{COUNT}(windBins{COUNT}{season}(k,:),:);
+            averageWind{COUNT}{season}(1,k) = mean(windScenario{COUNT}{season}{1,k}.detections);
+            noiseCompare{COUNT}{season}(k) = mean(windScenario{COUNT}{season}{1,k}.noise);
+            wavesCompare{COUNT}{season}(k) = mean(windScenario{COUNT}{season}{1,k}.waveHeight);
+        end
+        normalizedWind{COUNT}{season}  = averageWind{COUNT}{season}/(max(averageWind{COUNT}{season}));
+    end
+end
+
+
+
+for COUNT = 1:length(normalizedWind)
+    for season = 1:length(seasons)
+        completeWinds{COUNT}(season,:) = normalizedWind{COUNT}{season};
+        completeWHeight{COUNT}(season,:) = wavesCompare{COUNT}{season};
+        completeNoise{COUNT}(season,:)   = noiseCompare{COUNT}{season};
+    end
+end
+
+
+for COUNT = 1:length(completeWinds)
+    completeWindsAvg(COUNT,:) = nanmean(completeWinds{COUNT});
+end
+
+for COUNT = 1:length(completeWindsAvg)
+    yearlyWinds(1,COUNT) = mean(completeWindsAvg(:,COUNT))
+end
