@@ -92,6 +92,8 @@ tideAnglesR = deg2rad(tideAnglesD);
 
 
 % cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\ADCP'
+cd ([oneDrive,'ADCP'])
+
 load GR_adcp_30minave_magrot.mat;
 % Cleaning data
 uz = nanmean(adcp.u);
@@ -333,7 +335,7 @@ for COUNT = 1:2:length(AnglesR)
 %     title(sprintf('Should be %0.1f CCW',rotatorsD(1,COUNT)))
     title('X Axis: X to Square +')
     axis equal
-%     exportgraphics(gcf,sprintf('AnglesTides%d.png',COUNT),'Resolution',300)
+    exportgraphics(gcf,sprintf('AnglesTides%d.png',COUNT),'Resolution',300)
 end
 
 

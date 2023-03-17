@@ -242,6 +242,7 @@ end
 
 %%
 %Above is normalized, below is Average!! Less procssed
+cd ([oneDrive,'exportedFigures'])
 x = 0:0.05:.4;
 seasonName = [{'Winter','Spring','Summer','Fall','Mariner''s Fall','Fall'}]
 pairingNumb = [1;1;2;2;3;3;4;4;5;5];
@@ -260,13 +261,12 @@ for COUNT = 1:2:length(averageParaTideABS)
         scatter(x,averageParaTideABS{COUNT+1}{season},'k','filled')
         errorbar(x,averageParaTideABS{COUNT}{season},errorDataABS{COUNT}(season,:),"LineStyle","none")
         errorbar(x,averageParaTideABS{COUNT+1}{season},errorDataABS{COUNT+1}(season,:),"LineStyle","none")
-%         ylim([0 changeYlol(COUNT)])
+        ylim([0 changeYlol(COUNT)])
         nameit = sprintf('Both Directions, Absolute. Pairing %d, %s',pairingNumb(COUNT),seasonName{season});
         title(nameit)
         if season == 1
             legend('Sq to X','X to Sq')
         end
-
     end
     ylabel('Det. Efficiency')
     xlabel('Current Magnitude (m/s)')
