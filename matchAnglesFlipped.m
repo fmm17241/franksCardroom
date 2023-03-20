@@ -276,6 +276,7 @@ for COUNT = 1:2:length(AnglesR)
     title(nameit)
 end
 
+cd ([oneDrive,'exportedFigures'])
 
 
 %%Combine in big tiled picture. You can do this!!!!
@@ -349,7 +350,6 @@ figure()
 plot(ut,vt)
 axis equal
 hold on
-title('Untouched Predicted')
 scatter(ut(5:10),vt(5:10),'r','filled')
 scatter(ut(11:15),vt(11:15),'y','filled')
 scatter(ut(16:20),vt(16:20),'k','filled')
@@ -361,6 +361,8 @@ axis equal
 hold on
 title('Shore Rotated')
 scatter(rotUtideShore(5:10),rotVtideShore(5:10),'filled')
+scatter(rotUtideShore(11:15),rotVtideShore(11:15),'y','filled')
+scatter(rotUtideShore(16:20),rotVtideShore(16:20),'k','filled')
 
 %Testing flip
 figure()
@@ -399,6 +401,24 @@ title('Evil')
 scatter(rotUtideShoreEvil(5:10),rotVtideShoreEvil(5:10),'r','filled')
 scatter(rotUtideShoreEvil(11:15),rotVtideShoreEvil(11:15),'y','filled')
 scatter(rotUtideShoreEvil(16:20),rotVtideShoreEvil(16:20),'k','filled')
+
+%%
+
+% uzRot = nanmean(adcp.uc);
+% vzRot = nanmean(adcp.ua);
+% 
+% uzRaw = nanmean(adcp.u);
+% vzRaw = nanmean(adcp.v);
+% 
+% figure()
+% plot(uzRaw,vzRaw);
+
+
+
+
+
+
+
 
 
 

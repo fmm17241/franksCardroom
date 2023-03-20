@@ -142,6 +142,8 @@ for COUNT = 1:10
     fullData{COUNT}.Properties.VariableNames = {'season', 'detections','sunlight', 'windsCross','windsAlong','windSpeed','windDir','paraTide','perpTide','noise','tilt','waveHeight'};
 end
 
+seasons = unique(fullData{1}.season)
+
 % clearvars -except fullData detections time bottom* receiverData fullTide*
 
 %%
@@ -152,7 +154,7 @@ end
 
 %Changing this from just seasons to different transceiver pairings +
 %seasons
-seasons = unique(fullData{1}.season)
+
 
 for COUNT= 1:length(fullData)
     for k = 1:length(seasons)
@@ -208,16 +210,17 @@ for COUNT = 1:length(fullData)
             tideScenarioPara{COUNT}{season}{k}= fullData{COUNT}(tideBinsPara{COUNT}{season}(k,:),:);
             tideScenarioPerp{COUNT}{season}{k}= fullData{COUNT}(tideBinsPerp{COUNT}{season}(k,:),:);
             averageParaTide{COUNT}{season}(1,k) = mean(tideScenarioPara{COUNT}{season}{1,k}.detections);
-            averagePerpTide{COUNT}{season}(1,k) = mean(tideScenarioPerp{COUNT}{season}{1,k}.detections);
+%             averageTilt{COUNT}{season}(1,k) = mean(tideScenarioPara{COUNT}{season}{1,k}.tilt);
+%             averagePerpTide{COUNT}{season}(1,k) = mean(tideScenarioPerp{COUNT}{season}{1,k}.detections);
             if isnan(averageParaTide{COUNT}{season}(1,k))
                 averageParaTide{COUNT}{season}(1,k) = 0;
             end
-            if isnan(averagePerpTide{COUNT}{season}(1,k))
-                averagePerpTide{COUNT}{season}(1,k) = 0;
-            end
+%             if isnan(averagePerpTide{COUNT}{season}(1,k))
+%                 averagePerpTide{COUNT}{season}(1,k) = 0;
+%             end
         end
         normalizedPara{COUNT}{season}  = averageParaTide{COUNT}{season}/(max(averageParaTide{COUNT}{season}));
-        normalizedPerp{COUNT}{season}  = averagePerpTide{COUNT}{season}/(max(averagePerpTide{COUNT}{season}));
+%         normalizedPerp{COUNT}{season}  = averagePerpTide{COUNT}{season}/(max(averagePerpTide{COUNT}{season}));
     end
 end
 
@@ -225,17 +228,15 @@ end
 for COUNT = 1:length(normalizedPara)
     for season = 1:length(seasons)
         completePara{COUNT}(season,:) = normalizedPara{COUNT}{season};
-        completePerp{COUNT}(season,:) = normalizedPerp{COUNT}{season};
+%         completePerp{COUNT}(season,:) = normalizedPerp{COUNT}{season};
     end
 end
 
 %Whole year
 for COUNT = 1:length(completePara)
-    yearlyParaAVG{COUNT} = mean(completePara{COUNT},1)
-    yearlyPerpAVG{COUNT} = mean(completePerp{COUNT},1)
+    yearlyParaAVG(COUNT,:) = mean(completePara{COUNT},1)
+%     yearlyPerpAVG(COUNT,:) = mean(completePerp{COUNT},1)
 end
-
-
 
 %%
 %Plotting efforts now belong in "paraPerpPlots"
@@ -371,6 +372,7 @@ for COUNT = 1:length(fullData)
             averageWind{COUNT}{season}(1,k) = mean(windScenario{COUNT}{season}{1,k}.detections);
             noiseCompare{COUNT}{season}(k) = mean(windScenario{COUNT}{season}{1,k}.noise);
             wavesCompare{COUNT}{season}(k) = mean(windScenario{COUNT}{season}{1,k}.waveHeight);
+            tiltCompareWind{COUNT}{season}(k) = mean(windScenario{COUNT}{season}{1,k}.tilt);
         end
         normalizedWind{COUNT}{season}  = averageWind{COUNT}{season}/(max(averageWind{COUNT}{season}));
     end
@@ -383,14 +385,90 @@ for COUNT = 1:length(normalizedWind)
         completeWinds{COUNT}(season,:) = normalizedWind{COUNT}{season};
         completeWHeight{COUNT}(season,:) = wavesCompare{COUNT}{season};
         completeNoise{COUNT}(season,:)   = noiseCompare{COUNT}{season};
+        completeTiltVsWind{COUNT}(season,:)   = tiltCompareWind{COUNT}{season};
     end
 end
 
 
 for COUNT = 1:length(completeWinds)
     completeWindsAvg(COUNT,:) = nanmean(completeWinds{COUNT});
+    completeTiltVsWindAvg(COUNT,:) = nanmean(completeTiltVsWind{COUNT})
 end
 
 for COUNT = 1:length(completeWindsAvg)
-    yearlyWinds(1,COUNT) = mean(completeWindsAvg(:,COUNT))
+    yearlyWinds(1,COUNT) = mean(completeWindsAvg(:,COUNT));
+    yearlyTiltVsWind(1,COUNT) = mean(completeTiltVsWindAvg(:,COUNT));
 end
+
+
+
+
+
+
+
+%%
+%TILTED TOWERS LET'S GOOOOO
+
+for COUNT = 1:length(fullData)
+    for season = 1:length(seasons)
+        tiltBins{COUNT}{season}(1,:) = fullData{COUNT}.tilt < 2 & fullData{COUNT}.season == season;
+        tiltBins{COUNT}{season}(2,:) = fullData{COUNT}.tilt > 2 & fullData{COUNT}.tilt < 4 & fullData{COUNT}.season ==season;
+        tiltBins{COUNT}{season}(3,:) = fullData{COUNT}.tilt > 4 & fullData{COUNT}.tilt < 6 & fullData{COUNT}.season ==season;
+        tiltBins{COUNT}{season}(4,:) = fullData{COUNT}.tilt > 6 & fullData{COUNT}.tilt < 8 & fullData{COUNT}.season ==season;
+        tiltBins{COUNT}{season}(5,:) = fullData{COUNT}.tilt > 8 & fullData{COUNT}.tilt < 10 & fullData{COUNT}.season ==season;
+        tiltBins{COUNT}{season}(6,:) = fullData{COUNT}.tilt > 10 & fullData{COUNT}.tilt < 12 & fullData{COUNT}.season ==season;
+        tiltBins{COUNT}{season}(7,:) = fullData{COUNT}.tilt > 12 & fullData{COUNT}.tilt < 14 & fullData{COUNT}.season ==season;
+        tiltBins{COUNT}{season}(8,:) = fullData{COUNT}.tilt > 14 & fullData{COUNT}.tilt < 16 & fullData{COUNT}.season ==season;
+        tiltBins{COUNT}{season}(9,:) = fullData{COUNT}.tilt > 16 & fullData{COUNT}.tilt < 18 & fullData{COUNT}.season ==season;
+        tiltBins{COUNT}{season}(10,:) = fullData{COUNT}.tilt > 18 & fullData{COUNT}.tilt < 20 & fullData{COUNT}.season ==season;
+        tiltBins{COUNT}{season}(11,:) = fullData{COUNT}.tilt > 20 & fullData{COUNT}.tilt < 22 & fullData{COUNT}.season ==season;
+        tiltBins{COUNT}{season}(12,:) = fullData{COUNT}.tilt > 22 & fullData{COUNT}.season ==season;
+    end
+end
+
+
+%%
+
+% average = zeros(1,height(tiltBins))
+for COUNT = 1:length(fullData)
+    for season = 1:length(seasons)
+        for k = 1:height(tiltBins{COUNT}{season})
+            tiltScenario{COUNT}{season}{k}= fullData{COUNT}(tiltBins{COUNT}{season}(k,:),:);
+            averageTilt{COUNT}{season}(1,k) = mean(tiltScenario{COUNT}{season}{1,k}.detections);
+            if isnan(averageTilt{COUNT}{season}(1,k))
+                averageTilt{COUNT}{season}(1,k) = 0;
+            end
+        end
+        normalizedTilt{COUNT}{season}  = averageTilt{COUNT}{season}/(max(averageTilt{COUNT}{season}));
+    end
+end
+
+
+
+for COUNT = 1:length(normalizedTilt)
+    for season = 1:length(seasons)
+        completeTilt{COUNT}(season,:) = normalizedTilt{COUNT}{season};
+    end
+end
+
+
+for COUNT = 1:length(completeTilt)
+    completeTiltAvg(COUNT,:) = nanmean(completeTilt{COUNT});
+end
+
+for COUNT = 1:length(completeTiltAvg)
+    yearlyTilt(1,COUNT) = mean(completeTiltAvg(:,COUNT))
+end
+
+
+x = 0:2:22;
+
+figure()
+scatter(x,yearlyTilt,'filled')
+xlabel('Instrument Tilt')
+ylabel('Normalized Det. Efficiency')
+title('Yearly Avg Det Efficiency w/ different tilts')
+
+
+
+
