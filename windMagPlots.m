@@ -52,21 +52,7 @@ for COUNT = 1:length(normalizedWind)
     exportgraphics(gcf,sprintf('Transceiver%dWinds.png',COUNT),'Resolution',300)
 end
 
-for COUNT = 1:length(normalizedTilt)
-    figure()
-    hold on
-    for season = 1:length(seasons)
-        scatter(X,normalizedTilt{COUNT}{season},'filled')
-        plot(X,normalizedTilt{COUNT}{season})
-    end
-    nameit = sprintf('Tilt on Transceiver: %d',COUNT);
-    title(nameit)
-    ylabel('Normalized Det. Efficiency')
-    xlabel('Instrument Tilt')
-%    lgd =  legend('Winter','Spring','Summer','Fall','Mariners Fall',loc='upper left')
-%    lgd.Location = 'northwest';
-    exportgraphics(gcf,sprintf('Transceiver%dTilt.png',COUNT),'Resolution',300)
-end
+
 
 
 
@@ -88,6 +74,18 @@ end
 
 
 %%
+
+
+x = 0:2:22;
+
+figure()
+scatter(x,yearlyTilt,'filled')
+xlabel('Instrument Tilt')
+ylabel('Normalized Det. Efficiency')
+title('Yearly Avg Det Efficiency w/ different tilts')
+
+
+ 
 X = 0:2:22;
 
 cd ([oneDrive,'exportedFigures'])
@@ -100,6 +98,22 @@ scatter(x,yearlyTilt,'filled')
 xlabel('Instrument Tilt')
 ylabel('Normalized Det. Efficiency')
 title('Yearly Avg Det Efficiency w/ different tilts')
+
+for COUNT = 1:length(normalizedTilt)
+    figure()
+    hold on
+    for season = 1:length(seasons)
+        scatter(X,normalizedTilt{COUNT}{season},'filled')
+        plot(X,normalizedTilt{COUNT}{season})
+    end
+    nameit = sprintf('Tilt on Transceiver: %d',COUNT);
+    title(nameit)
+    ylabel('Normalized Det. Efficiency')
+    xlabel('Instrument Tilt')
+%    lgd =  legend('Winter','Spring','Summer','Fall','Mariners Fall',loc='upper left')
+%    lgd.Location = 'northwest';
+    exportgraphics(gcf,sprintf('Transceiver%dTilt.png',COUNT),'Resolution',300)
+end
 
 
 figure()
@@ -118,3 +132,5 @@ for COUNT = 1:length(normalizedTilt)
 %     exportgraphics(gcf,sprintf('Transceiver%dTilt.png',COUNT),'Resolution',300)
     title('12 gauge shotgun blast of tilt vs efficiency')
 end
+
+

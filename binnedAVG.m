@@ -461,14 +461,6 @@ for COUNT = 1:length(completeTiltAvg)
 end
 
 
-x = 0:2:22;
-
-figure()
-scatter(x,yearlyTilt,'filled')
-xlabel('Instrument Tilt')
-ylabel('Normalized Det. Efficiency')
-title('Yearly Avg Det Efficiency w/ different tilts')
-
 
 
 
