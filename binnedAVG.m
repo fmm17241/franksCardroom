@@ -234,12 +234,11 @@ end
 
 %Whole year
 for COUNT = 1:length(completePara)
-    yearlyParaAVG(COUNT,:) = mean(completePara{COUNT},1)
+    yearlyParaAVG{COUNT} = mean(completePara{COUNT},1)
 %     yearlyPerpAVG(COUNT,:) = mean(completePerp{COUNT},1)
 end
 
 %%
-%Plotting efforts now belong in "paraPerpPlots"
 
 %These find absolute value for the tidal directions; this is to compare the
 % two different directions.
@@ -299,15 +298,15 @@ end
 
 for COUNT = 1:length(normalizedParaABS)
     for season = 1:length(seasons)
-        completeParaABS{COUNT}(season,:) = normalizedParaABS{COUNT}{season};
-        completePerpABS{COUNT}(season,:) = normalizedPerpABS{COUNT}{season};
+        allParaABS{COUNT}(season,:) = normalizedParaABS{COUNT}{season};
+        allPerpABS{COUNT}(season,:) = normalizedPerpABS{COUNT}{season};
     end
 end
 
 %Whole year
-for COUNT = 1:length(completeParaABS)
-    yearlyParaABS{COUNT} = mean(completeParaABS{COUNT},1)
-    yearlyPerpABS{COUNT} = mean(completePerpABS{COUNT},1)
+for COUNT = 1:length(allParaABS)
+    yearlyParaABS{COUNT} = mean(allParaABS{COUNT},1)
+    yearlyPerpABS{COUNT} = mean(allPerpABS{COUNT},1)
 end
 
 %%

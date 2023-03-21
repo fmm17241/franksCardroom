@@ -20,6 +20,7 @@ for COUNT = 1:length(yearlyParaAVG)
     maxDets(COUNT)   = index1(COUNT);
 end
 
+
 color = ['r','r','g','g','k','k','b','b','m','m'];
 %Yearly plots
 figure()
@@ -33,14 +34,14 @@ xlabel('Parallel Current Velocity (m/s)')
 title('Parallel Currents vs 10 Transmission Directions')
 % exportgraphics(gcf,'yearlyPara.png','Resolution',300)
 
-figure()
-hold on
-for COUNT = 1:length(yearlyPerpAVG)
-    scatter(x,yearlyPerpAVG{COUNT},'filled')
-end
-ylabel('Normalized Det. Efficiency')
-xlabel('Perpendicular Current Velocity (m/s)')
-title('Perpendicular Currents vs 10 Transmission Directions')
+% figure()
+% hold on
+% for COUNT = 1:length(yearlyPerpAVG)
+%     scatter(x,yearlyPerpAVG{COUNT},'filled')
+% end
+% ylabel('Normalized Det. Efficiency')
+% xlabel('Perpendicular Current Velocity (m/s)')
+% title('Perpendicular Currents vs 10 Transmission Directions')
 % exportgraphics(gcf,'yearlyPerp.png','Resolution',300)
   
 %All on one graph
@@ -72,19 +73,19 @@ for COUNT = 1:length(normalizedPara)
     legend('Winter','Spring','Summer','Fall','Mariners Fall')
     exportgraphics(gcf,sprintf('Transceiver%dParaSeasonal.png',COUNT),'Resolution',300)
 end
-for COUNT = 1:length(normalizedPerp)
-    figure()
-    hold on
-    for season = 1:length(seasons)
-        scatter(x,normalizedPerp{COUNT}{season},'filled')
-    end
-    nameit = sprintf('Perpendicular %d',COUNT);
-    title(nameit)
-    ylabel('Normalized Det. Efficiency')
-    xlabel('Current Velocity (m/s)')
-    legend('Winter','Spring','Summer','Fall','Mariners Fall')
-    exportgraphics(gcf,sprintf('Transceiver%dPerpSeasonal.png',COUNT),'Resolution',300)
-end
+% for COUNT = 1:length(normalizedPerp)
+%     figure()
+%     hold on
+%     for season = 1:length(seasons)
+%         scatter(x,normalizedPerp{COUNT}{season},'filled')
+%     end
+%     nameit = sprintf('Perpendicular %d',COUNT);
+%     title(nameit)
+%     ylabel('Normalized Det. Efficiency')
+%     xlabel('Current Velocity (m/s)')
+%     legend('Winter','Spring','Summer','Fall','Mariners Fall')
+%     exportgraphics(gcf,sprintf('Transceiver%dPerpSeasonal.png',COUNT),'Resolution',300)
+% end
 
 
 %%
@@ -103,18 +104,18 @@ for season = 1:length(seasons)
 %     legend('Winter','Spring','Summer','Fall','Mariners Fall')
 %     exportgraphics(gcf,sprintf('Transceiver%dParaSeasonal.png',COUNT),'Resolution',300)
 end
-for season = 1:length(seasons)
-    figure()
-    hold on
-    for COUNT = 1:length(normalizedPerp)
-        scatter(x,normalizedPerp{COUNT}{season},'filled')
-    end
-    nameit = sprintf('Perpendicular %s',seasonName{season});
-    title(nameit)
-    ylabel('Normalized Det. Efficiency')
-    xlabel('Current Velocity (m/s)')
-%     exportgraphics(gcf,sprintf('Transceiver%dPerpSeasonal.png',COUNT),'Resolution',300)
-end
+% for season = 1:length(seasons)
+%     figure()
+%     hold on
+%     for COUNT = 1:length(normalizedPerp)
+%         scatter(x,normalizedPerp{COUNT}{season},'filled')
+%     end
+%     nameit = sprintf('Perpendicular %s',seasonName{season});
+%     title(nameit)
+%     ylabel('Normalized Det. Efficiency')
+%     xlabel('Current Velocity (m/s)')
+% %     exportgraphics(gcf,sprintf('Transceiver%dPerpSeasonal.png',COUNT),'Resolution',300)
+% end
 
 
 %%
