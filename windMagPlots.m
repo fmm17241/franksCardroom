@@ -133,4 +133,15 @@ for COUNT = 1:length(normalizedTilt)
     title('12 gauge shotgun blast of tilt vs efficiency')
 end
 
+%%
+% Wind direction instead of wind speed, here
+
+X = 20:20:360;
+
+figure()
+scatter(X,yearlywindDir,'filled')
+ylabel('Normalized Det. Efficiency')
+xlabel('Wind Direction')
+title('Wind Direction''s Enabling of Detection Success')
+
 

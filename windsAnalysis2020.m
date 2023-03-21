@@ -8,15 +8,26 @@ cd ([oneDrive,'WeatherData'])
 winds = readtable ('continuousWeatherData2020.csv'); %IN UTC!!!!!
 % winds2021 = readtable ('continuousWeatherData2021.csv'); %IN UTC!!!!!
 
+%FM 3/21/23
+%This changes meteorological directions (wind COMING FROM degrees) to
+%oceanographic directions (wind GOING TOWARDS degrees)
+
+%0N clockwise, so 90E.
+indexUP = winds.WDIR >= 181;
+indexDOWN= winds.WDIR < 181;
+winds.WDIR(indexUP) = winds.WDIR(indexUP) -180;
+winds.WDIR(indexDOWN) = winds.WDIR(indexDOWN) + 180;
+
+
+
+
+
 bringIn = readtable ('weatherData2020.csv'); %IN UTC!!!!!
 testVector = table2array(bringIn(:,1:5)); testVector(:,6) = zeros(1,length(testVector));
 time = datetime(testVector,'TimeZone','UTC')+minutes(10); 
 waveHeight = table2timetable(table(time, bringIn.WVHT));
 waveHeight.Properties.VariableNames = {'waveHeight'};
 waveHeight = retime(waveHeight,'hourly','mean')
-% wvTime = retime()
-
-% winds = [winds2019; winds2020; winds2021];
 
 timeVector = table2array(winds(:,1:5)); timeVector(:,6) = zeros(1,length(timeVector));
 clearvars time
@@ -116,7 +127,7 @@ speedSignal = detrend(WSPD);
 %% Okay, now separate by "seasons"
 
 %Astronomical
-%Winter start to March 20th 1:11349
+% % Winter start to March 20th 1:11349
 % WindRose(winds.WDIR(1:11349),winds.WSPD(1:11349),'AngleNorth',0,'AngleEast',90,'nDirections',10,'FreqLabelAngle','ruler');
 % title('Wind Rose, Winter');
 % %Spring March 20th to June 21st 11350:24715
@@ -128,7 +139,23 @@ speedSignal = detrend(WSPD);
 % %Fall Sept 22nd to December 21st 37689:end
 % WindRose(winds.WDIR(37689:end),winds.WSPD(37689:end),'AngleNorth',0,'AngleEast',90,'nDirections',10,'FreqLabelAngle','ruler');
 % title('Wind Rose, Fall');
-% 
+% % 
+
+
+%%
+
+
+WindRose(winds.WDIR(1:11349),winds.WSPD(1:11349),'AngleNorth',0,'AngleEast',90,'nDirections',10,'FreqLabelAngle','ruler');
+title('Wind Rose, Winter');
+%Spring March 20th to June 21st 11350:24715
+WindRose(winds.WDIR(11350:24715),winds.WSPD(11350:24715),'AngleNorth',0,'AngleEast',90,'nDirections',10,'FreqLabelAngle','ruler');
+title('Wind Rose, Spring');
+%Summer June 21st to Sept 22nd 24716:37689
+WindRose(winds.WDIR(24716:37689),winds.WSPD(24716:37689),'AngleNorth',0,'AngleEast',90,'nDirections',10,'FreqLabelAngle','ruler');
+title('Wind Rose, Summer');
+%Fall Sept 22nd to December 21st 37689:end
+WindRose(winds.WDIR(37689:end),winds.WSPD(37689:end),'AngleNorth',0,'AngleEast',90,'nDirections',10,'FreqLabelAngle','ruler');
+title('Wind Rose, Fall');
 
 
 % directionSignal = WDIR;
