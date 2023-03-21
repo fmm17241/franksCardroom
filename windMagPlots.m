@@ -135,6 +135,11 @@ end
 
 %%
 % Wind direction instead of wind speed, here
+cd ([oneDrive,'exportedFigures'])
+
+seasonName = [{'Winter','Spring','Summer','Fall','Mariner''s Fall','Fall'}]
+color = ['r','r','g','g','k','k','b','b','m','m'];
+
 
 X = 20:20:360;
 
@@ -145,3 +150,40 @@ xlabel('Wind Direction')
 title('Wind Direction''s Enabling of Detection Success')
 
 
+
+for COUNT = 1:length(normalizedwindDir)
+    figure()
+    hold on
+    for season = 1:length(seasons)
+        scatter(X,normalizedwindDir{COUNT}{season},color(COUNT),'filled')
+%         plot(X,normalizedTilt{COUNT}{season})
+    end
+%     nameit = sprintf('Tilt on Transceiver: %d',COUNT);
+%     title(nameit)
+    ylabel('Normalized Det. Efficiency')
+    xlabel('Wind Dir.')
+%    lgd =  legend('Winter','Spring','Summer','Fall','Mariners Fall',loc='upper left')
+%    lgd.Location = 'northwest';
+%     exportgraphics(gcf,sprintf('Transceiver%dTilt.png',COUNT),'Resolution',300)
+    title('WindDir vs efficiency')
+end
+
+
+pairingNumb = [1;1;2;2;3;3;4;4;5;5]
+for COUNT = 1:2:length(normalizedwindDir)
+    f = figure;
+    f.Position = [100 100 450 800];
+    tiledlayout(5,1,'TileSpacing','Compact','Padding','Compact')
+    for season = 1:length(seasons)
+        nexttile()
+        scatter(X,normalizedwindDir{COUNT}{season},'r','filled')
+        hold on
+        scatter(X,normalizedwindDir{COUNT+1}{season},'k','filled')
+        nameit = sprintf('Wind, Transceivers %d, %s',pairingNumb(COUNT),seasonName{season});
+        title(nameit)
+        hold off
+    end
+    ylabel('Normalized Det. Efficiency')
+    xlabel('Wind Direction')
+    exportgraphics(gcf,sprintf('WindTrans%dBOTHdirections.png',pairingNumb(COUNT)),'Resolution',300)
+end
