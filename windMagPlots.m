@@ -24,12 +24,12 @@ title('Wind Magnitude''s Enabling of Detection Success')
 
 figure()
 yyaxis left
-scatter(X,yearlyTiltVsWind,'b','filled')
+scatter(X,yearlyTiltVsWindSpeed,'b','filled')
 ylabel('Avg Instrument Tilt')
 xlabel('Wind Magnitude (m/s)')
 
 yyaxis right
-scatter(X,yearlyWinds,'r','filled')
+scatter(X,yearlyWindSpeed,'r','filled')
 ylabel('Normalized Det. Efficiency')
 
 title('Wind''s Effect on Moored Transceivers')
