@@ -36,12 +36,12 @@ title('Wind''s Effect on Moored Transceivers')
 
 
 
-for COUNT = 1:length(normalizedWind)
+for COUNT = 1:length(normalizedWindSpeed)
     figure()
     hold on
     for season = 1:length(seasons)
-        scatter(X,normalizedWind{COUNT}{season},'filled')
-        plot(X,normalizedWind{COUNT}{season})
+        scatter(X,normalizedWindSpeed{COUNT}{season},'filled')
+        plot(X,normalizedWindSpeed{COUNT}{season})
     end
     nameit = sprintf('Wind Magnitude on Transceiver: %d',COUNT);
     title(nameit)
