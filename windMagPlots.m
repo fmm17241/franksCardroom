@@ -16,7 +16,7 @@ color = ['r','r','g','g','k','k','b','b','m','m'];
 
 
 figure()
-scatter(X,yearlyWinds,'filled')
+scatter(X,yearlyWindSpeed,'filled')
 ylabel('Normalized Det. Efficiency')
 xlabel('Wind Magnitude (m/s)')
 title('Wind Magnitude''s Enabling of Detection Success')
