@@ -16,9 +16,6 @@ sunRun = [sunrise; sunset];
 tidalAnalysis2020
 close all
 
-
-
-
 %Detections between specific transceiver pairs. Uses
 %hourlyDetections{X}.time/detections
 mooredEfficiency
