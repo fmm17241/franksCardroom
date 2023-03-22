@@ -224,17 +224,26 @@ for COUNT = 1:length(fullData)
     end
 end
 
+for COUNT = 1:2:length(fullData)
+    for season = 1:length(seasons)
+        comboPlatter = [averageParaTide{COUNT}{season},averageParaTide{COUNT+1}{season}]
+        normalizedPara{COUNT}{season}  = averageParaTide{COUNT}{season}/(max(comboPlatter));
+        normalizedPara{COUNT+1}{season}  = averageParaTide{COUNT+1}{season}/(max(comboPlatter));
+    end
+end
+
+
 
 for COUNT = 1:length(normalizedPara)
     for season = 1:length(seasons)
-        completePara{COUNT}(season,:) = normalizedPara{COUNT}{season};
+        allPara{COUNT}(season,:) = normalizedPara{COUNT}{season};
 %         completePerp{COUNT}(season,:) = normalizedPerp{COUNT}{season};
     end
 end
 
 %Whole year
-for COUNT = 1:length(completePara)
-    yearlyParaAVG{COUNT} = mean(completePara{COUNT},1)
+for COUNT = 1:length(allPara)
+    yearlyParaAVG{COUNT} = mean(allPara{COUNT},1)
 %     yearlyPerpAVG(COUNT,:) = mean(completePerp{COUNT},1)
 end
 
@@ -291,22 +300,29 @@ for COUNT = 1:length(fullData)
 %             moddedAveragePerp{COUNT}{season}  = 0;
 %             continue
 %         end
-        normalizedParaABS{COUNT}{season}  = averageParaTideABS{COUNT}{season}/(max(averageParaTideABS{COUNT}{season}));
-        normalizedPerpABS{COUNT}{season}  = averagePerpTideABS{COUNT}{season}/(max(averagePerpTideABS{COUNT}{season}));
+
     end
 end
+
+for COUNT= 1:2:length(fullData)
+    for season = 1:length(seasons)
+        comboPlatter = [averageParaTideABS{COUNT}{season},averageParaTideABS{COUNT+1}{season}];
+        normalizedParaABS{COUNT}{season}  = averageParaTideABS{COUNT}{season}/(max(comboPlatter));
+        normalizedParaABS{COUNT+1}{season}  = averageParaTideABS{COUNT+1}{season}/(max(comboPlatter));
+    end
+end
+
+
 
 for COUNT = 1:length(normalizedParaABS)
     for season = 1:length(seasons)
         allParaABS{COUNT}(season,:) = normalizedParaABS{COUNT}{season};
-        allPerpABS{COUNT}(season,:) = normalizedPerpABS{COUNT}{season};
     end
 end
 
 %Whole year
 for COUNT = 1:length(allParaABS)
     yearlyParaABS{COUNT} = mean(allParaABS{COUNT},1)
-    yearlyPerpABS{COUNT} = mean(allPerpABS{COUNT},1)
 end
 
 %%
@@ -378,6 +394,14 @@ for COUNT = 1:length(fullData)
 end
 
 
+for COUNT = 1:2:length(fullData)
+    for season = 1:length(seasons)
+        comboPlatter = [averageWindSpeed{COUNT}{season},averageWindSpeed{COUNT+1}{season}];
+        normalizedWindSpeed{COUNT}{season}  = averageWindSpeed{COUNT}{season}/(max(comboPlatter));
+        normalizedWindSpeed{COUNT+1}{season}  = averageWindSpeed{COUNT+1}{season}/(max(comboPlatter));
+    end
+end
+
 
 for COUNT = 1:length(normalizedWindSpeed)
     for season = 1:length(seasons)
@@ -438,10 +462,17 @@ for COUNT = 1:length(fullData)
                 averageTilt{COUNT}{season}(1,k) = 0;
             end
         end
-        normalizedTilt{COUNT}{season}  = averageTilt{COUNT}{season}/(max(averageTilt{COUNT}{season}));
+
     end
 end
 
+for COUNT = 1:2:length(fullData)
+    for season = 1:length(seasons)
+        comboPlatter = [averageTilt{COUNT}{season},averageTilt{COUNT+1}{season}];
+        normalizedTilt{COUNT}{season}  = averageTilt{COUNT}{season}/(max(comboPlatter));
+        normalizedTilt{COUNT+1}{season}  = averageTilt{COUNT+1}{season}/(max(comboPlatter));
+    end
+end
 
 
 for COUNT = 1:length(normalizedTilt)
@@ -498,9 +529,17 @@ for COUNT = 1:length(fullData)
             averagewindDir{COUNT}{season}(1,k) = mean(windDirScenario{COUNT}{season}{1,k}.detections);
             tiltCompareWindDir{COUNT}{season}(k) = mean(windDirScenario{COUNT}{season}{1,k}.tilt);
         end
-        normalizedwindDir{COUNT}{season}  = averagewindDir{COUNT}{season}/(max(averagewindDir{COUNT}{season}));
     end
 end
+
+for COUNT = 1:2:length(fullData)
+    for season = 1:length(seasons)
+        comboPlatter = [averagewindDir{COUNT}{season},averagewindDir{COUNT+1}{season}];
+        normalizedwindDir{COUNT}{season}  = averagewindDir{COUNT}{season}/(max(comboPlatter));
+        normalizedwindDir{COUNT+1}{season}  = averagewindDir{COUNT+1}{season}/(max(comboPlatter));
+    end
+end
+
 
 
 

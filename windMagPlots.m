@@ -60,8 +60,8 @@ end
 for season = 1:length(seasons)
     figure()
     hold on
-    for COUNT = 1:length(normalizedWind)
-        scatter(X,normalizedWind{COUNT}{season},'filled')
+    for COUNT = 1:length(normalizedWindSpeed)
+        scatter(X,normalizedWindSpeed{COUNT}{season},'filled')
     end
     nameit = sprintf('Winds During %s',seasonName{season});
     title(nameit)
@@ -74,17 +74,6 @@ end
 
 
 %%
-
-
-x = 0:2:22;
-
-figure()
-scatter(x,yearlyTilt,'filled')
-xlabel('Instrument Tilt')
-ylabel('Normalized Det. Efficiency')
-title('Yearly Avg Det Efficiency w/ different tilts')
-
-
  
 X = 0:2:22;
 
@@ -104,15 +93,14 @@ for COUNT = 1:length(normalizedTilt)
     hold on
     for season = 1:length(seasons)
         scatter(X,normalizedTilt{COUNT}{season},'filled')
-        plot(X,normalizedTilt{COUNT}{season})
     end
     nameit = sprintf('Tilt on Transceiver: %d',COUNT);
     title(nameit)
     ylabel('Normalized Det. Efficiency')
     xlabel('Instrument Tilt')
-%    lgd =  legend('Winter','Spring','Summer','Fall','Mariners Fall',loc='upper left')
+   lgd =  legend('Winter','Spring','Summer','Fall','Mariners Fall',loc='upper left')
 %    lgd.Location = 'northwest';
-    exportgraphics(gcf,sprintf('Transceiver%dTilt.png',COUNT),'Resolution',300)
+%     exportgraphics(gcf,sprintf('Transceiver%dTilt.png',COUNT),'Resolution',300)
 end
 
 
@@ -187,3 +175,22 @@ for COUNT = 1:2:length(normalizedwindDir)
     xlabel('Wind Direction')
     exportgraphics(gcf,sprintf('WindTrans%dBOTHdirections.png',pairingNumb(COUNT)),'Resolution',300)
 end
+
+
+for COUNT = 1:length(normalizedwindDir)
+    figure()
+    hold on
+    for season = 1:length(seasons)
+        scatter(X,normalizedwindDir{COUNT}{season},color(COUNT),'filled')
+%         plot(X,normalizedTilt{COUNT}{season})
+    end
+%     nameit = sprintf('Tilt on Transceiver: %d',COUNT);
+%     title(nameit)
+    ylabel('Normalized Det. Efficiency')
+    xlabel('Wind Dir.')
+%    lgd =  legend('Winter','Spring','Summer','Fall','Mariners Fall',loc='upper left')
+%    lgd.Location = 'northwest';
+%     exportgraphics(gcf,sprintf('Transceiver%dTilt.png',COUNT),'Resolution',300)
+    title('WindDir vs efficiency')
+end
+

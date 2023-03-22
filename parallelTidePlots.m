@@ -68,6 +68,7 @@ for COUNT = 1:length(normalizedPara)
     end
     nameit = sprintf('Parallel %d',COUNT);
     title(nameit)
+    ylim([0 1])
     ylabel('Normalized Det. Efficiency')
     xlabel('Current Velocity (m/s)')
     legend('Winter','Spring','Summer','Fall','Mariners Fall')
@@ -287,9 +288,9 @@ for COUNT = 1:2:length(averageParaTide)
         nexttile()
         scatter(x,averageParaTide{COUNT}{season},'r','filled')
         hold on
-        errorbar(x,averageParaTide{COUNT}{season},errorData{COUNT}(season,:),"LineStyle","none")
+%         errorbar(x,averageParaTide{COUNT}{season},errorData{COUNT}(season,:),"LineStyle","none")
         scatter(x,averageParaTide{COUNT+1}{season},'k','filled')
-        errorbar(x,averageParaTide{COUNT+1}{season},errorData{COUNT+1}(season,:),"LineStyle","none")
+%         errorbar(x,averageParaTide{COUNT+1}{season},errorData{COUNT+1}(season,:),"LineStyle","none")
         ylim(setYlim(:,COUNT))
         nameit = sprintf('Para., Transceivers %d, %s',pairingNumb(COUNT),seasonName{season});
         title(nameit)

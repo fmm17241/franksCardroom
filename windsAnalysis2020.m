@@ -73,7 +73,7 @@ plot(windsDN,windsU);
 %tidalAnalysis2020, finds the coefficient using tidal velocities
 theta = 0.5825;
 
-[rotUwinds,rotVwinds] = rot(windsU,windsV,theta);
+% [rotUwinds,rotVwinds] = rot(windsU,windsV,theta);
 % 
 % figure()
 % plot(windsDN,rotUwinds);
@@ -126,25 +126,6 @@ speedSignal = detrend(WSPD);
 
 %% Okay, now separate by "seasons"
 
-%Astronomical
-% % Winter start to March 20th 1:11349
-% WindRose(winds.WDIR(1:11349),winds.WSPD(1:11349),'AngleNorth',0,'AngleEast',90,'nDirections',10,'FreqLabelAngle','ruler');
-% title('Wind Rose, Winter');
-% %Spring March 20th to June 21st 11350:24715
-% WindRose(winds.WDIR(11350:24715),winds.WSPD(11350:24715),'AngleNorth',0,'AngleEast',90,'nDirections',10,'FreqLabelAngle','ruler');
-% title('Wind Rose, Spring');
-% %Summer June 21st to Sept 22nd 24716:37689
-% WindRose(winds.WDIR(24716:37689),winds.WSPD(24716:37689),'AngleNorth',0,'AngleEast',90,'nDirections',10,'FreqLabelAngle','ruler');
-% title('Wind Rose, Summer');
-% %Fall Sept 22nd to December 21st 37689:end
-% WindRose(winds.WDIR(37689:end),winds.WSPD(37689:end),'AngleNorth',0,'AngleEast',90,'nDirections',10,'FreqLabelAngle','ruler');
-% title('Wind Rose, Fall');
-% % 
-
-
-%%
-
-
 WindRose(winds.WDIR(1:11349),winds.WSPD(1:11349),'AngleNorth',0,'AngleEast',90,'nDirections',10,'FreqLabelAngle','ruler');
 title('Wind Rose, Winter');
 %Spring March 20th to June 21st 11350:24715
@@ -156,6 +137,80 @@ title('Wind Rose, Summer');
 %Fall Sept 22nd to December 21st 37689:end
 WindRose(winds.WDIR(37689:end),winds.WSPD(37689:end),'AngleNorth',0,'AngleEast',90,'nDirections',10,'FreqLabelAngle','ruler');
 title('Wind Rose, Fall');
+
+
+WindRose(winds.WDIR(1:11349),winds.WSPD(1:11349),'AngleNorth',0,'AngleEast',90,'nDirections',10,'FreqLabelAngle','ruler');
+title('Wind Rose, Winter');
+
+
+
+
+
+%%
+
+%Okay, trying to rotate the winds, let's see if parallel and perpendicular
+%matter. Don't believe that's the focus, I think its the relation to shore
+%because of the physical processes it causes.
+
+%Transceiver pairings:
+% 1.  SURTASSSTN20 hearing STSNew1
+% 2.  STSNew1 hearing SURTASSSTN20
+% 3.  SURTASS05In hearing FS6
+% 4.  FS6 hearing SURTASS05In
+% 5.  Roldan hearing 08ALTIN
+% 6.  08ALTIN hearing Roldan
+% 7.  SURTASS05In hearing STSNEW2
+% 8.  STSNEW2 hearing SURTASS05In
+% 9.  39IN hearing SURTASS05IN
+% 10. SURTASS05IN hearing 39IN
+% 11. STSNEW2 hearing FS6
+% 12. FS6 hearing STSNew2
+
+load mooredGPS 
+transmitters = {'63068' '63073' '63067' '63079' '63080' '63066' '63076' '63078' '63063'...
+        '63070' '63074' '63075' '63081' '63064' '63062' '63071'};
+%     
+% moored = {'FS17','STSNew1','33OUT','34ALTOUT','09T','Roldan',...
+%           '08ALTIN','14IN','West15','08C','STSNew2','FS6','39IN','SURTASS_05IN',...
+%           'SURTASS_STN20','SURTASS_FS15'}.';
+
+%SURTASSSTN20 and STSNew1
+AnglesD(1) = atan2d((mooredGPS(15,2)-mooredGPS(2,2)),(mooredGPS(15,1)-mooredGPS(2,1)));
+AnglesD(2) = atan2d((mooredGPS(2,2)-mooredGPS(15,2)),(mooredGPS(2,1)-mooredGPS(15,1)));
+%SURTASS05IN and FS6
+AnglesD(3) = atan2d((mooredGPS(12,2)-mooredGPS(14,2)),(mooredGPS(12,1)-mooredGPS(14,1)));
+AnglesD(4) = atan2d((mooredGPS(14,2)-mooredGPS(12,2)),(mooredGPS(14,1)-mooredGPS(12,1)));
+%Roldan and 08ALTIN
+AnglesD(5) = atan2d((mooredGPS(6,2)-mooredGPS(7,2)),(mooredGPS(6,1)-mooredGPS(7,1)));
+AnglesD(6) = atan2d((mooredGPS(7,2)-mooredGPS(6,2)),(mooredGPS(7,1)-mooredGPS(6,1)));
+%SURTASS05IN and STSNew2
+AnglesD(7) = atan2d((mooredGPS(11,2)-mooredGPS(14,2)),(mooredGPS(11,1)-mooredGPS(14,1)));
+AnglesD(8) = atan2d((mooredGPS(14,2)-mooredGPS(11,2)),(mooredGPS(14,1)-mooredGPS(11,1)));
+%39IN and SURTASS05IN
+AnglesD(9) = atan2d((mooredGPS(14,2)-mooredGPS(13,2)),(mooredGPS(14,1)-mooredGPS(13,1)));
+AnglesD(10) = atan2d((mooredGPS(13,2)-mooredGPS(14,2)),(mooredGPS(13,1)-mooredGPS(14,1)));
+%STSNEW2 and FS6
+AnglesD(11) = atan2d((mooredGPS(12,2)-mooredGPS(11,2)),(mooredGPS(12,1)-mooredGPS(11,1)));
+AnglesD(12) = atan2d((mooredGPS(11,2)-mooredGPS(12,2)),(mooredGPS(11,1)-mooredGPS(12,1)));
+
+AnglesR = deg2rad(AnglesD);
+
+
+rotatorsR = deg2rad(90)+AnglesR;
+% rotatorsR = -AnglesR;
+%%%%%%%
+rotatorsD = rad2deg(rotatorsR);
+
+
+for COUNT = 1:length(rotatorsR)
+    [rotUwinds(COUNT,:) rotVwinds(COUNT,:)] = rot(windsU,windsV,rotatorsR(1,COUNT));
+end
+
+%Okay, rotated so that X is parallel to their transmision axis. Cool I
+%guess. FM 3/21/23
+
+
+
 
 
 % directionSignal = WDIR;
