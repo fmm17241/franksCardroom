@@ -1,3 +1,11 @@
+%%
+
+%Frank's attempt at flipping the tides so NE is top right, SW is bottom
+%left. Should've done this long ago but I'm a COWARD.
+
+
+
+
 %Frank's attempt at rotating the currents to be parallel or perpendicular
 %to a transceiver pairing. In 2014, this was done purposefully so cross and
 %along shore are easy to separate; in 2020, it is much more challenging. So
@@ -82,7 +90,10 @@ tideAnglesR = deg2rad(tideAnglesD);
 % pca, lets rotate the vectors by these values. That gives a parallel and
 % perpendicular current for each pairing.
 
+
 % cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\ADCP'
+cd ([oneDrive,'ADCP'])
+
 load GR_adcp_30minave_magrot.mat;
 % Cleaning data
 uz = nanmean(adcp.u);
@@ -126,6 +137,11 @@ tideDT=datetime(tideDN,'ConvertFrom','datenum','TimeZone','UTC')';
 % normally, I find the major axes using Principle Component Analysis and
 % rotate my axes to better fit the ellipses.
 
+
+%%
+
+
+%%
 %Classic rotation like a DJ's record
 tidalz = [tideU;tideV].';
 [coef, ~,~,~] = pca(tidalz);
@@ -133,6 +149,17 @@ tidalTheta = coef(3);
 thetaDegree = rad2deg(tidalTheta);
 
 [rotUtideShore,rotVtideShore] = rot(ut,vt,tidalTheta);
+
+%%
+%HERE'S FM'S NEW ROTATIONS
+%FRANK needs to take ut and vt, and rotate it once to x/alongshore, flip
+%it, then rotate it back.
+flippedAlong = -rotVtideShore;
+tidalThetaEvil = -coef(3);
+thetaDegreeEvil = rad2deg(tidalTheta);
+
+[ut,vt] = rot(rotUtideShore,flippedAlong,tidalThetaEvil);
+%%
 
 %%
 % Frank's second attempt: instead of creating that many sets of vectors, find and plot the angle on top of the tidal ellipses to
@@ -249,6 +276,7 @@ for COUNT = 1:2:length(AnglesR)
     title(nameit)
 end
 
+cd ([oneDrive,'exportedFigures'])
 
 
 %%Combine in big tiled picture. You can do this!!!!
@@ -308,7 +336,7 @@ for COUNT = 1:2:length(AnglesR)
 %     title(sprintf('Should be %0.1f CCW',rotatorsD(1,COUNT)))
     title('X Axis: X to Square +')
     axis equal
-%     exportgraphics(gcf,sprintf('AnglesTides%d.png',COUNT),'Resolution',300)
+    exportgraphics(gcf,sprintf('AnglesTides%d.png',COUNT),'Resolution',300)
 end
 
 
@@ -322,7 +350,6 @@ figure()
 plot(ut,vt)
 axis equal
 hold on
-title('Untouched Predicted')
 scatter(ut(5:10),vt(5:10),'r','filled')
 scatter(ut(11:15),vt(11:15),'y','filled')
 scatter(ut(16:20),vt(16:20),'k','filled')
@@ -334,6 +361,8 @@ axis equal
 hold on
 title('Shore Rotated')
 scatter(rotUtideShore(5:10),rotVtideShore(5:10),'filled')
+scatter(rotUtideShore(11:15),rotVtideShore(11:15),'y','filled')
+scatter(rotUtideShore(16:20),rotVtideShore(16:20),'k','filled')
 
 %Testing flip
 figure()
@@ -343,26 +372,26 @@ hold on
 title('Flip')
 scatter(rotUtideShore(5:10),-rotVtideShore(5:10),'filled')
 
-flippedDude = -rotVtideShore;
+flippedAlong = -rotVtideShore;
 
 figure()
-plot(rotUtideShore,flippedDude)
+plot(rotUtideShore,flippedAlong)
 axis equal
 hold on
 title('Flip')
-scatter(rotUtideShore(5:10),flippedDude(5:10),'filled')
-scatter(rotUtideShore(11:15),flippedDude(11:15),'k','filled')
+scatter(rotUtideShore(5:10),flippedAlong(5:10),'filled')
+scatter(rotUtideShore(11:15),flippedAlong(11:15),'k','filled')
 
 
 %FM's attempt at rotating back the other way now that I've mirrored over
 %the X axis.
-
+flippedAlong = -rotVtideShore;
 tidalz = [tideU;tideV].';
 [coef, ~,~,~] = pca(tidalz);
 tidalThetaEvil = -coef(3);
 thetaDegreeEvil = rad2deg(tidalTheta);
 
-[rotUtideShoreEvil,rotVtideShoreEvil] = rot(rotUtideShore,flippedDude,tidalThetaEvil);
+[rotUtideShoreEvil,rotVtideShoreEvil] = rot(rotUtideShore,flippedAlong,tidalThetaEvil);
 
 figure()
 plot(rotUtideShoreEvil,rotVtideShoreEvil)
@@ -372,3 +401,24 @@ title('Evil')
 scatter(rotUtideShoreEvil(5:10),rotVtideShoreEvil(5:10),'r','filled')
 scatter(rotUtideShoreEvil(11:15),rotVtideShoreEvil(11:15),'y','filled')
 scatter(rotUtideShoreEvil(16:20),rotVtideShoreEvil(16:20),'k','filled')
+
+%%
+
+% uzRot = nanmean(adcp.uc);
+% vzRot = nanmean(adcp.ua);
+% 
+% uzRaw = nanmean(adcp.u);
+% vzRaw = nanmean(adcp.v);
+% 
+% figure()
+% plot(uzRaw,vzRaw);
+
+
+
+
+
+
+
+
+
+
