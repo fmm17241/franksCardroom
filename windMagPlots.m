@@ -138,6 +138,15 @@ xlabel('Wind Direction')
 title('Wind Direction''s Enabling of Detection Success')
 
 
+figure()
+scatter(X,yearlyTiltVswindDir,'filled')
+xlabel('Wind Direction')
+ylabel('Instrument Tilt')
+title('Phys Processes Tilting Instruments')
+
+
+
+
 
 for COUNT = 1:length(normalizedwindDir)
     figure()
