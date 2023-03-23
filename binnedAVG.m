@@ -156,14 +156,16 @@ seasons = unique(fullData{1}.season)
 
 
 %%
+%Frank separated all the bin creation to not clutter one massive script
+%with so many different goals.
 
-createTideBins
-createTideBinsABS
-createTiltBins
-createWindSpeedBins
-createWindDirBins
-
-% The big'un. Looking to bin by both tide and wind directions.
-AxisAndAllies   
+% createTideBins
+% createTideBinsABS
+% createTiltBins
+% createWindSpeedBins
+% createWindDirBins
+% 
+% % The big'un. Looking to bin by both tide and wind directions.
+% AxisAndAllies   
 
 

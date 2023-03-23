@@ -71,7 +71,7 @@ for COUNT = 1:length(fullData)
 %                 averagePerpTide{COUNT}{season}(1,k) = 0;
 %             end
         end
-        normalizedPara{COUNT}{season}  = averageParaTide{COUNT}{season}/(max(averageParaTide{COUNT}{season}));
+%         normalizedPara{COUNT}{season}  = averageParaTide{COUNT}{season}/(max(averageParaTide{COUNT}{season}));
 %         normalizedPerp{COUNT}{season}  = averagePerpTide{COUNT}{season}/(max(averagePerpTide{COUNT}{season}));
     end
 end
