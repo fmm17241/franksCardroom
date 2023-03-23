@@ -8,30 +8,46 @@
 weakWindBin = cell(1,length(fullData));
 for COUNT= 1:length(fullData)
     %Tides cross-shore and weak winds
-    weakWindBin{COUNT}(1,:) =  fullData{COUNT}.uShore < -.4  & fullData{COUNT}.windSpeed     < 5;
-    weakWindBin{COUNT}(2,:) =  fullData{COUNT}.uShore > -.4  & fullData{COUNT}.uShore < -.30 & fullData{COUNT}.windSpeed  < 5;
-    weakWindBin{COUNT}(3,:) =  fullData{COUNT}.uShore > -.30 & fullData{COUNT}.uShore < -.20 & fullData{COUNT}.windSpeed  < 5;
-    weakWindBin{COUNT}(4,:) =  fullData{COUNT}.uShore > -.20 & fullData{COUNT}.uShore < -.10 & fullData{COUNT}.windSpeed  < 5;
-    weakWindBin{COUNT}(5,:) =  fullData{COUNT}.uShore > -.10 & fullData{COUNT}.uShore < .10  & fullData{COUNT}.windSpeed  < 5;
-    weakWindBin{COUNT}(6,:) =  fullData{COUNT}.uShore > .10  & fullData{COUNT}.uShore < .20  & fullData{COUNT}.windSpeed  < 5;
-    weakWindBin{COUNT}(7,:) =  fullData{COUNT}.uShore > .20  & fullData{COUNT}.uShore < .30  & fullData{COUNT}.windSpeed  < 5;
-    weakWindBin{COUNT}(8,:) =  fullData{COUNT}.uShore > .30  & fullData{COUNT}.uShore < .40  & fullData{COUNT}.windSpeed  < 5;
-    weakWindBin{COUNT}(9,:) =  fullData{COUNT}.uShore > .40  & fullData{COUNT}.windSpeed     < 5;
+    weakWindBin{COUNT}(1,:) =  fullData{COUNT}.uShore < -.4  & fullData{COUNT}.windSpeed     < 3;
+    weakWindBin{COUNT}(2,:) =  fullData{COUNT}.uShore > -.4  & fullData{COUNT}.uShore < -.35 & fullData{COUNT}.windSpeed  < 3;
+    weakWindBin{COUNT}(3,:) =  fullData{COUNT}.uShore > -.35 & fullData{COUNT}.uShore < -.30 & fullData{COUNT}.windSpeed  < 3;
+    weakWindBin{COUNT}(4,:) =  fullData{COUNT}.uShore > -.30 & fullData{COUNT}.uShore < -.25 & fullData{COUNT}.windSpeed  < 3;
+    weakWindBin{COUNT}(5,:) =  fullData{COUNT}.uShore > -.25 & fullData{COUNT}.uShore < -.20  & fullData{COUNT}.windSpeed  < 3;
+    weakWindBin{COUNT}(6,:) =  fullData{COUNT}.uShore > -.20  & fullData{COUNT}.uShore < -.15  & fullData{COUNT}.windSpeed  < 3;
+    weakWindBin{COUNT}(7,:) =  fullData{COUNT}.uShore > -.15  & fullData{COUNT}.uShore < -.10  & fullData{COUNT}.windSpeed  < 3;
+    weakWindBin{COUNT}(8,:) =  fullData{COUNT}.uShore > -.10  & fullData{COUNT}.uShore < -.05  & fullData{COUNT}.windSpeed  < 3;
+    weakWindBin{COUNT}(9,:) =  fullData{COUNT}.uShore > -.05 & fullData{COUNT}.uShore < .05 & fullData{COUNT}.windSpeed  < 3;
+    weakWindBin{COUNT}(10,:) =  fullData{COUNT}.uShore > .05 & fullData{COUNT}.uShore < .10 & fullData{COUNT}.windSpeed  < 3;
+    weakWindBin{COUNT}(11,:) =  fullData{COUNT}.uShore > .10 & fullData{COUNT}.uShore < .15  & fullData{COUNT}.windSpeed  < 3;
+    weakWindBin{COUNT}(12,:) =  fullData{COUNT}.uShore > .15  & fullData{COUNT}.uShore < .20  & fullData{COUNT}.windSpeed  < 3;
+    weakWindBin{COUNT}(13,:) =  fullData{COUNT}.uShore > .20  & fullData{COUNT}.uShore < .25  & fullData{COUNT}.windSpeed  < 3;
+    weakWindBin{COUNT}(14,:) =  fullData{COUNT}.uShore > .25  & fullData{COUNT}.uShore < .30  & fullData{COUNT}.windSpeed  < 3;
+    weakWindBin{COUNT}(15,:) =  fullData{COUNT}.uShore > .30  & fullData{COUNT}.uShore < .35  & fullData{COUNT}.windSpeed  < 3;
+    weakWindBin{COUNT}(16,:) =  fullData{COUNT}.uShore > .35  & fullData{COUNT}.uShore < .40  & fullData{COUNT}.windSpeed  < 3;
+    weakWindBin{COUNT}(17,:) =  fullData{COUNT}.uShore > .40  & fullData{COUNT}.windSpeed     < 3;
 end
 
 
 strongWindBin = cell(1,length(fullData));
 for COUNT= 1:length(fullData)
     %Tides cross-shore and strong winds
-    strongWindBin{COUNT}(1,:) =  fullData{COUNT}.uShore < -.4  &  fullData{COUNT}.windSpeed > 10;
-    strongWindBin{COUNT}(2,:) =  fullData{COUNT}.uShore > -.4  &  fullData{COUNT}.uShore < -.30 & fullData{COUNT}.windSpeed  > 10;
-    strongWindBin{COUNT}(3,:) =  fullData{COUNT}.uShore > -.30 &  fullData{COUNT}.uShore < -.20 & fullData{COUNT}.windSpeed  > 10;
-    strongWindBin{COUNT}(4,:) =  fullData{COUNT}.uShore > -.20 &  fullData{COUNT}.uShore < -.10 & fullData{COUNT}.windSpeed  > 10;
-    strongWindBin{COUNT}(5,:) =  fullData{COUNT}.uShore > -.10 &  fullData{COUNT}.uShore < .10  & fullData{COUNT}.windSpeed  > 10;
-    strongWindBin{COUNT}(6,:) =  fullData{COUNT}.uShore > .10  &  fullData{COUNT}.uShore < .20  & fullData{COUNT}.windSpeed  > 10;
-    strongWindBin{COUNT}(7,:) =  fullData{COUNT}.uShore > .20  &  fullData{COUNT}.uShore < .30  & fullData{COUNT}.windSpeed  > 10;
-    strongWindBin{COUNT}(8,:) =  fullData{COUNT}.uShore > .30  &  fullData{COUNT}.uShore < .40  & fullData{COUNT}.windSpeed  > 10;
-    strongWindBin{COUNT}(9,:) =  fullData{COUNT}.uShore > .40  &  fullData{COUNT}.windSpeed  > 10;
+    strongWindBin{COUNT}(1,:) =  fullData{COUNT}.uShore < -.4  & fullData{COUNT}.windSpeed > 12;
+    strongWindBin{COUNT}(2,:) =  fullData{COUNT}.uShore > -.4  & fullData{COUNT}.uShore < -.35 & fullData{COUNT}.windSpeed > 12;
+    strongWindBin{COUNT}(3,:) =  fullData{COUNT}.uShore > -.35 & fullData{COUNT}.uShore < -.30 & fullData{COUNT}.windSpeed  > 12;
+    strongWindBin{COUNT}(4,:) =  fullData{COUNT}.uShore > -.30 & fullData{COUNT}.uShore < -.25 & fullData{COUNT}.windSpeed > 12;
+    strongWindBin{COUNT}(5,:) =  fullData{COUNT}.uShore > -.25 & fullData{COUNT}.uShore < -.20  & fullData{COUNT}.windSpeed > 12;
+    strongWindBin{COUNT}(6,:) =  fullData{COUNT}.uShore > -.20  & fullData{COUNT}.uShore < -.15  & fullData{COUNT}.windSpeed > 12;
+    strongWindBin{COUNT}(7,:) =  fullData{COUNT}.uShore > -.15  & fullData{COUNT}.uShore < -.10  & fullData{COUNT}.windSpeed > 12;
+    strongWindBin{COUNT}(8,:) =  fullData{COUNT}.uShore > -.10  & fullData{COUNT}.uShore < -.05  & fullData{COUNT}.windSpeed  > 12;
+    strongWindBin{COUNT}(9,:) =  fullData{COUNT}.uShore > -.05 & fullData{COUNT}.uShore < .05 & fullData{COUNT}.windSpeed  > 12;
+    strongWindBin{COUNT}(10,:) =  fullData{COUNT}.uShore > .05 & fullData{COUNT}.uShore < .10 & fullData{COUNT}.windSpeed  > 12;
+    strongWindBin{COUNT}(11,:) =  fullData{COUNT}.uShore > .10 & fullData{COUNT}.uShore < .15  & fullData{COUNT}.windSpeed  > 12;
+    strongWindBin{COUNT}(12,:) =  fullData{COUNT}.uShore > .15  & fullData{COUNT}.uShore < .20  & fullData{COUNT}.windSpeed  > 12;
+    strongWindBin{COUNT}(13,:) =  fullData{COUNT}.uShore > .20  & fullData{COUNT}.uShore < .25  & fullData{COUNT}.windSpeed  > 12;
+    strongWindBin{COUNT}(14,:) =  fullData{COUNT}.uShore > .25  & fullData{COUNT}.uShore < .30  & fullData{COUNT}.windSpeed  > 12;
+    strongWindBin{COUNT}(15,:) =  fullData{COUNT}.uShore > .30  & fullData{COUNT}.uShore < .35  & fullData{COUNT}.windSpeed  > 12;
+    strongWindBin{COUNT}(16,:) =  fullData{COUNT}.uShore > .35  & fullData{COUNT}.uShore < .40  & fullData{COUNT}.windSpeed  > 12;
+    strongWindBin{COUNT}(17,:) =  fullData{COUNT}.uShore > .40  & fullData{COUNT}.windSpeed     > 12;
 end
 
 
@@ -77,12 +93,26 @@ end
 yearlyStrong = mean(normalizedStrong,1)
 yearlyWeak = mean(normalizedWeak,1)
 
-x = 1:length(yearlyWeak)
+x = -.4:.05:.4;
+
 
 figure()
 scatter(x,yearlyStrong,'r','filled')
 hold on
 scatter(x,yearlyWeak,'b','filled')
 
+figure()
+hold on
+for COUNT = 1:length(fullData)
+    figure()
+    hold on
+    scatter(x,averagedStrong(COUNT,:),'r','filled')
+    scatter(x,averagedWeak(COUNT,:),'b','filled')
+    ylabel('Avg Det Efficiency')
+    xlabel('Tidal Velocity (m/s)')
+    ylim([0 6])
+    title(sprintf('Transceiver Pairing %d, Winds & Tides',COUNT))
+    legend('Strong Winds','Weak Winds')
+end
 
  
