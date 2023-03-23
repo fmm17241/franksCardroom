@@ -73,3 +73,18 @@ end
 for COUNT = 1:length(allParaABS)
     yearlyParaABS{COUNT} = mean(allParaABS{COUNT},1)
 end
+
+%Absolute values
+for COUNT = 1:length(fullData)
+    for season = 1:length(seasons)
+        for k = 1:height(tideBinsParaABS{COUNT}{season})
+            if isempty(tideScenarioParaABS{COUNT}{season}{1,k}) == 1
+                errorDataABS{COUNT}(season,k) = 0;
+                continue
+            end
+            errorDataABS{COUNT}(season,k) = std(tideScenarioParaABS{COUNT}{season}{1,k}.detections)
+        end
+    end
+end
+
+
