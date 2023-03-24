@@ -100,6 +100,10 @@ figure()
 scatter(x,yearlyStrong,'r','filled')
 hold on
 scatter(x,yearlyWeak,'b','filled')
+legend('Strong Winds(>12 m/s)','Weak Winds(<3 m/s)')
+title('Yearly AVG Detections w/ Strong/Weak Tides & Winds')
+xlabel('Tidal Magnitude')
+ylabel('Normalized Detection Efficiency')
 
 figure()
 hold on
@@ -114,5 +118,8 @@ for COUNT = 1:length(fullData)
     title(sprintf('Transceiver Pairing %d, Winds & Tides',COUNT))
     legend('Strong Winds','Weak Winds')
 end
+
+
+
 
  
