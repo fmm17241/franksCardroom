@@ -113,7 +113,7 @@ end
 
 
 
-X = 1:10:360;
+X = 1:20:360;
 
 figure()
 plot(X,yearlywindDir);
