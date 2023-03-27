@@ -100,14 +100,14 @@ end
 
 
 for COUNT = 1:length(completeWindDir)
-    completeWindsDirAvg(COUNT,:) = nanmean(completeWindDir{COUNT});
-    completeWindsDirAvg2(COUNT,:) = nanmean(completeWindDirAVG{COUNT});
+    completeWindDirAvg(COUNT,:) = nanmean(completeWindDir{COUNT});
+    completeWindDirAvg2(COUNT,:) = nanmean(completeWindDirAVG{COUNT});
     completeTiltVsWindDirAvg(COUNT,:) = nanmean(completeTiltVswindDir{COUNT})
 end
 
-for COUNT = 1:length(completeWindsDirAvg)
+for COUNT = 1:length(completeWindDirAvg)
     yearlywindDir(1,COUNT) = mean(completeWindsDirAvg(:,COUNT));
-    yearlywindDirAVG(1,COUNT) = mean(completeWindsDirAvg2(:,COUNT));
+    yearlywindDirAVG(1,COUNT) = mean(completeWindDirAvg2(:,COUNT));
     yearlyTiltVswindDir(1,COUNT) = mean(completeTiltVsWindDirAvg(:,COUNT));
 end
 
@@ -121,5 +121,28 @@ plot(X,yearlywindDir);
 figure()
 plot(X,yearlywindDirAVG)
 
+
+for COUNT = 1:length(completeWindDir)
+    figure()
+    hold on
+    for season = 1:length(seasons)
+        plot(X,completeWindDirAVG{COUNT}(season,:))
+    end
+    hold off
+end
+
+seasonNames = {'Winter','Spring','Summer','Fall','Mariner''s Fall'}
+
+for season = 1:length(seasons)
+    figure()
+    hold on
+    for COUNT = 1:length(completeWindDir)
+        plot(X,completeWindDirAVG{COUNT}(season,:))
+    end
+    hold off
+    xlabel('Wind Dir (CW, 0N')
+    ylabel('Det Efficiency')
+    title(sprintf('10 Transmissions, %s',seasonNames{season}))
+end
 
 
