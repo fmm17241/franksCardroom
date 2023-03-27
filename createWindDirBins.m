@@ -131,7 +131,9 @@ for COUNT = 1:length(completeWindDir)
     hold off
 end
 
+%This allows us to name each loop by the season plotted.
 seasonNames = {'Winter','Spring','Summer','Fall','Mariner''s Fall'}
+
 
 for season = 1:length(seasons)
     figure()
