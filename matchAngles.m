@@ -63,7 +63,7 @@ AnglesD(12) = atan2d((mooredGPS(11,2)-mooredGPS(12,2)),(mooredGPS(11,1)-mooredGP
 % tideAnglesR = deg2rad(tideAnglesD);
 
 %testing real tidal angles to fix discrepancy
-%%FRANK TESTING: Adding +90 degrees to the angle measurements; this is so
+%Adding +90 degrees to the angle measurements; this is so
 %%that, when I rotate my perspective, my X axis will be source to receiver.
 %%Let's try it, what do i have to lose.
 
@@ -73,15 +73,6 @@ tideAnglesD(3) = tideAnglesD(1)-90;
 tideAnglesD(4) = tideAnglesD(2)-90;
 AnglesR = deg2rad(AnglesD);
 tideAnglesR = deg2rad(tideAnglesD);
-
-
-%% Original
-% tideAnglesD(1) = 123.3773;
-% tideAnglesD(2) = 303.3773;
-% tideAnglesD(3) = tideAnglesD(1)-90;
-% tideAnglesD(4) = tideAnglesD(2)-90;
-% AnglesR = deg2rad(AnglesD);
-% tideAnglesR = deg2rad(tideAnglesD);
 
 %%
 %Okay: How do I use that information?

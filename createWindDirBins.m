@@ -168,3 +168,44 @@ for season = 1:length(seasons)
     title(sprintf('10 Transmissions, %s',seasonNames{season}))
 end
 
+%Frank needs to add "transmission direction", a vertical line on these
+%plots. That way we can look at wind dir compared  to shore and
+%transmission.
+%use AnglesD? Huh.
+%Need to make them 0:360, not -180:180.
+indy = AnglesD < 0;
+AnglesD(indy) = AnglesD(indy) + 360;
+
+Frank fix NaNs below. Can also change bin size to 20degs, would help.
+
+
+%One per graph
+for COUNT = 1:length(completeWindDir)
+    figure()
+    hold on
+    for season = 1:length(seasons)
+        nexttile()
+        plot(X,completeWindDirAVG{COUNT}(season,:))
+        a = xline(121,'r','LineWidth',30,'label','Offshore','Alpha',0.35)
+        b = xline(301,'b','LineWidth',30,'label','Onshore','Alpha',0.35)
+        c = xline(30,'k','LineWidth',30,'label','Along.NE','Alpha',0.35)
+        d = xline(212,'k','LineWidth',30,'label','Along.SW','Alpha',0.35)
+        a.FontSize = 8
+        b.FontSize = 8
+        c.FontSize = 8
+        d.FontSize = 8
+        transDir = xline(AnglesD(COUNT),'k','LineWidth',5,'Alpha',1)
+        hold off
+        ylim([0 1])
+        xlim([0 360])
+        xlabel('Wind Dir (CW, 0N')
+        ylabel('Det Efficiency')
+        if season == 1
+            title(sprintf('Pairing %d, %s',COUNT,seasonNames{season}))
+            continue
+        end
+        title(sprintf('%s',seasonNames{season}))
+    end
+    set(gcf, 'Position', get(0, 'Screensize'));
+end
+
