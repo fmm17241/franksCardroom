@@ -180,6 +180,22 @@ pax.ThetaZeroLocation = 'top';
 pax.ThetaDir = 'clockwise';
 
 
+%FM 3/31 just showing specific transceivers that did worse than others for
+%Spring.
+%Low averages in Spring: 1, 3, 4, 9
+badInd = [1;3;4;9];
+goodInd = [2;5;6;7;8;10]
+
+figure()
+h = polarscatter(AnglesR(badInd),x(badInd),'filled','k')
+hold on
+hp = polarscatter(AnglesR(goodInd),x(goodInd),'filled','r')
+pax = gca;
+pax.ThetaZeroLocation = 'top';
+pax.ThetaDir = 'clockwise';
+title('Black: Low Spring Avg, Red: High')
+
+
 % Make rotations for each transceiver pairing
 pairing = [1 1 2 2 3 3 4 4 5 5 6 6];
 

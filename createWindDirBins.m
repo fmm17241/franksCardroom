@@ -123,6 +123,7 @@ if length(averagewindDir{1}{1}) ==36
     X = 1:10:360;
 end
 
+seasonNames = {'Winter','Spring','Summer','Fall','Mariner''s Fall'}
 
 
 figure()
@@ -142,7 +143,7 @@ for COUNT = 1:length(completeWindDir)
 end
 
 %This allows us to name each loop by the season plotted.
-seasonNames = {'Winter','Spring','Summer','Fall','Mariner''s Fall'}
+
 
 
 for season = 1:length(seasons)
@@ -166,9 +167,11 @@ for season = 1:length(seasons)
 end
 
 % FRANK find separation between the two groupings in Spring? seems like 6ish are above a line, 4ish are below.
+for COUNT = 1:length(completeWindDirAVG)
+    springAverages(COUNT,:) = mean(completeWindDirAVG{COUNT}(2,:)) 
+end
 
-
-
+%Low averages in Spring: 1, 3, 4, 9
 
 
 
