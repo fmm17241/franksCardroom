@@ -152,16 +152,16 @@ for season = 1:length(seasons)
     for COUNT = 1:length(completeWindDir)
         plot(X,completeWindDirAVG{COUNT}(season,:))
     end
-    a = xline(121,'r','LineWidth',30,'label','Offshore','Alpha',0.35)
-    b = xline(301,'b','LineWidth',30,'label','Onshore','Alpha',0.35)
-    c = xline(30,'k','LineWidth',30,'label','Along.NE','Alpha',0.35)
-    d = xline(212,'k','LineWidth',30,'label','Along.SW','Alpha',0.35)
+    a = xline(121,'r','LineWidth',30,'label','Offshore','Alpha',0.20)
+    b = xline(301,'b','LineWidth',30,'label','Onshore','Alpha',0.20)
+    c = xline(30,'k','LineWidth',30,'label','Along.NE','Alpha',0.20)
+    d = xline(212,'k','LineWidth',30,'label','Along.SW','Alpha',0.20)
     a.FontSize = 8
     b.FontSize = 8
     c.FontSize = 8
     d.FontSize = 8
     hold off
-    xlabel('Wind Dir (CW, 0N')
+    xlabel('Wind Dir (CW, 0N)')
     ylabel('Det Efficiency')
     title(sprintf('10 Transmissions, %s',seasonNames{season}))
 end
