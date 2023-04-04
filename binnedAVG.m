@@ -137,6 +137,7 @@ Mfall    =5168:6631;
 seasonCounter = zeros(1,length(time));
 seasonCounter(winter) = 1; seasonCounter(spring) = 2; seasonCounter(summer) = 3; seasonCounter(fall) = 4; seasonCounter(Mfall) = 5;
 
+FRANK STRATIFICATION NOW WORKS
 
 %Okay, basics are set.
 close all

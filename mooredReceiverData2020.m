@@ -116,9 +116,9 @@ for PT = 1:length(bottom)
     startTime = [datetime(2020,01,29,17,00,00,'TimeZone','UTC'); datetime(2020,12,10,13,00,00,'TimeZone','UTC')];
     stratIndex1 = isbetween(seas.time,startTime(1,1),startTime(2,1));
     stratIndex2 = isbetween(bottomTime{1,PT},startTime(1,1),startTime(2,1));
-    if PT == 9 | 10
-        continue
-    end
+%     if PT == 9 | 10
+%         continue
+%     end
     stratification{PT} = seas.SST(stratIndex1)-bottom{1,PT}.botTemp(stratIndex2);
     nullindex = stratification{1,PT} < .000000001;
     stratification{PT}(nullindex) = 0;
