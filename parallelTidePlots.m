@@ -96,7 +96,10 @@ for season = 1:length(seasons)
     figure()
     hold on
     for COUNT = 1:length(normalizedPara)
-        scatter(x,normalizedPara{COUNT}{season},'filled')
+        labelz = num2str(sprintf('%d',COUNT))
+%         scatter(x,normalizedPara{COUNT}{season},'filled')
+        h= plot(x,normalizedPara{COUNT}{season})
+        label(h,sprintf('%s',labelz),'location','North')
     end
     nameit = sprintf('Parallel %s',seasonName{season});
     title(nameit)
@@ -117,7 +120,9 @@ end
 %     xlabel('Current Velocity (m/s)')
 % %     exportgraphics(gcf,sprintf('Transceiver%dPerpSeasonal.png',COUNT),'Resolution',300)
 % end
-
+        labelz = num2str(sprintf('%d',COUNT))
+        h = plot(x,allStrat{COUNT}(season,:))
+        label(h,sprintf('%s',labelz))
 
 %%
 %One plot = all seasons for 1 transceiver, parallel + perp

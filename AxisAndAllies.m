@@ -118,7 +118,7 @@ scatter(x,yearlyNormalStrong,'r','filled')
 hold on
 scatter(x,yearlyNormalWeak,'b','filled')
 legend('Strong Winds(>12 m/s)','Weak Winds(<3 m/s)')
-title('Yearly AVG Detections w/ Strong/Weak Tides & Winds')
+title('Yearly Normalized Detections w/ Strong/Weak Tides & Winds')
 xlabel('Tidal Magnitude')
 ylabel('Normalized Detection Efficiency')
 
@@ -145,6 +145,8 @@ for COUNT = 1:height(completeAVGstrong)
     legend('Strong Winds','Weak Winds')
 end
 
+
+%%
 
 
 

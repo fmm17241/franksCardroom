@@ -120,7 +120,7 @@ for PT = 1:length(bottom)
 %         continue
 %     end
     stratification{PT} = seas.SST(stratIndex1)-bottom{1,PT}.botTemp(stratIndex2);
-    nullindex = stratification{1,PT} < .000000001;
+    nullindex = stratification{1,PT} < .000001;
     stratification{PT}(nullindex) = 0;
 end 
 

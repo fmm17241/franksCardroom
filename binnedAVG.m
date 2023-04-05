@@ -137,17 +137,15 @@ Mfall    =5168:6631;
 seasonCounter = zeros(1,length(time));
 seasonCounter(winter) = 1; seasonCounter(spring) = 2; seasonCounter(summer) = 3; seasonCounter(fall) = 4; seasonCounter(Mfall) = 5;
 
-FRANK STRATIFICATION NOW WORKS
-
 %Okay, basics are set.
 close all
 
 %Set length to 10; last 2 were far less detections and time deployed.
 %Not helpful.
 for COUNT = 1:10
-    fullData{COUNT} = table2timetable(table(time, seasonCounter', detections{COUNT},  sunlight', rotUwinds, rotVwinds, WSPD, WDIR, ut', vt', rotUtide(COUNT,:)',...
+    fullData{COUNT} = table2timetable(table(time, seasonCounter', detections{COUNT},  sunlight', rotUwinds, rotVwinds, WSPD, WDIR, stratification{COUNT}, ut', vt', rotUtide(COUNT,:)',...
         rotVtide(COUNT,:)',rotUtideShore',rotVtideShore', bottomStats{COUNT}.Noise,bottomStats{COUNT}.Tilt,waveHt.waveHeight));
-    fullData{COUNT}.Properties.VariableNames = {'season', 'detections','sunlight', 'windsCross','windsAlong','windSpeed','windDir','uTide','vTide','paraTide','perpTide','uShore','vShore','noise','tilt','waveHeight'};
+    fullData{COUNT}.Properties.VariableNames = {'season', 'detections','sunlight', 'windsCross','windsAlong','windSpeed','windDir','stratification','uTide','vTide','paraTide','perpTide','uShore','vShore','noise','tilt','waveHeight'};
 end
 
 seasons = unique(fullData{1}.season)

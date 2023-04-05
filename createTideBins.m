@@ -62,7 +62,7 @@ for COUNT = 1:length(fullData)
             tideScenarioPara{COUNT}{season}{k}= fullData{COUNT}(tideBinsPara{COUNT}{season}(k,:),:);
             tideScenarioPerp{COUNT}{season}{k}= fullData{COUNT}(tideBinsPerp{COUNT}{season}(k,:),:);
             averageParaTide{COUNT}{season}(1,k) = mean(tideScenarioPara{COUNT}{season}{1,k}.detections);
-%             averageTilt{COUNT}{season}(1,k) = mean(tideScenarioPara{COUNT}{season}{1,k}.tilt);
+            averageStrat{COUNT}{season}(1,k) = mean(tideScenarioPara{COUNT}{season}{1,k}.stratification);
 %             averagePerpTide{COUNT}{season}(1,k) = mean(tideScenarioPerp{COUNT}{season}{1,k}.detections);
             if isnan(averageParaTide{COUNT}{season}(1,k))
                 averageParaTide{COUNT}{season}(1,k) = 0;
@@ -90,14 +90,44 @@ for COUNT = 1:length(normalizedPara)
     for season = 1:length(seasons)
         allPara{COUNT}(season,:) = normalizedPara{COUNT}{season};
 %         completePerp{COUNT}(season,:) = normalizedPerp{COUNT}{season};
+        allStrat{COUNT}(season,:) = averageStrat{COUNT}{season};
     end
 end
 
 %Whole year
 for COUNT = 1:length(allPara)
     yearlyParaAVG{COUNT} = mean(allPara{COUNT},1)
+    yearlyStrat(COUNT,:)   = mean(allStrat{COUNT},1)
 %     yearlyPerpAVG(COUNT,:) = mean(completePerp{COUNT},1)
 end
+
+yearlyStratAll = nanmean(yearlyStrat)
+
+
+
+
+x = -.4:.05:.4;
+seasonNames = {'Winter','Spring','Summer','Fall','Mariner''s Fall'}
+
+
+for season = 1:length(seasons)
+    figure()
+    hold on
+    for COUNT = 1:length(allStrat)
+        labelz = num2str(sprintf('%d',COUNT))
+        h = plot(x,allStrat{COUNT}(season,:))
+        label(h,sprintf('%s',labelz))
+    end
+    hold off
+    xlabel('Tidal Magnitude')
+    ylabel('BulkStrat')
+    ylim([0 2])
+    title(sprintf('10 Transmitters, %s',seasonNames{season}))
+end
+
+
+
+
 
 
 %Frank is finding standard deviation
