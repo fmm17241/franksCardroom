@@ -104,14 +104,24 @@ figure()
 scatter(x,yearlyAVGstrong,'r','filled')
 hold on
 scatter(x,yearlyAVGweak,'b','filled')
-legend('Strong Strat (<0.5)','Weak Strat (<2)')
+legend(sprintf('Strong Strat > %0.1d',strongStratNumber),sprintf('Weak Strat < %0.1d',round(weakStratNumber,2)))
 title('Yearly Normalized Detections w/ Strong/Weak Stratification')
 xlabel('WindSpeed')
 ylabel('Normalized Detection Efficiency')
 
 
 
-
+for COUNT = 1:height(completeAVGstrong)
+    figure()
+    hold on
+    scatter(x,completeAVGstrong(COUNT,:),'r','filled')
+    scatter(x,completeAVGweak(COUNT,:),'b','filled')
+    ylabel('Avg Det Efficiency')
+    xlabel('Tidal Velocity (m/s)')
+    ylim([0 6])
+    title(sprintf('Transceiver Pairing %d',COUNT))
+    legend('Strong Strat','Weak Strat')
+end
 
 
 
