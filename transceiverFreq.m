@@ -27,7 +27,8 @@ for COUNT = 1:length(fullData)
 end
 
 %window
-win=24*15;
+win=24*5;
+clearvars pxx f pxxNoise fNoise
 
 %Pwelch, Welch's power spectrum. Given window and sampling frequency, spits
 %out one sided
