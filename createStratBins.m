@@ -7,16 +7,29 @@ cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\exportedFigures'
 
 for COUNT = 1:length(fullData)
     for season = 1:length(seasons)
-        stratBins{COUNT}{season}(1,:) = fullData{COUNT}.stratification < 0.5 & fullData{COUNT}.season == season;
-        stratBins{COUNT}{season}(2,:) = fullData{COUNT}.stratification > 0.5 & fullData{COUNT}.stratification < 1.0 & fullData{COUNT}.season ==season;
-        stratBins{COUNT}{season}(3,:) = fullData{COUNT}.stratification > 1.0 & fullData{COUNT}.stratification < 1.5 & fullData{COUNT}.season ==season;
-        stratBins{COUNT}{season}(4,:) = fullData{COUNT}.stratification > 1.5 & fullData{COUNT}.stratification < 2.0 & fullData{COUNT}.season ==season;
-        stratBins{COUNT}{season}(5,:) = fullData{COUNT}.stratification > 2.0 & fullData{COUNT}.stratification < 2.5 & fullData{COUNT}.season ==season;
-        stratBins{COUNT}{season}(6,:) = fullData{COUNT}.stratification > 2.5 & fullData{COUNT}.stratification < 3.0 & fullData{COUNT}.season ==season;
-        stratBins{COUNT}{season}(7,:) = fullData{COUNT}.stratification > 3.0 & fullData{COUNT}.stratification < 3.5 & fullData{COUNT}.season ==season;
-        stratBins{COUNT}{season}(8,:) = fullData{COUNT}.stratification > 3.5 & fullData{COUNT}.stratification < 4.0 & fullData{COUNT}.season ==season;
-        stratBins{COUNT}{season}(9,:) = fullData{COUNT}.stratification > 4.0 & fullData{COUNT}.stratification < 4.5 & fullData{COUNT}.season ==season;
-        stratBins{COUNT}{season}(10,:) = fullData{COUNT}.stratification > 4.5 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(1,:) = fullData{COUNT}.stratification < 0.2 & fullData{COUNT}.season == season;
+        stratBins{COUNT}{season}(2,:) = fullData{COUNT}.stratification > 0.2 & fullData{COUNT}.stratification < 0.4 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(3,:) = fullData{COUNT}.stratification > 0.4 & fullData{COUNT}.stratification < 0.6 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(4,:) = fullData{COUNT}.stratification > 0.6 & fullData{COUNT}.stratification < 0.8 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(5,:) = fullData{COUNT}.stratification > 0.8 & fullData{COUNT}.stratification < 1.0 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(6,:) = fullData{COUNT}.stratification > 1.0 & fullData{COUNT}.stratification < 1.2 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(7,:) = fullData{COUNT}.stratification > 1.2 & fullData{COUNT}.stratification < 1.4 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(8,:) = fullData{COUNT}.stratification > 1.4 & fullData{COUNT}.stratification < 1.6 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(9,:) = fullData{COUNT}.stratification > 1.6 & fullData{COUNT}.stratification < 1.8 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(10,:) = fullData{COUNT}.stratification > 1.8 & fullData{COUNT}.stratification < 2.0 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(11,:) = fullData{COUNT}.stratification > 2.0 & fullData{COUNT}.stratification < 2.2 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(12,:) = fullData{COUNT}.stratification > 2.2 & fullData{COUNT}.stratification < 2.4 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(13,:) = fullData{COUNT}.stratification > 2.4 & fullData{COUNT}.stratification < 2.6 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(14,:) = fullData{COUNT}.stratification > 2.6 & fullData{COUNT}.stratification < 2.8 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(15,:) = fullData{COUNT}.stratification > 2.8 & fullData{COUNT}.stratification < 3.0 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(16,:) = fullData{COUNT}.stratification > 3.0 & fullData{COUNT}.stratification < 3.2 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(17,:) = fullData{COUNT}.stratification > 3.2 & fullData{COUNT}.stratification < 3.4 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(18,:) = fullData{COUNT}.stratification > 3.4 & fullData{COUNT}.stratification < 3.6 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(19,:) = fullData{COUNT}.stratification > 3.6 & fullData{COUNT}.stratification < 3.8 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(20,:) = fullData{COUNT}.stratification > 3.8 & fullData{COUNT}.stratification < 4.0 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(21,:) = fullData{COUNT}.stratification > 4.0 & fullData{COUNT}.stratification < 4.2 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(22,:) = fullData{COUNT}.stratification > 4.2 & fullData{COUNT}.stratification < 4.4 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(23,:) = fullData{COUNT}.stratification > 4.4 & fullData{COUNT}.season ==season;
     end
 end
 
@@ -66,8 +79,23 @@ end
 
 %%
 %Plot findings
-x = 0:0.5:4.5;
+x = 0:0.2:4.4;
 seasonNames = {'Winter','Spring','Summer','Fall','Mariner''s Fall'}
+
+
+for COUNT = 1:length(normalizedStrat)
+    figure()
+    hold on
+    for season = 1:length(normalizedStrat{1})
+        plot(x,completeStratCell{COUNT}(season,:))
+    end
+    hold off
+    xlabel('Bulk Stratification')
+    ylabel('Det Efficiency')
+    title(sprintf('All Seasons, %d',COUNT))
+    legend(seasonNames)
+end
+
 
 
 for season = 1:length(seasons)
@@ -79,6 +107,8 @@ for season = 1:length(seasons)
     hold off
     xlabel('Bulk Stratification')
     ylabel('Det Efficiency')
-    title(sprintf('10 Transmissions, %s',seasonNames{season}))
+    title(sprintf('10 Transmissions, %s',COUNT{season}))
 end
+
+
 
