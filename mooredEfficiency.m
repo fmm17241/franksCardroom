@@ -91,15 +91,15 @@ index{8} = mooredReceivers{2,1}.detections == 63074; % SURTASS05IN hearing STSNE
 index{9} = mooredReceivers{2,1}.detections == 63081; % SURTASS05IN hearing 39IN, transmits NW to SE
 index{10} = mooredReceivers{10,1}.detections == 63064; % 39IN hearing SURTASS05IN, transmits SE to NW
 
-%Sixth Pairing
-index{11} = mooredReceivers{7,1}.detections == 63074; % FS6 hearing STSNew2, Along, barely any
-index{12} = mooredReceivers{6,1}.detections == 63075; % STSNew2 hearing FS6, Along
+% %Sixth Pairing
+% index{11} = mooredReceivers{7,1}.detections == 63074; % FS6 hearing STSNew2, Along, barely any
+% index{12} = mooredReceivers{6,1}.detections == 63075; % STSNew2 hearing FS6, Along
 
 
 %FM this is my "key" for the index. I didn't want to load data twice so
 %this key tells the loop which order to use
 % receiverOrder = [1;5;2;7;3;8;2;6;10;2;6;7];
-receiverOrder = [1;5;7;2;3;8;6;2;2;10;7;6];
+receiverOrder = [1;5;7;2;3;8;6;2;2;10];
 
 
 % %Making the visualizations more correct: instead of 06:00 representing

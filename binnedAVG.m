@@ -168,3 +168,8 @@ seasons = unique(fullData{1}.season)
 % AxisAndAllies   
 
 
+for COUNT=1:length(fullData)
+    sumD(COUNT) = sum(fullData{COUNT}.detections);
+end
+
+

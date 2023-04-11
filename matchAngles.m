@@ -74,6 +74,11 @@ tideAnglesD(4) = tideAnglesD(2)-90;
 AnglesR = deg2rad(AnglesD);
 tideAnglesR = deg2rad(tideAnglesD);
 
+
+index = AnglesD < 1
+FranksAnglesD(index) = (360 + AnglesD(index));
+
+
 %%
 %Okay: How do I use that information?
 
