@@ -16,8 +16,8 @@ tidalAnalysis2014
 %Predicted tides: ut and vt, names changed for Frank's clarity. Gonna
 %regret this.
 predictedTime = tideDT;
-predictedU = ut;
-predictedV = vt;
+predictedU = correctedUT;
+predictedV = correctedVT;
 
 %Original depth-averaged currents: uz and vz
 measuredTime = adcp.time(2:2:end)';
@@ -25,12 +25,13 @@ measuredU = uz(2:2:end);
 measuredV = vz(2:2:end);
 
 %Let's go for it: finding anomaly
-
-anomalyU = measuredU-predictedU;
-anomalyV = measuredV-predictedV;
+anomalyU = predictedU-measuredU;
+anomalyV = predictedV-measuredV;
 
 winds2014 = windsAverage(5562:8276,:)
 
+winds2014.WDIR(isnan(winds2014.WDIR)) = 0;
+winds2014.WSPD(isnan(winds2014.WSPD)) = 0;
 %Frank needs to test this value, check to see if I broke it 
 
 figure()
@@ -104,6 +105,12 @@ for k = 1:length(cycleTime)-1
     ylim([0 360])
     datetick('x','mmm,dd,yyyy','keeplimits');
     ylabel('Hourly Detections');
+    yline(300,'label','Onshore')
+    yline(118,'label','Offshore')
+    yline(30,'label','Along,NE')
+    yline(210,'label','Along,SW')
+
+
     %     
     nexttile([1 2])
     plot(measuredTime,anomalyU,'r')
@@ -139,7 +146,7 @@ for k = 1:length(cycleTime)-1
     close all
 end
 
-
+R = corrcoef(anomalyV,winds2014.WSPD)
 
 
 
