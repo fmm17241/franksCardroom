@@ -146,7 +146,7 @@ for k = 1:length(cycleTime)-1
     close all
 end
 
-R = corrcoef(anomalyV,winds2014.WSPD)
+R = corrcoef(anomalyV,winds2014.WSPD);
 
 
 
