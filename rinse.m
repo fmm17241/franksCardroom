@@ -1,6 +1,6 @@
 %Franks easy way of getting a clean slate
 
-clearvars -except oneDrive localdir toolbox gitHub
+clearvars -except oneDrive localdir toolbox gitHub localPlots
 close all
 clc
 
