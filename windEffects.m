@@ -113,8 +113,13 @@ for k = 1:length(cycleTime)-1
     ylim([-.2 .2])
     datetick('x','keeplimits');
     yline(0);
+    xL=xlim;
+    yL=ylim;
+    str = 'East'
+    str1 = 'West'
+    text(xL(2),yL(2),str,'HorizontalAlignment','right','VerticalAlignment','top')
+    text(xL(2),yL(1),str1,'HorizontalAlignment','right','VerticalAlignment','bottom')
 
-    
     nexttile([1 2])
     plot(measuredTime,anomalyV,'b')
     title('Current Anomaly, V');
@@ -123,6 +128,11 @@ for k = 1:length(cycleTime)-1
     xlim(ax);
     datetick('x','keeplimits');
     yline(0);
+    str = 'North'
+    str1 = 'South'
+    text(xL(2),yL(2),str,'HorizontalAlignment','right','VerticalAlignment','top')
+    text(xL(2),yL(1),str1,'HorizontalAlignment','right','VerticalAlignment','bottom')
+
   
 %         
     exportgraphics(ff,sprintf('saveIt%d.png',k))
