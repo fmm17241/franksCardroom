@@ -149,4 +149,13 @@ end
 R = corrcoef(anomalyV,winds2014.WSPD);
 
 
+%%
+testing = mean(anomalyU)
+
+testing2= mean(anomalyV)
+
+
+
+
+
 
