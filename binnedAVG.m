@@ -47,7 +47,7 @@ windsAnalysis2020
 % Tilt: bottom.tilt
 
 
-%Lets start at 2020-01-29 16:30, ending on 2020-12-17 22:30
+%Lets start at 2020-01-29 17:00, ending on 2020-12-10 13:00:00
 fullTime = [datetime(2020,01,29,17,00,00),datetime(2020,12,10,13,00,00)];
 fullTime.TimeZone = 'UTC';
 
