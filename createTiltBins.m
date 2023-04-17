@@ -61,3 +61,52 @@ end
 for COUNT = 1:length(completeTiltAvg)
     yearlyTilt(1,COUNT) = mean(completeTiltAvg(:,COUNT))
 end
+
+%%
+cd (localPlots)
+seasonName = [{'Winter','Spring','Summer','Fall','Mariner''s Fall','Fall'}]
+
+
+ x = 1:length(yearlyTilt);
+figure()
+scatter(x,completeTiltAvg(10,:),'b','filled');
+hold on
+scatter(x,completeTiltAvg(4,:),'r','filled');
+scatter(x,completeTiltAvg(7,:),'g','filled');
+xlabel('Instrument Tilt °')
+ylabel('Normalized Det Efficiency')
+legend('39IN','SURTASS05IN','STSnew2')
+title('Increased Distance from Bottom', 'Means Tilt Matters More');
+
+%
+color = ['r','r','g','g','k','k','b','b','m','m'];
+%Yearly plots
+for COUNT = 1:length(averageTilt)
+    figure()
+    hold on
+    for season = 1:length(seasons)
+        scatter(x,averageTilt{COUNT}{season},'filled')
+    end
+    nameit = sprintf('Tilt of Receiver %d',COUNT);
+    title(nameit)
+%     ylim([0 1])
+    ylabel('Det. Efficiency')
+    xlabel('Instrument Tilt °')
+    legend('Winter','Spring','Summer','Fall','Mariners Fall')
+%     exportgraphics(gcf,sprintf('Transceiver%dParaSeasonal.png',COUNT),'Resolution',300)
+end
+
+for COUNT = 1:length(normalizedTilt)
+    figure()
+    hold on
+    for season = 1:length(seasons)
+        scatter(x,normalizedTilt{COUNT}{season},'filled')
+    end
+    nameit = sprintf('Tilt, Normalized Efficiency %d',COUNT);
+    title(nameit)
+    ylim([0 1])
+    ylabel('Normalized Det. Efficiency')
+    xlabel('Instrument Tilt °')
+    legend('Winter','Spring','Summer','Fall','Mariners Fall')
+%     exportgraphics(gcf,sprintf('Transceiver%dParaSeasonal.png',COUNT),'Resolution',300)
+end

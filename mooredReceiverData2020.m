@@ -56,9 +56,7 @@ uniqueReceivers =  [{'VR2Tx-483062';
                     'VR2Tx-483074';
                     'VR2Tx-483064';
                     'VR2Tx-483064';
-                    'VR2Tx-483081';
-                    'VR2Tx-483075';
-                    'VR2Tx-483074'}]
+                    'VR2Tx-483081'}]
 
 % uniqueReceivers = unique(data.Receiver);
 for PT = 1:length(uniqueReceivers)

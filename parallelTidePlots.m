@@ -88,7 +88,24 @@ for COUNT = 1:length(averageParaTide)
     ylabel('Det. Efficiency')
     xlabel('Current Velocity (m/s)')
     legend('Winter','Spring','Summer','Fall','Mariners Fall')
-    exportgraphics(gcf,sprintf('Transceiver%dParaSeasonal.png',COUNT),'Resolution',300)
+%     exportgraphics(gcf,sprintf('Transceiver%dParaSeasonal.png',COUNT),'Resolution',300)
+end
+
+
+figure()
+hold on
+for COUNT = 7:10
+    nexttile()
+    hold on
+    for season = 1:length(seasons)
+        scatter(x,averageParaTide{COUNT}{season},'filled')
+    end
+    nameit = sprintf('Transceiver %d',COUNT);
+    title(nameit)
+    ylim([0 3.5])
+    ylabel('Det. Efficiency')
+    xlabel('Parallel Current Velocity (m/s)')
+    legend('Winter','Spring','Summer','Fall','Mariners Fall')
 end
 
 

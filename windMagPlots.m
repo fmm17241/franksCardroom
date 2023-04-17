@@ -6,7 +6,7 @@
 %binnedAVG
 
 
-cd ([oneDrive,'exportedFigures'])
+cd (localPlots)
 
 %Creating an X-axis to emulate the bins of Wind data, 0-14 m/s
 X = 0:14;
@@ -41,7 +41,7 @@ for COUNT = 1:length(normalizedWindSpeed)
     hold on
     for season = 1:length(seasons)
         scatter(X,normalizedWindSpeed{COUNT}{season},'filled')
-        plot(X,normalizedWindSpeed{COUNT}{season})
+%         plot(X,normalizedWindSpeed{COUNT}{season})
     end
     nameit = sprintf('Wind Magnitude on Transceiver: %d',COUNT);
     title(nameit)
@@ -77,7 +77,7 @@ end
  
 X = 0:2:22;
 
-cd ([oneDrive,'exportedFigures'])
+cd (localPlots)
 
 seasonName = [{'Winter','Spring','Summer','Fall','Mariner''s Fall','Fall'}]
 color = ['r','r','g','g','k','k','b','b','m','m'];
@@ -123,7 +123,7 @@ end
 
 %%
 % Wind direction instead of wind speed, here
-cd ([oneDrive,'exportedFigures'])
+cd (localPlots)
 
 seasonName = [{'Winter','Spring','Summer','Fall','Mariner''s Fall','Fall'}]
 color = ['r','r','g','g','k','k','b','b','m','m'];
