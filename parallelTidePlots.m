@@ -7,7 +7,7 @@
 
 %Now to plot visualization
 
-cd ([oneDrive,'exportedFigures'])
+cd (localPlots)
 
 % cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\exportedFigures'
 x = -0.4:0.05:.4;
@@ -74,6 +74,25 @@ for COUNT = 1:length(normalizedPara)
     legend('Winter','Spring','Summer','Fall','Mariners Fall')
     exportgraphics(gcf,sprintf('Transceiver%dParaSeasonal.png',COUNT),'Resolution',300)
 end
+
+%Seasonal Plots, average
+for COUNT = 1:length(averageParaTide)
+    figure()
+    hold on
+    for season = 1:length(seasons)
+        scatter(x,averageParaTide{COUNT}{season},'filled')
+    end
+    nameit = sprintf('Parallel %d',COUNT);
+    title(nameit)
+    ylim([0 3.5])
+    ylabel('Det. Efficiency')
+    xlabel('Current Velocity (m/s)')
+    legend('Winter','Spring','Summer','Fall','Mariners Fall')
+    exportgraphics(gcf,sprintf('Transceiver%dParaSeasonal.png',COUNT),'Resolution',300)
+end
+
+
+
 % for COUNT = 1:length(normalizedPerp)
 %     figure()
 %     hold on
@@ -249,7 +268,7 @@ end
 
 %%
 %Above is normalized, below is Average!! Less procssed
-cd ([oneDrive,'exportedFigures'])
+cd (localPlots)
 x = 0:0.05:.4;
 seasonName = [{'Winter','Spring','Summer','Fall','Mariner''s Fall','Fall'}]
 pairingNumb = [1;1;2;2;3;3;4;4;5;5];
