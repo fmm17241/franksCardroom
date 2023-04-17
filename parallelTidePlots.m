@@ -92,6 +92,11 @@ for COUNT = 1:length(averageParaTide)
 end
 
 
+
+
+NamesDude = [{'1','2','3','4','5','6','Pairing 1.1','Pairing 1.2','Pairing 2.1','Pairing 2.2'}]
+labe = [{'1','2','3','4','5','6','A','B','C','D'}];
+
 figure()
 hold on
 for COUNT = 7:10
@@ -100,15 +105,18 @@ for COUNT = 7:10
     for season = 1:length(seasons)
         scatter(x,averageParaTide{COUNT}{season},'filled')
     end
-    nameit = sprintf('Transceiver %d',COUNT);
+    yline(3,'label','50%')
+    nameit = sprintf('Transceiver %s',NamesDude{COUNT});
     title(nameit)
-    ylim([0 3.5])
+    ylim([0 6])
+    str = sprintf('%s',labe{COUNT})
+    text(0.4,5.5,str,'HorizontalAlignment','right','VerticalAlignment','top')
     ylabel('Det. Efficiency')
     xlabel('Parallel Current Velocity (m/s)')
     legend('Winter','Spring','Summer','Fall','Mariners Fall')
 end
 
-
+ exportgraphics(gcf,'save4Square.png','Resolution',300)
 
 % for COUNT = 1:length(normalizedPerp)
 %     figure()
