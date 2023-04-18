@@ -82,9 +82,46 @@ end
 for COUNT = 1:length(fullData)
     for k = 1:height(tideBinsAnnual{COUNT})
         tideScenarioAnnual{COUNT}{k}= fullData{COUNT}(tideBinsAnnual{COUNT}(k,:),:);
-        averageAnnual{COUNT}(1,k) = nanmean(tideScenarioAnnual{COUNT}{k}.detections)
+        averageAnnual{COUNT}(1,k) = mean(tideScenarioAnnual{COUNT}{k}.detections,'omitnan');
     end
 end
+
+
+x = -0.4:0.05:.4;
+
+figure()
+hold on
+for COUNT = 1:length(averageAnnual)
+    scatter(x,averageAnnual{COUNT},'filled')
+end
+xline(0);
+
+for COUNT = 1:length(fullData)
+    normalizedSingle{COUNT} = averageAnnual{COUNT}/(max(averageAnnual{COUNT}));
+
+end
+
+for COUNT = 1:2:length(fullData)
+    comboPlatter = [averageAnnual{COUNT},averageAnnual{COUNT+1}]
+    normalizedAnnual{COUNT}  = averageAnnual{COUNT}/(max(comboPlatter));
+    normalizedAnnual{COUNT+1}  = averageAnnual{COUNT+1}/(max(comboPlatter));
+end
+
+
+
+figure()
+hold on
+for COUNT = 1:length(normalizedAnnual)
+    scatter(x,normalizedAnnual{COUNT},'filled')
+end
+xline(0);
+
+figure()
+hold on
+for COUNT = 1:length(normalizedAnnual)
+    scatter(x,normalizedSingle{COUNT},'filled')
+end
+xline(0);
 
 
 
