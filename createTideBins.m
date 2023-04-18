@@ -122,7 +122,9 @@ for COUNT = 1:length(normalizedAnnual)
     scatter(x,normalizedSingle{COUNT},'filled')
 end
 xline(0);
-
+xlabel('Parallel Current Velocity')
+ylabel('Normalized Det Efficiency')
+title('10 Transmission Directions')
 
 
 
