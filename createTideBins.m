@@ -53,6 +53,40 @@ for COUNT= 1:length(fullData)
         tideBinsPerp{COUNT}{k}(17,:) = fullData{COUNT}.perpTide > .40 & fullData{COUNT}.season ==k;
     end
 end
+%%
+%Tide bins annual
+for COUNT= 1:length(fullData)
+    %Parallel: X-axis of our tides, aligned with transmissions
+    tideBinsAnnual{COUNT}(1,:) = fullData{COUNT}.paraTide < -.4 ;
+    tideBinsAnnual{COUNT}(2,:) =  fullData{COUNT}.paraTide > -.4 &  fullData{COUNT}.paraTide < -.35 ;
+    tideBinsAnnual{COUNT}(3,:) =  fullData{COUNT}.paraTide > -.35 &  fullData{COUNT}.paraTide < -.30 ;
+    tideBinsAnnual{COUNT}(4,:) =  fullData{COUNT}.paraTide > -.30 & fullData{COUNT}.paraTide <-.25 ;
+    tideBinsAnnual{COUNT}(5,:) =  fullData{COUNT}.paraTide > -.25 &  fullData{COUNT}.paraTide < -.20 ;
+    tideBinsAnnual{COUNT}(6,:) =  fullData{COUNT}.paraTide > -.20 &  fullData{COUNT}.paraTide < -.15 ;
+    tideBinsAnnual{COUNT}(7,:) =  fullData{COUNT}.paraTide > -.15 &  fullData{COUNT}.paraTide < -.10 ;
+    tideBinsAnnual{COUNT}(8,:) =  fullData{COUNT}.paraTide > -.1 &  fullData{COUNT}.paraTide < -.05 ;
+
+    tideBinsAnnual{COUNT}(9,:) =  fullData{COUNT}.paraTide > -.05 &  fullData{COUNT}.paraTide < 0.05 ;
+
+    tideBinsAnnual{COUNT}(10,:) =  fullData{COUNT}.paraTide > .05 &  fullData{COUNT}.paraTide < .1 ;
+    tideBinsAnnual{COUNT}(11,:) =  fullData{COUNT}.paraTide > .10 &  fullData{COUNT}.paraTide < .15 ;
+    tideBinsAnnual{COUNT}(12,:) =  fullData{COUNT}.paraTide > .15 & fullData{COUNT}.paraTide < .2 ;
+    tideBinsAnnual{COUNT}(13,:) =  fullData{COUNT}.paraTide > .20 &  fullData{COUNT}.paraTide < .25 ;
+    tideBinsAnnual{COUNT}(14,:) =  fullData{COUNT}.paraTide > .25 &  fullData{COUNT}.paraTide < .3 ;
+    tideBinsAnnual{COUNT}(15,:) =  fullData{COUNT}.paraTide > .30 &  fullData{COUNT}.paraTide < .35 ;
+    tideBinsAnnual{COUNT}(16,:) =  fullData{COUNT}.paraTide > .35 &  fullData{COUNT}.paraTide < .4 ;
+    tideBinsAnnual{COUNT}(17,:) =  fullData{COUNT}.paraTide > .40 ;
+end
+
+
+for COUNT = 1:length(fullData)
+    for k = 1:height(tideBinsAnnual{COUNT})
+        tideScenarioAnnual{COUNT}{k}= fullData{COUNT}(tideBinsAnnual{COUNT}(k,:),:);
+        averageAnnual{COUNT}(1,k) = nanmean(tideScenarioAnnual{COUNT}{k}.detections)
+    end
+end
+
+
 
 
 %I can edit this to choose which seasons. 4 & 5 to compare to 2014
@@ -105,6 +139,8 @@ yearlyStratAll = nanmean(yearlyStrat)
 
 
 
+
+%%
 
 x = -.4:.05:.4;
 seasonNames = {'Winter','Spring','Summer','Fall','Mariner''s Fall'}
