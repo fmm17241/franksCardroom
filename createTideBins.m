@@ -87,14 +87,18 @@ for COUNT = 1:length(fullData)
 end
 
 
-x = -0.4:0.05:.4;
 
-figure()
-hold on
-for COUNT = 1:length(averageAnnual)
-    scatter(x,averageAnnual{COUNT},'filled')
+%%
+for COUNT = 1:length(fullData)
+    for k = 1:height(tideBinsAnnual{COUNT})
+        if isempty(tideScenarioAnnual{COUNT}{1,k}) == 1
+            errorDataAnnual{COUNT}(k) = 0;
+            continue
+        end
+        errorDataAnnual{COUNT}(k) = std(tideScenarioAnnual{COUNT}{1,k}.detections)
+    end
 end
-xline(0);
+%%
 
 for COUNT = 1:length(fullData)
     normalizedSingle{COUNT} = averageAnnual{COUNT}/(max(averageAnnual{COUNT}));
@@ -106,25 +110,6 @@ for COUNT = 1:2:length(fullData)
     normalizedAnnual{COUNT}  = averageAnnual{COUNT}/(max(comboPlatter));
     normalizedAnnual{COUNT+1}  = averageAnnual{COUNT+1}/(max(comboPlatter));
 end
-
-
-
-figure()
-hold on
-for COUNT = 1:length(normalizedAnnual)
-    scatter(x,normalizedAnnual{COUNT},'filled')
-end
-xline(0);
-
-figure()
-hold on
-for COUNT = 1:length(normalizedAnnual)
-    scatter(x,normalizedSingle{COUNT},'filled')
-end
-xline(0);
-xlabel('Parallel Current Velocity')
-ylabel('Normalized Det Efficiency')
-title('10 Transmission Directions')
 
 
 
@@ -202,7 +187,7 @@ end
 
 
 
-
+createTideBinsABS
 
 
 %Frank is finding standard deviation

@@ -353,5 +353,43 @@ end
 
 
 %%
+x = -0.4:0.05:.4;
+
+figure()
+hold on
+for COUNT = 1:length(averageAnnual)
+    scatter(x,averageAnnual{COUNT},'filled')
+%     errorbar(x,averageAnnual{COUNT},errorDataAnnual{COUNT},"LineStyle","none")
+end
+xline(0);
+
+for COUNT = 1:length(averageAnnual)
+    [maxDets(COUNT,1),findMax(COUNT)] = max(averageAnnual{COUNT});
+    xEquivalent(COUNT,1) = x(findMax(COUNT))
+
+end
+
+    maxDetsPercentage = maxDets/6;
+
+
+figure()
+hold on
+for COUNT = 1:length(normalizedAnnual)
+    scatter(x,normalizedAnnual{COUNT},'filled')
+end
+xline(0);
+
+figure()
+hold on
+for COUNT = 1:length(normalizedAnnual)
+    scatter(x,normalizedSingle{COUNT},'filled')
+end
+xline(0);
+xlabel('Parallel Current Velocity')
+ylabel('Normalized Det Efficiency')
+title('10 Transmission Directions')
+
+
+
 
 % 
