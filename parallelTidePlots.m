@@ -72,7 +72,7 @@ for COUNT = 1:length(normalizedPara)
     ylabel('Normalized Det. Efficiency')
     xlabel('Current Velocity (m/s)')
     legend('Winter','Spring','Summer','Fall','Mariners Fall')
-    exportgraphics(gcf,sprintf('Transceiver%dParaSeasonal.png',COUNT),'Resolution',300)
+%     exportgraphics(gcf,sprintf('Transceiver%dParaSeasonal.png',COUNT),'Resolution',300)
 end
 
 %Seasonal Plots, average
@@ -250,7 +250,7 @@ for COUNT = 1:2:length(normalizedParaABS)
     end
     ylabel('Normalized Det. Efficiency')
     xlabel('Current Magnitude (m/s)')
-    exportgraphics(gcf,sprintf('Trans%dABS.png',pairingNumb(COUNT)),'Resolution',300)
+%     exportgraphics(gcf,sprintf('Trans%dABS.png',pairingNumb(COUNT)),'Resolution',300)
 end
 
 for COUNT = 1:2:length(normalizedParaABS)
@@ -347,7 +347,7 @@ for COUNT = 1:2:length(averageParaTide)
     end
     ylabel('Det. Efficiency')
     xlabel('Current Velocity (m/s)')
-    exportgraphics(gcf,sprintf('ParaTrans%dBOTHdirections.png',pairingNumb(COUNT)),'Resolution',300)
+%     exportgraphics(gcf,sprintf('ParaTrans%dBOTHdirections.png',pairingNumb(COUNT)),'Resolution',300)
 end
 
 
@@ -378,6 +378,9 @@ for COUNT = 1:length(normalizedAnnual)
     scatter(x,normalizedAnnual{COUNT},'filled')
 end
 xline(0);
+xlabel('Parallel Current Velocity')
+ylabel('Normalized Det Efficiency')
+title('10 Transmission Directions','Pairings Normalized')
 
 figure()
 hold on
@@ -387,7 +390,7 @@ end
 xline(0);
 xlabel('Parallel Current Velocity')
 ylabel('Normalized Det Efficiency')
-title('10 Transmission Directions')
+title('10 Transmission Directions' ,'Normalized')
 
 
 
