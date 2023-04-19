@@ -12,6 +12,7 @@ cd (localPlots)
 % cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\exportedFigures'
 x = -0.4:0.05:.4;
 seasonName = [{'Winter','Spring','Summer','Fall','Mariner''s Fall','Fall'}]
+color = ['r','r','g','g','k','k','b','b','m','m'];
 
 %%
 for COUNT = 1:length(yearlyParaAVG)
@@ -20,8 +21,6 @@ for COUNT = 1:length(yearlyParaAVG)
     maxDets(COUNT)   = index1(COUNT);
 end
 
-
-color = ['r','r','g','g','k','k','b','b','m','m'];
 %Yearly plots
 figure()
 hold on
@@ -393,6 +392,26 @@ ylabel('Normalized Det Efficiency')
 title('10 Transmission Directions' ,'Normalized')
 
 
+
+figure()
+hold on
+for COUNT = 1:length(normalizedAnnual)
+    plot(x,tiltCompareTideAnnual{COUNT},color(COUNT))
+end
+xline(0);
+xlabel('Parallel Current Velocity')
+ylabel('Instrument Tilt °')
+title('Instrument Orientation')
+
+figure()
+hold on
+for COUNT = 1:length(normalizedAnnual)
+    plot(x,noiseCompareTideAnnual{COUNT},color(COUNT))
+end
+xline(0);
+xlabel('Parallel Current Velocity')
+ylabel('Ambient Noise (69 kHz, mV)')
+title('Tides Effect on Noise')
 
 
 % 

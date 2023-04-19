@@ -83,6 +83,9 @@ for COUNT = 1:length(fullData)
     for k = 1:height(tideBinsAnnual{COUNT})
         tideScenarioAnnual{COUNT}{k}= fullData{COUNT}(tideBinsAnnual{COUNT}(k,:),:);
         averageAnnual{COUNT}(1,k) = mean(tideScenarioAnnual{COUNT}{k}.detections,'omitnan');
+        noiseCompareTideAnnual{COUNT}(k) = mean(tideScenarioAnnual{COUNT}{1,k}.noise);
+        wavesCompareTideAnnual{COUNT}(k) = mean(tideScenarioAnnual{COUNT}{1,k}.waveHeight);
+        tiltCompareTideAnnual{COUNT}(k) = mean(tideScenarioAnnual{COUNT}{1,k}.tilt);
     end
 end
 

@@ -203,3 +203,49 @@ for COUNT = 1:length(normalizedwindDir)
     title('WindDir vs efficiency')
 end
 
+%%
+
+% Annuals
+
+x = 1:length(averageWindSpeedAnnual{1})
+
+
+figure()
+hold on
+for COUNT = 1:length(averageWindSpeedAnnual)
+    plot(x,averageWindSpeedAnnual{COUNT},color(COUNT))
+end
+xlabel('Wind Magnitude')
+ylabel('Det Efficiency')
+
+%Same graph, normalized
+figure()
+hold on
+for COUNT = 1:length(averageWindSpeedAnnual)
+    plot(x,normalizedWSpeedAnnual{COUNT},color(COUNT))
+end
+xlabel('Wind Magnitude')
+ylabel('Normalized Det Efficiency')
+title('Transmission Success','Increasing Wind Magnitude')
+
+
+figure()
+hold on
+for COUNT = 1:length(averageWindSpeedAnnual)
+    plot(x,noiseCompareAnnual{COUNT},color(COUNT))
+end
+xlabel('Wind Magnitude')
+ylabel('Ambient Noise (69 kHz, mV)')
+title('Ambient Noise','Increasing Wind Magnitude')
+
+figure()
+hold on
+for COUNT = 1:length(averageWindSpeedAnnual)
+    plot(x,tiltCompareWindAnnual{COUNT},color(COUNT))
+end
+xlabel('Wind Magnitude')
+ylabel('Instrument Tilt °')
+title('Instrument Orientation','Increasing Wind Magnitude')
+
+
+

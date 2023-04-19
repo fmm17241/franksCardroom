@@ -148,6 +148,7 @@ end
 
 %%
 
+%Frank: Wind's effect on noise, night vs day
 
 
  
