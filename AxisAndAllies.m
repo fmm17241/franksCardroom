@@ -9,23 +9,23 @@ weakWindBin = cell(1,length(fullData));
 for COUNT= 1:length(fullData)
     for season = 1:length(seasons)
         %Tides cross-shore and weak winds
-        weakWindBin{COUNT}{season}(1,:) =  fullData{COUNT}.uShore < -.4  & fullData{COUNT}.windSpeed     < 3 & fullData{COUNT}.season ==season;
-        weakWindBin{COUNT}{season}(2,:) =  fullData{COUNT}.uShore > -.4  & fullData{COUNT}.uShore < -.35 & fullData{COUNT}.windSpeed  < 3 & fullData{COUNT}.season ==season;
-        weakWindBin{COUNT}{season}(3,:) =  fullData{COUNT}.uShore > -.35 & fullData{COUNT}.uShore < -.30 & fullData{COUNT}.windSpeed  < 3 & fullData{COUNT}.season ==season;
-        weakWindBin{COUNT}{season}(4,:) =  fullData{COUNT}.uShore > -.30 & fullData{COUNT}.uShore < -.25 & fullData{COUNT}.windSpeed  < 3 & fullData{COUNT}.season ==season;
-        weakWindBin{COUNT}{season}(5,:) =  fullData{COUNT}.uShore > -.25 & fullData{COUNT}.uShore < -.20  & fullData{COUNT}.windSpeed  < 3 & fullData{COUNT}.season ==season;
-        weakWindBin{COUNT}{season}(6,:) =  fullData{COUNT}.uShore > -.20  & fullData{COUNT}.uShore < -.15  & fullData{COUNT}.windSpeed  < 3 & fullData{COUNT}.season ==season;
-        weakWindBin{COUNT}{season}(7,:) =  fullData{COUNT}.uShore > -.15  & fullData{COUNT}.uShore < -.10  & fullData{COUNT}.windSpeed  < 3 & fullData{COUNT}.season ==season;
-        weakWindBin{COUNT}{season}(8,:) =  fullData{COUNT}.uShore > -.10  & fullData{COUNT}.uShore < -.05  & fullData{COUNT}.windSpeed  < 3 & fullData{COUNT}.season ==season;
-        weakWindBin{COUNT}{season}(9,:) =  fullData{COUNT}.uShore > -.05 & fullData{COUNT}.uShore < .05 & fullData{COUNT}.windSpeed  < 3 & fullData{COUNT}.season ==season;
-        weakWindBin{COUNT}{season}(10,:) =  fullData{COUNT}.uShore > .05 & fullData{COUNT}.uShore < .10 & fullData{COUNT}.windSpeed  < 3 & fullData{COUNT}.season ==season;
-        weakWindBin{COUNT}{season}(11,:) =  fullData{COUNT}.uShore > .10 & fullData{COUNT}.uShore < .15  & fullData{COUNT}.windSpeed  < 3 & fullData{COUNT}.season ==season;
-        weakWindBin{COUNT}{season}(12,:) =  fullData{COUNT}.uShore > .15  & fullData{COUNT}.uShore < .20  & fullData{COUNT}.windSpeed  < 3 & fullData{COUNT}.season ==season;
-        weakWindBin{COUNT}{season}(13,:) =  fullData{COUNT}.uShore > .20  & fullData{COUNT}.uShore < .25  & fullData{COUNT}.windSpeed  < 3 & fullData{COUNT}.season ==season;
-        weakWindBin{COUNT}{season}(14,:) =  fullData{COUNT}.uShore > .25  & fullData{COUNT}.uShore < .30  & fullData{COUNT}.windSpeed  < 3 & fullData{COUNT}.season ==season;
-        weakWindBin{COUNT}{season}(15,:) =  fullData{COUNT}.uShore > .30  & fullData{COUNT}.uShore < .35  & fullData{COUNT}.windSpeed  < 3 & fullData{COUNT}.season ==season;
-        weakWindBin{COUNT}{season}(16,:) =  fullData{COUNT}.uShore > .35  & fullData{COUNT}.uShore < .40  & fullData{COUNT}.windSpeed  < 3 & fullData{COUNT}.season ==season;
-        weakWindBin{COUNT}{season}(17,:) =  fullData{COUNT}.uShore > .40  & fullData{COUNT}.windSpeed     < 3 & fullData{COUNT}.season ==season;
+        weakWindBin{COUNT}{season}(1,:) =  fullData{COUNT}.uShore < -.4  & fullData{COUNT}.windSpeed     < 5 & fullData{COUNT}.season ==season;
+        weakWindBin{COUNT}{season}(2,:) =  fullData{COUNT}.uShore > -.4  & fullData{COUNT}.uShore < -.35 & fullData{COUNT}.windSpeed  < 5 & fullData{COUNT}.season ==season;
+        weakWindBin{COUNT}{season}(3,:) =  fullData{COUNT}.uShore > -.35 & fullData{COUNT}.uShore < -.30 & fullData{COUNT}.windSpeed  < 5 & fullData{COUNT}.season ==season;
+        weakWindBin{COUNT}{season}(4,:) =  fullData{COUNT}.uShore > -.30 & fullData{COUNT}.uShore < -.25 & fullData{COUNT}.windSpeed  < 5 & fullData{COUNT}.season ==season;
+        weakWindBin{COUNT}{season}(5,:) =  fullData{COUNT}.uShore > -.25 & fullData{COUNT}.uShore < -.20  & fullData{COUNT}.windSpeed  < 5 & fullData{COUNT}.season ==season;
+        weakWindBin{COUNT}{season}(6,:) =  fullData{COUNT}.uShore > -.20  & fullData{COUNT}.uShore < -.15  & fullData{COUNT}.windSpeed  < 5 & fullData{COUNT}.season ==season;
+        weakWindBin{COUNT}{season}(7,:) =  fullData{COUNT}.uShore > -.15  & fullData{COUNT}.uShore < -.10  & fullData{COUNT}.windSpeed  < 5 & fullData{COUNT}.season ==season;
+        weakWindBin{COUNT}{season}(8,:) =  fullData{COUNT}.uShore > -.10  & fullData{COUNT}.uShore < -.05  & fullData{COUNT}.windSpeed  < 5 & fullData{COUNT}.season ==season;
+        weakWindBin{COUNT}{season}(9,:) =  fullData{COUNT}.uShore > -.05 & fullData{COUNT}.uShore < .05 & fullData{COUNT}.windSpeed  < 5 & fullData{COUNT}.season ==season;
+        weakWindBin{COUNT}{season}(10,:) =  fullData{COUNT}.uShore > .05 & fullData{COUNT}.uShore < .10 & fullData{COUNT}.windSpeed  < 5 & fullData{COUNT}.season ==season;
+        weakWindBin{COUNT}{season}(11,:) =  fullData{COUNT}.uShore > .10 & fullData{COUNT}.uShore < .15  & fullData{COUNT}.windSpeed  < 5 & fullData{COUNT}.season ==season;
+        weakWindBin{COUNT}{season}(12,:) =  fullData{COUNT}.uShore > .15  & fullData{COUNT}.uShore < .20  & fullData{COUNT}.windSpeed  < 5 & fullData{COUNT}.season ==season;
+        weakWindBin{COUNT}{season}(13,:) =  fullData{COUNT}.uShore > .20  & fullData{COUNT}.uShore < .25  & fullData{COUNT}.windSpeed  < 5 & fullData{COUNT}.season ==season;
+        weakWindBin{COUNT}{season}(14,:) =  fullData{COUNT}.uShore > .25  & fullData{COUNT}.uShore < .30  & fullData{COUNT}.windSpeed  < 5 & fullData{COUNT}.season ==season;
+        weakWindBin{COUNT}{season}(15,:) =  fullData{COUNT}.uShore > .30  & fullData{COUNT}.uShore < .35  & fullData{COUNT}.windSpeed  < 5 & fullData{COUNT}.season ==season;
+        weakWindBin{COUNT}{season}(16,:) =  fullData{COUNT}.uShore > .35  & fullData{COUNT}.uShore < .40  & fullData{COUNT}.windSpeed  < 5 & fullData{COUNT}.season ==season;
+        weakWindBin{COUNT}{season}(17,:) =  fullData{COUNT}.uShore > .40  & fullData{COUNT}.windSpeed     < 5 & fullData{COUNT}.season ==season;
     end
 end
 
@@ -34,23 +34,23 @@ strongWindBin = cell(1,length(fullData));
 for COUNT= 1:length(fullData)
     for season = 1:length(seasons)
         %Tides cross-shore and strong winds
-        strongWindBin{COUNT}{season}(1,:) =  fullData{COUNT}.uShore < -.4  & fullData{COUNT}.windSpeed > 12 & fullData{COUNT}.season ==season;
-        strongWindBin{COUNT}{season}(2,:) =  fullData{COUNT}.uShore > -.4  & fullData{COUNT}.uShore < -.35 & fullData{COUNT}.windSpeed > 12 & fullData{COUNT}.season ==season;
-        strongWindBin{COUNT}{season}(3,:) =  fullData{COUNT}.uShore > -.35 & fullData{COUNT}.uShore < -.30 & fullData{COUNT}.windSpeed  > 12 & fullData{COUNT}.season ==season;
-        strongWindBin{COUNT}{season}(4,:) =  fullData{COUNT}.uShore > -.30 & fullData{COUNT}.uShore < -.25 & fullData{COUNT}.windSpeed > 12 & fullData{COUNT}.season ==season;
-        strongWindBin{COUNT}{season}(5,:) =  fullData{COUNT}.uShore > -.25 & fullData{COUNT}.uShore < -.20  & fullData{COUNT}.windSpeed > 12 & fullData{COUNT}.season ==season;
-        strongWindBin{COUNT}{season}(6,:) =  fullData{COUNT}.uShore > -.20  & fullData{COUNT}.uShore < -.15  & fullData{COUNT}.windSpeed > 12 & fullData{COUNT}.season ==season;
-        strongWindBin{COUNT}{season}(7,:) =  fullData{COUNT}.uShore > -.15  & fullData{COUNT}.uShore < -.10  & fullData{COUNT}.windSpeed > 12 & fullData{COUNT}.season ==season;
-        strongWindBin{COUNT}{season}(8,:) =  fullData{COUNT}.uShore > -.10  & fullData{COUNT}.uShore < -.05  & fullData{COUNT}.windSpeed  > 12 & fullData{COUNT}.season ==season;
-        strongWindBin{COUNT}{season}(9,:) =  fullData{COUNT}.uShore > -.05 & fullData{COUNT}.uShore < .05 & fullData{COUNT}.windSpeed  > 12 & fullData{COUNT}.season ==season;
-        strongWindBin{COUNT}{season}(10,:) =  fullData{COUNT}.uShore > .05 & fullData{COUNT}.uShore < .10 & fullData{COUNT}.windSpeed  > 12 & fullData{COUNT}.season ==season;
-        strongWindBin{COUNT}{season}(11,:) =  fullData{COUNT}.uShore > .10 & fullData{COUNT}.uShore < .15  & fullData{COUNT}.windSpeed  > 12 & fullData{COUNT}.season ==season;
-        strongWindBin{COUNT}{season}(12,:) =  fullData{COUNT}.uShore > .15  & fullData{COUNT}.uShore < .20  & fullData{COUNT}.windSpeed  > 12 & fullData{COUNT}.season ==season;
-        strongWindBin{COUNT}{season}(13,:) =  fullData{COUNT}.uShore > .20  & fullData{COUNT}.uShore < .25  & fullData{COUNT}.windSpeed  > 12 & fullData{COUNT}.season ==season;
-        strongWindBin{COUNT}{season}(14,:) =  fullData{COUNT}.uShore > .25  & fullData{COUNT}.uShore < .30  & fullData{COUNT}.windSpeed  > 12 & fullData{COUNT}.season ==season;
-        strongWindBin{COUNT}{season}(15,:) =  fullData{COUNT}.uShore > .30  & fullData{COUNT}.uShore < .35  & fullData{COUNT}.windSpeed  > 12 & fullData{COUNT}.season ==season;
-        strongWindBin{COUNT}{season}(16,:) =  fullData{COUNT}.uShore > .35  & fullData{COUNT}.uShore < .40  & fullData{COUNT}.windSpeed  > 12 & fullData{COUNT}.season ==season;
-        strongWindBin{COUNT}{season}(17,:) =  fullData{COUNT}.uShore > .40  & fullData{COUNT}.windSpeed     > 12 & fullData{COUNT}.season ==season;
+        strongWindBin{COUNT}{season}(1,:) =  fullData{COUNT}.uShore < -.4  & fullData{COUNT}.windSpeed > 10  & fullData{COUNT}.season ==season;
+        strongWindBin{COUNT}{season}(2,:) =  fullData{COUNT}.uShore > -.4  & fullData{COUNT}.uShore < -.35 & fullData{COUNT}.windSpeed > 10  & fullData{COUNT}.season ==season;
+        strongWindBin{COUNT}{season}(3,:) =  fullData{COUNT}.uShore > -.35 & fullData{COUNT}.uShore < -.30 & fullData{COUNT}.windSpeed  > 10  & fullData{COUNT}.season ==season;
+        strongWindBin{COUNT}{season}(4,:) =  fullData{COUNT}.uShore > -.30 & fullData{COUNT}.uShore < -.25 & fullData{COUNT}.windSpeed > 10  & fullData{COUNT}.season ==season;
+        strongWindBin{COUNT}{season}(5,:) =  fullData{COUNT}.uShore > -.25 & fullData{COUNT}.uShore < -.20  & fullData{COUNT}.windSpeed > 10  & fullData{COUNT}.season ==season;
+        strongWindBin{COUNT}{season}(6,:) =  fullData{COUNT}.uShore > -.20  & fullData{COUNT}.uShore < -.15  & fullData{COUNT}.windSpeed > 10  & fullData{COUNT}.season ==season;
+        strongWindBin{COUNT}{season}(7,:) =  fullData{COUNT}.uShore > -.15  & fullData{COUNT}.uShore < -.10  & fullData{COUNT}.windSpeed > 10  & fullData{COUNT}.season ==season;
+        strongWindBin{COUNT}{season}(8,:) =  fullData{COUNT}.uShore > -.10  & fullData{COUNT}.uShore < -.05  & fullData{COUNT}.windSpeed  > 10  & fullData{COUNT}.season ==season;
+        strongWindBin{COUNT}{season}(9,:) =  fullData{COUNT}.uShore > -.05 & fullData{COUNT}.uShore < .05 & fullData{COUNT}.windSpeed  > 10  & fullData{COUNT}.season ==season;
+        strongWindBin{COUNT}{season}(10,:) =  fullData{COUNT}.uShore > .05 & fullData{COUNT}.uShore < .10 & fullData{COUNT}.windSpeed  > 10  & fullData{COUNT}.season ==season;
+        strongWindBin{COUNT}{season}(11,:) =  fullData{COUNT}.uShore > .10 & fullData{COUNT}.uShore < .15  & fullData{COUNT}.windSpeed  > 10  & fullData{COUNT}.season ==season;
+        strongWindBin{COUNT}{season}(12,:) =  fullData{COUNT}.uShore > .15  & fullData{COUNT}.uShore < .20  & fullData{COUNT}.windSpeed  > 10  & fullData{COUNT}.season ==season;
+        strongWindBin{COUNT}{season}(13,:) =  fullData{COUNT}.uShore > .20  & fullData{COUNT}.uShore < .25  & fullData{COUNT}.windSpeed  > 10  & fullData{COUNT}.season ==season;
+        strongWindBin{COUNT}{season}(14,:) =  fullData{COUNT}.uShore > .25  & fullData{COUNT}.uShore < .30  & fullData{COUNT}.windSpeed  > 10  & fullData{COUNT}.season ==season;
+        strongWindBin{COUNT}{season}(15,:) =  fullData{COUNT}.uShore > .30  & fullData{COUNT}.uShore < .35  & fullData{COUNT}.windSpeed  > 10  & fullData{COUNT}.season ==season;
+        strongWindBin{COUNT}{season}(16,:) =  fullData{COUNT}.uShore > .35  & fullData{COUNT}.uShore < .40  & fullData{COUNT}.windSpeed  > 10  & fullData{COUNT}.season ==season;
+        strongWindBin{COUNT}{season}(17,:) =  fullData{COUNT}.uShore > .40  & fullData{COUNT}.windSpeed     > 10  & fullData{COUNT}.season ==season;
     end
 end
 
@@ -77,6 +77,39 @@ for COUNT = 1:length(fullData)
         end
     end
 end
+
+
+% Finding errorbars for weak wind scenarios
+for COUNT = 1:length(weakWindScenario)
+    for season = 1:height(weakWindScenario{COUNT})
+        for k = 1:length(weakWindScenario{COUNT})
+            if isempty(weakWindScenario{COUNT}{season,k}) == 1
+                errorWeakWind{COUNT}(season,k) = 0;
+                continue
+            end
+            errorWeakWind{COUNT}(season,k) = std(weakWindScenario{COUNT}{season,k}.detections)
+        end
+    end
+end
+
+% Finding errorbars for strong wind scenarios
+for COUNT = 1:length(strongWindScenario)
+    for season = 1:height(strongWindScenario{COUNT})
+        for k = 1:length(strongWindScenario{COUNT})
+            if isempty(strongWindScenario{COUNT}{season,k}) == 1
+                errorstrongWind{COUNT}(season,k) = 0;
+                continue
+            end
+            errorstrongWind{COUNT}(season,k) = std(strongWindScenario{COUNT}{season,k}.detections)
+        end
+    end
+end
+
+
+X = 0:14;
+
+figure()
+scatter(X,)
 
 
 % Normalizing the data for each transceiver pairing. Instead of each set of
