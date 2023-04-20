@@ -322,39 +322,44 @@ for COUNT = 1:length(fullData)
     end
 end
 
-
+%%
 for COUNT = 1:length(fullData)
     for season = 1:length(seasons)
-        for k = 1:height(wSpeedNightSsn{COUNT}{season})
+        for k = 1:height(wSpeedDaySsn{COUNT}{season})
+            wSpeedScenDay{COUNT}{season}{k}= fullData{COUNT}(wSpeedDaySsn{COUNT}{season}(k,:),:);
+            avgWindSpeedDay{COUNT}{season}(:,k) = mean(wSpeedScenDay{COUNT}{season}{1,k}.detections);
+            noiseDay{COUNT}{season}(k) = mean(wSpeedScenDay{COUNT}{season}{1,k}.noise);
+            wavesDay{COUNT}{season}(k) = mean(wSpeedScenDay{COUNT}{season}{1,k}.waveHeight);
+            tiltDay{COUNT}{season}(k) = mean(wSpeedScenDay{COUNT}{season}{1,k}.tilt);
+            %Night
             wSpeedScenNight{COUNT}{season}{k}= fullData{COUNT}(wSpeedNightSsn{COUNT}{season}(k,:),:);
             avgWindSpeedNight{COUNT}{season}(1,k) = mean(wSpeedScenNight{COUNT}{season}{1,k}.detections);
             noiseNight{COUNT}{season}(k) = mean(wSpeedScenNight{COUNT}{season}{1,k}.noise);
             wavesNight{COUNT}{season}(k) = mean(wSpeedScenNight{COUNT}{season}{1,k}.waveHeight);
             tiltNight{COUNT}{season}(k) = mean(wSpeedScenNight{COUNT}{season}{1,k}.tilt);
         end
-        normalizedwSpeedNightSsn{COUNT}{season}  = avgWindSpeedNight{COUNT}{season}/(max(avgWindSpeedNight{COUNT}{season}));
-    end
-end
-
-%%
-for COUNT = 1:length(fullData)
-    for season = 1:length(seasons)
-        for k = 1:height(wSpeedDaySsn{COUNT}{season})
-            wSpeedScenDay{COUNT}{season}{k}= fullData{COUNT}(wSpeedDaySsn{COUNT}{season}(k,:),:);
-            avgWindSpeedDay{COUNT}{season}(1,k) = mean(wSpeedScenDay{COUNT}{season}{1,k}.detections);
-            noiseDay{COUNT}{season}(k) = mean(wSpeedScenDay{COUNT}{season}{1,k}.noise);
-            wavesDay{COUNT}{season}(k) = mean(wSpeedScenDay{COUNT}{season}{1,k}.waveHeight);
-            tiltDay{COUNT}{season}(k) = mean(wSpeedScenDay{COUNT}{season}{1,k}.tilt);
-        end
         normalizedwSpeedDaySsn{COUNT}{season}  = avgWindSpeedDay{COUNT}{season}/(max(avgWindSpeedDay{COUNT}{season}));
+        normalizedwSpeedNightSsn{COUNT}{season}  = avgWindSpeedNight{COUNT}{season}/(max(avgWindSpeedNight{COUNT}{season}));
+        allDay{COUNT}(season,:) = avgWindSpeedDay{COUNT}{season};
+        allNight{COUNT}(season,:) = avgWindSpeedNight{COUNT}{season};
     end
+    averageYearlyDay(COUNT,:) = mean(allDay{COUNT},'omitnan');
+    averageYearlyNight(COUNT,:) = mean(allNight{COUNT},'omitnan');
 end
 
-for season = 1: length(seasons)
-    for COUNT = 1:length(avgWindSpeedDay)
-        test{season}(COUNT,:) = avgWindSpeedDay{COUNT}
-    end
-end
+
+
+
+
+
+figure()
+plot(X,averageYearlyDay, 'b')
+hold on
+plot(X,averageYearlyNight,'r')
+legend('Day','','','','','','','','','','','Night')
+xlabel(['Wind Magnitude m/s'])
+ylabel('Dets/hour')
+title('Little Difference in Winds Effect','Day vs Night')
 
 
 cd (localPlots)
@@ -377,5 +382,15 @@ for season = 1:length(seasons)
     ylim([0 6])
 end
 
-
+for season = 1:length(seasons)
+    figure()
+    hold on
+    for COUNT = 1:length(avgWindSpeedNight)
+        plot(X,avgWindSpeedNight{COUNT}{season},'r')
+    end
+    title(sprintf('Night Winds, %s',seasonName{season}))
+    xlabel('Wind Magnitude m/s')
+    ylabel('Det. Efficiency')
+    ylim([0 6])
+end
 
