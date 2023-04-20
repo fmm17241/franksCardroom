@@ -109,6 +109,7 @@ end
 X = 0:14;
 
 figure()
+
 scatter(X,)
 
 
