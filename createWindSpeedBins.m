@@ -44,7 +44,7 @@ for COUNT = 1:length(fullData)
         windSpeedScenarioAnnual{COUNT}{k}= fullData{COUNT}(windSpeedBinsAnnual{COUNT}(k,:),:);
         averageWindSpeedAnnual{COUNT}(1,k) = mean(windSpeedScenarioAnnual{COUNT}{1,k}.detections);
         noiseCompareAnnual{COUNT}(k) = mean(windSpeedScenarioAnnual{COUNT}{1,k}.noise);
-        wavesCompareAnnual{COUNT}(k) = mean(windSpeedScenarioAnnual{COUNT}{1,k}.waveHeight);
+        wavesCompareAnnual{COUNT}(k) = mean(windSpeedScenarioAnnual{COUNT}{1,k}.waveHeight,'omitnan');
         tiltCompareWindAnnual{COUNT}(k) = mean(windSpeedScenarioAnnual{COUNT}{1,k}.tilt);
     end
     normalizedWSpeedAnnual{COUNT}  = averageWindSpeedAnnual{COUNT}/(max(averageWindSpeedAnnual{COUNT}));

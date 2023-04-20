@@ -248,4 +248,13 @@ ylabel('Instrument Tilt °')
 title('Instrument Orientation','Increasing Wind Magnitude')
 
 
+figure()
+hold on
+for COUNT = 1:length(averageWindSpeedAnnual)
+    plot(x,wavesCompareAnnual{COUNT},color(COUNT))
+end
+xlabel('Wind Magnitude')
+ylabel('WaveHeight')
+title('WaveHeight','Increasing Wind Magnitude')
+
 
