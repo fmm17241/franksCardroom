@@ -72,11 +72,11 @@ for COUNT = 1:length(fullData)
 end
 
 
-for COUNT = 1:length(weakWindScenario)
+for COUNT = 1:length(windSpeedScenario)
     for season = 1:length(seasons)
-        errorWeakWind(COUNT,season) = std(weakWindScenario{COUNT}{season,1}.detections)  
-        errorMediumWind(COUNT,season) = std(mediumWindScenario{COUNT}{season,1}.detections) 
-        errorStrongWind(COUNT,season) = std(strongWindScenario{COUNT}{season,1}.detections)
+        errorWind(COUNT,season) = std(averageWindSpeed{COUNT}{season});
+        errorNoise(COUNT,season) = std(noiseCompare{COUNT}{season});
+        errorStrat(COUNT,season) = std(stratCompareWind{COUNT}{season});
     end
 end
 
