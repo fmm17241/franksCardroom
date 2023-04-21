@@ -46,6 +46,7 @@ for COUNT = 1:length(fullData)
         noiseCompareAnnual{COUNT}(k) = mean(windSpeedScenarioAnnual{COUNT}{1,k}.noise);
         wavesCompareAnnual{COUNT}(k) = mean(windSpeedScenarioAnnual{COUNT}{1,k}.waveHeight,'omitnan');
         tiltCompareWindAnnual{COUNT}(k) = mean(windSpeedScenarioAnnual{COUNT}{1,k}.tilt);
+        stratCompareWindAnnual{COUNT}(k) = mean(windSpeedScenarioAnnual{COUNT}{1,k}.stratification)
     end
     normalizedWSpeedAnnual{COUNT}  = averageWindSpeedAnnual{COUNT}/(max(averageWindSpeedAnnual{COUNT}));
 end
@@ -64,8 +65,18 @@ for COUNT = 1:length(fullData)
             noiseCompare{COUNT}{season}(k) = mean(windSpeedScenario{COUNT}{season}{1,k}.noise);
             wavesCompare{COUNT}{season}(k) = mean(windSpeedScenario{COUNT}{season}{1,k}.waveHeight);
             tiltCompareWind{COUNT}{season}(k) = mean(windSpeedScenario{COUNT}{season}{1,k}.tilt);
+            stratCompareWind{COUNT}{season}(k) = mean(windSpeedScenario{COUNT}{season}{1,k}.stratification)
         end
         normalizedWSpeed{COUNT}{season}  = averageWindSpeed{COUNT}{season}/(max(averageWindSpeed{COUNT}{season}));
+    end
+end
+
+
+for COUNT = 1:length(weakWindScenario)
+    for season = 1:length(seasons)
+        errorWeakWind(COUNT,season) = std(weakWindScenario{COUNT}{season,1}.detections)  
+        errorMediumWind(COUNT,season) = std(mediumWindScenario{COUNT}{season,1}.detections) 
+        errorStrongWind(COUNT,season) = std(strongWindScenario{COUNT}{season,1}.detections)
     end
 end
 
@@ -85,19 +96,27 @@ for COUNT = 1:length(normalizedWSpeed)
         completeWHeight{COUNT}(season,:) = wavesCompare{COUNT}{season};
         completeNoise{COUNT}(season,:)   = noiseCompare{COUNT}{season};
         completeTiltVsWindSpeed{COUNT}(season,:)   = tiltCompareWind{COUNT}{season};
+        completeStratVsWindSpeed{COUNT}(season,:)  = stratCompareWind{COUNT}{season};
     end
 end
 
 
 for COUNT = 1:length(completeWinds)
     completeWindsAvg(COUNT,:) = nanmean(completeWinds{COUNT});
-    completeTiltVsWindAvg(COUNT,:) = nanmean(completeTiltVsWindSpeed{COUNT})
+    completeNoiseAvg(COUNT,:) = nanmean(completeNoise{COUNT});
+    completeTiltVsWindAvg(COUNT,:) = nanmean(completeTiltVsWindSpeed{COUNT});
+    completeStratVsWindAvg(COUNT,:) = nanmean(completeStratVsWindSpeed{COUNT})
 end
 
 for COUNT = 1:length(completeWindsAvg)
-    yearlyWindSpeed(1,COUNT) = mean(completeWindsAvg(:,COUNT));
+    yearlyWindSpeed(1,COUNT)       = mean(completeWindsAvg(:,COUNT));
+    yearlyNoise(1,COUNT)           = mean(completeNoiseAvg(:,COUNT));  
     yearlyTiltVsWindSpeed(1,COUNT) = mean(completeTiltVsWindAvg(:,COUNT));
+    yearlyStratVsWindSpeed(1,COUNT) = mean(completeStratVsWindAvg(:,COUNT));
 end
+
+normalizedYearlyWind = yearlyWindSpeed/(max(yearlyWindSpeed));
+
 
 
 
