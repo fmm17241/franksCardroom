@@ -13,9 +13,7 @@ for COUNT = 1:length(fullData)
         windSpeedBins{COUNT}{season}(10,:) = fullData{COUNT}.windSpeed > 9 & fullData{COUNT}.windSpeed < 10 & fullData{COUNT}.season ==season;
         windSpeedBins{COUNT}{season}(11,:) = fullData{COUNT}.windSpeed > 10 & fullData{COUNT}.windSpeed < 11 & fullData{COUNT}.season ==season;
         windSpeedBins{COUNT}{season}(12,:) = fullData{COUNT}.windSpeed > 11 & fullData{COUNT}.windSpeed < 12 & fullData{COUNT}.season ==season;
-        windSpeedBins{COUNT}{season}(13,:) = fullData{COUNT}.windSpeed > 12 & fullData{COUNT}.windSpeed < 13 & fullData{COUNT}.season ==season;
-        windSpeedBins{COUNT}{season}(14,:) = fullData{COUNT}.windSpeed > 13 & fullData{COUNT}.windSpeed < 14 & fullData{COUNT}.season ==season;
-        windSpeedBins{COUNT}{season}(15,:) = fullData{COUNT}.windSpeed > 14 & fullData{COUNT}.season ==season;
+        windSpeedBins{COUNT}{season}(13,:) = fullData{COUNT}.windSpeed > 12 & fullData{COUNT}.season ==season;
     end
 end
 
@@ -33,9 +31,7 @@ for COUNT = 1:length(fullData)
     windSpeedBinsAnnual{COUNT}(10,:) = fullData{COUNT}.windSpeed > 9 & fullData{COUNT}.windSpeed < 10 ;
     windSpeedBinsAnnual{COUNT}(11,:) = fullData{COUNT}.windSpeed > 10 & fullData{COUNT}.windSpeed < 11 ;
     windSpeedBinsAnnual{COUNT}(12,:) = fullData{COUNT}.windSpeed > 11 & fullData{COUNT}.windSpeed < 12 ;
-    windSpeedBinsAnnual{COUNT}(13,:) = fullData{COUNT}.windSpeed > 12 & fullData{COUNT}.windSpeed < 13 ;
-    windSpeedBinsAnnual{COUNT}(14,:) = fullData{COUNT}.windSpeed > 13 & fullData{COUNT}.windSpeed < 14 ;
-    windSpeedBinsAnnual{COUNT}(15,:) = fullData{COUNT}.windSpeed > 14 ;
+    windSpeedBinsAnnual{COUNT}(13,:) = fullData{COUNT}.windSpeed > 12 ;
 end
 
 
@@ -88,7 +84,7 @@ end
 
 for COUNT = 1:length(windSpeedScenario)
     for k = 1:height(windSpeedBinsAnnual{COUNT})
-        errorWSpeedAnnual(COUNT,k) = std(averageWindSpeedAnnual{COUNT})
+        errorWSpeedAnnual(COUNT,k) = std(averageWindSpeedAnnual(COUNT,k))
     end
 end
 

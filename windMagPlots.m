@@ -9,7 +9,7 @@
 cd (localPlots)
 
 %Creating an X-axis to emulate the bins of Wind data, 0-14 m/s
-X = 0:14;
+X = 0:12;
 
 seasonName = [{'Winter','Spring','Summer','Fall','Mariner''s Fall','Fall'}]
 color = ['r','r','g','g','k','k','b','b','m','m'];

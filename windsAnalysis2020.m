@@ -28,6 +28,7 @@ time = datetime(testVector,'TimeZone','UTC')+minutes(10);
 waveHeight = table2timetable(table(time, bringIn.WVHT));
 waveHeight.Properties.VariableNames = {'waveHeight'};
 waveHeight = retime(waveHeight,'hourly','mean')
+waveHeight.waveHeight(waveHeight.waveHeight > 90) = 0;
 
 timeVector = table2array(winds(:,1:5)); timeVector(:,6) = zeros(1,length(timeVector));
 clearvars time

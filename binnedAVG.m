@@ -111,6 +111,8 @@ end
 
 % for COUNT = 1:length()
 
+
+
 %creating daylight variable
 xx = length(sunRun);
 sunlight = zeros(1,height(time));
