@@ -42,16 +42,15 @@ end
 for COUNT = 1:length(fullData)
     for k = 1:height(windSpeedBinsAnnual{COUNT})
         windSpeedScenarioAnnual{COUNT}{k}= fullData{COUNT}(windSpeedBinsAnnual{COUNT}(k,:),:);
-        averageWindSpeedAnnual{COUNT}(1,k) = mean(windSpeedScenarioAnnual{COUNT}{1,k}.detections);
+        averageWindSpeedAnnual(COUNT,k) = mean(windSpeedScenarioAnnual{COUNT}{1,k}.detections);
         noiseCompareAnnual{COUNT}(k) = mean(windSpeedScenarioAnnual{COUNT}{1,k}.noise);
         wavesCompareAnnual{COUNT}(k) = mean(windSpeedScenarioAnnual{COUNT}{1,k}.waveHeight,'omitnan');
         tiltCompareWindAnnual{COUNT}(k) = mean(windSpeedScenarioAnnual{COUNT}{1,k}.tilt);
         stratCompareWindAnnual{COUNT}(k) = mean(windSpeedScenarioAnnual{COUNT}{1,k}.stratification)
+        countAnnual(COUNT,k)             = length(windSpeedScenarioAnnual{COUNT}{k}.detections)
     end
-    normalizedWSpeedAnnual{COUNT}  = averageWindSpeedAnnual{COUNT}/(max(averageWindSpeedAnnual{COUNT}));
+    normalizedWSpeedAnnual(COUNT)  = averageWindSpeedAnnual(COUNT,k)/(max(averageWindSpeedAnnual(COUNT)));
 end
-
-
 
 
 %%
@@ -77,6 +76,19 @@ for COUNT = 1:length(windSpeedScenario)
         errorWind(COUNT,season) = std(averageWindSpeed{COUNT}{season});
         errorNoise(COUNT,season) = std(noiseCompare{COUNT}{season});
         errorStrat(COUNT,season) = std(stratCompareWind{COUNT}{season});
+    end
+end
+
+for COUNT = 1:length(windSpeedScenario)
+    for k = 1:height(windSpeedBinsAnnual{COUNT})
+        errorWindAnnual(COUNT,k) = std(windSpeedScenarioAnnual{COUNT}{k}.detections)
+    end
+end
+
+
+for COUNT = 1:length(windSpeedScenario)
+    for k = 1:height(windSpeedBinsAnnual{COUNT})
+        errorWSpeedAnnual(COUNT,k) = std(averageWindSpeedAnnual{COUNT})
     end
 end
 

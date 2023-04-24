@@ -36,11 +36,11 @@ title('Wind''s Effect on Moored Transceivers')
 
 
 
-for COUNT = 1:length(normalizedWindSpeed)
+for COUNT = 1:length(normalizedWSpeed)
     figure()
     hold on
     for season = 1:length(seasons)
-        scatter(X,normalizedWindSpeed{COUNT}{season},'filled')
+        scatter(X,normalizedWSpeed{COUNT}{season},'filled')
 %         plot(X,normalizedWindSpeed{COUNT}{season})
     end
     nameit = sprintf('Wind Magnitude on Transceiver: %d',COUNT);
@@ -60,8 +60,8 @@ end
 for season = 1:length(seasons)
     figure()
     hold on
-    for COUNT = 1:length(normalizedWindSpeed)
-        scatter(X,normalizedWindSpeed{COUNT}{season},'filled')
+    for COUNT = 1:length(normalizedWSpeed)
+        scatter(X,normalizedWSpeed{COUNT}{season},'filled')
     end
     nameit = sprintf('Winds During %s',seasonName{season});
     title(nameit)
@@ -83,7 +83,7 @@ seasonName = [{'Winter','Spring','Summer','Fall','Mariner''s Fall','Fall'}]
 color = ['r','r','g','g','k','k','b','b','m','m'];
 
 figure()
-scatter(x,yearlyTilt,'filled')
+scatter(x,yearlyTiltVsWindSpeed,'filled')
 xlabel('Instrument Tilt')
 ylabel('Normalized Det. Efficiency')
 title('Yearly Avg Det Efficiency w/ different tilts')
@@ -214,9 +214,14 @@ figure()
 hold on
 for COUNT = 1:length(averageWindSpeedAnnual)
     plot(x,averageWindSpeedAnnual{COUNT},color(COUNT))
+    errorbar(x,averageWindSpeedAnnual{COUNT},errorWindAnnual(COUNT,:),color(COUNT),"LineStyle","none")
 end
 xlabel('Wind Magnitude')
 ylabel('Det Efficiency')
+
+
+
+
 
 %Same graph, normalized
 figure()

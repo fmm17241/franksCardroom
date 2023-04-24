@@ -139,17 +139,17 @@ scatter(X,annualStrongPercent,'b','filled')
 
 figure()
 yyaxis left
-plot(X,percentDiff,'k','LineWidth',4);
+plot(X,percentDiff,'b','LineWidth',4);
 hold on
-scatter(X,percentDiff,'k','filled');
+scatter(X,percentDiff,50,'b','filled');
 xlim([0.6 5.2])
 xticks([1:5])
 xlabel('Seasons')
 ylabel('Additional % Efficiency')
 yyaxis right
-plot(X,annualWeakStrat,'b','LineWidth',3)
+plot(X,annualWeakStrat,'k','LineWidth',3)
 hold on
-scatter(X,annualWeakStrat,'b','filled');
+scatter(X,annualWeakStrat,'k','filled');
 % plot(X,annualMediumStrat,'br')
 plot(X,annualStrongStrat,'r','LineWidth',3)
 scatter(X,annualStrongStrat,'r','filled')
@@ -166,7 +166,7 @@ plot(X,percentDiff,'b','LineWidth',4);
 xlabel('Seasons')
 ylabel('Additional % Efficiency')
 yyaxis right
-plot(X,stratDiff,'k','LineWidth',4)
+plot(X,stratDiff,'r','LineWidth',4)
 xlim([0.6 5.2])
 xticks([1:5])
 ylabel('Bulk Thermal Strat °C')
@@ -248,7 +248,7 @@ Z = yearlyNoise;
 
 
 figure()
-scatter(X,Y2,250,Z,'filled')
+scatter(X,Y,250,Z,'filled')
 a = colorbar
 ylabel(a,'Stratification °C','FontSize',16);
 ylabel('Normalized Det. Efficiency')
@@ -257,7 +257,7 @@ title('Wind Magnitude''s Effects','Detection Efficiency & Thermal Bulk Strat')
 
 
 figure()
-scatter(X,Y2,250,Z,'filled')
+scatter(X,Y,250,Z,'filled')
 a = colorbar
 ylabel(a,'Noise, mV','FontSize',16);
 ylabel('Normalized Det. Efficiency')
