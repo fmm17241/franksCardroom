@@ -44,3 +44,80 @@ for COUNT = 1:length(waveBinsAnnual)
 
 end
     
+
+%%
+%Testing the red meanie
+
+color2 = ['r','b']
+figure()
+hold on
+for COUNT = 1:2
+    plot(x,averageWaveAnnual(COUNT,:),color2(COUNT))
+end
+legend('One','Two')
+xlabel('Waveheight, m')
+ylabel('Det. Efficiency')
+title('Pairing Differences','WaveHeight, Buoy')
+
+
+color2 = ['r','b']
+figure()
+hold on
+for COUNT = 1:2
+    plot(x,tiltCompareWaveAnnual{COUNT},color2(COUNT))
+end
+legend('One','Two')
+xlabel('Waveheight, m')
+ylabel('Instrument Tilt °')
+title('Pairing Differences','WaveHeight, Buoy')
+
+color2 = ['r','b']
+figure()
+hold on
+for COUNT = 1:2
+    plot(x,stratCompareWaveAnnual{COUNT},color2(COUNT))
+end
+legend('One','Two')
+xlabel('Waveheight, m')
+ylabel('Stratification')
+title('Pairing Differences','WaveHeight, Buoy')
+
+color2 = ['r','b']
+figure()
+hold on
+for COUNT = 1:2
+    plot(x,noiseCompareAnnual{COUNT},color2(COUNT))
+end
+legend('One','Two')
+xlabel('Waveheight, m')
+ylabel('Noise')
+title('Pairing Differences','WaveHeight, Buoy')
+
+
+%Winds
+X = 0:12;
+
+color2 = ['r','b']
+figure()
+hold on
+for COUNT = 1:2
+    plot(X,averageWindSpeedAnnual(COUNT,:),color2(COUNT))
+end
+legend('One','Two')
+xlabel('Windspeed m/s')
+ylabel('Det Efficiency')
+title('Pairing Differences','Wind Magnitude, Buoy')
+
+%
+x = -0.4:0.05:.4;
+
+color2 = ['r','b']
+figure()
+hold on
+for COUNT = 1:2
+    plot(x,averageAnnual{COUNT},color2(COUNT))
+end
+legend('One','Two')
+xlabel('Tidal Magntiude')
+ylabel('Det Efficiency')
+title('Pairing Differences','Tidal Magnitude')

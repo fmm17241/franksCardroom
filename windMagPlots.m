@@ -52,7 +52,21 @@ for COUNT = 1:length(normalizedWSpeed)
     exportgraphics(gcf,sprintf('Transceiver%dWinds.png',COUNT),'Resolution',300)
 end
 
-
+for COUNT = 1:2
+    figure()
+    hold on
+    for season = 1:length(seasons)
+        scatter(X,normalizedWSpeedAnnual{COUNT}{season},'filled')
+%         plot(X,normalizedWindSpeed{COUNT}{season})
+    end
+    nameit = sprintf('Wind Magnitude on Transceiver: %d',COUNT);
+    title(nameit)
+    ylabel('Normalized Det. Efficiency')
+    xlabel('Wind Magnitude (m/s)')
+%    lgd =  legend('Winter','Spring','Summer','Fall','Mariners Fall',loc='upper left')
+%    lgd.Location = 'northwest';
+    exportgraphics(gcf,sprintf('Transceiver%dWinds.png',COUNT),'Resolution',300)
+end
 
 
 
