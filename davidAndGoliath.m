@@ -86,6 +86,8 @@ for COUNT = 1:length(weakWindScenario)
         errorWeakWind(COUNT,season) = std(weakWindScenario{COUNT}{season,1}.detections)  
         errorMediumWind(COUNT,season) = std(mediumWindScenario{COUNT}{season,1}.detections) 
         errorStrongWind(COUNT,season) = std(strongWindScenario{COUNT}{season,1}.detections)
+        errorWeakSound(COUNT,season)   =std(weakWindScenario{COUNT}{season,1}.noise)  
+        errorStrongSound(COUNT,season) = std(strongWindScenario{COUNT}{season,1}.noise)  
     end
 end
 
@@ -93,7 +95,8 @@ consolidateErrorStrong  = std(errorStrongWind,1);
 consolidateErrorMedium  = std(errorMediumWind,1);
 consolidateErrorWeak    = std(errorWeakWind,1);
 
-
+consolidateErrorStrongNoise  = std(errorStrongSound,1);
+consolidateErrorWeakNoise    = std(errorWeakSound,1);
 
 X = 1:5;
 
@@ -126,9 +129,30 @@ yline(3,'label','50% efficiency')
 ylim([0 3.25])
 xlabel('Season')
 ylabel('Avg. Detections')
-title('Seasonal Wind Effects')
+title('Seasonal Wind Effects','Detection Efficiency')
 % legend('Weak, <5m/s','Medium, b/w','Strong, >10m/s')
 legend('Weak, <5m/s','Strong, >10m/s')
+
+% Sound
+figure()
+hold on
+scatter(X,annualWeakNoise,'r','filled')
+% scatter(X,annualMedium,'g','filled')
+scatter(X,annualStrongNoise,'b','filled')
+errorbar(X,annualWeakNoise,consolidateErrorWeakNoise,'r',"LineStyle","none")
+% errorbar(X,annualMedium,consolidateErrorMedium,'g',"LineStyle","none")
+errorbar(X,annualStrongNoise,consolidateErrorStrongNoise,'b',"LineStyle","none")
+xlim([0.6 5.2])
+% yline(3,'label','50% efficiency')
+% ylim([0 3.25])
+xlabel('Season')
+ylabel('Ambient Noise (mV)')
+title('Seasonal Wind Effects','Ambient Sounds')
+% legend('Weak, <5m/s','Medium, b/w','Strong, >10m/s')
+legend('Weak, <5m/s','Strong, >10m/s')
+
+
+
 
 
 

@@ -14,19 +14,6 @@ X = 0:12;
 seasonName = [{'Winter','Spring','Summer','Fall','Mariner''s Fall','Fall'}]
 color = ['r','r','g','g','k','k','b','b','m','m'];
 
-for COUNT = 1:length(windSpeedScenario)
-    for season = 1:length(seasons)
-        visualizedEfficiency{COUNT,season} = averageWindSpeed{COUNT}{season}*100;
-    end
-end
-
-figure()
-hold on
-for COUNT = 1:length(windSpeedScenario)
-    scatter(x,noiseCompare{COUNT}{4},visualizedEfficiency{COUNT,4},'filled')
-end
-
-
 
 
 figure()
@@ -79,7 +66,7 @@ for COUNT = 1:length(normalizedWSpeed)
     xlabel('Wind Magnitude (m/s)')
 %    lgd =  legend('Winter','Spring','Summer','Fall','Mariners Fall',loc='upper left')
 %    lgd.Location = 'northwest';
-    exportgraphics(gcf,sprintf('Transceiver%dWinds.png',COUNT),'Resolution',300)
+%     exportgraphics(gcf,sprintf('Transceiver%dWinds.png',COUNT),'Resolution',300)
 end
 
 
