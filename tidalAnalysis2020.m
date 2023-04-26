@@ -274,7 +274,7 @@ for COUNT = 1:2:length(AnglesR)
     title(nameit)
 end
 
-cd ([oneDrive,'exportedFigures'])
+cd ([localPlots])
 
 
 %%Combine in big tiled picture. You can do this!!!!
@@ -334,7 +334,7 @@ for COUNT = 1:2:length(AnglesR)
 %     title(sprintf('Should be %0.1f CCW',rotatorsD(1,COUNT)))
     title('X Axis: X to Square +')
     axis equal
-    exportgraphics(gcf,sprintf('AnglesTides%d.png',COUNT),'Resolution',300)
+%     exportgraphics(gcf,sprintf('AnglesTides%d.png',COUNT),'Resolution',300)
 end
 
 
