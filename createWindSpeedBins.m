@@ -45,7 +45,7 @@ for COUNT = 1:length(fullData)
         stratCompareWindAnnual{COUNT}(k) = mean(windSpeedScenarioAnnual{COUNT}{1,k}.stratification)
         countAnnual(COUNT,k)             = length(windSpeedScenarioAnnual{COUNT}{k}.detections)
     end
-    normalizedWSpeedAnnual(COUNT)  = averageWindSpeedAnnual(COUNT,k)/(max(averageWindSpeedAnnual(COUNT)));
+    normalizedWSpeedAnnual(COUNT,:)  = averageWindSpeedAnnual(COUNT,:)/(max(averageWindSpeedAnnual(COUNT,:)));
 end
 
 

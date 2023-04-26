@@ -49,14 +49,14 @@ for COUNT = 1:length(normalizedWSpeed)
     xlabel('Wind Magnitude (m/s)')
 %    lgd =  legend('Winter','Spring','Summer','Fall','Mariners Fall',loc='upper left')
 %    lgd.Location = 'northwest';
-    exportgraphics(gcf,sprintf('Transceiver%dWinds.png',COUNT),'Resolution',300)
+%     exportgraphics(gcf,sprintf('Transceiver%dWinds.png',COUNT),'Resolution',300)
 end
 
-for COUNT = 1:2
+for COUNT = 1:length(normalizedWSpeed)
     figure()
     hold on
     for season = 1:length(seasons)
-        scatter(X,normalizedWSpeedAnnual{COUNT}{season},'filled')
+        scatter(X,normalizedWSpeed{COUNT}{season},'filled')
 %         plot(X,normalizedWindSpeed{COUNT}{season})
     end
     nameit = sprintf('Wind Magnitude on Transceiver: %d',COUNT);
@@ -82,7 +82,7 @@ for season = 1:length(seasons)
     ylabel('Normalized Det. Efficiency')
     xlabel('Wind Magnitude (m/s)')
 %     legend('Winter','Spring','Summer','Fall','Mariners Fall')
-    exportgraphics(gcf,sprintf('WindsDuring %s .png',seasonName{season}),'Resolution',300)
+%     exportgraphics(gcf,sprintf('WindsDuring %s .png',seasonName{season}),'Resolution',300)
 end
 
 
@@ -221,14 +221,14 @@ end
 
 % Annuals
 
-x = 1:length(averageWindSpeedAnnual{1})
+x = 1:length(averageWindSpeedAnnual(COUNT,:))
 
 
 figure()
 hold on
 for COUNT = 1:length(averageWindSpeedAnnual)
-    plot(x,averageWindSpeedAnnual{COUNT},color(COUNT))
-    errorbar(x,averageWindSpeedAnnual{COUNT},errorWindAnnual(COUNT,:),color(COUNT),"LineStyle","none")
+    plot(x,averageWindSpeedAnnual(COUNT,:),color(COUNT))
+    errorbar(x,averageWindSpeedAnnual(COUNT,:),errorWindAnnual(COUNT,:),color(COUNT),"LineStyle","none")
 end
 xlabel('Wind Magnitude')
 ylabel('Det Efficiency')
@@ -240,26 +240,37 @@ ylabel('Det Efficiency')
 %Same graph, normalized
 figure()
 hold on
-for COUNT = 1:length(averageWindSpeedAnnual)
-    plot(x,normalizedWSpeedAnnual{COUNT},color(COUNT))
+for COUNT = 1:height(averageWindSpeedAnnual)
+    plot(x,normalizedWSpeedAnnual(COUNT,:),color(COUNT))
 end
 xlabel('Wind Magnitude')
 ylabel('Normalized Det Efficiency')
+xlim([0 13])
+xline(2.23,'label','Light Breeze')
+xline(6.03,'label','Moderate Breeze')
+x1 = xline(10.09,'label','Strong Breeze')
+x1.LabelVerticalAlignment = 'bottom'
 title('Transmission Success','Increasing Wind Magnitude')
 
 
 figure()
 hold on
-for COUNT = 1:length(averageWindSpeedAnnual)
+for COUNT = 1:length(noiseCompareAnnual)
     plot(x,noiseCompareAnnual{COUNT},color(COUNT))
 end
 xlabel('Wind Magnitude')
 ylabel('Ambient Noise (69 kHz, mV)')
+x1 = xline(2.23,'label','Light Breeze')
+x2 = xline(6.03,'label','Moderate Breeze')
+x3 = xline(10.09,'label','Strong Breeze')
+x1.LabelVerticalAlignment = 'bottom'
+x2.LabelVerticalAlignment = 'bottom'
+x3.LabelVerticalAlignment = 'bottom'
 title('Ambient Noise','Increasing Wind Magnitude')
 
 figure()
 hold on
-for COUNT = 1:length(averageWindSpeedAnnual)
+for COUNT = 1:length(tiltCompareWindAnnual)
     plot(x,tiltCompareWindAnnual{COUNT},color(COUNT))
 end
 xlabel('Wind Magnitude')
@@ -269,9 +280,12 @@ title('Instrument Orientation','Increasing Wind Magnitude')
 
 figure()
 hold on
-for COUNT = 1:length(averageWindSpeedAnnual)
+for COUNT = 1:height(averageWindSpeedAnnual)
     plot(x,wavesCompareAnnual{COUNT},color(COUNT))
 end
+xline(2.23,'label','Light Breeze')
+xline(6.03,'label','Moderate Breeze')
+xline(10.09,'label','Strong Breeze')
 xlabel('Wind Magnitude')
 ylabel('WaveHeight')
 title('WaveHeight','Increasing Wind Magnitude')
