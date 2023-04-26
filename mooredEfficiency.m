@@ -33,6 +33,7 @@ rawDetFile{7,1} = readtable('VR2Tx_483075_20211025_1.csv'); %FS6
 rawDetFile{8,1} = readtable('VR2Tx_483076_20211018_1.csv'); %08ALTIN
 rawDetFile{9,1} = readtable('VR2Tx_483080_20211223_1.csv'); %09T
 rawDetFile{10,1} = readtable('VR2Tx_483081_20211005_1.csv'); %39IN
+% rawDetFile{11,1} = readtable('VR2Tx_483079_20211130_1.csv'); %34ALTOUT
 
 %First pairing: SURTASSSTN20 and STSNEW1
 %Second pairing: SURTASS05IN and FS6
@@ -92,13 +93,12 @@ index{9} = mooredReceivers{2,1}.detections == 63081; % SURTASS05IN hearing 39IN,
 index{10} = mooredReceivers{10,1}.detections == 63064; % 39IN hearing SURTASS05IN, transmits SE to NW
 
 % %Sixth Pairing
-% index{11} = mooredReceivers{7,1}.detections == 63074; % FS6 hearing STSNew2, Along, barely any
-% index{12} = mooredReceivers{6,1}.detections == 63075; % STSNew2 hearing FS6, Along
-
+% index{11} = mooredReceivers{1,1}.detections == 63079; %SURTASSSTN20 hearing 34ALTOUT
+% index{12} = mooredReceivers{11,1}.detections == 63062; %34ALTOUT hearing SURTASSSTN20
 
 %FM this is my "key" for the index. I didn't want to load data twice so
 %this key tells the loop which order to use
-% receiverOrder = [1;5;2;7;3;8;2;6;10;2;6;7];
+% receiverOrder = [1;5;2;7;3;8;2;6;10;2;1;11];
 receiverOrder = [1;5;7;2;3;8;6;2;2;10];
 
 

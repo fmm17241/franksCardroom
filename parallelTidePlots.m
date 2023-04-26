@@ -83,7 +83,8 @@ for COUNT = 1:length(averageParaTide)
     end
     nameit = sprintf('Parallel %d',COUNT);
     title(nameit)
-    ylim([0 3.5])
+    ylim([0 4])
+    yline(3,'label','50% Efficiency')
     ylabel('Det. Efficiency')
     xlabel('Current Velocity (m/s)')
     legend('Winter','Spring','Summer','Fall','Mariners Fall')
@@ -218,7 +219,7 @@ for COUNT = 1:2:length(normalizedPara)
     end
     ylabel('Normalized Det. Efficiency')
     xlabel('Current Velocity (m/s)')
-    exportgraphics(gcf,sprintf('ParaTrans%dBOTHdirections.png',pairingNumb(COUNT)),'Resolution',300)
+%     exportgraphics(gcf,sprintf('ParaTrans%dBOTHdirections.png',pairingNumb(COUNT)),'Resolution',300)
 end
 
 %%
@@ -232,23 +233,23 @@ pairingNumb = [1;1;2;2;3;3;4;4;5;5]
 
 % Both parallel directions
 for COUNT = 1:2:length(normalizedParaABS)
-    f = figure;
-    f.Position = [100 100 450 800];
-    tiledlayout(5,1,'TileSpacing','Compact','Padding','Compact')
-    for season = 1:length(seasons)
-        nexttile()
-        scatter(x,normalizedParaABS{COUNT}{season},'r','filled')
-        hold on
-        scatter(x,normalizedParaABS{COUNT+1}{season},'k','filled')
-        nameit = sprintf('Both Directions, Absolute. Pairing %d, %s',pairingNumb(COUNT),seasonName{season});
-        title(nameit)
-        if season == 1
-            legend('Sq to X','X to Sq')
-        end
-
+f = figure;
+f.Position = [100 100 450 800];
+tiledlayout(5,1,'TileSpacing','Compact','Padding','Compact')
+for season = 1:length(seasons)
+    nexttile()
+    scatter(x,normalizedParaABS{COUNT}{season},'r','filled')
+    hold on
+    scatter(x,normalizedParaABS{COUNT+1}{season},'k','filled')
+    nameit = sprintf('Both Directions, Absolute. Pairing %d, %s',pairingNumb(COUNT),seasonName{season});
+    title(nameit)
+    if season == 1
+        legend('Sq to X','X to Sq')
     end
-    ylabel('Normalized Det. Efficiency')
-    xlabel('Current Magnitude (m/s)')
+
+end
+ylabel('Normalized Det. Efficiency')
+xlabel('Current Magnitude (m/s)')
 %     exportgraphics(gcf,sprintf('Trans%dABS.png',pairingNumb(COUNT)),'Resolution',300)
 end
 
@@ -320,7 +321,7 @@ for COUNT = 1:2:length(averageParaTideABS)
     end
     ylabel('Det. Efficiency')
     xlabel('Current Magnitude (m/s)')
-    exportgraphics(gcf,sprintf('Trans%dABS.png',pairingNumb(COUNT)),'Resolution',300)
+%     exportgraphics(gcf,sprintf('Trans%dABS.png',pairingNumb(COUNT)),'Resolution',300)
 end
 
 setYlim = [0 0 0 0 0 0 0 0 0 0;
@@ -384,8 +385,9 @@ title('10 Transmission Directions','Pairings Normalized')
 figure()
 hold on
 for COUNT = 1:length(normalizedAnnual)
-    scatter(x,normalizedSingle{COUNT},'filled')
+    scatter(x,normalizedSingle{COUNT},color(COUNT),'filled')
 end
+plot(x,normalizedSingle{8},'b')
 xline(0);
 xlabel('Parallel Current Velocity')
 ylabel('Normalized Det Efficiency')

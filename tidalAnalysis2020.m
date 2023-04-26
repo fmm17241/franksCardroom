@@ -49,9 +49,9 @@ AnglesD(8) = atan2d((mooredGPS(14,2)-mooredGPS(11,2)),(mooredGPS(14,1)-mooredGPS
 %39IN and SURTASS05IN
 AnglesD(9) = atan2d((mooredGPS(14,2)-mooredGPS(13,2)),(mooredGPS(14,1)-mooredGPS(13,1)));
 AnglesD(10) = atan2d((mooredGPS(13,2)-mooredGPS(14,2)),(mooredGPS(13,1)-mooredGPS(14,1)));
-%STSNEW2 and FS6
-AnglesD(11) = atan2d((mooredGPS(12,2)-mooredGPS(11,2)),(mooredGPS(12,1)-mooredGPS(11,1)));
-AnglesD(12) = atan2d((mooredGPS(11,2)-mooredGPS(12,2)),(mooredGPS(11,1)-mooredGPS(12,1)));
+%SURTASSSTN20 and 34ALTOUT
+AnglesD(11) = atan2d((mooredGPS(15,2)-mooredGPS(4,2)),(mooredGPS(15,1)-mooredGPS(4,1)));
+AnglesD(12) = atan2d((mooredGPS(4,2)-mooredGPS(15,2)),(mooredGPS(4,1)-mooredGPS(15,1)));
 
 %FMFMFMFM Adding in tidal ellipses angle, 2/8/23. These are found using
 % PCA coefficients in tidalAnalysis scripts.
@@ -191,8 +191,6 @@ pax.ThetaDir = 'clockwise';
 
 % Make rotations for each transceiver pairing
 pairing = [1 1 2 2 3 3 4 4 5 5 6 6];
-
-diff = [60 60 85.5 85.5 144.7 144.7 -6.6 -6.6 -0.2 -0.2 121.3 121.3]
 % for COUNT = 1:2:length(AnglesR)
 %     nameit= sprintf('Pairing %d Angle vs Tidal Ellipses, Diff: %d',pairing(COUNT),round(diff(COUNT)))
 %     figure()

@@ -132,18 +132,18 @@ for COUNT = 1:length(fullData)
 %                 averagePerpTide{COUNT}{season}(1,k) = 0;
 %             end
         end
-%         normalizedPara{COUNT}{season}  = averageParaTide{COUNT}{season}/(max(averageParaTide{COUNT}{season}));
+        normalizedPara{COUNT}{season}  = averageParaTide{COUNT}{season}/(max(averageParaTide{COUNT}{season}));
 %         normalizedPerp{COUNT}{season}  = averagePerpTide{COUNT}{season}/(max(averagePerpTide{COUNT}{season}));
     end
 end
 
-for COUNT = 1:2:length(fullData)
-    for season = 1:length(seasons)
-        comboPlatter = [averageParaTide{COUNT}{season},averageParaTide{COUNT+1}{season}]
-        normalizedPara{COUNT}{season}  = averageParaTide{COUNT}{season}/(max(comboPlatter));
-        normalizedPara{COUNT+1}{season}  = averageParaTide{COUNT+1}{season}/(max(comboPlatter));
-    end
-end
+% for COUNT = 1:2:length(fullData)
+%     for season = 1:length(seasons)
+%         comboPlatter = [averageParaTide{COUNT}{season},averageParaTide{COUNT+1}{season}]
+%         normalizedPara{COUNT}{season}  = averageParaTide{COUNT}{season}/(max(comboPlatter));
+%         normalizedPara{COUNT+1}{season}  = averageParaTide{COUNT+1}{season}/(max(comboPlatter));
+%     end
+% end
 
 
 

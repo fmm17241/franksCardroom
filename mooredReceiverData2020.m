@@ -38,7 +38,7 @@ cd ([oneDrive,'Moored'])
 data = readtable('VUE_Export.csv');
 %SWITCHED: BELOW LINES TAKES OUT TWO TRANSCEIVERS WHICH WERE NOT HEARD AT
 %ALL, NOT EVEN BY THEMSELVES, HURTING AVERAGE FM 4/7/22
-forbiddenReceivers = ['VR2Tx-483067';'VR2Tx-483068';'VR2Tx-483079';'VR2Tx-483080'];
+forbiddenReceivers = ['VR2Tx-483067';'VR2Tx-483068';'VR2Tx-483080'];
 data(ismember(data.Receiver,forbiddenReceivers),:)=[];
 
 %%
@@ -56,7 +56,7 @@ uniqueReceivers =  [{'VR2Tx-483062';
                     'VR2Tx-483074';
                     'VR2Tx-483064';
                     'VR2Tx-483064';
-                    'VR2Tx-483081'}]
+                    'VR2Tx-483081';}]
 
 % uniqueReceivers = unique(data.Receiver);
 for PT = 1:length(uniqueReceivers)
