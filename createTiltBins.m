@@ -4,6 +4,90 @@
 
 
 
+%%
+%Full year
+
+for COUNT = 1:length(fullData)
+    tiltBins{COUNT}(1,:) = fullData{COUNT}.tilt < 2;
+    tiltBins{COUNT}(2,:) = fullData{COUNT}.tilt > 2 & fullData{COUNT}.tilt < 4;
+    tiltBins{COUNT}(3,:) = fullData{COUNT}.tilt > 4 & fullData{COUNT}.tilt < 6;
+    tiltBins{COUNT}(4,:) = fullData{COUNT}.tilt > 6 & fullData{COUNT}.tilt < 8;
+    tiltBins{COUNT}(5,:) = fullData{COUNT}.tilt > 8 & fullData{COUNT}.tilt < 10;
+    tiltBins{COUNT}(6,:) = fullData{COUNT}.tilt > 10 & fullData{COUNT}.tilt < 12;
+    tiltBins{COUNT}(7,:) = fullData{COUNT}.tilt > 12 & fullData{COUNT}.tilt < 14;
+    tiltBins{COUNT}(8,:) = fullData{COUNT}.tilt > 14 & fullData{COUNT}.tilt < 16;
+    tiltBins{COUNT}(9,:) = fullData{COUNT}.tilt > 16 & fullData{COUNT}.tilt < 18;
+    tiltBins{COUNT}(10,:) = fullData{COUNT}.tilt > 18 & fullData{COUNT}.tilt < 20;
+    tiltBins{COUNT}(11,:) = fullData{COUNT}.tilt > 20 & fullData{COUNT}.tilt < 22;
+    tiltBins{COUNT}(12,:) = fullData{COUNT}.tilt > 22;
+end
+
+
+for COUNT = 1:length(fullData)
+    for k = 1:height(tiltBins{COUNT})
+        tiltScenario{COUNT,k}= fullData{COUNT}(tiltBins{COUNT}(k,:),:);
+        averageTilt(COUNT,k) = mean(tiltScenario{COUNT,k}.detections);
+        if isnan(averageTilt(COUNT,k))
+            averageTilt(COUNT,k) = 0;
+        end
+    end
+end
+
+for COUNT = 1:length(fullData)
+    normalizedTilt(COUNT,:)  = averageTilt(COUNT,:)/(max(averageTilt(COUNT,:)));
+end
+
+
+cd (localPlots)
+
+color = ['r','r','g','g','k','k','b','b','m','m'];
+x = 0:2:22;
+
+
+
+%Yearly plots
+
+figure()
+hold on
+for COUNT = 1:height(averageTilt)
+    scatter(x,averageTilt(COUNT,:),color(COUNT),'filled')
+end
+title(nameit)
+%     ylim([0 1])
+ylabel('Det. Efficiency')
+xlabel('Instrument Tilt °')
+%     exportgraphics(gcf,sprintf('Transceiver%dParaSeasonal.png',COUNT),'Resolution',300)
+
+
+for COUNT = 1:height(averageTilt)
+    figure()
+    hold on
+    scatter(x,normalizedTilt(COUNT,:),color(COUNT),'filled')
+    ylabel('Nomralized Det. Efficiency')
+    xlabel('Instrument Tilt °')
+    title(COUNT)
+end
+
+for COUNT = 1:height(averageTilt)
+    figure()
+    hold on
+    scatter(x,averageTilt(COUNT,:),color(COUNT),'filled')
+    ylabel('Det. Efficiency')
+    xlabel('Instrument Tilt °')
+    ylim([0 3.5])
+    yline(3,'label','50%')
+    title(COUNT)
+end
+
+
+%     exportgraphics(gcf,sprintf('Transceiver%dParaSeasonal.png',COUNT),'Resolution',300)
+
+
+
+%%
+% Season
+
+
 for COUNT = 1:length(fullData)
     for season = 1:length(seasons)
         tiltBins{COUNT}{season}(1,:) = fullData{COUNT}.tilt < 2 & fullData{COUNT}.season == season;

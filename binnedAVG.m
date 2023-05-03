@@ -114,14 +114,30 @@ end
 
 
 %creating daylight variable
+% xx = length(sunRun);
+% sunlight = zeros(1,height(time));
+% for k = 1:xx
+%     currentSun = sunRun(:,k);
+%     currentHours = isbetween(time,currentSun(1,1),currentSun(2,1));
+%     currentDays = find(currentHours);
+%     sunlight(currentDays) = 1;
+% end
+
+%Testing additional light variable
+
 xx = length(sunRun);
 sunlight = zeros(1,height(time));
 for k = 1:xx
     currentSun = sunRun(:,k);
-    currentHours = isbetween(time,currentSun(1,1),currentSun(2,1));
+    currentHours = isbetween(time,currentSun(1,1),currentSun(2,1)-hours(1));
     currentDays = find(currentHours);
+    sunsetting = isbetween(time,currentSun(2,1)-hours(1),currentSun(2,1));
+    crepuscular = find(sunsetting);
     sunlight(currentDays) = 1;
+    sunlight(crepuscular) = 2;
 end
+
+
 
 %creating season variable
 %%Five seasonal wind regimes from Blanton's wind, 1980
