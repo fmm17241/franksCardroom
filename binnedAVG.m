@@ -170,6 +170,41 @@ seasons = unique(fullData{1}.season)
 
 
 % clearvars -except fullData detections time bottom* receiverData fullTide*
+for COUNT = 1:length(fullData)
+    index{1,COUNT} = sunlight ==1;
+    index{2,COUNT} = sunlight ==2;
+    index{3,COUNT} = sunlight ==0;
+    day{COUNT}    = fullData{COUNT}(index{1,COUNT},:)
+    night{COUNT}  = fullData{COUNT}(index{3,COUNT},:)
+    crepuscular{COUNT} = fullData{COUNT}(index{2,COUNT},:)
+    dayDets(COUNT,:)    = day{COUNT}.detections;
+    nightDets(COUNT,:)  = night{COUNT}.detections;
+    sunsetDets(COUNT,:) = crepuscular{COUNT}.detections;
+end
+avgDay1    = mean(dayDets,1)
+avgNight1  = mean(nightDets,1)
+avgSunset1 = mean(sunsetDets,1)
+avgDay    = mean(avgDay1,'all')
+avgNight  = mean(avgNight1,'all')
+avgSunset = mean(avgSunset1,'all')
+
+errDay    = std(avgDay1);
+
+errNight  = std(avgNight1);
+errSunset = std(avgSunset1);
+
+figure()
+scatter(1,avgDay,'r','filled')
+hold on
+scatter(2,avgSunset,'b','filled')
+scatter(3,avgNight,'k','filled')
+errorbar(1,avgDay,errDay,'LineStyle','none')
+errorbar(2,avgSunset,errSunset,'LineStyle','none')
+errorbar(3,avgNight,errNight,'LineStyle','none')
+ylim([0 4])
+xlim([0.9 3.1])
+
+errorbar(x,averageParaTideABS{COUNT}{season},errorDataABS{COUNT}(season,:),"LineStyle","none")
 
 
 %%
