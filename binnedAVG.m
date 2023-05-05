@@ -132,9 +132,12 @@ for k = 1:xx
     currentHours = isbetween(time,currentSun(1,1),currentSun(2,1)-hours(1));
     currentDays = find(currentHours);
     sunsetting = isbetween(time,currentSun(2,1)-hours(1),currentSun(2,1));
+    sunrising = isbetween(time,currentSun(1,1)-hours(1),currentSun(1,1));
     crepuscular = find(sunsetting);
+    sunrise     = find(sunrising);
     sunlight(currentDays) = 1;
     sunlight(crepuscular) = 2;
+    sunlight(sunrising)   = 2;
 end
 
 
@@ -180,7 +183,17 @@ for COUNT = 1:length(fullData)
     dayDets(COUNT,:)    = day{COUNT}.detections;
     nightDets(COUNT,:)  = night{COUNT}.detections;
     sunsetDets(COUNT,:) = crepuscular{COUNT}.detections;
+    daySounds(COUNT,:)     =day{COUNT}.noise;
+    nightSounds(COUNT,:)   = night{COUNT}.noise;
+    sunsetSounds(COUNT,:)  =crepuscular{COUNT}.noise;
 end
+
+noiseDay1    = mean(daySounds,1);
+noiseNight1  = mean(nightSounds,1);
+noiseSunset1 = mean(sunsetSounds,1);
+noiseDay    = mean(noiseDay1,'all')
+noiseNight  = mean(noiseNight1,'all')
+noiseSunset = mean(noiseSunset1,'all')
 avgDay1    = mean(dayDets,1)
 avgNight1  = mean(nightDets,1)
 avgSunset1 = mean(sunsetDets,1)
@@ -193,6 +206,18 @@ errDay    = std(avgDay1);
 errNight  = std(avgNight1);
 errSunset = std(avgSunset1);
 
+
+x = 1:length(dayDets(1,:));
+x1 = 1:length(nightDets(1,:));
+x2 = 1:length(sunsetDets(1,:));
+
+figure()
+hold on
+scatter(day{1}.time,avgDay1,'r','filled')
+scatter(night{1}.time,avgNight1,'b','filled')
+scatter(crepuscular{1}.time,avgSunset1,'k','filled')
+
+
 figure()
 scatter(1,avgDay,'r','filled')
 hold on
@@ -204,7 +229,6 @@ errorbar(3,avgNight,errNight,'LineStyle','none')
 ylim([0 4])
 xlim([0.9 3.1])
 
-errorbar(x,averageParaTideABS{COUNT}{season},errorDataABS{COUNT}(season,:),"LineStyle","none")
 
 
 %%
