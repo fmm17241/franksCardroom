@@ -11,6 +11,7 @@ for COUNT= 1:length(fullData)
         weakWindBin{COUNT}(season,:) =   fullData{COUNT}.windSpeed   < 5  & fullData{COUNT}.season ==season;
         mediumWindBin{COUNT}(season,:) = fullData{COUNT}.windSpeed   > 5 & fullData{COUNT}.windSpeed < 10 & fullData{COUNT}.season ==season;
         strongWindBin{COUNT}(season,:) = fullData{COUNT}.windSpeed   > 10 & fullData{COUNT}.season ==season;
+%         strongWindBin{COUNT}(season,:) = fullData{COUNT}.windSpeed   > 10 & fullData{COUNT}.windSpeed   < 12 &  fullData{COUNT}.season ==season;
     end
 end
 
