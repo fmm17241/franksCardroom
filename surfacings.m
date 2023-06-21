@@ -2,7 +2,7 @@
 %profiles and sound propagation.
 
 %Data directory that holds nbd. Change as needed.
-datadir  = 'G:\Glider\Data\nbdasc\Test\';
+datadir  = 'D:\Glider\Data\nbdasc\Test\';
 
 
 %Reading data out of specific nbd
