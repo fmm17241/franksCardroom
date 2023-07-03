@@ -24,7 +24,7 @@ sstruct = read_gliderasc([datadir,files(nfile,:)]);
 %Bellhop model into a directory chosen in CreateEnv.
 
 %Directory to put all files; change as needed.
-directory = 'G:\Glider\Data\Environmental\';
+directory = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\exportedFigures\';
 
 
 %Full ray tracing, show all
