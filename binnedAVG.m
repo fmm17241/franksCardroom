@@ -132,6 +132,8 @@ for k = 1:xx
     currentHours = isbetween(time,currentSun(1,1),currentSun(2,1)-hours(1));
     currentDays = find(currentHours);
     sunlight(currentDays) = 1;
+    testing = isbetween(time,currentSun(2,1),currentSun(2,1)+hours(1));
+    sunlight(testing) ==2;
 end
 
 

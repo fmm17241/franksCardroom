@@ -3,19 +3,21 @@
 
 %Run binnedAVG
 
+%Index formed by using 
+for COUNT= 1:length(fullData)
+    for k = 1:length(seasons)
+        daylightIndex{COUNT}{k}(1,:) = fullData{COUNT}.sunlight==1 & fullData{COUNT}.season ==k;
+        daylightIndex{COUNT}{k}(2,:) =  fullData{COUNT}.sunlight==0 & fullData{COUNT}.season ==k;
+        day{k,COUNT}    = fullData{1,COUNT}(daylightIndex{1,COUNT}{1,k}(1,:),:)
+        night{k,COUNT}  = fullData{1,COUNT}(daylightIndex{1,COUNT}{1,k}(2,:),:)
+        dayDets{k}(COUNT,:)    = day{k,COUNT}.detections;
+        nightDets{k}(COUNT,:)  = night{k,COUNT}.detections;
+        daySounds{k}(COUNT,:)     =day{k,COUNT}.noise;
+        nightSounds{k}(COUNT,:)   = night{k,COUNT}.noise;
 
-
-% clearvars -except fullData detections time bottom* receiverData fullTide*
-for COUNT = 1:length(fullData)
-    index{1,COUNT} = sunlight ==1;
-    index{2,COUNT} = sunlight ==0;
-    day{COUNT}    = fullData{COUNT}(index{1,COUNT},:)
-    night{COUNT}  = fullData{COUNT}(index{2,COUNT},:)
-    dayDets(COUNT,:)    = day{COUNT}.detections;
-    nightDets(COUNT,:)  = night{COUNT}.detections;
-    daySounds(COUNT,:)     =day{COUNT}.noise;
-    nightSounds(COUNT,:)   = night{COUNT}.noise;
+    end
 end
+
 
 noiseDay1    = mean(daySounds,1);
 noiseNight1  = mean(nightSounds,1);
