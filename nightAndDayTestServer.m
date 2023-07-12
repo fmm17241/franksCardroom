@@ -8,15 +8,22 @@ for COUNT= 1:length(fullData)
     for k = 1:length(seasons)
         daylightIndex{COUNT}{k}(1,:) = fullData{COUNT}.sunlight==1 & fullData{COUNT}.season ==k;
         daylightIndex{COUNT}{k}(2,:) =  fullData{COUNT}.sunlight==0 & fullData{COUNT}.season ==k;
+        daylightIndex{COUNT}{k}(3,:) =  fullData{COUNT}.sunlight==2 & fullData{COUNT}.season ==k;
         day{k,COUNT}    = fullData{1,COUNT}(daylightIndex{1,COUNT}{1,k}(1,:),:)
         night{k,COUNT}  = fullData{1,COUNT}(daylightIndex{1,COUNT}{1,k}(2,:),:)
+        sunsetParty{k,COUNT}  = fullData{1,COUNT}(daylightIndex{1,COUNT}{1,k}(3,:),:)
         dayDets{k}(COUNT,:)    = day{k,COUNT}.detections;
         nightDets{k}(COUNT,:)  = night{k,COUNT}.detections;
+        sunsetDets{k}(COUNT,:)  = sunsetParty{k,COUNT}.detections;
         daySounds{k}(COUNT,:)     =day{k,COUNT}.noise;
         nightSounds{k}(COUNT,:)   = night{k,COUNT}.noise;
+        sunsetSounds{k}(COUNT,:)   = sunsetParty{k,COUNT}.noise;
 
     end
 end
+
+for COUNT = 1:length(dayDets)
+
 
 
 noiseDay1    = mean(daySounds,1);
