@@ -55,7 +55,7 @@ xlim([0.85 5.2])
 xlabel('Seasons 1:5')
 ylabel('Ambient Sounds (db/mV)')
 title('Average across Entire Reef')
-
+legend('Day','Sunset','Night')
 %%
 %Frank separated all the bin creation to not clutter one massive script
 %with so many different goals.
