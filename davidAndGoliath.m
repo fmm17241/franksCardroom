@@ -69,6 +69,48 @@ annualMediumPercent  = 100*(annualMedium/6);
 annualStrongPercent  = 100*(annualStrong/6);
 
 
+%FM 7/12 Finding statistical errors
+for k = 1:length(seasons)
+    SEM = std(allWeak(:,k))/sqrt(length(allWeak));               % Standard Error
+    ts = tinv([0.025  0.975],length(allWeak)-1);      % T-Score
+    CIweak(k,:) = mean(allWeak(:,k) + ts*SEM)/6;   
+end
+
+
+for k = 1:length(seasons)
+    SEM = std(allStrong(:,k))/sqrt(length(allStrong));               % Standard Error
+    ts = tinv([0.025  0.975],length(allStrong)-1);      % T-Score
+    CIstrong(k,:) = mean(allStrong(:,k) + ts*SEM)/6;   
+end
+
+%Noise
+for k = 1:length(seasons)
+    SEM = std(allWeakNoise(:,k))/sqrt(length(allWeakNoise));               % Standard Error
+    ts = tinv([0.025  0.975],length(allWeakNoise)-1);      % T-Score
+    CIweakNoise(k,:) = mean(allWeakNoise(:,k) + ts*SEM);   
+end
+
+
+for k = 1:length(seasons)
+    SEM = std(allStrongNoise(:,k))/sqrt(length(allStrongNoise));               % Standard Error
+    ts = tinv([0.025  0.975],length(allStrongNoise)-1);      % T-Score
+    CIstrongNoise(k,:) = mean(allStrongNoise(:,k) + ts*SEM);   
+end
+
+%Strat
+for k = 1:length(seasons)
+    SEM = std(allWeakStrat(:,k))/sqrt(length(allWeakStrat));               % Standard Error
+    ts = tinv([0.025  0.975],length(allWeakStrat)-1);      % T-Score
+    CIweakStrat(k,:) = mean(allWeakStrat(:,k) + ts*SEM);   
+end
+
+
+for k = 1:length(seasons)
+    SEM = std(allStrongStrat(:,k))/sqrt(length(allStrongStrat));               % Standard Error
+    ts = tinv([0.025  0.975],length(allStrongStrat)-1);      % T-Score
+    CIstrongStrat(k,:) = mean(allStrongStrat(:,k) + ts*SEM);   
+end
+
 
 
 
