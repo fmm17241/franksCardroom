@@ -2,7 +2,7 @@
 %profiles and sound propagation.
 
 %Data directory that holds nbd. Change as needed.
-datadir  = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Glider\Data\nbdasc\Test\';
+datadir  = 'C:\Users\fmac4\OneDrive - University of Georgia\data\Glider\Data\nbdasc\Test\';
 
 
 %Reading data out of specific nbd
@@ -24,7 +24,7 @@ sstruct = read_gliderasc([datadir,files(nfile,:)]);
 %Bellhop model into a directory chosen in CreateEnv.
 
 %Directory to put all files; change as needed.
-directory = 'C:\Users\fmm17241\Documents\Plots';
+directory = 'C:\Users\fmac4\Documents\plots';
 
 
 %Full ray tracing, show all

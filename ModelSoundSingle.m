@@ -10,7 +10,7 @@ location = sprintf('%s',directory);
 % Choose folder to work in
 cd (location)
 fclose('all'); %Removes previous connections
-% delete *.env;delete *.prt;delete *.jpeg;delete *.jpg;delete *.ray;delete *.gif;delete *.arr % Deletes previous files. Clearing this for automation.
+delete *.env;delete *.prt;delete *.jpeg;delete *.jpg;delete *.ray;delete *.gif;delete *.arr % Deletes previous files. Clearing this for automation.
 
 waterdepth = yoSSP(end,2)+3; %Hardcoded water depth: 3m under the last reading, estimating due to inflection.
 FileName = sprintf('nbdAnalysis.env'); %Choose file name
