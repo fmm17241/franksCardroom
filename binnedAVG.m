@@ -129,9 +129,11 @@ xx = length(sunRun);
 sunlight = zeros(1,height(time));
 for k = 1:xx
     currentSun = sunRun(:,k);
-    currentHours = isbetween(time,currentSun(1,1),currentSun(2,1)-hours(1));
+    currentHours = isbetween(time,currentSun(1,1),currentSun(2,1)-hours(1)); %FM 7/1
     currentDays = find(currentHours);
     sunlight(currentDays) = 1;
+    sunsetHourIndex = isbetween(time,currentSun(2,1)-hours(1),currentSun(2,1));
+    sunlight(sunsetHourIndex) = 2;
 end
 
 
@@ -164,51 +166,6 @@ for COUNT = 1:10
 end
 
 seasons = unique(fullData{1}.season)
-
-
-% clearvars -except fullData detections time bottom* receiverData fullTide*
-for COUNT = 1:length(fullData)
-    index{1,COUNT} = sunlight ==1;
-    index{2,COUNT} = sunlight ==0;
-    day{COUNT}    = fullData{COUNT}(index{1,COUNT},:)
-    night{COUNT}  = fullData{COUNT}(index{2,COUNT},:)
-    dayDets(COUNT,:)    = day{COUNT}.detections;
-    nightDets(COUNT,:)  = night{COUNT}.detections;
-    daySounds(COUNT,:)     =day{COUNT}.noise;
-    nightSounds(COUNT,:)   = night{COUNT}.noise;
-end
-
-noiseDay1    = mean(daySounds,1);
-noiseNight1  = mean(nightSounds,1);
-noiseDay    = mean(noiseDay1,'all')
-noiseNight  = mean(noiseNight1,'all')
-avgDay1    = mean(dayDets,1)
-avgNight1  = mean(nightDets,1)
-avgDay    = mean(avgDay1,'all')
-avgNight  = mean(avgNight1,'all')
-
-errDay    = std(avgDay1);
-
-errNight  = std(avgNight1);
-
-x = 1:length(dayDets(1,:));
-x1 = 1:length(nightDets(1,:));
-
-figure()
-hold on
-scatter(day{1}.time,avgDay1,'r','filled')
-scatter(night{1}.time,avgNight1,'b','filled')
-
-
-figure()
-scatter(1,avgDay,'r','filled')
-hold on
-scatter(3,avgNight,'k','filled')
-errorbar(1,avgDay,errDay,'LineStyle','none')
-errorbar(3,avgNight,errNight,'LineStyle','none')
-ylim([0 4])
-xlim([0.9 3.1])
-
 
 
 %%
