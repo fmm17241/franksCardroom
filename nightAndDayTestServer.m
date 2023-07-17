@@ -61,12 +61,18 @@ for k = 1:length(seasons)
     %Finding standard deviations/CIs of values
     SEM = std(nightSounds{1,k}(:))/sqrt(length(nightSounds{1,k}));  
     ts = tinv([0.025  0.975],length(nightSounds{1,k})-1);  
-    CIday(k,:) = mean(nightSounds{:,k},'all') + ts*SEM; 
+    CInight(k,:) = mean(nightSounds{:,k},'all') + ts*SEM; 
 end
 
 figure()
-confplot(1:5,dayAverages(1,:),CIday)
-
+hold on
+ciplot(CIsunset(:,1),CIsunset(:,2),1:5,'k')
+ciplot(CInight(:,1),CInight(:,2),1:5,'b')
+ciplot(CIday(:,1),CIday(:,2),1:5,'r')
+xlabel('Seasons, 2020')
+ylabel('Ambient Sounds (db/mV)')
+title('Ambient Sounds By Time of Day and Season','95% Conf. Interval across Entire Reef')
+legend('Sunset','Night','Day')
 
 figure()
 scatter(1:5,dayAverages(1,:),'r','filled')

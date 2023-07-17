@@ -36,14 +36,43 @@ for k = 1:length(seasons)
     dayAverages(1,k)    = mean(daySounds{1,k}(:,:),'all')
     dayAverages(2,k)  = mean(sunsetSounds{1,k}(:,:),'all')
     dayAverages(3,k) = mean(nightSounds{1,k}(:,:),'all')
-    %Finding standard deviations/CIs of values
-    errDay(1,k)   = std(daySounds{1,k}(:))
-    errDay(2,k)   = std(sunsetSounds{1,k}(:))
-    errDay(3,k)   = std(nightSounds{1,k}(:))
 end
 
+ 
 
+%Day Confidence Intervals
+for k = 1:length(seasons)
+    %Finding standard deviations/CIs of values
+    SEM = std(daySounds{1,k}(:))/sqrt(length(daySounds{1,k}));  
+    ts = tinv([0.025  0.975],length(daySounds{1,k})-1);  
+    CIday(k,:) = mean(daySounds{:,k},'all') + ts*SEM; 
+end
 
+%Sunset Confidence Intervals
+for k = 1:length(seasons)
+    %Finding standard deviations/CIs of values
+    SEM = std(sunsetSounds{1,k}(:))/sqrt(length(sunsetSounds{1,k}));  
+    ts = tinv([0.025  0.975],length(sunsetSounds{1,k})-1);  
+    CIsunset(k,:) = mean(sunsetSounds{:,k},'all') + ts*SEM; 
+end
+
+%Night Confidence Intervals
+for k = 1:length(seasons)
+    %Finding standard deviations/CIs of values
+    SEM = std(nightSounds{1,k}(:))/sqrt(length(nightSounds{1,k}));  
+    ts = tinv([0.025  0.975],length(nightSounds{1,k})-1);  
+    CInight(k,:) = mean(nightSounds{:,k},'all') + ts*SEM; 
+end
+
+figure()
+hold on
+ciplot(CIsunset(:,1),CIsunset(:,2),1:5,'k')
+ciplot(CInight(:,1),CInight(:,2),1:5,'b')
+ciplot(CIday(:,1),CIday(:,2),1:5,'r')
+xlabel('Seasons, 2020')
+ylabel('Ambient Sounds (db/mV)')
+title('Ambient Sounds By Time of Day and Season','95% Conf. Interval across Entire Reef')
+legend('Sunset','Night','Day')
 
 figure()
 scatter(1:5,dayAverages(1,:),'r','filled')
