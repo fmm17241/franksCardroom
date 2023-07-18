@@ -305,33 +305,33 @@ title('Increasing Wind''s Effect','Percent Change in: <5 and >10 m/s wind condit
 
 %%
 % Got the stratification now, how to visualize all 3?
-
-errorstrongWind{COUNT}(season,k) = std(strongWindScenario{COUNT}{season,k}.detections)
-
-X = 0:14;
-Y = normalizedYearlyWind;
-Z = yearlyNoise;
-
-
-
-figure()
-scatter(X,Y,250,Z,'filled')
-a = colorbar
-ylabel(a,'Stratification °C','FontSize',16);
-ylabel('Normalized Det. Efficiency')
-xlabel('Wind Magnitude, m/s')
-title('Wind Magnitude''s Effects','Detection Efficiency & Thermal Bulk Strat')
-
-
-figure()
-scatter(X,Y,250,Z,'filled')
-a = colorbar
-ylabel(a,'Noise, mV','FontSize',16);
-ylabel('Normalized Det. Efficiency')
-xlabel('Wind Magnitude, m/s')
-title('Wind Magnitude''s Effects','Detection Efficiency & Ambient Noise')
-
-
+% 
+% errorstrongWind{COUNT}(season,k) = std(strongWindScenario{COUNT}{season,k}.detections)
+% 
+% X = 0:14;
+% Y = normalizedYearlyWind;
+% Z = yearlyNoise;
+% 
+% 
+% 
+% figure()
+% scatter(X,Y,250,Z,'filled')
+% a = colorbar
+% ylabel(a,'Stratification °C','FontSize',16);
+% ylabel('Normalized Det. Efficiency')
+% xlabel('Wind Magnitude, m/s')
+% title('Wind Magnitude''s Effects','Detection Efficiency & Thermal Bulk Strat')
+% 
+% 
+% figure()
+% scatter(X,Y,250,Z,'filled')
+% a = colorbar
+% ylabel(a,'Noise, mV','FontSize',16);
+% ylabel('Normalized Det. Efficiency')
+% xlabel('Wind Magnitude, m/s')
+% title('Wind Magnitude''s Effects','Detection Efficiency & Ambient Noise')
+% 
+% 
 
 
 
