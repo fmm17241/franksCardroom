@@ -74,7 +74,7 @@ cd (localPlots)
 
 %%
  
-X = 0:2:22;
+% X = 0:2:22;
 % 
 % 
 % cd (localPlots)
@@ -211,135 +211,142 @@ x = 1:length(averageWindSpeedAnnual(1,:))
 seasonName = [{'Winter','Spring','Summer','Fall','Mariner''s Fall','Fall'}]
 color = ['r','r','g','g','k','k','b','b','m','m'];
 
-figure()
-hold on
-for COUNT = 1:height(averageWindSpeedAnnual)
-    plot(x,averageWindSpeedAnnual(COUNT,:),color(COUNT))
-%     errorbar(x,averageWindSpeedAnnual(COUNT,:),errorWindAnnual(COUNT,:),color(COUNT),"LineStyle","none")
-end
-xlabel('Wind Magnitude')
-ylabel('Det Efficiency')
-ylim([0 6])
-
-
-
-
-
-%Same graph, normalized
-figure()
-hold on
-for COUNT = 1:height(averageWindSpeedAnnual)
-    plot(x,normalizedWSpeedAnnual(COUNT,:),color(COUNT))
-%     errorbar(x,normalizedWSpeedAnnual(COUNT,:),errorWindAnnual(COUNT,:),color(COUNT))
-end
-
-xlabel('Wind Magnitude (m/s)')
-ylabel('Normalized Det Efficiency')
-xlim([0 13])
-xline(3.60,'label','Light Breeze')
-xline(5.65,'label','Moderate Breeze')
-x1 = xline(10.8,'label','Strong Breeze')
-x1.LabelVerticalAlignment = 'bottom'
-title('Transmission Success','Increasing Wind Magnitude')
-
-
-figure()
-hold on
-for COUNT = 1:length(noiseCompareAnnual)
-    plot(x,noiseCompareAnnual{COUNT},color(COUNT))
-end
-xlabel('Wind Magnitude')
-ylabel('Ambient Noise (69 kHz, mV)')
-x1 = xline(3.60,'label','Light Breeze')
-x2 = xline(5.65,'label','Moderate Breeze')
-x3 = xline(10.8,'label','Strong Breeze')
-x1.LabelVerticalAlignment = 'bottom'
-x2.LabelVerticalAlignment = 'bottom'
-x3.LabelVerticalAlignment = 'bottom'
-title('Ambient Noise','Increasing Wind Magnitude')
-
-figure()
-hold on
-for COUNT = 1:length(tiltCompareWindAnnual)
-    plot(x,tiltCompareWindAnnual{COUNT},color(COUNT))
-end
-xlabel('Wind Magnitude')
-ylabel('Instrument Tilt °')
-title('Instrument Orientation','Increasing Wind Magnitude')
-
-
-figure()
-hold on
-for COUNT = 1:height(averageWindSpeedAnnual)
-    plot(x,wavesCompareAnnual{COUNT},color(COUNT))
-end
-xline(3.60,'label','Light Breeze')
-xline(5.65,'label','Moderate Breeze')
-x1 = xline(10.8,'label','Strong Breeze')
-xlabel('Wind Magnitude')
-ylabel('WaveHeight')
-title('WaveHeight','Increasing Wind Magnitude')
-
-%
-x = 0:12;
-
-figure()
-scatter(x,yearlyWindSpeed,200,yearlyStratVsWindSpeed,'filled')
-xlim([-0.5 12.3])
-h = colorbar
-colormap jet
-ylabel(h,'Bulk Thermal Strat (°C)')
-xlabel('Wind Magnitude (m/s)')
-ylabel('Normalized Detection Efficiency')
-title('Increasing Wind Magnitude','Change in Bulk Thermal Stratification')
+% figure()
+% hold on
+% for COUNT = 1:height(averageWindSpeedAnnual)
+%     plot(x,averageWindSpeedAnnual(COUNT,:),color(COUNT))
+% %     errorbar(x,averageWindSpeedAnnual(COUNT,:),errorWindAnnual(COUNT,:),color(COUNT),"LineStyle","none")
+% end
+% xlabel('Wind Magnitude')
+% ylabel('Det Efficiency')
+% ylim([0 6])
+% 
+% 
+% 
+% 
+% 
+% %Same graph, normalized
+% figure()
+% hold on
+% for COUNT = 1:height(averageWindSpeedAnnual)
+%     plot(x,normalizedWSpeedAnnual(COUNT,:),color(COUNT))
+% %     errorbar(x,normalizedWSpeedAnnual(COUNT,:),errorWindAnnual(COUNT,:),color(COUNT))
+% end
+% 
+% xlabel('Wind Magnitude (m/s)')
+% ylabel('Normalized Det Efficiency')
+% xlim([0 13])
+% xline(3.60,'label','Light Breeze')
+% xline(5.65,'label','Moderate Breeze')
+% x1 = xline(10.8,'label','Strong Breeze')
+% x1.LabelVerticalAlignment = 'bottom'
+% title('Transmission Success','Increasing Wind Magnitude')
+% 
+% 
+% figure()
+% hold on
+% for COUNT = 1:length(noiseCompareAnnual)
+%     plot(x,noiseCompareAnnual{COUNT},color(COUNT))
+% end
+% xlabel('Wind Magnitude')
+% ylabel('Ambient Noise (69 kHz, mV)')
+% x1 = xline(3.60,'label','Light Breeze')
+% x2 = xline(5.65,'label','Moderate Breeze')
+% x3 = xline(10.8,'label','Strong Breeze')
+% x1.LabelVerticalAlignment = 'bottom'
+% x2.LabelVerticalAlignment = 'bottom'
+% x3.LabelVerticalAlignment = 'bottom'
+% title('Ambient Noise','Increasing Wind Magnitude')
+% 
+% figure()
+% hold on
+% for COUNT = 1:length(tiltCompareWindAnnual)
+%     plot(x,tiltCompareWindAnnual{COUNT},color(COUNT))
+% end
+% xlabel('Wind Magnitude')
+% ylabel('Instrument Tilt °')
+% title('Instrument Orientation','Increasing Wind Magnitude')
+% 
+% 
+% figure()
+% hold on
+% for COUNT = 1:height(averageWindSpeedAnnual)
+%     plot(x,wavesCompareAnnual{COUNT},color(COUNT))
+% end
+% xline(3.60,'label','Light Breeze')
+% xline(5.65,'label','Moderate Breeze')
+% x1 = xline(10.8,'label','Strong Breeze')
+% xlabel('Wind Magnitude')
+% ylabel('WaveHeight')
+% title('WaveHeight','Increasing Wind Magnitude')
+% 
+% %
+% x = 0:12;
+% 
+% figure()
+% scatter(x,yearlyWindSpeed,200,yearlyStratVsWindSpeed,'filled')
+% xlim([-0.5 12.3])
+% h = colorbar
+% colormap jet
+% ylabel(h,'Bulk Thermal Strat (°C)')
+% xlabel('Wind Magnitude (m/s)')
+% ylabel('Normalized Detection Efficiency')
+% title('Increasing Wind Magnitude','Change in Bulk Thermal Stratification')
 
 
 %FM 7/19 tiled layout for figure
 
+x = 1:length(averageWindSpeedAnnual(1,:))
+seasonName = [{'Winter','Spring','Summer','Fall','Mariner''s Fall','Fall'}]
+color = ['r','r','g','g','k','k','b','b','m','m'];
+
 
 f = figure;
-f.Position = [100 100 800 800];
+f.Position = [100 -50 500 500];
 tiledlayout(1,3,'TileSpacing','Compact','Padding','Compact')
+
 nexttile()
 hold on
 for COUNT = 1:height(averageWindSpeedAnnual)
-    plot(x,normalizedWSpeedAnnual(COUNT,:),color(COUNT))
-%     errorbar(x,normalizedWSpeedAnnual(COUNT,:),errorWindAnnual(COUNT,:),color(COUNT))
+    plot(x,wavesCompareAnnual{COUNT},'k','LineWidth',2)
 end
+xline(3.60,'--','LineWidth',1.5,'label','Light Breeze')
+xline(5.65,'--','LineWidth',1.5,'label','Moderate Breeze')
+x1 = xline(10.8,'--','LineWidth',1.5,'label','Strong Breeze')
+x1.LabelVerticalAlignment = 'bottom'; x1.LabelHorizontalAlignment = 'left';
+xlim([0 12])
+ylabel('WaveHeight')
+title('','WaveHeight')
 
-xlabel('Wind Magnitude (m/s)')
-ylabel('Normalized Det Efficiency')
-xlim([0 13])
-xline(3.60,'label','Light Breeze')
-xline(5.65,'label','Moderate Breeze')
-x1 = xline(10.8,'label','Strong Breeze')
-x1.LabelVerticalAlignment = 'bottom'
-title('','Transmission Success')
 nexttile()
 hold on
 for COUNT = 1:length(noiseCompareAnnual)
-    plot(x,noiseCompareAnnual{COUNT},color(COUNT))
+    plot(x,noiseCompareAnnual{COUNT},color(COUNT),'LineWidth',2)
 end
-xlabel('Wind Magnitude')
-ylabel('Ambient Noise (69 kHz, mV)')
-x1 = xline(3.60,'label','Light Breeze')
-x2 = xline(5.65,'label','Moderate Breeze')
-x3 = xline(10.8,'label','Strong Breeze')
-x1.LabelVerticalAlignment = 'bottom'
-x2.LabelVerticalAlignment = 'bottom'
-x3.LabelVerticalAlignment = 'bottom'
-title('Increasing Wind Magnitude','Ambient Noise')
+xlabel('Wind Magnitude (m/s)')
+ylabel('Ambient Sound (69 kHz, mV)')
+xlim([0 12])
+x1 = xline(3.60,'--','LineWidth',1.5)
+x2 = xline(5.65,'--','LineWidth',1.5)
+x3 = xline(10.8,'--','LineWidth',1.5)
+title('High Wind Magnitudes Enabling Acoustic Detections','Ambient Sound')
 
 nexttile()
 hold on
 for COUNT = 1:height(averageWindSpeedAnnual)
-    plot(x,wavesCompareAnnual{COUNT},color(COUNT))
+    plot(x,normalizedWSpeedAnnual(COUNT,:),color(COUNT),'LineWidth',2)
+%     errorbar(x,normalizedWSpeedAnnual(COUNT,:),errorWindAnnual(COUNT,:),color(COUNT))
 end
-xline(3.60,'label','Light Breeze')
-xline(5.65,'label','Moderate Breeze')
-x1 = xline(10.8,'label','Strong Breeze')
-xlabel('Wind Magnitude')
-ylabel('WaveHeight')
-title('','WaveHeight')
+xlim([0 12])
+
+
+ylabel('Normalized Det Efficiency')
+xline(3.60,'--','LineWidth',1.5)
+xline(5.65,'--','LineWidth',1.5)
+x1 = xline(10.8,'--','LineWidth',1.5)
+title('','Transmission Success')
+
+
+
 
 
