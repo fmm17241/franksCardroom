@@ -347,6 +347,11 @@ x1 = xline(10.8,'--','LineWidth',1.5)
 title('','Transmission Success')
 
 
+%%
+%FM 7/23/23 - have to look at single plots of noise vs detection efficiency
+%pairings. 
+
+figure()
 
 
 
