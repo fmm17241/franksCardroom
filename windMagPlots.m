@@ -379,7 +379,7 @@ for COUNT = 1:2:length(noiseCompareAnnual)-1
 end
 
 %Tiling transceiver pairings
-
+%%
 figure()
 tiledlayout(4,4,'TileSpacing','Compact','Padding','Compact')
 hold on
@@ -387,10 +387,12 @@ for COUNT = 1:2:length(noiseCompareAnnual)-1
     nexttile
     yyaxis left
     plot(x,noiseCompareAnnual{COUNT},color(COUNT),'LineStyle','-','LineWidth',2);
+    hold on
     plot(x,noiseCompareAnnual{COUNT+1},color(COUNT+1),'LineStyle','-','LineWidth',2);
-    ylim([400 800])
+    ylim([380 820])
     yyaxis right
     plot(x,normalizedWSpeedAnnual(COUNT,:),color(COUNT),'LineStyle','--','LineWidth',2)
+    hold on
     plot(x,normalizedWSpeedAnnual(COUNT+1,:),color(COUNT+1),'LineStyle','--','LineWidth',2)
     ylim([0 1])
 end
