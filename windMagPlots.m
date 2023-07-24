@@ -4,7 +4,7 @@
 %wind power.
 
 %binnedAVG
-
+%createWindSpeedBins
 
 cd (localPlots)
 
@@ -380,6 +380,7 @@ end
 
 %Tiling transceiver pairings
 %%
+orderNumbers = [1 1 2 2 3 3 4 4 5 5];
 figure()
 tiledlayout(4,4,'TileSpacing','Compact','Padding','Compact')
 hold on
@@ -395,4 +396,10 @@ for COUNT = 1:2:length(noiseCompareAnnual)-1
     hold on
     plot(x,normalizedWSpeedAnnual(COUNT+1,:),color(COUNT+1),'LineStyle','--','LineWidth',2)
     ylim([0 1])
+    xlim([0 12])
+    if COUNT == 7
+        legend('Noise Levels','','Detections','')
+    end
+    nameit = sprintf('Transceiver Pair %d',orderNumbers(COUNT));
+    title(nameit)
 end
