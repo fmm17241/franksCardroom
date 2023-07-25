@@ -403,3 +403,77 @@ for COUNT = 1:2:length(noiseCompareAnnual)-1
     nameit = sprintf('Transceiver Pair %d',orderNumbers(COUNT));
     title(nameit)
 end
+%%
+
+%just picking certain pairings now
+%Pairing one: SURTASSTN20 to STSNew1, denser part of reef
+%Pairing two: Roldan to 08ALTIN, more sparse
+
+
+figure()
+tiledlayout(1,2,'TileSpacing','Compact','Padding','Compact')
+nexttile
+yyaxis left
+plot(x,noiseCompareAnnual{1},'b','LineStyle','--','LineWidth',2);
+hold on
+plot(x,noiseCompareAnnual{2},'b','LineStyle','--','LineWidth',2);
+ylim([380 820])
+ylabel('Ambient Sound (dB/mV)')
+
+%     if COUNT ==3 
+%        set(gca,'YTick', [])
+%     end
+
+yyaxis right
+plot(x,normalizedWSpeedAnnual(1,:),'r','LineStyle','-','LineWidth',2)
+hold on
+plot(x,normalizedWSpeedAnnual(2,:),'r','LineStyle','-','LineWidth',2)
+ylim([0 1])
+xlim([0 12])
+set(gca,'YTick', [])
+title('Transceiver Pairing 1','Denser Reef')
+
+nexttile
+yyaxis left
+plot(x,noiseCompareAnnual{5},'b','LineStyle','--','LineWidth',2);
+hold on
+plot(x,noiseCompareAnnual{6},'b','LineStyle','--','LineWidth',2);
+ylim([380 820])
+set(gca,'YTick', [])
+%     if COUNT ==3 
+%        set(gca,'YTick', [])
+%     end
+
+yyaxis right
+plot(x,normalizedWSpeedAnnual(5,:),'r','LineStyle','-','LineWidth',2)
+hold on
+plot(x,normalizedWSpeedAnnual(6,:),'r','LineStyle','-','LineWidth',2)
+ylim([0 1])
+xlim([0 12])
+ ylabel('Normalized Detection Efficiency')
+
+%     if COUNT == 1
+%         set(gca,'YTick', [])
+%     end
+% 
+ ylabel('Normalized Detection Efficiency')
+
+xlabel('Windspeed (m/s)');
+legend('Sound Measurements','','Normalized Det. Efficiency','')
+title('Transceiver Pairing 2','Sparser Reef')
+
+
+title('Instrument Pairing 2')
+title('Instrument Pairing 1')
+
+
+
+
+
+
+
+
+
+
+
+
