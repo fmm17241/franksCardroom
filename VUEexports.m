@@ -3,7 +3,7 @@
 
 %First section: Read in and format data
 
-cd G:/Moored
+cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Moored'
 
 %Separate dets, temps, and noise by which receiver is giving the data
 data = readtable('VUE_Export.csv');
@@ -131,34 +131,34 @@ dailyVAR = retime(tableDetections,'daily',@std);
 
 monthlyAVG = retime(tableDetections,'monthly','mean');
 monthlyVAR = retime(tableDetections,'monthly',@std);
-
-rr=3;
-cc=4;
-figure()
-set(gcf,'Position',[300 10 1000 600]);
-s1 = subaxis(rr,cc,1:4,'MarginTop',0.07,'MarginLeft',0.06,'MarginRight',0.08,'MarginBot',0.15,'SpacingHoriz',0.02,'SpacingVert',0.04);
-yyaxis left
-scatter(hourlyAVG.Time,hourlyAVG.Detections);
-title('Ambient Noise''s Relationship to Detections: Hourly, Daily & Monthly');
-yyaxis right
-scatter(hourlyAVG.Time,hourlyAVG.Noise);
-s2 = subaxis(rr,cc,5:8,'MarginTop',0.07,'MarginLeft',0.06,'MarginRight',0.08,'MarginBot',0.15,'SpacingHoriz',0.02,'SpacingVert',0.04);
-yyaxis left
-scatter(dailyAVG.Time,dailyAVG.Detections);
-ylabel('Detections');
-yyaxis right
-scatter(dailyAVG.Time,dailyAVG.Noise);
-ylabel('Noise (mV, 69 kHz)');
-s3 = subaxis(rr,cc,9:12,'MarginTop',0.07,'MarginLeft',0.06,'MarginRight',0.08,'MarginBot',0.15,'SpacingHoriz',0.02,'SpacingVert',0.04);
-yyaxis left
-plot(monthlyAVG.Time,monthlyAVG.Detections);
-scatter(monthlyAVG.Time,monthlyAVG.Detections,'filled');
-ylim([7 13])
-yyaxis right
-plot(monthlyAVG.Time,monthlyAVG.Noise);
-scatter(monthlyAVG.Time,monthlyAVG.Noise,'filled');
-ylim([500 750])
-
+% 
+% rr=3;
+% cc=4;
+% figure()
+% set(gcf,'Position',[300 10 1000 600]);
+% s1 = subaxis(rr,cc,1:4,'MarginTop',0.07,'MarginLeft',0.06,'MarginRight',0.08,'MarginBot',0.15,'SpacingHoriz',0.02,'SpacingVert',0.04);
+% yyaxis left
+% scatter(hourlyAVG.Time,hourlyAVG.Detections);
+% title('Ambient Noise''s Relationship to Detections: Hourly, Daily & Monthly');
+% yyaxis right
+% scatter(hourlyAVG.Time,hourlyAVG.Noise);
+% s2 = subaxis(rr,cc,5:8,'MarginTop',0.07,'MarginLeft',0.06,'MarginRight',0.08,'MarginBot',0.15,'SpacingHoriz',0.02,'SpacingVert',0.04);
+% yyaxis left
+% scatter(dailyAVG.Time,dailyAVG.Detections);
+% ylabel('Detections');
+% yyaxis right
+% scatter(dailyAVG.Time,dailyAVG.Noise);
+% ylabel('Noise (mV, 69 kHz)');
+% s3 = subaxis(rr,cc,9:12,'MarginTop',0.07,'MarginLeft',0.06,'MarginRight',0.08,'MarginBot',0.15,'SpacingHoriz',0.02,'SpacingVert',0.04);
+% yyaxis left
+% plot(monthlyAVG.Time,monthlyAVG.Detections);
+% scatter(monthlyAVG.Time,monthlyAVG.Detections,'filled');
+% ylim([7 13])
+% yyaxis right
+% plot(monthlyAVG.Time,monthlyAVG.Noise);
+% scatter(monthlyAVG.Time,monthlyAVG.Noise,'filled');
+% ylim([500 750])
+% 
 
 
 %Separating Challenging vs Not Challenging
@@ -533,26 +533,26 @@ errorbar(monthlyAVG.Time,monthlyAVG.Noise,monthlyVAR.Noise);
 % plot(hourlyNoiseAVG.noiseTime,hourlyNoiseAVG.Noise);
 ylabel('Noise (mV)');
 title('Hourly Avg. Noise @ Reef, 2020');
-
-figure()
-rr = 2
-cc = 8
-s1 = subaxis(rr,cc,1:8,'SpacingVert',0.1)
-hold on
-scatter(hourlyAVG.Time,hourlyAVG.Detections,'b')
-hold on
-plot(hourlyAVG.Time,hourlyAVG.Detections,'b')
-title('2020, Detections and Noise');
-ylabel('Hourly Detections');
-dynamicDateTicks()
-hold off
-
-s2=subaxis(rr,cc,9:16)
-scatter(hourlyAVG.Time,hourlyAVG.Noise,'r');
-hold on
-plot(hourlyAVG.Time,hourlyAVG.Noise,'r'); 
-ylabel('Ambient Noise (mV)');
-dynamicDateTicks()
+% 
+% figure()
+% rr = 2
+% cc = 8
+% s1 = subaxis(rr,cc,1:8,'SpacingVert',0.1)
+% hold on
+% scatter(hourlyAVG.Time,hourlyAVG.Detections,'b')
+% hold on
+% plot(hourlyAVG.Time,hourlyAVG.Detections,'b')
+% title('2020, Detections and Noise');
+% ylabel('Hourly Detections');
+% dynamicDateTicks()
+% hold off
+% 
+% s2=subaxis(rr,cc,9:16)
+% scatter(hourlyAVG.Time,hourlyAVG.Noise,'r');
+% hold on
+% plot(hourlyAVG.Time,hourlyAVG.Noise,'r'); 
+% ylabel('Ambient Noise (mV)');
+% dynamicDateTicks()
 
 
 

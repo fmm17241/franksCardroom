@@ -104,7 +104,7 @@ plot(MfallBin.Time,MfallBin.Noise,'-','Color','c');
 plot(winterBin.Time(1441:end),winterBin.Noise(1441:end),'-','Color','b');
 yline(650,'--',{'Challenging','Environment'})
 title('Average Ambient Sounds, Gray''s Reef 2020','Near-Bottom (1-3 meters), High Frequency (69 kHz)');
-ylabel('Average Sounds (mV)');
+ylabel('Average Noise (mV)');
 yyaxis right
 scatter(monthlyAVG.Time, monthlyAVG.Detections,'d','filled');
 ylabel('Avg. Hourly Detections');
@@ -132,7 +132,7 @@ histogram(summerBin.Noise,'FaceColor','r','BinWidth',10,'BinLimits',[350 800]);
 % ylabel('Hours');
 yticks('');
 ylim([0 320]);
-xTootz = xlabel('Average Measured Sound (mV)','fontweight','bold');
+xTootz = xlabel('Average Noise (mV)','fontweight','bold');
 title('Summer');
 xline(650,'--')
 
