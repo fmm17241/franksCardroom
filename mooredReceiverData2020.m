@@ -47,16 +47,16 @@ dataDT = datetime(dataDN,'convertFrom','datenum');
 
 %FM 3/6/23 Ordered the transceivers and doubled some up; this is to match
 %the transceiver order listed in "matchAngles"/"thetaFinder"
-uniqueReceivers =  [{'VR2Tx-483062';
-                     'VR2Tx-483073';
-                    'VR2Tx-483075';
-                    'VR2Tx-483064';
-                    'VR2Tx-483066';
-                    'VR2Tx-483076';
-                    'VR2Tx-483074';
-                    'VR2Tx-483064';
-                    'VR2Tx-483064';
-                    'VR2Tx-483081';}]
+uniqueReceivers =  [{'VR2Tx-483062';  % 'VR2Tx-483062' SURTASSSTN20
+                     'VR2Tx-483073';  % 'VR2Tx-483073' STSNew1
+                    'VR2Tx-483075';   % 'VR2Tx-483075' FS6
+                    'VR2Tx-483064';   % 'VR2Tx-483064' SURTASS_05IN
+                    'VR2Tx-483066';   % 'VR2Tx-483066' Roldan
+                    'VR2Tx-483076';   % 'VR2Tx-483076' 08ALTIN
+                    'VR2Tx-483074';   % 'VR2Tx-483074' STSNew2
+                    'VR2Tx-483064';   % 'VR2Tx-483064' SURTASS_05IN
+                    'VR2Tx-483064';   % 'VR2Tx-483064' SURTASS_05IN
+                    'VR2Tx-483081';}] % 'VR2Tx-483081' 39IN
 
 % uniqueReceivers = unique(data.Receiver);
 for PT = 1:length(uniqueReceivers)

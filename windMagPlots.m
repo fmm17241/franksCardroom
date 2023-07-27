@@ -303,20 +303,21 @@ color = ['r','r','g','g','k','k','b','b','m','m'];
 
 f = figure;
 f.Position = [100 -50 500 500];
-tiledlayout(1,3,'TileSpacing','Compact','Padding','Compact')
-
-nexttile()
-hold on
-for COUNT = 1:height(averageWindSpeedAnnual)
-    plot(x,wavesCompareAnnual{COUNT},'k','LineWidth',2)
-end
-xline(3.60,'--','LineWidth',1.5,'label','Light Breeze')
-xline(5.65,'--','LineWidth',1.5,'label','Moderate Breeze')
-x1 = xline(10.8,'--','LineWidth',1.5,'label','Strong Breeze')
-x1.LabelVerticalAlignment = 'bottom'; x1.LabelHorizontalAlignment = 'left';
-xlim([0 12])
-ylabel('WaveHeight')
-title('','WaveHeight')
+% tiledlayout(1,3,'TileSpacing','Compact','Padding','Compact')
+tiledlayout(1,2,'TileSpacing','Compact','Padding','Compact')
+% 
+% nexttile()
+% hold on
+% for COUNT = 1:height(averageWindSpeedAnnual)
+%     plot(x,wavesCompareAnnual{COUNT},'k','LineWidth',2)
+% end
+% xline(3.60,'--','LineWidth',1.5,'label','Light Breeze')
+% xline(5.65,'--','LineWidth',1.5,'label','Moderate Breeze')
+% x1 = xline(10.8,'--','LineWidth',1.5,'label','Strong Breeze')
+% x1.LabelVerticalAlignment = 'bottom'; x1.LabelHorizontalAlignment = 'left';
+% xlim([0 12])
+% ylabel('WaveHeight')
+% title('','WaveHeight')
 
 nexttile()
 hold on
@@ -370,7 +371,8 @@ for COUNT = 1:2:length(noiseCompareAnnual)-1
     hold on
     yyaxis left
     plot(x,noiseCompareAnnual{COUNT},color(COUNT),'LineStyle','-','LineWidth',2);
-    plot(x,noiseCompareAnnual{COUNT+1},color(COUNT+1),'LineStyle','-','LineWidth',2);
+%     plot(x,noiseCompareAnnual{COUNT+1},color(COUNT+1),'LineStyle','-','LineWidth',2);
+    plot(x,noiseCompareAnnual{COUNT+1},'k','LineStyle','-','LineWidth',2);
     ylim([400 800])
     yyaxis right
     plot(x,normalizedWSpeedAnnual(COUNT,:),color(COUNT),'LineStyle','--','LineWidth',2)
