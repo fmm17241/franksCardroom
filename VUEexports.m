@@ -3,7 +3,8 @@
 
 %First section: Read in and format data
 
-cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Moored'
+cd ([oneDrive,'Moored'])
+% cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Moored'
 
 %Separate dets, temps, and noise by which receiver is giving the data
 data = readtable('VUE_Export.csv');
