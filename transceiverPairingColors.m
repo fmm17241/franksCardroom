@@ -49,36 +49,35 @@ color = ['r','r','g','g','k','k','b','b','m','m'];
 f = figure;
 f.Position = [100 -50 500 500];
 % tiledlayout(1,3,'TileSpacing','Compact','Padding','Compact')
-tiledlayout(2,2,'TileSpacing','Compact','Padding','Compact')
+tiledlayout(1,3,'TileSpacing','Compact','Padding','Compact')
 
 % 
-% nexttile()
+nexttile()
+hold on
+for COUNT = 1:height(averageWindSpeedAnnual)
+    plot(x,wavesCompareAnnual{COUNT},'k','LineWidth',2)
+end
+xline(3.60,'--','LineWidth',1.5,'label','Light Breeze')
+xline(5.65,'--','LineWidth',1.5,'label','Moderate Breeze')
+x1 = xline(10.8,'--','LineWidth',1.5,'label','Strong Breeze')
+x1.LabelVerticalAlignment = 'bottom'; x1.LabelHorizontalAlignment = 'left';
+xlim([0 12])
+ylabel('Waveheight (m)')
+title('','Significant Waveheight')
+
+% nexttile([1 2])
 % hold on
-% for COUNT = 1:height(averageWindSpeedAnnual)
-%     plot(x,wavesCompareAnnual{COUNT},'k','LineWidth',2)
-% end
-% xline(3.60,'--','LineWidth',1.5,'label','Light Breeze')
-% xline(5.65,'--','LineWidth',1.5,'label','Moderate Breeze')
-% x1 = xline(10.8,'--','LineWidth',1.5,'label','Strong Breeze')
-% x1.LabelVerticalAlignment = 'bottom'; x1.LabelHorizontalAlignment = 'left';
-% xlim([0 12])
-% ylabel('WaveHeight')
-% title('','WaveHeight')
-
-nexttile([1 2])
-hold on
-scatter(mooredGPS(:,2),mooredGPS(:,1),'filled','sq','k')
-axis equal
-ylabel('Latitude')
-hold on
-plot(pairingGPS(1:2,2),pairingGPS(1:2,1), 'r', 'LineWidth',7);
-plot(pairingGPS(3:4,2),pairingGPS(3:4,1), 'g', 'LineWidth',7);
-plot(pairingGPS(5:6,2),pairingGPS(5:6,1), 'k', 'LineWidth',7);
-plot(pairingGPS(7:8,2),pairingGPS(7:8,1), 'b', 'LineWidth',7);
-plot(pairingGPS(9:10,2),pairingGPS(9:10,1), 'm', 'LineWidth',7);
-scatter(mooredGPS(:,2),mooredGPS(:,1),'filled','sq','k')
-title('Gray''s Reef Acoustic Telemetry Array', 'Pairings of Moored Transceivers');
-
+% scatter(mooredGPS(:,2),mooredGPS(:,1),'filled','sq','k')
+% axis equal
+% ylabel('Latitude')
+% hold on
+% plot(pairingGPS(1:2,2),pairingGPS(1:2,1), 'r', 'LineWidth',7);
+% plot(pairingGPS(3:4,2),pairingGPS(3:4,1), 'g', 'LineWidth',7);
+% plot(pairingGPS(5:6,2),pairingGPS(5:6,1), 'k', 'LineWidth',7);
+% plot(pairingGPS(7:8,2),pairingGPS(7:8,1), 'b', 'LineWidth',7);
+% plot(pairingGPS(9:10,2),pairingGPS(9:10,1), 'm', 'LineWidth',7);
+% scatter(mooredGPS(:,2),mooredGPS(:,1),'filled','sq','k')
+% title('Gray''s Reef Acoustic Telemetry Array', 'Pairings of Moored Transceivers');
 
 nexttile()
 hold on
@@ -87,7 +86,7 @@ for COUNT = 1:length(noiseCompareAnnual)
 end
 xlabel('Wind Magnitude (m/s)')
 ylabel('Ambient Sound (69 kHz, mV)')
-title('','Ambient Sound');
+title('Coastal Wind''s Effect on Shallow Reef Telemetry','High-Frequency Ambient Sound');
 xlim([0 12])
 ylim([350 800])
 x1 = xline(3.60,'--','LineWidth',1.5)
@@ -102,12 +101,39 @@ for COUNT = 1:height(averageWindSpeedAnnual)
 %     errorbar(x,normalizedWSpeedAnnual(COUNT,:),errorWindAnnual(COUNT,:),color(COUNT))
 end
 xlim([0 12])
-xlabel('Wind Magnitude (m/s)')
+% xlabel('Wind Magnitude (m/s)')
 ylabel('Normalized Det Efficiency')
 xline(3.60,'--','LineWidth',1.5)
 xline(5.65,'--','LineWidth',1.5)
 x1 = xline(10.8,'--','LineWidth',1.5)
 title('','Transmission Success')
+
+
+%%
+%FM creates just a map, not tiled
+
+
+
+figure()
+scatter(mooredGPS(:,2),mooredGPS(:,1),65,'filled','sq','k')
+xlabel('Longitude')
+ylabel('Latitude')
+hold on
+plot(pairingGPS(1:2,2),pairingGPS(1:2,1), 'r', 'LineWidth',7);
+plot(pairingGPS(5:6,2),pairingGPS(5:6,1), 'k', 'LineWidth',7);
+plot(pairingGPS(3:4,2),pairingGPS(3:4,1), 'g', 'LineWidth',7);
+plot(pairingGPS(7:8,2),pairingGPS(7:8,1), 'b', 'LineWidth',7);
+plot(pairingGPS(9:10,2),pairingGPS(9:10,1), 'm', 'LineWidth',7);
+scatter(mooredGPS(:,2),mooredGPS(:,1),65,'filled','sq','k')
+legend('Moored Transceivers', 'Analyzed Transmissions')
+axis equal
+xlim([-80.905 -80.835])
+ylim([31.36 31.402])
+title('Gray''s Reef MPA Acoustic Telemetry Array', 'Color-Coded Pairings of Instruments');
+
+
+
+
 
 
 

@@ -421,10 +421,8 @@ hold on
 plot(x,noiseCompareAnnual{2},'b','LineStyle','--','LineWidth',2);
 ylim([380 820])
 ylabel('Ambient Sound (dB/mV)')
-
-%     if COUNT ==3 
-%        set(gca,'YTick', [])
-%     end
+ax = gca;
+ax.YAxis(1).Color = 'k'
 
 yyaxis right
 plot(x,normalizedWSpeedAnnual(1,:),'r','LineStyle','-','LineWidth',2)
@@ -433,7 +431,12 @@ plot(x,normalizedWSpeedAnnual(2,:),'r','LineStyle','-','LineWidth',2)
 ylim([0 1])
 xlim([0 12])
 set(gca,'YTick', [])
-title('Transceiver Pairing 1','Denser Reef')
+ax = gca;
+ax.YAxis(2).Color = 'k'
+title('Transceiver Pairing A','Denser Reef')
+xlabel('Windspeed (m/s)');
+
+
 
 nexttile
 yyaxis left
@@ -442,9 +445,9 @@ hold on
 plot(x,noiseCompareAnnual{6},'b','LineStyle','--','LineWidth',2);
 ylim([380 820])
 set(gca,'YTick', [])
-%     if COUNT ==3 
-%        set(gca,'YTick', [])
-%     end
+ax = gca;
+ax.YAxis(1).Color = 'k';
+
 
 yyaxis right
 plot(x,normalizedWSpeedAnnual(5,:),'r','LineStyle','-','LineWidth',2)
@@ -452,21 +455,12 @@ hold on
 plot(x,normalizedWSpeedAnnual(6,:),'r','LineStyle','-','LineWidth',2)
 ylim([0 1])
 xlim([0 12])
- ylabel('Normalized Detection Efficiency')
-
-%     if COUNT == 1
-%         set(gca,'YTick', [])
-%     end
-% 
- ylabel('Normalized Detection Efficiency')
-
+ax = gca;
+ax.YAxis(2).Color = 'k'
+ylabel('Normalized Detection Efficiency')
 xlabel('Windspeed (m/s)');
-legend('Sound Measurements','','Normalized Det. Efficiency','')
-title('Transceiver Pairing 2','Sparser Reef')
-
-
-title('Instrument Pairing 2')
-title('Instrument Pairing 1')
+legend('Sound Measurements','','Det. Efficiency','')
+title('Transceiver Pairing B','Sparser Reef')
 
 
 
