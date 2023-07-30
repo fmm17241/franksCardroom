@@ -81,45 +81,45 @@ cd (localPlots)
 
 seasonName = [{'Winter','Spring','Summer','Fall','Mariner''s Fall','Fall'}]
 color = ['r','r','g','g','k','k','b','b','m','m'];
-
-figure()
-scatter(X,yearlyTiltVsWindSpeed,'filled')
-xlabel('Instrument Tilt')
-ylabel('Normalized Det. Efficiency')
-title('Yearly Avg Det Efficiency w/ different tilts')
-
-for COUNT = 1:length(normalizedTilt)
-    figure()
-    hold on
-    for season = 1:length(seasons)
-        scatter(X,normalizedTilt{COUNT}{season},'filled')
-    end
-    nameit = sprintf('Tilt on Transceiver: %d',COUNT);
-    title(nameit)
-    ylabel('Normalized Det. Efficiency')
-    xlabel('Instrument Tilt')
-   lgd =  legend('Winter','Spring','Summer','Fall','Mariners Fall',loc='upper left')
-%    lgd.Location = 'northwest';
-%     exportgraphics(gcf,sprintf('Transceiver%dTilt.png',COUNT),'Resolution',300)
-end
-
-
-figure()
-hold on
-for COUNT = 1:length(normalizedTilt)
-    for season = 1:length(seasons)
-        scatter(X,normalizedTilt{COUNT}{season},color(COUNT),'filled')
-%         plot(X,normalizedTilt{COUNT}{season})
-    end
+% 
+% figure()
+% scatter(X,yearlyTiltVsWindSpeed,'filled')
+% xlabel('Instrument Tilt')
+% ylabel('Normalized Det. Efficiency')
+% title('Yearly Avg Det Efficiency w/ different tilts')
+% 
+% for COUNT = 1:length(normalizedTilt)
+%     figure()
+%     hold on
+%     for season = 1:length(seasons)
+%         scatter(X,normalizedTilt{COUNT}{season},'filled')
+%     end
 %     nameit = sprintf('Tilt on Transceiver: %d',COUNT);
 %     title(nameit)
-    ylabel('Normalized Det. Efficiency')
-    xlabel('Instrument Tilt')
+%     ylabel('Normalized Det. Efficiency')
+%     xlabel('Instrument Tilt')
 %    lgd =  legend('Winter','Spring','Summer','Fall','Mariners Fall',loc='upper left')
-%    lgd.Location = 'northwest';
-%     exportgraphics(gcf,sprintf('Transceiver%dTilt.png',COUNT),'Resolution',300)
-    title('12 gauge shotgun blast of tilt vs efficiency')
-end
+% %    lgd.Location = 'northwest';
+% %     exportgraphics(gcf,sprintf('Transceiver%dTilt.png',COUNT),'Resolution',300)
+% end
+% 
+% 
+% figure()
+% hold on
+% for COUNT = 1:length(normalizedTilt)
+%     for season = 1:length(seasons)
+%         scatter(X,normalizedTilt{COUNT}{season},color(COUNT),'filled')
+% %         plot(X,normalizedTilt{COUNT}{season})
+%     end
+% %     nameit = sprintf('Tilt on Transceiver: %d',COUNT);
+% %     title(nameit)
+%     ylabel('Normalized Det. Efficiency')
+%     xlabel('Instrument Tilt')
+% %    lgd =  legend('Winter','Spring','Summer','Fall','Mariners Fall',loc='upper left')
+% %    lgd.Location = 'northwest';
+% %     exportgraphics(gcf,sprintf('Transceiver%dTilt.png',COUNT),'Resolution',300)
+%     title('12 gauge shotgun blast of tilt vs efficiency')
+% end
 
 %%
 % Wind direction instead of wind speed, here
@@ -304,20 +304,20 @@ color = ['r','r','g','g','k','k','b','b','m','m'];
 f = figure;
 f.Position = [100 -50 500 500];
 % tiledlayout(1,3,'TileSpacing','Compact','Padding','Compact')
-tiledlayout(1,2,'TileSpacing','Compact','Padding','Compact')
+tiledlayout(1,3,'TileSpacing','Compact','Padding','Compact')
 % 
-% nexttile()
-% hold on
-% for COUNT = 1:height(averageWindSpeedAnnual)
-%     plot(x,wavesCompareAnnual{COUNT},'k','LineWidth',2)
-% end
-% xline(3.60,'--','LineWidth',1.5,'label','Light Breeze')
-% xline(5.65,'--','LineWidth',1.5,'label','Moderate Breeze')
-% x1 = xline(10.8,'--','LineWidth',1.5,'label','Strong Breeze')
-% x1.LabelVerticalAlignment = 'bottom'; x1.LabelHorizontalAlignment = 'left';
-% xlim([0 12])
-% ylabel('WaveHeight')
-% title('','WaveHeight')
+nexttile()
+hold on
+for COUNT = 1:height(averageWindSpeedAnnual)
+    plot(x,wavesCompareAnnual{COUNT},'k','LineWidth',2)
+end
+xline(3.60,'--','LineWidth',1.5,'label','Light Breeze')
+xline(5.65,'--','LineWidth',1.5,'label','Moderate Breeze')
+x1 = xline(10.8,'--','LineWidth',1.5,'label','Strong Breeze')
+x1.LabelVerticalAlignment = 'bottom'; x1.LabelHorizontalAlignment = 'left';
+xlim([0 12])
+ylabel('WaveHeight')
+title('','WaveHeight')
 
 nexttile()
 hold on
@@ -420,7 +420,7 @@ plot(x,noiseCompareAnnual{1},'b','LineStyle','--','LineWidth',2);
 hold on
 plot(x,noiseCompareAnnual{2},'b','LineStyle','--','LineWidth',2);
 ylim([380 820])
-ylabel('Ambient Sound (dB/mV)')
+ylabel('High Freq. Noise (dB/mV)')
 ax = gca;
 ax.YAxis(1).Color = 'k'
 
@@ -433,7 +433,7 @@ xlim([0 12])
 set(gca,'YTick', [])
 ax = gca;
 ax.YAxis(2).Color = 'k'
-title('Transceiver Pairing A','Denser Reef')
+title('Transceiver Pairing A','Denser, Shallower Reef')
 xlabel('Windspeed (m/s)');
 
 
@@ -448,7 +448,6 @@ set(gca,'YTick', [])
 ax = gca;
 ax.YAxis(1).Color = 'k';
 
-
 yyaxis right
 plot(x,normalizedWSpeedAnnual(5,:),'r','LineStyle','-','LineWidth',2)
 hold on
@@ -459,8 +458,8 @@ ax = gca;
 ax.YAxis(2).Color = 'k'
 ylabel('Normalized Detection Efficiency')
 xlabel('Windspeed (m/s)');
-legend('Sound Measurements','','Det. Efficiency','')
-title('Transceiver Pairing B','Sparser Reef')
+legend('Average Noise','','Det. Efficiency','')
+title('Transceiver Pairing B','Sparser, Deeper Reef')
 
 
 

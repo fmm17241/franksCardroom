@@ -65,28 +65,14 @@ xlim([0 12])
 ylabel('Waveheight (m)')
 title('','Significant Waveheight')
 
-% nexttile([1 2])
-% hold on
-% scatter(mooredGPS(:,2),mooredGPS(:,1),'filled','sq','k')
-% axis equal
-% ylabel('Latitude')
-% hold on
-% plot(pairingGPS(1:2,2),pairingGPS(1:2,1), 'r', 'LineWidth',7);
-% plot(pairingGPS(3:4,2),pairingGPS(3:4,1), 'g', 'LineWidth',7);
-% plot(pairingGPS(5:6,2),pairingGPS(5:6,1), 'k', 'LineWidth',7);
-% plot(pairingGPS(7:8,2),pairingGPS(7:8,1), 'b', 'LineWidth',7);
-% plot(pairingGPS(9:10,2),pairingGPS(9:10,1), 'm', 'LineWidth',7);
-% scatter(mooredGPS(:,2),mooredGPS(:,1),'filled','sq','k')
-% title('Gray''s Reef Acoustic Telemetry Array', 'Pairings of Moored Transceivers');
-
 nexttile()
 hold on
 for COUNT = 1:length(noiseCompareAnnual)
     plot(x,noiseCompareAnnual{COUNT},color(COUNT),'LineWidth',2)
 end
 xlabel('Wind Magnitude (m/s)')
-ylabel('Ambient Sound (69 kHz, mV)')
-title('Coastal Wind''s Effect on Shallow Reef Telemetry','High-Frequency Ambient Sound');
+ylabel('Avg. Measured Noise (69 kHz, mV)')
+title('Coastal Wind''s Effect on Shallow Reef Telemetry','High-Frequency Noise');
 xlim([0 12])
 ylim([350 800])
 x1 = xline(3.60,'--','LineWidth',1.5)

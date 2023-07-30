@@ -186,6 +186,7 @@ avgDetectionsUnder= mean(detectionsUnder)
 %Fourth section: play with shading of day and night. SunriseSunset finds
 %the time
 
+figure()
 SunriseSunsetUTC
 sunlightShading
 
@@ -465,7 +466,7 @@ scatter(dailyAVG.Time,dailyAVG.Noise);
 plot(dailyAVG.Time,dailyAVG.Noise);
 ylabel('Noise (mV)');
 title('Daily Averages @ Gray''s Reef, 2020');
-dynamicDateTicks()
+% dynamicDateTicks()
 %%
 detectionSignal = dailyAVG.Detections;
 
@@ -507,7 +508,7 @@ scatter(hourlyAVG.Time,hourlyAVG.Noise,'filled');
 plot(hourlyAVG.Time,hourlyAVG.Noise);
 ylabel('Noise (mV)');
 title('Hourly Averages @ Gray''s Reef, 2020');
-dynamicDateTicks()
+% dynamicDateTicks()
 
 
 %% Adding errorbars testing for variance

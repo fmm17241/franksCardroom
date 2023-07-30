@@ -16,7 +16,7 @@ for k = 1:length(sunset)-1
 end
 ylim([2 17])
 plot(hourlyAVG.Time,hourlyAVG.Detections,'r','LineWidth',2);
-dynamicDateTicks()
+% dynamicDateTicks()
 title('(Semi)Diurnal Signals in Detections');
 label_y = ylabel('Detections');
 % label_y.Position(1) = -20;
@@ -53,7 +53,7 @@ end
 ylim([250 800])
 plot(hourlyAVG.Time,hourlyAVG.Noise,'LineWidth',4);
 scatter(hourlyAVG.Time,hourlyAVG.Noise);
-dynamicDateTicks()
+% dynamicDateTicks()
 ylabel('Noise (dB)');
 title('Increasing Noise as Sunlight changes');
 

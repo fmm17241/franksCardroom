@@ -103,11 +103,14 @@ plot(fallBin.Time,fallBin.Noise,'-','Color','k');
 plot(MfallBin.Time,MfallBin.Noise,'-','Color','c');
 plot(winterBin.Time(1441:end),winterBin.Noise(1441:end),'-','Color','b');
 yline(650,'--',{'Challenging','Environment'})
-title('Average Ambient Sounds, Gray''s Reef 2020','Near-Bottom (1-3 meters), High Frequency (69 kHz)');
-ylabel('Average Sounds (mV)');
+title('Average Measured Noise, Gray''s Reef 2020','Near-Bottom (1-3 meters), High Frequency (69 kHz)');
+ylabel('Average Noise (mV)');
 yyaxis right
-scatter(monthlyAVG.Time, monthlyAVG.Detections,'d','filled');
-ylabel('Avg. Hourly Detections');
+scatter(monthlyAVG.Time, monthlyAVG.Detections,65,'k','d','filled');
+ylabel('Average Hourly Detections');
+legend('Daily Noise','','','','','','','Detections')
+ax = gca;
+ax.YAxis(2).Color = 'k'
 
 nexttile()
 hold on
