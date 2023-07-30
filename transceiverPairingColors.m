@@ -49,7 +49,7 @@ color = ['r','r','g','g','k','k','b','b','m','m'];
 f = figure;
 f.Position = [100 -50 500 500];
 % tiledlayout(1,3,'TileSpacing','Compact','Padding','Compact')
-tiledlayout(1,3,'TileSpacing','Compact','Padding','Compact')
+tiledlayout(1,4,'TileSpacing','Compact','Padding','Compact')
 
 % 
 nexttile()
@@ -64,6 +64,18 @@ x1.LabelVerticalAlignment = 'bottom'; x1.LabelHorizontalAlignment = 'left';
 xlim([0 12])
 ylabel('Waveheight (m)')
 title('','Significant Waveheight')
+
+nexttile()
+hold on
+for COUNT = 1:height(averageWindSpeedAnnual)
+    plot(x,stratCompareWindAnnual{COUNT},color(COUNT),'LineWidth',2)
+end
+xline(3.60,'--','LineWidth',1.5)
+xline(5.65,'--','LineWidth',1.5)
+x1 = xline(10.8,'--','LineWidth',1.5)
+xlim([0 12])
+ylabel('Stratification (Δ°F)')
+title('','Bulk Thermal Stratification')
 
 nexttile()
 hold on

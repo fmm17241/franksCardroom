@@ -281,17 +281,17 @@ ylim([0 6])
 % title('WaveHeight','Increasing Wind Magnitude')
 % 
 % %
-% x = 0:12;
-% 
-% figure()
-% scatter(x,yearlyWindSpeed,200,yearlyStratVsWindSpeed,'filled')
-% xlim([-0.5 12.3])
-% h = colorbar
-% colormap jet
-% ylabel(h,'Bulk Thermal Strat (°C)')
-% xlabel('Wind Magnitude (m/s)')
-% ylabel('Normalized Detection Efficiency')
-% title('Increasing Wind Magnitude','Change in Bulk Thermal Stratification')
+x = 0:12;
+
+figure()
+scatter(x,yearlyWindSpeed,200,yearlyStratVsWindSpeed,'filled')
+xlim([-0.5 12.3])
+h = colorbar
+colormap jet
+ylabel(h,'Bulk Thermal Strat (°C)')
+xlabel('Wind Magnitude (m/s)')
+ylabel('Normalized Detection Efficiency')
+title('Increasing Wind Magnitude','Change in Bulk Thermal Stratification')
 
 
 %FM 7/19 tiled layout for figure

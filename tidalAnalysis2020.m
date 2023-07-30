@@ -342,7 +342,7 @@ end
 %Okay, Frank has now changed the axes to be parallel and perpendicular with
 %acoustic transmissions. WHAT WILL HE DO WITH THIS NEW FOUND POWER???
 %
-close all
+% close all
 
 figure()
 plot(ut,vt)
