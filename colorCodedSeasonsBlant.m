@@ -108,7 +108,7 @@ ylabel('Average Noise (mV)');
 yyaxis right
 scatter(monthlyAVG.Time, monthlyAVG.Detections,65,'k','d','filled');
 ylabel('Average Hourly Detections');
-legend('Daily Noise','','','','','','','Detections')
+legend(' Hourly Noise','','','','','','',' Monthly Avg. Detections')
 ax = gca;
 ax.YAxis(2).Color = 'k'
 
@@ -135,7 +135,7 @@ histogram(summerBin.Noise,'FaceColor','r','BinWidth',10,'BinLimits',[350 800]);
 % ylabel('Hours');
 yticks('');
 ylim([0 320]);
-xTootz = xlabel('Average Measured Sound (mV)','fontweight','bold');
+xTootz = xlabel('Average Measured Noise (mV)','fontweight','bold');
 title('Summer');
 xline(650,'--')
 

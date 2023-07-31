@@ -420,7 +420,7 @@ plot(x,noiseCompareAnnual{1},'b','LineStyle','--','LineWidth',2);
 hold on
 plot(x,noiseCompareAnnual{2},'b','LineStyle','--','LineWidth',2);
 ylim([380 820])
-ylabel('High Freq. Noise (dB/mV)')
+ylabel('High Freq. Noise (mV)')
 ax = gca;
 ax.YAxis(1).Color = 'k'
 

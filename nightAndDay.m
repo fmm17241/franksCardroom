@@ -36,6 +36,11 @@ for k = 1:length(seasons)
     dayAverages(1,k)    = mean(daySounds{1,k}(:,:),'all')
     dayAverages(2,k)  = mean(sunsetSounds{1,k}(:,:),'all')
     dayAverages(3,k) = mean(nightSounds{1,k}(:,:),'all')
+
+    dayDetAverages(1,k)    = mean(dayDets{1,k}(:,:),'all') %Dets during day
+    dayDetAverages(2,k)  = mean(sunsetDets{1,k}(:,:),'all') %dets during sunset
+    dayDetAverages(3,k) = mean(nightDets{1,k}(:,:),'all')   %dets during night
+
 end
 
  
