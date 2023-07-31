@@ -389,10 +389,9 @@ for COUNT = 1:length(normalizedAnnual)
 end
 plot(x,normalizedSingle{8},'b')
 xline(0);
-xlabel('Parallel Current Velocity')
+xlabel('Parallel Current Velocity (m/s)')
 ylabel('Normalized Det Efficiency')
-title('10 Transmission Directions' ,'Normalized')
-
+title('Effect of Parallel Currents' ,'10 Transmitters, Normalized')
 
 
 figure()
