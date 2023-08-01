@@ -332,6 +332,8 @@ x2 = xline(5.65,'--','LineWidth',1.5)
 x3 = xline(10.8,'--','LineWidth',1.5)
 title('High Wind Magnitudes Enabling Acoustic Detections','Ambient Sound')
 
+
+
 nexttile()
 hold on
 for COUNT = 1:height(averageWindSpeedAnnual)
@@ -461,7 +463,7 @@ xlabel('Windspeed (m/s)');
 legend('Average Noise','','Det. Efficiency','')
 title('Transceiver Pairing B','Sparser, Deeper Reef')
 
-
+export_fig pairingComparison.jpeg -r600 -transparent
 
 
 

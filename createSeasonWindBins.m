@@ -71,7 +71,7 @@ for COUNT = 1:height(seasonAverageNoise)
     plot(x,seasonAverageNoise(COUNT,:))
 end
 
-figure()
+hx = figure()
 hold on
 for COUNT = 1:height(seasonAverageNoise)
     scatter(x,seasonAverageNoise(COUNT,:),testEfficiency(COUNT,:),'filled','MarkerFaceAlpha',.7)
@@ -82,3 +82,5 @@ title('Windspeed''s Effect:','High Frequency Noise (Y) & Detection Efficiency (S
 x2 = xline(6.03,'label','Moderate Breeze')
 x3 = xline(10.09,'label','Strong Breeze')
 legend('Winter','Spring','Summer','Fall','Mariner''s Fall')
+
+export_fig windBubble.jpeg -r600 -transparent

@@ -382,7 +382,7 @@ xlabel('Parallel Current Velocity')
 ylabel('Normalized Det Efficiency')
 title('10 Transmission Directions','Pairings Normalized')
 
-figure()
+hh = figure()
 hold on
 for COUNT = 1:length(normalizedAnnual)
     scatter(x,normalizedSingle{COUNT},color(COUNT),'filled')
@@ -392,6 +392,10 @@ xline(0);
 xlabel('Parallel Current Velocity (m/s)')
 ylabel('Normalized Det Efficiency')
 title('Effect of Parallel Currents' ,'10 Transmitters, Normalized')
+set(gca, 'Color', 'none')
+
+export_fig test.jpeg -r600 -transparent
+
 
 
 figure()

@@ -89,7 +89,7 @@ hold off
 
 %% Noise, seasonality
 
-figure()
+ff = figure()
 tiledlayout(3,5,'TileSpacing','Compact','Padding','Compact')
 set(gcf,'Position',[300 10 1000 600]);
 nexttile([2 5])
@@ -153,5 +153,7 @@ ylim([0 320]);
 title('Mariner''s Fall');
 xline(650,'--')
 
+
+export_fig annualDifferences.jpeg -r600 -transparent
 
 %%

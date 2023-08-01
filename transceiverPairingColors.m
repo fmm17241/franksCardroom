@@ -62,6 +62,7 @@ xline(5.65,'--','LineWidth',1.5,'label','Moderate Breeze')
 x1 = xline(10.8,'--','LineWidth',1.5,'label','Strong Breeze')
 x1.LabelVerticalAlignment = 'bottom'; x1.LabelHorizontalAlignment = 'left';
 xlim([0 12])
+xlabel('Wind Magnitude (m/s)')
 ylabel('Waveheight (m)')
 title('','Significant Waveheight')
 
@@ -75,6 +76,7 @@ xline(5.65,'--','LineWidth',1.5)
 x1 = xline(10.8,'--','LineWidth',1.5)
 xlim([0 12])
 ylabel('Stratification (Δ°F)')
+xlabel('Wind Magnitude (m/s)')
 title('','Bulk Thermal Stratification')
 
 nexttile()
@@ -83,8 +85,8 @@ for COUNT = 1:length(noiseCompareAnnual)
     plot(x,noiseCompareAnnual{COUNT},color(COUNT),'LineWidth',2)
 end
 xlabel('Wind Magnitude (m/s)')
-ylabel('Avg. Measured Noise (69 kHz, mV)')
-title('Coastal Wind''s Effect on Shallow Reef Telemetry','High-Frequency Noise');
+ylabel('Avg. Noise (mV)')
+title('','High-Frequency Noise (69 kHz)');
 xlim([0 12])
 ylim([350 800])
 x1 = xline(3.60,'--','LineWidth',1.5)
@@ -101,11 +103,15 @@ end
 xlim([0 12])
 % xlabel('Wind Magnitude (m/s)')
 ylabel('Normalized Det Efficiency')
+xlabel('Wind Magnitude (m/s)')
 xline(3.60,'--','LineWidth',1.5)
 xline(5.65,'--','LineWidth',1.5)
 x1 = xline(10.8,'--','LineWidth',1.5)
 title('','Transmission Success')
 
+sgtitle('Coastal Wind''s Effect on Shallow Reef Telemetry','FontWeight','bold')
+
+export_fig fourPanelPlot.jpeg -r600 -transparent
 
 %%
 %FM creates just a map, not tiled
