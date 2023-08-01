@@ -52,7 +52,7 @@ plot(reef3(2),reef3(1),'linestyle','none','marker','*','color','k');
 plot(reef4(2),reef4(1),'linestyle','none','marker','*','color','k');
 xlabel('Longitude');
 ylabel('Latitude');
-title('Figure 1: Georgia Coastal Shelf');
+title('Georgia''s Inner Coastal Shelf');
 for i=1:length(bathymetry)
   hc(i)=line(bathymetry(i).x(:),bathymetry(i).y(:),'color',[.6 .6 .6],'LineWidth',0.5);
 end
@@ -86,7 +86,7 @@ axis equal
 
 
 
-localdir=['G:\Glider\LegPlanner\'];	% where on your computer you want to write mafiles and plots; copy ec2001.mat here
+localdir= 'C:\Users\fmm17241\Documents\GitHub\franksCardroom\';	% where on your computer you want to write mafiles and plots; copy ec2001.mat here
 load([localdir,'contourinfo.mat'],'bathymetry','coastline');
 
 

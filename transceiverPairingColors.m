@@ -34,8 +34,8 @@ plot(pairingGPS(5:6,2),pairingGPS(5:6,1), 'k', 'LineWidth',7);
 plot(pairingGPS(7:8,2),pairingGPS(7:8,1), 'b', 'LineWidth',7);
 plot(pairingGPS(9:10,2),pairingGPS(9:10,1), 'm', 'LineWidth',7);
 title('Gray''s Reef Acoustic Telemetry Array', 'Pairings of Moored Transceivers');
-
-
+set(gca,'color','#D3D3D3')
+legend('Transceivers','','','','','Pairings')
 binnedAVG
 createWindSpeedBins
 
@@ -63,8 +63,8 @@ x1 = xline(10.8,'--','LineWidth',1.5,'label','Strong Breeze')
 x1.LabelVerticalAlignment = 'bottom'; x1.LabelHorizontalAlignment = 'left';
 xlim([0 12])
 xlabel('Wind Magnitude (m/s)')
-ylabel('Waveheight (m)')
-title('','Significant Waveheight')
+ylabel('Wave Height (m)')
+title('','Significant Wave Height')
 
 nexttile()
 hold on
@@ -102,7 +102,7 @@ for COUNT = 1:height(averageWindSpeedAnnual)
 end
 xlim([0 12])
 % xlabel('Wind Magnitude (m/s)')
-ylabel('Normalized Det Efficiency')
+ylabel('Normalized Det. Efficiency')
 xlabel('Wind Magnitude (m/s)')
 xline(3.60,'--','LineWidth',1.5)
 xline(5.65,'--','LineWidth',1.5)

@@ -436,7 +436,7 @@ set(gca,'YTick', [])
 ax = gca;
 ax.YAxis(2).Color = 'k'
 title('Transceiver Pairing A','Denser, Shallower Reef')
-xlabel('Windspeed (m/s)');
+xlabel('Wind speed (m/s)');
 
 
 
@@ -459,7 +459,7 @@ xlim([0 12])
 ax = gca;
 ax.YAxis(2).Color = 'k'
 ylabel('Normalized Detection Efficiency')
-xlabel('Windspeed (m/s)');
+xlabel('Wind speed (m/s)');
 legend('Average Noise','','Det. Efficiency','')
 title('Transceiver Pairing B','Sparser, Deeper Reef')
 
