@@ -2,11 +2,11 @@
 %profiles and sound propagation.
 
 %Data directory that holds nbd. Change as needed.
-datadir  = 'C:\Users\fmac4\OneDrive - University of Georgia\data\Glider\Data\nbdasc\Test\';
+datadir  = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Glider\Data\ebdasc\Old\this\';
 
 
 %Reading data out of specific nbd
-files = wilddir(datadir, 'nbdasc');
+files = wilddir(datadir, 'ebdasc');
 nfile = size(files,1);
 sstruct = read_gliderasc([datadir,files(nfile,:)]);
 
@@ -24,11 +24,11 @@ sstruct = read_gliderasc([datadir,files(nfile,:)]);
 %Bellhop model into a directory chosen in CreateEnv.
 
 %Directory to put all files; change as needed.
-directory = 'C:\Users\fmac4\Documents\plots';
+directory = (localPlots);
 
 
 %Full ray tracing, show all
-[waterdepth,beamFile] = ModelSoundSingle(yoSSP,directory);
+[waterdepth,beamFile] = ModelSound(yoSSP,directory);
 
 
 % Beam Density Analysis, finding ray propagation down range
