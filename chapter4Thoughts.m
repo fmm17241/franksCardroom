@@ -20,7 +20,10 @@ cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Glider\Transform\R\'
 figure()
 bellhop('test15R');
 plotray('test15R');
-xlim([0 1500]);
+% xlim([0 1500]);
+figure()
+plotshd('test15R.shd')
+
 
 figure()
 plotssp('test15R','r');
@@ -64,5 +67,21 @@ plotssp('test7R','r');
 
 % Seasonal: Easy. We've done this, but need to flesh it out.
 
+cd ('C:\Users\fmm17241\OneDrive - University of Georgia\data\toolbox\AcTUP\')
+actup
 
-%Looking at literature now
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
