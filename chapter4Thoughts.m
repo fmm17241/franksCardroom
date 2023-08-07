@@ -22,6 +22,9 @@ bellhop('test15R');
 plotray('test15R');
 xlim([0 1500]);
 
+figure()
+plotssp('test15R','r');
+
 
 figure()
 bellhop('test21R');
