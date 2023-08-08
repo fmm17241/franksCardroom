@@ -74,13 +74,15 @@ actup
 
 %FM 8/7/23 19:43 testing
 
-C:\Users\fmm17241\OneDrive - University of Georgia\data\bellhopTesting
+cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\bellhopTesting'
 
 bellhop('guiTest')              %Testing, 6900 Hz frequency
+figure()
 plotshd('guiTest.shd')
 
 %
 bellhop('guiTestHF')            %High frequency, 69 kHz signal
+figure()
 plotshd('guiTestHF.shd')        %Looking better and better!!!!
 
 
