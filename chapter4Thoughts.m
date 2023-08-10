@@ -74,7 +74,9 @@ actup
 
 %FM 8/7/23 19:43 testing
 
-cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\bellhopTesting'
+% cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\bellhopTesting'
+cd ([oneDrive,'bellhopTesting'])
+
 
 bellhop('guiTest')              %Testing, 6900 Hz frequency
 figure()
