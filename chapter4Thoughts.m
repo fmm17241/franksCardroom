@@ -10,7 +10,7 @@
 % going to move past that for now.
 
 
-cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Glider\Transform\R\'
+cd ([oneDrive,'Glider\Transform\R\'])
 
 
 
