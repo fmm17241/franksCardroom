@@ -2,11 +2,11 @@
 %profiles and sound propagation.
 
 %Data directory that holds nbd. Change as needed.
-datadir  = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Glider\Data\ebdasc\Old\this\';
+datadir  = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Glider\Data\nbdasc\Test\';
 
 
 %Reading data out of specific nbd
-files = wilddir(datadir, 'ebdasc');
+files = wilddir(datadir, 'nbdasc');
 nfile = size(files,1);
 sstruct = read_gliderasc([datadir,files(nfile,:)]);
 
@@ -28,7 +28,7 @@ directory = (localPlots);
 
 
 %Full ray tracing, show all
-[waterdepth,beamFile] = ModelSound(yoSSP,directory);
+[waterdepth,beamFile] = ModelSoundSingle(yoSSP,directory);
 
 
 % Beam Density Analysis, finding ray propagation down range
