@@ -12,7 +12,7 @@ sstruct = read_gliderasc([datadir,files(nfile,:)]);
 
 
 
-%Current iteration (11/29/2021) of Frank's data cleanup
+%Current iteration of Frank's data cleanup
 [dn,temperature,salt,density,depth,speed]=beautifyData(sstruct);
 
 
