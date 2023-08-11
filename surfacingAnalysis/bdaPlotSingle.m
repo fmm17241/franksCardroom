@@ -4,7 +4,9 @@
 
 %beamFile comes from ModelSoundSingle.m
 % gridpoints and sumRays comes from bdaSingle.m
-function beamDensityPlot(beamFile,gridpoints,sumRays)
+function beamDensityPlot(beamFile,gridpoints,sumRays,directory,gliderstr,yotimes)
+
+cd (directory)
 
 figure()
 scatter(gridpoints,sumRays);
@@ -15,5 +17,7 @@ xticks([0 100 200 300 400 500 600 700 800 900 1000 1100 1200 1300 1400 1500 1600
 xtickangle(45);
 set(gca, 'YScale', 'log')
 
+nameit = sprintf('%sBellhop%d.jpeg',gliderstr,yotimes(1,1));
+saveas(gcf,nameit)
 
 end

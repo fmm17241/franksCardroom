@@ -36,7 +36,7 @@ directory = (localPlots);
 
 
 % Beam Density Plot, visualization of the beam density analysis
-bdaPlotSingle(beamFile,gridpoints,sumRays)
+bdaPlotSingle(beamFile,gridpoints,sumRays,directory,gliderstr,yotimes)
 
 
 
