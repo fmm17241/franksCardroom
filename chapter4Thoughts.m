@@ -87,10 +87,13 @@ bellhop('guiTestHF')            %High frequency, 69 kHz signal
 figure()
 plotshd('guiTestHF.shd')        %Looking better and better!!!!
 
+bellhop('uniform')            
+figure()
+plotshd('uniform.shd') 
+
 bellhop('uniformTest')            
 figure()
 plotshd('uniformTest.shd') 
-
 
 
 
