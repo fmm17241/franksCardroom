@@ -1,0 +1,275 @@
+﻿<RibbonWindow x:Class="ESMEWorkbench.Views.MainView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:controls="clr-namespace:ESME.Views.Controls;assembly=ESME.Views"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                xmlns:ia="http://schemas.microsoft.com/expression/2010/interactions"
+                xmlns:localControls="clr-namespace:ESMEWorkbench.Controls"
+                xmlns:main="clr-namespace:ESMEWorkbench.ViewModels.Main"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:mef="http:\\www.codeplex.com\MEFedMVVM"
+                xmlns:p="clr-namespace:ESMEWorkbench.Properties"
+              xmlns:wpf="clr-namespace:HRC.WPF;assembly=HRC"
+                Title="{Binding MainWindowTitle}"
+                Width="{Binding Source={x:Static p:Settings.Default},
+                                Path=WindowWidth,
+                                Mode=TwoWay}"
+                Height="{Binding Source={x:Static p:Settings.Default},
+                                 Path=WindowHeight,
+                                 Mode=TwoWay}"
+                Cursor="{Binding Cursor}"
+                d:DataContext="{d:DesignInstance Type=main:MainViewModel}"
+                d:DesignHeight="500"
+                d:DesignWidth="900"
+                Icon="..\Wave.ico"
+                Left="{Binding Source={x:Static p:Settings.Default},
+                               Path=WindowLeft,
+                               Mode=TwoWay}"
+                mef:ViewModelLocator.ViewModel="MainViewModel"
+                SnapsToDevicePixels="True"
+                Top="{Binding Source={x:Static p:Settings.Default},
+                              Path=WindowTop,
+                              Mode=TwoWay}"
+                mc:Ignorable="d">
+    <RibbonWindow.Resources>
+        <wpf:GridLengthConverter x:Key="GridLengthConverter" />
+    </RibbonWindow.Resources>
+    <RibbonWindow.InputBindings>
+        <KeyBinding Command="{Binding SaveScenarioCommand}" Gesture="CTRL+S" />
+    </RibbonWindow.InputBindings>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <wpf:EventToCommandTrigger Command="{Binding ViewClosingCommand}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Activated">
+            <wpf:EventToCommandTrigger Command="{Binding ViewActivatedCommand}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="PreviewKeyDown">
+            <wpf:EventToCommandTrigger Command="{Binding PreviewKeyDownCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <DockPanel LastChildFill="True">
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+            <StatusBarItem Grid.Column="0">
+                <TextBlock MinWidth="75" Text="{Binding MouseLatitude}" />
+            </StatusBarItem>
+            <Separator Grid.Column="1" />
+            <StatusBarItem Grid.Column="2">
+                <TextBlock MinWidth="85" Text="{Binding MouseLongitude}" />
+            </StatusBarItem>
+            <Separator Grid.Column="3" />
+            <StatusBarItem Grid.Column="4">
+                <TextBlock MinWidth="85" Text="{Binding MouseDepthInfo}" />
+            </StatusBarItem>
+            <Separator Grid.Column="5" />
+            <StatusBarItem Grid.Column="6">
+                <TextBlock MinWidth="75" Text="{Binding MouseWindSpeedInfo}" />
+            </StatusBarItem>
+            <Separator Grid.Column="7" />
+            <StatusBarItem Grid.Column="8">
+                <TextBlock MinWidth="135" Text="{Binding MouseSoundSpeedInfo}" />
+            </StatusBarItem>
+            <Separator Grid.Column="9" />
+            <StatusBarItem Grid.Column="10">
+                <TextBlock Text="{Binding MouseSedimentInfo}" />
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="11">
+                <TextBlock Text="{Binding TransmissionLossActivity}" />
+            </StatusBarItem>
+        </StatusBar>
+        <Ribbon x:Name="Ribbon" DockPanel.Dock="Top">
+            <Ribbon.ApplicationMenu>
+                <controls:SlimRibbonApplicationMenu SmallImageSource="..\Images\SmallIcons\Wave.png">
+                    <RibbonApplicationMenuItem Command="{Binding AboutCommand}"
+                                                 Header="About"
+                                                 ImageSource="..\Images\LargeIcons\about-icon.png"
+                                                 ToolTipDescription="Information about the ESME Workbench"
+                                                 ToolTipTitle="{Binding Header,
+                                                                        RelativeSource={RelativeSource Self}}" />
+                    <RibbonSeparator />
+                    <RibbonApplicationMenuItem Command="{Binding EditOptionsCommand}"
+                                                 Header="Options"
+                                                 ImageSource="..\Images\LargeIcons\gear-icon.png"
+                                                 ToolTipDescription="Edit application options and settings"
+                                                 ToolTipTitle="{Binding Header,
+                                                                        RelativeSource={RelativeSource Self}}" />
+                    <RibbonApplicationMenuItem Command="{Binding HelpCommand}"
+                                                 Header="Help"
+                                                 ImageSource="..\Images\LargeIcons\Button-Help-icon.png"
+                                                 ToolTipDescription="Opens the user manual for the ESME Workbench"
+                                                 ToolTipTitle="{Binding Header,
+                                                                        RelativeSource={RelativeSource Self}}" />
+                    <RibbonSeparator />
+                    <RibbonApplicationMenuItem Command="Close"
+                                                 Header="Exit"
+                                                 ImageSource="..\Images\LargeIcons\Button-Close-icon.png"
+                                                 ToolTipDescription="Close ESME Workbench"
+                                                 ToolTipTitle="{Binding Header,
+                                                                        RelativeSource={RelativeSource Self}}" />
+
+                </controls:SlimRibbonApplicationMenu>
+            </Ribbon.ApplicationMenu>
+            <RibbonTab Header="Home" KeyTip="H">
+                <RibbonGroup Header="Map">
+                    <RibbonButton Command="{Binding ZoomToWorldMapCommand}"
+                                    Label="World Map"
+                                    LargeImageSource="..\Images\LargeIcons\globe-icon.png"
+                                    SmallImageSource="..\Images\SmallIcons\globe-icon.png" />
+                </RibbonGroup>
+                <RibbonGroup Header="Scenario">
+                    <ListView Width="150"
+                              Height="66"
+                              DisplayMemberPath="Name"
+                              ItemsSource="{Binding Scenarios}"
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                              SelectedItem="{Binding Scenario}"
+                              SelectionMode="Single">
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel />
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                    </ListView>
+                    <RibbonButton Command="{Binding CreateScenarioCommand}"
+                                    Label="Create"
+                                    SmallImageSource="..\Images\SmallIcons\application_form_add.png"
+                                    ToolTipDescription=""
+                                    ToolTipTitle="Create a new Scenario" />
+                    <!--
+                        <r:RibbonButton Command="{Binding Scenario.ViewScenarioPropertiesCommand}"
+                        IsEnabled="{Binding IsScenarioLoaded}"
+                        Label="Edit"
+                        SmallImageSource="..\Images\SmallIcons\application_form_edit.png"
+                        ToolTipDescription="Not yet implemented"
+                        ToolTipTitle="Edit the currently selected scenario" />
+                        <r:RibbonButton Command="{Binding DisabledCommand}"
+                        Label="Import"
+                        SmallImageSource="..\Images\SmallIcons\application_get.png"
+                        ToolTipDescription="Not yet implemented"
+                        ToolTipTitle="Import a scenario file" />
+                        <r:RibbonButton Command="{Binding DisabledCommand}"
+                        Label="Export"
+                        SmallImageSource="..\Images\SmallIcons\application_put.png"
+                        ToolTipDescription="Not yet implemented"
+                        ToolTipTitle="Export the currently selected scenario to a scenario file" />
+                    -->
+                    <RibbonButton Command="{Binding Scenario.DeleteScenarioCommand}"
+                                    IsEnabled="{Binding IsScenarioLoaded}"
+                                    Label="Delete"
+                                    SmallImageSource="..\Images\SmallIcons\application_form_delete.png"
+                                    ToolTipDescription=""
+                                    ToolTipTitle="Delete the currently selected scenario" />
+                    <RibbonButton Command="{Binding Scenario.Location.ZoomToLocationCommand}"
+                                    IsEnabled="{Binding IsScenarioLoaded}"
+                                    Label="Zoom"
+                                    SmallImageSource="..\Images\SmallIcons\application_form_magnify.png"
+                                    ToolTipDescription=""
+                                    ToolTipTitle="Resets the map position to the current scenario" />
+                    <RibbonButton Command="{Binding SaveScenarioCommand}"
+                                    IsEnabled="{Binding IsSaveScenarioCommandEnabled}"
+                                    Label="Save"
+                                    SmallImageSource="..\Images\SmallIcons\save-icon.png"
+                                    ToolTipDescription=""
+                                    ToolTipTitle="Save the current Scenario" />
+                </RibbonGroup>
+                <RibbonGroup Header="Acoustics">
+                    <RibbonToggleButton IsChecked="{Binding IsInAnalysisPointMode}"
+                                          IsEnabled="{Binding CanPlaceAnalysisPoint}"
+                                          Label="Analysis Point"
+                                          SmallImageSource="..\Images\SmallIcons\location_pin.png"
+                                          ToolTipDescription="{Binding CanPlaceAnalysisPointTooltip}"
+                                          ToolTipTitle="Place a new analysis point" />
+                </RibbonGroup>
+                <RibbonGroup Header="Simulation">
+                    <RibbonButton Command="{Binding RunSimulationCommand}"
+                                    IsEnabled="{Binding IsRunSimulationCommandEnabled}"
+                                    Label="Run"
+                                    LargeImageSource="..\Images\LargeIcons\hourglass_go.png"
+                                    ToolTipDescription="{Binding RunSimulationCommandToolTip}"
+                                    ToolTipTitle="Run the current scenario" />
+
+                </RibbonGroup>
+                <!--
+                    <r:RibbonGroup Header="Testing">
+                    <r:RibbonButton Command="{Binding TestCommand}"
+                    Label="Open PGRID file"
+                    LargeImageSource="..\Images\LargeIcons\open-icon.png"
+                    ToolTipDescription="Open PGRID file"
+                    ToolTipTitle="Open PGRID file" />
+                    
+                    </r:RibbonGroup>
+                -->
+            </RibbonTab>
+        </Ribbon>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="{Binding Source={x:Static p:Settings.Default}, Path=LayersWidth, Mode=TwoWay, Converter={StaticResource GridLengthConverter}}" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" MinWidth="500" />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="{Binding Source={x:Static p:Settings.Default}, Path=LocationViewHeight, Mode=TwoWay, Converter={StaticResource GridLengthConverter}}" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <localControls:LayerTreeView Grid.Row="0"
+                                             Margin="5 5 0 0"
+                                             DataContext="{Binding}" />
+                <GridSplitter Grid.Row="1"
+                              Height="2"
+                              Margin="0 5 -5 5"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Center"
+                              Background="Black"
+                              ResizeBehavior="BasedOnAlignment"
+                              ResizeDirection="Rows" />
+                <localControls:LocationsTreeView Grid.Row="2"
+                                                 Margin="5 0 0 5"
+                                                 DataContext="{Binding}" />
+            </Grid>
+            <GridSplitter Grid.Column="1"
+                          Width="2"
+                          Margin="5 0 5 0"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Stretch"
+                          Background="Black"
+                          ResizeBehavior="BasedOnAlignment"
+                          ResizeDirection="Columns" />
+            <localControls:MapView x:Name="MapView"
+                                   Grid.Column="2"
+                                   DataContext="{Binding MapViewModel}" />
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Drop">
+                    <ia:CallMethodAction MethodName="FilesDropped" TargetObject="{Binding}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Grid>
+    </DockPanel>
+</RibbonWindow>

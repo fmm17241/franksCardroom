@@ -1,0 +1,21 @@
+﻿<Window x:Class="GrahamsWPFTester.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mef="http:\\www.codeplex.com\MEFedMVVM"
+        xmlns:app="clr-namespace:GrahamsWPFTester"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        d:DataContext="{d:DesignInstance app:MainWindowViewModel}"
+        mc:Ignorable="d"
+        Title="PSM Browser Host"
+        mef:ViewModelLocator.ViewModel="MainWindowViewModel"
+        ResizeMode="NoResize"
+        WindowStyle="ToolWindow"
+        WindowState="Minimized"
+        ShowInTaskbar="False"
+        SizeToContent="WidthAndHeight">
+    <Grid>
+     
+    </Grid>   
+</Window>
