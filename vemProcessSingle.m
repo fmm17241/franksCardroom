@@ -107,9 +107,10 @@ vems.oh2rec = str2double(vems.oh2rec);
 
 beginning = datetime(vems.dn(1),'ConvertFrom','datenum')
 ending = datetime(vems.dn(end),'ConvertFrom','datenum')
-
 timing = between(beginning,ending);
-% % cd '/Users/imager/matlab/output/franklin/'
+
+%
+cd (directory)
 
 fclose('all'); %Removes previous connections
 FileName = sprintf('detections%s%f.env',glider,vems.dn(1,1)); %Choose file name
@@ -120,6 +121,6 @@ fprintf(fid, ' \n Ending: %s',ending)
 
 fprintf(fid, '\n %d Detections this surfacing',length(vems.dn)); %Frequency
 fprintf(fid, '\n Duration: %s',timing);
-
+fclose('all'); %Removes connection after finishing
 
 end
