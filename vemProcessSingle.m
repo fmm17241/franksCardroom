@@ -109,6 +109,14 @@ beginning = datetime(vems.dn(1),'ConvertFrom','datenum')
 ending = datetime(vems.dn(end),'ConvertFrom','datenum')
 timing = between(beginning,ending);
 
+[startY startM startD] = ymd(beginning);
+[startH startm starts] = hms(beginning);
+
+[overY overM overD] = ymd(ending);
+[overH overm overs] = hms(ending);
+
+
+
 %
 cd (directory)
 
