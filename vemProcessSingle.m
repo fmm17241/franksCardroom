@@ -119,7 +119,7 @@ emptyFile= datenum(fileDate);
 if isempty(vems.dn) == 1
     fclose('all'); %Removes previous connections
     cd (outputDir)
-    FileName = sprintf('detections%s%f.env', glider, emptyFile); %Choose file name
+    FileName = sprintf('detections%s%f.txt', glider, emptyFile); %Choose file name
     fid = fopen(FileName,'a'); %Create new file
     fprintf(fid, ' ''Acoustic Telemetry Detections, %s''',glider); %Title of File
     fprintf(fid, '\n No detections during this period');
@@ -147,7 +147,7 @@ cd (outputDir)
 
 %Outputs simple text file for software read-in
 fclose('all'); %Removes previous connections
-FileName = sprintf('detections%s%f.env',glider,vems.dn(1,1)); %Choose file name
+FileName = sprintf('detections%s%f.txt',glider,vems.dn(1,1)); %Choose file name
 delete (FileName)
 fid = fopen(FileName,'a'); %Create new file
 fprintf(fid, ' ''Acoustic Telemetry Detections, %s''',glider); %Title of File

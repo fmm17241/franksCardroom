@@ -20,10 +20,12 @@ hold on
 for medium = 1 : SSP.NMedia
    
    npts = round( SSP.raw( medium ).z(end) - SSP.raw( medium ).z( 1 ) ) + 1;
-   if ( contains( SSPType, 'S' ) || contains( SSPType, 'P' ) )
+   if  ~isempty(strfind( SSPType, 'S' )) 
       npts = 2 * npts;   % need to see internal points for cubic interpolation
    end
-   
+  if  ~isempty( strfind( SSPType, 'P' )) 
+      npts = 2 * npts;   % need to see internal points for cubic interpolation
+   end
    z_eval = linspace( SSP.raw( medium ).z(1), SSP.raw( medium ).z( end ), npts );
    
    % plot the compression wave speed

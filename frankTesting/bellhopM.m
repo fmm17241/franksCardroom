@@ -51,6 +51,7 @@ atifil = [ filename '.ati' ];   % input altimetry
 % sbpfil = [ filename '.sbp' ];   % input source beam pattern
 trcfil = [ filename        ];   % input top    reflection coefficient
 brcfil = [ filename        ];   % input bottom reflection coefficient
+rayfil = [filename '.ray'];    % FM adding rayfile hopefully.
 
 [ PlotTitle, freq, SSP, Bdry, Pos, Beam, ~, ~, fid ] = read_env( envfil, 'BELLHOP' );    % read in the environmental file
 fclose( fid );                    % close out the envfil
