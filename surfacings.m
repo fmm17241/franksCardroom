@@ -2,8 +2,7 @@
 %profiles and sound propagation.
 
 %Data directory that holds nbd. Change as needed.
-datadir  = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Glider\Data\nbdasc\Test\';
-
+datadir  = 'C:\Users\fmac4\OneDrive - University of Georgia\data\Glider\Data\nbdasc\Test\';
 
 %Reading data out of specific nbd
 files = wilddir(datadir, 'nbdasc');

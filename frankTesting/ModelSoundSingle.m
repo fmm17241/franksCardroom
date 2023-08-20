@@ -108,16 +108,16 @@ end
 fprintf(fid, '\n%d %d  / ',waterdepth,yoSSP(end,3)); %Assumes last soundspeed is ALSO bottom sspeed. Big assumption.
 fprintf(fid, '\n''A'' 0.0');
 fprintf(fid, '\n%d  %d 0.0 1.0 / ',waterdepth,yoSSP(end,3)); %Repeats last soundspeed
-fprintf(fid, '\n1				! NSD  ');
-fprintf(fid, '\n%d /			! SD(1:NSD) (m)  ',waterdepth-1); %Depth of Source
-fprintf(fid, '\n2				! NRD  ');
-fprintf(fid, '\n5  15 /			! RD(1:NRD) (m)  '); %Receiver Depth
-fprintf(fid, '\n1				! NR  ');
-fprintf(fid, '\n2 /			! R(1:NR ) (km)  ');
+fprintf(fid, '\n1				! NSD, # of source depths  ');
+fprintf(fid, '\n%d /			! SD(1:NSD) (m), Souce of depths  ',waterdepth-1); %Depth of Source
+fprintf(fid, '\n2				! NRD, # of receiver depths  ');
+fprintf(fid, '\n5  15 /			! RD(1:NRD) (m), receiver depths  '); %Receiver Depth
+fprintf(fid, '\n1				! NR, # of receiver ranges  ');
+fprintf(fid, '\n2 /			! R(1:NR ) (km), receiver ranges  ');
 fprintf(fid, '\n''R''	  			! ''R/C/I/S'''); %Type of Output
 fprintf(fid, '\n1000		! NBeams '); %How many beams? 
 fprintf(fid, '\n-20.0 20.0 /		        ! ALPHA1,2 (degrees) ');
-fprintf(fid, '\n0.0 %d  2		! STEP (m), ZBOX (m), RBOX (km)',waterdepth);
+fprintf(fid, '\n0.0 %d  2		! STEP (m), ZBOX (m), RBOX (km), Stepsize, maximum depth, and maximum range',waterdepth);
 fclose(fid);
 
 
@@ -131,10 +131,10 @@ beamFile = nameonly;
 
 current = sprintf('%s',beamFile);
 figure()
-bellhopM(current);
-% plotray(current);
-%     xlim([0 1500]);
-%     ylim([0 waterdepth])
+bellhop(current);
+plotray(current);
+    xlim([0 1500]);
+    ylim([0 waterdepth])
 nameit = sprintf('Bellhop%s.jpeg',current);
 saveas(gcf,nameit)
 
