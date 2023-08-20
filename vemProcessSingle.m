@@ -28,7 +28,8 @@ statusTime = cell(1,1);
 vemfiles = dir('*.vem');                   %List of files
 %This only takes the last file. IF we want more, just change for k =
 %1:length(vemfiles), or k = end-4:end or something.
-for k = length(vemfiles)                %Loop to process each file
+% for k = 1:length(vemfiles)                 % All files, for testing
+for k = length(vemfiles)-1:length(vemfiles)                %Loop to process last two files at surface
     file = vemfiles(k).name;
     fid = fopen(file, 'rt');
     while true
@@ -39,7 +40,7 @@ for k = length(vemfiles)                %Loop to process each file
         end
       if(~isempty(strfind(line, 'STS')))     %If line contains STS, move to next line
                 Mydata=strsplit(line,',');   %split the data by the commas
-                statusTime{end+1}=Mydata{3};
+                statusTime{end+1}=Mydata{3}; %Grab the times from status lines
           continue;
       end
       Mydata=strsplit(line,',');   %split the data by the commas
@@ -82,6 +83,7 @@ if isempty(usedatetime) == 1
     fclose('all'); %Removes previous connections
     cd (outputDir)
     FileName = sprintf('AT%s%s.txt', glider, useFileName); %Choose file name
+    delete FileName
     fid = fopen(FileName,'a'); %Create new file
     fprintf(fid, ' ''Acoustic Telemetry, %s''',glider); %Title of File
     fprintf(fid, '\n No detections during this period');
@@ -101,10 +103,10 @@ for K = 1:length(tag)
     mooredIndex(1,K) = ~isempty(strfind(tag{K},'A69-1601'));
     oh2index(1,K)    = ~isempty(strfind(tag{K},'A69-1602'));
 end
-allrec      = receiver(allindex);
-allDN    = DN(allindex);
-allnumber   = number(allindex);
-alltag     = tag(allindex);
+allrec          = receiver;
+allDN           = DN;
+allnumber       = number;
+alltag          = tag;
 
 
 
@@ -169,6 +171,7 @@ cd (outputDir)
 %Outputs simple text file for software read-in
 fclose('all'); %Removes previous connections
 FileName = sprintf('AT%s%s.txt',glider,useFileName); %Choose file name
+delete FileName
 fid = fopen(FileName,'a'); %Create new file
 fprintf(fid, ' ''Acoustic Telemetry, %s''',glider); %Title of File
 
