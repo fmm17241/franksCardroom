@@ -1,15 +1,25 @@
 
-function  [waterdepth,beamFile] = ModelSoundSingle(yoSSP, directory)
+function  [waterdepth,beamFile] = ModelSoundSingle(yoSSP, directory,datadir,glider)
+
+%Frank added datadir and nbdFileName 8/21
+
+cd(datadir)
+nbdList = dir('*.nbdasc')
+part1 = nbdList(end).name;
+[~,nbdFileName,~] = fileparts(part1)
 
 cd (directory)
 
 location = sprintf('%s',directory);
+
+
 % Choose folder to work in
 cd (location)
+howMany = length(dir(pwd));
 fclose('all'); %Removes previous connections
 delete *.env;   % Deletes previous files. Clearing this for automation.
 waterdepth = yoSSP(end,2)+3; %Hardcoded water depth: 3m under the last reading, estimating due to inflection.
-FileName = sprintf('nbdAnalysis.env'); %Choose file name
+FileName = sprintf('nbdAnalysis%s.env',nbdFileName); %Choose file name
 fid = fopen(FileName,'a'); %Create new file
 fprintf(fid, ' ''Surfacing SSP,''      ! TITLE'); %Title of File
 fprintf(fid, '\n 69000.0				! FREQ (Hz)'); %Frequency
@@ -122,13 +132,13 @@ fclose(fid);
 
 %Finds number of files, takes name without extensions.
 filelist = dir('*.env');
-filename= filelist.name;
+filename= filelist(end).name;
 
 [~,nameonly,~] = fileparts(filename);
-beamFile = nameonly;
+beamFileOG = nameonly;
 
 
-current = sprintf('%s',beamFile);
+current = sprintf('%s',beamFileOG);
 figure()
 bellhop(current);
 plotray(current);
@@ -140,11 +150,16 @@ saveas(gcf,nameit)
 
 
 clf
-current = sprintf('%s',beamFile);
+current = sprintf('%s',beamFileOG);
 plotssp(current,'r');
 nameit = sprintf('Bellhop%sSSP.jpeg',current);
 saveas(gcf,nameit);
+
+
+beamFile = sprintf('%s.ray',beamFileOG);
 end
+
+
 %     
 
 

@@ -1,4 +1,4 @@
- function ssp=Sndspd(S,T,D,equation)
+ function ssp=sndspd(S,T,D,equation)
 %  Sndspd = Speed of sound in seawater using various sound-speed equations.
 %
 %  Please NOTE: the different equations below input depth (D) as either meters
