@@ -100,9 +100,31 @@ plotshd('uniformTest.shd')
 
 
 
+%%
+% Dead meat, can't think or do the work. 
+
+WUWEfficiency
+binnedAVG
+
+%Find distance between lat/lons, lets go, I need this in my life
 
 
+lldistkm(mooredGPS(1,1:2),mooredGPS(2,1:2))
 
+
+lldistkm(mooredGPS(13,1:2),mooredGPS(14,1:2))
+
+
+% lat = [33.47914 33.47914 33.47915 33.47917]; 
+% lon = [-88.7943 -88.7943 -88.7943 -88.7943]; 
+lat = mooredGPS(:,1);
+lon = mooredGPS(:,2);
+% Use WGS84 ellipsoid model
+wgs84 = wgs84Ellipsoid; 
+% Calculate individual distances 
+d1 = distance(lat(1),lon(1),lat(2),lon(2),wgs84); 
+d2 = distance(lat(2),lon(2),lat(3),lon(3),wgs84); 
+d3 = distance(lat(3),lon(3),lat(4),lon(4),wgs84); 
 
 
 
