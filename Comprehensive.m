@@ -8,7 +8,7 @@ load angusebdAprilMay
 
 
 %Processs raw .vem files, the outputs of our sensors
-cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Glider\Data\Vemco\SpringFallDets'
+cd ([oneDrive,'Glider\Data\Vemco\SpringFallDets'])
 
 vems = vemProcess(pwd);
 
