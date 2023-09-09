@@ -96,9 +96,9 @@ figure()
 plotshd('uniformTest.shd') 
 
 
+
 figure()
 bellhop('twoD')
-
 figure()
 plotssp2d 'twoD'
 
