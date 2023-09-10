@@ -99,6 +99,7 @@ plotshd('uniformTest.shd')
 
 figure()
 bellhop('twoD')
+plotray('twoD')
 figure()
 plotssp2d 'twoD'
 
