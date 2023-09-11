@@ -108,6 +108,17 @@ plotbty 'twoD'
 ylim([0 5500])
 
 
+figure()
+bellhop('frank2D')
+plotray('frank2D')
+
+
+
+
+
+
+
+
 %%
 % Dead meat, can't think or do the work. 
 
