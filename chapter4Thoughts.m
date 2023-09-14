@@ -112,6 +112,11 @@ figure()
 bellhop('frank2D')
 plotray('frank2D')
 
+figure()
+plotssp2d 'frank2D'
+
+figure()
+plotbty 'frank2D'
 
 
 
