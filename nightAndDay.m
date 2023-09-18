@@ -59,7 +59,7 @@ for k = 1:length(seasons)
     %Finding standard deviations/CIs of values
     SEM = std(dayDets{1,k}(:))/sqrt(length(dayDets{1,k}));  
     ts = tinv([0.025  0.975],length(dayDets{1,k})-1);  
-    CIdayDets(k,:) = mean(dayDets{:,k},'all') + ts*SEM; 
+    CIdayDets(k,:) = (mean(dayDets{:,k},'all') + ts*SEM)/6*100; 
 end
 
 %Sunset Noise Confidence Intervals
@@ -75,7 +75,7 @@ for k = 1:length(seasons)
     %Finding standard deviations/CIs of values
     SEM = std(sunsetDets{1,k}(:))/sqrt(length(sunsetDets{1,k}));  
     ts = tinv([0.025  0.975],length(sunsetDets{1,k})-1);  
-    CIsunsetDets(k,:) = mean(sunsetDets{:,k},'all') + ts*SEM; 
+    CIsunsetDets(k,:) = (mean(sunsetDets{:,k},'all') + ts*SEM)/6*100; 
 end
 
 %Night Noise Confidence Intervals
@@ -91,7 +91,7 @@ for k = 1:length(seasons)
     %Finding standard deviations/CIs of values
     SEM = std(nightDets{1,k}(:))/sqrt(length(nightDets{1,k}));  
     ts = tinv([0.025  0.975],length(nightDets{1,k})-1);  
-    CInightDets(k,:) = mean(nightDets{:,k},'all') + ts*SEM; 
+    CInightDets(k,:) = (mean(nightDets{:,k},'all') + ts*SEM)/6*100; 
 end
 
 
@@ -137,21 +137,19 @@ ciplot(CIsunsetNoise(:,1),CIsunsetNoise(:,2),1:5,'k')
 ciplot(CInightNoise(:,1),CInightNoise(:,2),1:5,'b')
 ciplot(CIdayNoise(:,1),CIdayNoise(:,2),1:5,'r')
 ylabel('Noise (69 kHz)')
-title('Noise Averages','95% CI')
+title('High-Freq. Noise Averages','95% CI')
 legend('Sunset','Night','Day')
+xticks([1,2,3,4,5])
+xticklabels({'Winter','Spring','Summer','Fall','M.Fall'})
 nexttile()
 hold on
-ciplot(CIsunsetDets(:,1),CIsunsetDets(:,2),1:5,'k','FaceAlpha',0.4)
-ciplot(CInightDets(:,1),CInightDets(:,2),1:5,'b',0.4)
-ciplot(CIdayDets(:,1),CIdayDets(:,2),1:5,'r',0.4)
-ylabel('Avg. Hourly Detections')
-title('Detection Averages')
-
-
-scatter(1:5,dayDetAverages(1,:),500,'r','filled') % Day
-scatter(1:5,dayDetAverages(2,:),500,'k','filled') % Sunset
-scatter(1:5,dayDetAverages(3,:),500,'b','filled') % Night
-xlim([0.8 5.2])
+% ciplot(CIsunsetDets(:,1),CIsunsetDets(:,2),1:5,'k',0.5)
+ciplot(CInightDets(:,1),CInightDets(:,2),1:5,'b',0.5)
+ciplot(CIdayDets(:,1),CIdayDets(:,2),1:5,'r',0.5)
+ylabel('Avg. Hourly Detection Efficiency (%)')
+title('Detection Averages', '95% CI')
+xticks([1,2,3,4,5])
+xticklabels({'Winter','Spring','Summer','Fall','M.Fall'})
 
 
 
