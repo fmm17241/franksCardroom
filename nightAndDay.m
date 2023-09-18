@@ -44,55 +44,118 @@ for k = 1:length(seasons)
 end
 
  
+%%
 
-%Day Confidence Intervals
+%Day Noise Confidence Intervals
 for k = 1:length(seasons)
     %Finding standard deviations/CIs of values
     SEM = std(daySounds{1,k}(:))/sqrt(length(daySounds{1,k}));  
     ts = tinv([0.025  0.975],length(daySounds{1,k})-1);  
-    CIday(k,:) = mean(daySounds{:,k},'all') + ts*SEM; 
+    CIdayNoise(k,:) = mean(daySounds{:,k},'all') + ts*SEM; 
 end
 
-%Sunset Confidence Intervals
+%Day Detection Confidence Intervals
+for k = 1:length(seasons)
+    %Finding standard deviations/CIs of values
+    SEM = std(dayDets{1,k}(:))/sqrt(length(dayDets{1,k}));  
+    ts = tinv([0.025  0.975],length(dayDets{1,k})-1);  
+    CIdayDets(k,:) = mean(dayDets{:,k},'all') + ts*SEM; 
+end
+
+%Sunset Noise Confidence Intervals
 for k = 1:length(seasons)
     %Finding standard deviations/CIs of values
     SEM = std(sunsetSounds{1,k}(:))/sqrt(length(sunsetSounds{1,k}));  
     ts = tinv([0.025  0.975],length(sunsetSounds{1,k})-1);  
-    CIsunset(k,:) = mean(sunsetSounds{:,k},'all') + ts*SEM; 
+    CIsunsetNoise(k,:) = mean(sunsetSounds{:,k},'all') + ts*SEM; 
 end
 
-%Night Confidence Intervals
+%Sunset Detection Confidence Intervals
+for k = 1:length(seasons)
+    %Finding standard deviations/CIs of values
+    SEM = std(sunsetDets{1,k}(:))/sqrt(length(sunsetDets{1,k}));  
+    ts = tinv([0.025  0.975],length(sunsetDets{1,k})-1);  
+    CIsunsetDets(k,:) = mean(sunsetDets{:,k},'all') + ts*SEM; 
+end
+
+%Night Noise Confidence Intervals
 for k = 1:length(seasons)
     %Finding standard deviations/CIs of values
     SEM = std(nightSounds{1,k}(:))/sqrt(length(nightSounds{1,k}));  
     ts = tinv([0.025  0.975],length(nightSounds{1,k})-1);  
-    CInight(k,:) = mean(nightSounds{:,k},'all') + ts*SEM; 
+    CInightNoise(k,:) = mean(nightSounds{:,k},'all') + ts*SEM; 
 end
+
+%Night Detection Confidence Intervals
+for k = 1:length(seasons)
+    %Finding standard deviations/CIs of values
+    SEM = std(nightDets{1,k}(:))/sqrt(length(nightDets{1,k}));  
+    ts = tinv([0.025  0.975],length(nightDets{1,k})-1);  
+    CInightDets(k,:) = mean(nightDets{:,k},'all') + ts*SEM; 
+end
+
+
+
+
+
+
+%%
+
 
 figure()
 hold on
-ciplot(CIsunset(:,1),CIsunset(:,2),1:5,'k')
-ciplot(CInight(:,1),CInight(:,2),1:5,'b')
-ciplot(CIday(:,1),CIday(:,2),1:5,'r')
+ciplot(CIsunsetNoise(:,1),CIsunsetNoise(:,2),1:5,'k')
+ciplot(CInightNoise(:,1),CInightNoise(:,2),1:5,'b')
+ciplot(CIdayNoise(:,1),CIdayNoise(:,2),1:5,'r')
 xlabel('Seasons, 2020')
 ylabel('Average Noise (mV)')
 title('Average Noise By Time of Day and Season','95% Conf. Interval, 69 kHz')
 legend('Sunset','Night','Day')
 
+% figure()
+% scatter(1:5,dayAverages(1,:),'r','filled')
+% hold on
+% scatter(1:5,dayAverages(2,:),'o','filled')
+% scatter(1:5,dayAverages(3,:),'k','filled')
+% errorbar(1:5,dayAverages(1,:),errDay(1,:),'LineStyle','none')
+% errorbar(1:5,dayAverages(2,:),errDay(2,:),'LineStyle','none')
+% errorbar(1:5,dayAverages(3,:),errDay(3,:),'LineStyle','none')
+% ylim([0480 800])
+% xlim([0.85 5.2])
+% xlabel('Seasons 1:5')
+% ylabel('Average Noise (db/mV)')
+% title('Average across Entire Reef')
+% legend('Day','Sunset','Night')
+
+
 figure()
-scatter(1:5,dayAverages(1,:),'r','filled')
+hold
+tiledlayout(1,2,'TileSpacing','compact')
+nexttile
 hold on
-scatter(1:5,dayAverages(2,:),'o','filled')
-scatter(1:5,dayAverages(3,:),'k','filled')
-errorbar(1:5,dayAverages(1,:),errDay(1,:),'LineStyle','none')
-errorbar(1:5,dayAverages(2,:),errDay(2,:),'LineStyle','none')
-errorbar(1:5,dayAverages(3,:),errDay(3,:),'LineStyle','none')
-ylim([0480 800])
-xlim([0.85 5.2])
-xlabel('Seasons 1:5')
-ylabel('Average Noise (db/mV)')
-title('Average across Entire Reef')
-legend('Day','Sunset','Night')
+ciplot(CIsunsetNoise(:,1),CIsunsetNoise(:,2),1:5,'k')
+ciplot(CInightNoise(:,1),CInightNoise(:,2),1:5,'b')
+ciplot(CIdayNoise(:,1),CIdayNoise(:,2),1:5,'r')
+ylabel('Noise (69 kHz)')
+title('Noise Averages','95% CI')
+legend('Sunset','Night','Day')
+nexttile()
+hold on
+ciplot(CIsunsetDets(:,1),CIsunsetDets(:,2),1:5,'k','FaceAlpha',0.4)
+ciplot(CInightDets(:,1),CInightDets(:,2),1:5,'b',0.4)
+ciplot(CIdayDets(:,1),CIdayDets(:,2),1:5,'r',0.4)
+ylabel('Avg. Hourly Detections')
+title('Detection Averages')
+
+
+scatter(1:5,dayDetAverages(1,:),500,'r','filled') % Day
+scatter(1:5,dayDetAverages(2,:),500,'k','filled') % Sunset
+scatter(1:5,dayDetAverages(3,:),500,'b','filled') % Night
+xlim([0.8 5.2])
+
+
+
+
 %%
 %Frank separated all the bin creation to not clutter one massive script
 %with so many different goals.
