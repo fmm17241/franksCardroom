@@ -123,9 +123,8 @@ for COUNT = 1:length(receiverData)
         
         % Winds
         indexWinds = isbetween(windsDT,chunkTime{PT}(1),chunkTime{PT}(2));
-        cStructure{COUNT}{PT}.winds = timetable(windsDT(indexWinds),windsU(indexWinds),windsV(indexWinds),rotUwinds(indexWinds),...
-            rotVwinds(indexWinds),windsAverage.WSPD(indexWinds),windsAverage.WDIR(indexWinds));
-         cStructure{COUNT}{PT}.winds.Properties.VariableNames = {'Uwinds','Vwinds','rotUwinds','rotVwinds','windSpd','windDir'};
+        cStructure{COUNT}{PT}.winds = timetable(windsDT(indexWinds),windsU(indexWinds),windsV(indexWinds),windsAverage.WSPD(indexWinds),windsAverage.WDIR(indexWinds));
+         cStructure{COUNT}{PT}.winds.Properties.VariableNames = {'Uwinds','Vwinds','windSpd','windDir'};
          cStructure{COUNT}{PT}.winds.windSpd(isnan(cStructure{COUNT}{PT}.winds.windSpd)) = 0;
         
     %     % Bulk Thermal stratification

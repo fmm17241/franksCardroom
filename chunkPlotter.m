@@ -37,7 +37,7 @@
 
 %%Set limits for our figures.
 % limitsTide  = [min(rotUtide) max(rotUtide)]; % Chosen to be abs(0.4).
-limitsWind     = [min(rotUwinds) max(rotUwinds)];    
+limitsWind     = [min(windsU) max(windsU)];    
 limitsDets     = [0 6];
 limitsStrat    = [0 5];
 limitsHeight   = [min(seas.waveHeight) max(seas.waveHeight)];
@@ -45,7 +45,7 @@ axDN(1,1:4) = [0 0 -12 12];
 % axDN(1,1:4) = [0 0 -0.5 0.5]; For currents
 
 %Change this to one of the pairings listed above to save
-cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Moored\tidalCycles\pairing2'
+cd  'C:\Users\fmac4\OneDrive - University of Georgia\data\Moored\tidalCycles'
 
 %These modify the mooredEfficiency transceiver pairings to use. 2 is the
 %one that has been most successful, but we want to analyze other pairings.
