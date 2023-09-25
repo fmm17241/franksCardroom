@@ -306,18 +306,33 @@ f.Position = [100 -50 500 500];
 % tiledlayout(1,3,'TileSpacing','Compact','Padding','Compact')
 tiledlayout(1,3,'TileSpacing','Compact','Padding','Compact')
 % 
+% nexttile()
+% hold on
+% for COUNT = 1:height(averageWindSpeedAnnual)
+%     plot(x,wavesCompareAnnual{COUNT},'k','LineWidth',2)
+% end
+% xline(3.60,'--','LineWidth',1.5,'label','Light Breeze')
+% xline(5.65,'--','LineWidth',1.5,'label','Moderate Breeze')
+% x1 = xline(10.8,'--','LineWidth',1.5,'label','Strong Breeze')
+% x1.LabelVerticalAlignment = 'bottom'; x1.LabelHorizontalAlignment = 'left';
+% xlim([0 12])
+% ylabel('WaveHeight')
+% title('','WaveHeight')
+
 nexttile()
 hold on
 for COUNT = 1:height(averageWindSpeedAnnual)
-    plot(x,wavesCompareAnnual{COUNT},'k','LineWidth',2)
+    plot(x,stratCompareWindAnnual{COUNT},color(COUNT),'LineWidth',2)
 end
-xline(3.60,'--','LineWidth',1.5,'label','Light Breeze')
-xline(5.65,'--','LineWidth',1.5,'label','Moderate Breeze')
-x1 = xline(10.8,'--','LineWidth',1.5,'label','Strong Breeze')
+x1 = xline(3.60,'--','LineWidth',1.5,'label','Light Breeze')
+x2 = xline(5.65,'--','LineWidth',1.5,'label','Moderate')
+x3 = xline(10.8,'--','LineWidth',1.5,'label','Strong Breeze')
 x1.LabelVerticalAlignment = 'bottom'; x1.LabelHorizontalAlignment = 'left';
+x2.LabelVerticalAlignment = 'bottom'; x1.LabelHorizontalAlignment = 'left';
 xlim([0 12])
-ylabel('WaveHeight')
-title('','WaveHeight')
+ylabel('Stratification (Δ°C)')
+title('','Bulk Thermal Strat.')
+
 
 nexttile()
 hold on
@@ -330,7 +345,7 @@ xlim([0 12])
 x1 = xline(3.60,'--','LineWidth',1.5)
 x2 = xline(5.65,'--','LineWidth',1.5)
 x3 = xline(10.8,'--','LineWidth',1.5)
-title('High Wind Magnitudes Enabling Acoustic Detections','Ambient Sound')
+title('Coastal Wind''s Effect on Shallow Reef Telemetry','Measured Noise')
 
 
 
