@@ -56,7 +56,7 @@ uniqueReceivers =  [{'VR2Tx-483062';  % 'VR2Tx-483062' SURTASSSTN20
                     'VR2Tx-483074';   % 'VR2Tx-483074' STSNew2
                     'VR2Tx-483064';   % 'VR2Tx-483064' SURTASS_05IN
                     'VR2Tx-483064';   % 'VR2Tx-483064' SURTASS_05IN
-                    'VR2Tx-483081';}] % 'VR2Tx-483081' 39IN
+                    'VR2Tx-483081'}]   % 'VR2Tx-483081' 39IN
 
 % uniqueReceivers = unique(data.Receiver);
 for PT = 1:length(uniqueReceivers)
@@ -88,7 +88,11 @@ clear detectionIndex  PT noiseIndex pingIndex detectionIndex tempIndex tiltIndex
 %7. 'VR2Tx-483075' FS6
 %8. 'VR2Tx-483076' 08ALTIN
 %9. 'VR2Tx-483081' 39IN
-
+%10. 
+%11.
+%12.
+%13.
+%14.
 
 %Cleared offset for data purposes, can add for visualization
 % offset = duration(minutes(30));
