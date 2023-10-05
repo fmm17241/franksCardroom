@@ -268,7 +268,7 @@ index99 = seas.waveHeight >50;
 seas.waveHeight(index99) = 0;
 
 
-clear fullsst* time timeVectorsst
+clear fullsst* timeVectorsst
 
 
 %%FM 5/24: trying bulk strat using bottom receiver + buoy info
@@ -396,7 +396,7 @@ for COUNT = 1:length(bottom)
 end
 
 % for COUNT = 1:length()
-
+time = waveHt.time;
 
 
 %creating daylight variable
@@ -443,9 +443,9 @@ seasonCounter(winter) = 1; seasonCounter(spring) = 2; seasonCounter(summer) = 3;
 %Okay, basics are set.
 close all
 
-%Set length to 10; last 2 were far less detections and time deployed.
-%Not helpful.
-for COUNT = 1:10
+%Set length to 14
+
+for COUNT = 1:14
     fullData{COUNT} = table2timetable(table(time, seasonCounter', detections{COUNT},  sunlight', rotUwinds, rotVwinds, WSPD, WDIR, stratification{COUNT}, ut', vt', rotUtide(COUNT,:)',...
         rotVtide(COUNT,:)',rotUtideShore',rotVtideShore', bottomStats{COUNT}.Noise,bottomStats{COUNT}.Tilt,waveHt.waveHeight));
     fullData{COUNT}.Properties.VariableNames = {'season', 'detections','sunlight', 'windsCross','windsAlong','windSpeed','windDir','stratification','uTide','vTide','paraTide','perpTide','uShore','vShore','noise','tilt','waveHeight'};
