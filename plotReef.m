@@ -82,7 +82,10 @@ scatter(mooredGPS(:,2),mooredGPS(:,1),'k');
 xlabel('Longitude');
 ylabel('Latitude');
 axis equal
+hold on
+scatter(mooredGPS(11:14,2),mooredGPS(11:14,1),'k','filled');  
 % legend('Moored Acoustic Transmitters');
+scatter(mooredGPS(14,2),mooredGPS(14,1),'r','filled');  
 
 
 

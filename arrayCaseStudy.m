@@ -1,3 +1,36 @@
+%Workspace
+%Creates diurnal data
+figure()
+SunriseSunsetUTC
+%Day timing
+sunRun = [sunrise; sunset];
+
+
+
+load mooredGPS 
+% transmitters = {'63068' '63073' '63067' '63079' '63080' '63066' '63076' '63078' '63063'...
+%         '63070' '63074' '63075' '63081' '63064' '63062' '63071'};
+%     
+% moored = {'FS17','STSNew1','33OUT','34ALTOUT','09T','Roldan',...
+%           '08ALTIN','14IN','West15','08C','STSNew2','FS6','39IN','SURTASS_05IN',...
+%           'SURTASS_STN20','SURTASS_FS15'}.';
+%       
+%       
+figure()
+scatter(mooredGPS(:,2),mooredGPS(:,1),'k');      
+xlabel('Longitude');
+ylabel('Latitude');
+axis equal
+hold on
+scatter(mooredGPS(11:14,2),mooredGPS(11:14,1),'k','filled');  
+% legend('Moored Acoustic Transmitters');
+
+
+%diskm
+test = lldistkm(mooredGPS(13,:),mooredGPS(12,:))
+
+
+
 
 % 1 SURTASSTN20    63062
 % 2 SURTASS_05IN   63064
@@ -12,6 +45,45 @@
 % 11 34ALTOUT      63079
 % 12 09T           63080
 % 13 39IN          63081
+
+tidalAnalysis2020
+windsAnalysis2020
+fullTime = [datetime(2020,01,29,17,00,00),datetime(2020,12,10,13,00,00)];
+fullTime.TimeZone = 'UTC';
+
+fullTideIndex = isbetween(tideDT,fullTime(1,1),fullTime(1,2),'closed');
+
+tideDT = tideDT(fullTideIndex);
+tideDT = tideDT(1:2:end);
+ut       = ut(:,fullTideIndex);
+ut       = ut(:,1:2:end);
+vt       = vt(:,fullTideIndex);
+vt       = vt(:,1:2:end);
+rotUtide = rotUtide(:,fullTideIndex);
+rotUtide = rotUtide(:,1:2:end);
+rotVtide = rotVtide(:,fullTideIndex);
+rotVtide = rotVtide(:,1:2:end);
+
+rotUtideShore = rotUtideShore(:,fullTideIndex);
+rotUtideShore = rotUtideShore(:,1:2:end);
+rotVtideShore = rotVtideShore(:,fullTideIndex);
+rotVtideShore = rotVtideShore(:,1:2:end);
+
+
+% % fullTideData = [rotUtide(fullTideIndex);rotVtide(fullTideIndex)];
+% % fullTideData = fullTideData(:,1:2:end);
+
+windsIndex = isbetween(windsAverage.time,fullTime(1,1),fullTime(1,2),'closed');
+rotUwinds = rotUwinds(windsIndex); rotVwinds= rotVwinds(windsIndex); WSPD = WSPD(windsIndex); WDIR = WDIR(windsIndex);
+waveIndex = isbetween(waveHeight.time,fullTime(1,1),fullTime(1,2),'closed');
+waveHt = waveHeight(waveIndex,"waveHeight")
+%%
+
+
+time = waveHt.time;
+test = zeros(length(time),1);
+
+
 
 %Experiment 1, compare two moored transceivers 0.53km away
 %For our purposes, Mooring 1 will be SURTASSTN20, deeper transceiver central to an array, and Mooring 2 will be
@@ -115,20 +187,34 @@ receiverOrder = [1;5;7;2;3;8;6;2;2;10;10;7;6;7];
 %This bins the time by hour, then adds the :30 to make the visualization
 %clearer.
 %%
+
+
+
+
 for k = 1:length(index)
     recNumber = receiverOrder(k,1);
-    time{k} = mooredReceivers{recNumber,1}.DT(index{k});
+    useTime{k} = mooredReceivers{recNumber,1}.DT(index{k});
     detections{k} = ones(length(mooredReceivers{recNumber,1}.detections(index{k})),1);
-    detectionTable{k} = table(time{1,k},detections{1,k}); 
+    detectionTable{k} = table(useTime{1,k},detections{1,k}); 
     detectionTable{k}.Properties.VariableNames = {'time','detections'};
     detectionTable{k} = table2timetable(detectionTable{k});
+
     hourlyDetections{k} = retime(detectionTable{k},'hourly','sum');
-    %Put this step into chunkPlotter instead; to correctly visualize the
-    %bin, we put the hours in :30 but otherwise we keep hours.
-%     hourlyDetections{k}.time = hourlyDetections{k}.time + offset;
+    if length(hourlyDetections{k}.time) < 7581
+        useIt = timetable(time,zeros(length(time),1))
+        middleGround = synchronize(useIt,hourlyDetections{k})
+        test1 = isnan(middleGround.Var1);
+        test2 = isnan(middleGround.detections);
+        middleGround.Var1(test1) = 0;
+        middleGround.detections(test2) = 0;
+        clear hourlyDetections{k}
+        hourlyDetections{k} = timetable(middleGround.time,middleGround.Var1+middleGround.detections);
+        hourlyDetections{k}.Properties.DimensionNames{1} = 'time'
+%         hourlyDetections{k}.Properties.VariableNames = 'detections'
+        hourlyDetections{k} = renamevars(hourlyDetections{k},"Var1","detections")
+    end
+    
 end
-
-
 
 
 
@@ -272,6 +358,7 @@ end
 
 
 % clear detectionIndex PT noiseIndex pingIndex detectionIndex tempIndex forbiddenReceivers data dataDN bottomTime startTime
+%%
 
 %cutting seas down 
 for PT = 1:length(bottom)
@@ -286,29 +373,83 @@ for PT = 1:length(bottom)
     stratification{PT}(nullindex) = 0;
 end 
 
-% 
-% figure()
-% plot(bottom.bottomTime,buoyStratification);
-%% 
-%This section gives us "leftovers", a measure of how many disconnected
-%pings we have as a measure for failed transmissions
-useDets = receiverData{1,1}.hourlyDets;
-usePings = receiverData{1,1}.pings;
+for COUNT = 1:length(hourlyDetections)
+    fullDetsIndex{COUNT} = isbetween(hourlyDetections{COUNT}.time,fullTime(1,1),fullTime(1,2),'closed');
+end
 
-%Step by step
-%Turns my disjointed pings into "detections"
-pingsGrouped = usePings(:,2)./8;
+clearvars detections
 
-%Calculates how many of the detections are false: Although 64pings/8dets =
-%8, if we only had recorded 7 detections, those 8 extra pings must be
-%recorded differently. This step should do that.
-falseDets = pingsGrouped-useDets(:,2);
+for COUNT = 1:length(fullDetsIndex)
+    detTimes{COUNT}   = [hourlyDetections{COUNT}.time(fullDetsIndex{COUNT})];
+    detections{COUNT} = [hourlyDetections{COUNT}.detections(fullDetsIndex{COUNT})];
+end
 
-%turns the leftover detections back into single pings by multiplying by 8,
-%the conversion factor.
-leftoversDT = datetime(usePings(:,1),'ConvertFrom','datenum','TimeZone','UTC');
+close all
+% RANKFRANK Fix Buoy Stratification, any NaNs?
 
-leftovers = falseDets.*8;
+for COUNT = 1:length(bottom)
+    stratIndex = isbetween(bottom{COUNT}.Time,fullTime(1,1),fullTime(1,2),'closed');
+    bottomStats{COUNT} = bottom{COUNT}(stratIndex,:);
+%     fixInd = isnan(buoyStats{COUNT}.botTemp)
+%     buoyStratification{COUNT}(fixInd) = 0;
+%     fullStratData{COUNT} = buoyStats{COUNT}(stratIndex);
+end
+
+% for COUNT = 1:length()
 
 
+
+%creating daylight variable
+% xx = length(sunRun);
+% sunlight = zeros(1,height(time));
+% for k = 1:xx
+%     currentSun = sunRun(:,k);
+%     currentHours = isbetween(time,currentSun(1,1),currentSun(2,1));
+%     currentDays = find(currentHours);
+%     sunlight(currentDays) = 1;
+% end
+
+%Testing additional light variable
+
+xx = length(sunRun);
+sunlight = zeros(1,height(time));
+for k = 1:xx
+    currentSun = sunRun(:,k);
+    currentHours = isbetween(time,currentSun(1,1),currentSun(2,1)-hours(1)); %FM 7/1
+    currentDays = find(currentHours);
+    sunlight(currentDays) = 1;
+    sunsetHourIndex = isbetween(time,currentSun(2,1)-hours(1),currentSun(2,1));
+    sunlight(sunsetHourIndex) = 2;
+end
+
+
+
+%creating season variable
+%%Five seasonal wind regimes from Blanton's wind, 1980
+% Winter:           Nov-Feb
+winter  = [1:751,6632:7581];
+% Spring:           Mar-May
+spring   = 752:2959;
+% Summer:           June, July
+summer   = 2960:4423;
+% Fall:             August
+fall     = 4424:5167;
+% Mariner's Fall:   Sep-Oct
+Mfall    =5168:6631;
+
+seasonCounter = zeros(1,length(time));
+seasonCounter(winter) = 1; seasonCounter(spring) = 2; seasonCounter(summer) = 3; seasonCounter(fall) = 4; seasonCounter(Mfall) = 5;
+
+%Okay, basics are set.
+close all
+
+%Set length to 10; last 2 were far less detections and time deployed.
+%Not helpful.
+for COUNT = 1:10
+    fullData{COUNT} = table2timetable(table(time, seasonCounter', detections{COUNT},  sunlight', rotUwinds, rotVwinds, WSPD, WDIR, stratification{COUNT}, ut', vt', rotUtide(COUNT,:)',...
+        rotVtide(COUNT,:)',rotUtideShore',rotVtideShore', bottomStats{COUNT}.Noise,bottomStats{COUNT}.Tilt,waveHt.waveHeight));
+    fullData{COUNT}.Properties.VariableNames = {'season', 'detections','sunlight', 'windsCross','windsAlong','windSpeed','windDir','stratification','uTide','vTide','paraTide','perpTide','uShore','vShore','noise','tilt','waveHeight'};
+end
+
+seasons = unique(fullData{1}.season)
 

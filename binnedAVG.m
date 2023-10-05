@@ -89,15 +89,9 @@ for COUNT = 1:length(fullDetsIndex)
     detections{COUNT} = [hourlyDetections{COUNT}.detections(fullDetsIndex{COUNT})];
 end
 
-%For FM purposes, this is now useless; I've rotated all tides to account
-%for transceiver orientation.
-% detsAlong1 = [detections{1:2}]; detsAlong = mean(detsAlong1,2);
-% detsAlong1 = [detections{3:4}]; detsAlong = mean(detsAlong1,2);
-% detsCross1 = [detections{7:10}]; detsCross = mean(detsCross1,2);
-% dets451     = [detections{1:2},detections{5:6}]; dets45 = mean(dets451,2);
 
 time = waveHt.time;
-
+test = zeros(length(time),1);
 
 %FRANKFRANKFRANK Fix Buoy Stratification, any NaNs?
 
