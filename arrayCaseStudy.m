@@ -46,8 +46,8 @@ test = lldistkm(mooredGPS(13,:),mooredGPS(12,:))
 % 12 09T           63080
 % 13 39IN          63081
 
-tidalAnalysis2020
-windsAnalysis2020
+ArrayTidalAnalysis
+ArrayWindsAnalysis
 fullTime = [datetime(2020,01,29,17,00,00),datetime(2020,12,10,13,00,00)];
 fullTime.TimeZone = 'UTC';
 
@@ -94,24 +94,16 @@ cd ([oneDrive,'Moored\GRNMS\VRLs'])
 % cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Moored\GRNMS\VRLs'
 
 % call = readtable('VR2Tx_483080_20211223_1.csv'); %SURTASSSTN20
-rawDetFile{1,1} = readtable('VR2Tx_483062_20211112_1.csv'); %SURTASSSTN20
-rawDetFile{2,1} = readtable('VR2Tx_483064_20211025_1.csv'); %SURTASS05IN
-rawDetFile{3,1} = readtable('VR2Tx_483066_20211018_1.csv'); %Roldan
-rawDetFile{4,1} = readtable('VR2Tx_483070_20211223_1.csv'); % 08C
-rawDetFile{5,1} = readtable('VR2Tx_483073_20211112_4.csv'); %STSNew1
-rawDetFile{6,1} = readtable('VR2Tx_483074_20211025_1.csv'); %STSNEW2
-rawDetFile{7,1} = readtable('VR2Tx_483075_20211025_1.csv'); %FS6
-rawDetFile{8,1} = readtable('VR2Tx_483076_20211018_1.csv'); %08ALTIN
-rawDetFile{9,1} = readtable('VR2Tx_483080_20211223_1.csv'); %09T
-rawDetFile{10,1} = readtable('VR2Tx_483081_20211005_1.csv'); %39IN
+rawDetFile{1,1} = readtable('VR2Tx_483064_20211025_1.csv'); %SURTASS05IN
+rawDetFile{2,1} = readtable('VR2Tx_483074_20211025_1.csv'); %STSNEW2
+rawDetFile{3,1} = readtable('VR2Tx_483075_20211025_1.csv'); %FS6
+rawDetFile{4,1} = readtable('VR2Tx_483081_20211005_1.csv'); %39IN
 
-%First pairing: SURTASSSTN20 and STSNEW1
-%Second pairing: SURTASS05IN and FS6
-%Third pairing: Roldan and 08ALTIN
-%Fourth pairing: SURTASS05IN and STSNew2
-%Fifth pairing: 39IN and SURTASS05IN
-%Sixth pairing: STSNEW2 and FS6
-%Extra Receivers: 09T
+%First pairing: SURTASS05IN and FS6
+%Second pairing: SURTASS05IN and STSNew2
+%Third pairing: 39IN and SURTASS05IN
+%Fourth pairing: 39IN and FS6
+%Fifth pairing: STSNEW2 and FS6
 
 %Recognize pattern in the CSV of unique identification 
 pattern1 = digitsPattern(4)+ "-" + digitsPattern(3,5);
@@ -143,38 +135,30 @@ clear first second third fourth counter pattern1 pattern2 test arr converty c
 %detections, I want to know how many times these bad boys heard each other.
 
 %First pairing
-index{1} = mooredReceivers{1,1}.detections == 63073; %SURTASSSTN20 hearing STSNew1, transmits West to East
-index{2} = mooredReceivers{5,1}.detections == 63062; %STSNew1 hearing SURTASSSTN20, transmits East to West
+index{1} = mooredReceivers{3,1}.detections == 63064; %FS6 hearing SURTASS05In, transmits ENE
+index{2} = mooredReceivers{1,1}.detections == 63075; %SURTASS05In hearing FS6, transmits WSW
 
 %Second pairing
-index{3} = mooredReceivers{7,1}.detections == 63064; %FS6 hearing SURTASS05In, transmits ENE
-index{4} = mooredReceivers{2,1}.detections == 63075; %SURTASS05In hearing FS6, transmits WSW
+index{3} = mooredReceivers{2,1}.detections == 63064; % STSNEW2 hearing SURTASS05IN, transmits NW to SE
+index{4} = mooredReceivers{1,1}.detections == 63074; % SURTASS05IN hearing STSNEW2, transmits SE to NW
 
 %Third pairing
-index{5} = mooredReceivers{3,1}.detections == 63076; %Roldan hearing 08ALTIN, transmits South to North
-index{6} = mooredReceivers{8,1}.detections == 63066; %08ALTIN hearing Roldan, transmits North to South
+index{5} = mooredReceivers{1,1}.detections == 63081; % SURTASS05IN hearing 39IN, transmits NW to SE
+index{6} = mooredReceivers{4,1}.detections == 63064; % 39IN hearing SURTASS05IN, transmits SE to NW
 
-%Fourth pairing
-index{7} = mooredReceivers{6,1}.detections == 63064; % STSNEW2 hearing SURTASS05IN, transmits NW to SE
-index{8} = mooredReceivers{2,1}.detections == 63074; % SURTASS05IN hearing STSNEW2, transmits SE to NW
+%Fourth Pairing
+index{7} = mooredReceivers{4,1}.detections == 63075; %39IN hearing FS6
+index{8} = mooredReceivers{3,1}.detections == 63081; %FS6 hearing 39IN
 
 %Fifth pairing
-index{9} = mooredReceivers{2,1}.detections == 63081; % SURTASS05IN hearing 39IN, transmits NW to SE
-index{10} = mooredReceivers{10,1}.detections == 63064; % 39IN hearing SURTASS05IN, transmits SE to NW
-
-% %Sixth Pairing
-index{11} = mooredReceivers{10,1}.detections == 63075; %39IN hearing FS6
-index{12} = mooredReceivers{7,1}.detections == 63081; %FS6 hearing 39IN
-
-% Seventh pairing
-index{13} = mooredReceivers{6,1}.detections == 63075; %STSNew2 hearing FS6
-index{14} = mooredReceivers{7,1}.detections == 63074; %FS6 hearing STSNew2
+index{9} = mooredReceivers{2,1}.detections == 63075; %STSNew2 hearing FS6
+index{10} = mooredReceivers{3,1}.detections == 63074; %FS6 hearing STSNew2
 
 
 
 %FM this is my "key" for the index. I didn't want to load data twice so
 %this key tells the loop which order to use
-receiverOrder = [1;5;7;2;3;8;6;2;2;10;10;7;6;7];
+receiverOrder = [3;1;2;1;1;4;4;3;2;3];
 % receiverOrder = [1;5;7;2;3;8;6;2;2;10];
 
 
@@ -289,12 +273,8 @@ dataDT = datetime(dataDN,'convertFrom','datenum');
 
 %FM 3/6/23 Ordered the transceivers and doubled some up; this is to match
 %the transceiver order listed in "matchAngles"/"thetaFinder"
-uniqueReceivers =  [{'VR2Tx-483062';  % 'VR2Tx-483062' SURTASSSTN20
-                     'VR2Tx-483073';  % 'VR2Tx-483073' STSNew1
-                    'VR2Tx-483075';   % 'VR2Tx-483075' FS6
+uniqueReceivers =  [{'VR2Tx-483075';   % 'VR2Tx-483075' FS6
                     'VR2Tx-483064';   % 'VR2Tx-483064' SURTASS_05IN
-                    'VR2Tx-483066';   % 'VR2Tx-483066' Roldan
-                    'VR2Tx-483076';   % 'VR2Tx-483076' 08ALTIN
                     'VR2Tx-483074';   % 'VR2Tx-483074' STSNew2
                     'VR2Tx-483064';   % 'VR2Tx-483064' SURTASS_05IN
                     'VR2Tx-483064';   % 'VR2Tx-483064' SURTASS_05IN
@@ -322,23 +302,6 @@ for PT = 1:length(uniqueReceivers)
 end
 clear detectionIndex  PT noiseIndex pingIndex detectionIndex tempIndex tiltIndex forbiddenReceivers data dataDN 
 
-% Unique Receivers order: Have to be careful, its not the same as the
-% detection information. 
-%ReceiverData:
-%1. 'VR2Tx-483062' SURTASSSTN20
-%2. 'VR2Tx-483064' SURTASS_05IN
-%3. 'VR2Tx-483066' Roldan
-%4. 'VR2Tx-483070' 08C
-%5. 'VR2Tx-483073' STSNew1
-%6. 'VR2Tx-483074' STSNew2
-%7. 'VR2Tx-483075' FS6
-%8. 'VR2Tx-483076' 08ALTIN
-%9. 'VR2Tx-483081' 39IN
-%10. 
-%11.
-%12.
-%13.
-%14.
 
 %Cleared offset for data purposes, can add for visualization
 % offset = duration(minutes(30));
@@ -445,11 +408,86 @@ close all
 
 %Set length to 14
 
-for COUNT = 1:14
+for COUNT = 1:10
     fullData{COUNT} = table2timetable(table(time, seasonCounter', detections{COUNT},  sunlight', rotUwinds, rotVwinds, WSPD, WDIR, stratification{COUNT}, ut', vt', rotUtide(COUNT,:)',...
         rotVtide(COUNT,:)',rotUtideShore',rotVtideShore', bottomStats{COUNT}.Noise,bottomStats{COUNT}.Tilt,waveHt.waveHeight));
     fullData{COUNT}.Properties.VariableNames = {'season', 'detections','sunlight', 'windsCross','windsAlong','windSpeed','windDir','stratification','uTide','vTide','paraTide','perpTide','uShore','vShore','noise','tilt','waveHeight'};
 end
 
 seasons = unique(fullData{1}.season)
+
+%%
+%Leaving This Here, Frank's Okay, He'll do it
+% uniqueReceivers =  [{
+%                     'VR2Tx-483075';   % 'VR2Tx-483075' FS6
+%                     'VR2Tx-483064';   % 'VR2Tx-483064' SURTASS_05IN
+%                     'VR2Tx-483074';   % 'VR2Tx-483074' STSNew2
+%                     'VR2Tx-483064';   % 'VR2Tx-483064' SURTASS_05IN
+%                     'VR2Tx-483064';   % 'VR2Tx-483064' SURTASS_05IN
+%                     'VR2Tx-483081';   % 'VR2Tx-483081' 39IN
+%                     'VR2Tx-483081';   % 'VR2Tx-483081' 39IN
+%                     'VR2Tx-483075';   % 'VR2Tx-483075' FS6
+%                     'VR2Tx-483074';   % 'VR2Tx-483074' STSNew2
+%                     'VR2Tx-483075';}] % 'VR2Tx-483075' FS6
+
+% uniqueReceivers =  [{'VR2Tx-483075';   % 'VR2Tx-483075' FS6
+%                     'VR2Tx-483064';   % 'VR2Tx-483064' SURTASS_05IN
+%                     'VR2Tx-483074';   % 'VR2Tx-483074' STSNew2
+%                     'VR2Tx-483064';   % 'VR2Tx-483064' SURTASS_05IN
+%                     'VR2Tx-483064';   % 'VR2Tx-483064' SURTASS_05IN
+%                     'VR2Tx-483081';   % 'VR2Tx-483081' 39IN
+%                     'VR2Tx-483081';   % 'VR2Tx-483081' 39IN
+%                     'VR2Tx-483075';   % 'VR2Tx-483075' FS6
+%                     'VR2Tx-483074';   % 'VR2Tx-483074' STSNew2
+%                     'VR2Tx-483075';}] % 'VR2Tx-483075' FS6
+
+
+%DEPTHS
+receiverDepths(1,:)   = [17.68, 16.76, 16.46, 16.76, 16.76, 15.85, 15.85, 17.68, 16.46, 17.68]; %Instrument depth
+receiverDepths(2,:)   = [19.81, 18.29, 18.59, 18.29, 18.29, 17.68, 17.68, 19.81, 18.59, 19.81]; %Bottom Depth
+receiverDepths(3,:)   = receiverDepths(2,:)-receiverDepths(1,:)  %Meters off the bottom
+
+
+
+for K = 1:length(fullData)
+    figure()
+    hist(fullData{1,K}.tilt)
+    title(sprintf('TILT,%d,ReceiverDepth: %.2f; BottomDepth: %.2f',K,receiverDepths(1,K),receiverDepths(2,K)))
+    xlim([0 40])
+
+    tiltAverage(1,K) = mean(fullData{1,K}.tilt)
+    detsAverage(1,K) = (mean(fullData{1,K}.detections))
+    detsPercent(1,K) = detsAverage(1,K)/6*100
+end
+
+figure()
+scatter(receiverDepths(3,:),tiltAverage,'filled')
+xlabel('Difference b/w Bottom and Receiver (m)')
+ylabel('Average Tilt of Instrument (deg)')
+title('Bottom Gap vs Tilt')
+
+
+figure()
+scatter(receiverDepths(2,:),tiltAverage,'filled')
+title('Bottom Depth')
+xlabel('Bottom Depth(m)')
+ylabel('Average Tilt of Instrument (deg)')
+
+figure()
+scatter(receiverDepths(1,:),tiltAverage,'filled')
+title('Instrument Depth')
+xlabel('Receiver Depth (m)')
+ylabel('Average Tilt of Instrument (deg)')
+
+
+
+figure()
+scatter(receiverDepths(3,:),detsAverage,'filled')
+xlabel('Difference b/w Bottom and Receiver (m)')
+ylabel('Average Detections')
+title('Bottom Gap vs Dets')
+hold on
+scatter(receiverDepths(3,4),detsAverage(4),'filled','r')
+%%
+
 
