@@ -459,35 +459,40 @@ for K = 1:length(fullData)
     detsAverage(1,K) = (mean(fullData{1,K}.detections))
     detsPercent(1,K) = detsAverage(1,K)/6*100
 end
-
-figure()
-scatter(receiverDepths(3,:),tiltAverage,'filled')
-xlabel('Difference b/w Bottom and Receiver (m)')
-ylabel('Average Tilt of Instrument (deg)')
-title('Bottom Gap vs Tilt')
-
-
-figure()
-scatter(receiverDepths(2,:),tiltAverage,'filled')
-title('Bottom Depth')
-xlabel('Bottom Depth(m)')
-ylabel('Average Tilt of Instrument (deg)')
-
-figure()
-scatter(receiverDepths(1,:),tiltAverage,'filled')
-title('Instrument Depth')
-xlabel('Receiver Depth (m)')
-ylabel('Average Tilt of Instrument (deg)')
-
-
-
-figure()
-scatter(receiverDepths(3,:),detsAverage,'filled')
-xlabel('Difference b/w Bottom and Receiver (m)')
-ylabel('Average Detections')
-title('Bottom Gap vs Dets')
-hold on
-scatter(receiverDepths(3,4),detsAverage(4),'filled','r')
+% 
+% figure()
+% scatter(receiverDepths(3,:),tiltAverage,'filled')
+% xlabel('Difference b/w Bottom and Receiver (m)')
+% ylabel('Average Tilt of Instrument (deg)')
+% title('Bottom Gap vs Tilt')
+% 
+% 
+% figure()
+% scatter(receiverDepths(2,:),tiltAverage,'filled')
+% title('Bottom Depth')
+% xlabel('Bottom Depth(m)')
+% ylabel('Average Tilt of Instrument (deg)')
+% 
+% figure()
+% scatter(receiverDepths(1,:),tiltAverage,'filled')
+% title('Instrument Depth')
+% xlabel('Receiver Depth (m)')
+% ylabel('Average Tilt of Instrument (deg)')
+% 
+% 
+% 
+% figure()
+% scatter(receiverDepths(3,:),detsAverage,'filled')
+% xlabel('Difference b/w Bottom and Receiver (m)')
+% ylabel('Average Detections')
+% title('Bottom Gap vs Dets')
+% hold on
+% scatter(receiverDepths(3,4),detsAverage(4),'filled','r')
 %%
+
+createWindSpeedBins
+windMagPlots    
+%
+createTideBins
 
 

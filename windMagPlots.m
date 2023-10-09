@@ -478,7 +478,7 @@ xlabel('Wind speed (m/s)');
 legend('Average Noise','','Det. Efficiency','')
 title('Transceiver Pairing B','Sparser, Deeper Reef')
 
-export_fig pairingComparison.jpeg -r600 -transparent
+% export_fig pairingComparison.jpeg -r600 -transparent
 
 
 
