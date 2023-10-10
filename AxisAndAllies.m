@@ -110,11 +110,6 @@ for COUNT = 1:length(strongWindScenario)
 end
 
 
-X = 0:14;
-
-figure()
-
-scatter(X,)
 
 
 % Normalizing the data for each transceiver pairing. Instead of each set of
@@ -133,10 +128,10 @@ for COUNT = 1:2:length(fullData)
 end
 
 for COUNT = 1:length(normalizedStrong)
-    completeNormalStrong(COUNT,:) = nanmean(normalizedStrong{COUNT},1);
-    completeNormalWeak(COUNT,:)   = nanmean(normalizedWeak{COUNT},1);
-    completeAVGstrong(COUNT, :) =   nanmean(averagedStrong{COUNT},1);
-    completeAVGweak(COUNT, :)   =   nanmean(averagedWeak{COUNT},1);
+    completeNormalStrong(COUNT,:) = nanmean(normalizedStrong{COUNT});
+    completeNormalWeak(COUNT,:)   = nanmean(normalizedWeak{COUNT});
+    completeAVGstrong(COUNT, :) =   nanmean(averagedStrong{COUNT});
+    completeAVGweak(COUNT, :)   =   nanmean(averagedWeak{COUNT});
 end
 
 %Whole year
