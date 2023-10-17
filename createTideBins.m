@@ -173,20 +173,20 @@ x = -.4:.05:.4;
 seasonNames = {'Winter','Spring','Summer','Fall','Mariner''s Fall'}
 
 
-% for season = 1:length(seasons)
-%     figure()
-%     hold on
-%     for COUNT = 1:length(allStrat)
-%         labelz = num2str(sprintf('%d',COUNT))
-%         h = plot(x,allStrat{COUNT}(season,:))
-%         label(h,sprintf('%s',labelz))
-%     end
-%     hold off
-%     xlabel('Tidal Magnitude')
-%     ylabel('BulkStrat')
-%     ylim([0 2])
-%     title(sprintf('10 Transmitters, %s',seasonNames{season}))
-% end
+for season = 1:length(seasons)
+    figure()
+    hold on
+    for COUNT = 1:length(allStrat)
+        labelz = num2str(sprintf('%d',COUNT))
+        h = plot(x,allStrat{COUNT}(season,:))
+        label(h,sprintf('%s',labelz))
+    end
+    hold off
+    xlabel('Tidal Magnitude')
+    ylabel('BulkStrat')
+    ylim([0 2])
+    title(sprintf('10 Transmitters, %s',seasonNames{season}))
+end
 
 
 
