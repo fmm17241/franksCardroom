@@ -146,13 +146,14 @@ tideDT=datetime(tideDN,'ConvertFrom','datenum','TimeZone','UTC')';
 
 
 %%
-%Classic rotation like a DJ's record
+%Classic rotation
 tidalz = [tideU;tideV].';
 [coef, ~,~,~] = pca(tidalz);
 tidalTheta = coef(3);
 thetaDegree = rad2deg(tidalTheta);
 
 [rotUtideShore,rotVtideShore] = rot(ut,vt,tidalTheta);
+
 
 %%
 %HERE'S FM'S NEW ROTATIONS
@@ -414,9 +415,6 @@ scatter(rotUtideShoreEvil(16:20),rotVtideShoreEvil(16:20),'k','filled')
 % 
 % figure()
 % plot(uzRaw,vzRaw);
-
-
-
 
 
 
