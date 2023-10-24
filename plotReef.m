@@ -128,8 +128,14 @@ pairingAngle3 = atan2d((mooredGPS(7,2)-mooredGPS(6,2)),(mooredGPS(7,1)-mooredGPS
 pairingAngle4 = atan2d((mooredGPS(14,2)-mooredGPS(11,2)),(mooredGPS(14,1)-mooredGPS(11,1)));
 %39IN and SURTASS05IN
 pairingAngle5 = atan2d((mooredGPS(14,2)-mooredGPS(13,2)),(mooredGPS(14,1)-mooredGPS(13,1)));
-%STSNEW2 and FS6
-pairingAngle6 = atan2d((mooredGPS(11,2)-mooredGPS(12,2)),(mooredGPS(11,1)-mooredGPS(12,1)));
+
+
+distances(1) = lldistkm(mooredGPS(2,:),mooredGPS(15,:))
+distances(2) = lldistkm(mooredGPS(14,:),mooredGPS(12,:))
+distances(3) = lldistkm(mooredGPS(7,:),mooredGPS(6,:))
+distances(4) = lldistkm(mooredGPS(14,:),mooredGPS(11,:))
+distances(5) = lldistkm(mooredGPS(13,:),mooredGPS(14,:))
+
 
 
 

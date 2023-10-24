@@ -148,16 +148,63 @@ Mfall    =5168:6631;
 seasonCounter = zeros(1,length(time));
 seasonCounter(winter) = 1; seasonCounter(spring) = 2; seasonCounter(summer) = 3; seasonCounter(fall) = 4; seasonCounter(Mfall) = 5;
 
+%%
+%FM 10/14
+%Adding a distance column. Just going to try it, so that when I add them
+%all to the stats table, I can include the distance between transceivers
+%SURTASSSTN20 and STSNew1
+load mooredGPS 
+
+pairingAngle(1,:) = repelem(atan2d((mooredGPS(2,2)-mooredGPS(15,2)),(mooredGPS(2,1)-mooredGPS(15,1))),length(detections{1}));
+pairingAngle(2,:) = repelem(atan2d((mooredGPS(15,2)-mooredGPS(2,2)),(mooredGPS(15,1)-mooredGPS(2,1))),length(detections{1}));
+%SURTASS05IN and FS6
+pairingAngle(3,:) = repelem(atan2d((mooredGPS(14,2)-mooredGPS(12,2)),(mooredGPS(14,1)-mooredGPS(12,1))),length(detections{2}));
+pairingAngle(4,:) = repelem(atan2d((mooredGPS(12,2)-mooredGPS(14,2)),(mooredGPS(12,1)-mooredGPS(14,1))),length(detections{2}));
+%Roldan and 08ALTIN
+pairingAngle(5,:) = repelem(atan2d((mooredGPS(7,2)-mooredGPS(6,2)),(mooredGPS(7,1)-mooredGPS(6,1))),length(detections{3}));
+pairingAngle(6,:) = repelem(atan2d((mooredGPS(6,2)-mooredGPS(7,2)),(mooredGPS(6,1)-mooredGPS(7,1))),length(detections{3}));
+%SURTASS05IN and STSNew2
+pairingAngle(7,:) = repelem(atan2d((mooredGPS(14,2)-mooredGPS(11,2)),(mooredGPS(14,1)-mooredGPS(11,1))),length(detections{4}));
+pairingAngle(8,:) = repelem(atan2d((mooredGPS(11,2)-mooredGPS(14,2)),(mooredGPS(11,1)-mooredGPS(14,1))),length(detections{4}));
+%39IN and SURTASS05IN
+pairingAngle(9,:) = repelem(atan2d((mooredGPS(14,2)-mooredGPS(13,2)),(mooredGPS(14,1)-mooredGPS(13,1))),length(detections{5}));
+pairingAngle(10,:) = repelem(atan2d((mooredGPS(13,2)-mooredGPS(14,2)),(mooredGPS(13,1)-mooredGPS(14,1))),length(detections{5}));
+
+
+distances(1,:) = repelem(lldistkm(mooredGPS(2,:),mooredGPS(15,:)),length(detections{1}));
+distances(2,:) = repelem(lldistkm(mooredGPS(15,:),mooredGPS(2,:)),length(detections{1}));
+distances(3,:) = repelem(lldistkm(mooredGPS(14,:),mooredGPS(12,:)),length(detections{2}));
+distances(4,:) = repelem(lldistkm(mooredGPS(14,:),mooredGPS(12,:)),length(detections{2}));
+distances(5,:) = repelem(lldistkm(mooredGPS(7,:),mooredGPS(6,:)),length(detections{3}));
+distances(6,:) = repelem(lldistkm(mooredGPS(7,:),mooredGPS(6,:)),length(detections{3}));
+distances(7,:) = repelem(lldistkm(mooredGPS(14,:),mooredGPS(11,:)),length(detections{4}));
+distances(8,:) = repelem(lldistkm(mooredGPS(14,:),mooredGPS(11,:)),length(detections{4}));
+distances(9,:) = repelem(lldistkm(mooredGPS(13,:),mooredGPS(14,:)),length(detections{5}));
+distances(10,:) = repelem(lldistkm(mooredGPS(13,:),mooredGPS(14,:)),length(detections{5}));
+
+
+%%
+
+
+
 %Okay, basics are set.
 close all
 
 %Set length to 10; last 2 were far less detections and time deployed.
 %Not helpful.
+% for COUNT = 1:10
+%     fullData{COUNT} = table2timetable(table(time, seasonCounter', detections{COUNT},  sunlight', rotUwinds, rotVwinds, WSPD, WDIR, stratification{COUNT}, ut', vt', rotUtide(COUNT,:)',...
+%         rotVtide(COUNT,:)',rotUtideShore',rotVtideShore', bottomStats{COUNT}.Noise,bottomStats{COUNT}.Tilt,waveHt.waveHeight,distances(COUNT,:),pairingAngle(COUNT,:)));
+%     fullData{COUNT}.Properties.VariableNames = {'season', 'detections','sunlight', 'windsCross','windsAlong','windSpeed','windDir','stratification','uTide','vTide','paraTide','perpTide','uShore','vShore','noise','tilt','waveHeight','distance','angle'};
+% end
+FRANK FIX THE TWO VARIABLES, TRANSPOSE
+
 for COUNT = 1:10
     fullData{COUNT} = table2timetable(table(time, seasonCounter', detections{COUNT},  sunlight', rotUwinds, rotVwinds, WSPD, WDIR, stratification{COUNT}, ut', vt', rotUtide(COUNT,:)',...
         rotVtide(COUNT,:)',rotUtideShore',rotVtideShore', bottomStats{COUNT}.Noise,bottomStats{COUNT}.Tilt,waveHt.waveHeight));
     fullData{COUNT}.Properties.VariableNames = {'season', 'detections','sunlight', 'windsCross','windsAlong','windSpeed','windDir','stratification','uTide','vTide','paraTide','perpTide','uShore','vShore','noise','tilt','waveHeight'};
 end
+
 
 seasons = unique(fullData{1}.season)
 
