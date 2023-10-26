@@ -52,7 +52,7 @@ startCyclePre = tideDT(97);
 % cycleDuration  = duration(days(2));
 
 %Changed:
-cycleDuration  = duration(days(2));
+cycleDuration  = duration(days(15));
 
 
 %old
@@ -62,7 +62,7 @@ cycleDuration  = duration(days(2));
 startCycle = startCyclePre
 
 cycleTime = startCycle;
-for k = 1:175 %roughly a full year of 2 day chunks
+for k = 1:25 %roughly a full year of 2 day chunks
 % for k  = 1:95 % for 4 day chunks
 % for k = 1:35 %~30 day chunks
 % for k = 1:25     %15 day chunks

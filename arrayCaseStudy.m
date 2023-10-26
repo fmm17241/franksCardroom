@@ -429,7 +429,7 @@ distances(:,10) = repelem(lldistkm(mooredGPS(11,:),mooredGPS(12,:)),length(detec
 
 for K = 1:10
     arrayPairing(:,K) = repelem(K,length(time))
-    transAngle(:,K)   = repelem(AnglesD(K),length(time))
+    transAngle(:,K)   = repelem(AnglesD(:,K),length(time))
 end
 
 
@@ -444,7 +444,7 @@ close all
 
 for COUNT = 1:10
     fullData{COUNT} = table2timetable(table(time, arrayPairing(:,COUNT), seasonCounter', detections{COUNT},  sunlight', rotUwinds, rotVwinds, WSPD, WDIR, stratification{COUNT}, ut', vt', rotUtide(COUNT,:)',...
-        rotVtide(COUNT,:)',rotUtideShore',rotVtideShore', bottomStats{COUNT}.Noise,bottomStats{COUNT}.Tilt,waveHt.waveHeight,distances(:,COUNT),transAngle(:,K)));
+        rotVtide(COUNT,:)',rotUtideShore',rotVtideShore', bottomStats{COUNT}.Noise,bottomStats{COUNT}.Tilt,waveHt.waveHeight,distances(:,COUNT),transAngle(:,COUNT)));
     fullData{COUNT}.Properties.VariableNames = {'pairing','season', 'detections','sunlight', 'windsCross','windsAlong','windSpeed','windDir','stratification','uTide','vTide','paraTide','perpTide','uShore','vShore','noise','tilt','waveHeight','distance','angle'};
 end
 
