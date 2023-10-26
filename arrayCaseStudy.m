@@ -345,6 +345,8 @@ clearvars detections
 for COUNT = 1:length(fullDetsIndex)
     detTimes{COUNT}   = [hourlyDetections{COUNT}.time(fullDetsIndex{COUNT})];
     detections{COUNT} = [hourlyDetections{COUNT}.detections(fullDetsIndex{COUNT})];
+    luckySevens    = detections{COUNT} > 6;
+    detections{COUNT}(luckySevens) = 6;
 end
 
 close all
@@ -403,15 +405,47 @@ Mfall    =5168:6631;
 seasonCounter = zeros(1,length(time));
 seasonCounter(winter) = 1; seasonCounter(spring) = 2; seasonCounter(summer) = 3; seasonCounter(fall) = 4; seasonCounter(Mfall) = 5;
 
+
+
+
+
+%%
+%FM adding variables distance, angle, and pairing to easily convert to R
+
+load mooredGPS
+
+distances(:,1) = repelem(lldistkm(mooredGPS(14,:),mooredGPS(12,:)),length(detections{1}));
+distances(:,2) = repelem(lldistkm(mooredGPS(12,:),mooredGPS(14,:)),length(detections{1}));
+distances(:,3) = repelem(lldistkm(mooredGPS(14,:),mooredGPS(11,:)),length(detections{2}));
+distances(:,4) = repelem(lldistkm(mooredGPS(11,:),mooredGPS(14,:)),length(detections{2}));
+distances(:,5) = repelem(lldistkm(mooredGPS(13,:),mooredGPS(14,:)),length(detections{3}));
+distances(:,6) = repelem(lldistkm(mooredGPS(14,:),mooredGPS(13,:)),length(detections{3}));
+distances(:,7) = repelem(lldistkm(mooredGPS(12,:),mooredGPS(13,:)),length(detections{4}));
+distances(:,8) = repelem(lldistkm(mooredGPS(13,:),mooredGPS(12,:)),length(detections{4}));
+distances(:,9) = repelem(lldistkm(mooredGPS(12,:),mooredGPS(11,:)),length(detections{5}));
+distances(:,10) = repelem(lldistkm(mooredGPS(11,:),mooredGPS(12,:)),length(detections{5}));
+
+
+
+for K = 1:10
+    arrayPairing(:,K) = repelem(K,length(time))
+    transAngle(:,K)   = repelem(AnglesD(K),length(time))
+end
+
+
+
+
+
+%%
 %Okay, basics are set.
 close all
 
 %Set length to 14
 
 for COUNT = 1:10
-    fullData{COUNT} = table2timetable(table(time, seasonCounter', detections{COUNT},  sunlight', rotUwinds, rotVwinds, WSPD, WDIR, stratification{COUNT}, ut', vt', rotUtide(COUNT,:)',...
-        rotVtide(COUNT,:)',rotUtideShore',rotVtideShore', bottomStats{COUNT}.Noise,bottomStats{COUNT}.Tilt,waveHt.waveHeight));
-    fullData{COUNT}.Properties.VariableNames = {'season', 'detections','sunlight', 'windsCross','windsAlong','windSpeed','windDir','stratification','uTide','vTide','paraTide','perpTide','uShore','vShore','noise','tilt','waveHeight'};
+    fullData{COUNT} = table2timetable(table(time, arrayPairing(:,COUNT), seasonCounter', detections{COUNT},  sunlight', rotUwinds, rotVwinds, WSPD, WDIR, stratification{COUNT}, ut', vt', rotUtide(COUNT,:)',...
+        rotVtide(COUNT,:)',rotUtideShore',rotVtideShore', bottomStats{COUNT}.Noise,bottomStats{COUNT}.Tilt,waveHt.waveHeight,distances(:,COUNT),transAngle(:,K)));
+    fullData{COUNT}.Properties.VariableNames = {'pairing','season', 'detections','sunlight', 'windsCross','windsAlong','windSpeed','windDir','stratification','uTide','vTide','paraTide','perpTide','uShore','vShore','noise','tilt','waveHeight','distance','angle'};
 end
 
 seasons = unique(fullData{1}.season)

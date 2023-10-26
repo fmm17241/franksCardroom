@@ -15,4 +15,4 @@ end
 
 
 
-% writetimetable(oneMatrix,'oneMatrix.csv')
+writetimetable(oneMatrix,'oneMatrix.csv')
