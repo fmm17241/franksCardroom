@@ -523,10 +523,10 @@ end
 % hold on
 % scatter(receiverDepths(3,4),detsAverage(4),'filled','r')
 %%
-
-createWindSpeedBins
-windMagPlots    
-%
-createTideBins
+% 
+% createWindSpeedBins
+% windMagPlots    
+% %
+% createTideBins
 
 
