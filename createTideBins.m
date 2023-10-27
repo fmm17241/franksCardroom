@@ -86,6 +86,7 @@ for COUNT = 1:length(fullData)
         noiseCompareTideAnnual{COUNT}(k) = mean(tideScenarioAnnual{COUNT}{1,k}.noise);
         wavesCompareTideAnnual{COUNT}(k) = mean(tideScenarioAnnual{COUNT}{1,k}.waveHeight);
         tiltCompareTideAnnual{COUNT}(k) = mean(tideScenarioAnnual{COUNT}{1,k}.tilt);
+        
     end
 end
 
@@ -187,6 +188,10 @@ for season = 1:length(seasons)
     ylim([0 2])
     title(sprintf('10 Transmitters, %s',seasonNames{season}))
 end
+
+
+
+
 
 
 
