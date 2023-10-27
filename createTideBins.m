@@ -86,7 +86,8 @@ for COUNT = 1:length(fullData)
         noiseCompareTideAnnual{COUNT}(k) = mean(tideScenarioAnnual{COUNT}{1,k}.noise);
         wavesCompareTideAnnual{COUNT}(k) = mean(tideScenarioAnnual{COUNT}{1,k}.waveHeight);
         tiltCompareTideAnnual{COUNT}(k) = mean(tideScenarioAnnual{COUNT}{1,k}.tilt);
-        
+        stratCompareTideAnnual{COUNT}(k) = mean(tideScenarioAnnual{COUNT}{1,k}.stratification);
+
     end
 end
 

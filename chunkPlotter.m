@@ -136,14 +136,14 @@ for COUNT = 1:2:length(receiverData)
     %     f.FaceAlpha = 0.15;
     %     g = fill([findersX(13) findersX(13) findersX(14) findersX(14)],findersY,[0 0 0]);
     %     g.FaceAlpha = 0.15;
-%         nexttile([1 2])
-%         plot(noiseDT{COUNT},receiverData{1,COUNT}.avgNoise(:,2));
-%         ylabel('Ambient Noise');
-%         ylim([500 900])
-%         yline(650)
-%         xlim(ax);
-%         datetick('x','keeplimits');
-%         title('Ambient Noise');
+        nexttile([1 2])
+        plot(noiseDT{COUNT},receiverData{1,COUNT}.avgNoise(:,2));
+        ylabel('Ambient Noise');
+        ylim([500 900])
+        yline(650)
+        xlim(ax);
+        datetick('x','keeplimits');
+        title('Ambient Noise');
         
         %     
         nexttile([1 2])
@@ -155,14 +155,14 @@ for COUNT = 1:2:length(receiverData)
         datetick('x','keeplimits');
         yline(0);
         
-        nexttile([1 2])
-        plot(tideDT,rotVtide(COUNT,:))
-        title('Rotated Tides, Perpendicular');
-        ylabel('Pependicular Velocity');
-        xlim(ax);
-        ylim([-0.3 0.3]);
-        datetick('x','keeplimits');
-        yline(0);
+%         nexttile([1 2])
+%         plot(tideDT,rotVtide(COUNT,:))
+%         title('Rotated Tides, Perpendicular');
+%         ylabel('Pependicular Velocity');
+%         xlim(ax);
+%         ylim([-0.3 0.3]);
+%         datetick('x','keeplimits');
+%         yline(0);
         
         
     %     nexttile([1 2])
@@ -179,32 +179,32 @@ for COUNT = 1:2:length(receiverData)
     %     b = fill([findersX(3) findersX(3) findersX(4) findersX(4)],findersY,[0 0 0]);
     %     b.FaceAlpha = 0.15;
     
-    %     nexttile([1 2])
-    %     plot(bottom.bottomTime,bottom.Tilt,'r');
-    %     ylabel('Tilt Angle, °');
-    %     ylim([0 40]);
-    %     xlim(ax);
-    %     title('Transceiver Tilt, 1');
+        nexttile([1 2])
+        plot(bottomStats{COUNT}.Time,bottomStats{COUNT}.Tilt,'r');
+        ylabel('Tilt Angle, °');
+        ylim([0 40]);
+        xlim(ax);
+        title('Transceiver Tilt, 1');
     %     
-    %     nexttile ([1 2])
-    %     plot(receiverData{1,5}.tilt(:,1),receiverData{1,5}.tilt(:,2))
-    %     ylim([0 40])
-    %     xlim(datenum(ax));
-    %     datetick('x','keeplimits');
-    %     title('Transceiver Tilt, 2');
-    
-        
-    %     nexttile([1 2])
-    %     plot(bottom.bottomTime,buoyStratification,'r');
-    %     ylabel('Temp \Delta °C)');
-    %     ylim(limitsStrat);
-    %     xlim(ax);
-    %     title('Bulk Stratification at Gray''s Reef, ~20m Depth');
-%         nexttile([1 2])
-%         stickplot(windsDN,windsU,windsV,axDN);
-%         ylabel('Wind Velocity, m/s');
+%         nexttile ([1 2])
+%         plot(bottomStats{COUNT}.Time,bottomStats{COUNT}.Tilt)
+%         ylim([0 40])
+%         xlim(ax);
 %         datetick('x','keeplimits');
-%         title('Wind Velocities, Gray''s Reef Buoy');
+%         title('Transceiver Tilt, 2');
+%     
+        
+        nexttile([1 2])
+        plot(bottomStats{COUNT}.Time,stratification{COUNT},'r');
+        ylabel('Temp \Delta °C)');
+        ylim(limitsStrat);
+        xlim(ax);
+        title('Bulk Stratification at Gray''s Reef, ~20m Depth');
+        nexttile([1 2])
+        plot(fullData{1}.time,fullData{1}.windSpeed)
+        ylabel('Wind Magnitude, m/s');
+        datetick('x','keeplimits');
+        title('Windspeed');
     %     
     %     nexttile([1 2])
     %     plot(seas.time,seas.waveHeight);

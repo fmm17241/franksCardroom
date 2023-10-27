@@ -1,44 +1,44 @@
-%Instead of slicing the data into chunks, this instead moves a window and
-%gives us glimpses at chunks of the larger set.
-
-%Tidal predictions, rotated to be along vs cross-shore. Uses tideDT,
-%rotUtide
-% tidalAnalysis2020
-%FRANK TEST: ADD ON angles
-matchAngles
-close all
-%Detections with one transceiver pair, ~0.53 km. Uses
-%hourlyDetections{X}.time/detections
-mooredEfficiency
-
-%Thermal stratification between transceiver temperature measurements and
-%NOAA buoy SST measurements. Uses bottom.bottomTime, buoyStratification,
-%bottom.tilt, and leftovers (disconnected pings, measure of transmission
-%failure)
-bottomAnalysis2020
-
-%Winds magnitude and direction from the buoy. Uses windsDN/U/V.
-windsAnalysis2020
-
-%TESTING: Detections on the wind rose for different seasons
-windsAverage(691:8445,3) = hourlyDetections{1,1};
-% %Astronomical
-% %Winter start to March 20th 1:11349 OR 691:1898
-% WindRose(windsAverage.WDIR(691:1898),windsAverage.Var3(691:1898),'AngleNorth',0,'AngleEast',90,'nDirections',5,'FreqLabelAngle','ruler');
-% title('Wind Rose, Winter');
-% %Spring March 20th to June 21st 11350:24715 OR 1899:4130
-% WindRose(windsAverage.WDIR(1899:4130),windsAverage.Var3(1899:4130),'AngleNorth',0,'AngleEast',90,'nDirections',5,'FreqLabelAngle','ruler');
-% title('Wind Rose, Spring');
-% %Summer June 21st to Sept 22nd 24716:37689 OR 4131:6362
-% WindRose(windsAverage.WDIR(4131:6362),windsAverage.Var3(4131:6362),'AngleNorth',0,'AngleEast',90,'nDirections',5,'FreqLabelAngle','ruler');
-% title('Wind Rose, Summer');
-% %Fall Sept 22nd to December 21st 37689:end OR 6363:8445
-% WindRose(windsAverage.WDIR(6363:8445),windsAverage.Var3(6363:8445),'AngleNorth',0,'AngleEast',90,'nDirections',5,'FreqLabelAngle','ruler');
-% title('Wind Rose, Fall');
-
-
-
-close all
+% %Instead of slicing the data into chunks, this instead moves a window and
+% %gives us glimpses at chunks of the larger set.
+% 
+% %Tidal predictions, rotated to be along vs cross-shore. Uses tideDT,
+% %rotUtide
+% % tidalAnalysis2020
+% %FRANK TEST: ADD ON angles
+% matchAngles
+% close all
+% %Detections with one transceiver pair, ~0.53 km. Uses
+% %hourlyDetections{X}.time/detections
+% mooredEfficiency
+% 
+% %Thermal stratification between transceiver temperature measurements and
+% %NOAA buoy SST measurements. Uses bottom.bottomTime, buoyStratification,
+% %bottom.tilt, and leftovers (disconnected pings, measure of transmission
+% %failure)
+% bottomAnalysis2020
+% 
+% %Winds magnitude and direction from the buoy. Uses windsDN/U/V.
+% windsAnalysis2020
+% 
+% %TESTING: Detections on the wind rose for different seasons
+% windsAverage(691:8445,3) = hourlyDetections{1,1};
+% % %Astronomical
+% % %Winter start to March 20th 1:11349 OR 691:1898
+% % WindRose(windsAverage.WDIR(691:1898),windsAverage.Var3(691:1898),'AngleNorth',0,'AngleEast',90,'nDirections',5,'FreqLabelAngle','ruler');
+% % title('Wind Rose, Winter');
+% % %Spring March 20th to June 21st 11350:24715 OR 1899:4130
+% % WindRose(windsAverage.WDIR(1899:4130),windsAverage.Var3(1899:4130),'AngleNorth',0,'AngleEast',90,'nDirections',5,'FreqLabelAngle','ruler');
+% % title('Wind Rose, Spring');
+% % %Summer June 21st to Sept 22nd 24716:37689 OR 4131:6362
+% % WindRose(windsAverage.WDIR(4131:6362),windsAverage.Var3(4131:6362),'AngleNorth',0,'AngleEast',90,'nDirections',5,'FreqLabelAngle','ruler');
+% % title('Wind Rose, Summer');
+% % %Fall Sept 22nd to December 21st 37689:end OR 6363:8445
+% % WindRose(windsAverage.WDIR(6363:8445),windsAverage.Var3(6363:8445),'AngleNorth',0,'AngleEast',90,'nDirections',5,'FreqLabelAngle','ruler');
+% % title('Wind Rose, Fall');
+% 
+% 
+% 
+% close all
 %% Aims to break up our time series into chunks of time.
 %Begins Jan 4th, 2020 11:30 UTC.
 % startCyclePre = tideDT(168)
@@ -52,7 +52,7 @@ startCyclePre = tideDT(97);
 % cycleDuration  = duration(days(2));
 
 %Changed:
-cycleDuration  = duration(days(15));
+cycleDuration  = duration(days(3));
 
 
 %old
@@ -62,7 +62,7 @@ cycleDuration  = duration(days(15));
 startCycle = startCyclePre
 
 cycleTime = startCycle;
-for k = 1:25 %roughly a full year of 2 day chunks
+for k = 1:100 %roughly a full year of 2 day chunks
 % for k  = 1:95 % for 4 day chunks
 % for k = 1:35 %~30 day chunks
 % for k = 1:25     %15 day chunks
