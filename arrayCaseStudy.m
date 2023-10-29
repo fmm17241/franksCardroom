@@ -380,11 +380,11 @@ xx = length(sunRun);
 sunlight = zeros(1,height(time));
 for k = 1:xx
     currentSun = sunRun(:,k);
-    currentHours = isbetween(time,currentSun(1,1),currentSun(2,1)-hours(1)); %FM 7/1
+    currentHours = isbetween(time,currentSun(1,1),currentSun(2,1)); %FM 7/1
     currentDays = find(currentHours);
     sunlight(currentDays) = 1;
-    sunsetHourIndex = isbetween(time,currentSun(2,1)-hours(1),currentSun(2,1));
-    sunlight(sunsetHourIndex) = 2;
+%     sunsetHourIndex = isbetween(time,currentSun(2,1)-hours(1),currentSun(2,1));
+%     sunlight(sunsetHourIndex) = 2;
 end
 
 

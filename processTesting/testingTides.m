@@ -141,3 +141,61 @@ xlabel('Parallel Tidal Magnitude (m/s)')
 ylabel('Thermal Stratification (C)')
 title('Tidal Current''s Effect on Thermal Strat, 95%CI','')
 
+
+
+for season = 1:length(seasons)
+    figure()
+    hold on
+    for COUNT = 1:length(allStrat)
+        labelz = num2str(sprintf('%d',COUNT))
+        h = plot(x,allStrat{COUNT}(season,:))
+        label(h,sprintf('%s',labelz))
+    end
+    hold off
+    xlabel('Parallel Tidal Magnitude (m/s)')
+    ylabel('Thermal Stratification (C)')
+    ylim([0 2])
+    title(sprintf('10 Transmitters, %s',seasonNames{season}))
+end
+%%
+
+
+for season = 1:length(seasons)
+    figure()
+    hold on
+    for COUNT = 1:length(allPara)
+        labelz = num2str(sprintf('%d',COUNT));
+        if isnan(allPara{COUNT}(season,:)) == 1
+            continue
+        end
+        h = plot(x,allPara{COUNT}(season,:))
+        label(h,sprintf('%s',labelz))
+        hh = scatter(x,allPara{COUNT}(season,:))
+    end
+    hold off
+    xlabel('Parallel Tidal Magnitude (m/s)')
+    ylabel('Normalized Detections')
+%     ylim([0 2])
+    title(sprintf('10 Transmitters, %s',seasonNames{season}))
+end
+
+%%
+for season = 1:length(seasons)
+
+    for COUNT = 1:length(allPara)
+        labelz = num2str(sprintf('%d',COUNT));
+        if isnan(allPara{COUNT}(season,:)) == 1
+            continue
+        end
+        figure()
+        hold on
+        h = plot(x,allPara{COUNT}(season,:))
+        label(h,sprintf('%s',labelz))
+        hh = scatter(x,allPara{COUNT}(season,:))
+            xlabel('Parallel Tidal Magnitude (m/s)')
+    ylabel('Normalized Detections')
+%     ylim([0 2])
+    title(sprintf('10 Transmitters, %d %s',COUNT,seasonNames{season}))
+    end
+    hold off
+end
