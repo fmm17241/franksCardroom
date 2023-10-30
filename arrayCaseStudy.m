@@ -360,6 +360,15 @@ for COUNT = 1:length(bottom)
 %     fullStratData{COUNT} = buoyStats{COUNT}(stratIndex);
 end
 
+for COUNT = 1:2:length(bottomStats)
+    tempDifferences{COUNT} = abs(bottomStats{COUNT}.botTemp-bottomStats{COUNT+1}.botTemp)
+    tempDifferences{COUNT+1} = tempDifferences{COUNT};
+
+end
+
+
+
+
 % for COUNT = 1:length()
 time = waveHt.time;
 
@@ -443,9 +452,9 @@ close all
 %Set length to 14
 
 for COUNT = 1:10
-    fullData{COUNT} = table2timetable(table(time, arrayPairing(:,COUNT), seasonCounter', detections{COUNT},  sunlight', rotUwinds, rotVwinds, WSPD, WDIR, stratification{COUNT}, ut', vt', rotUtide(COUNT,:)',...
-        rotVtide(COUNT,:)',rotUtideShore',rotVtideShore', bottomStats{COUNT}.Noise,bottomStats{COUNT}.Tilt,waveHt.waveHeight,distances(:,COUNT),transAngle(:,COUNT)));
-    fullData{COUNT}.Properties.VariableNames = {'pairing','season', 'detections','sunlight', 'windsCross','windsAlong','windSpeed','windDir','stratification','uTide','vTide','paraTide','perpTide','uShore','vShore','noise','tilt','waveHeight','distance','angle'};
+    fullData{COUNT} = table2timetable(table(time, arrayPairing(:,COUNT), seasonCounter', detections{COUNT},bottomStats{COUNT}.Pings,  sunlight', rotUwinds, rotVwinds, WSPD, WDIR, stratification{COUNT}, ut', vt', rotUtide(COUNT,:)',...
+        rotVtide(COUNT,:)',rotUtideShore',rotVtideShore', bottomStats{COUNT}.Noise,bottomStats{COUNT}.Tilt,waveHt.waveHeight,distances(:,COUNT),transAngle(:,COUNT),tempDifferences{COUNT}));
+    fullData{COUNT}.Properties.VariableNames = {'pairing','season', 'detections','pings','sunlight', 'windsCross','windsAlong','windSpeed','windDir','stratification','uTide','vTide','paraTide','perpTide','uShore','vShore','noise','tilt','waveHeight','distance','angle','hGradient'};
 end
 
 seasons = unique(fullData{1}.season)

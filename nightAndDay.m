@@ -10,12 +10,10 @@ for COUNT= 1:length(fullData)
 %         daylightIndex{COUNT}{k}(2,:) =  fullData{COUNT}.sunlight==2 & fullData{COUNT}.season ==k;
         daylightIndex{COUNT}{k}(2,:) =  fullData{COUNT}.sunlight==0 & fullData{COUNT}.season ==k;
     
-        %Separating data by day, sunset, and night. "Sunset" is defined as
-        %the hour in which the sun sets, attempting to find crepuscular
-        %period.
-        dayHours{k,COUNT}    = fullData{1,COUNT}(daylightIndex{1,COUNT}{1,k}(1,:),:)
+        %Separating data by day, night, and season
+        dayHours{k,COUNT}    = fullData{1,COUNT}(daylightIndex{1,COUNT}{1,k}(1,:),:);
 %         sunsetHours{k,COUNT}  = fullData{1,COUNT}(daylightIndex{1,COUNT}{1,k}(2,:),:)
-        nightHours{k,COUNT}  = fullData{1,COUNT}(daylightIndex{1,COUNT}{1,k}(2,:),:)
+        nightHours{k,COUNT}  = fullData{1,COUNT}(daylightIndex{1,COUNT}{1,k}(2,:),:);
         %Isolating just the detections and noise. All other variables can
         %be helpful but this is just a way of finding averages 
         dayDets{k}(COUNT,:)    = dayHours{k,COUNT}.detections;
@@ -27,21 +25,16 @@ for COUNT= 1:length(fullData)
         dayWinds{k}(COUNT,:)     =dayHours{k,COUNT}.windSpeed;
         nightWinds{k}(COUNT,:)   = nightHours{k,COUNT}.windSpeed;
 
+        dayPings{k}(COUNT,:)      = mean(dayHours{k,COUNT}.pings);
+        nightPings{k}(COUNT,:)    = mean(nightHours{k,COUNT}.pings);
+
+        dayStrat{k}(COUNT,:) = mean(dayHours{k,COUNT}.stratification);
+        nightStrat{k}(COUNT,:) = mean(nightHours{k,COUNT}.stratification);
+
+        dayGradient{k}(COUNT,:) = mean(dayHours{k,COUNT}.hGradient);
+        nightGradient{k}(COUNT,:) = mean(nightHours{k,COUNT}.hGradient);
     end
 end
-
-windX = 1:14;
-
-
-for COUNT = 1:length(fullData)
-    figure()
-    hold on
-    for k = 1:length(seasons)
-        plot(windX,dayWinds{k}(COUNT,:))
-    end
-
-end
-
 
 
 %%
@@ -66,18 +59,47 @@ end
 for k = 1:length(seasons)
     %1st row: DayHoursxSeasons
     %2nd row: NightHoursxSeasons
-    dayAverages(1,k)    = mean(daySounds{1,k}(:,:),'all','omitnan')
-    dayAverages(2,k) = mean(nightSounds{1,k}(:,:),'all','omitnan')
+    dayAverages(1,k)    = mean(daySounds{1,k}(:,:),'all','omitnan');
+    dayAverages(2,k) = mean(nightSounds{1,k}(:,:),'all','omitnan');
 
-    dayDetAverages(1,k)    = mean(dayDets{1,k}(:,:),'all','omitnan') %Dets during day
-    dayDetAverages(2,k) = mean(nightDets{1,k}(:,:),'all','omitnan')   %dets during night
+    dayDetAverages(1,k)    = mean(dayDets{1,k}(:,:),'all','omitnan'); %Dets during day
+    dayDetAverages(2,k) = mean(nightDets{1,k}(:,:),'all','omitnan');   %dets during night
 
+    dayWindAverage(1,k) = mean(dayWinds{1,k}(:,:),'all','omitnan');
+    nightWindAverage(1,k) = mean(nightWinds{1,k}(:,:),'all','omitnan');    
 
-    dayWindAverage(1,k) = mean(dayWinds{1,k}(:,:),'all','omitnan')
-    nightWindAverage(1,k) = mean(nightWinds{1,k}(:,:),'all','omitnan')    
+    dayPingsAverage(1,k) = mean(dayPings{1,k}(:,:),'all','omitnan');
+    nightPingsAverage(1,k) = mean(nightPings{1,k}(:,:),'all','omitnan');  
+
+    dayStratAverage(1,k) = mean(dayStrat{1,k}(:,:),'all','omitnan');
+    nightStratAverage(1,k) = mean(nightStrat{1,k}(:,:),'all','omitnan');    
+    
+    dayGradientAverage(1,k) = mean(dayGradient{1,k}(:,:),'all','omitnan');
+    nightGradientAverage(1,k) = mean(nightGradient{1,k}(:,:),'all','omitnan');
+
 end
 
  
+x = 1:5;
+
+figure()
+hold on
+plot(x,dayGradientAverage)
+plot(x,nightGradientAverage)
+
+x = 1:10
+figure()
+hold on
+for season = 1:5
+    for COUNT = 1:10
+        scatter(x,dayGradient{season})
+    end
+    legend('Winter','Spring','Summer','Fall','M.Fall')
+end
+xlabel('Transmission #')
+ylabel('Thermal Gradient B/W Transceivers')
+title('Horizontal Thermal Gradients')
+
 %%
 
 %Day Noise Confidence Intervals
