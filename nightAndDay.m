@@ -30,6 +30,18 @@ for COUNT= 1:length(fullData)
     end
 end
 
+windX = 1:14;
+
+
+for COUNT = 1:length(fullData)
+    figure()
+    hold on
+    for k = 1:length(seasons)
+        plot(windX,dayWinds{k}(COUNT,:))
+    end
+
+end
+
 
 
 %%
