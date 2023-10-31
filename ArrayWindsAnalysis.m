@@ -11,7 +11,6 @@ winds = readtable ('continuousWeatherData2020.csv'); %IN UTC!!!!!
 %FM 3/21/23
 %This changes meteorological directions (wind COMING FROM degrees) to
 %oceanographic directions (wind GOING TOWARDS degrees)
-
 %0N clockwise, so 90E.
 indexUP = winds.WDIR >= 181;
 indexDOWN= winds.WDIR < 181;

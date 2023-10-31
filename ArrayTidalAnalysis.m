@@ -1,10 +1,3 @@
-%%
-
-%Frank's attempt at flipping the tides so NE is top right, SW is bottom
-%left. Should've done this long ago but I'm a COWARD.
-
-
-
 
 %Frank's attempt at rotating the currents to be parallel or perpendicular
 %to a transceiver pairing. In 2014, this was done purposefully so cross and
