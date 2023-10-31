@@ -51,3 +51,19 @@ for season = 1:length(seasons)
     xlabel('Bulk Stratification (C)')
     title(sprintf('Stratification Affecting Efficiency %s',seasonName{season}),'Marker Size = Det. Efficiency')
 end
+
+for season = 1:length(seasons)
+    figure()
+    hold on
+    for COUNT = 1:length(fullData)
+        scatter(X,averageWindSpeed{COUNT}{season}/6*100,color(COUNT),'filled')
+    end
+    ylabel('Detection Efficiency')
+    ylim([0 70])
+    xlabel('Windspeed (m/s)')
+    title(sprintf('Winds Affecting Efficiency %s',seasonName{season}))
+end
+
+
+
+
