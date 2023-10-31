@@ -1,19 +1,20 @@
 %Doing the same for my wind data
 for COUNT = 1:length(fullData)
     for season = 1:length(seasons)
-        windSpeedBins{COUNT}{season}(1,:) = fullData{COUNT}.windSpeed < 1 & fullData{COUNT}.season ==season;
-        windSpeedBins{COUNT}{season}(2,:) = fullData{COUNT}.windSpeed > 1 & fullData{COUNT}.windSpeed < 2 & fullData{COUNT}.season ==season;
-        windSpeedBins{COUNT}{season}(3,:) = fullData{COUNT}.windSpeed > 2 & fullData{COUNT}.windSpeed < 3 & fullData{COUNT}.season ==season;
-        windSpeedBins{COUNT}{season}(4,:) = fullData{COUNT}.windSpeed > 3 & fullData{COUNT}.windSpeed < 4 & fullData{COUNT}.season ==season;
-        windSpeedBins{COUNT}{season}(5,:) = fullData{COUNT}.windSpeed > 4 & fullData{COUNT}.windSpeed < 5 & fullData{COUNT}.season ==season;
-        windSpeedBins{COUNT}{season}(6,:) = fullData{COUNT}.windSpeed > 5 & fullData{COUNT}.windSpeed < 6 & fullData{COUNT}.season ==season;
-        windSpeedBins{COUNT}{season}(7,:) = fullData{COUNT}.windSpeed > 6 & fullData{COUNT}.windSpeed < 7 & fullData{COUNT}.season ==season;
-        windSpeedBins{COUNT}{season}(8,:) = fullData{COUNT}.windSpeed > 7 & fullData{COUNT}.windSpeed < 8 & fullData{COUNT}.season ==season;
-        windSpeedBins{COUNT}{season}(9,:) = fullData{COUNT}.windSpeed > 8 & fullData{COUNT}.windSpeed < 9 & fullData{COUNT}.season ==season;
-        windSpeedBins{COUNT}{season}(10,:) = fullData{COUNT}.windSpeed > 9 & fullData{COUNT}.windSpeed < 10 & fullData{COUNT}.season ==season;
-        windSpeedBins{COUNT}{season}(11,:) = fullData{COUNT}.windSpeed > 10 & fullData{COUNT}.windSpeed < 11 & fullData{COUNT}.season ==season;
-        windSpeedBins{COUNT}{season}(12,:) = fullData{COUNT}.windSpeed > 11 & fullData{COUNT}.windSpeed < 12 & fullData{COUNT}.season ==season;
-        windSpeedBins{COUNT}{season}(13,:) = fullData{COUNT}.windSpeed > 12 & fullData{COUNT}.season ==season;
+        windSpeedBins{COUNT}{season}(1,:) = fullData{COUNT}.windSpeed < 2 & fullData{COUNT}.season ==season;
+        windSpeedBins{COUNT}{season}(2,:) = fullData{COUNT}.windSpeed > 2 & fullData{COUNT}.windSpeed < 4 & fullData{COUNT}.season ==season;
+        windSpeedBins{COUNT}{season}(3,:) = fullData{COUNT}.windSpeed > 4 & fullData{COUNT}.windSpeed < 6 & fullData{COUNT}.season ==season;
+        windSpeedBins{COUNT}{season}(4,:) = fullData{COUNT}.windSpeed > 6 & fullData{COUNT}.windSpeed < 8 & fullData{COUNT}.season ==season;
+        windSpeedBins{COUNT}{season}(5,:) = fullData{COUNT}.windSpeed > 8 & fullData{COUNT}.windSpeed < 10 & fullData{COUNT}.season ==season;
+        windSpeedBins{COUNT}{season}(6,:) = fullData{COUNT}.windSpeed > 10 & fullData{COUNT}.windSpeed < 12 & fullData{COUNT}.season ==season;
+        windSpeedBins{COUNT}{season}(7,:) = fullData{COUNT}.windSpeed > 12  & fullData{COUNT}.season ==season;
+%         windSpeedBins{COUNT}{season}(7,:) = fullData{COUNT}.windSpeed > 6 & fullData{COUNT}.windSpeed < 7 & fullData{COUNT}.season ==season;
+%         windSpeedBins{COUNT}{season}(8,:) = fullData{COUNT}.windSpeed > 7 & fullData{COUNT}.windSpeed < 8 & fullData{COUNT}.season ==season;
+%         windSpeedBins{COUNT}{season}(9,:) = fullData{COUNT}.windSpeed > 8 & fullData{COUNT}.windSpeed < 9 & fullData{COUNT}.season ==season;
+%         windSpeedBins{COUNT}{season}(10,:) = fullData{COUNT}.windSpeed > 9 & fullData{COUNT}.windSpeed < 10 & fullData{COUNT}.season ==season;
+%         windSpeedBins{COUNT}{season}(11,:) = fullData{COUNT}.windSpeed > 10 & fullData{COUNT}.windSpeed < 11 & fullData{COUNT}.season ==season;
+%         windSpeedBins{COUNT}{season}(12,:) = fullData{COUNT}.windSpeed > 11 & fullData{COUNT}.windSpeed < 12 & fullData{COUNT}.season ==season;
+%         windSpeedBins{COUNT}{season}(13,:) = fullData{COUNT}.windSpeed > 12 & fullData{COUNT}.season ==season;
     end
 end
 
@@ -35,6 +36,7 @@ for COUNT = 1:length(fullData)
 end
 
 
+
 for COUNT = 1:length(fullData)
     for k = 1:height(windSpeedBinsAnnual{COUNT})
         windSpeedScenarioAnnual{COUNT}{k}= fullData{COUNT}(windSpeedBinsAnnual{COUNT}(k,:),:);
@@ -43,6 +45,7 @@ for COUNT = 1:length(fullData)
         wavesCompareAnnual{COUNT}(k) = mean(windSpeedScenarioAnnual{COUNT}{1,k}.waveHeight,'omitnan');
         tiltCompareWindAnnual{COUNT}(k) = mean(windSpeedScenarioAnnual{COUNT}{1,k}.tilt);
         stratCompareWindAnnual{COUNT}(k) = mean(windSpeedScenarioAnnual{COUNT}{1,k}.stratification)
+        
         countAnnual(COUNT,k)             = length(windSpeedScenarioAnnual{COUNT}{k}.detections)
     end
     normalizedWSpeedAnnual(COUNT,:)  = averageWindSpeedAnnual(COUNT,:)/(max(averageWindSpeedAnnual(COUNT,:)));
@@ -101,31 +104,31 @@ for COUNT = 1:2:length(fullData)
     end
 end
 
-
-for COUNT = 1:length(normalizedWSpeed)
-    for season = 1:length(seasons)
-        completeWinds{COUNT}(season,:) = normalizedWSpeed{COUNT}{season};
-        completeWHeight{COUNT}(season,:) = wavesCompare{COUNT}{season};
-        completeNoise{COUNT}(season,:)   = noiseCompare{COUNT}{season};
-        completeTiltVsWindSpeed{COUNT}(season,:)   = tiltCompareWind{COUNT}{season};
-        completeStratVsWindSpeed{COUNT}(season,:)  = stratCompareWind{COUNT}{season};
-    end
-end
-
-
-for COUNT = 1:length(completeWinds)
-    completeWindsAvg(COUNT,:) = nanmean(completeWinds{COUNT});
-    completeNoiseAvg(COUNT,:) = nanmean(completeNoise{COUNT});
-    completeTiltVsWindAvg(COUNT,:) = nanmean(completeTiltVsWindSpeed{COUNT});
-    completeStratVsWindAvg(COUNT,:) = nanmean(completeStratVsWindSpeed{COUNT})
-end
-
-for COUNT = 1:length(completeWindsAvg)
-    yearlyWindSpeed(1,COUNT)       = mean(completeWindsAvg(:,COUNT));
-    yearlyNoise(1,COUNT)           = mean(completeNoiseAvg(:,COUNT));  
-    yearlyTiltVsWindSpeed(1,COUNT) = mean(completeTiltVsWindAvg(:,COUNT));
-    yearlyStratVsWindSpeed(1,COUNT) = mean(completeStratVsWindAvg(:,COUNT));
-end
+% 
+% for COUNT = 1:length(normalizedWSpeed)
+%     for season = 1:length(seasons)
+%         completeWinds{COUNT}(season,:) = normalizedWSpeed{COUNT}{season};
+%         completeWHeight{COUNT}(season,:) = wavesCompare{COUNT}{season};
+%         completeNoise{COUNT}(season,:)   = noiseCompare{COUNT}{season};
+%         completeTiltVsWindSpeed{COUNT}(season,:)   = tiltCompareWind{COUNT}{season};
+%         completeStratVsWindSpeed{COUNT}(season,:)  = stratCompareWind{COUNT}{season};
+%     end
+% end
+% 
+% 
+% for COUNT = 1:length(completeWinds)
+%     completeWindsAvg(COUNT,:) = nanmean(completeWinds{COUNT});
+%     completeNoiseAvg(COUNT,:) = nanmean(completeNoise{COUNT});
+%     completeTiltVsWindAvg(COUNT,:) = nanmean(completeTiltVsWindSpeed{COUNT});
+%     completeStratVsWindAvg(COUNT,:) = nanmean(completeStratVsWindSpeed{COUNT})
+% end
+% 
+% for COUNT = 1:length(completeWindsAvg)
+%     yearlyWindSpeed(1,COUNT)       = mean(completeWindsAvg(:,COUNT));
+%     yearlyNoise(1,COUNT)           = mean(completeNoiseAvg(:,COUNT));  
+%     yearlyTiltVsWindSpeed(1,COUNT) = mean(completeTiltVsWindAvg(:,COUNT));
+%     yearlyStratVsWindSpeed(1,COUNT) = mean(completeStratVsWindAvg(:,COUNT));
+% end
 
 normalizedYearlyWind = yearlyWindSpeed/(max(yearlyWindSpeed));
 

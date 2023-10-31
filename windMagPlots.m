@@ -32,7 +32,7 @@ xlabel('Wind Magnitude (m/s)')
 yyaxis right
 scatter(X,yearlyWindSpeed,'r','filled')
 ylabel('Normalized Det. Efficiency')
-
+legend('Tilt','Efficiency')
 title('Wind''s Effect on Moored Transceivers')
 
 
@@ -166,24 +166,24 @@ color = ['r','r','g','g','k','k','b','b','m','m'];
 % end
 % 
 % 
-% pairingNumb = [1;1;2;2;3;3;4;4;5;5]
-% for COUNT = 1:2:length(normalizedwindDir)
-%     f = figure;
-%     f.Position = [100 100 450 800];
-%     tiledlayout(5,1,'TileSpacing','Compact','Padding','Compact')
-%     for season = 1:length(seasons)
-%         nexttile()
-%         scatter(X,normalizedwindDir{COUNT}{season},'r','filled')
-%         hold on
-%         scatter(X,normalizedwindDir{COUNT+1}{season},'k','filled')
-%         nameit = sprintf('Wind, Transceivers %d, %s',pairingNumb(COUNT),seasonName{season});
-%         title(nameit)
-%         hold off
-%     end
-%     ylabel('Normalized Det. Efficiency')
-%     xlabel('Wind Direction')
+pairingNumb = [1;1;2;2;3;3;4;4;5;5]
+for COUNT = 1:2:length(normalizedwindDir)
+    f = figure;
+    f.Position = [100 100 450 800];
+    tiledlayout(5,1,'TileSpacing','Compact','Padding','Compact')
+    for season = 1:length(seasons)
+        nexttile()
+        scatter(X,normalizedwindDir{COUNT}{season},'r','filled')
+        hold on
+        scatter(X,normalizedwindDir{COUNT+1}{season},'k','filled')
+        nameit = sprintf('Wind, Transceivers %d, %s',pairingNumb(COUNT),seasonName{season});
+        title(nameit)
+        hold off
+    end
+    ylabel('Normalized Det. Efficiency')
+    xlabel('Wind Direction')
 %     exportgraphics(gcf,sprintf('WindTrans%dBOTHdirections.png',pairingNumb(COUNT)),'Resolution',300)
-% end
+end
 % 
 % 
 % for COUNT = 1:length(normalizedwindDir)
@@ -403,7 +403,7 @@ orderNumbers = [1 1 2 2 3 3 4 4 5 5];
 figure()
 tiledlayout(4,4,'TileSpacing','Compact','Padding','Compact')
 hold on
-for COUNT = 1:2:length(noiseCompareAnnual)-1
+for COUNT = 1:2:5
     nexttile
     yyaxis left
     plot(x,noiseCompareAnnual{COUNT},color(COUNT),'LineStyle','-','LineWidth',2);
