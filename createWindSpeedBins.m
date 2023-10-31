@@ -130,7 +130,7 @@ end
 %     yearlyStratVsWindSpeed(1,COUNT) = mean(completeStratVsWindAvg(:,COUNT));
 % end
 
-normalizedYearlyWind = yearlyWindSpeed/(max(yearlyWindSpeed));
+% normalizedYearlyWind = yearlyWindSpeed/(max(yearlyWindSpeed));
 
 
 
