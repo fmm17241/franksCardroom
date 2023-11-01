@@ -53,7 +53,7 @@ color = ['r','r','g','g','k','k','b','b','m','m'];
 % %     exportgraphics(gcf,sprintf('Transceiver%dWinds.png',COUNT),'Resolution',300)
 % end
 % 
-% 
+% % 
 % 
 % %All seasons together
 % for season = 1:length(seasons)
@@ -483,7 +483,29 @@ title('Transceiver Pairing B','Sparser, Deeper Reef')
 
 
 
+%%
+%FM testing season winds
 
+X = 1:length(averageWindSpeed{1}{1});
+
+seasonName = [{'Winter','Spring','Summer','Fall','Mariner''s Fall'}]
+color = ['r','r','g','g','k','k','b','b','m','m'];
+
+figure()
+hold on
+for COUNT = 1:length(X)
+    for seaason = 1:length(seasons)
+        plot(X,averageWindSpeed{COUNT}{season},color(COUNT))
+%     errorbar(x,averageWindSpeedAnnual(COUNT,:),errorWindAnnual(COUNT,:),color(COUNT),"LineStyle","none")
+    end
+end
+xlabel('Wind Magnitude')
+ylabel('Detections')
+ylim([0 6])
+% 
+
+figure()
+plot()
 
 
 
