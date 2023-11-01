@@ -1,13 +1,20 @@
 %Workspace
+
+%%FM
+% Takes 300 days of Gray's Reef data and combines it into "fullData{X}",
+% where X is the transceiver direction.
+
+
 %Creates diurnal data
 figure()
 SunriseSunsetUTC
+
 %Day timing
 sunRun = [sunrise; sunset];
 
-
-
-load mooredGPS 
+% Loads in GPS data for each mooring. All mooring sites included; not all
+% were instrumented for our timeframe.
+% load mooredGPS 
 % transmitters = {'63068' '63073' '63067' '63079' '63080' '63066' '63076' '63078' '63063'...
 %         '63070' '63074' '63075' '63081' '63064' '63062' '63071'};
 %     
@@ -16,22 +23,20 @@ load mooredGPS
 %           'SURTASS_STN20','SURTASS_FS15'}.';
 %       
 %       
-figure()
-scatter(mooredGPS(:,2),mooredGPS(:,1),'k');      
-xlabel('Longitude');
-ylabel('Latitude');
-axis equal
-hold on
-scatter(mooredGPS(11:14,2),mooredGPS(11:14,1),'k','filled');  
-% legend('Moored Acoustic Transmitters');
+% figure()
+% scatter(mooredGPS(:,2),mooredGPS(:,1),'k');      
+% xlabel('Longitude');
+% ylabel('Latitude');
+% axis equal
+% hold on
+% scatter(mooredGPS(11:14,2),mooredGPS(11:14,1),'k','filled');  
+% % legend('Moored Acoustic Transmitters');
+% 
+% %diskm
+% test = lldistkm(mooredGPS(13,:),mooredGPS(12,:))
 
-
-%diskm
-test = lldistkm(mooredGPS(13,:),mooredGPS(12,:))
-
-
-
-
+%%
+% Mooring Name and Number
 % 1 SURTASSTN20    63062
 % 2 SURTASS_05IN   63064
 % 3 Roldan         63066
@@ -46,11 +51,19 @@ test = lldistkm(mooredGPS(13,:),mooredGPS(12,:))
 % 12 09T           63080
 % 13 39IN          63081
 
+%Predicts and analyzes the tides.
 ArrayTidalAnalysis
+
+%Loads in and analyzes the windspeeds and directions
 ArrayWindsAnalysis
+
+
+
+%%
+%Time to use for our data. We predicted lots of tides, this is cutting to
+%the specific hours that we're analyzing.
 fullTime = [datetime(2020,01,29,17,00,00),datetime(2020,12,10,13,00,00)];
 fullTime.TimeZone = 'UTC';
-
 fullTideIndex = isbetween(tideDT,fullTime(1,1),fullTime(1,2),'closed');
 
 tideDT = tideDT(fullTideIndex);
@@ -70,34 +83,30 @@ rotVtideShore = rotVtideShore(:,fullTideIndex);
 rotVtideShore = rotVtideShore(:,1:2:end);
 
 
-% % fullTideData = [rotUtide(fullTideIndex);rotVtide(fullTideIndex)];
-% % fullTideData = fullTideData(:,1:2:end);
-
+%Same with tides: we're breaking up waves and waveheight into the timeframe
+%we're working in.
 windsIndex = isbetween(windsAverage.time,fullTime(1,1),fullTime(1,2),'closed');
 rotUwinds = rotUwinds(windsIndex); rotVwinds= rotVwinds(windsIndex); WSPD = WSPD(windsIndex); WDIR = WDIR(windsIndex);
 waveIndex = isbetween(waveHeight.time,fullTime(1,1),fullTime(1,2),'closed');
 waveHt = waveHeight(waveIndex,"waveHeight")
-%%
-
-
 time = waveHt.time;
-test = zeros(length(time),1);
 
 
 
-%Experiment 1, compare two moored transceivers 0.53km away
-%For our purposes, Mooring 1 will be SURTASSTN20, deeper transceiver central to an array, and Mooring 2 will be
-%STSNew1, more shallow transceiver. Yes, numbers above may be confusing, good observation, but I
-%gotta keep them straight. If I lose that numbering, all of this is for naught and I may join the circus.
 
+%Load in the detection files
 cd ([oneDrive,'Moored\GRNMS\VRLs'])
-% cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Moored\GRNMS\VRLs'
-
-% call = readtable('VR2Tx_483080_20211223_1.csv'); %SURTASSSTN20
 rawDetFile{1,1} = readtable('VR2Tx_483064_20211025_1.csv'); %SURTASS05IN
 rawDetFile{2,1} = readtable('VR2Tx_483074_20211025_1.csv'); %STSNEW2
 rawDetFile{3,1} = readtable('VR2Tx_483075_20211025_1.csv'); %FS6
 rawDetFile{4,1} = readtable('VR2Tx_483081_20211005_1.csv'); %39IN
+
+
+
+
+%%
+%Break my data into transceiver pairings. I can't analyze detection
+%efficiency without isolating the transceivers.
 
 %First pairing: SURTASS05IN and FS6
 %Second pairing: SURTASS05IN and STSNew2
@@ -105,11 +114,11 @@ rawDetFile{4,1} = readtable('VR2Tx_483081_20211005_1.csv'); %39IN
 %Fourth pairing: 39IN and FS6
 %Fifth pairing: STSNEW2 and FS6
 
-%Recognize pattern in the CSV of unique identification 
+%Recognize pattern in the CSV of unique identification. Finds data I want.
 pattern1 = digitsPattern(4)+ "-" + digitsPattern(3,5);
 pattern2 = "-" + digitsPattern(3,5);
 
-%Comb through raw files, give me datetimes in EST (local), and tell me
+%Combs through raw files, gives me datetimes and tells me
 %which instrument transmitted.
 for counter=1:length(rawDetFile)
     if isempty(rawDetFile{counter})
@@ -156,25 +165,14 @@ index{10} = mooredReceivers{3,1}.detections == 63074; %FS6 hearing STSNew2
 
 
 
-%FM this is my "key" for the index. I didn't want to load data twice so
-%this key tells the loop which order to use
+%This is my "key" for the index. I didn't want to load data twice so
+%this key tells the loop which order to use. Matches the order of
+%"mooredReceivers" that I want.
 receiverOrder = [3;1;2;1;1;4;4;3;2;3];
-% receiverOrder = [1;5;7;2;3;8;6;2;2;10];
 
 
-% %Making the visualizations more correct: instead of 06:00 representing
-% %06:00 to 06:59:59, it will now show as 06:30, the middle of the binned
-% %data
-% offset = duration(minutes(30));
-
-%Below is a loop to create the timetables for all the different pairings.
-%This bins the time by hour, then adds the :30 to make the visualization
-%clearer.
 %%
-
-
-
-
+% Putting my detection times and dates into timetables and cells
 for k = 1:length(index)
     recNumber = receiverOrder(k,1);
     useTime{k} = mooredReceivers{recNumber,1}.DT(index{k});
@@ -201,73 +199,37 @@ for k = 1:length(index)
 end
 
 
-
-
-
-
 %%
-
-% 
-% %39IN
-% %SURTASS05IN
-% %FS6
-% %STSNew2
-% 
-% 3, FS6 hearing SURTASS05IN
-% 4, SURTASS05IN hearing FS6
-% 7, STSNew2 hearing SURTASS05IN
-% 8, SURTASS05IN hearing STSNew2
-% 9, SURTASS05IN hearing 39IN
-% 10, 39IN hearing SURTASS05IN
-
-
-%%
-%
-
-% cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\WeatherData'
+% Now formatting the data: loading in sea surface data for use later as SST
+% and waveheight.
 
 cd([oneDrive,'WeatherData'])
-
-
-% fullsst2019 = readtable ('temp2019.csv'); %IN UTC!!!!!
-fullsst2020 = readtable('temp2020.csv'); %IN UTC!!!!!
-% fullsst2021 = readtable ('temp2021.csv'); %IN UTC!!!!!
-
-seas  = fullsst2020;
-
+seas = readtable('temp2020.csv'); %IN UTC!!!!!
 timeVectorsst = table2array(seas(:,1:5)); timeVectorsst(:,6) = zeros(1,length(timeVectorsst));
-
 time = datetime(timeVectorsst,'TimeZone','UTC'); time = time + min(1/144);
 
-
-
-
 seas    = table2timetable(table(time,seas.WTMP, seas.WVHT));
-% seas = seas(8675:17343,:); %This is for full 2020
-% seas = seas(9340:17003,:);
-seas = retime(seas,'hourly','previous');
 
+%Retimes the data to be binned by the hour.
+seas = retime(seas,'hourly','previous');
 seas.Properties.VariableNames = {'SST','waveHeight'};
 index99 = seas.waveHeight >50;
 seas.waveHeight(index99) = 0;
-
-
 clear fullsst* timeVectorsst
 
 
 %%FM 5/24: trying bulk strat using bottom receiver + buoy info
 cd ([oneDrive,'Moored'])
-
-% cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Moored'
-%%
 % Separate dets, temps, and noise by which receiver is giving the data
 data = readtable('VUE_Export.csv');
-%SWITCHED: BELOW LINES TAKES OUT TWO TRANSCEIVERS WHICH WERE NOT HEARD AT
-%ALL, NOT EVEN BY THEMSELVES, HURTING AVERAGE FM 4/7/22
+
+%These transceivers were never heard.
 forbiddenReceivers = ['VR2Tx-483067';'VR2Tx-483068';'VR2Tx-483080'];
 data(ismember(data.Receiver,forbiddenReceivers),:)=[];
 
 %%
+% Bringing in receiver data
+
 dataDN = datenum(data.DateAndTime_UTC_);
 dataDT = datetime(dataDN,'convertFrom','datenum');
 
@@ -302,11 +264,7 @@ for PT = 1:length(uniqueReceivers)
 end
 clear detectionIndex  PT noiseIndex pingIndex detectionIndex tempIndex tiltIndex forbiddenReceivers data dataDN 
 
-
-%Cleared offset for data purposes, can add for visualization
-% offset = duration(minutes(30));
-% bottomTime = datetime(receiverData{1}.bottomTemp(:,1),'ConvertFrom','datenum','TimeZone','UTC')+offset;
-
+%Timetable of transceiver data
 for PT = 1:length(uniqueReceivers)
     startTime = [datetime(receiverData{1,PT}.bottomTemp(1,1),'ConvertFrom','datenum','TimeZone','UTC'); datetime(receiverData{1,PT}.bottomTemp(end,1),'ConvertFrom','datenum','TimeZone','UTC')];
     bottomTime{PT} = datetime(receiverData{PT}.bottomTemp(:,1),'ConvertFrom','datenum','TimeZone','UTC');
@@ -317,12 +275,8 @@ for PT = 1:length(uniqueReceivers)
 end
 
 
-
-
-
-% clear detectionIndex PT noiseIndex pingIndex detectionIndex tempIndex forbiddenReceivers data dataDN bottomTime startTime
 %%
-
+%Gotta limit data to the time we've got instrumentation for.
 %cutting seas down 
 for PT = 1:length(bottom)
     startTime = [datetime(2020,01,29,17,00,00,'TimeZone','UTC'); datetime(2020,12,10,13,00,00,'TimeZone','UTC')];
@@ -336,12 +290,14 @@ for PT = 1:length(bottom)
     stratification{PT}(nullindex) = 0;
 end 
 
+%
 for COUNT = 1:length(hourlyDetections)
     fullDetsIndex{COUNT} = isbetween(hourlyDetections{COUNT}.time,fullTime(1,1),fullTime(1,2),'closed');
 end
 
 clearvars detections
 
+%
 for COUNT = 1:length(fullDetsIndex)
     detTimes{COUNT}   = [hourlyDetections{COUNT}.time(fullDetsIndex{COUNT})];
     detections{COUNT} = [hourlyDetections{COUNT}.detections(fullDetsIndex{COUNT})];
@@ -349,9 +305,7 @@ for COUNT = 1:length(fullDetsIndex)
     detections{COUNT}(luckySevens) = 6;
 end
 
-close all
-% RANKFRANK Fix Buoy Stratification, any NaNs?
-
+%
 for COUNT = 1:length(bottom)
     stratIndex = isbetween(bottom{COUNT}.Time,fullTime(1,1),fullTime(1,2),'closed');
     bottomStats{COUNT} = bottom{COUNT}(stratIndex,:);
@@ -360,6 +314,8 @@ for COUNT = 1:length(bottom)
 %     fullStratData{COUNT} = buoyStats{COUNT}(stratIndex);
 end
 
+
+%Creates a value for thermal gradients between transceivers
 for COUNT = 1:2:length(bottomStats)
     tempDifferences{COUNT} = abs(bottomStats{COUNT}.botTemp-bottomStats{COUNT+1}.botTemp)
     tempDifferences{COUNT+1} = tempDifferences{COUNT};
@@ -373,18 +329,9 @@ end
 time = waveHt.time;
 
 
-%creating daylight variable
-% xx = length(sunRun);
-% sunlight = zeros(1,height(time));
-% for k = 1:xx
-%     currentSun = sunRun(:,k);
-%     currentHours = isbetween(time,currentSun(1,1),currentSun(2,1));
-%     currentDays = find(currentHours);
-%     sunlight(currentDays) = 1;
-% end
 
-%Testing additional light variable
 
+%Binary data: night or day
 xx = length(sunRun);
 sunlight = zeros(1,height(time));
 for k = 1:xx
@@ -392,8 +339,6 @@ for k = 1:xx
     currentHours = isbetween(time,currentSun(1,1),currentSun(2,1)); %FM 7/1
     currentDays = find(currentHours);
     sunlight(currentDays) = 1;
-%     sunsetHourIndex = isbetween(time,currentSun(2,1)-hours(1),currentSun(2,1));
-%     sunlight(sunsetHourIndex) = 2;
 end
 
 
@@ -423,6 +368,7 @@ seasonCounter(winter) = 1; seasonCounter(spring) = 2; seasonCounter(summer) = 3;
 
 load mooredGPS
 
+%Creates distance variable between transceivers
 distances(:,1) = repelem(lldistkm(mooredGPS(14,:),mooredGPS(12,:)),length(detections{1}));
 distances(:,2) = repelem(lldistkm(mooredGPS(12,:),mooredGPS(14,:)),length(detections{1}));
 distances(:,3) = repelem(lldistkm(mooredGPS(14,:),mooredGPS(11,:)),length(detections{2}));
@@ -434,8 +380,7 @@ distances(:,8) = repelem(lldistkm(mooredGPS(13,:),mooredGPS(12,:)),length(detect
 distances(:,9) = repelem(lldistkm(mooredGPS(12,:),mooredGPS(11,:)),length(detections{5}));
 distances(:,10) = repelem(lldistkm(mooredGPS(11,:),mooredGPS(12,:)),length(detections{5}));
 
-
-
+%Angles between transceivers
 for K = 1:10
     arrayPairing(:,K) = repelem(K,length(time))
     transAngle(:,K)   = repelem(AnglesD(:,K),length(time))
@@ -449,49 +394,28 @@ end
 %Okay, basics are set.
 close all
 
-%Set length to 14
 
-for COUNT = 1:10
+
+for COUNT = 1:length(receiverOrder)
     fullData{COUNT} = table2timetable(table(time, arrayPairing(:,COUNT), seasonCounter', detections{COUNT},bottomStats{COUNT}.Pings,  sunlight', rotUwinds, rotVwinds, WSPD, WDIR, stratification{COUNT}, ut', vt', rotUtide(COUNT,:)',...
         rotVtide(COUNT,:)',rotUtideShore',rotVtideShore', bottomStats{COUNT}.Noise,bottomStats{COUNT}.Tilt,waveHt.waveHeight,distances(:,COUNT),transAngle(:,COUNT),tempDifferences{COUNT}));
-    fullData{COUNT}.Properties.VariableNames = {'pairing','season', 'detections','pings','sunlight', 'windsCross','windsAlong','windSpeed','windDir','stratification','uTide','vTide','paraTide','perpTide','uShore','vShore','noise','tilt','waveHeight','distance','angle','hGradient'};
+    fullData{COUNT}.Properties.VariableNames = {'pairing','season', 'detections','pings','sunlight', 'windsCross','windsAlong','windSpeed','windDir','stratification','uTide','vTide',...
+        'paraTide','perpTide','uShore','vShore','noise','tilt','waveHeight','distance','angle','hGradient'};
 end
 
+% Seasons variable to use for later.
 seasons = unique(fullData{1}.season)
 
 %%
-%Leaving This Here, Frank's Okay, He'll do it
-% uniqueReceivers =  [{
-%                     'VR2Tx-483075';   % 'VR2Tx-483075' FS6
-%                     'VR2Tx-483064';   % 'VR2Tx-483064' SURTASS_05IN
-%                     'VR2Tx-483074';   % 'VR2Tx-483074' STSNew2
-%                     'VR2Tx-483064';   % 'VR2Tx-483064' SURTASS_05IN
-%                     'VR2Tx-483064';   % 'VR2Tx-483064' SURTASS_05IN
-%                     'VR2Tx-483081';   % 'VR2Tx-483081' 39IN
-%                     'VR2Tx-483081';   % 'VR2Tx-483081' 39IN
-%                     'VR2Tx-483075';   % 'VR2Tx-483075' FS6
-%                     'VR2Tx-483074';   % 'VR2Tx-483074' STSNew2
-%                     'VR2Tx-483075';}] % 'VR2Tx-483075' FS6
-
-% uniqueReceivers =  [{'VR2Tx-483075';   % 'VR2Tx-483075' FS6
-%                     'VR2Tx-483064';   % 'VR2Tx-483064' SURTASS_05IN
-%                     'VR2Tx-483074';   % 'VR2Tx-483074' STSNew2
-%                     'VR2Tx-483064';   % 'VR2Tx-483064' SURTASS_05IN
-%                     'VR2Tx-483064';   % 'VR2Tx-483064' SURTASS_05IN
-%                     'VR2Tx-483081';   % 'VR2Tx-483081' 39IN
-%                     'VR2Tx-483081';   % 'VR2Tx-483081' 39IN
-%                     'VR2Tx-483075';   % 'VR2Tx-483075' FS6
-%                     'VR2Tx-483074';   % 'VR2Tx-483074' STSNew2
-%                     'VR2Tx-483075';}] % 'VR2Tx-483075' FS6
 
 
-%DEPTHS
+% Depths of transceivers.
 receiverDepths(1,:)   = [17.68, 16.76, 16.46, 16.76, 16.76, 15.85, 15.85, 17.68, 16.46, 17.68]; %Instrument depth
 receiverDepths(2,:)   = [19.81, 18.29, 18.59, 18.29, 18.29, 17.68, 17.68, 19.81, 18.59, 19.81]; %Bottom Depth
-receiverDepths(3,:)   = receiverDepths(2,:)-receiverDepths(1,:)  %Meters off the bottom
+receiverDepths(3,:)   = receiverDepths(2,:)-receiverDepths(1,:);  %Meters off the bottom
 
 
-
+%Testing tilt
 for K = 1:length(fullData)
     figure()
     hist(fullData{1,K}.tilt)
@@ -502,40 +426,16 @@ for K = 1:length(fullData)
     detsAverage(1,K) = (mean(fullData{1,K}.detections))
     detsPercent(1,K) = detsAverage(1,K)/6*100
 end
-% 
-% figure()
-% scatter(receiverDepths(3,:),tiltAverage,'filled')
-% xlabel('Difference b/w Bottom and Receiver (m)')
-% ylabel('Average Tilt of Instrument (deg)')
-% title('Bottom Gap vs Tilt')
-% 
-% 
-% figure()
-% scatter(receiverDepths(2,:),tiltAverage,'filled')
-% title('Bottom Depth')
-% xlabel('Bottom Depth(m)')
-% ylabel('Average Tilt of Instrument (deg)')
-% 
-% figure()
-% scatter(receiverDepths(1,:),tiltAverage,'filled')
-% title('Instrument Depth')
-% xlabel('Receiver Depth (m)')
-% ylabel('Average Tilt of Instrument (deg)')
-% 
-% 
-% 
-% figure()
-% scatter(receiverDepths(3,:),detsAverage,'filled')
-% xlabel('Difference b/w Bottom and Receiver (m)')
-% ylabel('Average Detections')
-% title('Bottom Gap vs Dets')
-% hold on
-% scatter(receiverDepths(3,4),detsAverage(4),'filled','r')
+
 %%
-% 
+
+% Good job, ways to cut it up:
+% createTideBins
+% createTideBinsABS
 % createWindSpeedBins
 % windMagPlots    
-% %
-% createTideBins
+% testingWinds
+% testingSeasons
+% testingDaily
 
 
