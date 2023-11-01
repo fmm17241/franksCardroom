@@ -163,13 +163,17 @@ index{8} = mooredReceivers{3,1}.detections == 63081; %FS6 hearing 39IN
 index{9} = mooredReceivers{2,1}.detections == 63075; %STSNew2 hearing FS6
 index{10} = mooredReceivers{3,1}.detections == 63074; %FS6 hearing STSNew2
 
-
+%Self detections
+selfIndex{1} = mooredReceivers{2,1}.detections == 63074; %STSNew2 hearing itself
+selfIndex{2} = mooredReceivers{3,1}.detections == 63075; %FS6 hearing itself
+selfIndex{3} = mooredReceivers{1,1}.detections == 63064; %SURTASS05In hearing itself
+selfIndex{4} = mooredReceivers{4,1}.detections == 63081; %39IN hearing itself
 
 %This is my "key" for the index. I didn't want to load data twice so
 %this key tells the loop which order to use. Matches the order of
 %"mooredReceivers" that I want.
 receiverOrder = [3;1;2;1;1;4;4;3;2;3];
-
+selfReceiverOrder = [2;3;1;4];
 
 %%
 % Putting my detection times and dates into timetables and cells
@@ -197,6 +201,20 @@ for k = 1:length(index)
     end
     
 end
+
+%Self detection tracking
+for k = 1:length(selfIndex)
+    recNumber = selfReceiverOrder(k,1);
+    useSelfTime{k} = mooredReceivers{recNumber,1}.DT(selfIndex{k});
+    selfDetections{k} = ones(length(mooredReceivers{recNumber,1}.detections(selfIndex{k})),1);
+    selfDetectionTable{k} = table(useSelfTime{1,k},selfDetections{1,k}); 
+    selfDetectionTable{k}.Properties.VariableNames = {'time','detections'};
+    selfDetectionTable{k} = table2timetable(selfDetectionTable{k});
+
+    selfHourlyDetections{k} = retime(selfDetectionTable{k},'hourly','sum');
+end
+
+
 
 
 %%
@@ -269,8 +287,8 @@ for PT = 1:length(uniqueReceivers)
     startTime = [datetime(receiverData{1,PT}.bottomTemp(1,1),'ConvertFrom','datenum','TimeZone','UTC'); datetime(receiverData{1,PT}.bottomTemp(end,1),'ConvertFrom','datenum','TimeZone','UTC')];
     bottomTime{PT} = datetime(receiverData{PT}.bottomTemp(:,1),'ConvertFrom','datenum','TimeZone','UTC');
     botIndex       = isbetween(bottomTime{PT},startTime(1,1),startTime(2,1));
-    bottom{PT} = timetable(bottomTime{PT}(botIndex),receiverData{PT}.bottomTemp(botIndex,2),receiverData{PT}.hourlyDets(botIndex,2),receiverData{PT}.tilt(botIndex,2),receiverData{PT}.avgNoise(botIndex,2),receiverData{PT}.pings(botIndex,2));
-    bottom{PT}.Properties.VariableNames = {'botTemp','Detections','Tilt','Noise','Pings'};
+    bottom{PT} = timetable(bottomTime{PT}(botIndex),receiverData{PT}.bottomTemp(botIndex,2),receiverData{PT}.hourlyDets(botIndex,2),receiverData{PT}.tilt(botIndex,2),receiverData{PT}.avgNoise(botIndex,2),receiverData{PT}.pings(botIndex,2),receiverData{PT}.hourlyDets(botIndex,2));
+    bottom{PT}.Properties.VariableNames = {'botTemp','Detections','Tilt','Noise','Pings','TotalDets'};
     bottom{PT}.Tilt(bottom{PT}.Tilt>70) = 0;
 end
 
@@ -396,15 +414,17 @@ close all
 
 
 
-for COUNT = 1:length(receiverOrder)
+for COUNT = 1:10
     fullData{COUNT} = table2timetable(table(time, arrayPairing(:,COUNT), seasonCounter', detections{COUNT},bottomStats{COUNT}.Pings,  sunlight', rotUwinds, rotVwinds, WSPD, WDIR, stratification{COUNT}, ut', vt', rotUtide(COUNT,:)',...
-        rotVtide(COUNT,:)',rotUtideShore',rotVtideShore', bottomStats{COUNT}.Noise,bottomStats{COUNT}.Tilt,waveHt.waveHeight,distances(:,COUNT),transAngle(:,COUNT),tempDifferences{COUNT}));
+        rotVtide(COUNT,:)',rotUtideShore',rotVtideShore', bottomStats{COUNT}.Noise,bottomStats{COUNT}.Tilt,waveHt.waveHeight,distances(:,COUNT),...
+        transAngle(:,COUNT),tempDifferences{COUNT},bottomStats{COUNT}.TotalDets));
+      
     fullData{COUNT}.Properties.VariableNames = {'pairing','season', 'detections','pings','sunlight', 'windsCross','windsAlong','windSpeed','windDir','stratification','uTide','vTide',...
-        'paraTide','perpTide','uShore','vShore','noise','tilt','waveHeight','distance','angle','hGradient'};
+        'paraTide','perpTide','uShore','vShore','noise','tilt','waveHeight','distance','angle','hGradient','TotalDets'};
 end
 
 % Seasons variable to use for later.
-seasons = unique(fullData{1}.season)
+seasons = unique(fullData{1}.season);
 
 %%
 
