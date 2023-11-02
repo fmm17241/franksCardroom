@@ -21,6 +21,24 @@ X = 1:5
 seasonName = [{'Winter','Spring','Summer','Fall','Mariner''s Fall','Fall'}]
 color = ['r','r','g','g','k','k','b','b','m','m'];
 
+for COUNT = 1:length(fullData)
+    for season = 1:length(seasons)
+        usedPings = (seasonScenario{COUNT}{season}.TotalDets)*8;
+        removeFull{COUNT,season} = seasonScenario{COUNT}{season}.pings - usedPings;
+        ratio{COUNT,season}      = usedPings./seasonScenario{COUNT}{season}.pings;
+        averageRatio(COUNT,season) = mean(ratio{COUNT,season})
+    end
+end
+
+
+
+
+
+
+
+
+
+
 
 figure()
 hold on
@@ -46,14 +64,7 @@ test = pingCompare{5} - addUp;
 
 
 
-for COUNT = 1:length(fullData)
-    for season = 1:length(seasons)
-        usedPings = (seasonScenario{COUNT}{season}.TotalDets)*8;
-        removeFull{COUNT,season} = seasonScenario{COUNT}{season}.pings - usedPings;
-        ratio{COUNT,season}      = usedPings./seasonScenario{COUNT}{season}.pings;
-        averageRatio(COUNT,season) = mean(ratio{COUNT,season})
-    end
-end
+
 
 
 for COUNT = 1:length(fullData)

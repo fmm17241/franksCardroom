@@ -1,27 +1,28 @@
 %%
 %FM just isolating stratification, gonna compare to winds and seasons
 
+%FRANK using just the transceivers. Stations, not paths for this data
+fullData = {fullData{1},fullData{2},fullData{3},fullData{6}}
+%FS6, SURT05, STSNew2, 39IN
+
+
 for COUNT = 1:length(fullData)
     for season = 1:length(seasons)
         stratBins{COUNT}{season}(1,:) = fullData{COUNT}.stratification ==0 & fullData{COUNT}.season ==season;
-        stratBins{COUNT}{season}(2,:) = fullData{COUNT}.stratification > 0 & fullData{COUNT}.stratification < 0.4 & fullData{COUNT}.season ==season;
-        stratBins{COUNT}{season}(3,:) = fullData{COUNT}.stratification > 0.4 & fullData{COUNT}.stratification < 0.8 & fullData{COUNT}.season ==season;
-        stratBins{COUNT}{season}(4,:) = fullData{COUNT}.stratification > 0.8 & fullData{COUNT}.stratification < 1.2 & fullData{COUNT}.season ==season;
-        stratBins{COUNT}{season}(5,:) = fullData{COUNT}.stratification > 1.2 & fullData{COUNT}.stratification < 1.6 & fullData{COUNT}.season ==season;
-        stratBins{COUNT}{season}(6,:) = fullData{COUNT}.stratification > 1.6 & fullData{COUNT}.stratification < 2.0 & fullData{COUNT}.season ==season;
-        stratBins{COUNT}{season}(7,:) = fullData{COUNT}.stratification > 2.0 & fullData{COUNT}.stratification < 2.4 & fullData{COUNT}.season ==season;
-        stratBins{COUNT}{season}(8,:) = fullData{COUNT}.stratification > 2.4 & fullData{COUNT}.stratification < 2.8 & fullData{COUNT}.season ==season;
-        stratBins{COUNT}{season}(9,:) = fullData{COUNT}.stratification > 2.8 & fullData{COUNT}.stratification < 3.2 & fullData{COUNT}.season ==season;
-        stratBins{COUNT}{season}(10,:) = fullData{COUNT}.stratification > 3.2 & fullData{COUNT}.stratification < 3.6 & fullData{COUNT}.season ==season;   
-        stratBins{COUNT}{season}(11,:) = fullData{COUNT}.stratification > 3.6 & fullData{COUNT}.stratification < 4.0 & fullData{COUNT}.season ==season;
-        stratBins{COUNT}{season}(12,:) = fullData{COUNT}.stratification > 4.0 & fullData{COUNT}.stratification < 4.4 & fullData{COUNT}.season ==season;
-        stratBins{COUNT}{season}(13,:) = fullData{COUNT}.stratification > 4.4 & fullData{COUNT}.stratification < 4.8 & fullData{COUNT}.season ==season;
-        stratBins{COUNT}{season}(14,:) = fullData{COUNT}.stratification > 4.8 & fullData{COUNT}.stratification < 5.2 & fullData{COUNT}.season ==season;
-        stratBins{COUNT}{season}(15,:) = fullData{COUNT}.stratification > 5.2 & fullData{COUNT}.stratification < 5.6 & fullData{COUNT}.season ==season;
-        stratBins{COUNT}{season}(16,:) = fullData{COUNT}.stratification > 5.6 & fullData{COUNT}.stratification < 6.0 & fullData{COUNT}.season ==season;
-        stratBins{COUNT}{season}(17,:) = fullData{COUNT}.stratification > 6.0 & fullData{COUNT}.stratification < 6.4 & fullData{COUNT}.season ==season;
-        stratBins{COUNT}{season}(18,:) = fullData{COUNT}.stratification > 6.4 & fullData{COUNT}.stratification < 6.8 & fullData{COUNT}.season ==season;
-        stratBins{COUNT}{season}(19,:) = fullData{COUNT}.stratification > 6.8 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(2,:) = fullData{COUNT}.stratification > 0 & fullData{COUNT}.stratification < 0.5 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(3,:) = fullData{COUNT}.stratification > 0.5 & fullData{COUNT}.stratification < 1.0 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(4,:) = fullData{COUNT}.stratification > 1.0 & fullData{COUNT}.stratification < 1.5 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(5,:) = fullData{COUNT}.stratification > 1.5 & fullData{COUNT}.stratification < 2.0 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(6,:) = fullData{COUNT}.stratification > 2.0 & fullData{COUNT}.stratification < 2.5 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(7,:) = fullData{COUNT}.stratification > 2.5 & fullData{COUNT}.stratification < 3.0 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(8,:) = fullData{COUNT}.stratification > 3.0 & fullData{COUNT}.stratification < 3.5 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(9,:) = fullData{COUNT}.stratification > 3.5 & fullData{COUNT}.stratification < 4.0 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(10,:) = fullData{COUNT}.stratification > 4.0 & fullData{COUNT}.stratification < 4.5 & fullData{COUNT}.season ==season;   
+        stratBins{COUNT}{season}(11,:) = fullData{COUNT}.stratification > 4.5 & fullData{COUNT}.stratification < 5.0 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(12,:) = fullData{COUNT}.stratification > 5.0 & fullData{COUNT}.stratification < 5.5 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(13,:) = fullData{COUNT}.stratification > 5.5 & fullData{COUNT}.stratification < 6.0 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(14,:) = fullData{COUNT}.stratification > 6.0 & fullData{COUNT}.stratification < 6.5 & fullData{COUNT}.season ==season;
+        stratBins{COUNT}{season}(15,:) = fullData{COUNT}.stratification > 6.5 & fullData{COUNT}.season ==season;
     end
 end
 
@@ -66,10 +67,38 @@ for COUNT = 1:length(fullData)
     end
 end
 
+for COUNT = 1:length(fullData)
+    for season = 1:length(seasons)
+        for k = 1:length(stratScenario{COUNT}{season})
+            usedPings = (stratScenario{COUNT}{season}{k}.TotalDets)*8;
+            removeFull{COUNT,season} = stratScenario{COUNT}{season}{k}.pings - usedPings;
+            ratio{COUNT,season}{k}      = usedPings./stratScenario{COUNT}{season}{k}.pings;
+            averageRatio{COUNT,season}(k) = mean(ratio{COUNT,season}{k})
+        end
+    end
+end
 
-X = 0:0.4:7.2
+
+
+X = 0:0.5:7
 seasonName = [{'Winter','Spring','Summer','Fall','Mariner''s Fall','Fall'}];
-color = ['r','r','g','g','k','k','b','b','m','m'];
+color = ['r','g','k','b','m'];
+
+
+for k = 1:length(fullData)
+    figure
+    hold on
+    for season = 1:length(seasons)
+        plot(X,averageRatio{k,season},color(season),'lineWidth',3)
+    end
+    title(sprintf('Ratio of Ping Usage, %d',k))
+    ylim([0.6 1])
+    ylabel('Ping Ratio')
+    xlabel('Stratification (C)')
+    if k ==2
+        legend('Winter','Spring','Summer','Fall','M.Fall')
+    end
+end
 
 
 %%

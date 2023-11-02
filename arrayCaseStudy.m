@@ -169,11 +169,17 @@ selfIndex{2} = mooredReceivers{3,1}.detections == 63075; %FS6 hearing itself
 selfIndex{3} = mooredReceivers{1,1}.detections == 63064; %SURTASS05In hearing itself
 selfIndex{4} = mooredReceivers{4,1}.detections == 63081; %39IN hearing itself
 
+%Bio Index
+bioIndex{1} = mooredReceivers{1,1}.detections == 20028;
+bioIndex{2} = mooredReceivers{1,1}.detections == 20029;
+bioIndex{3} = mooredReceivers{1,1}.detections == 44655;
+
 %This is my "key" for the index. I didn't want to load data twice so
 %this key tells the loop which order to use. Matches the order of
 %"mooredReceivers" that I want.
 receiverOrder = [3;1;2;1;1;4;4;3;2;3];
 selfReceiverOrder = [2;3;1;4];
+bioReceiverOrder     = [1,1,1];
 
 %%
 % Putting my detection times and dates into timetables and cells
@@ -214,7 +220,17 @@ for k = 1:length(selfIndex)
     selfHourlyDetections{k} = retime(selfDetectionTable{k},'hourly','sum');
 end
 
+%Bio detection tracking
+for k = 1:length(bioIndex)
+    recNumber = bioReceiverOrder(k);
+    useBioTime{k} = mooredReceivers{recNumber,1}.DT(bioIndex{k});
+    bioDetections{k} = ones(length(mooredReceivers{recNumber,1}.detections(bioIndex{k})),1);
+    bioDetectionTable{k} = table(useBioTime{1,k},bioDetections{1,k}); 
+    bioDetectionTable{k}.Properties.VariableNames = {'time','detections'};
+    bioDetectionTable{k} = table2timetable(bioDetectionTable{k});
 
+    bioHourlyDetections{k} = retime(bioDetectionTable{k},'hourly','sum');
+end
 
 
 %%
@@ -425,6 +441,7 @@ end
 
 % Seasons variable to use for later.
 seasons = unique(fullData{1}.season);
+
 
 %%
 
