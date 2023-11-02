@@ -8,6 +8,7 @@ fullData = {fullData{1},fullData{2},fullData{3},fullData{6}}
 windSpeedScenario= {windSpeedScenario{1},windSpeedScenario{2},windSpeedScenario{3},windSpeedScenario{6}};
 tiltCompareWind  = {tiltCompareWind{1},tiltCompareWind{2},tiltCompareWind{3},tiltCompareWind{6}};
 normalizedWSpeed = {normalizedWSpeed{1},normalizedWSpeed{2},normalizedWSpeed{3},normalizedWSpeed{6}};
+noiseCompare = {noiseCompare{1},noiseCompare{2},noiseCompare{3},noiseCompare{6}};
 %FS6, SURT05, STSNew2, 39IN
 
 %%
@@ -35,7 +36,24 @@ for COUNT = 1:length(fullData)
     hold on
     for season = 1:length(seasons)
         useThis = (normalizedWSpeed{COUNT}{season}+ 0.000001)*100;
-        scatter3(X,tiltCompareWind{COUNT}{season},test,useThis,color(season),'filled')
+        scatter3(X,noiseCompare{COUNT}{season},test,useThis,color(season),'filled')
+    end
+%     if COUNT ==2
+        legend('Winter','Spring','Summer','Fall','M.Fall')
+%     end
+    ylabel('Noise (mV)')
+%     ylim([6 16.5])
+    xlabel('Windspeed (m/s)')
+    title(sprintf('Tilting Affecting Efficiency %d',COUNT))
+end
+
+
+for COUNT = 1:length(fullData)
+    figure()
+    hold on
+    for season = 1:length(seasons)
+        useThis = (normalizedWSpeed{COUNT}{season}+ 0.000001)*100;
+        scatter3(X,noiseCompareWind{COUNT}{season},test,useThis,color(season),'filled')
     end
 %     if COUNT ==2
         legend('Winter','Spring','Summer','Fall','M.Fall')
@@ -45,7 +63,6 @@ for COUNT = 1:length(fullData)
     xlabel('Windspeed (m/s)')
     title(sprintf('Tilting Affecting Efficiency %d',COUNT))
 end
-
 
 
 for k = 1:length(fullData)

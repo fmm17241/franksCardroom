@@ -41,13 +41,137 @@ for COUNT = 1:length(fullData)
 end
 
 
+
+
+
+%%
+
+
+unusedPings = fullData{3}.pings - (fullData{3}.detections*8);
+
+figure()
+plot(fullData{3}.time,unusedPings)
+ylabel('Unused Pings')
+
+
+
+
+
+%%
+
+
+
+
+
+
+
+
+
+
 figure()
 hold on
 yyaxis left
-plot(X,pingCompare{1},color(1))
+plot(X,pingCompare{1},'b')
+ylabel('Total Pings')
 yyaxis right
-plot(X,totalDets{1},color(1))
+plot(X,noiseCompare{1},'r')
+ylabel('HF Noise (mV)')
+title('One')
+ylim([480 780])
 
+
+figure()
+hold on
+yyaxis left
+plot(X,pingCompare{2},'b')
+ylabel('Total Pings')
+yyaxis right
+plot(X,noiseCompare{2},'r')
+ylabel('HF Noise (mV)')
+title('Two')
+ylim([480 780])
+
+figure()
+hold on
+yyaxis left
+plot(X,pingCompare{3},'b')
+ylabel('Total Pings')
+yyaxis right
+plot(X,noiseCompare{3},'r')
+ylabel('HF Noise (mV)')
+xlabel('Season')
+title('Three')
+ylim([480 780])
+
+figure()
+hold on
+yyaxis left
+plot(X,pingCompare{4},'b')
+ylabel('Total Pings')
+yyaxis right
+plot(X,noiseCompare{4},'r')
+ylabel('HF Noise (mV)')
+xlabel('Season')
+title('Four')
+ylim([480 780])
+
+%%FM NEW
+figure()
+hold on
+yyaxis left
+plot(X,averageRatio(1,:),'b')
+ylabel('PingRatio')
+yyaxis right
+plot(X,noiseCompare{1},'r')
+ylabel('HF Noise (mV)')
+title('One')
+ylim([480 780])
+
+
+figure()
+hold on
+yyaxis left
+plot(X,averageRatio(2,:),'b')
+ylabel('Total Pings')
+yyaxis right
+plot(X,noiseCompare{2},'r')
+ylabel('HF Noise (mV)')
+title('Two')
+ylim([480 780])
+
+figure()
+hold on
+yyaxis left
+plot(X,averageRatio(3,:),'b')
+ylabel('Total Pings')
+yyaxis right
+plot(X,noiseCompare{3},'r')
+ylabel('HF Noise (mV)')
+xlabel('Season')
+title('Three')
+ylim([480 780])
+
+figure()
+hold on
+yyaxis left
+plot(X,averageRatio(4,:),'b')
+ylabel('Total Pings')
+yyaxis right
+plot(X,noiseCompare{4},'r')
+ylabel('HF Noise (mV)')
+xlabel('Season')
+title('Four')
+ylim([480 780])
+
+%%
+    figure()
+    hold on
+for season = 1:length(seasons)
+    for k = 1:length(fullData)
+        scatter(noiseCompare{k}(season),averageRatio(k,:),color(season),'filled')
+    end
+end
+legend('Wint','Spr','Sum','Fall','MFall')
 
 
 
