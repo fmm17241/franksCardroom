@@ -149,7 +149,7 @@ startCyclePre = tideDT(97);
 %appealing, but can be changed for longer dataset analysis.
 % 
 % % Basic:
-cycleDuration  = duration(days(7));
+cycleDuration  = duration(days(2));
 
 
 
@@ -160,7 +160,7 @@ cycleDuration  = duration(days(7));
 startCycle = startCyclePre
 
 cycleTime = startCycle;
-for k = 1:60 %
+for k = 1:200 %
 % for k  = 1:95 % for 4 day chunks
 % for k = 1:35 %~30 day chunks
 % for k = 1:25     %15 day chunks
@@ -219,7 +219,7 @@ for COUNT = 1:length(receiverData)
     %    findersX(14) = findersX(12) + duration(hours(24));
         
     
-        ff = tiledlayout(tileArrangement="vertical")
+        ff = tiledlayout('vertical')
         set(gcf, 'Position',  [-100, 100, 2000, 1100])
         nexttile([1 2])
         plot(receiverTimes{COUNT},receiverData{COUNT}.hourlyDets(:,2),'k');
@@ -305,7 +305,7 @@ for COUNT = 1:length(receiverData)
     %     xlim(ax);
     %     title('Transceiver Tilt from 90°, Straight up');
 %         
-        exportgraphics(ff,sprintf('saveIt%dand%d7Day.png',COUNT,k))
+        exportgraphics(ff,sprintf('saveIt%dand%d2Day.png',COUNT,k))
         close all
     end
 end
