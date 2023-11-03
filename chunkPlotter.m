@@ -90,7 +90,7 @@ for COUNT = 1:2:length(receiverData)
     
         ff = figure()
         set(gcf, 'Position',  [30, 20, 800, 1100])
-        nexttile([1 2])
+        nexttile('south')
         plot(hourlyDetections{COUNT}.time,hourlyDetections{COUNT}.detections,'k');
         %     title('Detections, ~500 m, East to West, Transceiver Depth: 13.72 m');
         title('Detections, hourly binned');
@@ -111,7 +111,7 @@ for COUNT = 1:2:length(receiverData)
         
         
         
-        nexttile([1 2])
+        nexttile('south')
         plot(hourlyDetections{COUNT+1}.time,hourlyDetections{COUNT+1}.detections,'k');
         %     title('Detections, ~500 m, East to West, Transceiver Depth: 13.72 m');
         title('Detections, hourly binned');
@@ -136,7 +136,7 @@ for COUNT = 1:2:length(receiverData)
     %     f.FaceAlpha = 0.15;
     %     g = fill([findersX(13) findersX(13) findersX(14) findersX(14)],findersY,[0 0 0]);
     %     g.FaceAlpha = 0.15;
-        nexttile([1 2])
+        nexttile('south')
         plot(noiseDT{COUNT},receiverData{1,COUNT}.avgNoise(:,2));
         ylabel('Ambient Noise');
         ylim([500 900])
@@ -146,7 +146,7 @@ for COUNT = 1:2:length(receiverData)
         title('Ambient Noise');
         
         %     
-        nexttile([1 2])
+        nexttile('south')
         plot(tideDT,rotUtide(COUNT,:))
         title('Rotated Tides, Parallel');
         ylabel('Parallel Velocity');
@@ -179,7 +179,7 @@ for COUNT = 1:2:length(receiverData)
     %     b = fill([findersX(3) findersX(3) findersX(4) findersX(4)],findersY,[0 0 0]);
     %     b.FaceAlpha = 0.15;
     
-        nexttile([1 2])
+        nexttile('south')
         plot(bottomStats{COUNT}.Time,bottomStats{COUNT}.Tilt,'r');
         ylabel('Tilt Angle, °');
         ylim([0 40]);
@@ -194,7 +194,7 @@ for COUNT = 1:2:length(receiverData)
 %         title('Transceiver Tilt, 2');
 %     
         
-        nexttile([1 2])
+        nexttile('south')
         plot(bottomStats{COUNT}.Time,stratification{COUNT},'r');
         ylabel('Temp \Delta °C)');
         ylim(limitsStrat);
