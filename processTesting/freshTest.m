@@ -160,7 +160,7 @@ cycleDuration  = duration(days(2));
 startCycle = startCyclePre
 
 cycleTime = startCycle;
-for k = 1:200 %
+for k = 1:190 %
 % for k  = 1:95 % for 4 day chunks
 % for k = 1:35 %~30 day chunks
 % for k = 1:25     %15 day chunks
@@ -305,7 +305,7 @@ for COUNT = 1:length(receiverData)
     %     xlim(ax);
     %     title('Transceiver Tilt from 90°, Straight up');
 %         
-        exportgraphics(ff,sprintf('saveIt%dand%d2Day.png',COUNT,k))
+        exportgraphics(ff,sprintf('2Day%dnumber%d.png',COUNT,k))
         close all
     end
 end
