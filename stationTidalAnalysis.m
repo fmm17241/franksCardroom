@@ -65,7 +65,7 @@ tideU = real(xout);
 tideV = imag(xout);
 
 %Sets timing
-datetide = [00,00,01,2020];
+datetide = [00,09,11,2019];
 
 %t_tide order of constituents:
 % 15 = M2, Lunar semidiurnal
@@ -84,10 +84,10 @@ UVOrder    = [1,2,3,4,6,26];% Full tides for consideration
 % UVOrder    = [3]; %Isolating certain tides.
 %Predict tides for our location
 [timePrediction,ut,vt] = uvpred(struct.tidecon(tTideOrder,1),struct.tidecon(tTideOrder,3),struct.tidecon(tTideOrder,7),...
-    struct.tidecon(tTideOrder,5),UVOrder,datetide,0.5,366);
+    struct.tidecon(tTideOrder,5),UVOrder,datetide,0.5,419);
 
 %Create timing for our tidal predictions.
-tideDN=datenum(2020,1,01):0.5/24:datenum(2021,1,01);
+tideDN=datenum(2019,11,09):0.5/24:datenum(2021,1,01);
 tideDT=datetime(tideDN,'ConvertFrom','datenum','TimeZone','UTC')';
 
 %Results: ut and vt are the tides for the timing tideDT
