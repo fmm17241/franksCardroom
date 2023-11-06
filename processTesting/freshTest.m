@@ -68,6 +68,16 @@ for PT = 1:length(uniqueReceivers)
 end
 clear detectionIndex  PT noiseIndex pingIndex detectionIndex tempIndex tiltIndex WonderfulReceivers data dataDN 
 
+for PT = 1:length(uniqueReceivers)
+    usedPings = receiverData{PT}.hourlyDets(:,2)*8;
+    ratio     = usedPings./receiverData{PT}.pings(:,2);
+    receiverData{PT}.ratio(:,1) = receiverData{PT}.hourlyDets(:,1); 
+    receiverData{PT}.ratio(:,2) = ratio;
+end
+
+
+
+
 %Timetable of transceiver data
 for PT = 1:length(uniqueReceivers)
     startTime = [datetime(receiverData{1,PT}.bottomTemp(1,1),'ConvertFrom','datenum','TimeZone','UTC'); datetime(receiverData{1,PT}.bottomTemp(end,1),'ConvertFrom','datenum','TimeZone','UTC')];
@@ -143,3 +153,47 @@ close all
 
 
 %%
+%Frank created receiverData{X}.ratio, now how can I show committee what I'm
+%talking about?
+
+figure()
+hold on
+% yyaxis left
+plot(receiverTimes{1},receiverData{1}.ratio(:,2),'LineWidth',2);
+ylabel('Ratio')
+ylim([0.5 1])
+yyaxis right
+plot(receiverTimes{1},receiverData{1}.avgNoise(:,2),'LineWidth',2);
+ylabel('Noise (mV)')
+ylim([400 800])
+title('Comparing Efficiency to Noise','Ratio = Used pings (dets*8)/Total Collected Pings')
+
+
+figure()
+hold on
+yyaxis left
+plot(receiverTimes{2},receiverData{2}.hourlyDets(:,2),'LineWidth',2);
+ylabel('Hourly Dets')
+ylim([6 15])
+yyaxis right
+plot(receiverTimes{2},receiverData{2}.avgNoise(:,2),'LineWidth',2);
+ylabel('Noise (mV)')
+ylim([400 800])
+title('Comparing Efficiency to Noise','')
+
+
+
+
+for COUNT = 1:length(receiverData)
+    for season = 1:length(seasons)
+        seasonBin{COUNT}{season} = fullData{COUNT}.season ==season;
+        seasonScenario{COUNT}{season}= fullData{COUNT}(seasonBin{COUNT}{season},:);
+        averageDets{COUNT}(season) = mean(seasonScenario{COUNT}{season}.detections);
+        noiseCompare{COUNT}(season) = mean(seasonScenario{COUNT}{season}.noise);
+        wavesCompare{COUNT}(season) = mean(seasonScenario{COUNT}{season}.waveHeight);
+        tiltCompareWind{COUNT}(season) = mean(seasonScenario{COUNT}{season}.tilt);
+        stratCompare{COUNT}(season) = mean(seasonScenario{COUNT}{season}.stratification);
+        pingCompare{COUNT}(season) = mean(seasonScenario{COUNT}{season}.pings);
+        totalDets{COUNT}(season)   = mean(seasonScenario{COUNT}{season}.TotalDets);
+    end
+end
