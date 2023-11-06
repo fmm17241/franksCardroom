@@ -4,7 +4,7 @@ startCyclePre = tideDT(97);
 %appealing, but can be changed for longer dataset analysis.
 % 
 % % Basic:
-cycleDuration  = duration(days(2));
+cycleDuration  = duration(days(1));
 
 
 
@@ -15,7 +15,7 @@ cycleDuration  = duration(days(2));
 startCycle = startCyclePre
 
 cycleTime = startCycle;
-for k = 1:185 %
+for k = 1:380 %
 % for k  = 1:95 % for 4 day chunks
 % for k = 1:35 %~30 day chunks
 % for k = 1:25     %15 day chunks
@@ -121,7 +121,7 @@ for COUNT = 1:length(receiverData)
         title('Single Pings Received, Hourly');
     %     
         nexttile([1 2])
-        plot(receiverTimes{COUNT},receiverData{COUNT}.tilt(:,2),'r');
+        plot(receiverTimes{COUNT},receiverData{COUNT}.tilt(:,2),'k');
         ylabel('Tilt');
         ylim([6 15]);
         xlim(ax);
@@ -160,7 +160,7 @@ for COUNT = 1:length(receiverData)
     %     xlim(ax);
     %     title('Transceiver Tilt from 90°, Straight up');
 %         
-        exportgraphics(ff,sprintf('7Day%dnumber%d.png',COUNT,k))
+        exportgraphics(ff,sprintf('1Day%dnumber%d.png',COUNT,k))
         close all
     end
 end

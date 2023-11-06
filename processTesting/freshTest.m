@@ -2,10 +2,17 @@
 %What's going on, vegv,pbmkfgbmklfb m sbklgmvkb kgmbkmgf
 
 stationTidalAnalysis
+%tideDN, tideDT: tide timing
+%rotUtideShore, rotVtideShore: tidal velocities with perspective rotated so
+%that the X axis is cross-shore, and the Y axis is alongshore.
+%ut, vt: Same tidal velocities but in lat/lon directional perspective.
+
 
 %Loads in and analyzes the windspeeds and directions
 stationWindsAnalysis
-
+%WSPD: Magnitude of winds
+% WDIR: Direction of winds, GOING TOWARDS, not meteorological
+% windsDT, windsDN: Timing of the winds
 
 % fullTime = [datetime(2020,01,29,17,00,00),datetime(2020,12,10,13,00,00)];
 % fullTime.TimeZone = 'UTC';
@@ -181,19 +188,41 @@ ylabel('Noise (mV)')
 ylim([400 800])
 title('Comparing Efficiency to Noise','')
 
+%%
+
+% FM gotta edit this so it works for transceiver baed meaures
+% 
+% seasons = length(unique(receiverData{1}.season))
+% 
+% for COUNT = 1:length(receiverData)
+%     for season = 1:length(seasons)
+%         seasonBin{COUNT}{season} = fullData{COUNT}.season ==season;
+%         seasonScenario{COUNT}{season}= fullData{COUNT}(seasonBin{COUNT}{season},:);
+%         averageDets{COUNT}(season) = mean(seasonScenario{COUNT}{season}.detections);
+%         noiseCompare{COUNT}(season) = mean(seasonScenario{COUNT}{season}.noise);
+%         wavesCompare{COUNT}(season) = mean(seasonScenario{COUNT}{season}.waveHeight);
+%         tiltCompareWind{COUNT}(season) = mean(seasonScenario{COUNT}{season}.tilt);
+%         stratCompare{COUNT}(season) = mean(seasonScenario{COUNT}{season}.stratification);
+%         pingCompare{COUNT}(season) = mean(seasonScenario{COUNT}{season}.pings);
+%         totalDets{COUNT}(season)   = mean(seasonScenario{COUNT}{season}.TotalDets);
+%     end
+% end
 
 
 
-for COUNT = 1:length(receiverData)
-    for season = 1:length(seasons)
-        seasonBin{COUNT}{season} = fullData{COUNT}.season ==season;
-        seasonScenario{COUNT}{season}= fullData{COUNT}(seasonBin{COUNT}{season},:);
-        averageDets{COUNT}(season) = mean(seasonScenario{COUNT}{season}.detections);
-        noiseCompare{COUNT}(season) = mean(seasonScenario{COUNT}{season}.noise);
-        wavesCompare{COUNT}(season) = mean(seasonScenario{COUNT}{season}.waveHeight);
-        tiltCompareWind{COUNT}(season) = mean(seasonScenario{COUNT}{season}.tilt);
-        stratCompare{COUNT}(season) = mean(seasonScenario{COUNT}{season}.stratification);
-        pingCompare{COUNT}(season) = mean(seasonScenario{COUNT}{season}.pings);
-        totalDets{COUNT}(season)   = mean(seasonScenario{COUNT}{season}.TotalDets);
-    end
-end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
