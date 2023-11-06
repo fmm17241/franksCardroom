@@ -15,7 +15,7 @@ cycleDuration  = duration(days(2));
 startCycle = startCyclePre
 
 cycleTime = startCycle;
-for k = 1:190 %
+for k = 1:185 %
 % for k  = 1:95 % for 4 day chunks
 % for k = 1:35 %~30 day chunks
 % for k = 1:25     %15 day chunks
@@ -40,7 +40,7 @@ axDN(1,1:4) = [0 0 -12 12];
 
 %Change this to one of the pairings listed above to save
 % cd  'C:\Users\fmm17241\OneDrive - University of Georgia\data\Moored\tidalCycles\pairing4'
-cd 'C:\Users\fmm17241\Documents\Plots'
+cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\exportedFigures\timeseries'
 
 receiverLetter = ['A','B','C','D']
 
@@ -97,7 +97,7 @@ for COUNT = 1:length(receiverData)
         nexttile([1 2])
         plot(windsDT,WSPD);
         ylabel('Windspeed');
-%         ylim([500 900])
+        ylim([2 12])
 %         yline(650)
         xlim(ax);
         datetick('x','keeplimits');
@@ -116,14 +116,14 @@ for COUNT = 1:length(receiverData)
         nexttile([1 2])
         plot(receiverTimes{COUNT},receiverData{COUNT}.pings(:,2),'r');
         ylabel('Pings');
-%         ylim([0 40]);
+        ylim([20 140]);
         xlim(ax);
         title('Single Pings Received, Hourly');
     %     
         nexttile([1 2])
         plot(receiverTimes{COUNT},receiverData{COUNT}.tilt(:,2),'r');
         ylabel('Tilt');
-%         ylim([0 40]);
+        ylim([6 15]);
         xlim(ax);
         title('Instrument Tilt');
 %         nexttile ([1 2])
@@ -160,7 +160,7 @@ for COUNT = 1:length(receiverData)
     %     xlim(ax);
     %     title('Transceiver Tilt from 90°, Straight up');
 %         
-        exportgraphics(ff,sprintf('2Day%dnumber%d.png',COUNT,k))
+        exportgraphics(ff,sprintf('7Day%dnumber%d.png',COUNT,k))
         close all
     end
 end
