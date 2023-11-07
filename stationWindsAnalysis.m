@@ -3,10 +3,11 @@ cd ([oneDrive,'WeatherData'])
 
 % cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\WeatherData'
 %
-% winds2019 = readtable ('continuousWeatherData2019.csv'); %IN UTC!!!!!
+winds2019 = readtable ('continuousWeatherData2019.csv'); %IN UTC!!!!!
 % winds2020 = readtable ('continuousWeatherData2020.csv'); %IN UTC!!!!!
-winds = readtable ('continuousWeatherData2020.csv'); %IN UTC!!!!!
+winds2020 = readtable ('continuousWeatherData2020.csv'); %IN UTC!!!!!
 % winds2021 = readtable ('continuousWeatherData2021.csv'); %IN UTC!!!!!
+winds = [winds2019;winds2020];
 
 %FM 3/21/23
 %This changes meteorological directions (wind COMING FROM degrees) to
