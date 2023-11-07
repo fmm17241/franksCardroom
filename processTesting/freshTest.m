@@ -165,12 +165,23 @@ mFall{4}     = [6814:8277]';
 % end
 
 for COUNT = 1:length(winter)
-    seasonScenario{COUNT,1} = table(receiverTimes{COUNT}(winter{COUNT}), receiverData{COUNT}.hourlyDets(winter{COUNT},2), receiverData{COUNT}.avgNoise(winter{COUNT},2), receiverData{COUNT}.pings(winter{COUNT},2),receiverData{COUNT}.tilt(winter{COUNT},2),receiverData{COUNT}.bottomTemp(winter{COUNT},2));
+    seasonScenario{COUNT,1} =table(receiverTimes{COUNT}(winter{COUNT}), receiverData{COUNT}.hourlyDets(winter{COUNT},2), receiverData{COUNT}.avgNoise(winter{COUNT},2), receiverData{COUNT}.pings(winter{COUNT},2),receiverData{COUNT}.tilt(winter{COUNT},2),receiverData{COUNT}.bottomTemp(winter{COUNT},2));
     seasonScenario{COUNT,2} =table(receiverTimes{COUNT}(spring{COUNT}), receiverData{COUNT}.hourlyDets(spring{COUNT},2), receiverData{COUNT}.avgNoise(spring{COUNT},2), receiverData{COUNT}.pings(spring{COUNT},2),receiverData{COUNT}.tilt(spring{COUNT},2),receiverData{COUNT}.bottomTemp(spring{COUNT},2));
     seasonScenario{COUNT,3} =table(receiverTimes{COUNT}(summer{COUNT}), receiverData{COUNT}.hourlyDets(summer{COUNT},2), receiverData{COUNT}.avgNoise(summer{COUNT},2), receiverData{COUNT}.pings(summer{COUNT},2),receiverData{COUNT}.tilt(summer{COUNT},2),receiverData{COUNT}.bottomTemp(summer{COUNT},2));
     seasonScenario{COUNT,4} =table(receiverTimes{COUNT}(fall{COUNT}), receiverData{COUNT}.hourlyDets(fall{COUNT},2), receiverData{COUNT}.avgNoise(fall{COUNT},2), receiverData{COUNT}.pings(fall{COUNT},2),receiverData{COUNT}.tilt(fall{COUNT},2),receiverData{COUNT}.bottomTemp(fall{COUNT},2));
     seasonScenario{COUNT,5} =table(receiverTimes{COUNT}(mFall{COUNT}), receiverData{COUNT}.hourlyDets(mFall{COUNT},2), receiverData{COUNT}.avgNoise(mFall{COUNT},2), receiverData{COUNT}.pings(mFall{COUNT},2),receiverData{COUNT}.tilt(mFall{COUNT},2),receiverData{COUNT}.bottomTemp(mFall{COUNT},2));
+    seasonScenario{COUNT,1}.Properties.VariableNames = {'time','hourlyDets','noise','pings','tilt','temp'};
+    seasonScenario{COUNT,2}.Properties.VariableNames = {'time','hourlyDets','noise','pings','tilt','temp'};
+    seasonScenario{COUNT,3}.Properties.VariableNames = {'time','hourlyDets','noise','pings','tilt','temp'};
+    seasonScenario{COUNT,4}.Properties.VariableNames = {'time','hourlyDets','noise','pings','tilt','temp'};
+    seasonScenario{COUNT,5}.Properties.VariableNames = {'time','hourlyDets','noise','pings','tilt','temp'};
 end
+
+
+seasonName = ['winter','spring','summer','fall','mFall'];
+
+
+
 
 %     detectionTable{k} = table(useTime{1,k},detections{1,k}); 
 %     detectionTable{k}.Properties.VariableNames = {'time','detections'};
