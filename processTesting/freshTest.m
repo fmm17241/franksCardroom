@@ -128,35 +128,56 @@ for k = 1:xx
     sunlight(currentDays) = 1;
 end
 
-% winter  = [1:751,6632:7581];
-% % Spring:           Mar-May
-% spring   = 752:2959;
-% % Summer:           June, July
-% summer   = 2960:4423;
-% % Fall:             August
-% fall     = 4424:5167;
-% % Mariner's Fall:   Sep-Oct
-% Mfall    =5168:6631;
 
-% seasonCounter = zeros(1,length(time));
-% seasonCounter(winter) = 1; seasonCounter(spring) = 2; seasonCounter(summer) = 3; seasonCounter(fall) = 4; seasonCounter(Mfall) = 5;
+%Frank manually making season bins for the 4 transceivers
+%SURT05
+winter{1}     = [3:2063, 7944:9190]';
+spring{1}     = [ 2064:4271]';
+summer{1}  = [4272:5735]';
+fall{1}          = [5736:6479]';
+mFall{1}      = [6480:7943]';
 
+%STSnew2
+winter{2}     = [1:2405, 8286:9253]';
+spring{2}     = [2406:4613]';
+summer{2}  = [4614:6077]';
+fall{2}          = [6078:6821]';
+mFall{2}      = [6822:8285]';
+
+%FS6
+winter{3}    = [1:2061, 7942:9208]';
+spring{3}    = [2062:4269]';
+summer{3} = [4270:5733]';
+fall{3}         = [5734:6477]';
+mFall{3}     = [6478:7941]';
+
+%39IN
+winter{4}    = [1:2397, 8278:9373]';
+spring{4}    = [2398:4605]';
+summer{4} = [4606:6069]';
+fall{4}         = [6070:6813]';
+mFall{4}     = [6814:8277]';
+
+% 
+% for k = 1:length(winter)
+%     seasonCounter{k} = zeros(1,length(receiverTimes{k}));
+%     seasonCounter{k}(winter{k}) = 1; seasonCounter{k}(spring{k}) = 2; seasonCounter{k}(summer{k}) = 3; seasonCounter{k}(fall{k}) = 4; seasonCounter{k}(mFall{k}) = 5;
+% end
+
+for COUNT = 1:length(winter)
+    seasonScenario{COUNT,1} = table(receiverTimes{COUNT}(winter{COUNT}), receiverData{COUNT}.hourlyDets(winter{COUNT},2), receiverData{COUNT}.avgNoise(winter{COUNT},2), receiverData{COUNT}.pings(winter{COUNT},2),receiverData{COUNT}.tilt(winter{COUNT},2),receiverData{COUNT}.bottomTemp(winter{COUNT},2));
+    seasonScenario{COUNT,2} =table(receiverTimes{COUNT}(spring{COUNT}), receiverData{COUNT}.hourlyDets(spring{COUNT},2), receiverData{COUNT}.avgNoise(spring{COUNT},2), receiverData{COUNT}.pings(spring{COUNT},2),receiverData{COUNT}.tilt(spring{COUNT},2),receiverData{COUNT}.bottomTemp(spring{COUNT},2));
+    seasonScenario{COUNT,3} =table(receiverTimes{COUNT}(summer{COUNT}), receiverData{COUNT}.hourlyDets(summer{COUNT},2), receiverData{COUNT}.avgNoise(summer{COUNT},2), receiverData{COUNT}.pings(summer{COUNT},2),receiverData{COUNT}.tilt(summer{COUNT},2),receiverData{COUNT}.bottomTemp(summer{COUNT},2));
+    seasonScenario{COUNT,4} =table(receiverTimes{COUNT}(fall{COUNT}), receiverData{COUNT}.hourlyDets(fall{COUNT},2), receiverData{COUNT}.avgNoise(fall{COUNT},2), receiverData{COUNT}.pings(fall{COUNT},2),receiverData{COUNT}.tilt(fall{COUNT},2),receiverData{COUNT}.bottomTemp(fall{COUNT},2));
+    seasonScenario{COUNT,5} =table(receiverTimes{COUNT}(mFall{COUNT}), receiverData{COUNT}.hourlyDets(mFall{COUNT},2), receiverData{COUNT}.avgNoise(mFall{COUNT},2), receiverData{COUNT}.pings(mFall{COUNT},2),receiverData{COUNT}.tilt(mFall{COUNT},2),receiverData{COUNT}.bottomTemp(mFall{COUNT},2));
+end
+
+%     detectionTable{k} = table(useTime{1,k},detections{1,k}); 
+%     detectionTable{k}.Properties.VariableNames = {'time','detections'};
+%     detectionTable{k} = table2timetable(detectionTable{k});
 
 
 load mooredGPS
-
-% %Creates distance variable between transceivers
-% distances(:,1) = repelem(lldistkm(mooredGPS(14,:),mooredGPS(12,:)),length(uniqueReceivers));
-
-
-%Angles between transceivers
-% for K = 1:10
-%     arrayPairing(:,K) = repelem(K,length(time))
-%     transAngle(:,K)   = repelem(AnglesD(:,K),length(time))
-% end
-
-%Okay, basics are set.
-close all
 
 
 %%
@@ -187,6 +208,19 @@ plot(receiverTimes{2},receiverData{2}.avgNoise(:,2),'LineWidth',2);
 ylabel('Noise (mV)')
 ylim([400 800])
 title('Comparing Efficiency to Noise','')
+
+figure()
+hold on
+yyaxis left
+plot(receiverTimes{2},receiverData{2}.pings(:,2),'LineWidth',2);
+ylabel('Total Pings')
+% ylim([6 15])
+yyaxis right
+plot(receiverTimes{2},receiverData{2}.avgNoise(:,2),'LineWidth',2);
+ylabel('Noise (mV)')
+ylim([400 800])
+title('Comparing Abiotic Noise to Total Noise','')
+
 
 %%
 
