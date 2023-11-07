@@ -4,7 +4,7 @@ startCyclePre = tideDT(97);
 %appealing, but can be changed for longer dataset analysis.
 % 
 % % Basic:
-cycleDuration  = duration(days(1));
+cycleDuration  = duration(days(14));
 
 
 
@@ -15,7 +15,7 @@ cycleDuration  = duration(days(1));
 startCycle = startCyclePre
 
 cycleTime = startCycle;
-for k = 1:380 %
+for k = 1:25 %
 % for k  = 1:95 % for 4 day chunks
 % for k = 1:35 %~30 day chunks
 % for k = 1:25     %15 day chunks
@@ -85,47 +85,55 @@ for COUNT = 1:length(receiverData)
         ylabel('Hourly Detections');
 %         ylim([6 16]);
 
-        nexttile([1 2])
-        plot(receiverTimes{COUNT},receiverData{1,COUNT}.avgNoise(:,2));
-        ylabel('Ambient Noise');
-        ylim([500 900])
-        yline(650)
-        xlim(ax);
-        datetick('x','keeplimits');
-        title('Ambient Noise');
-        
-        nexttile([1 2])
-        plot(windsDT,WSPD);
-        ylabel('Windspeed');
-        ylim([2 12])
+%         nexttile([1 2])
+%         plot(receiverTimes{COUNT},receiverData{1,COUNT}.avgNoise(:,2));
+%         ylabel('Ambient Noise');
+%         ylim([500 900])
 %         yline(650)
-        xlim(ax);
-        datetick('x','keeplimits');
-        title('Winds');
-
-        %     
+%         xlim(ax);
+%         datetick('x','keeplimits');
+%         title('Ambient Noise');
+% 
+%         nexttile([1 2])
+%         plot(windsDT,WSPD);
+%         ylabel('Windspeed');
+%         ylim([2 12])
+% %         yline(650)
+%         xlim(ax);
+%         datetick('x','keeplimits');
+%         title('Winds');
+% 
+%         %     
 %         nexttile([1 2])
 %         plot(tideDT,rotUtideShore)
 %         title('Rotated Tides, Parallel');
 %         ylabel('Parallel Velocity');
 %         xlim(ax);
-%         ylim([-0.3 0.3]);
+%         ylim([-0.4 0.4]);
 %         datetick('x','keeplimits');
 %         yline(0);
-        
+% 
         nexttile([1 2])
         plot(receiverTimes{COUNT},receiverData{COUNT}.pings(:,2),'r');
         ylabel('Pings');
-        ylim([20 140]);
+        % ylim([20 140]);
         xlim(ax);
         title('Single Pings Received, Hourly');
-    %     
+
+
         nexttile([1 2])
-        plot(receiverTimes{COUNT},receiverData{COUNT}.tilt(:,2),'k');
-        ylabel('Tilt');
-        ylim([6 15]);
+        plot(receiverTimes{COUNT},receiverData{COUNT}.ratio(:,2),'r');
+        ylabel('Ratio');
+        % ylim([20 140]);
         xlim(ax);
-        title('Instrument Tilt');
+        title('Ratio, Used/Total Pings');
+    %     
+        % nexttile([1 2])
+        % plot(receiverTimes{COUNT},receiverData{COUNT}.tilt(:,2),'k');
+        % ylabel('Tilt');
+        % ylim([6 17]);
+        % xlim(ax);
+        % title('Instrument Tilt');
 %         nexttile ([1 2])
 %         plot(bottomStats{COUNT}.Time,bottomStats{COUNT}.Tilt)
 %         ylim([0 40])
@@ -160,7 +168,7 @@ for COUNT = 1:length(receiverData)
     %     xlim(ax);
     %     title('Transceiver Tilt from 90°, Straight up');
 %         
-        exportgraphics(ff,sprintf('1Day%dnumber%d.png',COUNT,k))
+        exportgraphics(ff,sprintf('2Week%dnumber%d.png',COUNT,k))
         close all
     end
 end
