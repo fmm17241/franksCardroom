@@ -205,7 +205,13 @@ for COUNT = 1:4
 end
 %%
 
+
+
+
+
 seasonName = [{'Winter'},{'Spring'},{'Summer'},{'Fall'},{'M. Fall'}];
+
+
 
 %Plots relationship between noise and dets for every season + transceiver
 for COUNT = 1
@@ -230,14 +236,55 @@ for COUNT = 2:length(winter)
         xlabel('Noise (mV)')
         ylabel('Hourly Dets')
         xlim([200 800])
-        ylim([5 30])
+        ylim([5 25])
     end
 end
 
+%%
+% WIND VS DETS
+for COUNT = 1
+    for season = 1:length(seasonName)
+        figure()
+        hold on
+        yyaxis left
+        scatter(seasonScenario{COUNT,season}.WindSpd,seasonScenario{COUNT,season}.HourlyDets);
+        title(sprintf('Windspeed vs Dets, %s',seasonName{season}),sprintf('Transceiver %d', COUNT))
+        xlabel('Windspeed (m/s)')
+        ylabel('Hourly Dets')
+        xlim([2 14])
+        ylim([5 90])
+        yyaxis right
+        scatter(seasonScenario{COUNT,season}.WindSpd,seasonScenario{COUNT,season}.Tilt)
+        ylim([2 30])
+    end
+end
+
+for COUNT = 2:length(winter)
+    for season = 1:length(seasonName)
+        figure()
+        hold on
+        scatter(seasonScenario{COUNT,season}.WindSpd,seasonScenario{COUNT,season}.HourlyDets);
+        title(sprintf('Windspeed vs Dets, %s',seasonName{season}),sprintf('Transceiver %d', COUNT))
+        xlabel('Noise (mV)')
+        ylabel('Hourly Dets')
+        xlim([2 14])
+        ylim([5 25])
+        yyaxis right
+        scatter(seasonScenario{COUNT,season}.WindSpd,seasonScenario{COUNT,season}.Tilt)
+        ylim([2 30])
+    end
+end
+%%
+
+
+
+
+
+
 figure()
 hold on
-scatter(seasonScenario{1,1}.WindSpd, seasonScenario{1,1}.Pings);
-title('Winter')
+scatter(seasonScenario{1,5}.WindSpd, seasonScenario{1,5}.Pings);
+title('fall')
 xlabel('WindSpd (m/s)')
 ylabel('Hourly PINGS')
 
