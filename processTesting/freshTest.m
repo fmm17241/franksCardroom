@@ -34,6 +34,22 @@ for k = 1:xx
     sunlight(currentDays) = 1;
 end
 
+%Bringing in NDBC buoy data on the sea surface
+cd([oneDrive,'WeatherData'])
+seas2019 = readtable('temp2019.csv'); %IN UTC!!!!!
+seas2020 = readtable('temp2020.csv'); %IN UTC!!!!!
+seas = [seas2019;seas2020]
+timeVectorsst = table2array(seas(:,1:5)); timeVectorsst(:,6) = zeros(1,length(timeVectorsst));
+time = datetime(timeVectorsst,'TimeZone','UTC'); time = time + min(1/144);
+
+seas    = table2timetable(table(time,seas.WTMP, seas.WVHT));
+
+%Retimes the data to be binned by the hour.
+seas = retime(seas,'hourly','previous');
+seas.Properties.VariableNames = {'SST','waveHeight'};
+index99 = seas.waveHeight >50;
+seas.waveHeight(index99) = 0;
+clear fullsst* timeVectorsst
 
 
 
@@ -106,15 +122,31 @@ receiverData{4}.pings      = receiverData{4}.pings(1:end-4,:);
 receiverData{4}.tilt       = receiverData{4}.tilt(1:end-4,:); 
 
 
-for COUNT =1:4
+for COUNT = 1:4
     fullWindIndex{COUNT} = isbetween(windsDT,receiverTimes{COUNT}(1,1),receiverTimes{COUNT}(end,1),'closed');
     receiverData{COUNT}.windSpd(:,1) = windsDN(fullWindIndex{COUNT});      receiverData{COUNT}.windSpd(:,2) = WSPD(fullWindIndex{COUNT});
     receiverData{COUNT}.windDir(:,1) = windsDN(fullWindIndex{COUNT});        receiverData{COUNT}.windDir(:,2) = WDIR(fullWindIndex{COUNT});
 end
 
+% seas = seas(8050:end,:);
 
 
-for PT = 1:length(uniqueReceivers)
+%%
+for COUNT = 1:4
+    fullSeasIndex{COUNT} = isbetween(seas.time,receiverTimes{COUNT}(1,1),receiverTimes{COUNT}(end,1),'closed');
+    % useSST = seas.SST(fullWindIndex{COUNT});
+    receiverData{COUNT}.bulkStrat = seas.SST(fullSeasIndex{COUNT})-receiverData{COUNT}.bottomTemp(:,2);
+end
+
+
+
+%%
+
+
+
+
+
+for PT = 1:length(receiverData)
     usedPings = receiverData{PT}.hourlyDets(:,2)*8;
     ratio     = usedPings./receiverData{PT}.pings(:,2);
     receiverData{PT}.ratio(:,1) = receiverData{PT}.hourlyDets(:,1); 
@@ -123,15 +155,15 @@ end
 
 
 
-% %Timetable of transceiver data
-% for PT = 1:length(uniqueReceivers)
-%     startTime = [datetime(receiverData{1,PT}.bottomTemp(1,1),'ConvertFrom','datenum','TimeZone','UTC'); datetime(receiverData{1,PT}.bottomTemp(end,1),'ConvertFrom','datenum','TimeZone','UTC')];
-%     bottomTime{PT} = datetime(receiverData{PT}.bottomTemp(:,1),'ConvertFrom','datenum','TimeZone','UTC');
-%     botIndex       = isbetween(bottomTime{PT},startTime(1,1),startTime(2,1));
-%     bottom{PT} = timetable(bottomTime{PT}(botIndex),receiverData{PT}.bottomTemp(botIndex,2),receiverData{PT}.hourlyDets(botIndex,2),receiverData{PT}.tilt(botIndex,2),receiverData{PT}.avgNoise(botIndex,2),receiverData{PT}.pings(botIndex,2),receiverData{PT}.hourlyDets(botIndex,2));
-%     bottom{PT}.Properties.VariableNames = {'botTemp','Detections','Tilt','Noise','Pings','TotalDets'};
-%     bottom{PT}.Tilt(bottom{PT}.Tilt>70) = 0;
-% end
+%Timetable of transceiver data
+for PT = 1:length(receiverData)
+    startTime = [datetime(receiverData{1,PT}.bottomTemp(1,1),'ConvertFrom','datenum','TimeZone','UTC'); datetime(receiverData{1,PT}.bottomTemp(end,1),'ConvertFrom','datenum','TimeZone','UTC')];
+    bottomTime{PT} = datetime(receiverData{PT}.bottomTemp(:,1),'ConvertFrom','datenum','TimeZone','UTC');
+    botIndex       = isbetween(bottomTime{PT},startTime(1,1),startTime(2,1));
+    bottom{PT} = timetable(bottomTime{PT}(botIndex),receiverData{PT}.bottomTemp(botIndex,2),receiverData{PT}.hourlyDets(botIndex,2),receiverData{PT}.tilt(botIndex,2),receiverData{PT}.avgNoise(botIndex,2),receiverData{PT}.pings(botIndex,2),receiverData{PT}.hourlyDets(botIndex,2));
+    bottom{PT}.Properties.VariableNames = {'botTemp','Detections','Tilt','Noise','Pings','TotalDets'};
+    bottom{PT}.Tilt(bottom{PT}.Tilt>70) = 0;
+end
 % 
 % for PT = 1:length(bottom)
 %     startTime = [datetime(2020,01,29,17,00,00,'TimeZone','UTC'); datetime(2020,12,10,13,00,00,'TimeZone','UTC')];
@@ -158,13 +190,13 @@ end
 
 %Binary data: night or day
 xx = length(sunRun);
-for COUNT = 1:length(winter)
-    sunlight{COUNT} = zeros(1,height(receiverTimes{1}));
+for COUNT = 1:length(receiverData)
+    receiverData{COUNT}.daytime = zeros(height(receiverTimes{COUNT}),1);
     for k = 1:xx
         currentSun = sunRun(:,k);
-        currentHours = isbetween(time,currentSun(1,1),currentSun(2,1)); %FM 7/1
+        currentHours = isbetween(receiverTimes{COUNT},currentSun(1,1),currentSun(2,1)); %FM 7/1
         currentDays = find(currentHours);
-        sunlight{COUNT}(currentDays) = 1;
+        receiverData{COUNT}.daytime(currentDays) = 1;
     end
 end
 

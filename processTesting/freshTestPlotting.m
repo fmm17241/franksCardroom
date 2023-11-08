@@ -76,23 +76,50 @@ for COUNT = 1:length(receiverData)
     
         ff = tiledlayout('vertical')
         set(gcf, 'Position',  [-100, 100, 2000, 1100])
-        nexttile([1 2])
-        plot(receiverTimes{COUNT},receiverData{COUNT}.hourlyDets(:,2),'k');
+                nexttile([1 2])
+        plot(receiverTimes{COUNT},receiverData{COUNT}.hourlyDets(:,2),'k','LineWidth',2);
         %     title('Detections, ~500 m, East to West, Transceiver Depth: 13.72 m');
         title(sprintf('Station %s, Hourly Dets',receiverLetter(COUNT)));
         xlim(ax);
         datetick('x','mmm,dd,yyyy','keeplimits');
         ylabel('Hourly Detections');
-%         ylim([6 16]);
+
 
         nexttile([1 2])
-        plot(receiverTimes{COUNT},receiverData{1,COUNT}.avgNoise(:,2));
-        ylabel('Ambient Noise');
-        ylim([500 900])
-        yline(650)
+        yyaxis left
+        plot(windsDT,WSPD);
+        ylabel('Windspeed');
+        ylim([0 10])
+%         yline(650)
         xlim(ax);
         datetick('x','keeplimits');
-        title('Ambient Noise');
+        yyaxis right
+        scatter(receiverTimes{COUNT},receiverData{COUNT}.daytime,'r','filled')
+        set(gca,'XTick',[], 'YTick', [])
+        xticklabels([])
+        ylim([-0.2 1.2])
+        title('Winds');
+        
+        
+        
+        
+%         nexttile([1 2])
+%         plot(receiverTimes{COUNT},receiverData{COUNT}.hourlyDets(:,2),'k');
+%         %     title('Detections, ~500 m, East to West, Transceiver Depth: 13.72 m');
+%         title(sprintf('Station %s, Hourly Dets',receiverLetter(COUNT)));
+%         xlim(ax);
+%         datetick('x','mmm,dd,yyyy','keeplimits');
+%         ylabel('Hourly Detections');
+% %         ylim([6 16]);
+% 
+%         nexttile([1 2])
+%         plot(receiverTimes{COUNT},receiverData{1,COUNT}.avgNoise(:,2));
+%         ylabel('Ambient Noise');
+%         ylim([500 900])
+%         yline(650)
+%         xlim(ax);
+%         datetick('x','keeplimits');
+%         title('Ambient Noise');
 
 %         nexttile([1 2])
 %         plot(windsDT,WSPD);
@@ -113,20 +140,20 @@ for COUNT = 1:length(receiverData)
 %         datetick('x','keeplimits');
 %         yline(0);
 % 
-        nexttile([1 2])
-        plot(receiverTimes{COUNT},receiverData{COUNT}.pings(:,2),'r');
-        ylabel('Pings');
-        % ylim([20 140]);
-        xlim(ax);
-        title('Single Pings Received, Hourly');
-
-
-        nexttile([1 2])
-        plot(receiverTimes{COUNT},receiverData{COUNT}.ratio(:,2),'r');
-        ylabel('Ratio');
-        % ylim([20 140]);
-        xlim(ax);
-        title('Ratio, Used/Total Pings');
+        % nexttile([1 2])
+        % plot(receiverTimes{COUNT},receiverData{COUNT}.pings(:,2),'r');
+        % ylabel('Pings');
+        % % ylim([20 140]);
+        % xlim(ax);
+        % title('Single Pings Received, Hourly');
+        % 
+        % 
+        % nexttile([1 2])
+        % plot(receiverTimes{COUNT},receiverData{COUNT}.ratio(:,2),'r');
+        % ylabel('Ratio');
+        % % ylim([20 140]);
+        % xlim(ax);
+        % title('Ratio, Used/Total Pings');
     %     
         % nexttile([1 2])
         % plot(receiverTimes{COUNT},receiverData{COUNT}.tilt(:,2),'k');
@@ -179,31 +206,77 @@ end
 %Sept 1-Sept 6
 %Dets and WInds
 
-ax = [receiverTimes{1,1}(6478), receiverTimes{1,1}(6555)];
+ax = [receiverTimes{1,1}(250), receiverTimes{1,1}(350)];
 COUNT = 1;
-receiverLetter = 'A';
+receiverLetter = ['A','B','C','D']
 
-fersfnsjngvjffjdbn;
+
 %FRANK: add sunlight.
-figure()
+ff = figure()
 
         nexttile([1 2])
         plot(receiverTimes{COUNT},receiverData{COUNT}.hourlyDets(:,2),'k','LineWidth',2);
         %     title('Detections, ~500 m, East to West, Transceiver Depth: 13.72 m');
         title(sprintf('Station %s, Hourly Dets',receiverLetter(COUNT)));
         xlim(ax);
-        datetick('x','mmm,dd,yyyy','keeplimits');
+        % datetick('x','mmm,dd,yyyy','keeplimits');
         ylabel('Hourly Detections');
 
         nexttile([1 2])
+        plot(receiverTimes{COUNT},receiverData{1,COUNT}.avgNoise(:,2));
+        ylabel('Ambient Noise');
+        ylim([400 680])
+        yline(650)
+        xlim(ax);
+        datetick('x','keeplimits');
+        title('HF Noise')
+
+        nexttile([1 2])
+        plot(tideDT,rotUtideShore)
+        title('Rotated Tides, Parallel');
+        ylabel('Parallel Velocity');
+        xlim(ax);
+        ylim([-0.4 0.4]);
+        datetick('x','keeplimits');
+        yline(0);
+
+        nexttile([1 2])
+        yyaxis left
         plot(windsDT,WSPD);
         ylabel('Windspeed');
-        ylim([0 10])
+        ylim([0 12])
 %         yline(650)
         xlim(ax);
         datetick('x','keeplimits');
         title('Winds');
 
+        nexttile([1 2])
+        plot(receiverTimes{COUNT},receiverData{COUNT}.bulkStrat,'r');
+        ylabel('Temp \Delta °C)');
+        % ylim(limitsStrat);
+        xlim(ax);
+        title('Bulk Stratification at Gray''s Reef, ~20m Depth');
+        yyaxis right
+        scatter(receiverTimes{COUNT},receiverData{COUNT}.daytime,'r','filled')
+        set(gca,'XTick',[], 'YTick', [])
+        xticklabels([])
 
 
+        % yyaxis right
+        % scatter(receiverTimes{COUNT},receiverData{COUNT}.daytime,'r','filled')
+        % set(gca,'XTick',[], 'YTick', [])
+        % xticklabels([])
+        % title('Ambient Noise');
+
+
+
+exportgraphics(ff,sprintf('test4Day%d.png',COUNT))
+        % nexttile([1 2])
+        % plot(tideDT,rotUtideShore)
+        % title('Rotated Tides, Parallel');
+        % ylabel('Parallel Velocity');
+        % xlim(ax);
+        % ylim([-0.4 0.4]);
+        % datetick('x','keeplimits');
+        % yline(0);
 
