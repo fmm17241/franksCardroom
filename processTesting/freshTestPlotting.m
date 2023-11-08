@@ -4,7 +4,7 @@ startCyclePre = tideDT(97);
 %appealing, but can be changed for longer dataset analysis.
 % 
 % % Basic:
-cycleDuration  = duration(days(14));
+cycleDuration  = duration(days(10));
 
 
 
@@ -15,7 +15,7 @@ cycleDuration  = duration(days(14));
 startCycle = startCyclePre
 
 cycleTime = startCycle;
-for k = 1:25 %
+for k = 1:40 %
 % for k  = 1:95 % for 4 day chunks
 % for k = 1:35 %~30 day chunks
 % for k = 1:25     %15 day chunks
@@ -85,15 +85,15 @@ for COUNT = 1:length(receiverData)
         ylabel('Hourly Detections');
 %         ylim([6 16]);
 
-%         nexttile([1 2])
-%         plot(receiverTimes{COUNT},receiverData{1,COUNT}.avgNoise(:,2));
-%         ylabel('Ambient Noise');
-%         ylim([500 900])
-%         yline(650)
-%         xlim(ax);
-%         datetick('x','keeplimits');
-%         title('Ambient Noise');
-% 
+        nexttile([1 2])
+        plot(receiverTimes{COUNT},receiverData{1,COUNT}.avgNoise(:,2));
+        ylabel('Ambient Noise');
+        ylim([500 900])
+        yline(650)
+        xlim(ax);
+        datetick('x','keeplimits');
+        title('Ambient Noise');
+
 %         nexttile([1 2])
 %         plot(windsDT,WSPD);
 %         ylabel('Windspeed');
@@ -168,7 +168,7 @@ for COUNT = 1:length(receiverData)
     %     xlim(ax);
     %     title('Transceiver Tilt from 90°, Straight up');
 %         
-        exportgraphics(ff,sprintf('2Week%dnumber%d.png',COUNT,k))
+        exportgraphics(ff,sprintf('40Day%dnumber%d.png',COUNT,k))
         close all
     end
 end
