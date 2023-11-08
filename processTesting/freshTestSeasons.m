@@ -31,25 +31,66 @@ fall{4}         = [6070:6813]';
 mFall{4}     = [6814:8277]';
 
 % 
-% for k = 1:length(winter)
-%     seasonCounter{k} = zeros(1,length(receiverTimes{k}));
-%     seasonCounter{k}(winter{k}) = 1; seasonCounter{k}(spring{k}) = 2; seasonCounter{k}(summer{k}) = 3; seasonCounter{k}(fall{k}) = 4; seasonCounter{k}(mFall{k}) = 5;
-% end
+for COUNT = 1:4
+    seasonCounter{COUNT} = zeros(1,length(receiverTimes{COUNT}));
+    seasonCounter{COUNT}(winter{COUNT}) = 1; seasonCounter{COUNT}(spring{COUNT}) = 2; seasonCounter{COUNT}(summer{COUNT}) = 3; seasonCounter{COUNT}(fall{COUNT}) = 4; seasonCounter{COUNT}(mFall{COUNT}) = 5;
+    receiverData{COUNT}.season = seasonCounter{COUNT}';
+end
+
+
 %%
 for COUNT = 1:4
-    seasonScenario{COUNT,1} =table(receiverTimes{COUNT}(winter{COUNT}), receiverData{COUNT}.hourlyDets(winter{COUNT},2), receiverData{COUNT}.avgNoise(winter{COUNT},2), receiverData{COUNT}.pings(winter{COUNT},2),receiverData{COUNT}.tilt(winter{COUNT},2),receiverData{COUNT}.bottomTemp(winter{COUNT},2),receiverData{COUNT}.windSpd(winter{COUNT},2),receiverData{COUNT}.windDir(winter{COUNT},2));         
-    seasonScenario{COUNT,2} =table(receiverTimes{COUNT}(spring{COUNT}), receiverData{COUNT}.hourlyDets(spring{COUNT},2), receiverData{COUNT}.avgNoise(spring{COUNT},2), receiverData{COUNT}.pings(spring{COUNT},2),receiverData{COUNT}.tilt(spring{COUNT},2),receiverData{COUNT}.bottomTemp(spring{COUNT},2),receiverData{COUNT}.windSpd(spring{COUNT},2),receiverData{COUNT}.windDir(spring{COUNT},2));
-    seasonScenario{COUNT,3} =table(receiverTimes{COUNT}(summer{COUNT}), receiverData{COUNT}.hourlyDets(summer{COUNT},2), receiverData{COUNT}.avgNoise(summer{COUNT},2), receiverData{COUNT}.pings(summer{COUNT},2),receiverData{COUNT}.tilt(summer{COUNT},2),receiverData{COUNT}.bottomTemp(summer{COUNT},2),receiverData{COUNT}.windSpd(summer{COUNT},2),receiverData{COUNT}.windDir(summer{COUNT},2));
-    seasonScenario{COUNT,4} =table(receiverTimes{COUNT}(fall{COUNT}), receiverData{COUNT}.hourlyDets(fall{COUNT},2), receiverData{COUNT}.avgNoise(fall{COUNT},2), receiverData{COUNT}.pings(fall{COUNT},2),receiverData{COUNT}.tilt(fall{COUNT},2),receiverData{COUNT}.bottomTemp(fall{COUNT},2),receiverData{COUNT}.windSpd(fall{COUNT},2),receiverData{COUNT}.windDir(fall{COUNT},2));
-    seasonScenario{COUNT,5} =table(receiverTimes{COUNT}(mFall{COUNT}), receiverData{COUNT}.hourlyDets(mFall{COUNT},2), receiverData{COUNT}.avgNoise(mFall{COUNT},2), receiverData{COUNT}.pings(mFall{COUNT},2),receiverData{COUNT}.tilt(mFall{COUNT},2),receiverData{COUNT}.bottomTemp(mFall{COUNT},2),receiverData{COUNT}.windSpd(mFall{COUNT},2),receiverData{COUNT}.windDir(mFall{COUNT},2));
-    seasonScenario{COUNT,1}.Properties.VariableNames = {'Time','HourlyDets','Noise','Pings','Tilt','Temp','WindSpd','WindDir'};
-    seasonScenario{COUNT,2}.Properties.VariableNames = {'Time','HourlyDets','Noise','Pings','Tilt','Temp','WindSpd','WindDir'};
-    seasonScenario{COUNT,3}.Properties.VariableNames = {'Time','HourlyDets','Noise','Pings','Tilt','Temp','WindSpd','WindDir'};
-    seasonScenario{COUNT,4}.Properties.VariableNames = {'Time','HourlyDets','Noise','Pings','Tilt','Temp','WindSpd','WindDir'};
-    seasonScenario{COUNT,5}.Properties.VariableNames = {'Time','HourlyDets','Noise','Pings','Tilt','Temp','WindSpd','WindDir'};    
+    singleData{COUNT,1} =table(receiverTimes{COUNT},receiverData{COUNT}.season, receiverData{COUNT}.hourlyDets(:,2), receiverData{COUNT}.avgNoise(:,2), receiverData{COUNT}.pings(:,2),receiverData{COUNT}.tilt(:,2),receiverData{COUNT}.bottomTemp(:,2),receiverData{COUNT}.windSpd(:,2),receiverData{COUNT}.windDir(:,2));         
+    singleData{COUNT,1}.Properties.VariableNames = {'Time','Season','HourlyDets','Noise','Pings','Tilt','Temp','WindSpd','WindDir'};
 end
+
+%Removing timing of testing: first bits are clearly in air.
+singleData{1} = singleData{1}(16:end,:)
+singleData{2} = singleData{1}(24:end,:)
+singleData{3} = singleData{1}(17:end,:)
+singleData{4} = singleData{1}(14:end,:)
+
+seasonName = [{'Winter'},{'Spring'},{'Summer'},{'Fall'},{'M. Fall'}];
 %%
 
+%Full season windbreakdown
+for season = 1:length(seasonName)
+    windSpeedBins{season,1} = singleData{1}.WindSpd < 2 & singleData{1}.Season ==season;
+    windSpeedBins{season,2} = singleData{1}.WindSpd > 2 & singleData{1}.WindSpd < 4 & singleData{1}.Season ==season;
+    windSpeedBins{season,3} = singleData{1}.WindSpd > 4 & singleData{1}.WindSpd < 6 & singleData{1}.Season ==season;
+    windSpeedBins{season,4} = singleData{1}.WindSpd > 6 & singleData{1}.WindSpd < 8 & singleData{1}.Season ==season;
+    windSpeedBins{season,5} = singleData{1}.WindSpd > 8 & singleData{1}.WindSpd < 10 & singleData{1}.Season ==season;
+    windSpeedBins{season,6} = singleData{1}.WindSpd > 10 & singleData{1}.WindSpd < 12 & singleData{1}.Season ==season;
+    windSpeedBins{season,7} = singleData{1}.WindSpd > 12  & singleData{1}.Season ==season;
+end
+
+
+%Trying to adjust
+for season = 1:height(windSpeedBins)
+    for k = 1:length(windSpeedBins)
+        windSpeedScenario{season,k}= singleData{1}(windSpeedBins{season,k},:);
+        averageWindSpeed{COUNT}{season}(1,k) = mean(windSpeedScenario{season,k}.HourlyDets);
+        noiseCompare{COUNT}{season}(k) = mean(windSpeedScenario{season,k}.Noise);
+        tiltCompareWind{COUNT}{season}(k) = mean(windSpeedScenario{season,k}.Tilt);
+        % stratCompareWind{COUNT}{season}(k) = mean(windSpeedScenario{season,k}.stratification)
+    end
+    % normalizedWSpeed{season,k}  = averageWindSpeed{COUNT}{season}/(max(averageWindSpeed{COUNT}{season}));
+end
+
+sgvfgsdfgsfdg
+Frank come back here and make this; this will help compare the one transceiver's measures
+
+
+        averageWindSpeed{COUNT}{season}(1,k) = mean(windSpeedScenario{COUNT}{season}{1,k}.detections);
+        noiseCompare{COUNT}{season}(k) = mean(windSpeedScenario{COUNT}{season}{1,k}.noise);
+        wavesCompare{COUNT}{season}(k) = mean(windSpeedScenario{COUNT}{season}{1,k}.waveHeight);
+        tiltCompareWind{COUNT}{season}(k) = mean(windSpeedScenario{COUNT}{season}{1,k}.tilt);
+        stratCompareWind{COUNT}{season}(k) = mean(windSpeedScenario{COUNT}{season}{1,k}.stratification)
+    end
+    normalizedWSpeed{COUNT}{season}  = averageWindSpeed{COUNT}{season}/(max(averageWindSpeed{COUNT}{season}));
+end
+%%
+%Winds for the first transceiver
 
 
 
