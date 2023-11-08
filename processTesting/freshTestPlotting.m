@@ -174,10 +174,35 @@ for COUNT = 1:length(receiverData)
 end
 
 
+%% 
+%FM spot checking for committee
+%Sept 1-Sept 6
+%Dets and WInds
 
+ax = [receiverTimes{1,1}(6478), receiverTimes{1,1}(6555)];
+COUNT = 1;
+receiverLetter = 'A';
 
+fersfnsjngvjffjdbn;
+%FRANK: add sunlight.
+figure()
 
+        nexttile([1 2])
+        plot(receiverTimes{COUNT},receiverData{COUNT}.hourlyDets(:,2),'k','LineWidth',2);
+        %     title('Detections, ~500 m, East to West, Transceiver Depth: 13.72 m');
+        title(sprintf('Station %s, Hourly Dets',receiverLetter(COUNT)));
+        xlim(ax);
+        datetick('x','mmm,dd,yyyy','keeplimits');
+        ylabel('Hourly Detections');
 
+        nexttile([1 2])
+        plot(windsDT,WSPD);
+        ylabel('Windspeed');
+        ylim([0 10])
+%         yline(650)
+        xlim(ax);
+        datetick('x','keeplimits');
+        title('Winds');
 
 
 

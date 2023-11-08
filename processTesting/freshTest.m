@@ -20,8 +20,20 @@ stationWindsAnalysis
 figure()
 SunriseSunsetUTC
 
+
 %Day timing
 sunRun = [sunrise; sunset];
+
+%Binary data: night or day
+xx = length(sunRun);
+sunlight = zeros(1,height(time));
+for k = 1:xx
+    currentSun = sunRun(:,k);
+    currentHours = isbetween(time,currentSun(1,1),currentSun(2,1)); %FM 7/1
+    currentDays = find(currentHours);
+    sunlight(currentDays) = 1;
+end
+
 
 
 
@@ -111,49 +123,51 @@ end
 
 
 
-
-%Timetable of transceiver data
-for PT = 1:length(uniqueReceivers)
-    startTime = [datetime(receiverData{1,PT}.bottomTemp(1,1),'ConvertFrom','datenum','TimeZone','UTC'); datetime(receiverData{1,PT}.bottomTemp(end,1),'ConvertFrom','datenum','TimeZone','UTC')];
-    bottomTime{PT} = datetime(receiverData{PT}.bottomTemp(:,1),'ConvertFrom','datenum','TimeZone','UTC');
-    botIndex       = isbetween(bottomTime{PT},startTime(1,1),startTime(2,1));
-    bottom{PT} = timetable(bottomTime{PT}(botIndex),receiverData{PT}.bottomTemp(botIndex,2),receiverData{PT}.hourlyDets(botIndex,2),receiverData{PT}.tilt(botIndex,2),receiverData{PT}.avgNoise(botIndex,2),receiverData{PT}.pings(botIndex,2),receiverData{PT}.hourlyDets(botIndex,2));
-    bottom{PT}.Properties.VariableNames = {'botTemp','Detections','Tilt','Noise','Pings','TotalDets'};
-    bottom{PT}.Tilt(bottom{PT}.Tilt>70) = 0;
-end
-
-for PT = 1:length(bottom)
-    startTime = [datetime(2020,01,29,17,00,00,'TimeZone','UTC'); datetime(2020,12,10,13,00,00,'TimeZone','UTC')];
-    stratIndex1 = isbetween(seas.time,startTime(1,1),startTime(2,1));
-    stratIndex2 = isbetween(bottomTime{1,PT},startTime(1,1),startTime(2,1));
-%     if PT == 9 | 10
-%         continue
-%     end
-    stratification{PT} = seas.SST(stratIndex1)-bottom{1,PT}.botTemp(stratIndex2);
-    nullindex = stratification{1,PT} < .000001;
-    stratification{PT}(nullindex) = 0;
-end 
-
-
-
-for COUNT = 1:length(bottom)
-    stratIndex = isbetween(bottom{COUNT}.Time,startTime(1,1),startTime(2,1),'closed');
-    bottomStats{COUNT} = bottom{COUNT}(stratIndex,:);
-%     fixInd = isnan(buoyStats{COUNT}.botTemp)
-%     buoyStratification{COUNT}(fixInd) = 0;
-%     fullStratData{COUNT} = buoyStats{COUNT}(stratIndex);
-end
+% %Timetable of transceiver data
+% for PT = 1:length(uniqueReceivers)
+%     startTime = [datetime(receiverData{1,PT}.bottomTemp(1,1),'ConvertFrom','datenum','TimeZone','UTC'); datetime(receiverData{1,PT}.bottomTemp(end,1),'ConvertFrom','datenum','TimeZone','UTC')];
+%     bottomTime{PT} = datetime(receiverData{PT}.bottomTemp(:,1),'ConvertFrom','datenum','TimeZone','UTC');
+%     botIndex       = isbetween(bottomTime{PT},startTime(1,1),startTime(2,1));
+%     bottom{PT} = timetable(bottomTime{PT}(botIndex),receiverData{PT}.bottomTemp(botIndex,2),receiverData{PT}.hourlyDets(botIndex,2),receiverData{PT}.tilt(botIndex,2),receiverData{PT}.avgNoise(botIndex,2),receiverData{PT}.pings(botIndex,2),receiverData{PT}.hourlyDets(botIndex,2));
+%     bottom{PT}.Properties.VariableNames = {'botTemp','Detections','Tilt','Noise','Pings','TotalDets'};
+%     bottom{PT}.Tilt(bottom{PT}.Tilt>70) = 0;
+% end
+% 
+% for PT = 1:length(bottom)
+%     startTime = [datetime(2020,01,29,17,00,00,'TimeZone','UTC'); datetime(2020,12,10,13,00,00,'TimeZone','UTC')];
+%     stratIndex1 = isbetween(seas.time,startTime(1,1),startTime(2,1));
+%     stratIndex2 = isbetween(bottomTime{1,PT},startTime(1,1),startTime(2,1));
+% %     if PT == 9 | 10
+% %         continue
+% %     end
+%     stratification{PT} = seas.SST(stratIndex1)-bottom{1,PT}.botTemp(stratIndex2);
+%     nullindex = stratification{1,PT} < .000001;
+%     stratification{PT}(nullindex) = 0;
+% end 
+% 
+% 
+% 
+% for COUNT = 1:length(bottom)
+%     stratIndex = isbetween(bottom{COUNT}.Time,startTime(1,1),startTime(2,1),'closed');
+%     bottomStats{COUNT} = bottom{COUNT}(stratIndex,:);
+% %     fixInd = isnan(buoyStats{COUNT}.botTemp)
+% %     buoyStratification{COUNT}(fixInd) = 0;
+% %     fullStratData{COUNT} = buoyStats{COUNT}(stratIndex);
+% end
 
 
 %Binary data: night or day
 xx = length(sunRun);
-sunlight = zeros(1,height(time));
-for k = 1:xx
-    currentSun = sunRun(:,k);
-    currentHours = isbetween(time,currentSun(1,1),currentSun(2,1)); %FM 7/1
-    currentDays = find(currentHours);
-    sunlight(currentDays) = 1;
+for COUNT = 1:length(winter)
+    sunlight{COUNT} = zeros(1,height(receiverTimes{1}));
+    for k = 1:xx
+        currentSun = sunRun(:,k);
+        currentHours = isbetween(time,currentSun(1,1),currentSun(2,1)); %FM 7/1
+        currentDays = find(currentHours);
+        sunlight{COUNT}(currentDays) = 1;
+    end
 end
+
 
 
 
