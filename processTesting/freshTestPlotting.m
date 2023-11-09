@@ -206,7 +206,7 @@ end
 %Sept 1-Sept 6
 %Dets and WInds
 
-ax = [receiverTimes{1,1}(220), receiverTimes{1,1}(280)];
+ax = [receiverTimes{1,1}(280), receiverTimes{1,1}(380)];
 COUNT = 1;
 receiverLetter = ['A','B','C','D']
 
@@ -223,37 +223,60 @@ ff = figure()
         ylabel('Hourly Detections');
 
         nexttile([1 2])
-        plot(receiverTimes{COUNT},receiverData{1,COUNT}.avgNoise(:,2));
-        ylabel('Ambient Noise');
-        ylim([550 680])
-        yline(650)
+        plot(receiverTimes{COUNT},receiverData{COUNT}.pings(:,2),'k','LineWidth',2);
+        %     title('Detections, ~500 m, East to West, Transceiver Depth: 13.72 m');
+        title('Hourly Pings');
         xlim(ax);
-        datetick('x','keeplimits');
-        title('HF Noise')
+        % datetick('x','mmm,dd,yyyy','keeplimits');
+        ylabel('Hourly Pings');
 
         nexttile([1 2])
-        plot(tideDT,crossShore)
-        title('Rotated Tides, Parallel');
-        ylabel('Parallel Velocity');
+        plot(receiverTimes{COUNT},receiverData{COUNT}.ratio(:,2),'k','LineWidth',2);
+        %     title('Detections, ~500 m, East to West, Transceiver Depth: 13.72 m');
+        title('Ping Ratio');
         xlim(ax);
-        ylim([-0.4 0.4]);
+        % datetick('x','mmm,dd,yyyy','keeplimits');
+        ylabel('Ping Ratio');
+
+
+        % nexttile([1 2])
+        % plot(receiverTimes{COUNT},receiverData{1,COUNT}.avgNoise(:,2));
+        % ylabel('Ambient Noise');
+        % ylim([400 680])
+        % yline(650)
+        % xlim(ax);
+        % datetick('x','keeplimits');
+        % title('HF Noise')
+        % 
+        % nexttile([1 2])
+        % plot(tideDT,crossShore)
+        % title('Rotated Tides, Parallel');
+        % ylabel('Parallel Velocity');
+        % xlim(ax);
+        % ylim([-0.4 0.4]);
+        % datetick('x','keeplimits');
+        % yline(0);
+        % yyaxis right
+        % scatter(receiverTimes{COUNT},receiverData{COUNT}.daytime,'r','filled')
+        % set(gca,'XTick',[], 'YTick', [])
+        % xticklabels([])
+
+        % nexttile([1 2])
+        % plot(receiverTimes{COUNT},receiverData{COUNT}.tilt,'r');
+        % ylabel('Tilt Angle, °');
+        % ylim([5 20]);
+        % xlim(ax);
+        % title('Transceiver Tilt from 90°, Straight up');
+
+        nexttile([1 2])
+        yyaxis left
+        plot(windsDT,WSPD);
+        ylabel('Windspeed');
+        ylim([0 12])
+%         yline(650)
+        xlim(ax);
         datetick('x','keeplimits');
-        yline(0);
-        yyaxis right
-        scatter(receiverTimes{COUNT},receiverData{COUNT}.daytime,'r','filled')
-        set(gca,'XTick',[], 'YTick', [])
-        xticklabels([])
-
-
-%         nexttile([1 2])
-%         yyaxis left
-%         plot(windsDT,WSPD);
-%         ylabel('Windspeed');
-%         ylim([0 12])
-% %         yline(650)
-%         xlim(ax);
-%         datetick('x','keeplimits');
-%         title('Winds');
+        title('Winds');
 
         nexttile([1 2])
         plot(receiverTimes{COUNT},receiverData{COUNT}.bulkStrat,'r');
@@ -276,12 +299,38 @@ ff = figure()
 
 
 exportgraphics(ff,sprintf('test4Day%d.png',COUNT))
-        % nexttile([1 2])
-        % plot(tideDT,rotUtideShore)
-        % title('Rotated Tides, Parallel');
-        % ylabel('Parallel Velocity');
-        % xlim(ax);
-        % ylim([-0.4 0.4]);
-        % datetick('x','keeplimits');
-        % yline(0);
+
+
+%%
+ax = [receiverTimes{1,1}(5500), receiverTimes{1,1}(5580)];
+COUNT = 1;
+receiverLetter = ['A','B','C','D']
+
+
+%FRANK: add sunlight.
+ff = figure()
+
+        nexttile([1 2])
+        plot(receiverTimes{COUNT},receiverData{COUNT}.hourlyDets(:,2),'k','LineWidth',2);
+        %     title('Detections, ~500 m, East to West, Transceiver Depth: 13.72 m');
+        title(sprintf('Station %s, Hourly Dets',receiverLetter(COUNT)));
+        xlim(ax);
+        % datetick('x','mmm,dd,yyyy','keeplimits');
+        ylabel('Hourly Detections');
+
+        nexttile([1 2])
+        plot(receiverTimes{COUNT},receiverData{COUNT}.pings(:,2),'k','LineWidth',2);
+        %     title('Detections, ~500 m, East to West, Transceiver Depth: 13.72 m');
+        title('Hourly Pings');
+        xlim(ax);
+        % datetick('x','mmm,dd,yyyy','keeplimits');
+        ylabel('Hourly Pings');
+
+        nexttile([1 2])
+        plot(receiverTimes{COUNT},receiverData{COUNT}.ratio(:,2),'k','LineWidth',2);
+        %     title('Detections, ~500 m, East to West, Transceiver Depth: 13.72 m');
+        title('Ping Ratio');
+        xlim(ax);
+        % datetick('x','mmm,dd,yyyy','keeplimits');
+        ylabel('Ping Ratio');
 

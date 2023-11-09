@@ -134,11 +134,6 @@ for COUNT = 1:4
     receiverData{COUNT}.alongShore(:,1) = tideDN(fullWindIndex{COUNT});        receiverData{COUNT}.alongShore(:,2) = alongShore(fullWindIndex{COUNT});
 end
 
-
-
-crossShore
-alongShore
-
 % seas = seas(8050:end,:);
 
 
@@ -272,14 +267,25 @@ seasonName = [{'Winter'},{'Spring'},{'Summer'},{'Fall'},{'M. Fall'}];
 %%
 %Very late but Frank has to compare these
 
-frank please fix this in AM< output is all the same for every season, cant troubleshoot this late
 
 for COUNT = 1:length(singleData)
     for season = 1:length(seasonName)
         nightBin{COUNT,season} = singleData{COUNT}.Daytime == 0 & singleData{COUNT}.Season ==season;
         dayBin{COUNT,season} = singleData{COUNT}.Daytime == 1 & singleData{COUNT}.Season ==season;
-        nightVS{COUNT,season}  = mean(singleData{COUNT}.HourlyDets(nightBin{COUNT}));
-        dayVS{COUNT,season}  = mean(singleData{COUNT}.HourlyDets(dayBin{COUNT}));
+        nightDets(COUNT,season)  = mean(singleData{COUNT}.HourlyDets(nightBin{COUNT,season}));
+        dayDets(COUNT,season)  = mean(singleData{COUNT}.HourlyDets(dayBin{COUNT,season}));
+
+        nightRatio(COUNT,season)  = mean(singleData{COUNT}.Ratio(nightBin{COUNT,season}));
+        dayRatio(COUNT,season)  = mean(singleData{COUNT}.Ratio(dayBin{COUNT,season}));
+
+        nightStrat(COUNT,season)  = mean(singleData{COUNT}.BulkStrat(nightBin{COUNT,season}));
+        dayStrat(COUNT,season)  = mean(singleData{COUNT}.BulkStrat(dayBin{COUNT,season}));
+
+        nightNoise(COUNT,season)  = mean(singleData{COUNT}.Noise(nightBin{COUNT,season}));
+        dayNoise(COUNT,season)  = mean(singleData{COUNT}.Noise(dayBin{COUNT,season}));
+
+        nightPings(COUNT,season)  = mean(singleData{COUNT}.Pings(nightBin{COUNT,season}));
+        dayPings(COUNT,season)  = mean(singleData{COUNT}.Pings(dayBin{COUNT,season}));
     end
 end
 
@@ -287,8 +293,186 @@ end
 
 
 
+%%
+%Night Detection Confidence Intervals
+%night
+for COUNT = 1:length(singleData)
+    for season = 1:length(seasonName)
+        %Finding standard deviations/CIs of values
+        SEM = std(singleData{COUNT}.HourlyDets(nightBin{COUNT,season}),'omitnan')/sqrt(length(singleData{COUNT}.HourlyDets(nightBin{COUNT,season})));  
+        ts = tinv([0.025  0.975],height(singleData{COUNT})-1);  
+        CInightDets{COUNT}(season,:) = (mean(singleData{COUNT}.HourlyDets(nightBin{COUNT,season}),'all','omitnan') + ts*SEM); 
+    end
+end
+
+%Day
+for COUNT = 1:length(singleData)
+    for season = 1:length(seasonName)
+        %Finding standard deviations/CIs of values
+        SEM = std(singleData{COUNT}.HourlyDets(dayBin{COUNT,season}),'omitnan')/sqrt(length(singleData{COUNT}.HourlyDets(dayBin{COUNT,season})));  
+        ts = tinv([0.025  0.975],height(singleData{COUNT})-1);  
+        CIdayDets{COUNT}(season,:) = (mean(singleData{COUNT}.HourlyDets(dayBin{COUNT,season}),'all','omitnan') + ts*SEM); 
+    end
+end
+
+%%
+
+%Night Ratio Confidence Intervals
+for COUNT = 1:length(singleData)
+    for season = 1:length(seasonName)
+        %Finding standard deviations/CIs of values
+        SEM = std(singleData{COUNT}.Ratio(nightBin{COUNT,season}),'omitnan')/sqrt(length(singleData{COUNT}.Ratio(nightBin{COUNT,season})));  
+        ts = tinv([0.025  0.975],height(singleData{COUNT})-1);  
+        CInightRatio{COUNT}(season,:) = (mean(singleData{COUNT}.Ratio(nightBin{COUNT,season}),'all','omitnan') + ts*SEM); 
+    end
+end
+
+%Day Ratio Confidence Intervals
+for COUNT = 1:length(singleData)
+    for season = 1:length(seasonName)
+        %Finding standard deviations/CIs of values
+        SEM = std(singleData{COUNT}.Ratio(dayBin{COUNT,season}),'omitnan')/sqrt(length(singleData{COUNT}.Ratio(dayBin{COUNT,season})));  
+        ts = tinv([0.025  0.975],height(singleData{COUNT})-1);  
+        CIdayRatio{COUNT}(season,:) = (mean(singleData{COUNT}.Ratio(dayBin{COUNT,season}),'all','omitnan') + ts*SEM); 
+    end
+end
+
+%%
+%Day Noise Confidence Interval
+for COUNT = 1:length(singleData)
+    for season = 1:length(seasonName)
+        %Finding standard deviations/CIs of values
+        SEM = std(singleData{COUNT}.Noise(nightBin{COUNT,season}),'omitnan')/sqrt(length(singleData{COUNT}.Noise(nightBin{COUNT,season})));  
+        ts = tinv([0.025  0.975],height(singleData{COUNT})-1);  
+        CInightNoise{COUNT}(season,:) = (mean(singleData{COUNT}.Noise(nightBin{COUNT,season}),'all','omitnan') + ts*SEM); 
+    end
+end
+
+%Day Noise Confidence Intervals
+for COUNT = 1:length(singleData)
+    for season = 1:length(seasonName)
+        %Finding standard deviations/CIs of values
+        SEM = std(singleData{COUNT}.Noise(dayBin{COUNT,season}),'omitnan')/sqrt(length(singleData{COUNT}.Noise(dayBin{COUNT,season})));  
+        ts = tinv([0.025  0.975],height(singleData{COUNT})-1);  
+        CIdayNoise{COUNT}(season,:) = (mean(singleData{COUNT}.Noise(dayBin{COUNT,season}),'all','omitnan') + ts*SEM); 
+    end
+end
+
+%%
+%Night Ping Confidence Interval
+for COUNT = 1:length(singleData)
+    for season = 1:length(seasonName)
+        %Finding standard deviations/CIs of values
+        SEM = std(singleData{COUNT}.Pings(nightBin{COUNT,season}),'omitnan')/sqrt(length(singleData{COUNT}.Pings(nightBin{COUNT,season})));  
+        ts = tinv([0.025  0.975],height(singleData{COUNT})-1);  
+        CInightPings{COUNT}(season,:) = (mean(singleData{COUNT}.Pings(nightBin{COUNT,season}),'all','omitnan') + ts*SEM); 
+    end
+end
+
+%Day Ping Confidence Intervals
+for COUNT = 1:length(singleData)
+    for season = 1:length(seasonName)
+        %Finding standard deviations/CIs of values
+        SEM = std(singleData{COUNT}.Pings(dayBin{COUNT,season}),'omitnan')/sqrt(length(singleData{COUNT}.Pings(dayBin{COUNT,season})));  
+        ts = tinv([0.025  0.975],height(singleData{COUNT})-1);  
+        CIdayPings{COUNT}(season,:) = (mean(singleData{COUNT}.Pings(dayBin{COUNT,season}),'all','omitnan') + ts*SEM); 
+    end
+end
+
+%%
+%Bulk Strat
+%Night Ping Confidence Interval
+for COUNT = 1:length(singleData)
+    for season = 1:length(seasonName)
+        %Finding standard deviations/CIs of values
+        SEM = std(singleData{COUNT}.BulkStrat(nightBin{COUNT,season}),'omitnan')/sqrt(length(singleData{COUNT}.BulkStrat(nightBin{COUNT,season})));  
+        ts = tinv([0.025  0.975],height(singleData{COUNT})-1);  
+        CInightStrat{COUNT}(season,:) = (mean(singleData{COUNT}.BulkStrat(nightBin{COUNT,season}),'all','omitnan') + ts*SEM); 
+    end
+end
+
+%Day Ping Confidence Intervals
+for COUNT = 1:length(singleData)
+    for season = 1:length(seasonName)
+        %Finding standard deviations/CIs of values
+        SEM = std(singleData{COUNT}.BulkStrat(dayBin{COUNT,season}),'omitnan')/sqrt(length(singleData{COUNT}.BulkStrat(dayBin{COUNT,season})));  
+        ts = tinv([0.025  0.975],height(singleData{COUNT})-1);  
+        CIdayStrat{COUNT}(season,:) = (mean(singleData{COUNT}.BulkStrat(dayBin{COUNT,season}),'all','omitnan') + ts*SEM); 
+    end
+end
+
+%%
 
 
+X = 1:5;
+
+figure()
+nexttile([2 1])
+plot(X,dayDets(1,:),'r','LineWidth',2)
+hold on
+scatter(X,dayDets(1,:),150,'r','filled')
+ciplot(CIdayDets{1}(:,1),CIdayDets{1}(:,2),X,'r')
+plot(X,nightDets(1,:),'b','LineWidth',2)
+scatter(X,nightDets(1,:),150,'b','filled')
+ciplot(CInightDets{1}(:,1),CInightDets{1}(:,2),X,'b')
+legend('','','Day','','','Night')
+xlabel('Season')
+ylabel('Hourly Detections')
+title('','Hourly Detections')
+
+nexttile([2 1])
+plot(X,dayPings(1,:),'r','LineWidth',2)
+hold on
+scatter(X,dayPings(1,:),150,'r','filled')
+ciplot(CIdayPings{1}(:,1),CIdayPings{1}(:,2),X,'r')
+plot(X,nightPings(1,:),'b','LineWidth',2)
+scatter(X,nightPings(1,:),150,'b','filled')
+ciplot(CInightPings{1}(:,1),CInightPings{1}(:,2),X,'b')
+legend('','','Day','','','Night')
+xlabel('Season')
+ylabel('Hourly Pings')
+title('','Hourly Pings')
 
 
+nexttile([2 1])
+plot(X,dayNoise(1,:),'r','LineWidth',2)
+hold on
+scatter(X,dayNoise(1,:),150,'r','filled')
+ciplot(CIdayNoise{1}(:,1),CIdayNoise{1}(:,2),X,'r')
+plot(X,nightNoise(1,:),'b','LineWidth',2)
+scatter(X,nightNoise(1,:),150,'b','filled')
+ciplot(CInightNoise{1}(:,1),CInightNoise{1}(:,2),X,'b')
+yline(650,'--')
+legend('','','Day','','','Night','')
+xlabel('Season')
+ylabel('HF Noise (mV)')
+title('Diurnal Differences in the Acoustic Environment','High-Frequency Noise')
 
+nexttile([2 1])
+plot(X,dayRatio(1,:),'r','LineWidth',2)
+hold on
+scatter(X,dayRatio(1,:),150,'r','filled')
+ciplot(CIdayRatio{1}(:,1),CIdayRatio{1}(:,2),X,'r')
+plot(X,nightRatio(1,:),'b','LineWidth',2)
+scatter(X,nightRatio(1,:),150,'b','filled')
+ciplot(CInightRatio{1}(:,1),CInightRatio{1}(:,2),X,'b')
+legend('','','Day','','','Night')
+xlabel('Season')
+ylabel('Ping Ratio')
+title('','Ping Ratio')
+
+nexttile([2 1])
+plot(X,dayStrat(1,:),'r','LineWidth',2)
+hold on
+scatter(X,dayStrat(1,:),150,'r','filled')
+ciplot(CIdayStrat{1}(:,1),CIdayStrat{1}(:,2),X,'r')
+plot(X,nightStrat(1,:),'b','LineWidth',2)
+scatter(X,nightStrat(1,:),150,'b','filled')
+ciplot(CInightStrat{1}(:,1),CInightStrat{1}(:,2),X,'b')
+legend('','','Day','','','Night')
+xlabel('Season')
+ylabel('Bulk Strat (C)')
+title('','Thermal Stratification')
+
+ax = gcf;
+exportgraphics(ax,sprintf('test4Day%d.png',COUNT))
