@@ -3,7 +3,7 @@
 
 stationTidalAnalysis
 %tideDN, tideDT: tide timing
-%rotUtideShore, rotVtideShore: tidal velocities with perspective rotated so
+%crossShore, alongShore: tidal velocities with perspective rotated so
 %that the X axis is cross-shore, and the Y axis is alongshore.
 %ut, vt: Same tidal velocities but in lat/lon directional perspective.
 
@@ -128,6 +128,17 @@ for COUNT = 1:4
     receiverData{COUNT}.windDir(:,1) = windsDN(fullWindIndex{COUNT});        receiverData{COUNT}.windDir(:,2) = WDIR(fullWindIndex{COUNT});
 end
 
+for COUNT = 1:4
+    fullTideIndex{COUNT} = isbetween(tideDT,receiverTimes{COUNT}(1,1),receiverTimes{COUNT}(end,1),'closed');
+    receiverData{COUNT}.crossShore(:,1) = tideDN(fullWindIndex{COUNT});      receiverData{COUNT}.crossShore(:,2) = crossShore(fullWindIndex{COUNT});
+    receiverData{COUNT}.alongShore(:,1) = tideDN(fullWindIndex{COUNT});        receiverData{COUNT}.alongShore(:,2) = alongShore(fullWindIndex{COUNT});
+end
+
+
+
+crossShore
+alongShore
+
 % seas = seas(8050:end,:);
 
 
@@ -205,46 +216,54 @@ end
 
 %%
 
+%Frank manually making season bins for the 4 transceivers
+%SURT05
+winter{1}     = [16:2063, 7944:9188]';
+spring{1}     = [ 2064:4271]';
+summer{1}  = [4272:5735]';
+fall{1}          = [5736:6479]';
+mFall{1}      = [6480:7943]';
 
+%STSnew2
+winter{2}     = [24:2405, 8286:9253]';
+spring{2}     = [2406:4613]';
+summer{2}  = [4614:6077]';
+fall{2}          = [6078:6821]';
+mFall{2}      = [6822:8285]';
 
+%FS6
+winter{3}    = [17:2061, 7942:9208]';
+spring{3}    = [2062:4269]';
+summer{3} = [4270:5733]';
+fall{3}         = [5734:6477]';
+mFall{3}     = [6478:7941]';
 
+%39IN
+winter{4}    = [14:2397, 8278:9373]';
+spring{4}    = [2398:4605]';
+summer{4} = [4606:6069]';
+fall{4}         = [6070:6813]';
+mFall{4}     = [6814:8277]';
 
-
-
-
-% FM gotta edit this so it works for transceiver baed meaures
 % 
-% seasons = length(unique(receiverData{1}.season))
-% 
-% for COUNT = 1:length(receiverData)
-%     for season = 1:length(seasons)
-%         seasonBin{COUNT}{season} = fullData{COUNT}.season ==season;
-%         seasonScenario{COUNT}{season}= fullData{COUNT}(seasonBin{COUNT}{season},:);
-%         averageDets{COUNT}(season) = mean(seasonScenario{COUNT}{season}.detections);
-%         noiseCompare{COUNT}(season) = mean(seasonScenario{COUNT}{season}.noise);
-%         wavesCompare{COUNT}(season) = mean(seasonScenario{COUNT}{season}.waveHeight);
-%         tiltCompareWind{COUNT}(season) = mean(seasonScenario{COUNT}{season}.tilt);
-%         stratCompare{COUNT}(season) = mean(seasonScenario{COUNT}{season}.stratification);
-%         pingCompare{COUNT}(season) = mean(seasonScenario{COUNT}{season}.pings);
-%         totalDets{COUNT}(season)   = mean(seasonScenario{COUNT}{season}.TotalDets);
-%     end
-% end
+for COUNT = 1:4
+    seasonCounter{COUNT} = zeros(1,length(receiverTimes{COUNT}));
+    seasonCounter{COUNT}(winter{COUNT}) = 1; seasonCounter{COUNT}(spring{COUNT}) = 2; seasonCounter{COUNT}(summer{COUNT}) = 3; seasonCounter{COUNT}(fall{COUNT}) = 4; seasonCounter{COUNT}(mFall{COUNT}) = 5;
+    receiverData{COUNT}.season = seasonCounter{COUNT}';
+end
 
 
+%%
+for COUNT = 1:4
+    singleData{COUNT,1} =table(receiverTimes{COUNT},receiverData{COUNT}.season, receiverData{COUNT}.hourlyDets(:,2), receiverData{COUNT}.crossShore(:,2), receiverData{COUNT}.alongShore(:,2),  receiverData{COUNT}.avgNoise(:,2), receiverData{COUNT}.pings(:,2),receiverData{COUNT}.tilt(:,2),receiverData{COUNT}.bottomTemp(:,2),receiverData{COUNT}.windSpd(:,2),receiverData{COUNT}.windDir(:,2),receiverData{COUNT}.bulkStrat,receiverData{COUNT}.daytime,receiverData{COUNT}.ratio(:,2));         
+    singleData{COUNT,1}.Properties.VariableNames = {'Time','Season','HourlyDets','CrossTide','AlongTide','Noise','Pings','Tilt','Temp','WindSpd','WindDir','BulkStrat','Daytime','Ratio'};
+end
+
+%Removing timing of testing: first bits are clearly in air.
+singleData{1} = singleData{1}(16:end,:)
+singleData{2} = singleData{1}(24:end,:)
+singleData{3} = singleData{1}(17:end,:)
+singleData{4} = singleData{1}(14:end,:)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+seasonName = [{'Winter'},{'Spring'},{'Summer'},{'Fall'},{'M. Fall'}];

@@ -1,56 +1,4 @@
-%FM run freshTest first, then this:
 
-
-%Frank manually making season bins for the 4 transceivers
-%SURT05
-winter{1}     = [16:2063, 7944:9188]';
-spring{1}     = [ 2064:4271]';
-summer{1}  = [4272:5735]';
-fall{1}          = [5736:6479]';
-mFall{1}      = [6480:7943]';
-
-%STSnew2
-winter{2}     = [24:2405, 8286:9253]';
-spring{2}     = [2406:4613]';
-summer{2}  = [4614:6077]';
-fall{2}          = [6078:6821]';
-mFall{2}      = [6822:8285]';
-
-%FS6
-winter{3}    = [17:2061, 7942:9208]';
-spring{3}    = [2062:4269]';
-summer{3} = [4270:5733]';
-fall{3}         = [5734:6477]';
-mFall{3}     = [6478:7941]';
-
-%39IN
-winter{4}    = [14:2397, 8278:9373]';
-spring{4}    = [2398:4605]';
-summer{4} = [4606:6069]';
-fall{4}         = [6070:6813]';
-mFall{4}     = [6814:8277]';
-
-% 
-for COUNT = 1:4
-    seasonCounter{COUNT} = zeros(1,length(receiverTimes{COUNT}));
-    seasonCounter{COUNT}(winter{COUNT}) = 1; seasonCounter{COUNT}(spring{COUNT}) = 2; seasonCounter{COUNT}(summer{COUNT}) = 3; seasonCounter{COUNT}(fall{COUNT}) = 4; seasonCounter{COUNT}(mFall{COUNT}) = 5;
-    receiverData{COUNT}.season = seasonCounter{COUNT}';
-end
-
-
-%%
-for COUNT = 1:4
-    singleData{COUNT,1} =table(receiverTimes{COUNT},receiverData{COUNT}.season, receiverData{COUNT}.hourlyDets(:,2), receiverData{COUNT}.avgNoise(:,2), receiverData{COUNT}.pings(:,2),receiverData{COUNT}.tilt(:,2),receiverData{COUNT}.bottomTemp(:,2),receiverData{COUNT}.windSpd(:,2),receiverData{COUNT}.windDir(:,2),receiverData{COUNT}.bulkStrat,receiverData{COUNT}.daytime,receiverData{COUNT}.ratio(:,2));         
-    singleData{COUNT,1}.Properties.VariableNames = {'Time','Season','HourlyDets','Noise','Pings','Tilt','Temp','WindSpd','WindDir','BulkStrat','Daytime','Ratio'};
-end
-
-%Removing timing of testing: first bits are clearly in air.
-singleData{1} = singleData{1}(16:end,:)
-singleData{2} = singleData{1}(24:end,:)
-singleData{3} = singleData{1}(17:end,:)
-singleData{4} = singleData{1}(14:end,:)
-
-seasonName = [{'Winter'},{'Spring'},{'Summer'},{'Fall'},{'M. Fall'}];
 %%
 
 %Full season windbreakdown
@@ -73,6 +21,7 @@ for season = 1:height(windSpeedBins)
         tiltCompareWind(season,k) = mean(windSpeedScenario{season,k}.Tilt);
         stratCompare(season,k) = mean(windSpeedScenario{season,k}.BulkStrat);
         ratioCompareWind(season,k) = mean(windSpeedScenario{season,k}.Ratio);
+        pingsCompareWind(season,k) = mean(windSpeedScenario{season,k}.Pings);
         % stratCompareWind{COUNT}{season}(k) = mean(windSpeedScenario{season,k}.stratification)
     end
     % normalizedWSpeed{season,k}  = averageWindSpeed{COUNT}{season}/(max(averageWindSpeed{COUNT}{season}));
@@ -110,23 +59,10 @@ ylabel('Bulk Stratification (C)')
 title('Increasing Windspeeds versus Bulk Stratification','Hours averaged. each season')
 
 
+figure()
+scatter(noiseCompare,averageWspDets,'filled')
+legend(seasonName)
 
-
-
-
-sgvfgsdfgsfdg
-Frank come back here and make this; this will help compare the one transceiver's measures
-
-
-        averageWspDets{COUNT}{season}(1,k) = mean(windSpeedScenario{COUNT}{season}{1,k}.detections);
-        noiseCompare{COUNT}{season}(k) = mean(windSpeedScenario{COUNT}{season}{1,k}.noise);
-        wavesCompare{COUNT}{season}(k) = mean(windSpeedScenario{COUNT}{season}{1,k}.waveHeight);
-        tiltCompareWind{COUNT}{season}(k) = mean(windSpeedScenario{COUNT}{season}{1,k}.tilt);
-        stratCompareWind{COUNT}{season}(k) = mean(windSpeedScenario{COUNT}{season}{1,k}.stratification)
-    end
-    normalizedWSpeed{COUNT}{season}  = averageWspDets{COUNT}{season}/(max(averageWspDets{COUNT}{season}));
-end
-%%
 %Winds for the first transceiver
 
 %Plots relationship between noise and dets for every season + transceiver

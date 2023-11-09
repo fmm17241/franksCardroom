@@ -34,15 +34,6 @@ tideAnglesD(4) = tideAnglesD(2)-90;
 % AnglesR = deg2rad(AnglesD);
 tideAnglesR = deg2rad(tideAnglesD);
 
-
-%% Original
-% tideAnglesD(1) = 123.3773;
-% tideAnglesD(2) = 303.3773;
-% tideAnglesD(3) = tideAnglesD(1)-90;
-% tideAnglesD(4) = tideAnglesD(2)-90;
-% AnglesR = deg2rad(AnglesD);
-% tideAnglesR = deg2rad(tideAnglesD);
-
 %%
 %Okay: How do I use that information?
 
@@ -108,15 +99,15 @@ tidalz = [tideU;tideV].';
 tidalTheta = coef(3);
 thetaDegree = rad2deg(tidalTheta);
 
-[rotUtideShore,rotVtideShore] = rot(ut,vt,tidalTheta);
+[crossShore,alongShore] = rot(ut,vt,tidalTheta);
 
 %%
 %HERE'S FM'S NEW ROTATIONS
 %FRANK needs to take ut and vt, and rotate it once to x/alongshore, flip
 %it, then rotate it back.
-flippedAlong = -rotVtideShore;
+flippedAlong = -alongShore;
 tidalThetaEvil = -coef(3);
 thetaDegreeEvil = rad2deg(tidalTheta);
 
-[ut,vt] = rot(rotUtideShore,flippedAlong,tidalThetaEvil);
+[ut,vt] = rot(crossShore,flippedAlong,tidalThetaEvil);
 %%
