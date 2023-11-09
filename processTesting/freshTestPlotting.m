@@ -206,7 +206,7 @@ end
 %Sept 1-Sept 6
 %Dets and WInds
 
-ax = [receiverTimes{1,1}(250), receiverTimes{1,1}(350)];
+ax = [receiverTimes{1,1}(220), receiverTimes{1,1}(280)];
 COUNT = 1;
 receiverLetter = ['A','B','C','D']
 
@@ -225,30 +225,35 @@ ff = figure()
         nexttile([1 2])
         plot(receiverTimes{COUNT},receiverData{1,COUNT}.avgNoise(:,2));
         ylabel('Ambient Noise');
-        ylim([400 680])
+        ylim([550 680])
         yline(650)
         xlim(ax);
         datetick('x','keeplimits');
         title('HF Noise')
 
         nexttile([1 2])
-        plot(tideDT,rotUtideShore)
+        plot(tideDT,crossShore)
         title('Rotated Tides, Parallel');
         ylabel('Parallel Velocity');
         xlim(ax);
         ylim([-0.4 0.4]);
         datetick('x','keeplimits');
         yline(0);
+        yyaxis right
+        scatter(receiverTimes{COUNT},receiverData{COUNT}.daytime,'r','filled')
+        set(gca,'XTick',[], 'YTick', [])
+        xticklabels([])
 
-        nexttile([1 2])
-        yyaxis left
-        plot(windsDT,WSPD);
-        ylabel('Windspeed');
-        ylim([0 12])
-%         yline(650)
-        xlim(ax);
-        datetick('x','keeplimits');
-        title('Winds');
+
+%         nexttile([1 2])
+%         yyaxis left
+%         plot(windsDT,WSPD);
+%         ylabel('Windspeed');
+%         ylim([0 12])
+% %         yline(650)
+%         xlim(ax);
+%         datetick('x','keeplimits');
+%         title('Winds');
 
         nexttile([1 2])
         plot(receiverTimes{COUNT},receiverData{COUNT}.bulkStrat,'r');

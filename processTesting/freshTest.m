@@ -261,9 +261,34 @@ end
 
 %Removing timing of testing: first bits are clearly in air.
 singleData{1} = singleData{1}(16:end,:)
-singleData{2} = singleData{1}(24:end,:)
-singleData{3} = singleData{1}(17:end,:)
-singleData{4} = singleData{1}(14:end,:)
+singleData{2} = singleData{2}(24:end,:)
+singleData{3} = singleData{3}(17:end,:)
+singleData{4} = singleData{4}(14:end,:)
 
 
 seasonName = [{'Winter'},{'Spring'},{'Summer'},{'Fall'},{'M. Fall'}];
+
+
+%%
+%Very late but Frank has to compare these
+
+frank please fix this in AM< output is all the same for every season, cant troubleshoot this late
+
+for COUNT = 1:length(singleData)
+    for season = 1:length(seasonName)
+        nightBin{COUNT,season} = singleData{COUNT}.Daytime == 0 & singleData{COUNT}.Season ==season;
+        dayBin{COUNT,season} = singleData{COUNT}.Daytime == 1 & singleData{COUNT}.Season ==season;
+        nightVS{COUNT,season}  = mean(singleData{COUNT}.HourlyDets(nightBin{COUNT}));
+        dayVS{COUNT,season}  = mean(singleData{COUNT}.HourlyDets(dayBin{COUNT}));
+    end
+end
+
+
+
+
+
+
+
+
+
+
