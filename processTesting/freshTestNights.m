@@ -248,5 +248,25 @@ for COUNT = 1:length(singleData)
     title('','Thermal Stratification')
 end
 
+
+figure()
+hold on
+
+for COUNT = 1:length(singleData)
+    plot(X,dayDets(COUNT,:),'r','LineWidth',2)
+    scatter(X,dayDets(COUNT,:),150,'r','filled')
+    ciplot(CIdayDets{COUNT}(:,1),CIdayDets{COUNT}(:,2),X,'r')
+    plot(X,nightDets(COUNT,:),'b','LineWidth',2)
+    scatter(X,nightDets(COUNT,:),150,'b','filled')
+    ciplot(CInightDets{COUNT}(:,1),CInightDets{COUNT}(:,2),X,'b')
+    xlabel('Season')
+    ylabel('Hourly Detections')
+    title('Diurnal Differences in the Acoustic Environment','Hourly Detections')
+    
+end
+
+
+
+
 ax = gcf;
 exportgraphics(ax,sprintf('frank%d.png',COUNT))
