@@ -18,11 +18,12 @@ stationWindsAnalysis
 % fullTime.TimeZone = 'UTC';
 %Creates diurnal data
 figure()
-SunriseSunsetUTC
-
+SunriseSunsetUTC2019
+figure()
+SunriseSunsetUTC2020
 
 %Day timing
-sunRun = [sunrise; sunset];
+sunRun = [sunrise2019, sunrise2020; sunset2019, sunset2020];
 
 %Binary data: night or day
 xx = length(sunRun);
