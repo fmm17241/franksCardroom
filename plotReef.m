@@ -88,6 +88,9 @@ scatter(mooredGPS(11:14,2),mooredGPS(11:14,1),'k','filled');
 scatter(mooredGPS(14,2),mooredGPS(14,1),'r','filled');  
 
 
+buoyLocation =  [31.4 -80.866];
+
+
 
 localdir= 'C:\Users\fmm17241\Documents\GitHub\franksCardroom\';	% where on your computer you want to write mafiles and plots; copy ec2001.mat here
 load([localdir,'contourinfo.mat'],'bathymetry','coastline');
@@ -138,7 +141,7 @@ distances(5) = lldistkm(mooredGPS(13,:),mooredGPS(14,:))
 
 
 
-
+buoyDistance = lldistkm(mooredGPS(14,:),buoyLocation)
 
 
 

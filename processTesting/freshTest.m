@@ -22,6 +22,19 @@ SunriseSunsetUTC2019
 figure()
 SunriseSunsetUTC2020
 
+
+date    = [date2019, date2020];
+sunrise = [sunrise2019,sunrise2020];
+sunset  = [sunset2019, sunset2020];
+
+
+figure()
+plot(date,timeofday(sunrise),date,timeofday(sunset), "LineWidth",2);
+title("Sunrise and Sunset")
+xlabel("Day of Year"); ylabel("Time of Day")
+ylim(hours([0 24]));
+
+
 %Day timing
 sunRun = [sunrise2019, sunrise2020; sunset2019, sunset2020];
 
