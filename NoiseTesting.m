@@ -92,10 +92,15 @@ end
 
 months = month(dataDT);
 
+%Winter: Jan/Feb/Nov/Dec
 seasonIndex{1} = [1:2,11:12];
+%Spring: Mar/Apr/May
 seasonIndex{2} = [3:5];
+%Summer: Jun/Jul
 seasonIndex{3} = [6:7];
+%Fall: Aug
 seasonIndex{4} = [8];
+%Mariner's Fall: Sept/Oct
 seasonIndex{5} = [9:10];
 
 %Frank trying to automate separation of months/seasons
@@ -103,13 +108,38 @@ for k = 1:length(receiverData)
     originalSeason   = zeros(height(receiverData{k}),1);
     % receiverData{k}.Season = 
     whatMonth{k}     = month(receiverData{k}.DT);
-    seasonIndex{1}   = 
+    receiverData{k}.Season = originalSeason;
+    winter{k} = ismember(whatMonth{k},seasonIndex{1});
+    spring{k} = ismember(whatMonth{k},seasonIndex{2});
+    summer{k} = ismember(whatMonth{k},seasonIndex{3});
+    fall{k}   = ismember(whatMonth{k},seasonIndex{4});
+    mFall{k}  = ismember(whatMonth{k},seasonIndex{5});
 
-    fixedMonth{k}           = 
-
+    receiverData{k}.Season(winter{k}) = 1;
+    receiverData{k}.Season(spring{k}) = 2;
+    receiverData{k}.Season(summer{k}) = 3;
+    receiverData{k}.Season(fall{k}) = 4;
+    receiverData{k}.Season(mFall{k}) = 5;
 end
 
+%Frank cleaning up data from deploy/retrieve
+%Not the prettiest, but this removes times where tilt and temperature are
+%clearly showing its out of the water, or datetimes years after the last
+%reliable data.
+receiverData{1}= receiverData{1}(20:end,:);
+receiverData{2}= receiverData{2}(17:end,:);
+receiverData{3}= receiverData{3}(15:10154,:);
+receiverData{4}= receiverData{4}(24:end,:);
+receiverData{5}= receiverData{5}(20:end,:);
+receiverData{6}= receiverData{6}(96:end,:);
+receiverData{7}= receiverData{7}(96:end,:);
+receiverData{8}= receiverData{8}(23:end,:);
+receiverData{9}= receiverData{9}(17:end,:);
+receiverData{10}= receiverData{10}(25:end,:);
+receiverData{11}= receiverData{11}(4:7685,:);
 
+receiverData{12}= receiverData{12}(3:end,:);
+receiverData{13}= receiverData{13}(17:9373,:);
 
 %%
 %Frank's testing which had the most pings/dets/noise to check hypothesis of
