@@ -145,14 +145,36 @@ receiverData{13}= receiverData{13}(17:9373,:);
 %Frank's testing which had the most pings/dets/noise to check hypothesis of
 %the reef being very loud
 for k = 1:length(receiverData)
-    testingAveragePings(k) = mean(receiverData{k}.Pings);
-    testingAverageNoise(k) = mean(receiverData{k}.Noise);
-    testingAverageDets(k)  = mean(receiverData{k}.HourlyDets);
+    testingAnnualPings(k) = mean(receiverData{k}.Pings);
+    testingAnnualNoise(k) = mean(receiverData{k}.Noise);
+    testingAnnualDets(k)  = mean(receiverData{k}.HourlyDets);
+end
+
+
+%Test difference in variables during different seasons
+for k = 1:length(receiverData)
+    for season = 1:length(seasonIndex)
+        testingPings(k,season) = mean(receiverData{k}.Pings(receiverData{k}.Season == season));
+        testingNoise(k,season) = mean(receiverData{k}.Noise(receiverData{k}.Season == season));
+        testingDets(k,season)  = mean(receiverData{k}.HourlyDets(receiverData{k}.Season == season));
+    end
+end
+
+X = 1:5;
+
+for k = 1:length(receiverData)
+    figure()
+    hold on
+    scatter(X,testingDets(k,:))
 end
 
 
 
+figure
 
+
+figure()
+scatter(testingNoise,testingDets)
 
 %%
 % FM detrending the noise data: removing the mean from all of my
@@ -179,39 +201,23 @@ quietStations = ['C','E','F','G','J','M']
 
 
 figure()
-scatter(testingAverageNoise,testingAverageDets,testingAveragePings,'filled')
+scatter(testingAnnualNoise,testingAnnualDets,testingAnnualPings,'filled')
 
 
 
-figure()
-hold on
-for k = 1:length(receiverData)
-    plot(receiverData{k}.DT,receiverData{k}.Noise)
-
-end
-
-
-
-
-
-figure()
-hold on
-for k = 1:length(receiverData)
-    plot(receiverData{k}.DT,testingDetrend{k})
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+% figure()
+% hold on
+% for k = 1:length(receiverData)
+%     plot(receiverData{k}.DT,receiverData{k}.Noise)
+% 
+% end
+% 
+% 
+% 
+% 
+% 
+% figure()
+% hold on
+% for k = 1:length(receiverData)
+%     plot(receiverData{k}.DT,testingDetrend{k})
+% end
