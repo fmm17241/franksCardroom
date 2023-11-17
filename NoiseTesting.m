@@ -49,25 +49,10 @@ uniqueReceivers =  [{'VR2Tx-483062';  % 'VR2Tx-483062' SURTASSSTN20, A
 letters = 'A':'M';
 transceiverNames = {'SURTASSSTN20','SURTASS_05IN','Roldan','33OUT','FS17','08C','STSNew1','STSNew2',...
     'FS6','08ALTIN','34ALTOUT','09T','39IN'};
-% for PT = 1:length(uniqueReceivers)
-% %     clearvars tempIndex detectionIndex noiseIndex pingIndex tiltIndex
-%     tempIndex{PT,1}      = strcmp(data.Receiver,uniqueReceivers(PT)) & strcmp(data.Description,'Temperature');
-%     detectionIndex{PT,1} = strcmp(data.Receiver,uniqueReceivers(PT)) & strcmp(data.Description,'Hourly Detections on 69 kHz');
-%     noiseIndex{PT,1}     = strcmp(data.Receiver,uniqueReceivers(PT)) & strcmp(data.Description,'Average noise');
-%     pingIndex{PT,1}      = strcmp(data.Receiver,uniqueReceivers(PT)) & strcmp(data.Description,'Hourly Pings on 69 kHz');
-%     tiltIndex{PT,1}      = strcmp(data.Receiver,uniqueReceivers(PT)) & strcmp(data.Description,'Tilt angle');
-% 
-%     receiverData{PT}.identity        = uniqueReceivers{PT};
-%     receiverData{PT}.name            = transceiverNames{PT};
-%     receiverData{PT}.letter          = letters(PT);
-%     receiverData{PT}.bottomTemp(:,1) = dataDN(tempIndex{PT}); receiverData{PT}.bottomTemp(:,2) = data.Data(tempIndex{PT});
-%     receiverData{PT}.hourlyDets(:,1) = dataDN(detectionIndex{PT}); receiverData{PT}.hourlyDets(:,2) = data.Data(detectionIndex{PT});
-%     receiverData{PT}.avgNoise(:,1)   = dataDN(noiseIndex{PT}); receiverData{PT}.avgNoise(:,2) = data.Data(noiseIndex{PT});
-%     receiverData{PT}.pings(:,1)      = dataDN(pingIndex{PT});  receiverData{PT}.pings(:,2)    = data.Data(pingIndex{PT});
-%     receiverData{PT}.tilt(:,1)       = dataDN(tiltIndex{PT}); receiverData{PT}.tilt(:,2)          = data.Data(tiltIndex{PT});
-%     receiverData{PT}.DT               = datetime(receiverData{PT}.hourlyDets(:,1),'ConvertFrom','datenum','TimeZone','UTC');
-% 
-% end
+
+
+%% 
+
 %%
 %Frank testing
 for PT = 1:length(uniqueReceivers)
@@ -78,15 +63,15 @@ for PT = 1:length(uniqueReceivers)
     pingIndex{PT,1}      = strcmp(data.Receiver,uniqueReceivers(PT)) & strcmp(data.Description,'Hourly Pings on 69 kHz');
     tiltIndex{PT,1}      = strcmp(data.Receiver,uniqueReceivers(PT)) & strcmp(data.Description,'Tilt angle');
     
+
     receiverData{PT}     = table(datetime(dataDN(detectionIndex{PT}),'ConvertFrom','datenum','TimeZone','UTC'), ...
                                     dataDN(detectionIndex{PT}), ...
-                                    data.Data(tempIndex{PT}), ...
                                     data.Data(detectionIndex{PT}), ...
                                     data.Data(noiseIndex{PT}), ...
                                     data.Data(pingIndex{PT}), ...
                                     data.Data(tiltIndex{PT}), ...
                                     data.Data(tempIndex{PT}))
-
+    receiverData{PT}.Properties.VariableNames = {'DT','DN','HourlyDets','Noise','Pings','Tilt','Temp'};
 
 
 
@@ -103,18 +88,87 @@ for PT = 1:length(uniqueReceivers)
 end
 
 
+%FM need to separate the seasons out for each transceiver :(
+
+months = month(dataDT);
+
+seasonIndex{1} = [1:2,11:12];
+seasonIndex{2} = [3:5];
+seasonIndex{3} = [6:7];
+seasonIndex{4} = [8];
+seasonIndex{5} = [9:10];
+
+%Frank trying to automate separation of months/seasons
+for k = 1:length(receiverData)
+    originalSeason   = zeros(height(receiverData{k}),1);
+    % receiverData{k}.Season = 
+    whatMonth{k}     = month(receiverData{k}.DT);
+    seasonIndex{1}   = 
+
+    fixedMonth{k}           = 
+
+end
+
+
+
+%%
+%Frank's testing which had the most pings/dets/noise to check hypothesis of
+%the reef being very loud
+for k = 1:length(receiverData)
+    testingAveragePings(k) = mean(receiverData{k}.Pings);
+    testingAverageNoise(k) = mean(receiverData{k}.Noise);
+    testingAverageDets(k)  = mean(receiverData{k}.HourlyDets);
+end
+
+
+
+
+
+%%
+% FM detrending the noise data: removing the mean from all of my
+% transceivers
+
+for k = 1:length(receiverData)
+    testingDetrend{k} = detrend(receiverData{k}.Noise,'constant')
+end
+
+
+
+%Frank needs to define loud and quiet stations from the data
+%LOUD: Average noise above 600 mV
+%QUIET: Average noise below 600 mV
+%Problem with this is that some were deployed for longer winter and such,
+%might have to break down by season.
+
+
+loudStations  = ['A','B','D','H','I','K','L']
+quietStations = ['C','E','F','G','J','M']
+
+%L and F both have very low transmissions, BUT different noise
+
+
+
+figure()
+scatter(testingAverageNoise,testingAverageDets,testingAveragePings,'filled')
+
 
 
 figure()
 hold on
 for k = 1:length(receiverData)
-    plot(receiverData{k}.DT,receiverData{k}.avgNoise(:,2))
+    plot(receiverData{k}.DT,receiverData{k}.Noise)
 
 end
 
 
 
 
+
+figure()
+hold on
+for k = 1:length(receiverData)
+    plot(receiverData{k}.DT,testingDetrend{k})
+end
 
 
 
