@@ -170,9 +170,6 @@ end
 
 
 
-figure
-
-
 figure()
 scatter(testingNoise,testingDets)
 
@@ -205,19 +202,19 @@ scatter(testingAnnualNoise,testingAnnualDets,testingAnnualPings,'filled')
 
 
 
-% figure()
-% hold on
-% for k = 1:length(receiverData)
-%     plot(receiverData{k}.DT,receiverData{k}.Noise)
-% 
-% end
-% 
-% 
-% 
-% 
-% 
-% figure()
-% hold on
-% for k = 1:length(receiverData)
-%     plot(receiverData{k}.DT,testingDetrend{k})
-% end
+figure()
+hold on
+for k = 1:length(receiverData)
+    plot(receiverData{k}.DT,receiverData{k}.Noise)
+
+end
+
+
+
+
+
+figure()
+hold on
+for k = 1:length(receiverData)
+    plot(receiverData{k}.DT,testingDetrend{k})
+end
