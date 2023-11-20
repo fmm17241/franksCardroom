@@ -153,10 +153,36 @@ end
 
 %Test difference in variables during different seasons
 for k = 1:length(receiverData)
-    for season = 1:length(seasonIndex)
+    for season = 1:5
         testingPings(k,season) = mean(receiverData{k}.Pings(receiverData{k}.Season == season));
         testingNoise(k,season) = mean(receiverData{k}.Noise(receiverData{k}.Season == season));
         testingDets(k,season)  = mean(receiverData{k}.HourlyDets(receiverData{k}.Season == season));
+
+        %Creating Confidence Intervals
+        %Noise
+        clearvars ts
+        SEMnoise{k}(season,:) = std(receiverData{k}.Noise(receiverData{k}.Season == season),'omitnan')/sqrt(length(receiverData{k}.Noise(receiverData{k}.Season == season)));  
+        ts = tinv([0.025  0.975],height(receiverData{k})-1);  
+        ciNoise{k}(season,:) = (mean(receiverData{k}.Noise(receiverData{k}.Season == season),'all','omitnan') + ts*SEMnoise{k}(season,:)); 
+
+        %Dets
+        clearvars ts
+        SEMdets{k}(season,:) = std(receiverData{k}.HourlyDets(receiverData{k}.Season == season),'omitnan')/sqrt(length(receiverData{k}.HourlyDets(receiverData{k}.Season == season)));  
+        ts = tinv([0.025  0.975],height(receiverData{k})-1);  
+        ciHourlyDets{k}(season,:) = (mean(receiverData{k}.HourlyDets(receiverData{k}.Season == season),'all','omitnan') + ts*SEMdets{k}(season,:)); 
+
+        %Pings
+        clearvars ts
+        SEMpings{k}(season,:) = std(receiverData{k}.Pings(receiverData{k}.Season == season),'omitnan')/sqrt(length(receiverData{k}.Pings(receiverData{k}.Season == season)));  
+        ts = tinv([0.025  0.975],height(receiverData{k})-1);  
+        ciPings{k}(season,:) = (mean(receiverData{k}.Pings(receiverData{k}.Season == season),'all','omitnan') + ts*SEMpings{k}(season,:)); 
+
+        %Tilt
+        clearvars ts
+        SEMtilt{k}(season,:) = std(receiverData{k}.Tilt(receiverData{k}.Season == season),'omitnan')/sqrt(length(receiverData{k}.Tilt(receiverData{k}.Season == season)));  
+  
+        ts = tinv([0.025  0.975],height(receiverData{k})-1);  
+        ciTilt{k}(season,:) = (mean(receiverData{k}.Tilt(receiverData{k}.Season == season),'all','omitnan') + ts*SEMtilt{k}(season,:)); 
     end
 end
 
@@ -181,7 +207,7 @@ for k = 1:length(receiverData)
     testingDetrend{k} = detrend(receiverData{k}.Noise,'constant')
 end
 
-
+cd ([oneDrive,'exportedfigures\NoiseTesting'])
 
 %Frank needs to define loud and quiet stations from the data
 %LOUD: Average noise above 600 mV
@@ -206,11 +232,9 @@ figure()
 hold on
 for k = 1:length(receiverData)
     plot(receiverData{k}.DT,receiverData{k}.Noise)
-
 end
-
-
-
+title('Hourly High-Frequency Noise')
+ylabel('HF Noise (mV)')
 
 
 figure()
@@ -218,3 +242,51 @@ hold on
 for k = 1:length(receiverData)
     plot(receiverData{k}.DT,testingDetrend{k})
 end
+title('Hourly High-Frequency Noise','DeTrended, Removed Mean')
+ylabel('Detrended HF Noise (mV)')
+
+
+%Frank: Scattering different seasons, loud transceivers vas quiet
+%transceivers
+
+loudNumbers  = [1,2,4,8,9,11,12];
+quietNumbers = [3,5,6,7,10,13];
+X = 1:5;
+
+
+figure()
+hold on
+scatter(testingAnnualPings(loudNumbers),testingAnnualDets(loudNumbers),'r','filled')
+scatter(testingAnnualPings(quietNumbers),testingAnnualDets(quietNumbers),'b','filled')
+title('Detections vs Pings','Annual')
+legend('Loud (>600 mV)','Quiet (<600 mV)')
+
+
+figure()
+hold on
+scatter(testingNoise(loudNumbers,1),testingDets(loudNumbers,1),'r','*')
+scatter(testingNoise(quietNumbers,1),testingDets(quietNumbers,1),'b','*')
+scatter(testingNoise(loudNumbers,4),testingDets(loudNumbers,4),'r','>','filled')
+scatter(testingNoise(quietNumbers,4),testingDets(quietNumbers,4),'b','>','filled')
+legend('Winter, On Reef','Winter, Off Reef','Summer, On Reef','Summer, Off Reef')
+title('On and Off the Reef','Testing Differences in Noise and Detections')
+ylabel('Avg. Hourly Dets')
+xlabel('HF Noise (mV)')
+
+figure()
+hold on
+scatter(testingPings(6,:),testingNoise(6,:),'b','filled')
+ciplot(ciPings{6},ciNoise{6},X,'b')
+scatter(testingPings(12,:),testingNoise(12,:),'r','filled')
+ciplot(ciPings{12},ciNoise{12},X,'r')
+
+
+LineSpecLoud = ['r','^']
+LineSpecQuiet = ['b','^']
+
+
+figure()
+hold on
+errorbar(testingPings(6,:),testingNoise(6,:),SEMnoise{6},SEMnoise{6},SEMpings{6},SEMpings{6},LineSpecQuiet)
+errorbar(testingPings(12,:),testingNoise(12,:),SEMnoise{12},SEMnoise{12},SEMpings{12},SEMpings{12},LineSpecLoud)
+legend('Off Reef','On Reef')
