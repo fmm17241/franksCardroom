@@ -16,6 +16,20 @@ rawDetFile{10,1} = readtable('VR2Tx_483076_20211018_1.csv'); %08ALTIN
 rawDetFile{11,1} = readtable('VR2Tx_483079_20211130_1.csv'); %34ALTOUT
 rawDetFile{12,1} = readtable('VR2Tx_483080_20211223_1.csv'); %09T
 rawDetFile{13,1} = readtable('VR2Tx_483081_20211005_1.csv'); %39IN
+
+%Frank's adding in measure of when they hear themselves
+selfID = ['A69-1601-63062';'A69-1601-63064';'A69-1601-63066';'A69-1601-63067';...
+    'A69-1601-63068';'A69-1601-63070';'A69-1601-63073';'A69-1601-63074';...
+    'A69-1601-63075';'A69-1601-63076';'A69-1601-63079';'A69-1601-63080';...
+    'A69-1601-63081'];
+
+for transceiver = 1:length(rawDetFile)
+    heardSelf{transceiver} = strcmp(rawDetFile{transceiver,1}.Var3,selfID(transceiver,:))
+    countSelfDetects(transceiver,1) = sum(heardSelf{transceiver});
+end
+
+    selfDetects{transceiver} = rawDetFile{transceiver,heardSelf{transceiver}};
+
 %%FM 5/24: trying bulk strat using bottom receiver + buoy info
 cd ([oneDrive,'Moored'])
 % Separate dets, temps, and noise by which receiver is giving the data
@@ -260,6 +274,23 @@ scatter(testingAnnualPings(loudNumbers),testingAnnualDets(loudNumbers),'r','fill
 scatter(testingAnnualPings(quietNumbers),testingAnnualDets(quietNumbers),'b','filled')
 title('Detections vs Pings','Annual')
 legend('Loud (>600 mV)','Quiet (<600 mV)')
+ylabel('Avg. Hourly Detections')
+xlabel('Avg. Pings/hour')
+
+for season = 1:5
+    figure(season)
+    hold on
+    scatter(testingPings(loudNumbers,season),testingDets(loudNumbers,season),'r','filled')
+    scatter(testingPings(quietNumbers,season),testingDets(quietNumbers,season),'b','filled')
+    title(sprintf('Detections vs Pings, %d',season))
+    legend('Loud (>600 mV)','Quiet (<600 mV)')
+    ylabel('Avg. Hourly Detections')
+    xlabel('Avg. Pings/hour')
+
+end
+
+% 2 has tons and tons of noise and pings
+% 4 and 5 never heard themselves, assumed never transmitting
 
 
 figure()
