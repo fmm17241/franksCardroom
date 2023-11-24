@@ -1,6 +1,10 @@
 %
 %FM 11/16 testing hypothesis about high-frequency noise on and off the reef
 
+%Bring in wind data 
+stationWindsAnalysis
+
+
 %Load in the detection files
 cd ([oneDrive,'Moored\GRNMS\VRLs'])
 rawDetFile{1,1} = readtable('VR2Tx_483062_20211112_1.csv'); %SURTASSSTN20
@@ -28,7 +32,9 @@ for transceiver = 1:length(rawDetFile)
     countSelfDetects(transceiver,1) = sum(heardSelf{transceiver});
 end
 
-    selfDetects{transceiver} = rawDetFile{transceiver,heardSelf{transceiver}};
+%4 and 5 never heard themselves
+
+selfDetects{transceiver} = rawDetFile{transceiver,heardSelf{transceiver}};
 
 %%FM 5/24: trying bulk strat using bottom receiver + buoy info
 cd ([oneDrive,'Moored'])
@@ -78,14 +84,15 @@ for PT = 1:length(uniqueReceivers)
     tiltIndex{PT,1}      = strcmp(data.Receiver,uniqueReceivers(PT)) & strcmp(data.Description,'Tilt angle');
     
 
-    receiverData{PT}     = table(datetime(dataDN(detectionIndex{PT}),'ConvertFrom','datenum','TimeZone','UTC'), ...
+    receiverData{PT}     = table2timetable(table(datetime(dataDN(detectionIndex{PT}),'ConvertFrom','datenum','TimeZone','UTC'), ...
                                     dataDN(detectionIndex{PT}), ...
                                     data.Data(detectionIndex{PT}), ...
                                     data.Data(noiseIndex{PT}), ...
                                     data.Data(pingIndex{PT}), ...
                                     data.Data(tiltIndex{PT}), ...
-                                    data.Data(tempIndex{PT}))
-    receiverData{PT}.Properties.VariableNames = {'DT','DN','HourlyDets','Noise','Pings','Tilt','Temp'};
+                                    data.Data(tempIndex{PT})))
+    receiverData{PT}.Properties.VariableNames = {'DN','HourlyDets','Noise','Pings','Tilt','Temp'};
+    receiverData{PT}.Properties.DimensionNames{1} = 'DT'; 
 
 
 
@@ -155,6 +162,51 @@ receiverData{11}= receiverData{11}(4:7685,:);
 receiverData{12}= receiverData{12}(3:end,:);
 receiverData{13}= receiverData{13}(17:9373,:);
 
+
+%%
+%Frank adding sunlight variable
+%Creates diurnal data
+figure()
+SunriseSunsetUTC2019
+figure()
+SunriseSunsetUTC2020
+figure()
+SunriseSunsetUTC2021
+
+
+date    = [date2019, date2020, date2021];
+sunrise = [sunrise2019,sunrise2020, sunrise2021];
+sunset  = [sunset2019, sunset2020, sunset2021];
+
+sunRun = [sunrise2019, sunrise2020; sunset2019, sunset2020];
+
+%Binary data: night or day
+xx = length(sunRun);
+sunlight = zeros(1,height(time));
+for k = 1:xx
+    currentSun = sunRun(:,k);
+    currentHours = isbetween(time,currentSun(1,1),currentSun(2,1)); %FM 7/1
+    currentDays = find(currentHours);
+    sunlight(currentDays) = 1;
+end
+
+%Binary data: night or day
+xx = length(sunRun);
+for COUNT = 1:length(receiverData)
+    receiverData{COUNT}.daytime = zeros(height(receiverData{COUNT}),1);
+    for k = 1:xx
+        currentSun = sunRun(:,k);
+        currentHours = isbetween(receiverData{COUNT}.DT,currentSun(1,1),currentSun(2,1)); %FM 7/1
+        currentDays = find(currentHours);
+        receiverData{COUNT}.daytime(currentDays) = 1;
+    end
+end
+
+
+
+
+
+
 %%
 %Frank's testing which had the most pings/dets/noise to check hypothesis of
 %the reef being very loud
@@ -179,11 +231,14 @@ for k = 1:length(receiverData)
         ts = tinv([0.025  0.975],height(receiverData{k})-1);  
         ciNoise{k}(season,:) = (mean(receiverData{k}.Noise(receiverData{k}.Season == season),'all','omitnan') + ts*SEMnoise{k}(season,:)); 
 
+
         %Dets
         clearvars ts
         SEMdets{k}(season,:) = std(receiverData{k}.HourlyDets(receiverData{k}.Season == season),'omitnan')/sqrt(length(receiverData{k}.HourlyDets(receiverData{k}.Season == season)));  
         ts = tinv([0.025  0.975],height(receiverData{k})-1);  
         ciHourlyDets{k}(season,:) = (mean(receiverData{k}.HourlyDets(receiverData{k}.Season == season),'all','omitnan') + ts*SEMdets{k}(season,:)); 
+
+
 
         %Pings
         clearvars ts
@@ -191,13 +246,20 @@ for k = 1:length(receiverData)
         ts = tinv([0.025  0.975],height(receiverData{k})-1);  
         ciPings{k}(season,:) = (mean(receiverData{k}.Pings(receiverData{k}.Season == season),'all','omitnan') + ts*SEMpings{k}(season,:)); 
 
+
+
         %Tilt
         clearvars ts
         SEMtilt{k}(season,:) = std(receiverData{k}.Tilt(receiverData{k}.Season == season),'omitnan')/sqrt(length(receiverData{k}.Tilt(receiverData{k}.Season == season)));  
   
         ts = tinv([0.025  0.975],height(receiverData{k})-1);  
         ciTilt{k}(season,:) = (mean(receiverData{k}.Tilt(receiverData{k}.Season == season),'all','omitnan') + ts*SEMtilt{k}(season,:)); 
+        
     end
+    SEMnoise{k}(:,2)     = -SEMnoise{k};
+    SEMdets{k}(:,2)     = -SEMdets{k};
+    SEMtilt{k}(:,2)     = -SEMtilt{k};
+    SEMpings{k}(:,2)     = -SEMpings{k};
 end
 
 X = 1:5;
@@ -289,8 +351,164 @@ for season = 1:5
 
 end
 
+%%
+
 % 2 has tons and tons of noise and pings
+
 % 4 and 5 never heard themselves, assumed never transmitting
+% Frank is testing difference between 4 and 5; no pings themselves, where's
+% noise diff coming from?
+
+ff = tiledlayout('horizontal')
+nexttile([2 1])
+hold on
+scatter(testingNoise(4,:),testingDets(4,:),150,'r','>','filled')
+scatter(testingNoise(5,:),testingDets(5,:),150,'b','*')
+% scatter(testingNoise(loudNumbers,4),testingDets(loudNumbers,4),'r','>','filled')
+% scatter(testingNoise(quietNumbers,4),testingDets(quietNumbers,4),'b','>','filled')
+% legend('Winter, On Reef','Winter, Off Reef','Summer, On Reef','Summer, Off Reef')
+title('On and Off the Reef','Testing Differences in Noise and Detections')
+ylabel('Avg. Hourly Dets')
+xlabel('HF Noise (mV)')
+
+nexttile([2 1])
+hold on
+scatter(testingPings(4,:),testingNoise(4,:),150,'r','>','filled')
+scatter(testingPings(5,:),testingNoise(5,:),150,'b','*')
+% scatter(testingNoise(loudNumbers,4),testingDets(loudNumbers,4),'r','>','filled')
+% scatter(testingNoise(quietNumbers,4),testingDets(quietNumbers,4),'b','>','filled')
+% legend('Winter, On Reef','Winter, Off Reef','Summer, On Reef','Summer, Off Reef')
+title('On and Off the Reef','Testing Differences in Noise and Detections')
+ylabel('HF Noise (mV)')
+xlabel('Hourly Pings')
+
+
+
+
+
+%%
+%Testing different visualization
+
+
+
+ff = tiledlayout('horizontal')
+nexttile([2 1])
+hold on
+scatter(testingNoise(4,:),testingDets(4,:),150,'r','>','filled')
+scatter(testingNoise(5,:),testingDets(5,:),150,'b','*')
+
+title('Seasonal Averages','Detections vs. HF Noise')
+ylabel('Avg. Hourly Dets')
+xlabel('HF Noise (mV)')
+legend('Live Bottom','Flat Sand')
+
+nexttile([2 1])
+hold on
+scatter(testingNoise(4,:),testingPings(4,:),150,'r','>','filled')
+scatter(testingNoise(5,:),testingPings(5,:),150,'b','*')
+title('On and Off the Reef','Relationship Between Pings and Noise')
+ylabel('Hourly Pings')
+xlabel('HF Noise (mV)')
+legend('Live Bottom','Flat Sand')
+
+
+%%
+%Adding errorbars to the two column figure
+LineSpecLoud = ['r','^']
+LineSpecQuiet = ['b','^']
+
+
+% ff = tiledlayout('horizontal')
+% nexttile([2 1])
+% hold on
+% % scatter(testingNoise(4,:),testingDets(4,:),150,'r','>','filled')
+% errorbar(testingNoise(4,:),testingDets(4,:),SEMnoise{4}(:,2),SEMnoise{4}(:,1),SEMdets{4}(:,2),SEMdets{4}(:,1),LineSpecLoud)
+% errorbar(testingNoise(5,:),testingDets(5,:),SEMnoise{5}(:,2),SEMnoise{5}(:,1),SEMdets{5}(:,2),SEMdets{5}(:,1),LineSpecQuiet)
+% ylim([0 2.5])
+% 
+% title('Seasonal Averages','Detections vs. HF Noise')
+% ylabel('Avg. Hourly Dets')
+% xlabel('HF Noise (mV)')
+% legend('Live Bottom','Flat Sand')
+
+figure()
+hold on
+errorbar(testingNoise(4,:),testingPings(4,:),SEMnoise{4}(:,2),SEMnoise{4}(:,1),SEMpings{4}(:,2),SEMpings{4}(:,1),LineSpecLoud)
+errorbar(testingNoise(5,:),testingPings(5,:),SEMnoise{5}(:,2),SEMnoise{5}(:,1),SEMpings{5}(:,2),SEMpings{5}(:,1),LineSpecQuiet)
+title('On and Off the Reef','Relationship Between Pings and Noise')
+ylabel('Hourly Pings')
+xlabel('HF Noise (mV)')
+legend('Live Bottom','Flat Sand')
+
+%%
+figure()
+
+
+
+
+
+
+
+figure()
+scatter(receiverData{4}.Noise,receiverData{4}.Pings,'r')
+hold on
+scatter(receiverData{5}.Noise,receiverData{5}.Pings,'b')
+
+%%
+
+%Retiming by days and months. Very few dets and pings, this seeks to show
+%difference in times when I did hear something rather than just mostly
+%zeros.
+
+onReefDaily  = retime(receiverData{4},'daily','mean');
+offReefDaily =retime(receiverData{5},'daily','mean');
+
+onReefMonthly  = retime(receiverData{4},'monthly','mean');
+offReefMonthly =retime(receiverData{5},'monthly','mean');
+
+
+figure()
+scatter(onReefDaily.Noise,onReefDaily.Pings,'r')
+hold on
+scatter(offReefDaily.Noise,offReefDaily.Pings,'b')
+ylabel('Avg Pings/hour')
+xlabel('Avg HF Noise')
+title('High-Frequency Noise vs Detected Pings','Daily Averages')
+legend('Live Bottom','Flat Sand')
+
+figure()
+scatter(onReefMonthly.Noise,onReefMonthly.Pings,'r')
+hold on
+scatter(offReefMonthly.Noise,offReefMonthly.Pings,'b')
+ylabel('Avg Pings/hour')
+xlabel('Avg HF Noise')
+title('High-Frequency Noise vs Detected Pings','Monthly Averages')
+legend('Live Bottom','Flat Sand')
+
+%%
+
+
+figure()
+hold on
+scatter(testingPings(4,:),testingNoise(4,:),150,'r','>','filled')
+
+
+
+figure()
+hold on
+scatter(testingPings(4,:),testingNoise(4,:),'r','*')
+scatter(testingPings(5,:),testingNoise(5,:),'b','*')
+% scatter(testingNoise(loudNumbers,4),testingDets(loudNumbers,4),'r','>','filled')
+% scatter(testingNoise(quietNumbers,4),testingDets(quietNumbers,4),'b','>','filled')
+% legend('Winter, On Reef','Winter, Off Reef','Summer, On Reef','Summer, Off Reef')
+title('On and Off the Reef','Testing Differences in Noise and Detections')
+ylabel('HF Noise (mV)')
+xlabel('Hourly Pings')
+
+
+
+
+
 
 
 figure()
@@ -303,6 +521,12 @@ legend('Winter, On Reef','Winter, Off Reef','Summer, On Reef','Summer, Off Reef'
 title('On and Off the Reef','Testing Differences in Noise and Detections')
 ylabel('Avg. Hourly Dets')
 xlabel('HF Noise (mV)')
+
+
+
+
+
+
 
 figure()
 hold on
