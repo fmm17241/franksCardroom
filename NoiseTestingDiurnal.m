@@ -174,8 +174,10 @@ date    = [date2019, date2020, date2021];
 sunrise = [sunrise2019,sunrise2020, sunrise2021];
 sunset  = [sunset2019, sunset2020, sunset2021];
 
-sunRun = [sunrise2019, sunrise2020; sunset2019, sunset2020];
+sunRun = [sunrise;sunset]
 
+
+%%
 %Binary data: night or day
 xx = length(sunRun);
 sunlight = zeros(1,height(time));
@@ -201,4 +203,240 @@ end
 
 %%
 %Separating by day and night
+
+
+
+for COUNT = 1:length(receiverData)
+    for szn = 1:5
+        dayIndex{COUNT,szn} = receiverData{1,COUNT}.daytime == 1 & receiverData{1,COUNT}.Season == szn;
+        nightIndex{COUNT,szn} = receiverData{1,COUNT}.daytime == 0 & receiverData{1,COUNT}.Season == szn;
+
+        dayScenario{COUNT,szn}      = receiverData{COUNT}(dayIndex{COUNT,szn},:)
+        nightScenario{COUNT,szn}    = receiverData{COUNT}(nightIndex{COUNT,szn},:)
+
+    end
+end
+
+%%
+
+for k = 1:length(receiverData)
+    for season = 1:5
+        nightPings(k,season) = mean(nightScenario{k,season}.Pings);
+        nightNoise(k,season) = mean(nightScenario{k,season}.Noise);
+        nightDets(k,season)  = mean(nightScenario{k,season}.HourlyDets);
+
+        dayPings(k,season) = mean(dayScenario{k,season}.Pings);
+        dayNoise(k,season) = mean(dayScenario{k,season}.Noise);
+        dayDets(k,season)  = mean(dayScenario{k,season}.HourlyDets);
+    end
+end
+%%
+%FOR DAYTIME
+
+for k = 1:length(dayScenario)
+    for season = 1:5
+        %Creating Confidence Intervals
+        %Noise
+        clearvars ts
+        SEMdaynoise{k}(season,:) = std(dayScenario{k,season}.Noise,'omitnan')/sqrt(length(dayScenario{k,season}.Noise));  
+        ts = tinv([0.025  0.975],height(dayScenario{k,season})-1);  
+        ciDayNoise{k}(season,:) = (mean(dayScenario{k,season}.Noise,'all','omitnan') + ts*SEMdaynoise{k}(season,:)); 
+
+
+        %Dets
+        clearvars ts
+        SEMdaydets{k}(season,:) = std(dayScenario{k,season}.HourlyDets,'omitnan')/sqrt(length(dayScenario{k,season}.HourlyDets));  
+        ts = tinv([0.025  0.975],height(dayScenario{k,season})-1);  
+        ciDayHourlyDets{k}(season,:) = (mean(dayScenario{k,season}.HourlyDets,'all','omitnan') + ts*SEMdaydets{k}(season,:)); 
+
+
+
+        %Pings
+        clearvars ts
+        SEMdaypings{k}(season,:) = std(dayScenario{k,season}.Pings,'omitnan')/sqrt(length(dayScenario{k,season}.Pings));  
+        ts = tinv([0.025  0.975],height(dayScenario{k,season})-1);  
+        ciDayPings{k}(season,:) = (mean(dayScenario{k,season}.Pings,'all','omitnan') + ts*SEMdaypings{k}(season,:)); 
+
+
+
+        %Tilt
+        clearvars ts
+        SEMdaytilt{k}(season,:) = std(dayScenario{k,season}.Tilt,'omitnan')/sqrt(length(dayScenario{k,season}.Tilt));  
+  
+        ts = tinv([0.025  0.975],height(dayScenario{k,season})-1);  
+        ciDayTilt{k}(season,:) = (mean(dayScenario{k,season}.Tilt,'all','omitnan') + ts*SEMdaytilt{k}(season,:)); 
+        
+    end
+    SEMdaynoise{k}(:,2)     = -SEMdaynoise{k};
+    SEMdaydets{k}(:,2)     = -SEMdaydets{k};
+    SEMdaytilt{k}(:,2)     = -SEMdaytilt{k};
+    SEMdaypings{k}(:,2)     = -SEMdaypings{k};
+end
+
+
+%%
+%FOR NIGHTTIME
+for k = 1:length(receiverData)
+    for season = 1:5
+        %Creating Confidence Intervals
+        %Noise
+        clearvars ts
+        SEMNightnoise{k}(season,:) = std(nightScenario{k,season}.Noise,'omitnan')/sqrt(length(nightScenario{k,season}.Noise));  
+        ts = tinv([0.025  0.975],height(nightScenario{k,season})-1);  
+        ciNightNoise{k}(season,:) = (mean(nightScenario{k,season}.Noise,'all','omitnan') + ts*SEMNightnoise{k}(season,:)); 
+
+
+        %Dets
+        clearvars ts
+        SEMNightdets{k}(season,:) = std(nightScenario{k,season}.HourlyDets,'omitnan')/sqrt(length(nightScenario{k,season}.HourlyDets));  
+        ts = tinv([0.025  0.975],height(nightScenario{k,season})-1);  
+        ciNightHourlyDets{k}(season,:) = (mean(nightScenario{k,season}.HourlyDets,'all','omitnan') + ts*SEMNightdets{k}(season,:)); 
+
+
+
+        %Pings
+        clearvars ts
+        SEMNightpings{k}(season,:) = std(nightScenario{k,season}.Pings,'omitnan')/sqrt(length(nightScenario{k,season}.Pings));  
+        ts = tinv([0.025  0.975],height(nightScenario{k,season})-1);  
+        ciNightPings{k}(season,:) = (mean(nightScenario{k,season}.Pings,'all','omitnan') + ts*SEMNightpings{k}(season,:)); 
+
+
+
+        %Tilt
+        clearvars ts
+        SEMNighttilt{k}(season,:) = std(nightScenario{k,season}.Tilt,'omitnan')/sqrt(length(nightScenario{k,season}.Tilt));  
+  
+        ts = tinv([0.025  0.975],height(nightScenario{k,season})-1);  
+        ciNightTilt{k}(season,:) = (mean(nightScenario{k,season}.Tilt,'all','omitnan') + ts*SEMNighttilt{k}(season,:)); 
+        
+    end
+    SEMNightnoise{k}(:,2)     = -SEMNightnoise{k};
+    SEMNightdets{k}(:,2)     = -SEMNightdets{k};
+    SEMNighttilt{k}(:,2)     = -SEMNighttilt{k};
+    SEMNightpings{k}(:,2)     = -SEMNightpings{k};
+end
+
+
+
+figure()
+scatter(nightNoise,nightPings,'r')
+hold on
+scatter(dayNoise,dayPings,'b')
+
+X = 1:5;
+
+
+ff = tiledlayout('horizontal')
+nexttile([2 1])
+hold on
+scatter(dayNoise(4,:),dayPings(4,:),150,'r','>','filled')
+scatter(dayNoise(5,:),dayPings(5,:),150,'b','*')
+% scatter(testingNoise(loudNumbers,4),testingDets(loudNumbers,4),'r','>','filled')
+% scatter(testingNoise(quietNumbers,4),testingDets(quietNumbers,4),'b','>','filled')
+legend('On Reef','Off Reef')
+title('On and Off the Reef','Daytime')
+ylabel('Avg. Hourly Pings')
+xlabel('HF Noise (mV)')
+xlim([400 800])
+ylim([0 35])
+
+nexttile([2 1])
+hold on
+scatter(nightNoise(4,:),nightPings(4,:),150,'r','>','filled')
+scatter(nightNoise(5,:),nightPings(5,:),150,'b','*')
+% scatter(testingNoise(loudNumbers,4),testingDets(loudNumbers,4),'r','>','filled')
+% scatter(testingNoise(quietNumbers,4),testingDets(quietNumbers,4),'b','>','filled')
+legend('On Reef','Off Reef')
+title('On and Off the Reef','Nighttime')
+ylabel('Avg. Hourly Pings')
+xlabel('HF Noise (mV)')
+xlim([400 800])
+ylim([0 35])
+
+
+%%
+LineSpecLoudPyramid = ['r','^']
+LineSpecQuietPyramid = ['b','^']
+
+LineSpecLoudSquare = ['r','pentagram']
+LineSpecQuietSquare = ['b','pentagram']
+
+
+ff = tiledlayout('horizontal')
+nexttile([2 1])
+hold on
+errorbar(dayNoise(4,:),dayPings(4,:),SEMdaynoise{4}(:,2),SEMdaynoise{4}(:,1),SEMdaypings{4}(:,2),SEMdaypings{4}(:,1),LineSpecLoudPyramid)
+errorbar(dayNoise(5,:),dayPings(5,:),SEMdaynoise{5}(:,2),SEMdaynoise{5}(:,1),SEMdaypings{5}(:,2),SEMdaypings{5}(:,1),LineSpecQuietPyramid)
+xlim([400 800])
+ylim([0 35])
+
+title('Seasonal Averages','Daytime')
+ylabel('Avg. Hourly Pings')
+xlabel('HF Noise (mV)')
+legend('Live Bottom','Flat Sand')
+
+nexttile([2 1])
+hold on
+errorbar(nightNoise(4,:),nightPings(4,:),SEMNightnoise{4}(:,2),SEMNightnoise{4}(:,1),SEMNightpings{4}(:,2),SEMNightpings{4}(:,1),LineSpecLoudSquare)
+errorbar(nightNoise(5,:),nightPings(5,:),SEMNightnoise{5}(:,2),SEMNightnoise{5}(:,1),SEMNightpings{5}(:,2),SEMNightpings{5}(:,1),LineSpecQuietSquare)
+title('On and Off the Reef','Nighttime')
+ylabel('Avg. Hourly Pings')
+xlabel('HF Noise (mV)')
+legend('Live Bottom','Flat Sand')
+xlim([400 800])
+ylim([0 35])
+
+
+%%
+% Now for all the transceivers, not just the 2 
+loudNumbers  = [1,2,4,8,9,11,12];
+quietNumbers = [3,5,6,7,10,13];
+
+
+ff = tiledlayout('horizontal')
+nexttile([2 1])
+hold on
+for loudy = 1:length(loudNumbers)
+    errorbar(dayNoise(loudNumbers(loudy),:),dayPings(loudNumbers(loudy),:),SEMdaynoise{loudNumbers(loudy)}(:,2),SEMdaynoise{loudNumbers(loudy)}(:,1),SEMdaypings{loudNumbers(loudy)}(:,2),SEMdaypings{loudNumbers(loudy)}(:,1),LineSpecLoudPyramid)
+end
+for quietish = 1:length(quietNumbers)
+    errorbar(dayNoise(quietNumbers(quietish),:),dayPings(quietNumbers(quietish),:),SEMdaynoise{quietNumbers(quietish)}(:,2),SEMdaynoise{quietNumbers(quietish)}(:,1),SEMdaypings{quietNumbers(quietish)}(:,2),SEMdaypings{quietNumbers(quietish)}(:,1),LineSpecQuietPyramid)
+end
+
+xlim([400 800])
+ylim([0 600])
+
+title('Seasonal Averages','Daytime')
+ylabel('Avg. Hourly Pings')
+xlabel('HF Noise (mV)')
+legend('Live Bottom','Flat Sand')
+
+
+nexttile([2 1])
+hold on
+for loudy = 1:length(loudNumbers)
+    errorbar(nightNoise(loudNumbers(loudy),:),nightPings(loudNumbers(loudy),:),SEMNightnoise{loudNumbers(loudy)}(:,2),SEMNightnoise{loudNumbers(loudy)}(:,1),SEMNightpings{loudNumbers(loudy)}(:,2),SEMNightpings{loudNumbers(loudy)}(:,1),LineSpecLoudSquare)
+end
+
+for quietish = 1:length(quietNumbers)
+    errorbar(nightNoise(quietNumbers(quietish),:),nightPings(quietNumbers(quietish),:),SEMNightnoise{quietNumbers(quietish)}(:,2),SEMNightnoise{quietNumbers(quietish)}(:,1),SEMNightpings{quietNumbers(quietish)}(:,2),SEMNightpings{quietNumbers(quietish)}(:,1),LineSpecQuietSquare)
+end
+
+title('On and Off the Reef','Nighttime')
+ylabel('Avg. Hourly Pings')
+xlabel('HF Noise (mV)')
+legend('Live Bottom','Flat Sand')
+xlim([400 800])
+ylim([0 600])
+
+
+
+
+
+
+
+
+
+
+
 
