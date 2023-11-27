@@ -442,10 +442,65 @@ ylim([0 600])
 
 %%
 
+ff = tiledlayout('horizontal')
+nexttile([2 1])
+scatter(receiverData{4}.Noise,receiverData{4}.windSpd,'r');
+ylim([0 18])
+xlim([200 850])
+xlabel('HF Noise (mV)')
+ylabel('Windspeed (m/s)')
+title('On Reef, Live Bottom')
 
 
 
+nexttile([2 1])
+scatter(receiverData{5}.Noise,receiverData{5}.windSpd,'b');
+ylim([0 18])
+xlim([200 850])
+xlabel('HF Noise (mV)')
+ylabel('Windspeed (m/s)')
+title('Off Reef, Flat Sand')
+
+%%
+ff = figure()
+ff = tiledlayout('horizontal')
+nexttile([2 1])
+scatter(receiverData{4}.windSpd,receiverData{4}.Pings,'r');
+% ylim([0 18])
+% xlim([200 850])
+xlabel('Windspeed (m/s)')
+ylabel('Hourly Pings')
+title('On Reef, Live Bottom')
 
 
 
+nexttile([2 1])
+scatter(receiverData{5}.windSpd,receiverData{5}.Pings,'b');
+% ylim([0 18])
+% xlim([200 850])
+xlabel('Windspeed (m/s)')
+ylabel('Hourly Pings')
+title('Off Reef, Flat Sand')
+
+%%
+%Testing same visualization on different transceivers
+ff = figure()
+ff = tiledlayout('horizontal')
+nexttile([2 1])
+scatter(receiverData{3}.Noise,receiverData{3}.windSpd,'r');
+ylim([0 18])
+xlim([200 850])
+xlabel('HF Noise (mV)')
+ylabel('Windspeed (m/s)')
+title('On Reef, Live Bottom')
+
+
+
+nexttile([2 1])
+scatter(receiverData{10}.Noise,receiverData{10}.windSpd,'b');
+ylim([0 18])
+xlim([200 850])
+xlabel('HF Noise (mV)')
+ylabel('Windspeed (m/s)')
+title('Off Reef, Flat Sand')
 
