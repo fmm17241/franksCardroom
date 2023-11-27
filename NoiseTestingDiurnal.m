@@ -391,47 +391,48 @@ ylim([0 35])
 % Now for all the transceivers, not just the 2 
 loudNumbers  = [1,2,4,8,9,11,12];
 quietNumbers = [3,5,6,7,10,13];
+LineSpecLoud = ['r','^']
+LineSpecQuiet = ['b','^']
+
 
 
 ff = tiledlayout('horizontal')
 nexttile([2 1])
 hold on
 for loudy = 1:length(loudNumbers)
-    errorbar(dayNoise(loudNumbers(loudy),:),dayPings(loudNumbers(loudy),:),SEMdaynoise{loudNumbers(loudy)}(:,2),SEMdaynoise{loudNumbers(loudy)}(:,1),SEMdaypings{loudNumbers(loudy)}(:,2),SEMdaypings{loudNumbers(loudy)}(:,1),LineSpecLoudPyramid)
+    errorbar(dayNoise(loudNumbers(loudy),:),dayPings(loudNumbers(loudy),:),SEMdaynoise{loudNumbers(loudy)}(:,2),SEMdaynoise{loudNumbers(loudy)}(:,1),SEMdaypings{loudNumbers(loudy)}(:,2),SEMdaypings{loudNumbers(loudy)}(:,1),LineSpecLoud)
 end
 for quietish = 1:length(quietNumbers)
-    errorbar(dayNoise(quietNumbers(quietish),:),dayPings(quietNumbers(quietish),:),SEMdaynoise{quietNumbers(quietish)}(:,2),SEMdaynoise{quietNumbers(quietish)}(:,1),SEMdaypings{quietNumbers(quietish)}(:,2),SEMdaypings{quietNumbers(quietish)}(:,1),LineSpecQuietPyramid)
+    errorbar(dayNoise(quietNumbers(quietish),:),dayPings(quietNumbers(quietish),:),SEMdaynoise{quietNumbers(quietish)}(:,2),SEMdaynoise{quietNumbers(quietish)}(:,1),SEMdaypings{quietNumbers(quietish)}(:,2),SEMdaypings{quietNumbers(quietish)}(:,1),LineSpecQuiet)
 end
 
 xlim([400 800])
 ylim([0 600])
 
-title('Seasonal Averages','Daytime')
+title('Seasonal Averages, All Transceivers','Daytime')
 ylabel('Avg. Hourly Pings')
 xlabel('HF Noise (mV)')
-legend('Live Bottom','Flat Sand')
+legend('Live Bottom','','','','','','','','','','','Flat Sand')
 
 
 nexttile([2 1])
 hold on
 for loudy = 1:length(loudNumbers)
-    errorbar(nightNoise(loudNumbers(loudy),:),nightPings(loudNumbers(loudy),:),SEMNightnoise{loudNumbers(loudy)}(:,2),SEMNightnoise{loudNumbers(loudy)}(:,1),SEMNightpings{loudNumbers(loudy)}(:,2),SEMNightpings{loudNumbers(loudy)}(:,1),LineSpecLoudSquare)
+    errorbar(nightNoise(loudNumbers(loudy),:),nightPings(loudNumbers(loudy),:),SEMNightnoise{loudNumbers(loudy)}(:,2),SEMNightnoise{loudNumbers(loudy)}(:,1),SEMNightpings{loudNumbers(loudy)}(:,2),SEMNightpings{loudNumbers(loudy)}(:,1),LineSpecLoud)
 end
 
 for quietish = 1:length(quietNumbers)
-    errorbar(nightNoise(quietNumbers(quietish),:),nightPings(quietNumbers(quietish),:),SEMNightnoise{quietNumbers(quietish)}(:,2),SEMNightnoise{quietNumbers(quietish)}(:,1),SEMNightpings{quietNumbers(quietish)}(:,2),SEMNightpings{quietNumbers(quietish)}(:,1),LineSpecQuietSquare)
+    errorbar(nightNoise(quietNumbers(quietish),:),nightPings(quietNumbers(quietish),:),SEMNightnoise{quietNumbers(quietish)}(:,2),SEMNightnoise{quietNumbers(quietish)}(:,1),SEMNightpings{quietNumbers(quietish)}(:,2),SEMNightpings{quietNumbers(quietish)}(:,1),LineSpecQuiet)
 end
 
-title('On and Off the Reef','Nighttime')
+title('Seasonal Averages, All Transceivers','Nighttime')
 ylabel('Avg. Hourly Pings')
 xlabel('HF Noise (mV)')
-legend('Live Bottom','Flat Sand')
+legend('Live Bottom','','','','','','','','','','','Flat Sand')
 xlim([400 800])
 ylim([0 600])
 
-
-
-
+%%
 
 
 

@@ -202,8 +202,12 @@ for COUNT = 1:length(receiverData)
     end
 end
 
-
-
+%Frank needs to edit, add wind to data
+for COUNT = 1:length(receiverData)
+    fullWindIndex{COUNT} = isbetween(windsDT,receiverData{COUNT}.DT(1,1),receiverData{COUNT}.DT(end,1),'closed');
+    receiverData{COUNT}.windSpd(:,1) = WSPD(fullWindIndex{COUNT});
+    receiverData{COUNT}.windDir(:,1) = WDIR(fullWindIndex{COUNT});
+end
 
 
 
