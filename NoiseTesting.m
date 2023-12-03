@@ -446,9 +446,100 @@ legend('Live Bottom','Flat Sand')
 
 %%
 figure()
+scatter(receiverData{4}.Noise(receiverData{4}.Season ==1),receiverData{4}.windSpd(receiverData{4}.Season ==1),'r')
+hold on
+scatter(receiverData{4}.Noise(receiverData{4}.Season ==2),receiverData{4}.windSpd(receiverData{4}.Season ==2),'g')
+scatter(receiverData{4}.Noise(receiverData{4}.Season ==3),receiverData{4}.windSpd(receiverData{4}.Season ==3),'b')
+scatter(receiverData{4}.Noise(receiverData{4}.Season ==4),receiverData{4}.windSpd(receiverData{4}.Season ==4),'k')
+scatter(receiverData{4}.Noise(receiverData{4}.Season ==5),receiverData{4}.windSpd(receiverData{4}.Season ==5),'m')
+ylabel('Avg Windspeed (m/s)')
+xlabel('HF Noise (mV)')
+legend('Winter','Spring','Summer','Fall','M.Fall')
+title('On Reef')
+xlim([250 850])
+ylim([0 18])
+
+figure()
+scatter(receiverData{5}.Noise(receiverData{5}.Season ==1),receiverData{5}.windSpd(receiverData{5}.Season ==1),'r')
+hold on
+scatter(receiverData{5}.Noise(receiverData{5}.Season ==2),receiverData{5}.windSpd(receiverData{5}.Season ==2),'g')
+scatter(receiverData{5}.Noise(receiverData{5}.Season ==3),receiverData{5}.windSpd(receiverData{5}.Season ==3),'b')
+scatter(receiverData{5}.Noise(receiverData{5}.Season ==4),receiverData{5}.windSpd(receiverData{5}.Season ==4),'k')
+scatter(receiverData{5}.Noise(receiverData{5}.Season ==5),receiverData{5}.windSpd(receiverData{5}.Season ==5),'m')
+ylabel('Avg Windspeed (m/s)')
+xlabel('HF Noise (mV)')
+legend('Winter','Spring','Summer','Fall','M.Fall')
+title('Off Reef')
+xlim([250 850])
+ylim([0 18])
+
+%%
+%For posterity, separate by seasons
+figure()
+nexttile()
+scatter(receiverData{4}.Noise(receiverData{4}.Season ==1),receiverData{4}.windSpd(receiverData{4}.Season ==1),'r')
+title('Winter')
+ylabel('Avg Windspeed')
+xlim([200 800])
+
+nexttile()
+scatter(receiverData{4}.Noise(receiverData{4}.Season ==2),receiverData{4}.windSpd(receiverData{4}.Season ==2),'g')
+title('Spring')
+xlim([200 800])
+
+nexttile()
+scatter(receiverData{4}.Noise(receiverData{4}.Season ==3),receiverData{4}.windSpd(receiverData{4}.Season ==3),'b')
+title('Summer')
+xlim([200 800])
+
+nexttile()
+scatter(receiverData{4}.Noise(receiverData{4}.Season ==4),receiverData{4}.windSpd(receiverData{4}.Season ==4),'k')
+title('Fall')
+xlabel('HF Noise (mV)')
+xlim([200 800])
+
+nexttile()
+scatter(receiverData{4}.Noise(receiverData{4}.Season ==5),receiverData{4}.windSpd(receiverData{4}.Season ==5),'m')
+title('Mariner''s Fall')
+xlabel('HF Noise (mV)')
+ylabel('Avg Windspeed')
+xlim([200 800])
+
+%%
+figure()
+nexttile()
+scatter(receiverData{5}.Noise(receiverData{5}.Season ==1),receiverData{5}.windSpd(receiverData{5}.Season ==1),'r')
+title('Winter')
+ylabel('Avg Windspeed')
+
+
+nexttile()
+scatter(receiverData{5}.Noise(receiverData{5}.Season ==2),receiverData{5}.windSpd(receiverData{5}.Season ==2),'g')
+title('Spring')
+nexttile()
+scatter(receiverData{5}.Noise(receiverData{5}.Season ==3),receiverData{5}.windSpd(receiverData{5}.Season ==3),'b')
+title('Summer')
+nexttile()
+scatter(receiverData{5}.Noise(receiverData{5}.Season ==4),receiverData{5}.windSpd(receiverData{5}.Season ==4),'k')
+title('Fall')
+xlabel('HF Noise (mV)')
+
+nexttile()
+scatter(receiverData{5}.Noise(receiverData{5}.Season ==5),receiverData{5}.windSpd(receiverData{5}.Season ==5),'m')
+title('Mariner''s Fall')
+xlabel('HF Noise (mV)')
+ylabel('Avg Windspeed')
 
 
 
+
+
+ylabel('Avg Windspeed (m/s)')
+xlabel('HF Noise (mV)')
+legend('Winter','Spring','Summer','Fall','M.Fall')
+title('On Reef')
+xlim([250 850])
+ylim([0 18])
 
 
 
