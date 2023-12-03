@@ -473,6 +473,7 @@ title('Off Reef')
 xlim([250 850])
 ylim([0 18])
 
+
 %%
 %For posterity, separate by seasons
 figure()
@@ -550,6 +551,31 @@ hold on
 scatter(receiverData{5}.Noise,receiverData{5}.Pings,'b')
 
 %%
+offSeason1 = fitlm((receiverData{5}.Noise(receiverData{5}.Season ==1)),receiverData{5}.windSpd(receiverData{5}.Season ==1))
+offSeason2 = fitlm((receiverData{5}.Noise(receiverData{5}.Season ==2)),receiverData{5}.windSpd(receiverData{5}.Season ==2))
+offSeason3 = fitlm((receiverData{5}.Noise(receiverData{5}.Season ==3)),receiverData{5}.windSpd(receiverData{5}.Season ==3))
+offSeason4 = fitlm((receiverData{5}.Noise(receiverData{5}.Season ==4)),receiverData{5}.windSpd(receiverData{5}.Season ==4))
+offSeason5 = fitlm((receiverData{5}.Noise(receiverData{5}.Season ==5)),receiverData{5}.windSpd(receiverData{5}.Season ==5))
+
+onSeason1 = fitlm((receiverData{4}.Noise(receiverData{4}.Season ==1)),receiverData{4}.windSpd(receiverData{4}.Season ==1))
+onSeason2 = fitlm((receiverData{4}.Noise(receiverData{4}.Season ==2)),receiverData{4}.windSpd(receiverData{4}.Season ==2))
+onSeason3 = fitlm((receiverData{4}.Noise(receiverData{4}.Season ==3)),receiverData{4}.windSpd(receiverData{4}.Season ==3))
+onSeason4 = fitlm((receiverData{4}.Noise(receiverData{4}.Season ==4)),receiverData{4}.windSpd(receiverData{4}.Season ==4))
+onSeason5 = fitlm((receiverData{4}.Noise(receiverData{4}.Season ==5)),receiverData{4}.windSpd(receiverData{4}.Season ==5))
+
+
+
+fitlm((receiverData{5}.Noise(receiverData{5}.Season ==2)),receiverData{5}.windSpd(receiverData{5}.Season ==2))
+
+
+
+
+
+
+
+
+
+
 
 %Retiming by days and months. Very few dets and pings, this seeks to show
 %difference in times when I did hear something rather than just mostly
