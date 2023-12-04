@@ -283,7 +283,25 @@ for k = 1:length(receiverData)
     end
 end
 
+X = 1:5;
 
+figure()
+plot(X,percentNoiseHigh(4:5,:),'LineWidth',2)
+hold on
+plot(X,percentNoiseLow(4:5,:),'LineWidth',2)
+legend('On Reef/HIGH','Off Reef/HIGH','On Reef/LOW','Off Reef/LOW')
+xlabel('Season')
+ylabel('Difference in Noise (%)')
+title('% Difference in HF Noise', '(Night - Day)/Day')
+
+figure()
+plot(X,percentPingsHigh(4:5,:),'LineWidth',2)
+hold on
+plot(X,percentPingsLow(4:5,:),'LineWidth',2)
+legend('On Reef/HIGH','Off Reef/HIGH','On Reef/LOW','Off Reef/LOW')
+xlabel('Season')
+ylabel('Difference in Hourly Pings (%)')
+title('% Difference in Pings', '(Night - Day)/Day')
 
 
 
