@@ -481,30 +481,30 @@ nexttile()
 scatter(receiverData{4}.Noise(receiverData{4}.Season ==1),receiverData{4}.windSpd(receiverData{4}.Season ==1),'r')
 title('Winter')
 ylabel('Avg Windspeed')
-xlim([200 800])
+
 
 nexttile()
 scatter(receiverData{4}.Noise(receiverData{4}.Season ==2),receiverData{4}.windSpd(receiverData{4}.Season ==2),'g')
 title('Spring')
-xlim([200 800])
+
 
 nexttile()
 scatter(receiverData{4}.Noise(receiverData{4}.Season ==3),receiverData{4}.windSpd(receiverData{4}.Season ==3),'b')
 title('Summer')
-xlim([200 800])
+
 
 nexttile()
 scatter(receiverData{4}.Noise(receiverData{4}.Season ==4),receiverData{4}.windSpd(receiverData{4}.Season ==4),'k')
 title('Fall')
 xlabel('HF Noise (mV)')
-xlim([200 800])
+
 
 nexttile()
 scatter(receiverData{4}.Noise(receiverData{4}.Season ==5),receiverData{4}.windSpd(receiverData{4}.Season ==5),'m')
 title('Mariner''s Fall')
 xlabel('HF Noise (mV)')
 ylabel('Avg Windspeed')
-xlim([200 800])
+
 
 %%
 figure()
@@ -562,10 +562,6 @@ onSeason2 = fitlm((receiverData{4}.Noise(receiverData{4}.Season ==2)),receiverDa
 onSeason3 = fitlm((receiverData{4}.Noise(receiverData{4}.Season ==3)),receiverData{4}.windSpd(receiverData{4}.Season ==3))
 onSeason4 = fitlm((receiverData{4}.Noise(receiverData{4}.Season ==4)),receiverData{4}.windSpd(receiverData{4}.Season ==4))
 onSeason5 = fitlm((receiverData{4}.Noise(receiverData{4}.Season ==5)),receiverData{4}.windSpd(receiverData{4}.Season ==5))
-
-
-
-fitlm((receiverData{5}.Noise(receiverData{5}.Season ==2)),receiverData{5}.windSpd(receiverData{5}.Season ==2))
 
 
 
