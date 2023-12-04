@@ -147,7 +147,7 @@ receiverData{1}= receiverData{1}(20:end,:);
 receiverData{2}= receiverData{2}(17:end,:);
 receiverData{3}= receiverData{3}(15:10154,:);
 receiverData{4}= receiverData{4}(24:end,:);
-receiverData{5}= receiverData{5}(20:end,:);
+receiverData{5}= receiverData{5}(555:end,:);
 receiverData{6}= receiverData{6}(96:end,:);
 receiverData{7}= receiverData{7}(96:end,:);
 receiverData{8}= receiverData{8}(23:end,:);
@@ -250,34 +250,108 @@ for k = 1:length(receiverData)
     end
 end
 
+%%
+%Frank needs to create another metric. % difference between day and night?
+%yes yesysysysygjsdsfjkgjsgfgnjsnjssklm;s
+for k = 1:length(receiverData)
+    for season = 1:5
+        diffNoiseDay(k,season) =      dayHighNoise(k,season)-dayLowNoise(k,season)
+        diffNoiseNight(k,season) =    nightHighNoise(k,season)-nightLowNoise(k,season)
+        diffPingsDay(k,season) =      dayHighPings(k,season)-dayLowPings(k,season)
+        diffPingsNight(k,season) =    nightHighPings(k,season)-nightLowPings(k,season)
+
+        percentNoiseDay(k,season) =     (diffNoiseDay(k,season)/dayLowNoise(k,season))*100
+        percentNoiseNight(k,season) =   (diffNoiseNight(k,season)/nightLowNoise(k,season))*100
+        percentPingsDay(k,season) =      (diffPingsDay(k,season)/dayLowPings(k,season))*100
+        percentPingsNight(k,season) =    (diffPingsNight(k,season)/nightLowPings(k,season))*100
+    end
+end
+
+%%
+%Franks trying new approach, isolating winds
+for k = 1:length(receiverData)
+    for season = 1:5
+        diffNoiseHigh(k,season) =      nightHighNoise(k,season)-dayHighNoise(k,season)
+        diffNoiseLow(k,season) =    nightLowNoise(k,season)-dayLowNoise(k,season)
+        diffPingsHigh(k,season) =      nightHighPings(k,season)-dayHighPings(k,season)
+        diffPingsLow(k,season) =    nightLowPings(k,season)-dayLowPings(k,season)
+
+        percentNoiseHigh(k,season) =     (diffNoiseHigh(k,season)/dayHighNoise(k,season))*100
+        percentNoiseLow(k,season) =   (diffNoiseLow(k,season)/dayLowNoise(k,season))*100
+        percentPingsHigh(k,season) =      (diffPingsHigh(k,season)/dayHighPings(k,season))*100
+        percentPingsLow(k,season) =    (diffPingsLow(k,season)/dayLowPings(k,season))*100
+    end
+end
+
+
+
+
+
+%%
+
+X = 1:5;
+
+figure()
+scatter(X,percentNoiseDay(4:5,:),'filled')
+legend('On Reef','Off Reef')
+xlabel('Season')
+ylabel('Difference in Noise (%)')
+title('% Difference in HF Noise, Daytime, HighWinds-LowWinds')
+
+figure()
+scatter(X,percentNoiseNight(4:5,:),'filled')
+legend('On Reef','Off Reef')
+xlabel('Season')
+ylabel('Difference in Noise (%)')
+title('% Difference in HF Noise, Nighttime, HighWinds-LowWinds')
+
+figure()
+scatter(X,percentPingsDay(4:5,:),'filled')
+legend('On Reef','Off Reef')
+xlabel('Season')
+ylabel('Difference in Pings (%)')
+title('% Difference in Pings, Daytime, HighWinds-LowWinds')
+
+figure()
+scatter(X,percentPingsNight(4:5,:),'filled')
+legend('On Reef','Off Reef')
+xlabel('Season')
+ylabel('Difference in Pings (%)')
+title('% Difference in Pings, Nighttime, HighWinds-LowWinds')
+
+%%
+
 seasonColors = ['r','g','b','k','m']
 
 figure
+tiledlayout(2,2)
+nexttile()
 hold on
 for season = 1:5
-    scatter(receiverData{4}.Noise(dayLowIndex{4,season}),receiverData{4}.Pings(dayLowIndex{4,season}),seasonColors(season))
+    scatter(receiverData{4}.Noise(dayLowIndex{4,season}),receiverData{4}.HourlyDets(dayLowIndex{4,season}),seasonColors(season))
 end
 title('On Reef, Low Winds (<2 m/s)')
 
-figure
+
+nexttile()
 hold on
 for season = 1:5
-    scatter(receiverData{5}.Noise(dayLowIndex{5,season}),receiverData{5}.Pings(dayLowIndex{5,season}),seasonColors(season))
+    scatter(receiverData{5}.Noise(dayLowIndex{5,season}),receiverData{5}.HourlyDets(dayLowIndex{5,season}),seasonColors(season))
 end
 title('Off Reef, Low Winds (<2 m/s)')
 
 
-figure
+nexttile()
 hold on
 for season = 1:5
-    scatter(receiverData{4}.Noise(dayHighIndex{4,season}),receiverData{4}.Pings(dayHighIndex{4,season}),seasonColors(season))
+    scatter(receiverData{4}.Noise(dayHighIndex{4,season}),receiverData{4}.HourlyDets(dayHighIndex{4,season}),seasonColors(season))
 end
 title('On Reef, High Winds (>8 m/s)')
 
-figure
+nexttile()
 hold on
 for season = 1:5
-    scatter(receiverData{5}.Noise(dayHighIndex{5,season}),receiverData{5}.Pings(dayHighIndex{5,season}),seasonColors(season))
+    scatter(receiverData{5}.Noise(dayHighIndex{5,season}),receiverData{5}.HourlyDets(dayHighIndex{5,season}),seasonColors(season))
 end
 title('Off Reef, High Winds (>8 m/s)')
 
