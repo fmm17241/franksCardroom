@@ -226,6 +226,71 @@ for COUNT = 1:length(receiverData)
     end
 end
 
+%%
+%Frank looking to add STD/95% Conf. Int.
+
+
+
+for k = 1:length(receiverData)
+    for season = 1:5
+        %Creating Confidence Intervals
+        %Noise
+        clearvars ts
+        SEMnoiseDayLow{k}(season,:) = std(receiverData{k}.Noise(dayLowIndex{k,season}),'omitnan')/sqrt(length(receiverData{k}.Noise(dayLowIndex{k,season})));  
+        ts = tinv([0.025  0.975],height(receiverData{k})-1);  
+        ciNoiseDayLow{k}(season,:) = (mean(receiverData{k}.Noise(dayLowIndex{k,season}),'all','omitnan') + ts*SEMnoiseDayLow{k}(season,1)); 
+%
+        clearvars ts
+        SEMnoiseDayHigh{k}(season,:) = std(receiverData{k}.Noise(dayHighIndex{k,season}),'omitnan')/sqrt(length(receiverData{k}.Noise(dayHighIndex{k,season})));  
+        ts = tinv([0.025  0.975],height(receiverData{k})-1);  
+        ciNoiseDayHigh{k}(season,:) = (mean(receiverData{k}.Noise(dayHighIndex{k,season}),'all','omitnan') + ts*SEMnoiseDayHigh{k}(season,1));   
+ %      
+        clearvars ts
+        SEMnoiseNightLow{k}(season,:) = std(receiverData{k}.Noise(nightLowIndex{k,season}),'omitnan')/sqrt(length(receiverData{k}.Noise(nightLowIndex{k,season})));  
+        ts = tinv([0.025  0.975],height(receiverData{k})-1);  
+        ciNoiseNightLow{k}(season,:) = (mean(receiverData{k}.Noise(nightLowIndex{k,season}),'all','omitnan') + ts*SEMnoiseNightLow{k}(season,1)); 
+%
+        clearvars ts
+        SEMnoiseNightHigh{k}(season,:) = std(receiverData{k}.Noise(nightHighIndex{k,season}),'omitnan')/sqrt(length(receiverData{k}.Noise(nightHighIndex{k,season})));  
+        ts = tinv([0.025  0.975],height(receiverData{k})-1);  
+        ciNoiseNightHigh{k}(season,:) = (mean(receiverData{k}.Noise(nightHighIndex{k,season}),'all','omitnan') + ts*SEMnoiseNightHigh{k}(season,1)); 
+
+%% PINGS
+        clearvars ts
+        SEMPingsDayLow{k}(season,:) = std(receiverData{k}.Pings(dayLowIndex{k,season}),'omitnan')/sqrt(length(receiverData{k}.Pings(dayLowIndex{k,season})));  
+        ts = tinv([0.025  0.975],height(receiverData{k})-1);  
+        ciPingsDayLow{k}(season,:) = (mean(receiverData{k}.Pings(dayLowIndex{k,season}),'all','omitnan') + ts*SEMPingsDayLow{k}(season,1)); 
+%
+        clearvars ts
+        SEMPingsDayHigh{k}(season,:) = std(receiverData{k}.Pings(dayHighIndex{k,season}),'omitnan')/sqrt(length(receiverData{k}.Pings(dayHighIndex{k,season})));  
+        ts = tinv([0.025  0.975],height(receiverData{k})-1);  
+        ciPingsDayHigh{k}(season,:) = (mean(receiverData{k}.Pings(dayHighIndex{k,season}),'all','omitnan') + ts*SEMPingsDayHigh{k}(season,1));   
+ %      
+        clearvars ts
+        SEMPingsNightLow{k}(season,:) = std(receiverData{k}.Pings(nightLowIndex{k,season}),'omitnan')/sqrt(length(receiverData{k}.Pings(nightLowIndex{k,season})));  
+        ts = tinv([0.025  0.975],height(receiverData{k})-1);  
+        ciPingsNightLow{k}(season,:) = (mean(receiverData{k}.Pings(nightLowIndex{k,season}),'all','omitnan') + ts*SEMPingsNightLow{k}(season,1)); 
+%
+        clearvars ts
+        SEMPingsNightHigh{k}(season,:) = std(receiverData{k}.Pings(nightHighIndex{k,season}),'omitnan')/sqrt(length(receiverData{k}.Pings(nightHighIndex{k,season})));  
+        ts = tinv([0.025  0.975],height(receiverData{k})-1);  
+        ciPingsNightHigh{k}(season,:) = (mean(receiverData{k}.Pings(nightHighIndex{k,season}),'all','omitnan') + ts*SEMPingsNightHigh{k}(season,1)); 
+    end
+end
+%%
+
+for k = 1:length(receiverData)
+     SEMnoiseDayLow{k}(:,2)     = -SEMnoiseDayLow{k};
+    SEMnoiseDayHigh{k}(:,2)     = -SEMnoiseDayHigh{k};
+    SEMnoiseNightLow{k}(:,2)     = -SEMnoiseNightLow{k};
+    SEMnoiseNightHigh{k}(:,2)     = -SEMnoiseNightHigh{k};
+
+    SEMpingsDayLow{k}(:,2)     = -SEMPingsDayLow{k};
+    SEMpingsDayHigh{k}(:,2)     = -SEMPingsDayHigh{k};
+    SEMpingsNightLow{k}(:,2)     = -SEMPingsNightLow{k};
+    SEMpingsNightHigh{k}(:,2)     = -SEMPingsNightHigh{k};
+end
+
 
 
 for k = 1:length(receiverData)
@@ -250,6 +315,131 @@ for k = 1:length(receiverData)
     end
 end
 
+%Day
+LineSpecLowDayOn = ['r','*']
+LineSpecLowDayOff = ['b','*']
+
+LineSpecHighDayOn = ['r','^']
+LineSpecHighDayOff = ['b','^']
+
+%Night
+LineSpecLowNightOn = ['r','*']
+LineSpecLowNightOff = ['b','*']
+
+LineSpecHighNightOn = ['r','^']
+LineSpecHighNightOff = ['b','^']
+
+
+figure()
+tiledlayout(2,2)
+nexttile()
+hold on
+errorbar(dayLowNoise(4,:),dayLowPings(4,:),SEMnoiseDayLow{4}(:,2),SEMnoiseDayLow{4}(:,1),SEMpingsDayLow{4}(:,2),SEMpingsDayLow{4}(:,1),LineSpecLowDayOn)
+errorbar(dayLowNoise(5,:),dayLowPings(5,:),SEMnoiseDayLow{5}(:,2),SEMnoiseDayLow{5}(:,1),SEMpingsDayLow{5}(:,2),SEMpingsDayLow{5}(:,1),LineSpecLowDayOff)
+legend('On Reef','Off Reef')
+title('Daytime, Low Winds')
+xlim([350 800])
+ylim([0 40])
+ylabel('Hourly Pings')
+
+nexttile()
+hold on
+errorbar(dayHighNoise(4,:),dayHighPings(4,:),SEMnoiseDayHigh{4}(:,2),SEMnoiseDayHigh{4}(:,1),SEMpingsDayHigh{4}(:,2),SEMpingsDayHigh{4}(:,1),LineSpecHighDayOn)
+errorbar(dayHighNoise(5,:),dayHighPings(5,:),SEMnoiseDayHigh{5}(:,2),SEMnoiseDayHigh{5}(:,1),SEMpingsDayHigh{5}(:,2),SEMpingsDayHigh{5}(:,1),LineSpecHighDayOff)
+legend('On Reef','Off Reef')
+title('Daytime, High Winds')
+xlim([350 800])
+ylim([0 40])
+
+nexttile()
+hold on
+errorbar(nightLowNoise(4,:),nightLowPings(4,:),SEMnoiseNightLow{4}(:,2),SEMnoiseNightLow{4}(:,1),SEMpingsNightLow{4}(:,2),SEMpingsNightLow{4}(:,1),LineSpecLowNightOn)
+errorbar(nightLowNoise(5,:),nightLowPings(5,:),SEMnoiseNightLow{5}(:,2),SEMnoiseNightLow{5}(:,1),SEMpingsNightLow{5}(:,2),SEMpingsNightLow{5}(:,1),LineSpecLowNightOff)
+legend('On Reef','Off Reef')
+title('Nighttime, Low Winds')
+xlim([350 800])
+ylim([0 40])
+xlabel('HF Noise (mV)')
+ylabel('Hourly Pings')
+
+nexttile()
+hold on
+errorbar(nightHighNoise(4,:),nightHighPings(4,:),SEMnoiseNightHigh{4}(:,2),SEMnoiseNightHigh{4}(:,1),SEMpingsNightHigh{4}(:,2),SEMpingsNightHigh{4}(:,1),LineSpecHighNightOn)
+errorbar(nightHighNoise(5,:),nightHighPings(5,:),SEMnoiseNightHigh{5}(:,2),SEMnoiseNightHigh{5}(:,1),SEMpingsNightHigh{5}(:,2),SEMpingsNightHigh{5}(:,1),LineSpecHighNightOff)
+legend('On Reef','Off Reef')
+title('Nighttime, High Winds')
+xlim([350 800])
+ylim([0 40])
+xlabel('HF Noise (mV)')
+
+
+%
+figure()
+tiledlayout(2,2)
+nexttile()
+hold on
+errorbar(dayLowNoise(4,1),dayLowPings(4,1),SEMnoiseDayLow{4}(1,2),SEMnoiseDayLow{4}(1,1),SEMpingsDayLow{4}(1,2),SEMpingsDayLow{4}(1,1),LineSpecLowDayOn)
+errorbar(dayLowNoise(5,1),dayLowPings(5,1),SEMnoiseDayLow{5}(1,2),SEMnoiseDayLow{5}(1,1),SEMpingsDayLow{5}(1,2),SEMpingsDayLow{5}(1,1),LineSpecLowDayOff)
+errorbar(dayHighNoise(4,1),dayHighPings(4,1),SEMnoiseDayHigh{4}(1,2),SEMnoiseDayHigh{4}(1,1),SEMpingsDayHigh{4}(1,2),SEMpingsDayHigh{4}(1,1),LineSpecHighDayOn)
+errorbar(dayHighNoise(5,1),dayHighPings(5,1),SEMnoiseDayHigh{5}(1,2),SEMnoiseDayHigh{5}(1,1),SEMpingsDayHigh{5}(1,2),SEMpingsDayHigh{5}(1,1),LineSpecHighDayOff)
+
+% legend('On Reef','Off Reef')
+title('Daytime, Winter')
+xlim([350 800])
+ylim([0 40])
+ylabel('Hourly Pings')
+%
+nexttile()
+hold on
+errorbar(dayLowNoise(4,3),dayLowPings(4,3),SEMnoiseDayLow{4}(3,2),SEMnoiseDayLow{4}(3,1),SEMpingsDayLow{4}(3,2),SEMpingsDayLow{4}(3,1),LineSpecLowDayOn)
+errorbar(dayLowNoise(5,3),dayLowPings(5,3),SEMnoiseDayLow{5}(3,2),SEMnoiseDayLow{5}(3,1),SEMpingsDayLow{5}(3,2),SEMpingsDayLow{5}(3,1),LineSpecLowDayOff)
+errorbar(dayHighNoise(4,3),dayHighPings(4,3),SEMnoiseDayHigh{4}(3,2),SEMnoiseDayHigh{4}(3,1),SEMpingsDayHigh{4}(3,2),SEMpingsDayHigh{4}(3,1),LineSpecHighDayOn)
+errorbar(dayHighNoise(5,3),dayHighPings(5,3),SEMnoiseDayHigh{5}(3,2),SEMnoiseDayHigh{5}(3,1),SEMpingsDayHigh{5}(3,2),SEMpingsDayHigh{5}(3,1),LineSpecHighDayOff)
+% legend('On Reef','Off Reef')
+title('Daytime, Summer')
+xlim([350 800])
+ylim([0 40])
+ylabel('Hourly Pings')
+%
+nexttile()
+hold on
+errorbar(nightLowNoise(4,1),nightLowPings(4,1),SEMnoiseNightLow{4}(1,2),SEMnoiseNightLow{4}(1,1),SEMpingsNightLow{4}(1,2),SEMpingsNightLow{4}(1,1),LineSpecLowDayOn)
+errorbar(nightLowNoise(5,1),nightLowPings(5,1),SEMnoiseNightLow{5}(1,2),SEMnoiseNightLow{5}(1,1),SEMpingsNightLow{5}(1,2),SEMpingsNightLow{5}(1,1),LineSpecLowDayOff)
+errorbar(nightHighNoise(4,1),nightHighPings(4,1),SEMnoiseNightHigh{4}(1,2),SEMnoiseNightHigh{4}(1,1),SEMpingsNightHigh{4}(1,2),SEMpingsNightHigh{4}(1,1),LineSpecHighDayOn)
+errorbar(nightHighNoise(5,1),nightHighPings(5,1),SEMnoiseNightHigh{5}(1,2),SEMnoiseNightHigh{5}(1,1),SEMpingsNightHigh{5}(1,2),SEMpingsNightHigh{5}(1,1),LineSpecHighDayOff)
+% legend('On Reef','Off Reef')
+title('Nighttime, Winter')
+xlim([350 800])
+ylim([0 40])
+ylabel('Hourly Pings')
+xlabel('HF Noise (mV)')
+%
+nexttile()
+hold on
+errorbar(nightLowNoise(4,3),nightLowPings(4,3),SEMnoiseNightLow{4}(3,2),SEMnoiseNightLow{4}(3,1),SEMpingsNightLow{4}(3,2),SEMpingsNightLow{4}(3,1),LineSpecLowDayOn)
+errorbar(nightLowNoise(5,3),nightLowPings(5,3),SEMnoiseNightLow{5}(3,2),SEMnoiseNightLow{5}(3,1),SEMpingsNightLow{5}(3,2),SEMpingsNightLow{5}(3,1),LineSpecLowDayOff)
+errorbar(nightHighNoise(4,3),nightHighPings(4,3),SEMnoiseNightHigh{4}(3,2),SEMnoiseNightHigh{4}(3,1),SEMpingsNightHigh{4}(3,2),SEMpingsNightHigh{4}(3,1),LineSpecHighDayOn)
+errorbar(nightHighNoise(5,3),nightHighPings(5,3),SEMnoiseNightHigh{5}(3,2),SEMnoiseNightHigh{5}(3,1),SEMpingsNightHigh{5}(3,2),SEMpingsNightHigh{5}(3,1),LineSpecHighDayOff)
+legend('On Reef, Low Wind','Off Reef, Low Wind','On Reef, High Wind','Off Reef, High Wind')
+title('Nighttime, Summer')
+xlim([350 800])
+ylim([0 40])
+ylabel('Hourly Pings')
+xlabel('HF Noise (mV)')
+%
+
+figure()
+
+
+
+
+
+
+
+
+
+
+%
 %%
 %Frank needs to create another metric. % difference between day and night?
 %yes yesysysysygjsdsfjkgjsgfgnjsnjssklm;s
