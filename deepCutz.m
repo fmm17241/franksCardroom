@@ -250,21 +250,55 @@ for k = 1:length(receiverData)
     end
 end
 
+seasonColors = ['r','g','b','k','m']
+
+figure
+hold on
+for season = 1:5
+    scatter(receiverData{4}.Noise(dayLowIndex{4,season}),receiverData{4}.Pings(dayLowIndex{4,season}),seasonColors(season))
+end
+title('On Reef, Low Winds (<2 m/s)')
+
+figure
+hold on
+for season = 1:5
+    scatter(receiverData{5}.Noise(dayLowIndex{5,season}),receiverData{5}.Pings(dayLowIndex{5,season}),seasonColors(season))
+end
+title('Off Reef, Low Winds (<2 m/s)')
+
+
+figure
+hold on
+for season = 1:5
+    scatter(receiverData{4}.Noise(dayHighIndex{4,season}),receiverData{4}.Pings(dayHighIndex{4,season}),seasonColors(season))
+end
+title('On Reef, High Winds (>8 m/s)')
+
+figure
+hold on
+for season = 1:5
+    scatter(receiverData{5}.Noise(dayHighIndex{5,season}),receiverData{5}.Pings(dayHighIndex{5,season}),seasonColors(season))
+end
+title('Off Reef, High Winds (>8 m/s)')
+
+%%
+
+
+
 
 figure()
-scatter(dayHighNoise,dayHighPings,'r')
+scatter(receiverData{4}.Noise(receiverData{4}.Season ==1),receiverData{4}.windSpd(receiverData{4}.Season ==1),'r')
 hold on
-scatter(dayLowNoise,dayLowPings,'b')
-
-figure()
-scatter(nightHighNoise,dayHighPings,'r')
-hold on
-scatter(nightLowNoise,dayLowPings,'b')
-
-
-
-
-
+scatter(receiverData{4}.Noise(receiverData{4}.Season ==2),receiverData{4}.windSpd(receiverData{4}.Season ==2),'g')
+scatter(receiverData{4}.Noise(receiverData{4}.Season ==3),receiverData{4}.windSpd(receiverData{4}.Season ==3),'b')
+scatter(receiverData{4}.Noise(receiverData{4}.Season ==4),receiverData{4}.windSpd(receiverData{4}.Season ==4),'k')
+scatter(receiverData{4}.Noise(receiverData{4}.Season ==5),receiverData{4}.windSpd(receiverData{4}.Season ==5),'m')
+ylabel('Avg Windspeed (m/s)')
+xlabel('HF Noise (mV)')
+legend('Winter','Spring','Summer','Fall','M.Fall')
+title('On Reef')
+xlim([250 850])
+ylim([0 18])
 
 
 
