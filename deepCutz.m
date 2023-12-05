@@ -142,12 +142,13 @@ end
 %Frank cleaning up data from deploy/retrieve
 %Not the prettiest, but this removes times where tilt and temperature are
 %clearly showing its out of the water, or datetimes years after the last
-%reliable data.
+%reliable data. There are months where we don't hear a peep.
+
 receiverData{1}= receiverData{1}(20:end,:);
 receiverData{2}= receiverData{2}(17:end,:);
 receiverData{3}= receiverData{3}(15:10154,:);
-receiverData{4}= receiverData{4}(24:end,:);
-receiverData{5}= receiverData{5}(555:end,:);
+receiverData{4}= receiverData{4}(24:10036,:);
+receiverData{5}= receiverData{5}(555:10035,:);
 receiverData{6}= receiverData{6}(96:end,:);
 receiverData{7}= receiverData{7}(96:end,:);
 receiverData{8}= receiverData{8}(23:end,:);
