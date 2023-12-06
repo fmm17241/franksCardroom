@@ -580,11 +580,24 @@ scatter(receiverData{4}.Noise(receiverData{4}.Season ==5),receiverData{4}.windSp
 ylabel('Avg Windspeed (m/s)')
 xlabel('HF Noise (mV)')
 legend('Winter','Spring','Summer','Fall','M.Fall')
-title('On Reef')
+title('ON Reef')
 xlim([250 850])
 ylim([0 18])
 
 
+figure()
+scatter(receiverData{5}.Noise(receiverData{5}.Season ==1),receiverData{5}.windSpd(receiverData{5}.Season ==1),'r')
+hold on
+scatter(receiverData{5}.Noise(receiverData{5}.Season ==2),receiverData{5}.windSpd(receiverData{5}.Season ==2),'g')
+scatter(receiverData{5}.Noise(receiverData{5}.Season ==3),receiverData{5}.windSpd(receiverData{5}.Season ==3),'b')
+scatter(receiverData{5}.Noise(receiverData{5}.Season ==4),receiverData{5}.windSpd(receiverData{5}.Season ==4),'k')
+scatter(receiverData{5}.Noise(receiverData{5}.Season ==5),receiverData{5}.windSpd(receiverData{5}.Season ==5),'m')
+ylabel('Avg Windspeed (m/s)')
+xlabel('HF Noise (mV)')
+legend('Winter','Spring','Summer','Fall','M.Fall')
+title('OFF Reef')
+xlim([250 850])
+ylim([0 18])
 
 
 
