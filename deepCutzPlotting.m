@@ -127,14 +127,10 @@ xticklabels(ax4,{'Winter','Spring','Summer','Fall','Mariner''s Fall'})
 
 
 figure()
-tiledlayout(3,1,'TileSpacing',"compact")
+tiledlayout(4,1,'TileSpacing',"compact")
 ax1 = nexttile()
-plot(receiverData{4}.DT,receiverData{4}.Noise,'b')
+plot(receiverData{4}.DT,receiverData{4}.Noise,'r')
 ylabel('HF Noise')
-yyaxis right
-hold on
-plot(receiverData{4}.DT,receiverData{4}.Tilt,'r')
-ylabel('Tilt Angle)')
 title('ON Reef')
 
 
@@ -142,10 +138,7 @@ ax2 = nexttile()
 plot(receiverData{5}.DT,receiverData{5}.Noise,'b')
 title('OFF Reef')
 ylabel('HF Noise')
-yyaxis right
-hold on
-plot(receiverData{5}.DT,receiverData{5}.Tilt,'r')
-ylabel('Tilt Angle)')
+
 
 ax3 = nexttile()
 plot(receiverData{4}.DT,receiverData{4}.windSpd,'k','LineWidth',1.5)
@@ -155,6 +148,16 @@ ylabel('Windspeed (m/s)')
 linkaxes([ax1 ax2 ax3],'x')
 title('Windspeed')
 
+ax4 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.HourlyDets,'r')
+hold on
+plot(receiverData{5}.DT,receiverData{5}.HourlyDets,'b')
+% ylim([-0.4 0.4])
+ylabel('Hourly Dets')
+title('Detections')
+legend('On Reef','Off Reef')
+
+linkaxes([ax1 ax2 ax3 ax4],'x')
 
 %%
 

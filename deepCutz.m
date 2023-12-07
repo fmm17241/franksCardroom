@@ -714,13 +714,173 @@ title('ON Reef')
 ylim([250 850])
 % xlim([-.40 .40])
 
-for season = 1:length(seasonsIndex)
-    offReefNoiseStrat{season} = fitlm(receiverData)
-    onReefNoiseStrat{season}  =
+
+% Seasonal Stratification, ON REEF
+figure()
+tiledlayout(3,2)
+nexttile()
+scatter(receiverData{4}.bulkStrat(receiverData{4}.Season ==1),receiverData{4}.Noise(receiverData{4}.Season ==1),'r')
+title('Winter')
+ylabel('HF Noise (mV)')
+
+nexttile()
+scatter(receiverData{4}.bulkStrat(receiverData{4}.Season ==2),receiverData{4}.Noise(receiverData{4}.Season ==2),'g')
+title('Spring')
+
+nexttile()
+scatter(receiverData{4}.bulkStrat(receiverData{4}.Season ==3),receiverData{4}.Noise(receiverData{4}.Season ==3),'b')
+title('Summer')
+ylabel('HF Noise (mV)')
+
+nexttile()
+scatter(receiverData{4}.bulkStrat(receiverData{4}.Season ==4),receiverData{4}.Noise(receiverData{4}.Season ==4),'k')
+title('Fall')
+xlabel('Bulk Strat (degC)')
+
+nexttile()
+scatter(receiverData{4}.bulkStrat(receiverData{4}.Season ==5),receiverData{4}.Noise(receiverData{4}.Season ==5),'m')
+title('Mariner''s Fall')
+ylabel('HF Noise (mV)')
+xlabel('Bulk Strat (degC)')
+
+% Seasonal Stratification, OFF REEF
+figure()
+tiledlayout(3,2)
+nexttile()
+scatter(receiverData{5}.bulkStrat(receiverData{5}.Season ==1),receiverData{5}.Noise(receiverData{5}.Season ==1),'r')
+title('Winter')
+ylabel('HF Noise (mV)')
+
+nexttile()
+scatter(receiverData{5}.bulkStrat(receiverData{5}.Season ==2),receiverData{5}.Noise(receiverData{5}.Season ==2),'g')
+title('Spring')
+
+nexttile()
+scatter(receiverData{5}.bulkStrat(receiverData{5}.Season ==3),receiverData{5}.Noise(receiverData{5}.Season ==3),'b')
+title('Summer')
+ylabel('HF Noise (mV)')
+
+nexttile()
+scatter(receiverData{5}.bulkStrat(receiverData{5}.Season ==4),receiverData{5}.Noise(receiverData{5}.Season ==4),'k')
+title('Fall')
+xlabel('Bulk Strat (degC)')
+
+nexttile()
+scatter(receiverData{5}.bulkStrat(receiverData{5}.Season ==5),receiverData{5}.Noise(receiverData{5}.Season ==5),'m')
+title('Mariner''s Fall')
+ylabel('HF Noise (mV)')
+xlabel('Bulk Strat (degC)')
+
+
+
+
+bulkStratOFF{1}   = fitlm(receiverData{5}.bulkStrat(receiverData{5}.Season ==1),receiverData{5}.Noise(receiverData{5}.Season ==1))
+bulkStratOFF{2}   = fitlm(receiverData{5}.bulkStrat(receiverData{5}.Season ==2),receiverData{5}.Noise(receiverData{5}.Season ==2))
+bulkStratOFF{3}   = fitlm(receiverData{5}.bulkStrat(receiverData{5}.Season ==3),receiverData{5}.Noise(receiverData{5}.Season ==3))
+bulkStratOFF{4}   = fitlm(receiverData{5}.bulkStrat(receiverData{5}.Season ==4),receiverData{5}.Noise(receiverData{5}.Season ==4))
+bulkStratOFF{5}   = fitlm(receiverData{5}.bulkStrat(receiverData{5}.Season ==5),receiverData{5}.Noise(receiverData{5}.Season ==5))
+
+
+bulkStratON{1}   = fitlm(receiverData{4}.bulkStrat(receiverData{4}.Season ==1),receiverData{4}.Noise(receiverData{4}.Season ==1))
+bulkStratON{2}   = fitlm(receiverData{4}.bulkStrat(receiverData{4}.Season ==2),receiverData{4}.Noise(receiverData{4}.Season ==2))
+bulkStratON{3}   = fitlm(receiverData{4}.bulkStrat(receiverData{4}.Season ==3),receiverData{4}.Noise(receiverData{4}.Season ==3))
+bulkStratON{4}   = fitlm(receiverData{4}.bulkStrat(receiverData{4}.Season ==4),receiverData{4}.Noise(receiverData{4}.Season ==4))
+bulkStratON{5}   = fitlm(receiverData{4}.bulkStrat(receiverData{4}.Season ==5),receiverData{4}.Noise(receiverData{4}.Season ==5))
+
+
+
+
+onReefNoiseStrat = anova(receiverData{4}.bulkStrat,receiverData{4}.Noise)
+
+close all
+
+for season = 1:5
+    %Parallel: X-axis of our tides, aligned with transmissions
+    crossShoreBinsOFF{season, 1} = receiverData{5}.crossShore < -.4 & receiverData{5}.Season ==season;
+    crossShoreBinsOFF{season, 2} =  receiverData{5}.crossShore > -.4 &  receiverData{5}.crossShore < -.35 & receiverData{5}.Season ==season;
+    crossShoreBinsOFF{season, 3} =  receiverData{5}.crossShore > -.35 &  receiverData{5}.crossShore < -.30 & receiverData{5}.Season ==season;
+    crossShoreBinsOFF{season, 4} =  receiverData{5}.crossShore > -.30 & receiverData{5}.crossShore <-.25 & receiverData{5}.Season ==season;
+    crossShoreBinsOFF{season, 5} =  receiverData{5}.crossShore > -.25 &  receiverData{5}.crossShore < -.20 & receiverData{5}.Season ==season;
+    crossShoreBinsOFF{season, 6} =  receiverData{5}.crossShore > -.20 &  receiverData{5}.crossShore < -.15 & receiverData{5}.Season ==season;
+    crossShoreBinsOFF{season, 7} =  receiverData{5}.crossShore > -.15 &  receiverData{5}.crossShore < -.10 & receiverData{5}.Season ==season;
+    crossShoreBinsOFF{season, 8} =  receiverData{5}.crossShore > -.1 &  receiverData{5}.crossShore < -.05 & receiverData{5}.Season ==season;
+
+    crossShoreBinsOFF{season, 9} =  receiverData{5}.crossShore > -.05 &  receiverData{5}.crossShore < 0.05 & receiverData{5}.Season ==season;
+
+    crossShoreBinsOFF{season, 10} =  receiverData{5}.crossShore > .05 &  receiverData{5}.crossShore < .1 & receiverData{5}.Season ==season;
+    crossShoreBinsOFF{season, 11} =  receiverData{5}.crossShore > .10 &  receiverData{5}.crossShore < .15 & receiverData{5}.Season ==season;
+    crossShoreBinsOFF{season, 12} =  receiverData{5}.crossShore > .15 & receiverData{5}.crossShore < .2 & receiverData{5}.Season ==season;
+    crossShoreBinsOFF{season, 13} =  receiverData{5}.crossShore > .20 &  receiverData{5}.crossShore < .25 & receiverData{5}.Season ==season;
+    crossShoreBinsOFF{season, 14} =  receiverData{5}.crossShore > .25 &  receiverData{5}.crossShore < .3 & receiverData{5}.Season ==season;
+    crossShoreBinsOFF{season, 15} =  receiverData{5}.crossShore > .30 &  receiverData{5}.crossShore < .35 & receiverData{5}.Season ==season;
+    crossShoreBinsOFF{season, 16} =  receiverData{5}.crossShore > .35 &  receiverData{5}.crossShore < .4 & receiverData{5}.Season ==season;
+    crossShoreBinsOFF{season, 17} =  receiverData{5}.crossShore > .40 & receiverData{5}.Season ==season;
+end
+%%
+for season = 1:5
+    %Parallel: X-axis of our tides, aligned with transmissions
+    crossShoreBinsON{season, 1} = receiverData{4}.crossShore < -.4 & receiverData{4}.Season ==season;
+    crossShoreBinsON{season, 2} =  receiverData{4}.crossShore > -.4 &  receiverData{4}.crossShore < -.35 & receiverData{4}.Season ==season;
+    crossShoreBinsON{season, 3} =  receiverData{4}.crossShore > -.35 &  receiverData{4}.crossShore < -.30 & receiverData{4}.Season ==season;
+    crossShoreBinsON{season, 4} =  receiverData{4}.crossShore > -.30 & receiverData{4}.crossShore <-.25 & receiverData{4}.Season ==season;
+    crossShoreBinsON{season, 5} =  receiverData{4}.crossShore > -.25 &  receiverData{4}.crossShore < -.20 & receiverData{4}.Season ==season;
+    crossShoreBinsON{season, 6} =  receiverData{4}.crossShore > -.20 &  receiverData{4}.crossShore < -.15 & receiverData{4}.Season ==season;
+    crossShoreBinsON{season, 7} =  receiverData{4}.crossShore > -.15 &  receiverData{4}.crossShore < -.10 & receiverData{4}.Season ==season;
+    crossShoreBinsON{season, 8} =  receiverData{4}.crossShore > -.1 &  receiverData{4}.crossShore < -.05 & receiverData{4}.Season ==season;
+
+    crossShoreBinsON{season, 9} =  receiverData{4}.crossShore > -.05 &  receiverData{4}.crossShore < 0.05 & receiverData{4}.Season ==season;
+
+    crossShoreBinsON{season, 10} =  receiverData{4}.crossShore > .05 &  receiverData{4}.crossShore < .1 & receiverData{4}.Season ==season;
+    crossShoreBinsON{season, 11} =  receiverData{4}.crossShore > .10 &  receiverData{4}.crossShore < .15 & receiverData{4}.Season ==season;
+    crossShoreBinsON{season, 12} =  receiverData{4}.crossShore > .15 & receiverData{4}.crossShore < .2 & receiverData{4}.Season ==season;
+    crossShoreBinsON{season, 13} =  receiverData{4}.crossShore > .20 &  receiverData{4}.crossShore < .25 & receiverData{4}.Season ==season;
+    crossShoreBinsON{season, 14} =  receiverData{4}.crossShore > .25 &  receiverData{4}.crossShore < .3 & receiverData{4}.Season ==season;
+    crossShoreBinsON{season, 15} =  receiverData{4}.crossShore > .30 &  receiverData{4}.crossShore < .35 & receiverData{4}.Season ==season;
+    crossShoreBinsON{season, 16} =  receiverData{4}.crossShore > .35 &  receiverData{4}.crossShore < .4 & receiverData{4}.Season ==season;
+    crossShoreBinsON{season, 17} =  receiverData{4}.crossShore > .40 & receiverData{4}.Season ==season;
+end
+
+
+% ON REEF
+for season = 1:height(crossShoreBinsON)
+    for k = 1:length(crossShoreBinsON)
+        crossShoreScenarioON{season,k}= receiverData{4}(crossShoreBinsON{season,k},:);
+        averageTideDetsON(season,k) = mean(crossShoreScenarioON{season,k}.HourlyDets);
+        noiseCompareON(season,k) = mean(crossShoreScenarioON{season,k}.Noise);
+        tiltCompareTideON(season,k) = mean(crossShoreScenarioON{season,k}.Tilt);
+        stratCompareON(season,k) = mean(crossShoreScenarioON{season,k}.bulkStrat);
+        % ratioCompareTideON(season,k) = mean(crossShoreScenario{season,k}.Ratio);
+        pingsCompareTideON(season,k) = mean(crossShoreScenarioON{season,k}.Pings);
+    end
+    normalizedTideDetsON(season,:)  = averageTideDetsON(season,:)/(max(averageTideDetsON(season,:)));
+end
+
+% OFF REEF
+for season = 1:height(crossShoreBinsOFF)
+    for k = 1:length(crossShoreBinsOFF)
+        crossShoreScenarioOFF{season,k}= receiverData{5}(crossShoreBinsOFF{season,k},:);
+        averageTideDetsOFF(season,k) = mean(crossShoreScenarioOFF{season,k}.HourlyDets);
+        noiseCompareOFF(season,k) = mean(crossShoreScenarioOFF{season,k}.Noise);
+        tiltCompareTideOFF(season,k) = mean(crossShoreScenarioOFF{season,k}.Tilt);
+        stratCompareOFF(season,k) = mean(crossShoreScenarioOFF{season,k}.bulkStrat);
+        % ratioCompareTideOFF(season,k) = mean(crossShoreScenario{season,k}.Ratio);
+        pingsCompareTideOFF(season,k) = mean(crossShoreScenarioOFF{season,k}.Pings);
+    end
+    normalizedTideDetsOFF(season,:)  = averageTideDetsOFF(season,:)/(max(averageTideDetsOFF(season,:)));
 end
 
 
 
+X = -.4:.05:.4;
 
 
-
+figure()
+plot(X,noiseCompareOFF,'b')
+hold on
+plot(X,noiseCompareON,'r')
+legend('Off Reef','','','','','On Reef')
+ylabel('HF Noise (mV)')
+title('High-Frequency Noise')
+xlabel('Cross-shore Tidal Magnitude (m/s)')
+% ylim([0.6 1])
+% ylabel('Ping Ratio')

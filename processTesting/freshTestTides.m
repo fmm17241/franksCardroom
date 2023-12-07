@@ -28,6 +28,28 @@ for season = 1:length(seasonName)
     crossTideBins{season, 17} =  singleData{4}.CrossTide > .40 & singleData{4}.Season ==season;
 end
 
+for season = 1:length(seasonName)
+    %Parallel: X-axis of our tides, aligned with transmissions
+    crossTideBins2{season, 1} = singleData{5}.CrossTide < -.4 & singleData{5}.Season ==season;
+    crossTideBins2{season, 2} =  singleData{5}.CrossTide > -.4 &  singleData{5}.CrossTide < -.35 & singleData{5}.Season ==season;
+    crossTideBins2{season, 3} =  singleData{5}.CrossTide > -.35 &  singleData{5}.CrossTide < -.30 & singleData{5}.Season ==season;
+    crossTideBins2{season, 4} =  singleData{5}.CrossTide > -.30 & singleData{5}.CrossTide <-.25 & singleData{5}.Season ==season;
+    crossTideBins2{season, 5} =  singleData{5}.CrossTide > -.25 &  singleData{5}.CrossTide < -.20 & singleData{5}.Season ==season;
+    crossTideBins2{season, 6} =  singleData{5}.CrossTide > -.20 &  singleData{5}.CrossTide < -.15 & singleData{5}.Season ==season;
+    crossTideBins2{season, 7} =  singleData{5}.CrossTide > -.15 &  singleData{5}.CrossTide < -.10 & singleData{5}.Season ==season;
+    crossTideBins2{season, 8} =  singleData{5}.CrossTide > -.1 &  singleData{5}.CrossTide < -.05 & singleData{5}.Season ==season;
+
+    crossTideBins2{season, 9} =  singleData{5}.CrossTide > -.05 &  singleData{5}.CrossTide < 0.05 & singleData{5}.Season ==season;
+
+    crossTideBins2{season, 10} =  singleData{5}.CrossTide > .05 &  singleData{5}.CrossTide < .1 & singleData{5}.Season ==season;
+    crossTideBins2{season, 11} =  singleData{5}.CrossTide > .10 &  singleData{5}.CrossTide < .15 & singleData{5}.Season ==season;
+    crossTideBins2{season, 12} =  singleData{5}.CrossTide > .15 & singleData{5}.CrossTide < .2 & singleData{5}.Season ==season;
+    crossTideBins2{season, 13} =  singleData{5}.CrossTide > .20 &  singleData{5}.CrossTide < .25 & singleData{5}.Season ==season;
+    crossTideBins2{season, 14} =  singleData{5}.CrossTide > .25 &  singleData{5}.CrossTide < .3 & singleData{5}.Season ==season;
+    crossTideBins2{season, 15} =  singleData{5}.CrossTide > .30 &  singleData{5}.CrossTide < .35 & singleData{5}.Season ==season;
+    crossTideBins2{season, 16} =  singleData{5}.CrossTide > .35 &  singleData{5}.CrossTide < .4 & singleData{5}.Season ==season;
+    crossTideBins2{season, 17} =  singleData{5}.CrossTide > .40 & singleData{5}.Season ==season;
+end
 
 
 
@@ -51,12 +73,12 @@ X = -.4:.05:.4;
 
 
 figure()
-plot(X,ratioCompareTide)
+plot(X,noiseCompare)
 legend(seasonName)
-title('Ping Ratio D')
+title('Noise')
 xlabel('Cross-shore Tidal Magnitude (m/s)')
-ylim([0.6 1])
-ylabel('Ping Ratio')
+% ylim([0.6 1])
+% ylabel('Ping Ratio')
 
 
 clearvars crossTideBins crossTideScenario averageTideDets noiseCompare tiltCompareTide normalizedTideDets

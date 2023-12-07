@@ -74,17 +74,6 @@ tideDN=datenum(2019,11,09):1/24:datenum(2021,1,21);
 
 tideDT=datetime(tideDN,'ConvertFrom','datenum','TimeZone','UTC')';
 
-%Results: ut and vt are the tides for the timing tideDT
-%%
-
-% Here's where it gets interesting: below is the way I rotate my tides
-% normally, I find the major axes using Principle Component Analysis and
-% rotate my axes to better fit the ellipses.
-
-
-%%
-
-
 %%
 %Classic rotation like a DJ's record
 tidalz = [tideU;tideV].';
