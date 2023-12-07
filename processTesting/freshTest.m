@@ -144,8 +144,8 @@ end
 
 for COUNT = 1:4
     fullTideIndex{COUNT} = isbetween(tideDT,receiverTimes{COUNT}(1,1),receiverTimes{COUNT}(end,1),'closed');
-    receiverData{COUNT}.crossShore(:,1) = tideDN(fullWindIndex{COUNT});      receiverData{COUNT}.crossShore(:,2) = crossShore(fullWindIndex{COUNT});
-    receiverData{COUNT}.alongShore(:,1) = tideDN(fullWindIndex{COUNT});        receiverData{COUNT}.alongShore(:,2) = alongShore(fullWindIndex{COUNT});
+    receiverData{COUNT}.crossShore(:,1) = tideDN(fullTideIndex{COUNT});      receiverData{COUNT}.crossShore(:,2) = crossShore(fullTideIndex{COUNT});
+    receiverData{COUNT}.alongShore(:,1) = tideDN(fullTideIndex{COUNT});        receiverData{COUNT}.alongShore(:,2) = alongShore(fullTideIndex{COUNT});
 end
 
 % seas = seas(8050:end,:);

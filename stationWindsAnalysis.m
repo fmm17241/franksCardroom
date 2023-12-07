@@ -134,6 +134,8 @@ clear fullsst* timeVectorsst
 
 
 
+
+
 %% Okay, now separate by "seasons"
 % 
 % WindRose(winds.WDIR(1:11349),winds.WSPD(1:11349),'AngleNorth',0,'AngleEast',90,'nDirections',10,'FreqLabelAngle','ruler');

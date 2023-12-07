@@ -1,21 +1,7 @@
 
-%Frank's attempt at rotating the currents to be parallel or perpendicular
-%to a transceiver pairing. In 2014, this was done purposefully so cross and
-%along shore are easy to separate; in 2020, it is much more challenging. So
-%instead of using the major axes of the ellipses, we can compare magnitude
-%in different directions to see if the relationship is clear.
+%Frank's look at pure currents. No rotations other than
+%perspective, on and off shore.
 
-%Transceiver pairings:
-% 1.  FS6 hearing SURTASS05In
-% 2.  SURTASS05In hearing FS6
-% 3.  STSNEW2 hearing SURTASS05In
-% 4.  SURTASS05In hearing STSNEW2
-% 5.  SURTASS05IN hearing 39IN
-% 6.  39IN hearing SURTASS05IN
-% 7.  39IN hearing FS6
-% 8.  FS6 hearing 39IN
-% 9.  STSNEW2 hearing FS6
-% 10. FS6 hearing STSNew2
 
 load mooredGPS 
 transmitters = {'63064' '63074' '63075' '63081'};
@@ -74,11 +60,18 @@ tTideOrder = [15,17,14,8,6,5]; % Full tides for consideration
 UVOrder    = [1,2,3,4,6,26];% Full tides for consideration
 % UVOrder    = [3]; %Isolating certain tides.
 %Predict tides for our location
+
+% [timePrediction,ut,vt] = uvpred(struct.tidecon(tTideOrder,1),struct.tidecon(tTideOrder,3),struct.tidecon(tTideOrder,7),...
+%     struct.tidecon(tTideOrder,5),UVOrder,datetide,0.5,419);
+
 [timePrediction,ut,vt] = uvpred(struct.tidecon(tTideOrder,1),struct.tidecon(tTideOrder,3),struct.tidecon(tTideOrder,7),...
-    struct.tidecon(tTideOrder,5),UVOrder,datetide,0.5,419);
+    struct.tidecon(tTideOrder,5),UVOrder,datetide,1,439);
 
 %Create timing for our tidal predictions.
-tideDN=datenum(2019,11,09):0.5/24:datenum(2021,1,01);
+
+% tideDN=datenum(2019,11,09):0.5/24:datenum(2021,1,01);
+tideDN=datenum(2019,11,09):1/24:datenum(2021,1,21);
+
 tideDT=datetime(tideDN,'ConvertFrom','datenum','TimeZone','UTC')';
 
 %Results: ut and vt are the tides for the timing tideDT

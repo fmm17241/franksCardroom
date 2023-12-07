@@ -1,4 +1,14 @@
+
+%Gives wind data
 stationWindsAnalysis
+
+%Gives tide data
+stationTidalAnalysis
+%uses "crossShore or alongShore", or ut/vt.
+
+%gives buoy data
+
+
 
 
 %Load in the detection files
@@ -89,19 +99,7 @@ for PT = 1:length(uniqueReceivers)
                                     data.Data(tempIndex{PT})))
     receiverData{PT}.Properties.VariableNames = {'DN','HourlyDets','Noise','Pings','Tilt','Temp'};
     receiverData{PT}.Properties.DimensionNames{1} = 'DT'; 
-
-
-
     receiverIdentity{PT}        = {uniqueReceivers{PT},transceiverNames{PT}, letters(PT)};
-    % receiverData{PT}.name            = transceiverNames{PT};
-    % receiverData{PT}.letter          = letters(PT);
-    % receiverData{PT}.bottomTemp(:,1) = dataDN(tempIndex{PT}); receiverData{PT}.bottomTemp(:,2) = data.Data(tempIndex{PT});
-    % receiverData{PT}.hourlyDets(:,1) = dataDN(detectionIndex{PT}); receiverData{PT}.hourlyDets(:,2) = data.Data(detectionIndex{PT});
-    % receiverData{PT}.avgNoise(:,1)   = dataDN(noiseIndex{PT}); receiverData{PT}.avgNoise(:,2) = data.Data(noiseIndex{PT});
-    % receiverData{PT}.pings(:,1)      = dataDN(pingIndex{PT});  receiverData{PT}.pings(:,2)    = data.Data(pingIndex{PT});
-    % receiverData{PT}.tilt(:,1)       = dataDN(tiltIndex{PT}); receiverData{PT}.tilt(:,2)          = data.Data(tiltIndex{PT});
-    % receiverData{PT}.DT               = datetime(receiverData{PT}.hourlyDets(:,1),'ConvertFrom','datenum','TimeZone','UTC');
-
 end
 
 
@@ -201,12 +199,21 @@ for COUNT = 1:length(receiverData)
     end
 end
 
-%Frank needs to edit, add wind to data
+%Add wind to data
 for COUNT = 1:length(receiverData)
     fullWindIndex{COUNT} = isbetween(windsDT,receiverData{COUNT}.DT(1,1),receiverData{COUNT}.DT(end,1),'closed');
     receiverData{COUNT}.windSpd(:,1) = WSPD(fullWindIndex{COUNT});
     receiverData{COUNT}.windDir(:,1) = WDIR(fullWindIndex{COUNT});
 end
+
+%Adds predicted tidal currents to data
+for COUNT = 1:length(receiverData)
+    fullTideIndex{COUNT} = isbetween(tideDT,receiverData{COUNT}.DT(1,1),receiverData{COUNT}.DT(end,1),'closed');
+    receiverData{COUNT}.crossShore(:,1) = crossShore(fullTideIndex{COUNT})';
+    receiverData{COUNT}.alongShore(:,1) = alongShore(fullTideIndex{COUNT})';
+end
+
+
 
 %%
 %Frank's conditional averaging.
@@ -600,12 +607,75 @@ xlim([250 850])
 ylim([0 18])
 
 
+%%
+%Tides
+figure()
+scatter(receiverData{5}.crossShore(receiverData{5}.Season ==1),receiverData{5}.Noise(receiverData{5}.Season ==1),'r')
+hold on
+scatter(receiverData{5}.crossShore(receiverData{5}.Season ==2),receiverData{5}.Noise(receiverData{5}.Season ==2),'g')
+scatter(receiverData{5}.crossShore(receiverData{5}.Season ==3),receiverData{5}.Noise(receiverData{5}.Season ==3),'b')
+scatter(receiverData{5}.crossShore(receiverData{5}.Season ==4),receiverData{5}.Noise(receiverData{5}.Season ==4),'k')
+scatter(receiverData{5}.crossShore(receiverData{5}.Season ==5),receiverData{5}.Noise(receiverData{5}.Season ==5),'m')
+xlabel('Cross-shore Tidal Currents (m/s)')
+ylabel('HF Noise (mV)')
+legend('Winter','Spring','Summer','Fall','M.Fall')
+title('OFF Reef')
+ylim([250 850])
+xlim([-.40 .40])
 
 
+figure()
+scatter(receiverData{4}.crossShore(receiverData{4}.Season ==1),receiverData{4}.Noise(receiverData{4}.Season ==1),'r')
+hold on
+scatter(receiverData{4}.crossShore(receiverData{4}.Season ==2),receiverData{4}.Noise(receiverData{4}.Season ==2),'g')
+scatter(receiverData{4}.crossShore(receiverData{4}.Season ==3),receiverData{4}.Noise(receiverData{4}.Season ==3),'b')
+scatter(receiverData{4}.crossShore(receiverData{4}.Season ==4),receiverData{4}.Noise(receiverData{4}.Season ==4),'k')
+scatter(receiverData{4}.crossShore(receiverData{4}.Season ==5),receiverData{4}.Noise(receiverData{4}.Season ==5),'m')
+xlabel('Cross-shore Tidal Currents (m/s)')
+ylabel('HF Noise (mV)')
+legend('Winter','Spring','Summer','Fall','M.Fall')
+title('ON Reef')
+ylim([250 850])
+xlim([-.40 .40])
+
+%%
+
+figure
+tiledlayout(2,2)
+nexttile()
+hold on
+for season = 1:5
+    scatter(receiverData{4}.crossShore(dayLowIndex{4,season}),receiverData{4}.Noise(dayLowIndex{4,season}),seasonColors(season))
+end
+title('On Reef, Low Winds (<2 m/s)')
+ylabel('HF Noise (mV)')
+
+nexttile()
+hold on
+for season = 1:5
+    scatter(receiverData{5}.crossShore(dayLowIndex{5,season}),receiverData{5}.Noise(dayLowIndex{5,season}),seasonColors(season))
+end
+title('Off Reef, Low Winds (<2 m/s)')
 
 
+nexttile()
+hold on
+for season = 1:5
+    scatter(receiverData{4}.crossShore(dayHighIndex{4,season}),receiverData{4}.Noise(dayHighIndex{4,season}),seasonColors(season))
+end
+title('On Reef, High Winds (>8 m/s)')
+xlabel('Cross-Shore Tides (m/s)')
+ylabel('HF Noise (mV)')
 
+nexttile()
+hold on
+for season = 1:5
+    scatter(receiverData{5}.crossShore(dayHighIndex{5,season}),receiverData{5}.Noise(dayHighIndex{5,season}),seasonColors(season))
+end
+title('Off Reef, High Winds (>8 m/s)')
+xlabel('Cross-Shore Tides (m/s)')
 
+%%
 
 
 
