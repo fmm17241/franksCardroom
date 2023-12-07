@@ -1,5 +1,5 @@
 
-%Gives wind data
+%Gives wind data and buoy data
 stationWindsAnalysis
 
 %Gives tide data
@@ -212,6 +212,14 @@ for COUNT = 1:length(receiverData)
     receiverData{COUNT}.crossShore(:,1) = crossShore(fullTideIndex{COUNT})';
     receiverData{COUNT}.alongShore(:,1) = alongShore(fullTideIndex{COUNT})';
 end
+
+%Adds bulk stratification
+for COUNT = 1:length(receiverData)
+    fullSeasIndex{COUNT} = isbetween(seas.time,receiverData{COUNT}.DT(1,1),receiverData{COUNT}.DT(end,1),'closed');
+    % useSST = seas.SST(fullWindIndex{COUNT});
+    receiverData{COUNT}.bulkStrat = seas.SST(fullSeasIndex{COUNT})-receiverData{COUNT}.Temp;
+end
+
 
 
 
@@ -676,10 +684,40 @@ title('Off Reef, High Winds (>8 m/s)')
 xlabel('Cross-Shore Tides (m/s)')
 
 %%
+%Bulk Stratification
+figure()
+scatter(receiverData{5}.bulkStrat(receiverData{5}.Season ==1),receiverData{5}.Noise(receiverData{5}.Season ==1),'r')
+hold on
+scatter(receiverData{5}.bulkStrat(receiverData{5}.Season ==2),receiverData{5}.Noise(receiverData{5}.Season ==2),'g')
+scatter(receiverData{5}.bulkStrat(receiverData{5}.Season ==3),receiverData{5}.Noise(receiverData{5}.Season ==3),'b')
+scatter(receiverData{5}.bulkStrat(receiverData{5}.Season ==4),receiverData{5}.Noise(receiverData{5}.Season ==4),'k')
+scatter(receiverData{5}.bulkStrat(receiverData{5}.Season ==5),receiverData{5}.Noise(receiverData{5}.Season ==5),'m')
+xlabel('Bulk Thermal Strat (degC)')
+ylabel('HF Noise (mV)')
+legend('Winter','Spring','Summer','Fall','M.Fall')
+title('OFF Reef')
+ylim([250 850])
+% xlim([-.40 .40])
 
 
+figure()
+scatter(receiverData{4}.bulkStrat(receiverData{4}.Season ==1),receiverData{4}.Noise(receiverData{4}.Season ==1),'r')
+hold on
+scatter(receiverData{4}.bulkStrat(receiverData{4}.Season ==2),receiverData{4}.Noise(receiverData{4}.Season ==2),'g')
+scatter(receiverData{4}.bulkStrat(receiverData{4}.Season ==3),receiverData{4}.Noise(receiverData{4}.Season ==3),'b')
+scatter(receiverData{4}.bulkStrat(receiverData{4}.Season ==4),receiverData{4}.Noise(receiverData{4}.Season ==4),'k')
+scatter(receiverData{4}.bulkStrat(receiverData{4}.Season ==5),receiverData{4}.Noise(receiverData{4}.Season ==5),'m')
+xlabel('Bulk Thermal Strat (degC)')
+ylabel('HF Noise (mV)')
+legend('Winter','Spring','Summer','Fall','M.Fall')
+title('ON Reef')
+ylim([250 850])
+% xlim([-.40 .40])
 
-
+for season = 1:length(seasonsIndex)
+    offReefNoiseStrat{season} = fitlm(receiverData)
+    onReefNoiseStrat{season}  =
+end
 
 
 

@@ -119,7 +119,10 @@ speedSignal = detrend(WSPD);
 
 %Waveheight data
 cd([oneDrive,'WeatherData'])
-seas = readtable('temp2020.csv'); %IN UTC!!!!!
+seas2019 = readtable('temp2019.csv'); %IN UTC!!!!!
+seas2020 = readtable('temp2020.csv'); %IN UTC!!!!!
+seas2021 = readtable('temp2021.csv'); %IN UTC!!!!!
+seas = [seas2019;seas2020;seas2021];
 timeVectorsst = table2array(seas(:,1:5)); timeVectorsst(:,6) = zeros(1,length(timeVectorsst));
 time = datetime(timeVectorsst,'TimeZone','UTC'); time = time + min(1/144);
 
