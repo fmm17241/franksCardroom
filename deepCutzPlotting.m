@@ -131,16 +131,19 @@ tiledlayout(4,1,'TileSpacing',"compact")
 ax1 = nexttile()
 plot(receiverData{4}.DT,receiverData{4}.Noise,'r')
 ylabel('HF Noise')
-title('ON Reef')
+hold on
+yyaxis right
+scatter(receiverData{5}.DT,receiverData{5}.daytime,'k','filled')
+ylim([-0.1 1.1])
+yticks([0 1])
+yticklabels([{'Night'},{'Day'}])
+
+title('ON Reef Noise')
+
+
 
 
 ax2 = nexttile()
-plot(receiverData{5}.DT,receiverData{5}.Noise,'b')
-title('OFF Reef')
-ylabel('HF Noise')
-
-
-ax3 = nexttile()
 plot(receiverData{4}.DT,receiverData{4}.windSpd,'k','LineWidth',1.5)
 ylim([0 12])
 ylabel('Windspeed (m/s)')
@@ -148,14 +151,24 @@ ylabel('Windspeed (m/s)')
 linkaxes([ax1 ax2 ax3],'x')
 title('Windspeed')
 
-ax4 = nexttile()
-plot(receiverData{4}.DT,receiverData{4}.HourlyDets,'r')
+ax3 = nexttile()
+plot(receiverData{5}.DT,receiverData{5}.Noise,'b')
+ylabel('HF Noise')
 hold on
-plot(receiverData{5}.DT,receiverData{5}.HourlyDets,'b')
+yyaxis right
+scatter(receiverData{5}.DT,receiverData{5}.daytime,'k','filled')
+ylim([-0.1 1.1])
+yticks([0 1])
+yticklabels([{'Night'},{'Day'}])
+title('OFF Reef Noise')
+
+
+ax4 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.crossShore,'k')
 % ylim([-0.4 0.4])
-ylabel('Hourly Dets')
-title('Detections')
-legend('On Reef','Off Reef')
+ylabel('Tidal Velocity (m/s)')
+title('Tidal Currents, Cross-shore','Positive: Ebb, Negative: Flood,')
+% legend('On Reef','Off Reef')
 
 linkaxes([ax1 ax2 ax3 ax4],'x')
 

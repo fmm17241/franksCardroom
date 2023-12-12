@@ -771,7 +771,86 @@ title('Mariner''s Fall')
 ylabel('HF Noise (mV)')
 xlabel('Bulk Strat (degC)')
 
+%%
+%
+% Noise vs Temperature, ON REEF
+figure()
+tiledlayout(3,2)
+nexttile()
+scatter(receiverData{4}.Temp(receiverData{4}.Season ==1 & receiverData{4}.windSpd < 4 ),receiverData{4}.Noise(receiverData{4}.Season ==1 & receiverData{4}.windSpd < 4 ),'k')
+hold on
+scatter(receiverData{4}.Temp(receiverData{4}.Season ==1 & receiverData{4}.windSpd > 9 ),receiverData{4}.Noise(receiverData{4}.Season ==1 & receiverData{4}.windSpd > 9 ),'r')
+title('Winter')
+ylabel('HF Noise (mV)')
 
+nexttile()
+scatter(receiverData{4}.Temp(receiverData{4}.Season ==2 & receiverData{4}.windSpd < 4 ),receiverData{4}.Noise(receiverData{4}.Season ==2 & receiverData{4}.windSpd < 4 ),'k')
+hold on
+scatter(receiverData{4}.Temp(receiverData{4}.Season ==2 & receiverData{4}.windSpd > 9 ),receiverData{4}.Noise(receiverData{4}.Season ==2 & receiverData{4}.windSpd > 9 ),'r')
+title('Spring')
+
+nexttile()
+scatter(receiverData{4}.Temp(receiverData{4}.Season ==3 & receiverData{4}.windSpd < 4 ),receiverData{4}.Noise(receiverData{4}.Season ==3 & receiverData{4}.windSpd < 4 ),'k')
+hold on
+scatter(receiverData{4}.Temp(receiverData{4}.Season ==3 & receiverData{4}.windSpd > 9 ),receiverData{4}.Noise(receiverData{4}.Season ==3 & receiverData{4}.windSpd > 9 ),'r')
+title('Summer')
+ylabel('HF Noise (mV)')
+
+nexttile()
+scatter(receiverData{4}.Temp(receiverData{4}.Season ==4 & receiverData{4}.windSpd < 4 ),receiverData{4}.Noise(receiverData{4}.Season ==4 & receiverData{4}.windSpd < 4 ),'k')
+hold on
+scatter(receiverData{4}.Temp(receiverData{4}.Season ==4 & receiverData{4}.windSpd > 9 ),receiverData{4}.Noise(receiverData{4}.Season ==4 & receiverData{4}.windSpd > 9 ),'r')
+title('Fall')
+xlabel('Bottom Temp. (degC)')
+
+nexttile()
+scatter(receiverData{4}.Temp(receiverData{4}.Season ==5 & receiverData{4}.windSpd < 4 ),receiverData{4}.Noise(receiverData{4}.Season ==5 & receiverData{4}.windSpd < 4 ),'k')
+hold on
+scatter(receiverData{4}.Temp(receiverData{4}.Season ==5 & receiverData{4}.windSpd > 9 ),receiverData{4}.Noise(receiverData{4}.Season ==5 & receiverData{4}.windSpd > 9 ),'r')
+title('Mariner''s Fall')
+ylabel('HF Noise (mV)')
+xlabel('Bottom Temp. (degC)')
+
+% Seasonal Stratification, OFF REEF
+figure()
+tiledlayout(3,2)
+nexttile()
+scatter(receiverData{4}.Temp(receiverData{5}.Season ==1 & receiverData{5}.windSpd < 4 ),receiverData{5}.Noise(receiverData{5}.Season ==1 & receiverData{5}.windSpd < 4 ),'k')
+hold on
+scatter(receiverData{4}.Temp(receiverData{5}.Season ==1 & receiverData{5}.windSpd > 9 ),receiverData{5}.Noise(receiverData{5}.Season ==1 & receiverData{5}.windSpd > 9 ),'r')
+title('Winter')
+ylabel('HF Noise (mV)')
+
+nexttile()
+scatter(receiverData{4}.Temp(receiverData{5}.Season ==2 & receiverData{5}.windSpd < 4 ),receiverData{5}.Noise(receiverData{5}.Season ==2 & receiverData{5}.windSpd < 4 ),'k')
+hold on
+scatter(receiverData{4}.Temp(receiverData{5}.Season ==2 & receiverData{5}.windSpd > 9 ),receiverData{5}.Noise(receiverData{5}.Season ==2 & receiverData{5}.windSpd > 9 ),'r')
+title('Spring')
+
+nexttile()
+scatter(receiverData{4}.Temp(receiverData{5}.Season ==3 & receiverData{5}.windSpd < 4 ),receiverData{5}.Noise(receiverData{5}.Season ==3 & receiverData{5}.windSpd < 4 ),'k')
+hold on
+scatter(receiverData{4}.Temp(receiverData{5}.Season ==3 & receiverData{5}.windSpd > 9 ),receiverData{5}.Noise(receiverData{5}.Season ==3 & receiverData{5}.windSpd > 9 ),'r')
+title('Summer')
+ylabel('HF Noise (mV)')
+
+nexttile
+scatter(receiverData{4}.Temp(receiverData{5}.Season ==4 & receiverData{5}.windSpd < 4 ),receiverData{5}.Noise(receiverData{5}.Season ==4 & receiverData{5}.windSpd < 4 ),'k')
+hold on
+scatter(receiverData{4}.Temp(receiverData{5}.Season ==4 & receiverData{5}.windSpd > 9 ),receiverData{5}.Noise(receiverData{5}.Season ==4 & receiverData{5}.windSpd > 9 ),'r')
+title('Fall')
+xlabel('Bottom Temp. (degC)')
+
+nexttile()
+scatter(receiverData{4}.Temp(receiverData{5}.Season ==5 & receiverData{5}.windSpd < 4 ),receiverData{5}.Noise(receiverData{5}.Season ==5 & receiverData{5}.windSpd < 4 ),'k')
+hold on
+scatter(receiverData{4}.Temp(receiverData{5}.Season ==5 & receiverData{5}.windSpd > 9 ),receiverData{5}.Noise(receiverData{5}.Season ==5 & receiverData{5}.windSpd > 9 ),'r')
+title('Mariner''s Fall')
+ylabel('HF Noise (mV)')
+xlabel('Bottom Temp. (degC)')
+
+
+%%
 
 
 bulkStratOFF{1}   = fitlm(receiverData{5}.bulkStrat(receiverData{5}.Season ==1),receiverData{5}.Noise(receiverData{5}.Season ==1))
