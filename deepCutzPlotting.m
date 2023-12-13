@@ -201,11 +201,70 @@ ylabel('Windspeed (m/s)')
 linkaxes([ax1 ax2 ax3],'x')
 title('Windspeed')
 
+%%
+%Checking tilt of BIG BOY LETS OGOOOGOFDFGODFKHBVLCHBM JDF MGBJ NCFJBM
+
+figure()
+tiledlayout(4,1,'TileSpacing',"compact")
+ax1 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.Pings,'r')
+hold on
+plot(receiverData{5}.DT,receiverData{5}.Pings,'b')
+ylabel('Pings')
+title('PINGS PINGS PINGS')
 
 
+ax2 = nexttile()
+title('Instrument Tilt')
+plot(receiverData{7}.DT,receiverData{7}.Tilt,'k')
+title('Tilt Angle of Middle Transmitter')
+
+ax3 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.crossShore,'k','LineWidth',1.5)
+ylim([-0.4 0.4])
+ylabel('Tidal Current (m/s)')
+title('Tides')
+
+ax4 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.windSpd,'k','LineWidth',1.5)
+ylim([0 14])
+ylabel('Windspeed (m/s)')
 
 
+linkaxes([ax1 ax2 ax3 ax4],'x')
+title('Windspeed')
 
+%%
+
+figure()
+tiledlayout(4,1,'TileSpacing',"compact")
+ax1 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.HourlyDets,'r')
+hold on
+plot(receiverData{5}.DT,receiverData{5}.HourlyDets,'b')
+ylabel('Pings')
+title('PINGS PINGS PINGS')
+
+
+ax2 = nexttile()
+title('Instrument Tilt')
+plot(receiverData{7}.DT,receiverData{7}.Tilt,'k')
+title('Tilt Angle of Middle Transmitter')
+
+ax3 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.crossShore,'k','LineWidth',1.5)
+ylim([-0.4 0.4])
+ylabel('Tidal Current (m/s)')
+title('Tides')
+
+ax4 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.windSpd,'k','LineWidth',1.5)
+ylim([0 14])
+ylabel('Windspeed (m/s)')
+
+
+linkaxes([ax1 ax2 ax3 ax4],'x')
+title('Windspeed')
 
 
 
