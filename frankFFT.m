@@ -137,7 +137,7 @@ P1(2:end-1) = 2*P1(2:end-1);
 
 f = Fs/L*(0:(L/2));
 plot(f,P1,"LineWidth",3) 
-title("Single-Sided Amplitude Spectrum of X(t)")
+title("Single-Sided Amplitude Spectrum of X(t),NoFilter")
 xlabel("f (Hz)")
 ylabel("|P1(f)|")
 
@@ -145,13 +145,29 @@ ylabel("|P1(f)|")
 %%
 %Off reef is super obvious: tides and daily.
 %On reef is not. Need to look at lowpass/highpass filters, or windowing.
+Fs = 1/3600;        % Sampling Frequency
+T = 1/Fs            % Sample Period
+L = length(receiverData{5}.HourlyDets)          % Length of Signal
+% L = length(receiverData{5}.HourlyDets)
+t = (0:L-1)*T;
+
+
+clearvars
+%Testing my data
+T = receiverData{4}.DT
+% T2 = receiverData{5}.DT
+data = receiverData{4}.HourlyDets;
+% X2 = receiverData{5}.HourlyDets;
+
+
+
 
 %40 hour pass
-wpass = 1/(40*24*3600);
+wpass = 1/(40*3600);
 
 
 dataHighFilter = highpass(data,wpass);
-
+dataLowFilter   = lowpass(data,wpass);
 
 Y = fft(dataHighFilter,L);
 % Y2 = fft(X2,L2);
@@ -178,12 +194,39 @@ P1(2:end-1) = 2*P1(2:end-1);
 
 f = Fs/L*(0:(L/2));
 plot(f,P1,"LineWidth",3) 
-title("Single-Sided Amplitude Spectrum of X(t)")
+title("Single-Sided Amplitude Spectrum of X(t), HighFilter")
 xlabel("f (Hz)")
 ylabel("|P1(f)|")
 
+%
+Y = fft(dataLowFilter,L);
+% Y2 = fft(X2,L2);
+
+figure()
+plot(Fs/L*(0:L-1),abs(Y),"LineWidth",3)
+title("Complex Magnitude of fft Spectrum")
+xlabel("f (Hz)")
+ylabel("|fft(X)|")
 
 
+%
+figure()
+plot(Fs/L*(-L/2:L/2-1),abs(fftshift(Y)),"LineWidth",3)
+title("fft Spectrum in the Positive and Negative Frequencies")
+xlabel("f (Hz)")
+ylabel("|fft(X)|")
+
+
+P2 = abs(Y/L);
+P1 = P2(1:L/2+1);
+P1(2:end-1) = 2*P1(2:end-1);
+
+
+f = Fs/L*(0:(L/2));
+plot(f,P1,"LineWidth",3) 
+title("Single-Sided Amplitude Spectrum of X(t), LowFilter")
+xlabel("f (Hz)")
+ylabel("|P1(f)|")
 
 
 
