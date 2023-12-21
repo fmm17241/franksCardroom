@@ -13,11 +13,19 @@ S = 0.8 + 0.7*sin(2*pi*50*t) + sin(2*pi*120*t);
 
 data = S + 2*randn(size(t));
 
+
 figure()
 plot(1000*t,data)
 title("Signal Corrupted with Zero-Mean Random Noise")
 xlabel("t (milliseconds)")
 ylabel("X(t)")
+
+figure()
+plot(1000*t,S)
+title("Signal")
+xlabel("t (milliseconds)")
+ylabel("X(t)")
+
 
 Y = fft(data)
 P2 = abs(Y/L);
@@ -26,6 +34,7 @@ P1(2:end-1) = 2*P1(2:end-1);
 
 
 f = Fs/L*(0:(L/2));
+figure()
 plot(f,P1,"LineWidth",3) 
 title("Single-Sided Amplitude Spectrum of X(t)")
 xlabel("f (Hz)")
@@ -112,15 +121,15 @@ close all
 %
 Fs = 1/3600;        % Sampling Frequency, hourly
 T = 1/Fs            % Sample Period
-L = length(receiverData{4}.HourlyDets)          % Length of Signal
-% L = length(receiverData{5}.HourlyDets)
+L = length(receiverData{5}.HourlyDets)          % Length of Signal
 t = (0:L-1)*T;
 
 %Testing my data
-T = receiverData{4}.DT
+T = receiverData{5}.DT
 % T2 = receiverData{5}.DT
-data = receiverData{4}.HourlyDets';
-window = hanning(100);
+data = receiverData{5}.HourlyDets';
+window = hanning(40);
+
 f = Fs/L*(0:(L/2));
 
 figure()
@@ -128,7 +137,18 @@ plot(T,data)
 title("Row in the Time Domain")
 
 %
+Y = fft(data);
+P2 = abs(Y/L);
+P1 = P2(1:L/2+1);
+P1(2:end-1) = 2*P1(2:end-1);
+figure()
+plot(f,P1,"LineWidth",3) 
+title("FFT: Off Reef, No Window")
+xlabel("f (Hz)")
+ylabel("|P1(f)|")
 
+
+%%
 dataTest = data.*window;
 
 
@@ -138,22 +158,14 @@ P1window = P2window(1:L/2+1);
 P1window(2:end-1) = 2*P1window(2:end-1);
 figure()
 plot(f,P1window,"LineWidth",3) 
-title("Single-Sided Amplitude Spectrum, Data: 40-Hour  Hanning Window")
+title("Single-Sided Amplitude Spectrum, Data: 80-Hour  Hanning Window, Off Reef")
 xlabel("f (Hz)")
 ylabel("|P1(f)|")
 
 
 
 
-Y = fft(data);
-P2 = abs(Y/L);
-P1 = P2(1:L/2+1);
-P1(2:end-1) = 2*P1(2:end-1);
-figure()
-plot(f,P1,"LineWidth",3) 
-title("Single-Sided Amplitude Spectrum")
-xlabel("f (Hz)")
-ylabel("|P1(f)|")
+
 
 
 
