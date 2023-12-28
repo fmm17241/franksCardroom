@@ -74,7 +74,7 @@ f = Fs/L*(0:(L/2));
 S = 0.8 + 0.7*sin(2*pi*50*t) + sin(2*pi*120*t);
 
 data = S + 2*randn(size(t));
-hannWind = hanning(100);
+hannWind = hanning(40);
 
 
 dataTest = data.*hannWind;
