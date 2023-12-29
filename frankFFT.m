@@ -346,6 +346,68 @@ for i=1:3
 end
 
 
+%%
+%Frank testing ADCP?
+
+tidalAnalysis2020
+clearvars -except githubToolbox localplots oneDrive adcp rotUtideShore ut vt localPlots matlabToolbox oneDrive tideDN tideDT rotUtideShore rotVtideShore uz vz
+close all
+
+time = datetime(adcp.dn(1:2:end),'convertFrom','datenum')
+uz = uz(1:2:end);
+vz = vz(1:2:end);
+
+
+Fs = 1/3600;        % Sampling Frequency, hourly
+T = 1/Fs            % Sample Period
+L = length(vz)          % Length of Signal
+t = (0:L-1)*T;
+
+%Testing my data
+T = time;
+% T2 = receiverData{5}.DT
+data = vz;
+window = hanning(40);
+
+
+
+
+f = Fs/L*(0:(L/2));
+
+
+
+
+figure()
+plot(T,data)
+title("Row in the Time Domain")
+
+
+Y = fft(data);
+P2 = abs(Y/L);
+P1 = P2(1:L/2+1);
+P1(2:end-1) = 2*P1(2:end-1);
+figure()
+plot(f,P1,"LineWidth",3) 
+title("ADCP no Window")
+xlabel("f (Hz)")
+ylabel("|P1(f)|")
+
+
+%%
+dataTest = data.*window;
+
+
+Ywindow = fft(dataTest);
+P2window = abs(Ywindow/L);
+P1window = P2window(1:L/2+1);
+P1window(2:end-1) = 2*P1window(2:end-1);
+figure()
+plot(f,P1window,"LineWidth",3) 
+title("Single-Sided Amplitude Spectrum, Data: 80-Hour  Hanning Window, Off Reef")
+xlabel("f (Hz)")
+ylabel("|P1(f)|")
+
+
 
 
 
