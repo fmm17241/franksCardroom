@@ -366,11 +366,14 @@ t = (0:L-1)*T;
 %Testing my data
 T = time;
 % T2 = receiverData{5}.DT
-data = vz;
-window = hanning(40);
+data = uz;
+window = hanning(1000);
 
-
-
+%
+wpass = 1/(40*3600);
+dataHighFilter = highpass(data,wpass);
+dataLowFilter   = lowpass(data,wpass);
+%
 
 f = Fs/L*(0:(L/2));
 
@@ -382,17 +385,17 @@ plot(T,data)
 title("Row in the Time Domain")
 
 
-Y = fft(data);
+Y = fft(dataLowFilter);
 P2 = abs(Y/L);
 P1 = P2(1:L/2+1);
 P1(2:end-1) = 2*P1(2:end-1);
 figure()
 plot(f,P1,"LineWidth",3) 
-title("ADCP no Window")
+title("ADCP no Window, U")
 xlabel("f (Hz)")
 ylabel("|P1(f)|")
 
-
+title('ADCP Low Filter U')
 %%
 dataTest = data.*window;
 
@@ -403,7 +406,7 @@ P1window = P2window(1:L/2+1);
 P1window(2:end-1) = 2*P1window(2:end-1);
 figure()
 plot(f,P1window,"LineWidth",3) 
-title("Single-Sided Amplitude Spectrum, Data: 80-Hour  Hanning Window, Off Reef")
+title("ADCP, 40 Window, U")
 xlabel("f (Hz)")
 ylabel("|P1(f)|")
 
