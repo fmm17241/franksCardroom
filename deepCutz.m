@@ -16,8 +16,8 @@ cd ([oneDrive,'Moored\GRNMS\VRLs'])
 rawDetFile{1,1} = readtable('VR2Tx_483062_20211112_1.csv'); %SURTASSSTN20
 rawDetFile{2,1} = readtable('VR2Tx_483064_20211025_1.csv'); %SURTASS05IN
 rawDetFile{3,1} = readtable('VR2Tx_483066_20211018_1.csv'); %Roldan
-rawDetFile{4,1} = readtable('VR2Tx_483067_20211112_3.csv'); %33OUT??
-rawDetFile{5,1} = readtable('VR2Tx_483068_20211223_1.csv'); %FS17??
+rawDetFile{4,1} = readtable('VR2Tx_483067_20211112_3.csv'); %33OUT
+rawDetFile{5,1} = readtable('VR2Tx_483068_20211223_1.csv'); %FS17
 rawDetFile{6,1} = readtable('VR2Tx_483070_20211223_1.csv'); % 08C
 rawDetFile{7,1} = readtable('VR2Tx_483073_20211112_4.csv'); %STSNew1
 rawDetFile{8,1} = readtable('VR2Tx_483074_20211025_1.csv'); %STSNEW2
@@ -220,7 +220,11 @@ for COUNT = 1:length(receiverData)
     receiverData{COUNT}.bulkStrat = seas.SST(fullSeasIndex{COUNT})-receiverData{COUNT}.Temp;
 end
 
-
+%FM adding detrended noise data to limit transceiver bias 1/2/24
+for k = 1:length(receiverData)
+    testingDetrend{k} = detrend(receiverData{k}.Noise,'constant')
+    receiverData{k}.NoiseDetrend = testingDetrend{k}(:,1);
+end
 
 
 %%

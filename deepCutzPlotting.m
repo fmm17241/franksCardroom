@@ -173,27 +173,26 @@ title('Tidal Currents, Cross-shore','Positive: Ebb, Negative: Flood,')
 linkaxes([ax1 ax2 ax3 ax4],'x')
 
 %%
-
+% 1/2/24
 figure()
-tiledlayout(3,1,'TileSpacing',"compact")
+tiledlayout(4,1,'TileSpacing',"compact")
 ax1 = nexttile()
-plot(receiverData{4}.DT,receiverData{4}.Noise,'r')
-hold on
-plot(receiverData{5}.DT,receiverData{5}.Noise,'b')
+plot(receiverData{4}.DT,receiverData{4}.NoiseDetrend,'r')
 ylabel('HF Noise')
-title('High-Frequency Noise')
+hold on
+plot(receiverData{5}.DT,receiverData{5}.NoiseDetrend,'b')
+yyaxis right
+scatter(receiverData{5}.DT,receiverData{5}.daytime,'k','filled')
+ylim([-0.1 1.1])
+yticks([0 1])
+yticklabels([{'Night'},{'Day'}])
+
+title('ON and OFF Reef Noise, Detrended (-mean)')
+
+
 
 
 ax2 = nexttile()
-
-title('Instrument Tilt')
-plot(receiverData{4}.DT,receiverData{4}.Tilt,'r')
-hold on
-plot(receiverData{5}.DT,receiverData{5}.Tilt,'b')
-ylabel('Tilt Angle)')
-title('Tilt Angle')
-
-ax3 = nexttile()
 plot(receiverData{4}.DT,receiverData{4}.windSpd,'k','LineWidth',1.5)
 ylim([0 12])
 ylabel('Windspeed (m/s)')
@@ -201,70 +200,89 @@ ylabel('Windspeed (m/s)')
 linkaxes([ax1 ax2 ax3],'x')
 title('Windspeed')
 
+ax3 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.crossShore,'k')
+% ylim([-0.4 0.4])
+ylabel('Tidal Velocity (m/s)')
+title('Tidal Currents, Cross-shore','Positive: Ebb, Negative: Flood,')
+% legend('On Reef','Off Reef')
+
+
+ax4 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.bulkStrat,'r')
+hold on
+plot(receiverData{5}.DT,receiverData{5}.bulkStrat,'b')
+ylabel('Thermal Stratification')
+title('Bulk Stratification, On and Off Reef')
+
+
+
+linkaxes([ax1 ax2 ax3 ax4],'x')
+
 %%
 %Checking tilt of BIG BOY LETS OGOOOGOFDFGODFKHBVLCHBM JDF MGBJ NCFJBM
 
-figure()
-tiledlayout(4,1,'TileSpacing',"compact")
-ax1 = nexttile()
-plot(receiverData{4}.DT,receiverData{4}.Pings,'r')
-hold on
-plot(receiverData{5}.DT,receiverData{5}.Pings,'b')
-ylabel('Pings')
-title('PINGS PINGS PINGS')
-
-
-ax2 = nexttile()
-title('Instrument Tilt')
-plot(receiverData{7}.DT,receiverData{7}.Tilt,'k')
-title('Tilt Angle of Middle Transmitter')
-
-ax3 = nexttile()
-plot(receiverData{4}.DT,receiverData{4}.crossShore,'k','LineWidth',1.5)
-ylim([-0.4 0.4])
-ylabel('Tidal Current (m/s)')
-title('Tides')
-
-ax4 = nexttile()
-plot(receiverData{4}.DT,receiverData{4}.windSpd,'k','LineWidth',1.5)
-ylim([0 14])
-ylabel('Windspeed (m/s)')
-
-
-linkaxes([ax1 ax2 ax3 ax4],'x')
-title('Windspeed')
-
-%%
-
-figure()
-tiledlayout(4,1,'TileSpacing',"compact")
-ax1 = nexttile()
-plot(receiverData{4}.DT,receiverData{4}.HourlyDets,'r')
-hold on
-plot(receiverData{5}.DT,receiverData{5}.HourlyDets,'b')
-ylabel('Pings')
-title('PINGS PINGS PINGS')
-
-
-ax2 = nexttile()
-title('Instrument Tilt')
-plot(receiverData{7}.DT,receiverData{7}.Tilt,'k')
-title('Tilt Angle of Middle Transmitter')
-
-ax3 = nexttile()
-plot(receiverData{4}.DT,receiverData{4}.crossShore,'k','LineWidth',1.5)
-ylim([-0.4 0.4])
-ylabel('Tidal Current (m/s)')
-title('Tides')
-
-ax4 = nexttile()
-plot(receiverData{4}.DT,receiverData{4}.windSpd,'k','LineWidth',1.5)
-ylim([0 14])
-ylabel('Windspeed (m/s)')
-
-
-linkaxes([ax1 ax2 ax3 ax4],'x')
-title('Windspeed')
+% figure()
+% tiledlayout(4,1,'TileSpacing',"compact")
+% ax1 = nexttile()
+% plot(receiverData{4}.DT,receiverData{4}.Pings,'r')
+% hold on
+% plot(receiverData{5}.DT,receiverData{5}.Pings,'b')
+% ylabel('Pings')
+% title('PINGS PINGS PINGS')
+% 
+% 
+% ax2 = nexttile()
+% title('Instrument Tilt')
+% plot(receiverData{7}.DT,receiverData{7}.Tilt,'k')
+% title('Tilt Angle of Middle Transmitter')
+% 
+% ax3 = nexttile()
+% plot(receiverData{4}.DT,receiverData{4}.crossShore,'k','LineWidth',1.5)
+% ylim([-0.4 0.4])
+% ylabel('Tidal Current (m/s)')
+% title('Tides')
+% 
+% ax4 = nexttile()
+% plot(receiverData{4}.DT,receiverData{4}.windSpd,'k','LineWidth',1.5)
+% ylim([0 14])
+% ylabel('Windspeed (m/s)')
+% 
+% 
+% linkaxes([ax1 ax2 ax3 ax4],'x')
+% title('Windspeed')
+% 
+% %%
+% 
+% figure()
+% tiledlayout(4,1,'TileSpacing',"compact")
+% ax1 = nexttile()
+% plot(receiverData{4}.DT,receiverData{4}.HourlyDets,'r')
+% hold on
+% plot(receiverData{5}.DT,receiverData{5}.HourlyDets,'b')
+% ylabel('Pings')
+% title('PINGS PINGS PINGS')
+% 
+% 
+% ax2 = nexttile()
+% title('Instrument Tilt')
+% plot(receiverData{7}.DT,receiverData{7}.Tilt,'k')
+% title('Tilt Angle of Middle Transmitter')
+% 
+% ax3 = nexttile()
+% plot(receiverData{4}.DT,receiverData{4}.crossShore,'k','LineWidth',1.5)
+% ylim([-0.4 0.4])
+% ylabel('Tidal Current (m/s)')
+% title('Tides')
+% 
+% ax4 = nexttile()
+% plot(receiverData{4}.DT,receiverData{4}.windSpd,'k','LineWidth',1.5)
+% ylim([0 14])
+% ylabel('Windspeed (m/s)')
+% 
+% 
+% linkaxes([ax1 ax2 ax3 ax4],'x')
+% title('Windspeed')
 
 
 

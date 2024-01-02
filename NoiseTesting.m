@@ -270,16 +270,16 @@ end
 
 X = 1:5;
 
-for k = 1:length(receiverData)
-    figure()
-    hold on
-    scatter(X,testingDets(k,:))
-end
+% for k = 1:length(receiverData)
+%     figure()
+%     hold on
+%     scatter(X,testingDets(k,:))
+% end
 
-
-
-figure()
-scatter(testingNoise,testingDets)
+% 
+% 
+% figure()
+% scatter(testingNoise,testingDets)
 
 %%
 % FM detrending the noise data: removing the mean from all of my
@@ -302,11 +302,6 @@ loudStations  = ['A','B','D','H','I','K','L']
 quietStations = ['C','E','F','G','J','M']
 
 %L and F both have very low transmissions, BUT different noise
-
-
-
-figure()
-scatter(testingAnnualNoise,testingAnnualDets,testingAnnualPings,'filled')
 
 
 
@@ -573,36 +568,36 @@ onSeason5 = fitlm((receiverData{4}.Noise(receiverData{4}.Season ==5)),receiverDa
 
 
 
-
-
-%Retiming by days and months. Very few dets and pings, this seeks to show
-%difference in times when I did hear something rather than just mostly
-%zeros.
-
-onReefDaily  = retime(receiverData{4},'daily','mean');
-offReefDaily =retime(receiverData{5},'daily','mean');
-
-onReefMonthly  = retime(receiverData{4},'monthly','mean');
-offReefMonthly =retime(receiverData{5},'monthly','mean');
-
-
-figure()
-scatter(onReefDaily.Noise,onReefDaily.Pings,'r')
-hold on
-scatter(offReefDaily.Noise,offReefDaily.Pings,'b')
-ylabel('Avg Pings/hour')
-xlabel('Avg HF Noise')
-title('High-Frequency Noise vs Detected Pings','Daily Averages')
-legend('Live Bottom','Flat Sand')
-
-figure()
-scatter(onReefMonthly.Noise,onReefMonthly.Pings,'r')
-hold on
-scatter(offReefMonthly.Noise,offReefMonthly.Pings,'b')
-ylabel('Avg Pings/hour')
-xlabel('Avg HF Noise')
-title('High-Frequency Noise vs Detected Pings','Monthly Averages')
-legend('Live Bottom','Flat Sand')
+% 
+% 
+% %Retiming by days and months. Very few dets and pings, this seeks to show
+% %difference in times when I did hear something rather than just mostly
+% %zeros.
+% 
+% onReefDaily  = retime(receiverData{4},'daily','mean');
+% offReefDaily =retime(receiverData{5},'daily','mean');
+% 
+% onReefMonthly  = retime(receiverData{4},'monthly','mean');
+% offReefMonthly =retime(receiverData{5},'monthly','mean');
+% 
+% 
+% figure()
+% scatter(onReefDaily.Noise,onReefDaily.Pings,'r')
+% hold on
+% scatter(offReefDaily.Noise,offReefDaily.Pings,'b')
+% ylabel('Avg Pings/hour')
+% xlabel('Avg HF Noise')
+% title('High-Frequency Noise vs Detected Pings','Daily Averages')
+% legend('Live Bottom','Flat Sand')
+% 
+% figure()
+% scatter(onReefMonthly.Noise,onReefMonthly.Pings,'r')
+% hold on
+% scatter(offReefMonthly.Noise,offReefMonthly.Pings,'b')
+% ylabel('Avg Pings/hour')
+% xlabel('Avg HF Noise')
+% title('High-Frequency Noise vs Detected Pings','Monthly Averages')
+% legend('Live Bottom','Flat Sand')
 
 %%
 
