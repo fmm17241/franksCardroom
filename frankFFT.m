@@ -41,6 +41,20 @@ xlabel("f (Hz)")
 ylabel("|P1(f)|")
 
 
+segmentLength = 1000;
+noverlap = 500;
+[pxx,f] = pwelch(data,segmentLength,noverlap,40,Fs);
+
+[pxx,f] = pwelch(data);
+
+figure()
+plot(f,10*log10(pxx))
+xlabel('Frequency (Hz)')
+ylabel('PSD (dB/Hz)')
+title('Example Signal, 50% overlap')
+
+
+
 figure()
 plot(Fs/L*(0:L-1),abs(Y),"LineWidth",3)
 title("Complex Magnitude of fft Spectrum")
@@ -366,21 +380,39 @@ t = (0:L-1)*T;
 %Testing my data
 T = time;
 % T2 = receiverData{5}.DT
-data = uz;
-window = hanning(1000);
+data = ut;
+dataY = vt;
+% window = hanning(1000);
+
+
+segmentLength = 80;
+noverlap = 40;
+f = Fs/L*(0:(L/2));
+
+
+[pxx,f] = pwelch(data,segmentLength,noverlap,40,Fs);
+
+
+
+figure()
+plot(f,10*log10(pxx))
+
+xlabel('Frequency (Hz)')
+ylabel('PSD (dB/Hz)')
+title('ADCP VZ Raw, 50% overlap')
 
 
 starts = 1:20:2700;
 
 dataNew = data(1:40);
-for k = 2:135
+for k = 2:134
     dataNew(k,:) = data(starts(k):starts(k)+39)
 end
 
 
 Y = fft(dataNew)
 
-
+Ytest = fft(data)
 
 
 
