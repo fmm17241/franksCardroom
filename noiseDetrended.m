@@ -193,6 +193,15 @@ for COUNT = 1:length(receiverData)
 end
 
 
+%Frank creating Ping Ratio, very rough measure of efficiency
+for COUNT = 1:length(receiverData)
+    detPings = receiverData{COUNT}.HourlyDets.*8;
+    receiverData{COUNT}.PingRatio = detPings./receiverData{COUNT}.Pings;
+end
+
+
+
+
 %%
 %Frank's testing which had the most pings/dets/noise to check hypothesis of
 %the reef being very loud
@@ -335,8 +344,9 @@ for COUNT = 1:length(receiverData)
     alpha = 0.05;
     tail  = 'right' ; % Left: Noise louder during nighttime; Right: Noise louder during daytime; Both: means are not equal.
     [r{COUNT},h{COUNT},p{COUNT},ci{COUNT}] = pointbiserial(d,x,alpha,tail)
+end
 
-
+for COUNT = 1:length(receiverData)
     X = receiverData{COUNT}.Noise;
     Y = receiverData{COUNT}.windSpd;
     [rho{COUNT},pval{COUNT}] = corr(X,Y,'rows','complete')
@@ -345,10 +355,42 @@ end
 
 %%
 %FRANK add windspd vs season and noise vs season
+%ANOVA
+for COUNT = 1:length(receiverData)
+    for SEASON = 1:5
+        currentIndex = receiverData{COUNT}.Season == SEASON;
+        
+        X = receiverData{COUNT}.Noise(currentIndex)
+        Y = receiverData{COUNT}.windSpd(currentIndex)
+
+        [rhoSSN(COUNT,SEASON),pvalSSN(COUNT,SEASON)] = corr(X,Y,'rows','complete')
+    end
+end
+        
+for COUNT = 1:length(receiverData)
+    for SEASON = 1:5
+        currentIndex = receiverData{COUNT}.Season == SEASON;
+
+        clearvars d x 
+        d = receiverData{COUNT}.daytime(currentIndex);
+        x = receiverData{COUNT}.Noise(currentIndex);
+        alpha = 0.05;
+        tail  = 'left' ; % Left: Noise louder during nighttime; Right: Noise louder during daytime; Both: means are not equal.
+        [rNightNoise{COUNT,SEASON},hNightNoise{COUNT,SEASON},pNightNoise{COUNT,SEASON},ciNightNoise{COUNT,SEASON}] = pointbiserial(d,x,alpha,tail)
+    end
+end
+
+
+
 
 %%
 %FRANK create ping ratio
-% 
+for COUNT = 1:length(receiverData)
+    X = receiverData{COUNT}.PingRatio;
+    Y = receiverData{COUNT}.windSpd;
+    [rho{COUNT},pval{COUNT}] = corr(X,Y,'rows','complete')
+end
+
 
 
 
