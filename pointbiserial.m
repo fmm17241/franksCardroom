@@ -21,6 +21,8 @@ function [r,h,p,ci] = pointbiserial(d,x,alpha,tail)
 %   hypothesis specified by TAIL: (taken from ttest2)
 %       'both'  -- "means are not equal" (two-tailed test)
 %       'right' -- "mean of X with D == 1 is greater than mean of X with D == 0" (right-tailed test)
+                   %Mean of NOISE with D == DAY (1) is greater than mean of
+                   %NOISE with D == NIGHT (0) (right tailed)
 %       'left'  -- "mean of X with D == 1 is less than mean of X with D == 0" (left-tailed test)
 %
 %   [R,H,P,STATS] = POINTBISERIAL(D,X,ALPHA,'np') performs a non-parametric Wilcoxon rank sum

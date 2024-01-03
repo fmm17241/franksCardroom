@@ -175,20 +175,19 @@ linkaxes([ax1 ax2 ax3 ax4],'x')
 %%
 % 1/2/24
 figure()
-tiledlayout(4,1,'TileSpacing',"compact")
+tiledlayout(3,1,'TileSpacing',"compact")
 ax1 = nexttile()
-plot(receiverData{4}.DT,receiverData{4}.NoiseDetrend,'r')
+plot(receiverData{4}.DT,receiverData{4}.Noise,'r')
 ylabel('HF Noise')
 hold on
-plot(receiverData{5}.DT,receiverData{5}.NoiseDetrend,'b')
+plot(receiverData{5}.DT,receiverData{5}.Noise,'b')
 yyaxis right
 scatter(receiverData{5}.DT,receiverData{5}.daytime,'k','filled')
 ylim([-0.1 1.1])
 yticks([0 1])
 yticklabels([{'Night'},{'Day'}])
 
-title('ON and OFF Reef Noise, Detrended (-mean)')
-
+title('ON and OFF Reef Noise')
 
 
 
@@ -208,16 +207,16 @@ title('Tidal Currents, Cross-shore','Positive: Ebb, Negative: Flood,')
 % legend('On Reef','Off Reef')
 
 
-ax4 = nexttile()
-plot(receiverData{4}.DT,receiverData{4}.bulkStrat,'r')
-hold on
-plot(receiverData{5}.DT,receiverData{5}.bulkStrat,'b')
-ylabel('Thermal Stratification')
-title('Bulk Stratification, On and Off Reef')
+% ax4 = nexttile()
+% plot(receiverData{4}.DT,receiverData{4}.bulkStrat,'r')
+% hold on
+% plot(receiverData{5}.DT,receiverData{5}.bulkStrat,'b')
+% ylabel('Thermal Stratification')
+% title('Bulk Stratification, On and Off Reef')
 
 
 
-linkaxes([ax1 ax2 ax3 ax4],'x')
+linkaxes([ax1 ax2 ax3],'x')
 
 %%
 %Checking tilt of BIG BOY LETS OGOOOGOFDFGODFKHBVLCHBM JDF MGBJ NCFJBM
