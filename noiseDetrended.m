@@ -322,27 +322,54 @@ X = receiverData{5}.HourlyDets;
 Y = receiverData{5}.windSpd;
 [rho,pval] = corr(X,Y,'rows','complete')
 
+%%
+%Frank tested "on and off reef", now do the same thing for all 13
+%transcievers blind; let's see if its obvious which ones are on reef and
+%which are not.
+
+
+for COUNT = 1:length(receiverData)
+    clearvars d x X Y
+    d = receiverData{COUNT}.daytime;
+    x = receiverData{COUNT}.Noise;
+    alpha = 0.05;
+    tail  = 'right' ; % Left: Noise louder during nighttime; Right: Noise louder during daytime; Both: means are not equal.
+    [r{COUNT},h{COUNT},p{COUNT},ci{COUNT}] = pointbiserial(d,x,alpha,tail)
+
+
+    X = receiverData{COUNT}.Noise;
+    Y = receiverData{COUNT}.windSpd;
+    [rho{COUNT},pval{COUNT}] = corr(X,Y,'rows','complete')
+end
 
 
 %%
+%FRANK add windspd vs season and noise vs season
+
+%%
+%FRANK create ping ratio
+% 
 
 
-coeffOn = corrcoef(receiverData{4}.Noise,receiverData{4}.daytime,'rows','complete')
-
-coeffOff = corrcoef(receiverData{5}.Noise,receiverData{5}.daytime,'rows','complete')
 
 
-
-
-fitDayOn = fitlm(receiverData{4}.Noise,receiverData{4}.daytime)
-fitDayOff = fitlm(receiverData{5}.Noise,receiverData{5}.daytime)
-
-fitSeasonOn = fitlm(receiverData{4}.Noise,receiverData{4}.Season)
-fitSeasonOff = fitlm(receiverData{5}.Noise,receiverData{5}.Season)
-
-fitPingOn = fitlm(receiverData{4}.Noise,receiverData{4}.Pings)
-fitPingOff = fitlm(receiverData{5}.Noise,receiverData{5}.Pings)
-
-fitWindOn = fitlm(receiverData{4}.Noise,receiverData{4}.windSpd)
-fitWindOff = fitlm(receiverData{5}.Noise,receiverData{5}.windSpd)
-
+% 
+% coeffOn = corrcoef(receiverData{4}.Noise,receiverData{4}.daytime,'rows','complete')
+% 
+% coeffOff = corrcoef(receiverData{5}.Noise,receiverData{5}.daytime,'rows','complete')
+% 
+% 
+% 
+% 
+% fitDayOn = fitlm(receiverData{4}.Noise,receiverData{4}.daytime)
+% fitDayOff = fitlm(receiverData{5}.Noise,receiverData{5}.daytime)
+% 
+% fitSeasonOn = fitlm(receiverData{4}.Noise,receiverData{4}.Season)
+% fitSeasonOff = fitlm(receiverData{5}.Noise,receiverData{5}.Season)
+% 
+% fitPingOn = fitlm(receiverData{4}.Noise,receiverData{4}.Pings)
+% fitPingOff = fitlm(receiverData{5}.Noise,receiverData{5}.Pings)
+% 
+% fitWindOn = fitlm(receiverData{4}.Noise,receiverData{4}.windSpd)
+% fitWindOff = fitlm(receiverData{5}.Noise,receiverData{5}.windSpd)
+% 
