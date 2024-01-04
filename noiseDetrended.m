@@ -281,6 +281,8 @@ quietStations = ['C','E','F','G','J','M']
 
 
 figure()
+tiledlayout(3,1,'TileSpacing',"compact")
+ax1 = nexttile()
 hold on
 for k = 1:length(receiverData)
     plot(receiverData{k}.DT,receiverData{k}.Noise)
@@ -288,14 +290,23 @@ end
 title('Hourly High-Frequency Noise')
 ylabel('HF Noise (mV)')
 
-
-figure()
+ax2 = nexttile()
 hold on
 for k = 1:length(receiverData)
     plot(receiverData{k}.DT,testingDetrend{k})
 end
 title('Hourly High-Frequency Noise','DeTrended, Removed Mean')
 ylabel('Detrended HF Noise (mV)')
+
+ax3 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.windSpd,'k','LineWidth',1.5)
+ylim([0 12])
+ylabel('Windspeed (m/s)')
+title('Windspeed')
+
+linkaxes([ax1 ax2 ax3],'x')
+
+
 
 %%
 

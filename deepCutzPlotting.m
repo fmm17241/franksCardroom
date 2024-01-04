@@ -148,7 +148,6 @@ plot(receiverData{4}.DT,receiverData{4}.windSpd,'k','LineWidth',1.5)
 ylim([0 12])
 ylabel('Windspeed (m/s)')
 
-linkaxes([ax1 ax2 ax3],'x')
 title('Windspeed')
 
 ax3 = nexttile()
