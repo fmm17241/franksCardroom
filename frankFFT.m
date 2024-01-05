@@ -462,7 +462,8 @@ ylabel("|P1(f)|")
 
 
 
-
+%%
+FRANK you need to use pwelch() and buffer() and filtfilt(). Buffer makes the windows and does the zero padding, makes life a lot easier
 
 
 
