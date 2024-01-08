@@ -130,6 +130,9 @@ title('','14 Day')
 [structContext{1}, xoutContext{1}] = t_tide(WL{1},'interval', 0.1, 'start time', DN{1}(1,1),'latitude',35.760) % Tidal Predictions, estimated Lat and DT given, 30 days
 [structContext{2}, xoutContext{2}] = t_tide(WL{2},'interval', 0.1, 'start time', DN{1}(1,1),'latitude',35.760) % Tidal Predictions, estimated Lat and DT given, 15 days
 [structContext{3}, xoutContext{3}] = t_tide(WL{3},'interval', 0.1, 'start time', DN{1}(1,1),'latitude',35.760) % Tidal Predictions, estimated Lat and DT given, 14 days
+% [structContext{1}, xoutContext{1}] = t_tide(WL{1},'interval', 0.1, 'start time', DN{1}(1,1),'latitude',52.760) % Tidal Predictions, estimated Lat and DT given, 30 days
+% [structContext{2}, xoutContext{2}] = t_tide(WL{2},'interval', 0.1, 'start time', DN{1}(1,1),'latitude',52.760) % Tidal Predictions, estimated Lat and DT given, 15 days
+% [structContext{3}, xoutContext{3}] = t_tide(WL{3},'interval', 0.1, 'start time', DN{1}(1,1),'latitude',52.760) % Tidal Predictions, estimated Lat and DT given, 14 days
 
 
 x30 = 1:length(xout{1}); x15 = 1:length(xout{2}); x14 = 1:length(xout{3}); % Time/X-axis for plotting tidal predictions, 30/15/14 day length
@@ -155,19 +158,20 @@ figure()
 tiledlayout(3,1,'TileSpacing',"compact")
 
 ax1 = nexttile()
-plot(x30,WL{1},'b');
+plot(x15,WL{2},'b');
 title('Original Waterlevel')
 
 ax2 = nexttile()
-plot(x30,xout{1},'r')
+plot(x15,xout{2},'r')
 title('Prediction, no DT/Lat')
 
 ax3 = nexttile()
-plot(x30,xoutContext{1},'r')
+plot(x15,xoutContext{2},'r')
 title('Prediction, added DT/Lat')
 
 
 linkaxes([ax1 ax2 ax3],'x')
+
 
 %%
 % c. Generate synthetic time series to test
