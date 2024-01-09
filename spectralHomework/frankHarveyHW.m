@@ -4,7 +4,8 @@
 % Step 1: Load in data, format it the way I want.
 
 %Working Directory
-cd 'C:\Users\fmm17241\OneDrive - University of Georgia\harveyNotes\hwdata'
+% cd 'C:\Users\fmm17241\OneDrive - University of Georgia\harveyNotes\hwdata'
+cd 'C:\Users\fmac4\OneDrive - University of Georgia\harveyNotes\hwdata'
 
 %Load in data
 %Year, month, day, hour, minute, second
@@ -218,7 +219,7 @@ for COUNT = 1:3
     xlabel("f (Hz)")
     ylabel("|fft(X)|")
     set(gca,'XScale','log')
-    % set(gca,'YScale','log')
+    set(gca,'YScale','log')
 
 end
 

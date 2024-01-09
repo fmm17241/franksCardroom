@@ -404,25 +404,3 @@ end
 
 
 
-
-
-% 
-% coeffOn = corrcoef(receiverData{4}.Noise,receiverData{4}.daytime,'rows','complete')
-% 
-% coeffOff = corrcoef(receiverData{5}.Noise,receiverData{5}.daytime,'rows','complete')
-% 
-% 
-% 
-% 
-% fitDayOn = fitlm(receiverData{4}.Noise,receiverData{4}.daytime)
-% fitDayOff = fitlm(receiverData{5}.Noise,receiverData{5}.daytime)
-% 
-% fitSeasonOn = fitlm(receiverData{4}.Noise,receiverData{4}.Season)
-% fitSeasonOff = fitlm(receiverData{5}.Noise,receiverData{5}.Season)
-% 
-% fitPingOn = fitlm(receiverData{4}.Noise,receiverData{4}.Pings)
-% fitPingOff = fitlm(receiverData{5}.Noise,receiverData{5}.Pings)
-% 
-% fitWindOn = fitlm(receiverData{4}.Noise,receiverData{4}.windSpd)
-% fitWindOff = fitlm(receiverData{5}.Noise,receiverData{5}.windSpd)
-% 
