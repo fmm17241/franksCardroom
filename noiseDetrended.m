@@ -391,16 +391,48 @@ for COUNT = 1:length(receiverData)
     end
 end
 
-
-
-
 %%
 %FRANK create ping ratio
-for COUNT = 1:length(receiverData)
-    X = receiverData{COUNT}.PingRatio;
-    Y = receiverData{COUNT}.windSpd;
-    [rho{COUNT},pval{COUNT}] = corr(X,Y,'rows','complete')
+% for COUNT = 1:length(receiverData)
+%     X = receiverData{COUNT}.PingRatio;
+%     Y = receiverData{COUNT}.windSpd;
+%     [rho{COUNT},pval{COUNT}] = corr(X,Y,'rows','complete')
+% end
+%%
+% Okay. FFT
+% Using: receiverData{1-13}.Noise, Detections, yup
+
+%What I'm looking at. Starting with just one transceiver's data
+signalNoise = receiverData{4}.Noise;
+
+signalProcessed{1} = buffer(signalNoise,40,20);  
+signalProcessed{1} = padarray(signalProcessed{1},length(signalProcessed{1})*2,'post');
+
+
+Y{1} = fft(signalProcessed{1})           % 30 day sample
+L{1} = length(signalProcessed{1})        % 30 day: 30 days *24 hours *10 samples per hour
+magnitude{1} = abs(Y{1});
+averageWindowOutput(:,1) = mean(Y{1},2);
+
+
+
+%Set up FFT variables
+Fs = (2*pi)/(6*60);            % Sampling frequency, 1 sample every 6 minutes. Added 2pi.
+
+for COUNT = 1:3
+    figure(COUNT)
+    plot(Fs/L{COUNT}*(0:L{COUNT}-1),abs(averageWindowOutput(:,COUNT)),'r',"LineWidth",3)
+    title("", "FFT Output, Log")
+    xlabel("f (Hz)")
+    ylabel("|fft(X)|")
+    set(gca,'XScale','log')
+    set(gca,'YScale','log')
 end
+
+
+
+
+
 
 
 
