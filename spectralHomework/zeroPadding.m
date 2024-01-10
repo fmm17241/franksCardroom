@@ -4,8 +4,8 @@
 % Step 1: Load in data, format it the way I want.
 
 %Working Directory
-% cd 'C:\Users\fmm17241\OneDrive - University of Georgia\harveyNotes\hwdata'
-cd 'C:\Users\fmac4\OneDrive - University of Georgia\harveyNotes\hwdata'
+cd 'C:\Users\fmm17241\OneDrive - University of Georgia\harveyNotes\hwdata'
+% cd 'C:\Users\fmac4\OneDrive - University of Georgia\harveyNotes\hwdata'
 
 %Load in data
 %Year, month, day, hour, minute, second
@@ -81,8 +81,6 @@ for COUNT = 1:3
 end
 
 
-
-
 %Frank figuring out "buffer()" to use windowing & zero-padding
 % Y = buffer(X,N,P)
 %X = signal;
@@ -98,4 +96,19 @@ test = fft(windowData,lengthPad);
 
 % Discrete Fourier Series coefficients:
 DFS = fft(windowData)/N
+
+
+%Brock code to work on and test
+PS = Power_spectra(signalNoise',80,0,1,1,0)
+
+
+
+
+
+
+
+
+
+
+
 

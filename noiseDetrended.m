@@ -401,37 +401,42 @@ cd ([oneDrive,'exportedfigures\NoiseTesting'])
 %%
 %FFT
 % Using: receiverData{1-13}.Noise, Detections, yup
-clearvars -except receiverData
+clearvars -except receiverData oneDrive githubToolbox
 %What I'm looking at. Starting with just one transceiver's data
-signalNoise = receiverData{4}.Noise;
-
+for COUNT = 1:length(receiverData)
+    signalNoise{COUNT} = receiverData{COUNT}.Noise;
+    signalDets{COUNT}  = receiverData{COUNT}.HourlyDets;
+    signalPingRatio{COUNT} = receiverData{COUNT}.PingRatio;
+end
 
 %This cuts the entire year+ dataset into 40 hour chunks
-signalProcessed{1} = buffer(signalNoise,40,20);  
+for COUNT =  1:length(receiverData)
+    signalNoiseProcessed{COUNT} = buffer(signalNoise{COUNT},40,20);  
+    signalNoiseProcessed{COUNT} = padarray(signalNoiseProcessed{COUNT},height(signalNoiseProcessed{COUNT})*2,'post');
+end
 
 %This zero pads, adding 0s to the end of the signals to better resolve
 %frequencies, tripling the length 
-signalProcessed{1} = padarray(signalProcessed{1},height(signalProcessed{1})*2,'post');
+
+
 
 %Set up FFT variables
 Fs = (2*pi)/(60*60);            % Sampling frequency, 1 sample every 60 minutes. Added 2pi.
 FsPerDay = Fs*86400;
 
 
-Y{1} = fft(signalProcessed{1})              % FFT of the processed signals 
-L{1} = length(signalProcessed{1})        % Length of signal
+Y{1} = fft(signalNoiseProcessed{1})              % FFT of the processed signals 
+L{1} = height(signalNoiseProcessed{1})        % Length of signal
 magnitude{1} = abs(Y{1});
 averageWindowOutput(:,1) = mean(Y{1},2); %Averaging all my windows
 
-figure()
-plot(signalProcessed{1})
 
 %Raw data
-rawSignalProcess = fft(signalNoise)*Fs;
+rawSignalProcess = fft(signalNoise{1})*Fs;
 for COUNT = 1
     figure(COUNT)
-    plot(FsPerDay/L{1}*(0:L{1}-1),abs(rawSignalProcess.*conj(rawSignalProcess)),'r',"LineWidth",3)
-    
+    % plot(FsPerDay/L{1}*(0:L{1}-1),abs(rawSignalProcess.*conj(rawSignalProcess)),'r',"LineWidth",3)
+    plot(FsPerDay/L{COUNT}*(0:L{COUNT}-1),abs(averageWindowOutput),'r',"LineWidth",3)    
     title("", "FFT Output, Log")
     xlabel("f (Hz)")
     ylabel("|fft(X)|")
