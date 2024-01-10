@@ -17,14 +17,19 @@ dateArray = [year', month', day', hour', minute', second'];
 %30 Day Chunk
 DT{1} = datetime(dateArray); DN{1} = datenum(DT{1}); %Full 30 days
 WL{1} = wl;     %Full 30 days, Data
+WLprocessed{1} = buffer(WL{1},400);  WLprocessed{1} = padarray(WLprocessed{1},length(WLprocessed{1})*2,'post');
+
 
 %15 Day Chunk
 DT{2} = DT{1}(1:3600); DN{2} = DN{1}(1:3600); % 15 days
 WL{2} = wl(1:3600);  % 15 days, Data
+WLprocessed{2} = buffer(WL{2},400); WLprocessed{2} = padarray(WLprocessed{2},length(WLprocessed{2})*2,'post');
+
 
 %14 Day Chunk
 DT{3} = DT{1}(1:3360); DN{3} = DN{1}(1:3360); %14 days
 WL{3} = wl(1:3360); % 14 days, Data
+WLprocessed{3} = buffer(WL{3},400); WLprocessed{3} = padarray(WLprocessed{3},length(WLprocessed{3})*2,'post');
 
 
 figure()
@@ -58,14 +63,20 @@ ylabel("Waterlevel (m)")
 Y{1} = fft(WL{1})           % 30 day sample
 L{1} = 7180                 % 30 day: 30 days *24 hours *10 samples per hour
 magnitude{1} = abs(Y{1});
+averageWindowOutput(:,1) = mean(Y{1},2);
+
 %
 Y{2} = fft(WL{2})           % 15 day sample
 L{2} = 3600                 % 15 day: 15 days *24 hours *10 samples per hour
 magnitude{2} = abs(Y{2});
+averageWindowOutput(:,2) = mean(Y{2},2);
+
 %
 Y{3} = fft(WL{3})           % 14 day sample
 L{3} = 3360                 % 14 day: 14 days *24 hours *10 samples per hour
 magnitude{3} = abs(Y{3});
+averageWindowOutput(:,3) = mean(Y{3},2);
+
 
 %Set up FFT variables
 Fs = (2*pi)/(6*60);            % Sampling frequency, 1 sample every 6 minutes. Added 2pi.
@@ -239,6 +250,19 @@ test = fft(windowData,lengthPad);
 
 % Discrete Fourier Series coefficients:
 DFS = fft(windowData)/N
+
+
+
+%Frank figuring out "buffer()" to use windowing & zero-padding
+% Y = buffer(X,N,P)
+%X = signal;
+
+%%
+
+%Brock code to work on and test
+PS = Power_spectra(WL{1},(40*6),0,0,0.1,0)
+
+
 
 
 

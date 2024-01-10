@@ -463,6 +463,8 @@ PS = Power_spectra(signalNoise',80,0,1,1,0)
 
 
 
+figure()
+plot(FsPerDay/L{COUNT}*(0:L{COUNT}-1),PS.psdf)
 
 
 
