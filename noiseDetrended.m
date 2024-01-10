@@ -401,10 +401,9 @@ cd ([oneDrive,'exportedfigures\NoiseTesting'])
 %%
 %FFT
 % Using: receiverData{1-13}.Noise, Detections, yup
-
+clearvars -except receiverData
 %What I'm looking at. Starting with just one transceiver's data
 signalNoise = receiverData{4}.Noise;
-L = length(signalNoise);
 
 
 %This cuts the entire year+ dataset into 40 hour chunks
@@ -412,7 +411,7 @@ signalProcessed{1} = buffer(signalNoise,40,20);
 
 %This zero pads, adding 0s to the end of the signals to better resolve
 %frequencies, tripling the length 
-% signalProcessed{1} = padarray(signalProcessed{1},length(signalProcessed{1})*2,'post');
+signalProcessed{1} = padarray(signalProcessed{1},height(signalProcessed{1})*2,'post');
 
 %Set up FFT variables
 Fs = (2*pi)/(60*60);            % Sampling frequency, 1 sample every 60 minutes. Added 2pi.
@@ -431,7 +430,7 @@ plot(signalProcessed{1})
 rawSignalProcess = fft(signalNoise)*Fs;
 for COUNT = 1
     figure(COUNT)
-    plot(FsPerDay/L*(0:L-1),abs(rawSignalProcess.*conj(rawSignalProcess)),'r',"LineWidth",3)
+    plot(FsPerDay/L{1}*(0:L{1}-1),abs(rawSignalProcess.*conj(rawSignalProcess)),'r',"LineWidth",3)
     
     title("", "FFT Output, Log")
     xlabel("f (Hz)")
