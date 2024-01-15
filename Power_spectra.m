@@ -37,12 +37,12 @@ end
 
 for n = 1 : overlaps
 
-dumdataA = denan(aa,datainA(1+(n-1)*k/2:(n+1)*k/2),cutoff);%define sub-blocks to be ffted
-
-if DT == 1
-dumdataA = detrend(dumdataA);%take out trend
-else
-dumdataA = dumdataA-mean(dumdataA);%take out the mean
+    dumdataA = denan(aa,datainA(1+(n-1)*k/2:(n+1)*k/2),cutoff);%define sub-blocks to be ffted
+    
+    if DT == 1
+    dumdataA = detrend(dumdataA);%take out trend
+    else
+    dumdataA = dumdataA-mean(dumdataA);%take out the mean
 end
 
 if windoww == 1
