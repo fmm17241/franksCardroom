@@ -1,4 +1,5 @@
 stationWindsAnalysis
+stationTidalAnalysis
 
 
 %Load in the detection files
@@ -198,4 +199,47 @@ for COUNT = 1:length(receiverData)
     detPings = receiverData{COUNT}.HourlyDets.*8;
     receiverData{COUNT}.PingRatio = detPings./receiverData{COUNT}.Pings;
 end
+
+%Adds predicted tidal currents to data
+for COUNT = 1:length(receiverData)
+    fullTideIndex{COUNT} = isbetween(tideDT,receiverData{COUNT}.DT(1,1),receiverData{COUNT}.DT(end,1),'closed');
+    receiverData{COUNT}.crossShore(:,1) = crossShore(fullTideIndex{COUNT})';
+    receiverData{COUNT}.alongShore(:,1) = alongShore(fullTideIndex{COUNT})';
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

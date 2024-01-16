@@ -10,12 +10,71 @@ for COUNT = 1:length(receiverData)
     signalDets{COUNT}   =   receiverData{COUNT}.HourlyDets;
     signalPings{COUNT}  =   receiverData{COUNT}.Pings;
     signalWinds{COUNT}  =   receiverData{COUNT}.windSpd;
+    signalCrossTides{COUNT}  =  receiverData{COUNT}.crossShore;
 end
 
 %%
+        
+%Frank's using the cross-shore tidal predictions to test his FFT skills.
+%Let's see.
 
-Fs = (2*pi)/(60*60);            % Sampling frequency, 1 sample every 60 minutes. Added 2pi.
-FsPerDay = Fs*86400;
+Fs = (2*pi)/(60*60);            % Sampling frequency, 1 sample every 60 minutes. Added 2pi; this is per second, Hz
+FsPerDay = Fs*86400;            % This turns it to how many times per day
+
+
+tideStruct = Power_spectra(signalCrossTides{5}',1,0,0,3600,0)
+
+figure()
+plot(tideStruct.f*86400,tideStruct.s)
+set(gca,'XScale','log')
+set(gca,'YScale','log')
+title('Per Day, PSDF')
+%
+tideStruct2 = Power_spectra(signalCrossTides{5}',361,0,0,3600,0)
+
+figure()
+plot(tideStruct2.f*86400,tideStruct2.s)
+set(gca,'XScale','log')
+set(gca,'YScale','log')
+title('FFT Analysis: Cross-Shore Tides','Per-Day, 361 Windows (Roughly 40 hrs)')
+
+Noisestruct3 = Power_spectra(signalNoise{5}',8,1,0,3600,0)
+detectionStruct3 = Power_spectra(signalDets{5}',8,1,0,3600,0)
+
+figure()
+tiledlayout(2,1)
+nexttile()
+plot(Noisestruct3.f*86400,Noisestruct3.psdw)
+set(gca,'XScale','log')
+set(gca,'YScale','log')
+title('FFT Analysis: HF Noise','Per-Day, 8 Windows (Roughly 75 days), Detrended')
+
+nexttile()
+plot(detectionStruct3.f*86400,detectionStruct3.psdw)
+set(gca,'XScale','log')
+set(gca,'YScale','log')
+title('FFT Analysis: Detections','Per-Day, 8 Windows (Roughly 75 days), Detrended')
+
+
+%%
+Noisestruct4 = Power_spectra(signalNoise{1}',8,1,0,3600,0)
+detectionStruct4 = Power_spectra(signalDets{1}',8,1,0,3600,0)
+
+figure()
+tiledlayout(2,1,'TileSpacing','compact')
+nexttile()
+plot(Noisestruct4.f*86400,Noisestruct4.psdw)
+set(gca,'XScale','log')
+set(gca,'YScale','log')
+title('FFT Analysis: HF Noise','Per-Day, 8 Windows (Roughly 75 days), Detrended')
+
+nexttile()
+plot(detectionStruct4.f*86400,detectionStruct4.psdw)
+set(gca,'XScale','log')
+set(gca,'YScale','log')
+title('FFT Analysis: Detections','Per-Day, 8 Windows (Roughly 75 days), Detrended')
+
+%%
 
 
 

@@ -65,12 +65,12 @@ UVOrder    = [1,2,3,4,6,26];% Full tides for consideration
 %     struct.tidecon(tTideOrder,5),UVOrder,datetide,0.5,419);
 
 [timePrediction,ut,vt] = uvpred(struct.tidecon(tTideOrder,1),struct.tidecon(tTideOrder,3),struct.tidecon(tTideOrder,7),...
-    struct.tidecon(tTideOrder,5),UVOrder,datetide,1,439);
+    struct.tidecon(tTideOrder,5),UVOrder,datetide,1,650);
 
 %Create timing for our tidal predictions.
 
 % tideDN=datenum(2019,11,09):0.5/24:datenum(2021,1,01);
-tideDN=datenum(2019,11,09):1/24:datenum(2021,1,21);
+tideDN=datenum(2019,11,09):1/24:datenum(2021,8,20);
 
 tideDT=datetime(tideDN,'ConvertFrom','datenum','TimeZone','UTC')';
 
