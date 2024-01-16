@@ -14,13 +14,45 @@ end
 
 %%
 
+Fs = (2*pi)/(60*60);            % Sampling frequency, 1 sample every 60 minutes. Added 2pi.
+FsPerDay = Fs*86400;
+
+
+
 for COUNT = 1:length(receiverData)
-    outputStructure{COUNT} = Power_spectra(signalNoise{COUNT}',2,0,0,3600,0)
+    struct{COUNT} = Power_spectra(signalNoise{COUNT}',2,0,0,3600,0)
+end
+
+for COUNT = 1:length(receiverData)
+    figure()
+    plot(struct{COUNT}.f*86400,struct{COUNT}.psdf)
+    set(gca,'XScale','log')
+    set(gca,'YScale','log')
+    title(sprintf('%d, Per Day, PSDF',COUNT))
+
+    figure()
+    plot(struct{COUNT}.f*86400,struct{COUNT}.psdw)
+    set(gca,'XScale','log')
+    set(gca,'YScale','log')
+    title(sprintf('%d, Per Day, PSDW',COUNT))
+
+    figure()
+    plot(struct{COUNT}.f*86400,struct{COUNT}.v)
+    set(gca,'XScale','log')
+    set(gca,'YScale','log')
+    title(sprintf('%d, Per Day, V',COUNT))
+
+
 end
 
 
-figure()
-plot(FsPerDay/L{COUNT}*(0:L{COUNT}-1),outputStructure.psdf)
+
+
+
+for COUNT = 1:length(receiverData)
+    figure()
+    plot(FsPerDay/L{COUNT}*(0:L{COUNT}-1),struct.psdf)
+end
 
 
 
