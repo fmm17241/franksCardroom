@@ -12,6 +12,25 @@ for COUNT = 1:length(receiverData)
     signalWinds{COUNT}  =   receiverData{COUNT}.windSpd;
 end
 
+%%
+
+for COUNT = 1:length(receiverData)
+    outputStructure{COUNT} = Power_spectra(signalNoise{COUNT}',2,0,0,3600,0)
+end
+
+
+figure()
+plot(FsPerDay/L{COUNT}*(0:L{COUNT}-1),outputStructure.psdf)
+
+
+
+
+
+
+
+
+%%
+%Set up FFT variables
 Fs = (2*pi)/(60*60);            % Sampling frequency, 1 sample every 60 minutes. Added 2pi.
 FsPerDay = Fs*86400;
 
@@ -26,7 +45,7 @@ end
 for COUNT = 1:length(receiverData)
     figure(COUNT)
     % plot(FsPerDay/L{1}*(0:L{1}-1),abs(rawSignalProcess.*conj(rawSignalProcess)),'r',"LineWidth",3)
-    plot(FsPerDay/L{COUNT}*(0:L{COUNT}-1),abs(averageWindowOutput{COUNT}),'r',"LineWidth",3)    
+    plot(FsPerDay/L{COUNT}*(0:L{COUNT}-1),abs(Y{COUNT}),'r',"LineWidth",3)    
     title("", "FFT Output, Log")
     xlabel("f (Hz)")
     ylabel("|fft(X)|")
@@ -37,7 +56,7 @@ end
 
 %%
 %Processing
-
+clearvars Y L magnitude averageWindowOutput
 for COUNT =  1:length(receiverData)
     signalNoiseProcessed{COUNT} = buffer(signalNoise{COUNT},40,20);  
     signalNoiseProcessed{COUNT} = padarray(signalNoiseProcessed{COUNT},height(signalNoiseProcessed{COUNT})*2,'post');
@@ -62,19 +81,6 @@ for COUNT = 1:length(receiverData)
     set(gca,'XScale','log')
     set(gca,'YScale','log')
 end
-
-
-
-
-PS = Power_spectra(signalNoise',1,0,0,3600,0)
-%Why is there only 20 bins?
-
-%Set up FFT variables
-
-
-figure()
-plot(FsPerDay/L{COUNT}*(0:L{COUNT}-1),PS.psdf)
-
 
 
 
