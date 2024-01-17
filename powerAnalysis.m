@@ -18,62 +18,55 @@ end
 %Frank's using the cross-shore tidal predictions to test his FFT skills.
 %Let's see.
 
-Fs = (2*pi)/(60*60);            % Sampling frequency, 1 sample every 60 minutes. Added 2pi; this is per second, Hz
-FsPerDay = Fs*86400;            % This turns it to how many times per day
+
+% Receiver 1, so 7760 hours total
+% # of hours (or days) / bins
+% whole Dataset / 1 bin
+% 60 days / 6 bins
+% 30 days / 11 bins
+% 14 days / 23 bins
+% 10 days / 33 bins
+% 7 days / 47 bins
+% 40 hours / 194 bins
 
 
-tideStruct = Power_spectra(signalCrossTides{5}',1,0,0,3600,0)
+orderUp = [1;11;33;47;194]; %Whole time, 30 day, 10 day, 7 day, and 40 hours
+sizes   = [{'WHOLE'};{'30 Days'};{'10 Days'};{'7 Days'};{'40 Hours'}];
+
 
 figure()
-plot(tideStruct.f*86400,tideStruct.s)
-set(gca,'XScale','log')
-set(gca,'YScale','log')
-title('Per Day, PSDF')
+tiledlayout(length(orderUp),1)
+for COUNT = 1:length(orderUp)
+noiseStruct{COUNT} = Power_spectra(signalNoise{1}',orderUp(COUNT),1,1,3600,0)
 %
-tideStruct2 = Power_spectra(signalCrossTides{5}',361,0,0,3600,0)
+nexttile()
+plot(noiseStruct{COUNT}.f*86400,noiseStruct{COUNT}.psdw)
+xlim([0.7 12])
+set(gca,'XScale','log')
+set(gca,'YScale','log')
+title(sprintf('FFT Analysis: HF Noise, %s',sizes{COUNT}),'Windowed, Detrended')
+end
+
 
 figure()
-plot(tideStruct2.f*86400,tideStruct2.s)
-set(gca,'XScale','log')
-set(gca,'YScale','log')
-title('FFT Analysis: Cross-Shore Tides','Per-Day, 361 Windows (Roughly 40 hrs)')
-
-Noisestruct3 = Power_spectra(signalNoise{5}',8,1,0,3600,0)
-detectionStruct3 = Power_spectra(signalDets{5}',8,1,0,3600,0)
-
-figure()
-tiledlayout(2,1)
+tiledlayout(length(orderUp),1)
+for COUNT = 1:length(orderUp)
+detectionStruct{COUNT} = Power_spectra(signalDets{1}',orderUp(COUNT),1,1,3600,0)
+%
 nexttile()
-plot(Noisestruct3.f*86400,Noisestruct3.psdw)
+plot(detectionStruct{COUNT}.f*86400,detectionStruct{COUNT}.psdw)
+xlim([0.7 12])
 set(gca,'XScale','log')
 set(gca,'YScale','log')
-title('FFT Analysis: HF Noise','Per-Day, 8 Windows (Roughly 75 days), Detrended')
+title(sprintf('FFT Analysis: Detections, %s',sizes{COUNT}),'Windowed, Detrended')
+end
 
-nexttile()
-plot(detectionStruct3.f*86400,detectionStruct3.psdw)
-set(gca,'XScale','log')
-set(gca,'YScale','log')
-title('FFT Analysis: Detections','Per-Day, 8 Windows (Roughly 75 days), Detrended')
+
 
 
 %%
-Noisestruct4 = Power_spectra(signalNoise{1}',8,1,0,3600,0)
-detectionStruct4 = Power_spectra(signalDets{1}',8,1,0,3600,0)
-
-figure()
-tiledlayout(2,1,'TileSpacing','compact')
-nexttile()
-plot(Noisestruct4.f*86400,Noisestruct4.psdw)
-set(gca,'XScale','log')
-set(gca,'YScale','log')
-title('FFT Analysis: HF Noise','Per-Day, 8 Windows (Roughly 75 days), Detrended')
-
-nexttile()
-plot(detectionStruct4.f*86400,detectionStruct4.psdw)
-set(gca,'XScale','log')
-set(gca,'YScale','log')
-title('FFT Analysis: Detections','Per-Day, 8 Windows (Roughly 75 days), Detrended')
-
+Fs = (2*pi)/(60*60);            % Sampling frequency, 1 sample every 60 minutes. Added 2pi; this is per second, Hz
+FsPerDay = Fs*86400;            % This turns it to how many times per day
 %%
 
 
