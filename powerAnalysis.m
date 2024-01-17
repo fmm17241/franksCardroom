@@ -167,10 +167,33 @@ for COUNT = 1:length(receiverData)
 end
 
 
+%%
+% Passing shit
+wpass = (2*pi)/172800;
+Fs = (2*pi)/3600 %Frequency, hertz
+bandWork = [(2*pi)/2592000 (2*pi)/172800]
+
+bandpass(signalNoise{1},bandWork,Fs)
+
+%
+mscohere(signalNoise{5},signalCrossTides{5})
 
 
 
 
+% Filter white noise sampled at 1 kHz with a bandpass filter with
+% passband frequencies of [150, 350] Hz. Use different steepness values.
+% Plot the spectra of the filtered signals as well as the responses
+% of the resulting filters. 
+Fs = 1000;
+x = randn(2000,1);
+[y1, D1] = bandpass(x,[150,350],Fs,'Steepness',0.5);
+[y2, D2] = bandpass(x,[150,350],Fs,'Steepness',0.8);
+[y3, D3] = bandpass(x,[150,350],Fs,'Steepness',0.95);
+pspectrum([y1 y2 y3], Fs)
+legend('Steepness = 0.5','Steepness = 0.8','Steepness = 0.95')
+fvt = fvtool(D1,D2,D3);
+legend(fvt,'Steepness = 0.5','Steepness = 0.8','Steepness = 0.95')
 
 
 
