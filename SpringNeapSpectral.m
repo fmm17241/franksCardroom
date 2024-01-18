@@ -47,10 +47,34 @@ title('Finding Strong and Weak Tides')
 
 
 situationArray = [{weakWinter};{weakSummer};{strongWinter};{strongSummer}]
-
+arrayDescrip = [{'Winter, Weak tides'};{'Summer, Weak tides'};{'Winter, Strong tides'};{'Summer, Strong tides'}];
 
 
 %%
 % Okay: FFT from strong and weak tides
+for COUNT = 1:length(situationArray)
+    detectionStruct{COUNT} = Power_spectra(situationArray{COUNT}.HourlyDets',1,1,1,3600,0)
+end
+
+
+figure()
+tiledlayout(length(detectionStruct),1)
+for COUNT = 1:length(detectionStruct)
+    nexttile()
+    plot(detectionStruct{COUNT}.f*86400,detectionStruct{COUNT}.psdw)
+    % xlim([0.7 12])
+    % set(gca,'XScale','log')
+    % set(gca,'YScale','log')
+    title(sprintf('FFT Analysis: Detections, %s',arrayDescrip{COUNT}),'Windowed, Detrended')
+    ylim([0 10000000000])
+end
+
+
+
+
+
+
+
+
 
 
