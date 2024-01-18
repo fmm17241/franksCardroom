@@ -65,8 +65,8 @@ for COUNT = 1:length(detectionStruct)
     nexttile()
     plot(detectionStruct{COUNT}.f*86400,detectionStruct{COUNT}.psdw)
     % xlim([0.7 12])
-    % set(gca,'XScale','log')
-    % set(gca,'YScale','log')
+    set(gca,'XScale','log')
+    set(gca,'YScale','log')
     title(sprintf('FFT Analysis: Detections, %s',arrayDescrip{COUNT}),'No Window, Detrended')
     % ylim([0 18000000000])
     xlim([0 6])
@@ -78,8 +78,8 @@ for COUNT = 1:length(situationArray)
     nexttile()
     plot(noiseStruct{COUNT}.f*86400,noiseStruct{COUNT}.psdw)
     % xlim([0.7 12])
-    % set(gca,'XScale','log')
-    % set(gca,'YScale','log')
+    set(gca,'XScale','log')
+    set(gca,'YScale','log')
     title(sprintf('FFT Analysis: Noise, %s',arrayDescrip{COUNT}),'No Window, Detrended')
     % ylim([0 20000000000000])
     xlim([0 6])
@@ -91,8 +91,8 @@ for COUNT = 1:length(situationArray)
     nexttile()
     plot(tideStruct{COUNT}.f*86400,tideStruct{COUNT}.psdw)
     % xlim([0.7 12])
-    % set(gca,'XScale','log')
-    % set(gca,'YScale','log')
+    set(gca,'XScale','log')
+    set(gca,'YScale','log')
     title(sprintf('FFT Analysis: X-Shore Tides, %s',arrayDescrip{COUNT}),'No Window, Detrended')
     % ylim([0 2000000000])
     xlim([0 6])
@@ -100,7 +100,8 @@ end
 
 
 
-
+%%
+%FRANK FIND UNITS, SPEND ALL NIGHT FIGURING OUT THE FUCKING UNITS PLEASE
 
 
 
