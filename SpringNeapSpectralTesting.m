@@ -17,19 +17,19 @@ title('Finding Strong and Weak Tides')
 weaksignalWDT = receiverData{1}.DT(728:847);
 weaksignalW = receiverData{1}.crossShore(728:847);
 weakWinter = receiverData{1}(728:847,:);
-%Winter Strong: Mar 8 - Mar 14
-strongsignalWDT = receiverData{1}.DT(920:1087);
-strongsignalW = receiverData{1}.crossShore(920:1087);
-strongWinter = receiverData{1}(920:1087,:);
+%Winter Strong: Mar 8 - Mar 12
+strongsignalWDT = receiverData{1}.DT(920:1039);
+strongsignalW = receiverData{1}.crossShore(920:1039);
+strongWinter = receiverData{1}(920:1039,:);
 %Summer Weak: weak weak tides Aug 8 - Aug 15
-%Summer strong: Jun 03 - Jun 08
-strongsignalSDT = receiverData{1}.DT(3008:3151);
-strongsignalS = receiverData{1}.crossShore(3008:3151);
-strongSummer = receiverData{1}(3008:3151,:);
-%Summer weak: Jul 12 - Jul 17
-weaksignalSDT = receiverData{1}.DT(3224:3367);
-weaksignalS = receiverData{1}.crossShore(3224:3367);
-weakSummer = receiverData{1}(3224:3367,:);
+%Summer strong: Jun 03 - Jun 07
+strongsignalSDT = receiverData{1}.DT(3008:3127);
+strongsignalS = receiverData{1}.crossShore(3008:3127);
+strongSummer = receiverData{1}(3008:3127,:);
+%Summer weak: Jul 12 - Jul 16
+weaksignalSDT = receiverData{1}.DT(3224:3343);
+weaksignalS = receiverData{1}.crossShore(3224:3343);
+weakSummer = receiverData{1}(3224:3343,:);
 %Summer middle: Jul 20 - Jul 25
 %Weak: Sep 8 - Sep 13
 
@@ -68,7 +68,8 @@ for COUNT = 1:length(detectionStruct)
     % set(gca,'XScale','log')
     % set(gca,'YScale','log')
     title(sprintf('FFT Analysis: Detections, %s',arrayDescrip{COUNT}),'No Window, Detrended')
-    ylim([0 20000000000])
+    % ylim([0 18000000000])
+    xlim([0 6])
 end
 
 figure()
@@ -80,7 +81,7 @@ for COUNT = 1:length(situationArray)
     % set(gca,'XScale','log')
     % set(gca,'YScale','log')
     title(sprintf('FFT Analysis: Noise, %s',arrayDescrip{COUNT}),'No Window, Detrended')
-    ylim([0 20000000000000])
+    % ylim([0 20000000000000])
     xlim([0 6])
 end
 
@@ -88,12 +89,13 @@ figure()
 tiledlayout(length(situationArray),1)
 for COUNT = 1:length(situationArray)
     nexttile()
-    plot(detectionStruct{COUNT}.f*86400,detectionStruct{COUNT}.psdw)
+    plot(tideStruct{COUNT}.f*86400,tideStruct{COUNT}.psdw)
     % xlim([0.7 12])
     % set(gca,'XScale','log')
     % set(gca,'YScale','log')
     title(sprintf('FFT Analysis: X-Shore Tides, %s',arrayDescrip{COUNT}),'No Window, Detrended')
-    ylim([0 20000000000])
+    % ylim([0 2000000000])
+    xlim([0 6])
 end
 
 
