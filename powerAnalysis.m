@@ -45,6 +45,8 @@ for COUNT = 1:length(orderUp)
     set(gca,'XScale','log')
     set(gca,'YScale','log')
     title(sprintf('FFT Analysis: HF Noise, %s',sizes{COUNT}),'Windowed, Detrended')
+    xticks([10^0 2 3 4 5])
+    xticklabels({'Once','Twice','Thrice','4-ice','Fivesies'})
 end
 
 
