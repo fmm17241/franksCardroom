@@ -37,28 +37,28 @@ sizes   = [{'WHOLE'};{'30 Days'};{'10 Days'};{'7 Days'};{'40 Hours'}];
 figure()
 tiledlayout(length(orderUp),1)
 for COUNT = 1:length(orderUp)
-noiseStruct{COUNT} = Power_spectra(signalNoise{1}',orderUp(COUNT),1,1,3600,0)
-%
-nexttile()
-plot(noiseStruct{COUNT}.f*86400,noiseStruct{COUNT}.psdw)
-xlim([0.7 12])
-set(gca,'XScale','log')
-set(gca,'YScale','log')
-title(sprintf('FFT Analysis: HF Noise, %s',sizes{COUNT}),'Windowed, Detrended')
+    noiseStruct{COUNT} = Power_spectra(signalNoise{1}',orderUp(COUNT),1,1,3600,0)
+    %
+    nexttile()
+    plot(noiseStruct{COUNT}.f*86400,(noiseStruct{COUNT}.s*2*pi))
+    % xlim([0.7 12])
+    set(gca,'XScale','log')
+    set(gca,'YScale','log')
+    title(sprintf('FFT Analysis: HF Noise, %s',sizes{COUNT}),'Windowed, Detrended')
 end
 
 
 figure()
 tiledlayout(length(orderUp),1)
 for COUNT = 1:length(orderUp)
-detectionStruct{COUNT} = Power_spectra(signalDets{1}',orderUp(COUNT),1,1,3600,0)
-%
-nexttile()
-plot(detectionStruct{COUNT}.f*86400,detectionStruct{COUNT}.psdw)
-xlim([0.7 12])
-set(gca,'XScale','log')
-set(gca,'YScale','log')
-title(sprintf('FFT Analysis: Detections, %s',sizes{COUNT}),'Windowed, Detrended')
+    detectionStruct{COUNT} = Power_spectra(signalDets{1}',orderUp(COUNT),1,1,3600,0)
+    %
+    nexttile()
+    plot(detectionStruct{COUNT}.f*86400,detectionStruct{COUNT}.psdw)
+    xlim([0.7 12])
+    set(gca,'XScale','log')
+    set(gca,'YScale','log')
+    title(sprintf('FFT Analysis: Detections, %s',sizes{COUNT}),'Windowed, Detrended')
 end
 
 

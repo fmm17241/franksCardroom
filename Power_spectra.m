@@ -90,9 +90,9 @@ dataout.vT = f.*(2*v/(k*samplinginterval));
 
 %Confidence Intervals using chi-squared approach
 for i=1:length(f)
-Nstar=k.*samplinginterval.*f(i);
-alpha2 = (1-P)/2;
-conf(i,:) = Nstar./chi2inv([alpha2,1-alpha2],Nstar);
+    Nstar=k.*samplinginterval.*f(i);
+    alpha2 = (1-P)/2;
+    conf(i,:) = Nstar./chi2inv([alpha2,1-alpha2],Nstar);
 end
 
 
