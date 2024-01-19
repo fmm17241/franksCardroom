@@ -40,7 +40,7 @@ for COUNT = 1:length(orderUp)
     noiseStruct{COUNT} = Power_spectra(signalNoise{1}',orderUp(COUNT),1,1,3600,0)
     %
     nexttile()
-    plot(noiseStruct{COUNT}.f*86400,(noiseStruct{COUNT}.s*2*pi))
+    plot(noiseStruct{COUNT}.f*86400,(noiseStruct{COUNT}.psdT))
     % xlim([0.7 12])
     set(gca,'XScale','log')
     set(gca,'YScale','log')
@@ -54,14 +54,60 @@ for COUNT = 1:length(orderUp)
     detectionStruct{COUNT} = Power_spectra(signalDets{1}',orderUp(COUNT),1,1,3600,0)
     %
     nexttile()
-    plot(detectionStruct{COUNT}.f*86400,detectionStruct{COUNT}.psdw)
-    xlim([0.7 12])
+    plot(detectionStruct{COUNT}.f*86400,detectionStruct{COUNT}.psdT)
+    % xlim([0.7 12])
     set(gca,'XScale','log')
     set(gca,'YScale','log')
     title(sprintf('FFT Analysis: Detections, %s',sizes{COUNT}),'Windowed, Detrended')
 end
 
+figure()
+tiledlayout(length(orderUp),1)
+for COUNT = 1:length(orderUp)
+    tideStruct{COUNT} = Power_spectra(signalCrossTides{1}',orderUp(COUNT),1,1,3600,0)
+    %
+    nexttile()
+    plot(tideStruct{COUNT}.f*86400,tideStruct{COUNT}.psdT)
+    % xlim([0.7 12])
+    set(gca,'XScale','log')
+    set(gca,'YScale','log')
+    title(sprintf('FFT Analysis: Tides, %s',sizes{COUNT}),'Windowed, Detrended')
+end
+%%
+%Frank plotting different outputs in the structure.
 
+figure()
+tiledlayout(4,1,'TileSpacing','Compact')
+tideStruct = Power_spectra(signalCrossTides{1}',33,1,0,3600,0)
+
+nexttile()
+plot(tideStruct.f*86400,tideStruct.s)
+% xlim([0.7 12])
+set(gca,'XScale','log')
+set(gca,'YScale','log')
+title('FFT Analysis: Predicted Tides, S','10 Day Bin, Detrended')
+
+nexttile()
+plot(tideStruct.f*86400,tideStruct.psdf)
+% xlim([0.7 12])
+set(gca,'XScale','log')
+set(gca,'YScale','log')
+title('FFT Analysis: Predicted Tides, PSDF','10 Day Bin, Detrended')
+
+nexttile()
+plot(tideStruct.f*86400,tideStruct.psdw)
+% xlim([0.7 12])
+set(gca,'XScale','log')
+set(gca,'YScale','log')
+title('FFT Analysis: Predicted Tides, PSDW','10 Day Bin, Detrended')
+
+nexttile()
+plot(tideStruct.f*86400,tideStruct.psdT)
+% xlim([0.7 12])
+set(gca,'XScale','log')
+set(gca,'YScale','log')
+title('FFT Analysis: Predicted Tides, PSDT','10 Day Bin, Detrended')
+xlabel('Cycles per Day')
 
 
 %%
