@@ -35,7 +35,7 @@ sizes   = [{'WHOLE'};{'30 Days'};{'10 Days'};{'7 Days'};{'40 Hours'}];
 
 
 figure()
-tiledlayout(length(orderUp),1)
+tiledlayout(length(orderUp),1,'TileSpacing','Compact')
 for COUNT = 1:length(orderUp)
     noiseStruct{COUNT} = Power_spectra(signalNoise{1}',orderUp(COUNT),1,1,3600,0)
     %
@@ -46,25 +46,33 @@ for COUNT = 1:length(orderUp)
     set(gca,'YScale','log')
     title(sprintf('FFT Analysis: HF Noise, %s',sizes{COUNT}),'Windowed, Detrended')
     xticks([10^0 2 3 4 5])
-    xticklabels({'Once','Twice','Thrice','4-ice','Fivesies'})
+    xticklabels({'Once','Twice','Thrice','4x','5x'})
+    if COUNT == length(orderUp)
+        xlabel('Cycles per Day')
+    end
 end
 
 
 figure()
-tiledlayout(length(orderUp),1)
+tiledlayout(length(orderUp),1,'TileSpacing','Compact')
 for COUNT = 1:length(orderUp)
     detectionStruct{COUNT} = Power_spectra(signalDets{1}',orderUp(COUNT),1,1,3600,0)
     %
     nexttile()
-    plot(detectionStruct{COUNT}.f*86400,detectionStruct{COUNT}.psdT)
+    plot(detectionStruct{COUNT}.f*86400,detectionStruct{COUNT}.psdw)
     % xlim([0.7 12])
     set(gca,'XScale','log')
     set(gca,'YScale','log')
     title(sprintf('FFT Analysis: Detections, %s',sizes{COUNT}),'Windowed, Detrended')
+    xticks([10^0 2 3 4 5])
+    xticklabels({'Once','Twice','Thrice','4x','5x'})
+    if COUNT == length(orderUp)
+        xlabel('Cycles per Day')
+    end
 end
 
 figure()
-tiledlayout(length(orderUp),1)
+tiledlayout(length(orderUp),1,'TileSpacing','Compact')
 for COUNT = 1:length(orderUp)
     tideStruct{COUNT} = Power_spectra(signalCrossTides{1}',orderUp(COUNT),1,1,3600,0)
     %
@@ -74,6 +82,11 @@ for COUNT = 1:length(orderUp)
     set(gca,'XScale','log')
     set(gca,'YScale','log')
     title(sprintf('FFT Analysis: Tides, %s',sizes{COUNT}),'Windowed, Detrended')
+    xticks([10^0 2 3 4 5])
+    xticklabels({'Once','Twice','Thrice','4x','5x'})
+    if COUNT == length(orderUp)
+        xlabel('Cycles per Day')
+    end
 end
 %%
 %Frank plotting different outputs in the structure.
