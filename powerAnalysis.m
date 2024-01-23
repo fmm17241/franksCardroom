@@ -43,18 +43,44 @@ for COUNT = 1 :length(receiverData)
 
     % Bins
     for binCOUNT = 1:length(binLength)
+        % Sets the first bin as the whole dataset
         if binCOUNT == 1
-                    binSize(COUNT,binCOUNT) = datasetLength(COUNT);
-            continue
+        numberOfBins(COUNT,binCOUNT) = 1;
+        noiseStruct{COUNT,binCOUNT} = Power_spectra(signalNoise{COUNT}',numberOfBins(COUNT,binCOUNT),1,0,3600,0)
+        continue
         end
-                    binSize(COUNT,binCOUNT) = datasetLength(COUNT)/binLength(binCOUNT)
+        numberOfBins(COUNT,binCOUNT) = datasetLength(COUNT)/binLength(binCOUNT)
+
+        noiseStruct{COUNT,binCOUNT} = Power_spectra(signalNoise{COUNT}',numberOfBins(COUNT,binCOUNT),1,0,3600,0)
+    end
+end
+
+
+
+% Okay, plot ALL OF THEM, YEAAAAHHH
+figure()
+tiledlayout(length(orderUp),1,'TileSpacing','Compact')
+for COUNT = 1:length(orderUp)
+    detectionStruct{COUNT} = Power_spectra(signalDets{1}',orderUp(COUNT),1,0,3600,0)
+    %
+    nexttile()
+    plot(detectionStruct{COUNT}.f*86400,detectionStruct{COUNT}.psdT)
+    % xlim([0.7 12])
+    set(gca,'XScale','log')
+    set(gca,'YScale','log')
+    title(sprintf('FFT Analysis: Detections, %s',sizeLabels{COUNT}),'No Window, Detrended')
+    ylabel('Detections?')
+    xticks([10^0 2 3 4 5])
+    xticklabels({'Once','Twice','Thrice','4x','5x'})
+    if COUNT == length(orderUp)
+        xlabel('Cycles per Day')
     end
 end
 
 
 
 
-
+%%
 
 figure()
 tiledlayout(length(orderUp),1,'TileSpacing','Compact')
