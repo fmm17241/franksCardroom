@@ -28,10 +28,32 @@ end
 % 10 days / 33 bins
 % 7 days / 47 bins
 % 40 hours / 194 bins
-
-
 orderUp = [1;11;33;47;194]; %Whole time, 30 day, 10 day, 7 day, and 40 hours
-sizes   = [{'WHOLE'};{'30 Days'};{'10 Days'};{'7 Days'};{'40 Hours'}];
+
+
+
+sizeLabels   = [{'WHOLE'};{'30 Days'};{'10 Days'};{'7 Days'};{'40 Hours'}];
+%will figure out how best to show the first part; whole dataset
+binLength = [NaN;720;240;168;40]
+
+
+%Hmmmmm how do I automate this part? Let's try.
+for COUNT = 1 :length(receiverData)
+    datasetLength(COUNT) = length(receiverData{COUNT}.Noise)
+
+    % Bins
+    for binCOUNT = 1:length(binLength)
+        if binCOUNT == 1
+                    binSize(COUNT,binCOUNT) = datasetLength(COUNT);
+            continue
+        end
+                    binSize(COUNT,binCOUNT) = datasetLength(COUNT)/binLength(binCOUNT)
+    end
+end
+
+
+
+
 
 
 figure()
@@ -44,7 +66,7 @@ for COUNT = 1:length(orderUp)
     % xlim([0.7 12])
     set(gca,'XScale','log')
     set(gca,'YScale','log')
-    title(sprintf('FFT Analysis: HF Noise, %s',sizes{COUNT}),'Windowed, Detrended')
+    title(sprintf('FFT Analysis: HF Noise, %s',sizeLabels{COUNT}),'Windowed, Detrended')
     ylabel('Noise? (mV)')
     xticks([10^0 2 3 4 5])
     xticklabels({'Once','Twice','Thrice','4x','5x'})
@@ -64,7 +86,7 @@ for COUNT = 1:length(orderUp)
     % xlim([0.7 12])
     set(gca,'XScale','log')
     set(gca,'YScale','log')
-    title(sprintf('FFT Analysis: Detections, %s',sizes{COUNT}),'No Window, Detrended')
+    title(sprintf('FFT Analysis: Detections, %s',sizeLabels{COUNT}),'No Window, Detrended')
     ylabel('Detections?')
     xticks([10^0 2 3 4 5])
     xticklabels({'Once','Twice','Thrice','4x','5x'})
@@ -83,7 +105,7 @@ for COUNT = 1:length(orderUp)
     % xlim([0.7 12])
     set(gca,'XScale','log')
     set(gca,'YScale','log')
-    title(sprintf('FFT Analysis: Tides, %s',sizes{COUNT}),'No Window, Detrended')
+    title(sprintf('FFT Analysis: Tides, %s',sizeLabels{COUNT}),'No Window, Detrended')
     xticks([10^0 2 3 4 5])
     xticklabels({'Once','Twice','Thrice','4x','5x'})
     ylabel('Velocity? (m/s)')
@@ -126,6 +148,12 @@ set(gca,'XScale','log')
 set(gca,'YScale','log')
 title('FFT Analysis: Predicted Tides, PSDT','10 Day Bin, Detrended')
 xlabel('Cycles per Day')
+
+
+
+
+
+
 
 
 %%
