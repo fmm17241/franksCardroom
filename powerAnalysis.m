@@ -60,11 +60,9 @@ end
 % Okay, plot ALL OF THEM, YEAAAAHHH
 figure()
 tiledlayout(length(orderUp),1,'TileSpacing','Compact')
-for COUNT = 1:length(orderUp)
-    detectionStruct{COUNT} = Power_spectra(signalDets{1}',orderUp(COUNT),1,0,3600,0)
-    %
+for COUNT = 1
     nexttile()
-    plot(detectionStruct{COUNT}.f*86400,detectionStruct{COUNT}.psdT)
+    plot(noiseStruct{COUNT}.f*86400,noiseStruct{COUNT}.psdT)
     % xlim([0.7 12])
     set(gca,'XScale','log')
     set(gca,'YScale','log')
