@@ -80,78 +80,95 @@ for COUNT = 1:length(receiverData)
     % xlim([0.7 12])
     set(gca,'XScale','log')
     set(gca,'YScale','log')
-    title(sprintf('FFT Analysis: Detections, %s',sizeLabels{COUNT}),'No Window, Detrended')
+    title(sprintf('FFT Analysis: Noise, %s',sizeLabels{binCOUNT}),'No Window, Detrended')
     ylabel('Detections?')
-    xticks([10^0 2 3 4 5])
-    xticklabels({'Once','Twice','Thrice','4x','5x'})
-    if COUNT == length(binLength)
+    xticks([10^0 2 3 4])
+    xticklabels({'Once','Twice','Thrice','4x'})
+    if binCOUNT == length(binLength)
         xlabel('Cycles per Day')
     end
     end
 end
-
-
 
 
 %%
+%Frank spot-checking some things, comparing between "on and off" reef.
+%Still unsure of this metric, we'll see.
 
+%Noise
 figure()
-tiledlayout(length(orderUp),1,'TileSpacing','Compact')
-for COUNT = 1:length(orderUp)
-    noiseStruct{COUNT} = Power_spectra(signalNoise{1}',orderUp(COUNT),1,0,3600,0)
-    %
+tiledlayout(2,3,'TileSpacing','Compact')
+for COUNT = 4:5
     nexttile()
-    plot(noiseStruct{COUNT}.f*86400,(noiseStruct{COUNT}.psdT))
+    plot(receiverData{COUNT}.DT,receiverData{COUNT}.Noise)
+    ylabel('HF. Noise (mV)')
+    if COUNT == 4
+    title('ON Reef Noises')
+    else
+    title('OFF Reef Noises')
+    end
+
+    ylim([200 850])
+    for binCOUNT = [1,4]
+    nexttile()
+    plot(noiseStruct{COUNT,binCOUNT}.f*86400,noiseStruct{COUNT,binCOUNT}.psdT)
     % xlim([0.7 12])
     set(gca,'XScale','log')
     set(gca,'YScale','log')
-    title(sprintf('FFT Analysis: HF Noise, %s',sizeLabels{COUNT}),'Windowed, Detrended')
-    ylabel('Noise? (mV)')
-    xticks([10^0 2 3 4 5])
-    xticklabels({'Once','Twice','Thrice','4x','5x'})
-    if COUNT == length(orderUp)
+    if binCOUNT == 4
+        title(sprintf('FFT Analysis: Noise, Weekly',sizeLabels{binCOUNT}),'No Window, Detrended')
+    else
+        title('FFT Analysis: Noise, Entire Series','No Window, Detrended')
+    end
+    ylabel('Noise?')
+    xticks([10^0 2 3 4])
+    xticklabels({'Once','Twice','Thrice','4x'})
+    xlim([0.4 4.2])
+    if COUNT == 5
         xlabel('Cycles per Day')
+    end
     end
 end
 
-
+%Detections
 figure()
-tiledlayout(length(orderUp),1,'TileSpacing','Compact')
-for COUNT = 1:length(orderUp)
-    detectionStruct{COUNT} = Power_spectra(signalDets{1}',orderUp(COUNT),1,0,3600,0)
-    %
+tiledlayout(2,3,'TileSpacing','Compact')
+for COUNT = 4:5
     nexttile()
-    plot(detectionStruct{COUNT}.f*86400,detectionStruct{COUNT}.psdT)
+    plot(receiverData{COUNT}.DT,receiverData{COUNT}.HourlyDets)
+    ylabel('HF. Noise (mV)')
+    if COUNT == 4
+    title('ON Reef Detections')
+    else
+    title('OFF Reef Detections')
+    end
+
+    % ylim([200 850])
+    for binCOUNT = [1,4]
+    nexttile()
+    plot(detectionStruct{COUNT,binCOUNT}.f*86400,detectionStruct{COUNT,binCOUNT}.psdT)
     % xlim([0.7 12])
     set(gca,'XScale','log')
     set(gca,'YScale','log')
-    title(sprintf('FFT Analysis: Detections, %s',sizeLabels{COUNT}),'No Window, Detrended')
+    if binCOUNT == 4
+        title(sprintf('FFT Analysis: Detections, Weekly',sizeLabels{binCOUNT}),'No Window, Detrended')
+    else
+        title('FFT Analysis: Detections, Entire Series','No Window, Detrended')
+    end
     ylabel('Detections?')
-    xticks([10^0 2 3 4 5])
-    xticklabels({'Once','Twice','Thrice','4x','5x'})
-    if COUNT == length(orderUp)
+    xticks([10^0 2 3 4])
+    xticklabels({'Once','Twice','Thrice','4x'})
+    xlim([0.4 4.2])
+    if COUNT == 5
         xlabel('Cycles per Day')
+    end
     end
 end
 
-figure()
-tiledlayout(length(orderUp),1,'TileSpacing','Compact')
-for COUNT = 1:length(orderUp)
-    tideStruct{COUNT} = Power_spectra(signalCrossTides{1}',orderUp(COUNT),1,0,3600,0)
-    %
-    nexttile()
-    plot(tideStruct{COUNT}.f*86400,tideStruct{COUNT}.psdT)
-    % xlim([0.7 12])
-    set(gca,'XScale','log')
-    set(gca,'YScale','log')
-    title(sprintf('FFT Analysis: Tides, %s',sizeLabels{COUNT}),'No Window, Detrended')
-    xticks([10^0 2 3 4 5])
-    xticklabels({'Once','Twice','Thrice','4x','5x'})
-    ylabel('Velocity? (m/s)')
-    if COUNT == length(orderUp)
-        xlabel('Cycles per Day')
-    end
-end
+
+
+
+
 %%
 %Frank plotting different outputs in the structure.
 
