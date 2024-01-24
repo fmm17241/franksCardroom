@@ -81,7 +81,7 @@ for COUNT = 1:length(receiverData)
     set(gca,'XScale','log')
     set(gca,'YScale','log')
     title(sprintf('FFT Analysis: Noise, %s',sizeLabels{binCOUNT}),'No Window, Detrended')
-    ylabel('Detections?')
+    ylabel('Noise?')
     xticks([10^0 2 3 4])
     xticklabels({'Once','Twice','Thrice','4x'})
     if binCOUNT == length(binLength)
@@ -127,6 +127,10 @@ for COUNT = 4:5
     if COUNT == 5
         xlabel('Cycles per Day')
     end
+    if binCOUNT == 4
+        ylim([10^2 10^4])
+    end
+
     end
 end
 
@@ -136,7 +140,7 @@ tiledlayout(2,3,'TileSpacing','Compact')
 for COUNT = 4:5
     nexttile()
     plot(receiverData{COUNT}.DT,receiverData{COUNT}.HourlyDets)
-    ylabel('HF. Noise (mV)')
+    ylabel('Detections')
     if COUNT == 4
     title('ON Reef Detections')
     else
@@ -146,7 +150,7 @@ for COUNT = 4:5
     % ylim([200 850])
     for binCOUNT = [1,4]
     nexttile()
-    plot(detectionStruct{COUNT,binCOUNT}.f*86400,detectionStruct{COUNT,binCOUNT}.psdT)
+    plot(detectionStruct{COUNT,binCOUNT}.f*86400,detectionStruct{COUNT,binCOUNT}.psdT*(2*pi))
     % xlim([0.7 12])
     set(gca,'XScale','log')
     set(gca,'YScale','log')
@@ -161,6 +165,9 @@ for COUNT = 4:5
     xlim([0.4 4.2])
     if COUNT == 5
         xlabel('Cycles per Day')
+    end
+    if binCOUNT == 4
+        ylim([0 4])
     end
     end
 end

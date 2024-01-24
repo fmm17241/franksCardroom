@@ -7,5 +7,5 @@ for COUNT = 1:length(receiverData)
     figure()
     plot(receiverData{COUNT}.DT,receiverData{COUNT}.HourlyDets)
     ylabel('Detections')
-    title('Checkin Em Up')
+    title(sprintf('Checkin Em Up: %d',COUNT))
 end
