@@ -73,10 +73,10 @@ end
 
 for COUNT = 1:length(receiverData)
     figure()
-    tiledlayout(length(orderUp),1,'TileSpacing','Compact')
+    tiledlayout(length(binLength),1,'TileSpacing','Compact')
     for binCOUNT = 1:length(binLength)
     nexttile()
-    plot(noiseStruct{COUNT}.f*86400,noiseStruct{COUNT}.psdT)
+    plot(noiseStruct{COUNT,binCOUNT}.f*86400,noiseStruct{COUNT,binCOUNT}.psdT)
     % xlim([0.7 12])
     set(gca,'XScale','log')
     set(gca,'YScale','log')
@@ -84,7 +84,7 @@ for COUNT = 1:length(receiverData)
     ylabel('Detections?')
     xticks([10^0 2 3 4 5])
     xticklabels({'Once','Twice','Thrice','4x','5x'})
-    if COUNT == length(orderUp)
+    if COUNT == length(binLength)
         xlabel('Cycles per Day')
     end
     end
