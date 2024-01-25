@@ -330,12 +330,26 @@ end
 
 
 %%
-% Passing shit
+% Passing
 wpass = (2*pi)/172800;
 Fs = (2*pi)/3600 %Frequency, hertz
-bandWork = [(2*pi)/2592000 (2*pi)/172800]
 
-bandpass(signalNoise{1},bandWork,Fs)
+%First band: between 2 and 30 days
+bandWork1 = [(2*pi)/2592000 (2*pi)/172800]
+
+%Second band: between 14 and 30 days
+bandWork2 = [(2*pi)/2592000 (2*pi)/1209600]
+
+%Third band: between 30 and 100 days
+bandWork3 = [(2*pi)/8640000 (2*pi)/2592000]
+
+
+figure()
+bandpass(signalNoise{1},bandWork1,Fs)
+figure()
+bandpass(signalNoise{1},bandWork2,Fs)
+figure()
+bandpass(signalNoise{1},bandWork3,Fs)
 
 %
 mscohere(signalNoise{5},signalCrossTides{5})
