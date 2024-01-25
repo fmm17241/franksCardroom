@@ -343,6 +343,8 @@ bandWork2 = [(2*pi)/2592000 (2*pi)/1209600]
 %Third band: between 30 and 100 days
 bandWork3 = [(2*pi)/8640000 (2*pi)/2592000]
 
+%Fourth band: between 1 hour and 2 days
+bandWork4 = [(2*pi)/2592000 (2*pi)/3600]
 
 figure()
 bandpass(signalNoise{1},bandWork1,Fs)
@@ -350,6 +352,8 @@ figure()
 bandpass(signalNoise{1},bandWork2,Fs)
 figure()
 bandpass(signalNoise{1},bandWork3,Fs)
+figure()
+bandpass(signalNoise{1},bandWork4,Fs)
 
 %
 mscohere(signalNoise{5},signalCrossTides{5})
