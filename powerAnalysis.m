@@ -127,6 +127,9 @@ for COUNT = 4:5
     if COUNT == 5
         xlabel('Cycles per Day')
     end
+    if binCOUNT ==1
+        ylim([10^-1 10^6])
+    end
     if binCOUNT == 4
         ylim([10^2 10^4])
     end
@@ -166,6 +169,10 @@ for COUNT = 4:5
     if COUNT == 5
         xlabel('Cycles per Day')
     end
+    if binCOUNT ==1
+        ylim([10^-4 10^2])
+    end
+
     if binCOUNT == 4
         ylim([0 4])
     end
