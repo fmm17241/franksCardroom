@@ -125,41 +125,38 @@ xticklabels(ax4,{'Winter','Spring','Summer','Fall','Mariner''s Fall'})
 %"FIND IT IN THE TIMESERIES"
 
 
-
 figure()
 tiledlayout(4,1,'TileSpacing',"compact")
 ax1 = nexttile()
-plot(receiverData{4}.DT,receiverData{4}.Noise,'r')
-ylabel('HF Noise')
-hold on
-yyaxis right
-scatter(receiverData{5}.DT,receiverData{5}.daytime,'k','filled')
-ylim([-0.1 1.1])
-yticks([0 1])
-yticklabels([{'Night'},{'Day'}])
+plot(receiverData{4}.DT,receiverData{4}.HourlyDets,'r')
+ylabel('Detections')
+% hold on
+% yyaxis right
+% scatter(receiverData{5}.DT,receiverData{5}.daytime,'k','filled')
+% ylim([-0.1 1.1])
+% yticks([0 1])
+% yticklabels([{'Night'},{'Day'}])
 
-title('ON Reef Noise')
-
-
+title('Hourly Detections: ON Reef')
 
 
 ax2 = nexttile()
 plot(receiverData{4}.DT,receiverData{4}.windSpd,'k','LineWidth',1.5)
 ylim([0 12])
 ylabel('Windspeed (m/s)')
-
 title('Windspeed')
+
 
 ax3 = nexttile()
 plot(receiverData{5}.DT,receiverData{5}.Noise,'b')
-ylabel('HF Noise')
-hold on
-yyaxis right
-scatter(receiverData{5}.DT,receiverData{5}.daytime,'k','filled')
-ylim([-0.1 1.1])
-yticks([0 1])
-yticklabels([{'Night'},{'Day'}])
-title('OFF Reef Noise')
+ylabel('Noise')
+% hold on
+% yyaxis right
+% scatter(receiverData{5}.DT,receiverData{5}.daytime,'k','filled')
+% ylim([-0.1 1.1])
+% yticks([0 1])
+% yticklabels([{'Night'},{'Day'}])
+title('Hourly Detections: OFF Reef')
 
 
 ax4 = nexttile()
