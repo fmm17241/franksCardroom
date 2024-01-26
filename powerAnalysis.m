@@ -333,6 +333,7 @@ end
 % Passing
 wpass = (2*pi)/172800;
 Fs = (2*pi)/3600 %Frequency, hertz
+% Fs = (2*pi) %Frequency, hertz
 
 %First band: between 2 and 30 days
 bandWork1 = [(2*pi)/2592000 (2*pi)/172800]
@@ -343,8 +344,8 @@ bandWork2 = [(2*pi)/2592000 (2*pi)/1209600]
 %Third band: between 30 and 100 days
 bandWork3 = [(2*pi)/8640000 (2*pi)/2592000]
 
-%Fourth band: between 1 hour and 2 days
-bandWork4 = [(2*pi)/2592000 (2*pi)/3600]
+%Fourth band: between 2 hours and 2 days
+bandWork4 = [(2*pi)/2592000 (2*pi)/7200]
 
 figure()
 bandpass(signalNoise{1},bandWork1,Fs)
@@ -352,10 +353,61 @@ figure()
 bandpass(signalNoise{1},bandWork2,Fs)
 figure()
 bandpass(signalNoise{1},bandWork3,Fs)
+
 figure()
 bandpass(signalNoise{1},bandWork4,Fs)
+title('Transceiver 1')
+
+figure()
+bandpass(signalNoise{2},bandWork4,Fs)
+title('Transceiver 2')
+
+figure()
+bandpass(signalNoise{3},bandWork4,Fs)
+title('Transceiver 3')
+
+figure()
+bandpass(signalNoise{4},bandWork4,Fs)
+title('Transceiver 4')
+
+figure()
+bandpass(signalNoise{5},bandWork4,Fs)
+title('Transceiver 5')
+
+figure()
+bandpass(signalNoise{6},bandWork4,Fs)
+title('Transceiver 6')
+
+figure()
+bandpass(signalNoise{7},bandWork4,Fs)
+title('Transceiver 7')
+
+figure()
+bandpass(signalNoise{8},bandWork4,Fs)
+title('Transceiver 8')
+
+figure()
+bandpass(signalNoise{9},bandWork4,Fs)
+title('Transceiver 9')
+
+figure()
+bandpass(signalNoise{10},bandWork4,Fs)
+title('Transceiver 10')
+
+figure()
+bandpass(signalNoise{11},bandWork4,Fs)
+title('Transceiver 11')
+
+figure()
+bandpass(signalNoise{12},bandWork4,Fs)
+title('Transceiver 12')
+
+figure()
+bandpass(signalNoise{13},bandWork4,Fs)
+title('Transceiver 13')
 
 %
+figure()
 mscohere(signalNoise{5},signalCrossTides{5})
 
 
