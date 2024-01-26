@@ -339,71 +339,97 @@ Fs = (2*pi)/3600 %Frequency, hertz
 bandWork1 = [(2*pi)/2592000 (2*pi)/172800]
 
 %Second band: between 14 and 30 days
-bandWork2 = [(2*pi)/2592000 (2*pi)/1209600]
+bandWorkMid = [(2*pi)/2592000 (2*pi)/1209600]
 
 %Third band: between 30 and 100 days
-bandWork3 = [(2*pi)/8640000 (2*pi)/2592000]
+bandWorkLow = [(2*pi)/8640000 (2*pi)/2592000]
 
 %Fourth band: between 2 hours and 2 days
-bandWork4 = [(2*pi)/2592000 (2*pi)/7200]
+bandWorkHigh = [(2*pi)/2592000 (2*pi)/7200]
 
 figure()
-bandpass(signalNoise{1},bandWork1,Fs)
+bandpass(signalNoise{1},bandWorkLow,Fs)
+
 figure()
-bandpass(signalNoise{1},bandWork2,Fs)
+bandpass(signalNoise{1},bandWorkHigh,Fs)
+
+figure()
+bandpass(signalNoise{1},bandWorkMid,Fs)
+
+
 figure()
 bandpass(signalNoise{1},bandWork3,Fs)
 
 figure()
-bandpass(signalNoise{1},bandWork4,Fs)
+bandpass(signalNoise{1},bandWorkHigh,Fs)
 title('Transceiver 1')
 
+%X is the filtered signal, hmmmmm
+[x{1},y] = bandpass(signalNoise{1},bandWorkHigh,Fs);
+[x{2},y] = bandpass(signalNoise{2},bandWorkHigh,Fs);
+[x{3},y] = bandpass(signalNoise{3},bandWorkHigh,Fs);
+[x{4},y] = bandpass(signalNoise{4},bandWorkHigh,Fs);
+[x{5},y] = bandpass(signalNoise{5},bandWorkHigh,Fs);
+[x{6},y] = bandpass(signalNoise{6},bandWorkHigh,Fs);
+[x{7},y] = bandpass(signalNoise{7},bandWorkHigh,Fs);
+[x{8},y] = bandpass(signalNoise{8},bandWorkHigh,Fs);
+[x{9},y] = bandpass(signalNoise{9},bandWorkHigh,Fs);
+[x{10},y] = bandpass(signalNoise{10},bandWorkHigh,Fs);
+[x{11},y] = bandpass(signalNoise{11},bandWorkHigh,Fs);
+[x{12},y] = bandpass(signalNoise{12},bandWorkHigh,Fs);
+[x{13},y] = bandpass(signalNoise{13},bandWorkHigh,Fs);
+
+
+
+
+
+
 figure()
-bandpass(signalNoise{2},bandWork4,Fs)
+bandpass(signalNoise{2},bandWorkHigh,Fs)
 title('Transceiver 2')
 
 figure()
-bandpass(signalNoise{3},bandWork4,Fs)
+bandpass(signalNoise{3},bandWorkHigh,Fs)
 title('Transceiver 3')
 
 figure()
-bandpass(signalNoise{4},bandWork4,Fs)
+bandpass(signalNoise{4},bandWorkHigh,Fs)
 title('Transceiver 4')
 
 figure()
-bandpass(signalNoise{5},bandWork4,Fs)
+bandpass(signalNoise{5},bandWorkHigh,Fs)
 title('Transceiver 5')
 
 figure()
-bandpass(signalNoise{6},bandWork4,Fs)
+bandpass(signalNoise{6},bandWorkHigh,Fs)
 title('Transceiver 6')
 
 figure()
-bandpass(signalNoise{7},bandWork4,Fs)
+bandpass(signalNoise{7},bandWorkHigh,Fs)
 title('Transceiver 7')
 
 figure()
-bandpass(signalNoise{8},bandWork4,Fs)
+bandpass(signalNoise{8},bandWorkHigh,Fs)
 title('Transceiver 8')
 
 figure()
-bandpass(signalNoise{9},bandWork4,Fs)
+bandpass(signalNoise{9},bandWorkHigh,Fs)
 title('Transceiver 9')
 
 figure()
-bandpass(signalNoise{10},bandWork4,Fs)
+bandpass(signalNoise{10},bandWorkHigh,Fs)
 title('Transceiver 10')
 
 figure()
-bandpass(signalNoise{11},bandWork4,Fs)
+bandpass(signalNoise{11},bandWorkHigh,Fs)
 title('Transceiver 11')
 
 figure()
-bandpass(signalNoise{12},bandWork4,Fs)
+bandpass(signalNoise{12},bandWorkHigh,Fs)
 title('Transceiver 12')
 
 figure()
-bandpass(signalNoise{13},bandWork4,Fs)
+bandpass(signalNoise{13},bandWorkHigh,Fs)
 title('Transceiver 13')
 
 %
