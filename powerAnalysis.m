@@ -379,9 +379,40 @@ title('Transceiver 1')
 [x{12},y] = bandpass(signalNoise{12},bandWorkHigh,Fs);
 [x{13},y] = bandpass(signalNoise{13},bandWorkHigh,Fs);
 
+%
+figure()
+bandpass(signalNoise{1},bandWorkHigh,Fs);
+figure()
+bandpass(signalNoise{2},bandWorkHigh,Fs);
+title('B')
+figure()
+bandpass(signalNoise{3},bandWorkHigh,Fs);
+title('C')
+figure()
+bandpass(signalNoise{4},bandWorkHigh,Fs);
+title('D')
+figure()
+bandpass(signalNoise{5},bandWorkHigh,Fs);
+title('E')
+figure()
+bandpass(signalNoise{6},bandWorkHigh,Fs);
+figure()
+bandpass(signalNoise{7},bandWorkHigh,Fs);
+figure()
+bandpass(signalNoise{8},bandWorkHigh,Fs);
+figure()
+bandpass(signalNoise{9},bandWorkHigh,Fs);
+figure()
+bandpass(signalNoise{10},bandWorkHigh,Fs);
+figure()
+bandpass(signalNoise{11},bandWorkHigh,Fs);
+figure()
+bandpass(signalNoise{12},bandWorkHigh,Fs);
+figure()
+bandpass(signalNoise{13},bandWorkHigh,Fs);
 
 
-
+%%
 
 
 figure()
