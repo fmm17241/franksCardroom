@@ -397,6 +397,18 @@ title('OFF Reef')
 
 linkaxes([ax1 ax2],'x')
 
+figure()
+tiledlayout(2,1,'TileSpacing','Compact')
+ax1 = nexttile()
+plot(receiverData{4}.DT,x{4},'b');
+ylabel('HF Noise (mV)')
+title('ON Reef')
+ax2 = nexttile()
+plot(receiverData{5}.DT,x{5},'b');
+ylabel('HF Noise (mV)')
+title('OFF Reef')
+
+linkaxes([ax1 ax2],'x')
 
 
 %
