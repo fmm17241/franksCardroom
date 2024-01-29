@@ -379,6 +379,26 @@ title('Transceiver 1')
 [x{12},y] = bandpass(signalNoise{12},bandWorkHigh,Fs);
 [x{13},y] = bandpass(signalNoise{13},bandWorkHigh,Fs);
 
+
+figure()
+tiledlayout(2,1,'TileSpacing','Compact')
+ax1 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.Noise,'r')
+hold on
+plot(receiverData{4}.DT,x{4},'b');
+ylabel('HF Noise (mV)')
+title('ON Reef')
+ax2 = nexttile()
+plot(receiverData{5}.DT,receiverData{5}.Noise,'r')
+hold on
+plot(receiverData{5}.DT,x{5},'b');
+ylabel('HF Noise (mV)')
+title('OFF Reef')
+
+linkaxes([ax1 ax2],'x')
+
+
+
 %
 figure()
 bandpass(signalNoise{1},bandWorkHigh,Fs);
