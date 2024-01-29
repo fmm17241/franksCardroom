@@ -382,6 +382,7 @@ title('Transceiver 1')
 %
 figure()
 bandpass(signalNoise{1},bandWorkHigh,Fs);
+title('A')
 figure()
 bandpass(signalNoise{2},bandWorkHigh,Fs);
 title('B')
@@ -396,21 +397,28 @@ bandpass(signalNoise{5},bandWorkHigh,Fs);
 title('E')
 figure()
 bandpass(signalNoise{6},bandWorkHigh,Fs);
+title('F')
 figure()
 bandpass(signalNoise{7},bandWorkHigh,Fs);
+title('G')
 figure()
 bandpass(signalNoise{8},bandWorkHigh,Fs);
+title('H')
 figure()
 bandpass(signalNoise{9},bandWorkHigh,Fs);
+title('I')
 figure()
 bandpass(signalNoise{10},bandWorkHigh,Fs);
+title('J')
 figure()
 bandpass(signalNoise{11},bandWorkHigh,Fs);
+title('K')
 figure()
 bandpass(signalNoise{12},bandWorkHigh,Fs);
+title('L')
 figure()
 bandpass(signalNoise{13},bandWorkHigh,Fs);
-
+title('M')
 
 %%
 
