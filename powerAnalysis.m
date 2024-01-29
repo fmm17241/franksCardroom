@@ -410,7 +410,94 @@ title('OFF Reef')
 
 linkaxes([ax1 ax2],'x')
 
+figure()
+for COUNT = 1:length(receiverData)
+hold on
+plot(receiverData{COUNT}.DT,x{COUNT})
+end
+title('All 13 Transceiver Noise','Highpass filter, 2 days')
+title('13 Instruments: HF Noise','Highpass filter, 2 days')
+ylabel('HF Noise (mV)')
 
+
+%%
+[xLow{1},y] = bandpass(signalNoise{1},bandWorkLow,Fs);
+[xLow{2},y] = bandpass(signalNoise{2},bandWorkLow,Fs);
+[xLow{3},y] = bandpass(signalNoise{3},bandWorkLow,Fs);
+[xLow{4},y] = bandpass(signalNoise{4},bandWorkLow,Fs);
+[xLow{5},y] = bandpass(signalNoise{5},bandWorkLow,Fs);
+[xLow{6},y] = bandpass(signalNoise{6},bandWorkLow,Fs);
+[xLow{7},y] = bandpass(signalNoise{7},bandWorkLow,Fs);
+[xLow{8},y] = bandpass(signalNoise{8},bandWorkLow,Fs);
+[xLow{9},y] = bandpass(signalNoise{9},bandWorkLow,Fs);
+[xLow{10},y] = bandpass(signalNoise{10},bandWorkLow,Fs);
+[xLow{11},y] = bandpass(signalNoise{11},bandWorkLow,Fs);
+[xLow{12},y] = bandpass(signalNoise{12},bandWorkLow,Fs);
+[xLow{13},y] = bandpass(signalNoise{13},bandWorkLow,Fs);
+
+
+figure()
+tiledlayout(2,1,'TileSpacing','Compact')
+ax1 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.Noise,'r')
+hold on
+plot(receiverData{4}.DT,x{4},'b');
+ylabel('HF Noise (mV)')
+title('ON Reef')
+ax2 = nexttile()
+plot(receiverData{5}.DT,receiverData{5}.Noise,'r')
+hold on
+plot(receiverData{5}.DT,x{5},'b');
+ylabel('HF Noise (mV)')
+title('OFF Reef')
+
+linkaxes([ax1 ax2],'x')
+
+figure()
+tiledlayout(2,1,'TileSpacing','Compact')
+ax1 = nexttile()
+plot(receiverData{4}.DT,x{4},'b');
+ylabel('HF Noise (mV)')
+title('ON Reef')
+ax2 = nexttile()
+plot(receiverData{5}.DT,x{5},'b');
+ylabel('HF Noise (mV)')
+title('OFF Reef')
+
+linkaxes([ax1 ax2],'x')
+
+figure()
+for COUNT = 1:length(receiverData)
+hold on
+plot(receiverData{COUNT}.DT,xLow{COUNT})
+end
+title('13 Instruments: HF Noise','Bandpass filter, 30-100 days')
+ylabel('HF Noise (mV)')
+
+%%
+[xMid{1},y] = bandpass(signalNoise{1},bandWorkMid,Fs);
+[xMid{2},y] = bandpass(signalNoise{2},bandWorkMid,Fs);
+[xMid{3},y] = bandpass(signalNoise{3},bandWorkMid,Fs);
+[xMid{4},y] = bandpass(signalNoise{4},bandWorkMid,Fs);
+[xMid{5},y] = bandpass(signalNoise{5},bandWorkMid,Fs);
+[xMid{6},y] = bandpass(signalNoise{6},bandWorkMid,Fs);
+[xMid{7},y] = bandpass(signalNoise{7},bandWorkMid,Fs);
+[xMid{8},y] = bandpass(signalNoise{8},bandWorkMid,Fs);
+[xMid{9},y] = bandpass(signalNoise{9},bandWorkMid,Fs);
+[xMid{10},y] = bandpass(signalNoise{10},bandWorkMid,Fs);
+[xMid{11},y] = bandpass(signalNoise{11},bandWorkMid,Fs);
+[xMid{12},y] = bandpass(signalNoise{12},bandWorkMid,Fs);
+[xMid{13},y] = bandpass(signalNoise{13},bandWorkMid,Fs);
+
+figure()
+for COUNT = 1:length(receiverData)
+hold on
+plot(receiverData{COUNT}.DT,xMid{COUNT})
+end
+title('13 Instruments: HF Noise','Bandpass filter, 14-30 days')
+ylabel('HF Noise (mV)')
+%%
+%%
 %
 figure()
 bandpass(signalNoise{1},bandWorkHigh,Fs);
