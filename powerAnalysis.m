@@ -34,6 +34,7 @@ title('OFF Reef, FS17')
 ylim([200 900])
 
 linkaxes([ax1,ax2],'x')
+
 % Receiver 1, so 7760 hours total
 % # of hours (or days) / bins
 % whole Dataset / 1 bin
