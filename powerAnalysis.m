@@ -347,6 +347,9 @@ bandWorkLow = [(2*pi)/8640000 (2*pi)/2592000]
 %Fourth band: between 2 hours and 2 days
 bandWorkHigh = [(2*pi)/2592000 (2*pi)/7200]
 
+
+
+%%
 figure()
 bandpass(signalNoise{1},bandWorkLow,Fs)
 
