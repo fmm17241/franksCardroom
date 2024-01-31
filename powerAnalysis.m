@@ -20,8 +20,20 @@ end
         
 %Frank's using the cross-shore tidal predictions to test his FFT skills.
 %Let's see.
+figure()
+tiledlayout(2,1,'TileSpacing','compact')
+ax1 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.Noise)
+ylabel('Noise (mV)')
+title('ON Reef, 33OUT')
+ylim([200 900])
+ax2 = nexttile()
+plot(receiverData{5}.DT,receiverData{5}.Noise)
+ylabel('Noise (mV)')
+title('OFF Reef, FS17')
+ylim([200 900])
 
-
+linkaxes([ax1,ax2],'x')
 % Receiver 1, so 7760 hours total
 % # of hours (or days) / bins
 % whole Dataset / 1 bin
