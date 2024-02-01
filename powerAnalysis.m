@@ -16,6 +16,26 @@ for COUNT = 1:length(receiverData)
     signalCrossTides{COUNT}  =  receiverData{COUNT}.crossShore;
 end
 
+figure()
+tiledlayout(3,1,'TileSpacing','compact')
+ax1 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.windSpd,'k')
+ylabel('Windspd (m/s)')
+title('Windspeed')
+ax2 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.Noise,'r')
+ylabel('Noise (mV)')
+title('ON Reef, 33OUT')
+ylim([200 900])
+ax3 = nexttile()
+plot(receiverData{5}.DT,receiverData{5}.Noise,'b')
+ylabel('Noise (mV)')
+title('OFF Reef, FS17')
+ylim([200 900])
+
+linkaxes([ax1,ax2,ax3],'x')
+
+
 %%
         
 %Frank's using the cross-shore tidal predictions to test his FFT skills.
@@ -397,7 +417,7 @@ title('Transceiver 1')
 
 
 figure()
-tiledlayout(2,1,'TileSpacing','Compact')
+tiledlayout(3,1,'TileSpacing','Compact')
 ax1 = nexttile()
 plot(receiverData{4}.DT,receiverData{4}.Noise,'r')
 hold on
@@ -410,8 +430,16 @@ hold on
 plot(receiverData{5}.DT,x{5},'b');
 ylabel('HF Noise (mV)')
 title('OFF Reef')
+ax3 = nexttile()
+plot(receiverData{5}.DT,receiverData{5}.crossShore,'k')
+title('XShore Tides','Flood Negative, Ebb Positive')
+ylabel('Tidal Magnitude (m/s)')
 
-linkaxes([ax1 ax2],'x')
+linkaxes([ax1 ax2 ax3],'x')
+
+
+
+
 
 figure()
 tiledlayout(2,1,'TileSpacing','Compact')
