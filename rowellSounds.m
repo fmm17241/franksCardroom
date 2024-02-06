@@ -1,4 +1,4 @@
-cd 'C:\Users\fmac4\OneDrive - University of Georgia\data\passiveSounds'
+cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\passiveSounds'
 
 %Lists the files in the directory chosen above.
 broadBandFiles = dir('*BB*');
@@ -8,12 +8,17 @@ psdFiles = dir('*psd*');
 
 
 %
+
 %Open the files and creates the data
+
 %Broadband
-fid = fopen(broadBandFiles.name);
-indata = textscan(fid, '%s%s', 'HeaderLines',1);
-fclose(fid);
-BBdata = [indata{1}, indata{2}];
+for COUNT = 1:length(broadBandFiles)
+    fid = fopen(broadBandFiles(COUNT,1).name);
+    indata = textscan(fid, '%s%s', 'HeaderLines',1);
+    fclose(fid);
+    BBdata{COUNT} = [indata{1}, indata{2}];
+end
+
 clear indata
 
 % One Octave
@@ -38,3 +43,6 @@ PSDdata = [indata{1}, indata{2}];
 clear indata
 
 
+
+
+%%
