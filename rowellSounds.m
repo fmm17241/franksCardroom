@@ -17,30 +17,37 @@ for COUNT = 1:length(broadBandFiles)
     indata = textscan(fid, '%s%s', 'HeaderLines',1);
     fclose(fid);
     BBdata{COUNT} = [indata{1}, indata{2}];
+    clear indata
 end
 
-clear indata
 
 % One Octave
-fid = fopen(octaveFiles.name);
-indata = textscan(fid, '%s%s%s%s%s%s%s%s%s%s%s', 'HeaderLines',1);
-fclose(fid);
-OLdata = [indata{1}, indata{2}, indata{3}, indata{4}, indata{5}, indata{6}, indata{7}, indata{8}, indata{9}, indata{10}, indata{11}];
-clear indata
+for COUNT = 1:length(broadBandFiles)
+    fid = fopen(octaveFiles(COUNT,1).name);
+    indata = textscan(fid, '%s%s%s%s%s%s%s%s%s%s%s', 'HeaderLines',1);
+    fclose(fid);
+    OLdata{COUNT} = [indata{1}, indata{2}, indata{3}, indata{4}, indata{5}, indata{6}, indata{7}, indata{8}, indata{9}, indata{10}, indata{11}];
+    clear indata
+end
 
 % 1/3rd Octave
-fid = fopen(oneThirdOctaveFiles.name);
-indata = textscan(fid, '%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s', 'HeaderLines',1);
-fclose(fid);
-TOLdata = [indata{1}, indata{2}];
-clear indata
+for COUNT = 1:length(oneThirdOctaveFiles)
+    fid = fopen(oneThirdOctaveFiles(COUNT,1).name);
+    indata = textscan(fid, '%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s', 'HeaderLines',1);
+    fclose(fid);
+    TOLdata{COUNT} = [indata{1}, indata{2}];
+    clear indata
+end
+
 
 % PSD
-fid = fopen(psdFiles.name);
-indata = textscan(fid, '%s%s', 'HeaderLines',1);
-fclose(fid);
-PSDdata = [indata{1}, indata{2}];
-clear indata
+for COUNT = 1:length(psdFiles)
+    fid = fopen(psdFiles(COUNT,1).name);
+    indata = textscan(fid, '%s%s', 'HeaderLines',1);
+    fclose(fid);
+    PSDdata{COUNT} = [indata{1}, indata{2}];
+    clear indata
+end
 
 
 
