@@ -59,6 +59,21 @@ for COUNT = 1:length(BBdata)
     broadband{COUNT} = timetable(BBdt{COUNT},str2double(BBdata{COUNT}(:,2)));
 end
 
+for COUNT = 1:length(OLdata)
+    OLdn{COUNT} = DateStr2Num(OLdata{COUNT}(:,1),31);
+
+    OLdt{COUNT} = datetime(OLdn{COUNT},'convertfrom','datenum')
+    octaveLevel{COUNT} = timetable(OLdt{COUNT},str2double(OLdata{COUNT}(:,2:end)));
+end
+
+for COUNT = 1:length(TOLdata)
+    TOLdn{COUNT} = DateStr2Num(TOLdata{COUNT}(:,1),31);
+
+    TOLdt{COUNT} = datetime(TOLdn{COUNT},'convertfrom','datenum')
+    thirdOctaveLevel{COUNT} = timetable(TOLdt{COUNT},str2double(TOLdata{COUNT}(:,2:end)));
+end
+
+
 figure()
 plot(broadband{1}.Time,broadband{1}.Var1)
 ylabel('Broadband Sound')
