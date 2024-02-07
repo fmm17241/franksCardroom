@@ -1,4 +1,4 @@
-cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\passiveSounds'
+cd 'C:\Users\fmac4\OneDrive - University of Georgia\data\passiveSounds'
 
 %Lists the files in the directory chosen above.
 broadBandFiles = dir('*BB*');
@@ -40,16 +40,18 @@ for COUNT = 1:length(oneThirdOctaveFiles)
 end
 
 
-% PSD
-for COUNT = 1:length(psdFiles)
-    fid = fopen(psdFiles(COUNT,1).name);
-    indata = textscan(fid, '%s%s', 'HeaderLines',1);
-    fclose(fid);
-    PSDdata{COUNT} = [indata{1}, indata{2}];
-    clear indata
-end
-
-
-
+% % PSD - these are huge, need to reevaluate how to process if needed.
+% for COUNT = 1:length(psdFiles)
+%     fid = fopen(psdFiles(COUNT,1).name);
+%     indata = textscan(fid, '%s%s', 'HeaderLines',1);
+%     fclose(fid);
+%     PSDdata{COUNT} = [indata{1}, indata{2}];
+%     clear indata
+% end
 
 %%
+% Turning the first column datestring into datetime or datenum values
+
+
+
+
