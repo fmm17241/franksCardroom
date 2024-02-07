@@ -63,6 +63,12 @@ figure()
 plot(broadband{1}.Time,broadband{1}.Var1)
 ylabel('Broadband Sound')
 title('Broadband Sound Measured','Gray''s Reef')
+hold on
+
+figure()
+plot(broadband{2}.Time,broadband{2}.Var1,'r')
+ylabel('Broadband Sound')
+title('Broadband Sound Measured','Gray''s Reef')
 
 
 
