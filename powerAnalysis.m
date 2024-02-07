@@ -35,6 +35,38 @@ ylim([200 900])
 
 linkaxes([ax1,ax2,ax3],'x')
 
+%%
+figure()
+tiledlayout(3,1,'TileSpacing','compact')
+ax1 = nexttile()
+colororder(ax1,{'k','k'})
+plot(receiverData{4}.DT,receiverData{4}.windSpd,'k')
+ylabel('Windspd (m/s)')
+title('Windspeed')
+
+ax2 = nexttile()
+colororder(ax2,{'k','k'})
+plot(receiverData{4}.DT,receiverData{4}.HourlyDets,'r')
+ylabel('Hourly Dets')
+title('ON Reef, 33OUT')
+ylim([0 7])
+yyaxis right
+plot(receiverData{4}.DT,receiverData{4}.Noise,'k--')
+ylabel('HF Noise (mV)')
+% ylim([200 900])
+ax3 = nexttile()
+colororder(ax3,{'k','k'})
+plot(receiverData{5}.DT,receiverData{5}.HourlyDets,'b')
+ylabel('Hourly Dets')
+title('OFF Reef, FS17')
+ylim([0 7])
+yyaxis right
+plot(receiverData{5}.DT,receiverData{5}.Noise,'k--')
+ylabel('HF Noise (mV)')
+
+% ylim([200 900])
+
+linkaxes([ax1,ax2,ax3],'x')
 
 %%
         
