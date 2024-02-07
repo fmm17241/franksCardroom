@@ -1,4 +1,4 @@
-cd 'C:\Users\fmac4\OneDrive - University of Georgia\data\passiveSounds'
+cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\passiveSounds'
 
 %Lists the files in the directory chosen above.
 broadBandFiles = dir('*BB*');
@@ -51,6 +51,40 @@ end
 
 %%
 % Turning the first column datestring into datetime or datenum values
+
+for COUNT = 1:length(BBdata)
+    BBdn{COUNT} = DateStr2Num(BBdata{COUNT}(:,1),31);
+
+    BBdt{COUNT} = datetime(BBdn{COUNT},'convertfrom','datenum')
+    broadband{COUNT} = timetable(BBdt{COUNT},str2double(BBdata{COUNT}(:,2)));
+end
+
+figure()
+plot(broadband{1}.Time,broadband{1}.Var1)
+ylabel('Broadband Sound')
+title('Broadband Sound Measured','Gray''s Reef')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
