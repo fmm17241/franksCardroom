@@ -33,9 +33,11 @@ end
 % 1/3rd Octave
 for COUNT = 1:length(oneThirdOctaveFiles)
     fid = fopen(oneThirdOctaveFiles(COUNT,1).name);
-    indata = textscan(fid, '%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s', 'HeaderLines',1);
+    indata = textscan(fid, '%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s','HeaderLines',1);
     fclose(fid);
-    TOLdata{COUNT} = [indata{1}, indata{2}];
+    TOLdata{COUNT} = [indata{1}, indata{2}, indata{3}, indata{4}, indata{5}, indata{6}, indata{7}, indata{8}, indata{9}, indata{10}, indata{11}, indata{12}...
+        , indata{13}, indata{14}, indata{15}, indata{16}, indata{17}, indata{18}, indata{19}, indata{20}, indata{21}, indata{22}, indata{23}, indata{24}, indata{25}...
+        , indata{26}, indata{27}, indata{28}, indata{29}, indata{30}, indata{31}];
     clear indata
 end
 
