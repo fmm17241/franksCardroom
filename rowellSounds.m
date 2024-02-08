@@ -22,7 +22,7 @@ end
 
 
 % One Octave
-for COUNT = 1:length(broadBandFiles)
+for COUNT = 1:length(octaveFiles)
     fid = fopen(octaveFiles(COUNT,1).name);
     indata = textscan(fid, '%s%s%s%s%s%s%s%s%s%s%s', 'HeaderLines',1);
     fclose(fid);
@@ -93,13 +93,24 @@ ylabel('Broadband Sound')
 title('Gray''s Reef Sound','Broadband: 20 Hz - 24 kHz')
 
 
+figure()
+plot(octaveLevel{4}.Time,octaveLevel{4}.Var1(:,1),'r')
+hold on
+plot(octaveLevel{4}.Time,octaveLevel{4}.Var1(:,10),'b')
+ylabel('Median Sound Pressure Levels')
+title('Gray''s Reef Sound','Red: Low Freq.; Blue: High Freq.')
 
 
 
+test1 = detrend(octaveLevel{4}.Var1(:,1))
+test2 = detrend(octaveLevel{4}.Var1(:,10))
 
-
-
-
+figure()
+plot(octaveLevel{4}.Time,test1,'r')
+hold on
+plot(octaveLevel{4}.Time,test2,'b')
+ylabel('Median Sound Levels, Detrended')
+title('Gray''s Reef Sound, Detrended','Red: Low Freq. Octave Level; Blue: High Freq.')
 
 
 
