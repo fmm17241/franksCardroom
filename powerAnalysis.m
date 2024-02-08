@@ -53,6 +53,7 @@ ylim([0 7])
 yyaxis right
 plot(receiverData{4}.DT,receiverData{4}.Noise,'k--')
 ylabel('HF Noise (mV)')
+ylim([300 750])
 % ylim([200 900])
 ax3 = nexttile()
 colororder(ax3,{'k','k'})
@@ -63,7 +64,7 @@ ylim([0 7])
 yyaxis right
 plot(receiverData{5}.DT,receiverData{5}.Noise,'k--')
 ylabel('HF Noise (mV)')
-
+ylim([300 750])
 % ylim([200 900])
 
 linkaxes([ax1,ax2,ax3],'x')

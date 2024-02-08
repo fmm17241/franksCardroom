@@ -79,13 +79,18 @@ end
 figure()
 plot(broadband{1}.Time,broadband{1}.Var1)
 ylabel('Broadband Sound')
-title('Broadband Sound Measured','Gray''s Reef')
+title('Gray''s Reef Sound','Broadband: 20 Hz - 24 kHz')
 hold on
 
 figure()
 plot(broadband{2}.Time,broadband{2}.Var1,'r')
 ylabel('Broadband Sound')
-title('Broadband Sound Measured','Gray''s Reef')
+title('Gray''s Reef Sound','Broadband: 20 Hz - 24 kHz')
+
+figure()
+plot(broadband{3}.Time,broadband{3}.Var1,'r')
+ylabel('Broadband Sound')
+title('Gray''s Reef Sound','Broadband: 20 Hz - 24 kHz')
 
 
 
