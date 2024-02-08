@@ -1,4 +1,4 @@
-cd 'C:\Users\fmac4\OneDrive - University of Georgia\data\passiveSounds'
+cd (sprintf('%spassiveSounds',oneDrive))
 
 %Lists the files in the directory chosen above.
 broadBandFiles = dir('*BB*');
@@ -57,41 +57,32 @@ end
 for COUNT = 1:length(BBdata)
     BBdn{COUNT} = DateStr2Num(BBdata{COUNT}(:,1),31);
 
-    BBdt{COUNT} = datetime(BBdn{COUNT},'convertfrom','datenum')
+    BBdt{COUNT} = datetime(BBdn{COUNT},'convertfrom','datenum','TimeZone','UTC')
     broadband{COUNT} = timetable(BBdt{COUNT},str2double(BBdata{COUNT}(:,2)));
 end
 
 for COUNT = 1:length(OLdata)
     OLdn{COUNT} = DateStr2Num(OLdata{COUNT}(:,1),31);
 
-    OLdt{COUNT} = datetime(OLdn{COUNT},'convertfrom','datenum')
+    OLdt{COUNT} = datetime(OLdn{COUNT},'convertfrom','datenum','TimeZone','UTC')
     octaveLevel{COUNT} = timetable(OLdt{COUNT},str2double(OLdata{COUNT}(:,2:end)));
 end
 
 for COUNT = 1:length(TOLdata)
     TOLdn{COUNT} = DateStr2Num(TOLdata{COUNT}(:,1),31);
 
-    TOLdt{COUNT} = datetime(TOLdn{COUNT},'convertfrom','datenum')
+    TOLdt{COUNT} = datetime(TOLdn{COUNT},'convertfrom','datenum','TimeZone','UTC')
     thirdOctaveLevel{COUNT} = timetable(TOLdt{COUNT},str2double(TOLdata{COUNT}(:,2:end)));
 end
 
 
 figure()
-plot(broadband{1}.Time,broadband{1}.Var1)
-ylabel('Broadband Sound')
-title('Gray''s Reef Sound','Broadband: 20 Hz - 24 kHz')
 hold on
-
-figure()
-plot(broadband{2}.Time,broadband{2}.Var1,'r')
+for COUNT = 1:length(broadband)
+    plot(broadband{COUNT}.Time,broadband{COUNT}.Var1)
+end
 ylabel('Broadband Sound')
 title('Gray''s Reef Sound','Broadband: 20 Hz - 24 kHz')
-
-figure()
-plot(broadband{3}.Time,broadband{3}.Var1,'r')
-ylabel('Broadband Sound')
-title('Gray''s Reef Sound','Broadband: 20 Hz - 24 kHz')
-
 
 figure()
 plot(octaveLevel{4}.Time,octaveLevel{4}.Var1(:,1),'r')
@@ -102,29 +93,60 @@ title('Gray''s Reef Sound','Red: Low Freq.; Blue: High Freq.')
 
 
 
-test1 = detrend(octaveLevel{4}.Var1(:,1))
-test2 = detrend(octaveLevel{4}.Var1(:,10))
+lowDetrend = detrend(octaveLevel{4}.Var1(:,1))
+highDetrend = detrend(octaveLevel{4}.Var1(:,10))
 
 figure()
-plot(octaveLevel{4}.Time,test1,'r')
+plot(octaveLevel{4}.Time,lowDetrend,'r')
 hold on
-plot(octaveLevel{4}.Time,test2,'b')
+plot(octaveLevel{4}.Time,highDetrend,'b')
 ylabel('Median Sound Levels, Detrended')
 title('Gray''s Reef Sound, Detrended','Red: Low Freq. Octave Level; Blue: High Freq.')
 
 
 
+% Okay, using this and powerAnalysis
+
+clearvars -except receiverData signal* githubToolbox oneDrive broadband octaveLevel thirdOctaveLevel
 
 
+figure()
+plot(octaveLevel{4}.Time,lowDetrend,'r')
+hold on
+plot(octaveLevel{4}.Time,highDetrend,'b','LineWidth',2)
+ylabel('Median Sound Levels, Detrended')
+plot(receiverData{4}.DT,receiverData{4}.windSpd,'k','LineWidth',2)
+title('Windspeed vs High (blue) and Low (red) Frequencies','Detrended Noise and Windspeed (Black, m/s)')
 
 
+figure()
+yyaxis left
+plot(octaveLevel{4}.Time,octaveLevel{4}.Var1(:,1),'r')
+hold on
+plot(octaveLevel{4}.Time,octaveLevel{4}.Var1(:,10),'b','LineWidth',2)
+ylabel('Median Sound Levels, Detrended')
+yyaxis right
+plot(receiverData{4}.DT,receiverData{4}.windSpd,'k','LineWidth',2)
+title('Windspeed vs High (blue) and Low (red) Frequencies','Windspeed (Black, m/s)')
 
 
+figure()
+scatter(receiverData{4}.windSpd(1678:4371,:),octaveLevel{4}.Var1(:,1))
+ylabel('Low Frequency')
+xlabel('Windspeed (m/s)')
 
-
-
-
-
+figure()
+tiledlayout(2,5,'TileSpacing','Compact')
+for COUNT = 1:width(octaveLevel{4}.Var1)
+    nexttile()
+    scatter(receiverData{4}.windSpd(1678:4371,:),octaveLevel{4}.Var1(:,COUNT))
+    ylabel('Soundpressure Level')
+    if ismember(COUNT,[6,7,8,9,10])
+        xlabel('Windspeed (m/s)')
+    end
+    title(sprintf('Octave Level: %d',COUNT))
+    % ylim([70 130])
+end
 
 
 

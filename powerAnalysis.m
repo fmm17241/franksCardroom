@@ -326,21 +326,6 @@ for COUNT = 1:length(receiverData)
 end
 
 
-
-
-
-for COUNT = 1:length(receiverData)
-    figure()
-    plot(FsPerDay/L{COUNT}*(0:L{COUNT}-1),struct.psdf)
-end
-
-
-
-
-
-
-
-
 %%
 %Set up FFT variables
 Fs = (2*pi)/(60*60);            % Sampling frequency, 1 sample every 60 minutes. Added 2pi.
@@ -354,16 +339,16 @@ for COUNT =  1:length(receiverData)
 end
 
 
-for COUNT = 1:length(receiverData)
-    figure(COUNT)
-    % plot(FsPerDay/L{1}*(0:L{1}-1),abs(rawSignalProcess.*conj(rawSignalProcess)),'r',"LineWidth",3)
-    plot(FsPerDay/L{COUNT}*(0:L{COUNT}-1),abs(Y{COUNT}),'r',"LineWidth",3)    
-    title("", "FFT Output, Log")
-    xlabel("f (Hz)")
-    ylabel("|fft(X)|")
-    set(gca,'XScale','log')
-    set(gca,'YScale','log')
-end
+% for COUNT = 1:length(receiverData)
+%     figure(COUNT)
+%     % plot(FsPerDay/L{1}*(0:L{1}-1),abs(rawSignalProcess.*conj(rawSignalProcess)),'r',"LineWidth",3)
+%     plot(FsPerDay/L{COUNT}*(0:L{COUNT}-1),abs(Y{COUNT}),'r',"LineWidth",3)    
+%     title("", "FFT Output, Log")
+%     xlabel("f (Hz)")
+%     ylabel("|fft(X)|")
+%     set(gca,'XScale','log')
+%     set(gca,'YScale','log')
+% end
 
 
 %%
@@ -383,16 +368,16 @@ for COUNT =  1:length(receiverData)
 end
 
 
-for COUNT = 1:length(receiverData)
-    figure(COUNT)
-    % plot(FsPerDay/L{1}*(0:L{1}-1),abs(rawSignalProcess.*conj(rawSignalProcess)),'r',"LineWidth",3)
-    plot(FsPerDay/L{COUNT}*(0:L{COUNT}-1),abs(averageWindowOutput{COUNT}),'r',"LineWidth",3)    
-    title("", "FFT Output, Log")
-    xlabel("f (Hz)")
-    ylabel("|fft(X)|")
-    set(gca,'XScale','log')
-    set(gca,'YScale','log')
-end
+% for COUNT = 1:length(receiverData)
+%     figure(COUNT)
+%     % plot(FsPerDay/L{1}*(0:L{1}-1),abs(rawSignalProcess.*conj(rawSignalProcess)),'r',"LineWidth",3)
+%     plot(FsPerDay/L{COUNT}*(0:L{COUNT}-1),abs(averageWindowOutput{COUNT}),'r',"LineWidth",3)    
+%     title("", "FFT Output, Log")
+%     xlabel("f (Hz)")
+%     ylabel("|fft(X)|")
+%     set(gca,'XScale','log')
+%     set(gca,'YScale','log')
+% end
 
 
 %%
@@ -424,10 +409,6 @@ bandpass(signalNoise{1},bandWorkHigh,Fs)
 
 figure()
 bandpass(signalNoise{1},bandWorkMid,Fs)
-
-
-figure()
-bandpass(signalNoise{1},bandWork3,Fs)
 
 figure()
 bandpass(signalNoise{1},bandWorkHigh,Fs)
