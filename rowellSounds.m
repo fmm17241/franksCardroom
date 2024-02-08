@@ -1,4 +1,4 @@
-cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\passiveSounds'
+cd 'C:\Users\fmac4\OneDrive - University of Georgia\data\passiveSounds'
 
 %Lists the files in the directory chosen above.
 broadBandFiles = dir('*BB*');
