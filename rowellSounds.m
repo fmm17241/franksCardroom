@@ -107,7 +107,7 @@ title('Gray''s Reef Sound, Detrended','Red: Low Freq. Octave Level; Blue: High F
 
 % Okay, using this and powerAnalysis
 
-clearvars -except receiverData signal* githubToolbox oneDrive broadband octaveLevel thirdOctaveLevel
+clearvars -except receiverData signal* githubToolbox oneDrive broadband octaveLevel thirdOctaveLevel lowDetrend highDetrend
 
 
 figure()
@@ -118,6 +118,19 @@ ylabel('Median Sound Levels, Detrended')
 plot(receiverData{4}.DT,receiverData{4}.windSpd,'k','LineWidth',2)
 title('Windspeed vs High (blue) and Low (red) Frequencies','Detrended Noise and Windspeed (Black, m/s)')
 
+
+figure()
+tiledlayout(3,1,'TileSpacing','Compact')
+ax1 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.windSpd)
+
+ax2 = nexttile()
+plot(octaveLevel{4}.Time,lowDetrend,'r')
+
+ax3 = nexttile()
+plot(octaveLevel{4}.Time,highDetrend,'b')
+
+linkaxes([ax1 ax2 ax3],'X')
 
 figure()
 yyaxis left
