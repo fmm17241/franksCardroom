@@ -125,10 +125,10 @@ ax1 = nexttile()
 plot(receiverData{4}.DT,receiverData{4}.windSpd)
 
 ax2 = nexttile()
-plot(octaveLevel{4}.Time,lowDetrend,'r')
+plot(octaveLevel{4}.Time,octaveLevel{4}.Var1(:,1),'r')
 
 ax3 = nexttile()
-plot(octaveLevel{4}.Time,highDetrend,'b')
+plot(octaveLevel{4}.Time,octaveLevel{4}.Var1(:,10),'b')
 
 linkaxes([ax1 ax2 ax3],'X')
 
