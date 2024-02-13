@@ -105,8 +105,10 @@ title('Gray''s Reef Sound, Detrended','Red: Low Freq. Octave Level; Blue: High F
 
 
 
-% Okay, using this and powerAnalysis
+%%
 
+% Okay, using this and powerAnalysis
+close all
 clearvars -except receiverData signal* githubToolbox oneDrive broadband octaveLevel thirdOctaveLevel lowDetrend highDetrend
 
 
