@@ -132,7 +132,12 @@ y3 = yline(6,'--','Moderate Breeze')
 y3.LabelHorizontalAlignment = 'left';
 y2 = yline(10,'--','Strong Breeze')
 y2.LabelHorizontalAlignment = 'center';
+x1 = xline(receiverData{4}.DT(2224),'-','High Winds')
+x1.LabelVerticalAlignment = 'bottom';
+x2 = xline(receiverData{4}.DT(2366))
+ylim([1 15])
 title('Wind''s Effect on a Shallow Coastal Reef''s Soundscape','Wind Magnitude')
+
 
 ax2 = nexttile([1 1])
 plot(octaveLevel{4}.Time,octaveLevel{4}.Var1(:,4),'b','LineWidth',2)
