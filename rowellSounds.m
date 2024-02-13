@@ -128,13 +128,13 @@ ax1 = nexttile([2 1])
 plot(receiverData{4}.DT,receiverData{4}.windSpd,'k')
 hold on
 ylabel('Windspeed (m/s)')
-y3 = yline(6,'--','Moderate Breeze')
-y3.LabelHorizontalAlignment = 'left';
-y2 = yline(10,'--','Strong Breeze')
-y2.LabelHorizontalAlignment = 'center';
-x1 = xline(receiverData{4}.DT(2224),'-','High Winds')
-x1.LabelVerticalAlignment = 'bottom';
-x2 = xline(receiverData{4}.DT(2366))
+% y3 = yline(6,'--','Moderate Breeze')
+% y3.LabelHorizontalAlignment = 'left';
+% y2 = yline(10,'--','Strong Breeze')
+% y2.LabelHorizontalAlignment = 'center';
+% x1 = xline(receiverData{4}.DT(2224),'-','High Winds')
+% x1.LabelVerticalAlignment = 'bottom';
+% x2 = xline(receiverData{4}.DT(2366))
 ylim([1 15])
 title('Wind''s Effect on a Shallow Coastal Reef''s Soundscape','Wind Magnitude')
 
@@ -142,11 +142,16 @@ title('Wind''s Effect on a Shallow Coastal Reef''s Soundscape','Wind Magnitude')
 ax2 = nexttile([1 1])
 plot(octaveLevel{4}.Time,octaveLevel{4}.Var1(:,4),'b','LineWidth',2)
 ylabel({'Sound Pressure Level'; 'Hourly Median (dB re 1 µPa)'})
+% x1 = xline(receiverData{4}.DT(2224),'-','High Winds')
+% x1.LabelVerticalAlignment = 'bottom';
+% x2 = xline(receiverData{4}.DT(2366))
 title('','Low-Frequency Noise (0.17-0.36 kHz)')
 
 ax3 = nexttile([1 1])
 plot(octaveLevel{4}.Time,octaveLevel{4}.Var1(:,10),'r','LineWidth',2)
 ylabel({'Sound Pressure Level'; 'Hourly Median (dB re 1 µPa)'})
+% x1 = xline(receiverData{4}.DT(2224),'-')
+% x2 = xline(receiverData{4}.DT(2366))
 title('','High-Frequency Noise (11-22 kHz)')
 
 linkaxes([ax1 ax2 ax3],'X')
