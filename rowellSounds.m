@@ -201,7 +201,7 @@ for COUNT = 1:width(octaveLevel{4}.Var1)
         xlabel('Windspeed (m/s)')
     end
     title(sprintf('Octave Level: %d',COUNT))
-    % ylim([70 130])
+    ylim([70 120])
 end
 
 
