@@ -40,9 +40,10 @@ figure()
 tiledlayout(3,1,'TileSpacing','compact')
 ax1 = nexttile()
 colororder(ax1,{'k','k'})
-plot(receiverData{4}.DT,receiverData{4}.windSpd,'k')
-ylabel('Windspd (m/s)')
-title('Windspeed')
+plot(receiverData{4}.DT,receiverData{4}.windDir,'k')
+ylabel('WindDir')
+title('WindDir')
+
 
 ax2 = nexttile()
 colororder(ax2,{'k','k'})
@@ -54,7 +55,11 @@ yyaxis right
 plot(receiverData{4}.DT,receiverData{4}.Noise,'k--')
 ylabel('HF Noise (mV)')
 ylim([300 750])
+ax = gca;
+ax.YAxis(1).Color = 'r';
+ax.YAxis(2).Color = 'k';
 % ylim([200 900])
+
 ax3 = nexttile()
 colororder(ax3,{'k','k'})
 plot(receiverData{5}.DT,receiverData{5}.HourlyDets,'b')
@@ -65,6 +70,9 @@ yyaxis right
 plot(receiverData{5}.DT,receiverData{5}.Noise,'k--')
 ylabel('HF Noise (mV)')
 ylim([300 750])
+ax = gca;
+ax.YAxis(1).Color = 'b';
+ax.YAxis(2).Color = 'k';
 % ylim([200 900])
 
 linkaxes([ax1,ax2,ax3],'x')
