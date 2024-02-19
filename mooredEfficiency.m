@@ -33,6 +33,7 @@ rawDetFile{7,1} = readtable('VR2Tx_483075_20211025_1.csv'); %FS6
 rawDetFile{8,1} = readtable('VR2Tx_483076_20211018_1.csv'); %08ALTIN
 rawDetFile{9,1} = readtable('VR2Tx_483080_20211223_1.csv'); %09T
 rawDetFile{10,1} = readtable('VR2Tx_483081_20211005_1.csv'); %39IN
+rawDetFile{11,1} = readtable('VR2Tx_483068_20211223_1.csv'); %FS17
 
 %First pairing: SURTASSSTN20 and STSNEW1
 %Second pairing: SURTASS05IN and FS6
@@ -92,9 +93,9 @@ index{9} = mooredReceivers{2,1}.detections == 63081; % SURTASS05IN hearing 39IN,
 index{10} = mooredReceivers{10,1}.detections == 63064; % 39IN hearing SURTASS05IN, transmits SE to NW
 
 % % %Sixth Pairing
-% index{11} = mooredReceivers{10,1}.detections == 63075; %39IN hearing FS6
-% index{12} = mooredReceivers{7,1}.detections == 63081; %FS6 hearing 39IN
-% 
+index{11} = mooredReceivers{11,1}.detections == 63073; %FS17 hearing STSNew1
+index{12} = mooredReceivers{5,1}.detections == 63068; %STSNew1 hearing FS17
+%
 % % Seventh pairing
 % index{13} = mooredReceivers{6,1}.detections == 63075; %STSNew2 hearing FS6
 % index{14} = mooredReceivers{7,1}.detections == 63074; %FS6 hearing STSNew2
@@ -104,7 +105,7 @@ index{10} = mooredReceivers{10,1}.detections == 63064; % 39IN hearing SURTASS05I
 %FM this is my "key" for the index. I didn't want to load data twice so
 %this key tells the loop which order to use
 % receiverOrder = [1;5;7;2;3;8;6;2;2;10;10;7;6;7];
-receiverOrder = [1;5;7;2;3;8;6;2;2;10];
+receiverOrder = [1;5;7;2;3;8;6;2;2;10;11;5];
 
 
 % %Making the visualizations more correct: instead of 06:00 representing
@@ -128,4 +129,5 @@ for k = 1:length(index)
     %bin, we put the hours in :30 but otherwise we keep hours.
 %     hourlyDetections{k}.time = hourlyDetections{k}.time + offset;
 end
+
 
