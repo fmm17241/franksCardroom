@@ -202,4 +202,32 @@ for COUNT = 1:width(octaveLevel{4}.Var1)
 end
 
 
+%%
+
+figure()
+tiledlayout(3,1,'TileSpacing','Compact')
+ax1 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.windSpd)
+ylabel('Windspd (m/s)')
+title('Comparing Wind Effects','Windspeed')
+ax2 = nexttile()
+yyaxis right
+plot(receiverData{4}.DT,receiverData{4}.HourlyDets)
+ylabel('Detections')
+yyaxis left
+plot(receiverData{4}.DT,receiverData{4}.Noise)
+title('Flat, Dense Reef')
+ylabel('High-Freq. Noise (mV)')
+ax3 = nexttile()
+yyaxis right
+plot(receiverData{5}.DT,receiverData{5}.HourlyDets)
+ylabel('Detections')
+yyaxis left
+plot(receiverData{5}.DT,receiverData{5}.Noise)
+title('Sunken Reef')
+ylabel('High-Freq. Noise (mV)')
+
+linkaxes([ax1 ax2 ax3],'x')
+
+
 

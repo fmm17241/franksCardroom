@@ -397,7 +397,7 @@ for COUNT = 1:2:length(noiseCompareAnnual)-1
     ylim([0 1])
 end
 
-Tiling transceiver pairings
+% Tiling transceiver pairings
 %
 orderNumbers = [1 1 2 2 3 3 4 4 5 5];
 figure()
@@ -424,9 +424,9 @@ for COUNT = 1:2:5
 end
 %
 
-just picking certain pairings now
-Pairing one: SURTASSTN20 to STSNew1, denser part of reef
-Pairing two: Roldan to 08ALTIN, more sparse
+% just picking certain pairings now
+% Pairing one: SURTASSTN20 to STSNew1, denser part of reef
+% Pairing two: Roldan to 08ALTIN, more sparse
 
 
 figure()
