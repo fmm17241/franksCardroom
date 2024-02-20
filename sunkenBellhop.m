@@ -11,11 +11,29 @@ plotray('frank2D')
 
 %Frank needs to test soundsource depths and distances from sunken portion
 %of reef. Might end up being separate work
-stationWindsAnalysis
+
 
 mooredEfficiency
 %We're looking at {11}, FS17 hearing STSNew1
-
+% stationWindsAnalysis
+buildReceiverData
 
 figure()
+tiledlayout(3,1,'TileSpacing','Compact')
+ax1 = nexttile()
 scatter(hourlyDetections{11}.time,hourlyDetections{11}.detections)
+ylabel('Dets')
+
+ax2 = nexttile()
+scatter(receiverData{4}.DT,receiverData{4}.windSpd)
+ylabel('Windspeed (m/s)')
+title('','Windspeed')
+
+ax3 = nexttile()
+scatter(receiverData{5}.DT,receiverData{5}.Noise)
+ylabel('Noise')
+title('','Noise')
+
+linkaxes([ax1 ax2 ax3],'x')
+
+
