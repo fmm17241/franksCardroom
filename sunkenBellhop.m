@@ -36,4 +36,29 @@ title('','Noise')
 
 linkaxes([ax1 ax2 ax3],'x')
 
+figure()
+tiledlayout(3,1,'TileSpacing','Compact')
 
+ax1 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.windSpd)
+title('Windspeed')
+
+ax2 = nexttile()
+hold on
+for COUNT = 1:length(receiverData)
+    plot(receiverData{COUNT}.DT,receiverData{COUNT}.HourlyDets)
+end
+title('Detections')
+
+ax3 = nexttile()
+hold on
+for COUNT = 1:length(receiverData)
+    plot(receiverData{COUNT}.DT,receiverData{COUNT}.Noise)
+end
+title('HF Noise')
+
+linkaxes([ax1 ax2 ax3],'x')
+
+figure()
+hold on
+plot(receiverData{2}.DT,receiverData{2}.HourlyDets)
