@@ -62,3 +62,20 @@ linkaxes([ax1 ax2 ax3],'x')
 figure()
 hold on
 plot(receiverData{2}.DT,receiverData{2}.HourlyDets)
+
+
+%%
+%Need to account for difference in reflection? Hmmmmm
+figure()
+scatter(signalWinds{4},signalPings{4});
+title('Flatreef Pings')
+figure()
+scatter(signalWinds{4},signalDets{4});
+title('Flatreef Dets')
+
+figure()
+scatter(signalWinds{5},signalPings{5});
+title('Sunken Pings')
+figure()
+scatter(signalWinds{5},signalDets{5});
+title('Sunken Dets')
