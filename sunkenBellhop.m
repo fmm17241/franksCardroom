@@ -79,3 +79,27 @@ title('Sunken Pings')
 figure()
 scatter(signalWinds{5},signalDets{5});
 title('Sunken Dets')
+
+
+
+figure()
+tiledlayout(3,1,'TileSpacing','Compact')
+
+ax1 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.windSpd)
+title('Windspeed')
+
+ax2 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.PingRatio)
+title('Flat, Dense Reef')
+ylabel('PingRatio')
+ylim([0 1])
+
+ax3 = nexttile()
+plot(receiverData{5}.DT,receiverData{5}.PingRatio)
+ylabel('PingRatio')
+title('Protected, Lower Reef')
+ylim([0 1])
+
+linkaxes([ax1 ax2 ax3],'x')
+
