@@ -11,6 +11,13 @@ plotray('frank2D')
 
 %Frank needs to test soundsource depths and distances from sunken portion
 %of reef. Might end up being separate work
+figure()
+tiledlayout(3,1,'TileSpacing','Compact')
+bellhop('frank2D')
+nexttile()
+plotray('frank2D')
+
+
 
 
 mooredEfficiency
