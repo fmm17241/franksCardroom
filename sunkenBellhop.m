@@ -110,3 +110,6 @@ ylim([0 1])
 
 linkaxes([ax1 ax2 ax3],'x')
 
+
+
+
