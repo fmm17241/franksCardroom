@@ -9,6 +9,11 @@ bellhop('frank2D')
 figure()
 plotray('frank2D')
 
+figure()
+plotray3d('frank2D')
+
+
+
 %Frank needs to test soundsource depths and distances from sunken portion
 %of reef. Might end up being separate work
 figure()
