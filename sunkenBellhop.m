@@ -116,6 +116,33 @@ ylim([0 1])
 
 linkaxes([ax1 ax2 ax3],'x')
 
+%%
+figure()
+tiledlayout(3,1,'TileSpacing','Compact')
 
+ax1 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.windSpd)
+title('Windspeed')
+
+ax2 = nexttile()
+yyaxis left
+plot(hourlyDetections{14}.time,hourlyDetections{14}.detections)
+title('Flat, Dense Reef')
+ylabel('Dets')
+yyaxis right
+plot(receiverData{4}.DT,receiverData{4}.Noise)
+ylabel('Noise')
+% ylim([0 1])
+
+ax3 = nexttile()
+plot(hourlyDetections{11}.time,hourlyDetections{11}.detections)
+ylabel('Dets')
+title('Protected, Lower Reef')
+yyaxis right
+plot(receiverData{5}.DT,receiverData{5}.Noise)
+ylabel('Noise')
+% ylim([0 1])
+
+linkaxes([ax1 ax2 ax3],'x')
 
 
