@@ -198,6 +198,7 @@ end
 for COUNT = 1:length(receiverData)
     detPings = receiverData{COUNT}.HourlyDets.*8;
     receiverData{COUNT}.PingRatio = detPings./receiverData{COUNT}.Pings;
+    receiverData{COUNT}.PingRatio(isnan(receiverData{COUNT}.PingRatio))=0;
 end
 
 %Adds predicted tidal currents to data
@@ -206,40 +207,4 @@ for COUNT = 1:length(receiverData)
     receiverData{COUNT}.crossShore(:,1) = crossShore(fullTideIndex{COUNT})';
     receiverData{COUNT}.alongShore(:,1) = alongShore(fullTideIndex{COUNT})';
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

@@ -10,6 +10,11 @@ bellhop('frank2D')
 figure()
 plotray('frank2D')
 
+figure()
+plotray3d('frank2D')
+
+
+
 %Frank needs to test soundsource depths and distances from sunken portion
 %of reef. Might end up being separate work
 figure()
@@ -110,4 +115,7 @@ title('Protected, Lower Reef')
 ylim([0 1])
 
 linkaxes([ax1 ax2 ax3],'x')
+
+
+
 
