@@ -2,6 +2,9 @@ buildReceiverData
 clearvars -except receiverData oneDrive githubToolbox
 close all
 
+
+
+
 %
 %Brock's Code: data, # of bins, Detrend?, Window?, Interval (secs), cutoff
 % dataout=Power_spectra(datainA,bins,DT,windoww,samplinginterval,cutoff)
