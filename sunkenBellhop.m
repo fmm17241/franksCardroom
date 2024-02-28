@@ -1,7 +1,8 @@
 %FM 2/20/24
 %Creating bellhop ray traces to support "sunken reef" idea
 
-cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\bellhopTesting'
+% cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\bellhopTesting' % Laptop
+cd 'C:\Users\fmac4\OneDrive - University of Georgia\data\bellhopTesting'  %  Home  PC
 
 
 bellhop('frank2D')
