@@ -24,11 +24,11 @@ close all
 
 %Okay. Two scenarios to compare, quantitatively
 
-sunkenLowNoiseIndex = receiverData{5}.Noise < 600;
-flatLowNoiseIndex   = receiverData{4}.Noise < 600;
+sunkenLowNoiseIndex = receiverData{5}.Noise < 650;
+flatLowNoiseIndex   = receiverData{4}.Noise < 650;
 
-sunkenHighNoiseIndex = receiverData{5}.Noise > 700;
-flatHighNoiseIndex = receiverData{4}.Noise > 700;
+sunkenHighNoiseIndex = receiverData{5}.Noise > 650;
+flatHighNoiseIndex = receiverData{4}.Noise > 650;
 
 sunkenLowNoise = receiverData{5}(sunkenLowNoiseIndex,:);
 sunkenHighNoise = receiverData{5}(sunkenHighNoiseIndex,:);
@@ -54,11 +54,57 @@ flatLowInterval = [flatLowNoise.HourlyDets + flatLowSTD,flatLowNoise.HourlyDets 
 flatHighInterval = [flatHighNoise.HourlyDets + flatHighSTD,flatHighNoise.HourlyDets - flatHighSTD ];
 
 
+figure()
+tiledlayout(2,2,'TileSpacing','Compact')
+nexttile()
+hist(sunkenLowNoise.Noise)
+title('Low Noise Levels, <650','Sunken Lagoon')
+ylabel('Hours')
+% xlabel(' HF Noise (mV)')
+ylim([0 2300])
+xlim([200 650])
+
+nexttile()
+hist(sunkenHighNoise.Noise)
+title('High Noise Levels, >650','Sunken Lagoon')
+% ylabel('Hours')
+% xlabel(' HF Noise (mV)')
+ylim([0 2300])
+xlim([650 850])
+set(gca, 'YTickLabel', [])
+
+nexttile()
+hist(flatLowNoise.Noise)
+title('','Flat Reef')
+ylabel('Hours')
+xlabel(' HF Noise (mV)')
+ylim([0 2300])
+xlim([200 650])
+
+nexttile()
+hist(flatHighNoise.Noise)
+title('','Flat Reef')
+% ylabel('Hours')
+xlabel(' HF Noise (mV)')
+ylim([0 2300])
+xlim([650 850])
+set(gca, 'YTickLabel', [])
+
+figure()
+scatter(1, flatLowNoise.HourlyDets)
+hold on
+scatter(2, flatHighNoise.HourlyDets)
+scatter(3, sunkenLowNoise.HourlyDets)
+scatter(4, sunkenHighNoise.HourlyDets)
+
+
+
 
 
 figure()
-(1, avgSunkLow)
-
+scatter(1, avgSunkLow,'filled','b')
+hold on
+errorbar(1,avgSunkLow,sunkenLowSTD)
 
 
 
