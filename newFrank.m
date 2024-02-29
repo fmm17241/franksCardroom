@@ -28,6 +28,7 @@ sunkenLMWindNoise = fitlm(sunkenReef.windSpd,sunkenReef.Noise)
 sunkenLMWindDets = fitlm(sunkenReef.windSpd,sunkenReef.HourlyDets)
 sunkenLMTempNoise = fitlm(sunkenReef.Temp,sunkenReef.Noise)
 
+
 for COUNT = 1:4
     flatLMWindNoise{COUNT}   = fitlm(flatReef{COUNT}.windSpd,flatReef{COUNT}.Noise)
     flatLMTempNoise{COUNT}   = fitlm(flatReef{COUNT}.Temp,flatReef{COUNT}.Noise)
@@ -35,15 +36,46 @@ for COUNT = 1:4
 end
 
 
+%%
+%
+figure()
+tiledlayout(4,1,'TileSpacing','Compact')
+ax1 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.windSpd)
+title('Seasonal Differences','Windspeed')
+ylabel('W.Speed (m/s)')
 
+ax2 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.crossShore)
+title('','X-Shore Tides, Neg Flood Pos Ebb')
+ylabel('Currents (m/s)')
 
+ax3 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.Noise,'k')
+title('','HF Noise (50-100 kHz)')
+ylabel('Noise (mV)')
 
+ax4 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.HourlyDets)
+title('','DETECTIONS')
+ylabel('Hourly Dets')
 
-
-
-
-
+linkaxes([ax1,ax2,ax3,ax4],'x')
 
 
 figure()
 plot(sunkenReef.DT,sunkenReef.Temp)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
