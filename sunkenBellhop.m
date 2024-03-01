@@ -8,10 +8,22 @@ cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\bellhopTesting' % La
 bellhop('frank2D')
 
 figure()
+tiledlayout(2,1,'TileSpacing','Compact')
+nexttile()
 plotray('frank2D')
 
-figure()
-plotray3d('frank2D')
+bellhop('frank2D')
+nexttile()
+plotray('frank2D')
+
+
+
+% 
+% figure()
+% plotray3d('frank2D')
+
+
+
 
 
 

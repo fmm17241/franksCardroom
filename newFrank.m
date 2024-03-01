@@ -112,12 +112,14 @@ errorbar(1,avgSunkLow,sunkenLowSTD)
 sunkenLMWindNoise = fitlm(sunkenReef.windSpd,sunkenReef.Noise)
 sunkenLMWindDets = fitlm(sunkenReef.windSpd,sunkenReef.HourlyDets)
 sunkenLMTempNoise = fitlm(sunkenReef.Temp,sunkenReef.Noise)
+sunkenLMNoiseDets = fitlm(sunkenReef.Noise,sunkenReef.HourlyDets)
 
 
 for COUNT = 1:4
     flatLMWindNoise{COUNT}   = fitlm(flatReef{COUNT}.windSpd,flatReef{COUNT}.Noise)
     flatLMTempNoise{COUNT}   = fitlm(flatReef{COUNT}.Temp,flatReef{COUNT}.Noise)
-    flatLMWindDets{COUNT}   = fitlm(flatReef{COUNT}.windSpd,flatReef{COUNT}.HourlyDets)
+    flatLMWindDets{COUNT}    = fitlm(flatReef{COUNT}.windSpd,flatReef{COUNT}.HourlyDets)
+    flatLMNoiseDets{COUNT}   = fitlm(flatReef{COUNT}.Noise,flatReef{COUNT}.HourlyDets)
 end
 
 
@@ -156,7 +158,25 @@ plot(sunkenReef.DT,sunkenReef.Temp)
 
 
 %%
-%Bring in 2014? Too much?
+%Alright, gotta bring in environmental data from the gliders. Instead
+%of just seasonal differences, I need to find times where stratification
+%was minimal, there was winds, and STILL the detection rate increased
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
