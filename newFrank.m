@@ -171,8 +171,7 @@ cd 03192020_04112020\
 load Mar_2020_angus_alldbds.mat
 load Mar_2020_angus_ebds.mat
 
-
-
+[matstruct,dn,z,temp] = Bindata(fstruct,sstruct);
 
 
 
