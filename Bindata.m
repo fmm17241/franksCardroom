@@ -1,4 +1,4 @@
-function [matstruct,dn,z,temp] = Bindata(fstruct,sstruct)
+function [matstruct,dn,z,temp,rho] = Bindata(fstruct,sstruct)
 
 % load fstruct/sstruct; fstruct only needed for lat/lon, so can use small version
 % compute depth, salnity, density
