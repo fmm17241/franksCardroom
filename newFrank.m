@@ -5,9 +5,44 @@ mooredEfficiency
 %We're looking at {11}, FS17 hearing STSNew1
 % stationWindsAnalysis
 buildReceiverData
+%%
 
-clearvars -except receiverData hourlyDetections mooredReceivers oneDrive githubToolbox
+cd 'C:\Users\fmac4\OneDrive - University of Georgia\data\Glider\whatever\04212020_05212020'
+
+load April_2020_angus_alldbds.mat
+load April_2020_angus_allebds.mat
+
+
+[matstruct,dn,z,temp,rho] = Bindata(fstruct,sstruct);
+
+[bulktime,bulkrho,bulktemp] = binnedbulkstrat(matstruct);
+%
+%%
+clearvars -except receiverData hourlyDetections mooredReceivers oneDrive githubToolbox matstruct bulk*
 close all
+
+
+
+figure()
+tiledlayout(4,1,'TileSpacing','compact')
+ax1 = nexttile()
+plot(bulktime,bulktemp);
+title('Bulk Thermal Strat. From Glider')
+
+ax2 = nexttile()
+plot(receiverData{5}.DT,receiverData{5}.windSpd);
+title('','Windspeed')
+
+ax3 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.HourlyDets);
+title('Flat','Detections')
+
+ax4 = nexttile()
+plot(receiverData{5}.DT,receiverData{5}.HourlyDets);
+title('Lagoon','Detections')
+
+linkaxes([ax1 ax2 ax3 ax4],'x')
+
 
 sunkenReef = receiverData{5};
 flatReef{1}   = receiverData{4};
@@ -176,7 +211,7 @@ load Mar_2020_angus_ebds.mat
 [bulktime, bulkrho, bulktemp] = binnedbulkstrat(matstruct);
 
 
-cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Glider\whatever\04212020_05212020'
+cd 'C:\Users\fmac4\OneDrive - University of Georgia\data\Glider\whatever\04212020_05212020'
 
 load April_2020_angus_alldbds.mat
 load April_2020_angus_allebds.mat
@@ -184,10 +219,10 @@ load April_2020_angus_allebds.mat
 
 [matstruct,dn,z,temp,rho] = Bindata(fstruct,sstruct);
 
-[bulktime,bulkrho,bulktemp]
+[bulktime,bulkrho,bulktemp] = binnedbulkstrat(matstruct);
 
 figure()
-plot(matstruct.dt,)
+plot(bulktime,bulktemp)
 
 
 
