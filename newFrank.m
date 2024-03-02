@@ -176,8 +176,18 @@ load Mar_2020_angus_ebds.mat
 
 
 
+cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Glider\whatever\04212020_05212020'
+
+load April_2020_angus_alldbds.mat
+load April_2020_angus_allebds.mat
 
 
+[matstruct,dn,z,temp,rho] = Bindata(fstruct,sstruct);
+
+[bulktime,bulkrho,bulktemp]
+
+figure()
+plot(matstruct.dt,)
 
 
 
