@@ -162,7 +162,7 @@ plot(sunkenReef.DT,sunkenReef.Temp)
 %of just seasonal differences, I need to find times where stratification
 %was minimal, there was winds, and STILL the detection rate increased
 
-cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Glider\whatever'
+cd 'C:\Users\fmac4\OneDrive - University of Georgia\data\Glider\whatever'
 
 
 cd 03192020_04112020\
@@ -173,7 +173,7 @@ load Mar_2020_angus_ebds.mat
 
 [matstruct,dn,z,temp,rho] = Bindata(fstruct,sstruct);
 
-
+[bulktime, bulkrho, bulktemp] = binnedbulkstrat(matstruct);
 
 
 
