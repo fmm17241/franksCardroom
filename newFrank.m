@@ -18,7 +18,7 @@ load April_2020_angus_allebds.mat
 [bulktime,bulkrho,bulktemp] = binnedbulkstrat(matstruct);
 %
 %%
-clearvars -except receiverData hourlyDetections mooredReceivers oneDrive githubToolbox matstruct bulk*
+clearvars -except receiverData hourlyDetections mooredReceivers oneDrive githubToolbox matstruct bulktime bulkrho bulktemp
 close all
 
 
@@ -208,7 +208,7 @@ load Mar_2020_angus_ebds.mat
 
 [matstruct,dn,z,temp,rho] = Bindata(fstruct,sstruct);
 
-[bulktime, bulkrho, bulktemp] = binnedbulkstrat(matstruct);
+[bulktime1, bulkrho1, bulktemp1] = binnedbulkstrat(matstruct);
 
 
 cd 'C:\Users\fmac4\OneDrive - University of Georgia\data\Glider\whatever\04212020_05212020'
@@ -219,18 +219,39 @@ load April_2020_angus_allebds.mat
 
 [matstruct,dn,z,temp,rho] = Bindata(fstruct,sstruct);
 
-[bulktime,bulkrho,bulktemp] = binnedbulkstrat(matstruct);
+[bulktime2,bulkrho2,bulktemp2] = binnedbulkstrat(matstruct);
 
+% figure()
+% plot(bulktime,bulktemp)
+
+
+cd 'C:\Users\fmac4\OneDrive - University of Georgia\data\Glider\whatever\11042020_11162020'
+
+load November_2020_franklin_alldbds.mat
+load November_2020_franklin_allebds.mat
+
+
+[matstruct,dn,z,temp,rho] = Bindata(fstruct,sstruct);
+
+[bulktime3,bulkrho3,bulktemp3] = binnedbulkstrat(matstruct);
+
+
+%  Combine all stratifications
+
+bulktime  = [bulktime1,bulktime2,bulktime3];
+bulkrho    = [bulkrho1,bulkrho2,bulkrho3];
+bulktemp =  [bulktemp1,bulktemp2,bulktemp3];
+
+%
 figure()
+tiledlayout(3,1,'TileSpacing','Compact')
+ax1 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.windSpd)
+title('Windspeed')
+ax2 = nexttile()
 plot(bulktime,bulktemp)
-
-
-
-
-
-
-
-
-
-
-
+title('Thermal Stratification')
+ax3 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.HourlyDets)
+title('Detections')
+linkaxes([ax1 ax2 ax3],'x')
