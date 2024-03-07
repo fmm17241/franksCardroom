@@ -7,7 +7,7 @@ mooredEfficiency
 buildReceiverData
 %%
 
-cd 'C:\Users\fmac4\OneDrive - University of Georgia\data\Glider\whatever\04212020_05212020'
+cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Glider\whatever\04212020_05212020'
 
 load April_2020_angus_alldbds.mat
 load April_2020_angus_allebds.mat
