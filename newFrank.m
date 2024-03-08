@@ -7,6 +7,20 @@ mooredEfficiency
 buildReceiverData
 %%
 
+cd 'C:\Users\fmac4\OneDrive - University of Georgia\data\Glider\whatever'
+
+
+cd 03192020_04112020\
+
+
+load Mar_2020_angus_alldbds.mat
+load Mar_2020_angus_ebds.mat
+
+[matstruct,dn,z,temp,rho] = Bindata(fstruct,sstruct);
+
+[bulktime1, bulkrho1, bulktemp1] = binnedbulkstrat(matstruct);
+
+
 cd 'C:\Users\fmac4\OneDrive - University of Georgia\data\Glider\whatever\04212020_05212020'
 
 load April_2020_angus_alldbds.mat
@@ -15,8 +29,29 @@ load April_2020_angus_allebds.mat
 
 [matstruct,dn,z,temp,rho] = Bindata(fstruct,sstruct);
 
-[bulktime,bulkrho,bulktemp] = binnedbulkstrat(matstruct);
-%
+[bulktime2,bulkrho2,bulktemp2] = binnedbulkstrat(matstruct);
+
+% figure()
+% plot(bulktime,bulktemp)
+
+
+cd 'C:\Users\fmac4\OneDrive - University of Georgia\data\Glider\whatever\11042020_11162020'
+
+load November_2020_franklin_alldbds.mat
+load November_2020_franklin_allebds.mat
+
+
+[matstruct,dn,z,temp,rho] = Bindata(fstruct,sstruct);
+
+[bulktime3,bulkrho3,bulktemp3] = binnedbulkstrat(matstruct);
+
+
+%  Combine all stratifications
+
+bulktime  = [bulktime1,bulktime2,bulktime3];
+bulkrho    = [bulkrho1,bulkrho2,bulkrho3];
+bulktemp =  [bulktemp1,bulktemp2,bulktemp3];
+
 %%
 clearvars -except receiverData hourlyDetections mooredReceivers oneDrive githubToolbox matstruct bulktime bulkrho bulktemp
 close all
@@ -24,7 +59,7 @@ close all
 
 
 figure()
-tiledlayout(4,1,'TileSpacing','compact')
+tiledlayout(5,1,'TileSpacing','compact')
 ax1 = nexttile()
 plot(bulktime,bulktemp);
 title('Bulk Thermal Strat. From Glider')
@@ -34,14 +69,18 @@ plot(receiverData{5}.DT,receiverData{5}.windSpd);
 title('','Windspeed')
 
 ax3 = nexttile()
+plot(receiverData{5}.DT,receiverData{5}.crossShore);
+title('','X-Shore Tides')
+
+ax4 = nexttile()
 plot(receiverData{4}.DT,receiverData{4}.HourlyDets);
 title('Flat','Detections')
 
-ax4 = nexttile()
+ax5 = nexttile()
 plot(receiverData{5}.DT,receiverData{5}.HourlyDets);
 title('Lagoon','Detections')
 
-linkaxes([ax1 ax2 ax3 ax4],'x')
+linkaxes([ax1 ax2 ax3 ax4 ax5],'x')
 
 
 sunkenReef = receiverData{5};
@@ -197,50 +236,6 @@ plot(sunkenReef.DT,sunkenReef.Temp)
 %of just seasonal differences, I need to find times where stratification
 %was minimal, there was winds, and STILL the detection rate increased
 
-cd 'C:\Users\fmac4\OneDrive - University of Georgia\data\Glider\whatever'
-
-
-cd 03192020_04112020\
-
-
-load Mar_2020_angus_alldbds.mat
-load Mar_2020_angus_ebds.mat
-
-[matstruct,dn,z,temp,rho] = Bindata(fstruct,sstruct);
-
-[bulktime1, bulkrho1, bulktemp1] = binnedbulkstrat(matstruct);
-
-
-cd 'C:\Users\fmac4\OneDrive - University of Georgia\data\Glider\whatever\04212020_05212020'
-
-load April_2020_angus_alldbds.mat
-load April_2020_angus_allebds.mat
-
-
-[matstruct,dn,z,temp,rho] = Bindata(fstruct,sstruct);
-
-[bulktime2,bulkrho2,bulktemp2] = binnedbulkstrat(matstruct);
-
-% figure()
-% plot(bulktime,bulktemp)
-
-
-cd 'C:\Users\fmac4\OneDrive - University of Georgia\data\Glider\whatever\11042020_11162020'
-
-load November_2020_franklin_alldbds.mat
-load November_2020_franklin_allebds.mat
-
-
-[matstruct,dn,z,temp,rho] = Bindata(fstruct,sstruct);
-
-[bulktime3,bulkrho3,bulktemp3] = binnedbulkstrat(matstruct);
-
-
-%  Combine all stratifications
-
-bulktime  = [bulktime1,bulktime2,bulktime3];
-bulkrho    = [bulkrho1,bulkrho2,bulkrho3];
-bulktemp =  [bulktemp1,bulktemp2,bulktemp3];
 
 %
 figure()
