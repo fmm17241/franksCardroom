@@ -7,8 +7,8 @@ mooredEfficiency
 buildReceiverData
 %%
 
-cd 'C:\Users\fmac4\OneDrive - University of Georgia\data\Glider\whatever'
-
+% cd 'C:\Users\fmac4\OneDrive - University of Georgia\data\Glider\whatever'
+cd ([oneDrive,'Glider\whatever'])
 
 cd 03192020_04112020\
 
@@ -21,7 +21,7 @@ load Mar_2020_angus_ebds.mat
 [bulktime1, bulkrho1, bulktemp1] = binnedbulkstrat(matstruct);
 
 
-cd 'C:\Users\fmac4\OneDrive - University of Georgia\data\Glider\whatever\04212020_05212020'
+cd ([oneDrive,'Glider\whatever\04212020_05212020'])
 
 load April_2020_angus_alldbds.mat
 load April_2020_angus_allebds.mat
@@ -35,7 +35,7 @@ load April_2020_angus_allebds.mat
 % plot(bulktime,bulktemp)
 
 
-cd 'C:\Users\fmac4\OneDrive - University of Georgia\data\Glider\whatever\11042020_11162020'
+cd ([oneDrive,'Glider\whatever\11042020_11162020'])
 
 load November_2020_franklin_alldbds.mat
 load November_2020_franklin_allebds.mat
