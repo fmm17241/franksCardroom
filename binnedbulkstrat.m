@@ -2,7 +2,7 @@
 % Bindata or BindataUse has to be pointed to the correct dbd/ebd files.
 %Frank appending 3/2/24
 
-function [bulktime,bulkrho,bulktemp] = binnedbulkstrat(matstruct)
+function [bulktime, bulkrho,bulktemp] = binnedbulkstrat(matstruct)
 
 
 LL = length(matstruct.rho);

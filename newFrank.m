@@ -16,10 +16,10 @@ cd 03192020_04112020\
 load Mar_2020_angus_alldbds.mat
 load Mar_2020_angus_ebds.mat
 
-[matstruct,dn,z,temp,rho] = Bindata(fstruct,sstruct);
+[matstruct1,dn,z,temp,rho] = Bindata(fstruct,sstruct);
 
-[bulktime1, bulkrho1, bulktemp1] = binnedbulkstrat(matstruct);
-
+[bulktime1, bulkrho1, bulktemp1] = binnedbulkstrat(matstruct1);
+bulkdepth1 = z;
 
 cd ([oneDrive,'Glider\whatever\04212020_05212020'])
 
@@ -27,10 +27,10 @@ load April_2020_angus_alldbds.mat
 load April_2020_angus_allebds.mat
 
 
-[matstruct,dn,z,temp,rho] = Bindata(fstruct,sstruct);
+[matstruct2,dn,z,temp,rho] = Bindata(fstruct,sstruct);
 
-[bulktime2,bulkrho2,bulktemp2] = binnedbulkstrat(matstruct);
-
+[bulktime2,bulkrho2,bulktemp2] = binnedbulkstrat(matstruct2);
+bulkdepth2 = z;
 % figure()
 % plot(bulktime,bulktemp)
 
@@ -41,28 +41,40 @@ load November_2020_franklin_alldbds.mat
 load November_2020_franklin_allebds.mat
 
 
-[matstruct,dn,z,temp,rho] = Bindata(fstruct,sstruct);
+[matstruct3,dn,z,temp,rho] = Bindata(fstruct,sstruct);
 
-[bulktime3,bulkrho3,bulktemp3] = binnedbulkstrat(matstruct);
-
+[bulktime3,bulkrho3,bulktemp3] = binnedbulkstrat(matstruct3);
+bulkdepth3 = z;
 
 %  Combine all stratifications
 
-bulktime  = [bulktime1,bulktime2,bulktime3];
+bulktime   = [bulktime1,bulktime2,bulktime3];
 bulkrho    = [bulkrho1,bulkrho2,bulkrho3];
-bulktemp =  [bulktemp1,bulktemp2,bulktemp3];
+bulktemp   = [bulktemp1,bulktemp2,bulktemp3];
+bulkdepth  = [bulkdepth1,bulkdepth2,bulkdepth3];
+
+matrixTemp  = [matstruct1.temp,matstruct2.temp,matstruct3.temp]
+matrixRho   = [matstruct1.rho,matstruct2.rho,matstruct3.rho]
+matrixDepth = [matstruct1.z,matstruct2.z,matstruct3.z]
 
 %%
-clearvars -except receiverData hourlyDetections mooredReceivers oneDrive githubToolbox matstruct bulktime bulkrho bulktemp
+clearvars -except receiverData hourlyDetections mooredReceivers oneDrive githubToolbox matstruct bulktime bulkrho bulktemp bulkdepth matstruct*
 close all
 
 
 
 figure()
 tiledlayout(5,1,'TileSpacing','compact')
+% ax1 = nexttile()
+% plot(bulktime,bulktemp);
+% title('Bulk Thermal Strat. From Glider')
+
 ax1 = nexttile()
-plot(bulktime,bulktemp);
-title('Bulk Thermal Strat. From Glider')
+pcolor(bulktime,bulkdepth,bulktemp)
+
+
+figure; h1=pcolor(dn,z,temp'); shading interp; colorbar; set(gca,'ydir','reverse'); datetick('x','keeplimits');
+
 
 ax2 = nexttile()
 plot(receiverData{5}.DT,receiverData{5}.windSpd);
