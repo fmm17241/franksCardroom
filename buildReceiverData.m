@@ -191,6 +191,9 @@ for COUNT = 1:length(receiverData)
     fullWindIndex{COUNT} = isbetween(windsDT,receiverData{COUNT}.DT(1,1),receiverData{COUNT}.DT(end,1),'closed');
     receiverData{COUNT}.windSpd(:,1) = WSPD(fullWindIndex{COUNT});
     receiverData{COUNT}.windDir(:,1) = WDIR(fullWindIndex{COUNT});
+    receiverData{COUNT}.surfaceTemp  = seas.SST(fullWindIndex{COUNT});
+    receiverData{COUNT}.bulkThermalStrat = receiverData{COUNT}.surfaceTemp-receiverData{COUNT}.Temp;
+
 end
 
 
@@ -207,4 +210,14 @@ for COUNT = 1:length(receiverData)
     receiverData{COUNT}.crossShore(:,1) = crossShore(fullTideIndex{COUNT})';
     receiverData{COUNT}.alongShore(:,1) = alongShore(fullTideIndex{COUNT})';
 end
+
+%Adds estimated bulk stratification, comparing the NOAA buoy to transceiver
+%measurements.
+
+% receiverData{}.bulkStrat = receiverData
+
+
+
+
+
 
