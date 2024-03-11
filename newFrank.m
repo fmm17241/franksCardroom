@@ -78,7 +78,7 @@ close all
 
 
 figure()
-tiledlayout(4,1,'TileSpacing','compact')
+tiledlayout(5,1,'TileSpacing','compact')
 % ax1 = nexttile()
 % plot(bulktime,bulktemp);
 % title('Bulk Thermal Strat. From Glider')
@@ -89,8 +89,8 @@ title('Water Temperature','Glider')
 
 % figure; h1=pcolor(dn,z,temp'); shading interp; colorbar; set(gca,'ydir','reverse'); datetick('x','keeplimits');
 ax2 = nexttile()
-plot(receiverData{4}.DT,receiverData{4}.Temp);
-title('Bottom Temp','Transceiver')
+plot(receiverData{4}.DT,receiverData{4}.bulkThermalStrat);
+title('Bulk Temp Stratification','Buoy - Transceiver')
 
 ax3 = nexttile()
 plot(receiverData{4}.DT,receiverData{4}.windSpd);
@@ -101,15 +101,25 @@ plot(receiverData{4}.DT,receiverData{4}.Noise);
 title('','Noise')
 yline(650)
 
-% ax4 = nexttile()
-% plot(receiverData{4}.DT,receiverData{4}.HourlyDets);
-% title('Flat','Detections')
+%
+averageDetections = receiverData
+frank , ugh, make this work to give us average hourly for every hour
+then use it to plot against stratification in April/May
+%
+
+ax5 = nexttile()
+hold on
+for COUNT = 1:length(receiverData)
+    plot(receiverData{COUNT}.DT,receiverData{COUNT}.HourlyDets);
+end
+title('Flat','Detections')
+
 
 % ax5 = nexttile()
 % plot(receiverData{5}.DT,receiverData{5}.HourlyDets);
 % title('Lagoon','Detections')
 
-linkaxes([ax1 ax2 ax3 ax4],'x')
+linkaxes([ax1 ax2 ax3 ax4 ax5],'x')
 
 
 sunkenReef = receiverData{5};
