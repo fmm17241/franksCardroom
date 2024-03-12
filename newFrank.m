@@ -71,9 +71,25 @@ matrixTemp  = [matstruct4.temp; matstruct1.temp;matstruct2.temp;matstruct3.temp]
 matrixRho   = [matstruct4.rho; matstruct1.rho;matstruct2.rho;matstruct3.rho];
 matrixDepth = [matstruct4.z; matstruct1.z;matstruct2.z;matstruct3.z];
 
+
+
+
+%Aight, Frank needs to pick specific time chunks to compare statistically.
+
+
+
+
+
+
 %%
 clearvars -except receiverData hourlyDetections mooredReceivers oneDrive githubToolbox matstruct bulktime bulkrho bulktemp bulkdepth matstruct* matrix*
 close all
+
+
+
+% Interpolate Temp. Weakens dataset but good to just truth my bulk thermal
+% estimation.
+b = 0.5 * (fillmissing(matrixTemp, 'previous') + fillmissing(matrixTemp, 'next'))
 
 
 
@@ -84,28 +100,29 @@ tiledlayout(5,1,'TileSpacing','compact')
 % title('Bulk Thermal Strat. From Glider')
 
 ax1 = nexttile()
-pcolor(matrixDT,matrixDepth(1,:),matrixTemp'); shading interp; colorbar; set(gca,'ydir','reverse'); datetick('x');
+pcolor(matrixDT,matrixDepth(1,:),b'); shading interp; colorbar; set(gca,'ydir','reverse'); datetick('x');
 title('Water Temperature','Glider')
 
 % figure; h1=pcolor(dn,z,temp'); shading interp; colorbar; set(gca,'ydir','reverse'); datetick('x','keeplimits');
 ax2 = nexttile()
-plot(receiverData{4}.DT,receiverData{4}.bulkThermalStrat);
+plot(receiverData{2}.DT,receiverData{2}.bulkThermalStrat);
 title('Bulk Temp Stratification','Buoy - Transceiver')
 
 ax3 = nexttile()
 plot(receiverData{4}.DT,receiverData{4}.windSpd);
 title('','Windspeed')
 
+
 ax4 = nexttile()
-plot(receiverData{4}.DT,receiverData{4}.Noise);
+plot(receiverData{2}.DT,receiverData{2}.Noise);
 title('','Noise')
 yline(650)
 
-%
-averageDetections = receiverData
-frank , ugh, make this work to give us average hourly for every hour
-then use it to plot against stratification in April/May
-%
+% %
+% averageDetections = receiverData
+% frank , ugh, make this work to give us average hourly for every hour
+% then use it to plot against stratification in April/May
+% %
 
 ax5 = nexttile()
 hold on
