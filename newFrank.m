@@ -74,16 +74,21 @@ matrixDepth = [matstruct4.z; matstruct1.z;matstruct2.z;matstruct3.z];
 
 
 
-%Aight, Frank needs to pick specific time chunks to compare statistically.
-
-
-
-
-
 
 %%
 clearvars -except receiverData hourlyDetections mooredReceivers oneDrive githubToolbox matstruct bulktime bulkrho bulktemp bulkdepth matstruct* matrix*
 close all
+
+%Aight, Frank needs to pick specific time chunks to compare statistically.
+cd 'C:\Users\fmm17241\OneDrive - University of Georgia\statisticalAnalysis\envStatsSpring2024'
+
+winterSpringFLAT   = receiverData{4}(1613:3797,:); %Jan 27 to April 27
+winterSpringSUNKEN = receiverData{5}(1081:3265,:);  % samesies
+winterSpringTAGS   = receiverData{2}(1232:3416,:);  % samesies
+
+
+
+
 
 
 
