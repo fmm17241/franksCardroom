@@ -129,17 +129,20 @@ yline(650)
 % then use it to plot against stratification in April/May
 % %
 
-ax5 = nexttile()
-hold on
-for COUNT = 1:length(receiverData)
-    plot(receiverData{COUNT}.DT,receiverData{COUNT}.HourlyDets);
-end
-title('Flat','Detections')
+
 
 
 % ax5 = nexttile()
-% plot(receiverData{5}.DT,receiverData{5}.HourlyDets);
-% title('Lagoon','Detections')
+% hold on
+% for COUNT = 1:length(receiverData)
+%     plot(receiverData{COUNT}.DT,receiverData{COUNT}.HourlyDets);
+% end
+% title('Flat','Detections')
+
+
+ax5 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.HourlyDets);
+title('','Detections')
 
 linkaxes([ax1 ax2 ax3 ax4 ax5],'x')
 
