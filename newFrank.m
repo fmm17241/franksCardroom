@@ -99,14 +99,14 @@ b = 0.5 * (fillmissing(matrixTemp, 'previous') + fillmissing(matrixTemp, 'next')
 
 
 figure()
-tiledlayout(5,1,'TileSpacing','compact')
+tiledlayout(4,1,'TileSpacing','compact')
 % ax1 = nexttile()
 % plot(bulktime,bulktemp);
 % title('Bulk Thermal Strat. From Glider')
 
-ax1 = nexttile()
-pcolor(matrixDT,matrixDepth(1,:),b'); shading interp; colorbar; set(gca,'ydir','reverse'); datetick('x');
-title('Water Temperature','Glider')
+% ax1 = nexttile()
+% pcolor(matrixDT,matrixDepth(1,:),matrixTemp'); shading interp; colorbar; set(gca,'ydir','reverse'); datetick('x');
+% title('Water Temperature','Glider')
 
 % figure; h1=pcolor(dn,z,temp'); shading interp; colorbar; set(gca,'ydir','reverse'); datetick('x','keeplimits');
 ax2 = nexttile()
@@ -141,7 +141,7 @@ yline(650)
 
 
 ax5 = nexttile()
-plot(receiverData{4}.DT,receiverData{4}.HourlyDets);
+plot(receiverData{9}.DT,receiverData{9}.HourlyDets);
 title('','Detections')
 
 linkaxes([ax1 ax2 ax3 ax4 ax5],'x')

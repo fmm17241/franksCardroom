@@ -13,7 +13,8 @@ sunRun = [sunrise; sunset];
 %rotUtide{} is parallel to transmissions and rotVtide{} is perpendicular.
 
 %FRANK THIS IS ALREADY FLIPPED, YOOOO
-tidalAnalysis2020
+% tidalAnalysis2020
+stationTidalAnalysis
 close all
 
 %Detections between specific transceiver pairs. Uses
@@ -29,7 +30,8 @@ mooredReceiverData2020
 
 
 %Winds magnitude and direction from the buoy. Uses windsDN/U/V.
-windsAnalysis2020
+% windsAnalysis2020
+stationWindsAnalysis
 %12/22 added "waveHeight" for waveheight.
 
 

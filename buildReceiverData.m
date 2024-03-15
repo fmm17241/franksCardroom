@@ -193,6 +193,7 @@ for COUNT = 1:length(receiverData)
     receiverData{COUNT}.windDir(:,1) = WDIR(fullWindIndex{COUNT});
     receiverData{COUNT}.surfaceTemp  = seas.SST(fullWindIndex{COUNT});
     receiverData{COUNT}.bulkThermalStrat = receiverData{COUNT}.surfaceTemp-receiverData{COUNT}.Temp;
+    receiverData{COUNT}.waveHeight       = seas.waveHeight(fullWindIndex{COUNT});
 
 end
 
