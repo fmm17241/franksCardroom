@@ -18,38 +18,42 @@ for COUNT= 1:length(receiverData)
         nightHours{k,COUNT}  = receiverData{1,COUNT}(daylightIndex{1,COUNT}{1,k}(2,:),:);
         %Isolating just the detections and noise. All other variables can
         %be helpful but this is just a way of finding averages 
-        dayDets{k,COUNT}    = dayHours{k,COUNT}.HourlyDets;
-        nightDets{k,COUNT}  = nightHours{k,COUNT}.HourlyDets;
+        dayDets1{k,COUNT}    = dayHours{k,COUNT}.HourlyDets;
+        nightDets1{k,COUNT}  = nightHours{k,COUNT}.HourlyDets;
 %         sunsetDets{k}(COUNT,:)  = sunsetHours{k,COUNT}.HourlyDets;
-        daySounds{k,COUNT}     =dayHours{k,COUNT}.Noise;
-        nightSounds{k,COUNT}   = nightHours{k,COUNT}.Noise;
+        daySounds1{k,COUNT}     =dayHours{k,COUNT}.Noise;
+        nightSounds1{k,COUNT}   = nightHours{k,COUNT}.Noise;
 %         sunsetSounds{k}(COUNT,:)   = sunsetHours{k,COUNT}.noise;
-        dayWinds{k,COUNT}     =dayHours{k,COUNT}.windSpd;
-        nightWinds{k,COUNT}   = nightHours{k,COUNT}.windSpd;
+        dayWinds1{k,COUNT}     =dayHours{k,COUNT}.windSpd;
+        nightWinds1{k,COUNT}   = nightHours{k,COUNT}.windSpd;
 
-        dayPings{k,COUNT}      = mean(dayHours{k,COUNT}.Pings);
-        nightPings{k,COUNT}    = mean(nightHours{k,COUNT}.Pings);
+        dayPings1{k,COUNT}      = dayHours{k,COUNT}.Pings;
+        nightPings1{k,COUNT}    = nightHours{k,COUNT}.Pings;
 
-        dayStrat{k,COUNT} = mean(dayHours{k,COUNT}.bulkThermalStrat);
-        nightStrat{k,COUNT} = mean(nightHours{k,COUNT}.bulkThermalStrat);
+        dayStrat1{k,COUNT} = dayHours{k,COUNT}.bulkThermalStrat;
+        nightStrat1{k,COUNT} = nightHours{k,COUNT}.bulkThermalStrat;
     end
 end
 
-test = dayDets(1,:);
-
-maxLength = max(cellfun(@numel, test))
-paddedMatrix = cellfun(@(x) padcat(x, NaN(maxLength-length(x),1)), test, 'UniformOutput', false);
-numericMatrix = cell2mat(paddedMatrix);
-columnAverages = nanmean(numericMatrix);
-
-
-
 for k = 1:length(seasons)
-    maxNumCol = max(cellfun(@(r) size(r,1), dayDets(k,:)))
-    aMat{k} = cell2mat(cellfun(@(r){padarray(r,[0,maxNumCol-size(r,2)],NaN,'Post')}, dayDets(k,:)'))
+    dayDets{k} = padcat(dayDets1{k,1},dayDets1{k,2},dayDets1{k,3},dayDets1{k,4},dayDets1{k,5},dayDets1{k,6},dayDets1{k,7},dayDets1{k,8},dayDets1{k,9},dayDets1{k,10},dayDets1{k,11},dayDets1{k,12},dayDets1{k,13})
+    nightDets{k} = padcat(nightDets1{k,1},nightDets1{k,2},nightDets1{k,3},nightDets1{k,4},nightDets1{k,5},nightDets1{k,6},nightDets1{k,7},nightDets1{k,8},nightDets1{k,9},nightDets1{k,10},nightDets1{k,11},nightDets1{k,12},nightDets1{k,13})
+    
+    daySounds{k} = padcat(daySounds1{k,1},daySounds1{k,2},daySounds1{k,3},daySounds1{k,4},daySounds1{k,5},daySounds1{k,6},daySounds1{k,7},daySounds1{k,8},daySounds1{k,9},daySounds1{k,10},daySounds1{k,11},daySounds1{k,12},daySounds1{k,13})
+    nightSounds{k} = padcat(nightSounds1{k,1},nightSounds1{k,2},nightSounds1{k,3},nightSounds1{k,4},nightSounds1{k,5},nightSounds1{k,6},nightSounds1{k,7},nightSounds1{k,8},nightSounds1{k,9},nightSounds1{k,10},nightSounds1{k,11},nightSounds1{k,12},nightSounds1{k,13})
+    
+    
+    dayWinds{k} = padcat(dayWinds1{k,1},dayWinds1{k,2},dayWinds1{k,3},dayWinds1{k,4},dayWinds1{k,5},dayWinds1{k,6},dayWinds1{k,7},dayWinds1{k,8},dayWinds1{k,9},dayWinds1{k,10},dayWinds1{k,11},dayWinds1{k,12},dayWinds1{k,13})
+    nightWinds{k} = padcat(nightWinds1{k,1},nightWinds1{k,2},nightWinds1{k,3},nightWinds1{k,4},nightWinds1{k,5},nightWinds1{k,6},nightWinds1{k,7},nightWinds1{k,8},nightWinds1{k,9},nightWinds1{k,10},nightWinds1{k,11},nightWinds1{k,12},nightWinds1{k,13})
+    
+    
+    dayPings{k} = padcat(dayPings1{k,1},dayPings1{k,2},dayPings1{k,3},dayPings1{k,4},dayPings1{k,5},dayPings1{k,6},dayPings1{k,7},dayPings1{k,8},dayPings1{k,9},dayPings1{k,10},dayPings1{k,11},dayPings1{k,12},dayPings1{k,13})
+    nightPings{k} = padcat(nightPings1{k,1},nightPings1{k,2},nightPings1{k,3},nightPings1{k,4},nightPings1{k,5},nightPings1{k,6},nightPings1{k,7},nightPings1{k,8},nightPings1{k,9},nightPings1{k,10},nightPings1{k,11},nightPings1{k,12},nightPings1{k,13})
+    
+    
+    dayStrat{k} = padcat(dayStrat1{k,1},dayStrat1{k,2},dayStrat1{k,3},dayStrat1{k,4},dayStrat1{k,5},dayStrat1{k,6},dayStrat1{k,7},dayStrat1{k,8},dayStrat1{k,9},dayStrat1{k,10},dayStrat1{k,11},dayStrat1{k,12},dayStrat1{k,13})
+    nightStrat{k} = padcat(nightStrat1{k,1},nightStrat1{k,2},nightStrat1{k,3},nightStrat1{k,4},nightStrat1{k,5},nightStrat1{k,6},nightStrat1{k,7},nightStrat1{k,8},nightStrat1{k,9},nightStrat1{k,10},nightStrat1{k,11},nightStrat1{k,12},nightStrat1{k,13})
 end
-
-
 
 %%
 
@@ -76,7 +80,7 @@ for k = 1:length(seasons)
     dayAverages(1,k)    = mean(daySounds{1,k}(:,:),'all','omitnan');
     dayAverages(2,k) = mean(nightSounds{1,k}(:,:),'all','omitnan');
 
-    dayDetAverages(1,k)    = mean(dayDets{1,k}(:,:),'all','omitnan'); %Dets during day
+    dayDetAverages(1,k)    = mean(dayDets1{1,k}(:,:),'all','omitnan'); %Dets during day
     dayDetAverages(2,k) = mean(nightDets{1,k}(:,:),'all','omitnan');   %dets during night
 
     dayWindAverage(1,k) = mean(dayWinds{1,k}(:,:),'all','omitnan');
@@ -90,26 +94,6 @@ for k = 1:length(seasons)
 
 end
 
- 
-x = 1:5;
-
-figure()
-hold on
-plot(x,dayGradientAverage)
-plot(x,nightGradientAverage)
-
-x = 1:10
-figure()
-hold on
-for season = 1:5
-    for COUNT = 1:10
-        scatter(x,dayGradient{season})
-    end
-    legend('Winter','Spring','Summer','Fall','M.Fall')
-end
-xlabel('Transmission #')
-ylabel('Thermal Gradient B/W Transceivers')
-title('Horizontal Thermal Gradients')
 
 %%
 
@@ -230,6 +214,4 @@ xticklabels({'Winter','Spring','Summer','Fall','M.Fall'})
 % AxisAndAllies   
 
 
-for COUNT=1:length(receiverData)
-    sumD(COUNT) = sum(receiverData{COUNT}.HourlyDets);
-end
+
