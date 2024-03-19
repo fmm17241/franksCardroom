@@ -6,7 +6,11 @@ mooredEfficiency
 % stationWindsAnalysis
 buildReceiverData
 %%
+fallIndex = receiverData{5}.Season ==4;
+winterIndex = receiverData{5}.Season ==1;
 
+fallNoise = mean(receiverData{5}.Noise(fallIndex))
+winterNoise = mean(receiverData{5}.Noise(winterIndex))
 % cd 'C:\Users\fmac4\OneDrive - University of Georgia\data\Glider\whatever'
 cd ([oneDrive,'Glider\whatever'])
 
