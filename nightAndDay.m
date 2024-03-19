@@ -55,6 +55,17 @@ for k = 1:length(seasons)
     nightStrat{k} = padcat(nightStrat1{k,1},nightStrat1{k,2},nightStrat1{k,3},nightStrat1{k,4},nightStrat1{k,5},nightStrat1{k,6},nightStrat1{k,7},nightStrat1{k,8},nightStrat1{k,9},nightStrat1{k,10},nightStrat1{k,11},nightStrat1{k,12},nightStrat1{k,13})
 end
 
+% Receiver 2 is just too dramatically different when it comes to detections I'm going to NaN it for
+% the purposes of finding a better average
+dayDets{1,1}(:,2) = nan(length(dayDets{1,1}),1); dayDets{1,4}(:,2) = nan(length(dayDets{1,4}),1);
+dayDets{1,2}(:,2) = nan(length(dayDets{1,2}),1); dayDets{1,5}(:,2) = nan(length(dayDets{1,5}),1);
+dayDets{1,3}(:,2) = nan(length(dayDets{1,3}),1);
+
+nightDets{1,1}(:,2) = nan(length(nightDets{1,1}),1); nightDets{1,4}(:,2) = nan(length(nightDets{1,4}),1);
+nightDets{1,2}(:,2) = nan(length(nightDets{1,2}),1); nightDets{1,5}(:,2) = nan(length(nightDets{1,5}),1);
+nightDets{1,3}(:,2) = nan(length(nightDets{1,3}),1);
+
+
 %%
 
 % seasonNames = {'Winter','Spring','Summer','Fall','Mariner''s Fall'}
@@ -110,7 +121,7 @@ for k = 1:length(seasons)
     %Finding standard deviations/CIs of values
     SEM = std(dayDets{1,k}(:),'omitnan')/sqrt(length(dayDets{1,k}));  
     ts = tinv([0.025  0.975],length(dayDets{1,k})-1);  
-    CIdayDets(k,:) = (mean(dayDets{:,k},'all','omitnan') + ts*SEM)/6*100; 
+    CIdayDets(k,:) = (mean(dayDets{:,k},'all','omitnan') + ts*SEM); 
 end
 
 %Day Winds Confidence Intervals
@@ -135,7 +146,7 @@ for k = 1:length(seasons)
     %Finding standard deviations/CIs of values
     SEM = std(nightDets{1,k}(:),'omitnan')/sqrt(length(nightDets{1,k}));  
     ts = tinv([0.025  0.975],length(nightDets{1,k})-1);  
-    CInightDets(k,:) = (mean(nightDets{:,k},'all','omitnan') + ts*SEM)/6*100; 
+    CInightDets(k,:) = (mean(nightDets{:,k},'all','omitnan') + ts*SEM); 
 end
 
 %Night Winds Confidence Intervals
@@ -184,7 +195,7 @@ nexttile()
 hold on
 ciplot(CInightDets(:,1),CInightDets(:,2),1:5,'b',0.5)
 ciplot(CIdayDets(:,1),CIdayDets(:,2),1:5,'r',0.5)
-ylabel('Avg. Hourly Detection Efficiency (%)')
+ylabel('Avg. Hourly Detection')
 title('Detection Averages', '95% CI')
 xticks([1,2,3,4,5])
 xticklabels({'Winter','Spring','Summer','Fall','M.Fall'})

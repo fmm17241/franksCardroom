@@ -2,102 +2,69 @@
 %difference in day vs night is not as clear as expected.
 
 %Run binnedAVG
+seasons = 1:5;
 
-%Index formed by using the fullData area created in binnedAVG
-for COUNT= 1:length(fullData)
+%Index formed by using the receiverData area created in binnedAVG
+for COUNT= 1:length(receiverData)
     for season = 1:length(seasons)
-        daylightIndex{COUNT}{season}(1,:) =  fullData{COUNT}.sunlight==1 & fullData{COUNT}.season ==season & fullData{COUNT}.windSpeed < 2;
-        nightlightIndex{COUNT}{season}(1,:) =  fullData{COUNT}.sunlight==0 & fullData{COUNT}.season ==season & fullData{COUNT}.windSpeed < 2;
+        daylightIndex{COUNT}{season}(1,:) =  receiverData{COUNT}.daytime==1 & receiverData{COUNT}.Season ==season & receiverData{COUNT}.windSpd < 2;
+        nightlightIndex{COUNT}{season}(1,:) =  receiverData{COUNT}.daytime==0 & receiverData{COUNT}.Season ==season & receiverData{COUNT}.windSpd < 2;
         
-        daylightIndex{COUNT}{season}(2,:) =  fullData{COUNT}.sunlight==1 & fullData{COUNT}.season ==season & fullData{COUNT}.windSpeed < 4 & fullData{COUNT}.windSpeed > 2;
-        nightlightIndex{COUNT}{season}(2,:) =  fullData{COUNT}.sunlight==0 & fullData{COUNT}.season ==season & fullData{COUNT}.windSpeed < 4 & fullData{COUNT}.windSpeed > 2;
+        daylightIndex{COUNT}{season}(2,:) =  receiverData{COUNT}.daytime==1 & receiverData{COUNT}.Season ==season & receiverData{COUNT}.windSpd < 4 & receiverData{COUNT}.windSpd > 2;
+        nightlightIndex{COUNT}{season}(2,:) =  receiverData{COUNT}.daytime==0 & receiverData{COUNT}.Season ==season & receiverData{COUNT}.windSpd < 4 & receiverData{COUNT}.windSpd > 2;
         
-        daylightIndex{COUNT}{season}(3,:) =  fullData{COUNT}.sunlight==1 & fullData{COUNT}.season ==season & fullData{COUNT}.windSpeed < 6 & fullData{COUNT}.windSpeed > 4;
-        nightlightIndex{COUNT}{season}(3,:) =  fullData{COUNT}.sunlight==0 & fullData{COUNT}.season ==season & fullData{COUNT}.windSpeed < 6 & fullData{COUNT}.windSpeed > 4;
+        daylightIndex{COUNT}{season}(3,:) =  receiverData{COUNT}.daytime==1 & receiverData{COUNT}.Season ==season & receiverData{COUNT}.windSpd < 6 & receiverData{COUNT}.windSpd > 4;
+        nightlightIndex{COUNT}{season}(3,:) =  receiverData{COUNT}.daytime==0 & receiverData{COUNT}.Season ==season & receiverData{COUNT}.windSpd < 6 & receiverData{COUNT}.windSpd > 4;
         
-        daylightIndex{COUNT}{season}(4,:) =  fullData{COUNT}.sunlight==1 & fullData{COUNT}.season ==season & fullData{COUNT}.windSpeed < 8 & fullData{COUNT}.windSpeed > 6;
-        nightlightIndex{COUNT}{season}(4,:) =  fullData{COUNT}.sunlight==0 & fullData{COUNT}.season ==season & fullData{COUNT}.windSpeed < 8 & fullData{COUNT}.windSpeed > 6;
+        daylightIndex{COUNT}{season}(4,:) =  receiverData{COUNT}.daytime==1 & receiverData{COUNT}.Season ==season & receiverData{COUNT}.windSpd < 8 & receiverData{COUNT}.windSpd > 6;
+        nightlightIndex{COUNT}{season}(4,:) =  receiverData{COUNT}.daytime==0 & receiverData{COUNT}.Season ==season & receiverData{COUNT}.windSpd < 8 & receiverData{COUNT}.windSpd > 6;
         
-        daylightIndex{COUNT}{season}(5,:) =  fullData{COUNT}.sunlight==1 & fullData{COUNT}.season ==season & fullData{COUNT}.windSpeed < 10 & fullData{COUNT}.windSpeed > 8;
-        nightlightIndex{COUNT}{season}(5,:) =  fullData{COUNT}.sunlight==0 & fullData{COUNT}.season ==season & fullData{COUNT}.windSpeed < 10 & fullData{COUNT}.windSpeed > 8;
+        daylightIndex{COUNT}{season}(5,:) =  receiverData{COUNT}.daytime==1 & receiverData{COUNT}.Season ==season & receiverData{COUNT}.windSpd < 10 & receiverData{COUNT}.windSpd > 8;
+        nightlightIndex{COUNT}{season}(5,:) =  receiverData{COUNT}.daytime==0 & receiverData{COUNT}.Season ==season & receiverData{COUNT}.windSpd < 10 & receiverData{COUNT}.windSpd > 8;
         
-        daylightIndex{COUNT}{season}(6,:) =  fullData{COUNT}.sunlight==1 & fullData{COUNT}.season ==season & fullData{COUNT}.windSpeed > 10;
-        nightlightIndex{COUNT}{season}(6,:) =  fullData{COUNT}.sunlight==0 & fullData{COUNT}.season ==season & fullData{COUNT}.windSpeed > 10;
+        daylightIndex{COUNT}{season}(6,:) =  receiverData{COUNT}.daytime==1 & receiverData{COUNT}.Season ==season & receiverData{COUNT}.windSpd > 10;
+        nightlightIndex{COUNT}{season}(6,:) =  receiverData{COUNT}.daytime==0 & receiverData{COUNT}.Season ==season & receiverData{COUNT}.windSpd > 10;
     end
 end
 
 
 
 
-for COUNT= 1:length(fullData)
+for COUNT= 1:length(receiverData)
     for season = 1:length(seasons)
         for k = 1:height(daylightIndex{COUNT}{season})
             %Separating data by day, night, and season
-            dayHours{season,COUNT}{1,k}    = fullData{1,COUNT}(daylightIndex{1,COUNT}{1,season}(k,:),:);
-            nightHours{season,COUNT}{1,k}  = fullData{1,COUNT}(nightlightIndex{1,COUNT}{1,season}(k,:),:);
+            dayHours{season,COUNT}{1,k}    = receiverData{1,COUNT}(daylightIndex{1,COUNT}{1,season}(k,:),:);
+            nightHours{season,COUNT}{1,k}  = receiverData{1,COUNT}(nightlightIndex{1,COUNT}{1,season}(k,:),:);
 
-            dayDets{season,COUNT,:}(1,k)    = mean(dayHours{season,COUNT}{1,k}.detections);
-            nightDets{season,COUNT,:}(1,k)   = mean(nightHours{season,COUNT}{1,k}.detections);
+            dayDets{season,COUNT,:}(1,k)    = mean(dayHours{season,COUNT}{1,k}.HourlyDets);
+            nightDets{season,COUNT,:}(1,k)   = mean(nightHours{season,COUNT}{1,k}.HourlyDets);
 
-            daySounds{season,COUNT,:}(1,k)      = mean(dayHours{season,COUNT}{1,k}.noise);
-            nightSounds{season,COUNT,:}(1,k)    = mean(nightHours{season,COUNT}{1,k}.noise);
+            daySounds{season,COUNT,:}(1,k)      = mean(dayHours{season,COUNT}{1,k}.Noise);
+            nightSounds{season,COUNT,:}(1,k)    = mean(nightHours{season,COUNT}{1,k}.Noise);
             
-            dayWinds{season,COUNT,:}(1,k)      = mean(dayHours{season,COUNT}{1,k}.windSpeed);
-            nightWinds{season,COUNT,:}(1,k)    = mean(nightHours{season,COUNT}{1,k}.windSpeed);
+            dayWinds{season,COUNT,:}(1,k)      = mean(dayHours{season,COUNT}{1,k}.windSpd);
+            nightWinds{season,COUNT,:}(1,k)    = mean(nightHours{season,COUNT}{1,k}.windSpd);
 
-            dayPings{season,COUNT,:}(1,k)      = mean(dayHours{season,COUNT}{1,k}.pings);
-            nightPings{season,COUNT,:}(1,k)    = mean(nightHours{season,COUNT}{1,k}.pings);
+            dayPings{season,COUNT,:}(1,k)      = mean(dayHours{season,COUNT}{1,k}.Pings);
+            nightPings{season,COUNT,:}(1,k)    = mean(nightHours{season,COUNT}{1,k}.Pings);
 
-            dayStrat{season,COUNT,:}(1,k) = mean(dayHours{season,COUNT}{1,k}.stratification);
-            nightStrat{season,COUNT,:}(1,k) = mean(nightHours{season,COUNT}{1,k}.stratification);
+            dayStrat{season,COUNT,:}(1,k) = mean(dayHours{season,COUNT}{1,k}.bulkThermalStrat);
+            nightStrat{season,COUNT,:}(1,k) = mean(nightHours{season,COUNT}{1,k}.bulkThermalStrat);
 
-            dayGradient{season,COUNT,:}(1,k) = mean(dayHours{season,COUNT}{1,k}.hGradient);
-            nightGradient{season,COUNT,:}(1,k) = mean(nightHours{season,COUNT}{1,k}.hGradient);
         end
     end
 end
 
 x= 2:2:12;
 
-%%
-
-figure()
-hold on
-for COUNT= 1:2:length(fullData)
-    for season = 1:length(seasons)
-        h = plot(x,nightGradient{season,COUNT})
-        labelz = num2str(sprintf('%d',COUNT))
-        label(h,sprintf('%s',labelz))
-    end
-end
-% ylim([0 2.5])
-xlabel('wSpeed')
-ylabel('Strat')
-title('Night Thermal Grad between receivers')
-
-% 
-figure()
-hold on
-for COUNT= 1:2:length(fullData)
-    for season = 1:length(seasons)
-        h = plot(x,dayGradient{season,COUNT})
-        labelz = num2str(sprintf('%d',COUNT))
-        label(h,sprintf('%s',labelz))
-    end
-end
-% ylim([0 2.5])
-xlabel('Windspeed (m/s)')
-ylabel('Strat')
-title('Day Thermal Grad between receivers')
-
-
 
 
 %%
 % 
 figure()
 hold on
-for COUNT= 1:length(fullData)
+for COUNT= 1:length(receiverData)
     for season = 1:length(seasons)
         h = plot(x,nightStrat{season,COUNT})
         labelz = num2str(sprintf('%d',COUNT))
@@ -112,7 +79,7 @@ title('Night Stratification')
 % 
 figure()
 hold on
-for COUNT= 1:length(fullData)
+for COUNT= 1:length(receiverData)
     for season = 1:length(seasons)
         h = plot(x,dayStrat{season,COUNT})
         labelz = num2str(sprintf('%d',COUNT))
@@ -120,12 +87,12 @@ for COUNT= 1:length(fullData)
     end
 end
 ylim([0 2.5])
-xlabel('Windspeed (m/s)')
+xlabel('windSpd (m/s)')
 ylabel('Strat')
 title('Day Stratification')
 
 %%
-for COUNT= 1:length(fullData)
+for COUNT= 1:length(receiverData)
     figure()
     hold on
     for season = 1:length(seasons)
@@ -134,12 +101,12 @@ for COUNT= 1:length(fullData)
          label(h,sprintf('%s',labelz))
     end
     ylim([0 2.5])
-    xlabel('Windspeed (m/s)')
+    xlabel('windSpd (m/s)')
     ylabel('Strat')
     title(sprintf('Day Stratification, %d',COUNT))
 end
 
-for COUNT= 1:length(fullData)
+for COUNT= 1:length(receiverData)
     figure()
     hold on
     for season = 1:length(seasons)
@@ -148,7 +115,7 @@ for COUNT= 1:length(fullData)
         label(h,sprintf('%s',labelz))
     end
     ylim([0 2.5])
-    xlabel('Windspeed (m/s)')
+    xlabel('windSpd (m/s)')
     ylabel('Strat')
     title(sprintf('Night Stratification, %d',COUNT))
 end
@@ -186,7 +153,7 @@ for k = 1:length(seasons)
     %Finding standard deviations/CIs of values
     SEM = std(dayDets{1,k}(:),'omitnan')/sqrt(length(dayDets{1,k}));  
     ts = tinv([0.025  0.975],length(dayDets{1,k})-1);  
-    CIdayDets(k,:) = (mean(dayDets{:,k},'all','omitnan') + ts*SEM)/6*100; 
+    CIdayDets(k,:) = (mean(dayDets{:,k},'all','omitnan') + ts*SEM); 
 end
 
 %Day Winds Confidence Intervals
@@ -211,7 +178,7 @@ for k = 1:length(seasons)
     %Finding standard deviations/CIs of values
     SEM = std(nightDets{1,k}(:),'omitnan')/sqrt(length(nightDets{1,k}));  
     ts = tinv([0.025  0.975],length(nightDets{1,k})-1);  
-    CInightDets(k,:) = (mean(nightDets{:,k},'all','omitnan') + ts*SEM)/6*100; 
+    CInightDets(k,:) = (mean(nightDets{:,k},'all','omitnan') + ts*SEM); 
 end
 
 %Night Winds Confidence Intervals
@@ -269,7 +236,7 @@ nexttile()
 hold on
 ciplot(CInightWinds(:,1),CInightWinds(:,2),1:5,'b',0.5)
 ciplot(CIdayWinds(:,1),CIdayWinds(:,2),1:5,'r',0.5)
-ylabel('Windspeed (m/s)')
+ylabel('windSpd (m/s)')
 title('Wind Differences', '95% CI')
 xticks([1,2,3,4,5])
 xticklabels({'Winter','Spring','Summer','Fall','M.Fall'})
@@ -290,6 +257,6 @@ xticklabels({'Winter','Spring','Summer','Fall','M.Fall'})
 % AxisAndAllies   
 
 
-for COUNT=1:length(fullData)
-    sumD(COUNT) = sum(fullData{COUNT}.detections);
+for COUNT=1:length(receiverData)
+    sumD(COUNT) = sum(receiverData{COUNT}.hourlyDets);
 end
