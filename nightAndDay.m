@@ -1,40 +1,54 @@
 %FM 2023, Testing diurnal differences during different seasons. The annual
 %difference in day vs night is not as clear as expected.
+%FM 2024, editing to replace "receiverData"/binnedAVG with receiverData from
+%buildReceiverData
 
-%Run binnedAVG
-
-%Index formed by using the fullData area created in binnedAVG
-for COUNT= 1:length(fullData)
+%Run buildReceiverData
+seasons = 1:5;
+%Index formed by using the receiverData area created in binnedAVG
+for COUNT= 1:length(receiverData)
     for k = 1:length(seasons)
-        daylightIndex{COUNT}{k}(1,:) =  fullData{COUNT}.sunlight==1 & fullData{COUNT}.season ==k;
-%         daylightIndex{COUNT}{k}(2,:) =  fullData{COUNT}.sunlight==2 & fullData{COUNT}.season ==k;
-        daylightIndex{COUNT}{k}(2,:) =  fullData{COUNT}.sunlight==0 & fullData{COUNT}.season ==k;
+        daylightIndex{COUNT}{k}(1,:) =  receiverData{COUNT}.daytime==1 & receiverData{COUNT}.Season ==k;
+%         daylightIndex{COUNT}{k}(2,:) =  receiverData{COUNT}.daytime==2 & receiverData{COUNT}.Season ==k;
+        daylightIndex{COUNT}{k}(2,:) =  receiverData{COUNT}.daytime==0 & receiverData{COUNT}.Season ==k;
     
         %Separating data by day, night, and season
-        dayHours{k,COUNT}    = fullData{1,COUNT}(daylightIndex{1,COUNT}{1,k}(1,:),:);
-%         sunsetHours{k,COUNT}  = fullData{1,COUNT}(daylightIndex{1,COUNT}{1,k}(2,:),:)
-        nightHours{k,COUNT}  = fullData{1,COUNT}(daylightIndex{1,COUNT}{1,k}(2,:),:);
+        dayHours{k,COUNT}    = receiverData{1,COUNT}(daylightIndex{1,COUNT}{1,k}(1,:),:);
+%         sunsetHours{k,COUNT}  = receiverData{1,COUNT}(daylightIndex{1,COUNT}{1,k}(2,:),:)
+        nightHours{k,COUNT}  = receiverData{1,COUNT}(daylightIndex{1,COUNT}{1,k}(2,:),:);
         %Isolating just the detections and noise. All other variables can
         %be helpful but this is just a way of finding averages 
-        dayDets{k}(COUNT,:)    = dayHours{k,COUNT}.detections;
-        nightDets{k}(COUNT,:)  = nightHours{k,COUNT}.detections;
-%         sunsetDets{k}(COUNT,:)  = sunsetHours{k,COUNT}.detections;
-        daySounds{k}(COUNT,:)     =dayHours{k,COUNT}.noise;
-        nightSounds{k}(COUNT,:)   = nightHours{k,COUNT}.noise;
+        dayDets{k,COUNT}    = dayHours{k,COUNT}.HourlyDets;
+        nightDets{k,COUNT}  = nightHours{k,COUNT}.HourlyDets;
+%         sunsetDets{k}(COUNT,:)  = sunsetHours{k,COUNT}.HourlyDets;
+        daySounds{k,COUNT}     =dayHours{k,COUNT}.Noise;
+        nightSounds{k,COUNT}   = nightHours{k,COUNT}.Noise;
 %         sunsetSounds{k}(COUNT,:)   = sunsetHours{k,COUNT}.noise;
-        dayWinds{k}(COUNT,:)     =dayHours{k,COUNT}.windSpeed;
-        nightWinds{k}(COUNT,:)   = nightHours{k,COUNT}.windSpeed;
+        dayWinds{k,COUNT}     =dayHours{k,COUNT}.windSpd;
+        nightWinds{k,COUNT}   = nightHours{k,COUNT}.windSpd;
 
-        dayPings{k}(COUNT,:)      = mean(dayHours{k,COUNT}.pings);
-        nightPings{k}(COUNT,:)    = mean(nightHours{k,COUNT}.pings);
+        dayPings{k,COUNT}      = mean(dayHours{k,COUNT}.Pings);
+        nightPings{k,COUNT}    = mean(nightHours{k,COUNT}.Pings);
 
-        dayStrat{k}(COUNT,:) = mean(dayHours{k,COUNT}.stratification);
-        nightStrat{k}(COUNT,:) = mean(nightHours{k,COUNT}.stratification);
-
-        dayGradient{k}(COUNT,:) = mean(dayHours{k,COUNT}.hGradient);
-        nightGradient{k}(COUNT,:) = mean(nightHours{k,COUNT}.hGradient);
+        dayStrat{k,COUNT} = mean(dayHours{k,COUNT}.bulkThermalStrat);
+        nightStrat{k,COUNT} = mean(nightHours{k,COUNT}.bulkThermalStrat);
     end
 end
+
+test = dayDets(1,:);
+
+maxLength = max(cellfun(@numel, test))
+paddedMatrix = cellfun(@(x) padcat(x, NaN(maxLength-length(x),1)), test, 'UniformOutput', false);
+numericMatrix = cell2mat(paddedMatrix);
+columnAverages = nanmean(numericMatrix);
+
+
+
+for k = 1:length(seasons)
+    maxNumCol = max(cellfun(@(r) size(r,1), dayDets(k,:)))
+    aMat{k} = cell2mat(cellfun(@(r){padarray(r,[0,maxNumCol-size(r,2)],NaN,'Post')}, dayDets(k,:)'))
+end
+
 
 
 %%
@@ -73,9 +87,6 @@ for k = 1:length(seasons)
 
     dayStratAverage(1,k) = mean(dayStrat{1,k}(:,:),'all','omitnan');
     nightStratAverage(1,k) = mean(nightStrat{1,k}(:,:),'all','omitnan');    
-    
-    dayGradientAverage(1,k) = mean(dayGradient{1,k}(:,:),'all','omitnan');
-    nightGradientAverage(1,k) = mean(nightGradient{1,k}(:,:),'all','omitnan');
 
 end
 
@@ -219,6 +230,6 @@ xticklabels({'Winter','Spring','Summer','Fall','M.Fall'})
 % AxisAndAllies   
 
 
-for COUNT=1:length(fullData)
-    sumD(COUNT) = sum(fullData{COUNT}.detections);
+for COUNT=1:length(receiverData)
+    sumD(COUNT) = sum(receiverData{COUNT}.HourlyDets);
 end
