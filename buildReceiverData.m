@@ -212,6 +212,19 @@ for COUNT = 1:length(receiverData)
     receiverData{COUNT}.alongShore(:,1) = alongShore(fullTideIndex{COUNT})';
 end
 
+
+%Creates binary "did we hear something" variable and a noise threshold
+%variable
+for COUNT = 1:length(receiverData)
+    receiverData{COUNT}.HeardSomething = 1*(receiverData{COUNT}.HourlyDets > 0);
+    
+    %Anything with a 1 means the noise was below challenging
+    receiverData{COUNT}.NoiseThreshold = 1*(receiverData{COUNT}.Noise < 650);
+end
+
+
+
+
 %Adds estimated bulk stratification, comparing the NOAA buoy to transceiver
 %measurements.
 
