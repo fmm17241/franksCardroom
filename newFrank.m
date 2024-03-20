@@ -84,8 +84,8 @@ clearvars -except receiverData hourlyDetections mooredReceivers oneDrive githubT
 close all
 
 %Aight, Frank needs to pick specific time chunks to compare statistically.
-cd 'C:\Users\fmm17241\OneDrive - University of Georgia\statisticalAnalysis\envStatsSpring2024'
-
+% cd 'C:\Users\fmm17241\OneDrive - University of Georgia\statisticalAnalysis\envStatsSpring2024'
+cd 'C:\Users\fmac4\OneDrive - University of Georgia\statisticalAnalysis\envStatsSpring2024'
 winterSpringFLAT   = receiverData{4}(1613:3797,:); %Jan 27 to April 27
 winterSpringSUNKEN = receiverData{5}(1081:3265,:);  % samesies
 winterSpringTAGS   = receiverData{2}(1232:3416,:);  % samesies
@@ -190,7 +190,7 @@ sunkenHighSTD = std(sunkenHighNoise.HourlyDets);
 flatLowSTD = std(flatLowNoise.HourlyDets);
 flatHighSTD = std(flatHighNoise.HourlyDets);
 
-sunkenLowInterval = [sunkenLowNoise.HourlyDets + sunkenLowSTD,sunkenLowNoise.HourlyDets - sunkenLowSTD ];
+sunkenLowInterval = [sunkenLowNoise.HourlyDets + sunkenLowSTD, sunkenLowNoise.HourlyDets - sunkenLowSTD ];
 sunkenHighInterval = [sunkenHighNoise.HourlyDets + sunkenHighSTD,sunkenHighNoise.HourlyDets - sunkenHighSTD ];
 flatLowInterval = [flatLowNoise.HourlyDets + flatLowSTD,flatLowNoise.HourlyDets - flatLowSTD ];
 flatHighInterval = [flatHighNoise.HourlyDets + flatHighSTD,flatHighNoise.HourlyDets - flatHighSTD ];
