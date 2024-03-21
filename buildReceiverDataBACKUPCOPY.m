@@ -24,27 +24,11 @@ selfID = ['A69-1601-63062';'A69-1601-63064';'A69-1601-63066';'A69-1601-63067';..
     'A69-1601-63075';'A69-1601-63076';'A69-1601-63079';'A69-1601-63080';...
     'A69-1601-63081'];
 
-% THIS removes self detections, and adds a line of "1s" in a columnn so I
-% can do an hourly sum of detections.
 for transceiver = 1:length(rawDetFile)
     heardSelf{transceiver} = strcmp(rawDetFile{transceiver,1}.Var3,selfID(transceiver,:))
     countSelfDetects(transceiver,1) = sum(heardSelf{transceiver});
     rawDetFile{transceiver}(strcmp(rawDetFile{transceiver,1}.Var3,selfID(transceiver,:)),:) = [];
-    %
-    howMany{transceiver} = height(rawDetFile{transceiver});
-    addIt = ones(howMany{transceiver},1);
-    rawDetFile{transceiver}.Var4 = addIt;
-end
 
-%This turns my raw detection files into a timetable, then bins it hourly
-%and defines the timezone to UTC.
-for transceiver = 1:length(rawDetFile)
-    rawDetFile{transceiver} = table2timetable(rawDetFile{transceiver}(:,{'Var1','Var4'}));
-    rawDetFile{transceiver} = retime(rawDetFile{transceiver},'hourly','sum')
-    rawDetFile{transceiver}.Properties.VariableNames = {'HourlyDets'};
-    % receiverData{PT}.Properties.VariableNames = {'DN','HourlyDets','Noise','Pings','Tilt','Temp'};
-    rawDetFile{transceiver}.Properties.DimensionNames{1} = 'DT'; 
-    rawDetFile{transceiver}.DT.TimeZone = "UTC";
 end
 
 
@@ -90,38 +74,21 @@ for PT = 1:length(uniqueReceivers)
     pingIndex{PT,1}      = strcmp(data.Receiver,uniqueReceivers(PT)) & strcmp(data.Description,'Hourly Pings on 69 kHz');
     tiltIndex{PT,1}      = strcmp(data.Receiver,uniqueReceivers(PT)) & strcmp(data.Description,'Tilt angle');
     
-    % 
-    % receiverData{PT}     = table2timetable(table(datetime(dataDN(detectionIndex{PT}),'ConvertFrom','datenum','TimeZone','UTC'), ...
-    %                                 dataDN(detectionIndex{PT}), ...
-    %                                 data.Data(detectionIndex{PT}), ...
-    %                                 data.Data(noiseIndex{PT}), ...
-    %                                 data.Data(pingIndex{PT}), ...
-    %                                 data.Data(tiltIndex{PT}), ...
-    %                                 data.Data(tempIndex{PT})))
-    % receiverData{PT}.Properties.VariableNames = {'DN','HourlyDets','Noise','Pings','Tilt','Temp'};
-    % receiverData{PT}.Properties.DimensionNames{1} = 'DT'; 
 
-    receiverData{PT}     = table2timetable(table(datetime(dataDN(noiseIndex{PT}),'ConvertFrom','datenum','TimeZone','UTC'), ...
+    receiverData{PT}     = table2timetable(table(datetime(dataDN(detectionIndex{PT}),'ConvertFrom','datenum','TimeZone','UTC'), ...
+                                    dataDN(detectionIndex{PT}), ...
+                                    data.Data(detectionIndex{PT}), ...
                                     data.Data(noiseIndex{PT}), ...
                                     data.Data(pingIndex{PT}), ...
                                     data.Data(tiltIndex{PT}), ...
                                     data.Data(tempIndex{PT})))
-    receiverData{PT}.Properties.VariableNames = {'Noise','Pings','Tilt','Temp'};
-    % receiverData{PT}.Properties.VariableNames = {'DN','HourlyDets','Noise','Pings','Tilt','Temp'};
+    receiverData{PT}.Properties.VariableNames = {'DN','HourlyDets','Noise','Pings','Tilt','Temp'};
     receiverData{PT}.Properties.DimensionNames{1} = 'DT'; 
 
 
+
     receiverIdentity{PT}        = {uniqueReceivers{PT},transceiverNames{PT}, letters(PT)};
-
 end
-receiverData{2} = receiverData{2}(3:end,:)
-receiverData{3} = receiverData{3}(1:10154,:)
-receiverData{11} = receiverData{11}(1:7685,:)
-receiverData{13} = receiverData{13}(1:9373,:)
-
-% Removes NaNs formed when Daylight savings time occurred
-% receiverData{1}(1473,:) = [];
-% receiverData{2}(1952,:) = [];
 
 
 months = month(dataDT);
@@ -155,6 +122,24 @@ for k = 1:length(receiverData)
     receiverData{k}.Season(fall{k}) = 4;
     receiverData{k}.Season(mFall{k}) = 5;
 end
+
+%Frank cleaning up data from deploy/retrieve
+%Not the prettiest, but this removes times where tilt and temperature are
+%clearly showing its out of the water, or times out of our range.
+receiverData{1}= receiverData{1}(20:end,:);
+receiverData{2}= receiverData{2}(17:end,:);
+receiverData{3}= receiverData{3}(15:9597,:);
+receiverData{4}= receiverData{4}(24:9628,:);
+receiverData{5}= receiverData{5}(555:9627,:);
+receiverData{6}= receiverData{6}(96:9559,:);
+receiverData{7}= receiverData{7}(96:9557,:);
+receiverData{8}= receiverData{8}(23:end,:);
+receiverData{9}= receiverData{9}(17:end,:);
+receiverData{10}= receiverData{10}(25:end,:);
+receiverData{11}= receiverData{11}(4:7685,:);
+
+receiverData{12}= receiverData{12}(3:end,:);
+receiverData{13}= receiverData{13}(17:9373,:);
 
 
 %%
@@ -196,9 +181,7 @@ for COUNT = 1:length(receiverData)
     end
 end
 
-
-
-%Frank wind
+%Frank needs to edit, add wind to data
 for COUNT = 1:length(receiverData)
     fullWindIndex{COUNT} = isbetween(windsDT,receiverData{COUNT}.DT(1,1),receiverData{COUNT}.DT(end,1),'closed');
     receiverData{COUNT}.windSpd(:,1) = WSPD(fullWindIndex{COUNT});
@@ -210,12 +193,12 @@ for COUNT = 1:length(receiverData)
 end
 
 
-% %Frank creating Ping Ratio, very rough measure of efficiency
-% for COUNT = 1:length(receiverData)
-%     detPings = receiverData{COUNT}.HourlyDets.*8;
-%     receiverData{COUNT}.PingRatio = detPings./receiverData{COUNT}.Pings;
-%     receiverData{COUNT}.PingRatio(isnan(receiverData{COUNT}.PingRatio))=0;
-% end
+%Frank creating Ping Ratio, very rough measure of efficiency
+for COUNT = 1:length(receiverData)
+    detPings = receiverData{COUNT}.HourlyDets.*8;
+    receiverData{COUNT}.PingRatio = detPings./receiverData{COUNT}.Pings;
+    receiverData{COUNT}.PingRatio(isnan(receiverData{COUNT}.PingRatio))=0;
+end
 
 %Adds predicted tidal currents to data
 for COUNT = 1:length(receiverData)
@@ -243,28 +226,7 @@ end
 % receiverData{}.bulkStrat = receiverData
 
 
-%Frank testing
-for PT = 1:length(uniqueReceivers)
-    receiverData{PT}            = synchronize(receiverData{PT},rawDetFile{PT},'hourly')
-end
 
 
-%Frank cleaning up data from deploy/retrieve
-%Not the prettiest, but this removes times where tilt and temperature are
-%clearly showing its out of the water, or times out of our range, or NaN
-%values from concatenating the two arrays.
-receiverData{1}= receiverData{1}(2:end,:);
-receiverData{2}= receiverData{2}(2:end,:);
-receiverData{3}= receiverData{3}(2:9598,:);
-receiverData{4}= receiverData{4}(20:9628,:);
-receiverData{5}= receiverData{5}(550:9627,:);
-receiverData{6}= receiverData{6}(96:9559,:);
-receiverData{7}= receiverData{7}(95:9558,:);
-receiverData{8}= receiverData{8}(23:end,:);
-receiverData{9}= receiverData{9}(14:end,:);
-receiverData{10}= receiverData{10}(25:9373,:);
-receiverData{11}= receiverData{11}(4:7685,:);
 
-receiverData{12}= receiverData{12}(3:end,:);
-receiverData{13}= receiverData{13}(17:9373,:);
 

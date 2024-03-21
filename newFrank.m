@@ -96,36 +96,36 @@ winterSpringTAGS   = receiverData{2}(1232:3416,:);  % samesies
 
 
 
-% Interpolate Temp. Weakens dataset but good to just truth my bulk thermal
-% estimation.
-b = 0.5 * (fillmissing(matrixTemp, 'previous') + fillmissing(matrixTemp, 'next'))
-
-
-
-figure()
-tiledlayout(4,1,'TileSpacing','compact')
-% ax1 = nexttile()
-% plot(bulktime,bulktemp);
-% title('Bulk Thermal Strat. From Glider')
-
-% ax1 = nexttile()
-% pcolor(matrixDT,matrixDepth(1,:),matrixTemp'); shading interp; colorbar; set(gca,'ydir','reverse'); datetick('x');
-% title('Water Temperature','Glider')
-
-% figure; h1=pcolor(dn,z,temp'); shading interp; colorbar; set(gca,'ydir','reverse'); datetick('x','keeplimits');
-ax2 = nexttile()
-plot(receiverData{2}.DT,receiverData{2}.bulkThermalStrat);
-title('Bulk Temp Stratification','Buoy - Transceiver')
-
-ax3 = nexttile()
-plot(receiverData{4}.DT,receiverData{4}.windSpd);
-title('','Windspeed')
-
-
-ax4 = nexttile()
-plot(receiverData{2}.DT,receiverData{2}.Noise);
-title('','Noise')
-yline(650)
+% % Interpolate Temp. Weakens dataset but good to just truth my bulk thermal
+% % estimation.
+% b = 0.5 * (fillmissing(matrixTemp, 'previous') + fillmissing(matrixTemp, 'next'))
+% 
+% 
+% 
+% figure()
+% tiledlayout(4,1,'TileSpacing','compact')
+% % ax1 = nexttile()
+% % plot(bulktime,bulktemp);
+% % title('Bulk Thermal Strat. From Glider')
+% 
+% % ax1 = nexttile()
+% % pcolor(matrixDT,matrixDepth(1,:),matrixTemp'); shading interp; colorbar; set(gca,'ydir','reverse'); datetick('x');
+% % title('Water Temperature','Glider')
+% 
+% % figure; h1=pcolor(dn,z,temp'); shading interp; colorbar; set(gca,'ydir','reverse'); datetick('x','keeplimits');
+% ax2 = nexttile()
+% plot(receiverData{2}.DT,receiverData{2}.bulkThermalStrat);
+% title('Bulk Temp Stratification','Buoy - Transceiver')
+% 
+% ax3 = nexttile()
+% plot(receiverData{4}.DT,receiverData{4}.windSpd);
+% title('','Windspeed')
+% 
+% 
+% ax4 = nexttile()
+% plot(receiverData{2}.DT,receiverData{2}.Noise);
+% title('','Noise')
+% yline(650)
 
 % %
 % averageDetections = receiverData
@@ -148,7 +148,7 @@ ax5 = nexttile()
 plot(receiverData{9}.DT,receiverData{9}.HourlyDets);
 title('','Detections')
 
-linkaxes([ax1 ax2 ax3 ax4 ax5],'x')
+% linkaxes([ax1 ax2 ax3 ax4 ax5],'x')
 
 
 sunkenReef = receiverData{5};
@@ -318,3 +318,36 @@ ax3 = nexttile()
 plot(receiverData{4}.DT,receiverData{4}.HourlyDets)
 title('Detections')
 linkaxes([ax1 ax2 ax3],'x')
+%%
+
+
+tbl = crosstab(receiverData{4}.HeardSomething,receiverData{4}.NoiseThreshold)
+tbl = crosstab(receiverData{5}.HeardSomething,receiverData{5}.NoiseThreshold)
+tbl = crosstab(receiverData{2}.HeardSomething,receiverData{2}.NoiseThreshold)
+
+%%
+%
+mean(receiverData{4}.HourlyDets(receiverData{4}.Noise < 550))
+mean(receiverData{4}.HourlyDets(receiverData{4}.Noise > 550 & receiverData{4}.Noise < 649))
+mean(receiverData{4}.HourlyDets(receiverData{4}.Noise > 650))
+
+
+mean(receiverData{5}.HourlyDets(receiverData{5}.Noise < 550))
+mean(receiverData{5}.HourlyDets(receiverData{5}.Noise > 550 & receiverData{5}.Noise < 649))
+mean(receiverData{5}.HourlyDets(receiverData{5}.Noise > 650))
+
+mean(receiverData{2}.HourlyDets(receiverData{2}.Noise < 550))
+mean(receiverData{2}.HourlyDets(receiverData{2}.Noise > 550 & receiverData{2}.Noise < 649))
+mean(receiverData{2}.HourlyDets(receiverData{2}.Noise > 650))
+
+
+
+
+
+
+
+
+
+
+
+

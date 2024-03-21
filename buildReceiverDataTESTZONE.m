@@ -24,8 +24,6 @@ selfID = ['A69-1601-63062';'A69-1601-63064';'A69-1601-63066';'A69-1601-63067';..
     'A69-1601-63075';'A69-1601-63076';'A69-1601-63079';'A69-1601-63080';...
     'A69-1601-63081'];
 
-% THIS removes self detections, and adds a line of "1s" in a columnn so I
-% can do an hourly sum of detections.
 for transceiver = 1:length(rawDetFile)
     heardSelf{transceiver} = strcmp(rawDetFile{transceiver,1}.Var3,selfID(transceiver,:))
     countSelfDetects(transceiver,1) = sum(heardSelf{transceiver});
@@ -36,8 +34,7 @@ for transceiver = 1:length(rawDetFile)
     rawDetFile{transceiver}.Var4 = addIt;
 end
 
-%This turns my raw detection files into a timetable, then bins it hourly
-%and defines the timezone to UTC.
+
 for transceiver = 1:length(rawDetFile)
     rawDetFile{transceiver} = table2timetable(rawDetFile{transceiver}(:,{'Var1','Var4'}));
     rawDetFile{transceiver} = retime(rawDetFile{transceiver},'hourly','sum')
@@ -251,17 +248,16 @@ end
 
 %Frank cleaning up data from deploy/retrieve
 %Not the prettiest, but this removes times where tilt and temperature are
-%clearly showing its out of the water, or times out of our range, or NaN
-%values from concatenating the two arrays.
+%clearly showing its out of the water, or times out of our range.
 receiverData{1}= receiverData{1}(2:end,:);
 receiverData{2}= receiverData{2}(2:end,:);
 receiverData{3}= receiverData{3}(2:9598,:);
-receiverData{4}= receiverData{4}(20:9628,:);
+receiverData{4}= receiverData{4}(1:9628,:);
 receiverData{5}= receiverData{5}(550:9627,:);
 receiverData{6}= receiverData{6}(96:9559,:);
-receiverData{7}= receiverData{7}(95:9558,:);
+receiverData{7}= receiverData{7}(2:9558,:);
 receiverData{8}= receiverData{8}(23:end,:);
-receiverData{9}= receiverData{9}(14:end,:);
+receiverData{9}= receiverData{9}(2:end,:);
 receiverData{10}= receiverData{10}(25:9373,:);
 receiverData{11}= receiverData{11}(4:7685,:);
 
