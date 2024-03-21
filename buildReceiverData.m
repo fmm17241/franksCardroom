@@ -27,7 +27,9 @@ selfID = ['A69-1601-63062';'A69-1601-63064';'A69-1601-63066';'A69-1601-63067';..
 % THIS removes self detections, and adds a line of "1s" in a columnn so I
 % can do an hourly sum of detections.
 for transceiver = 1:length(rawDetFile)
-    heardSelf{transceiver} = strcmp(rawDetFile{transceiver,1}.Var3,selfID(transceiver,:))
+    heardSelf{transceiver}    = strcmp(rawDetFile{transceiver,1}.Var3,selfID(transceiver,:))
+    heardMooring{transceiver} = strfind(rawDetFile{transceiver,1}.Var3,'A69-1601')
+    % countMooring{transceiver} = sum(heardMooring{transceiver})
     countSelfDetects(transceiver,1) = sum(heardSelf{transceiver});
     rawDetFile{transceiver}(strcmp(rawDetFile{transceiver,1}.Var3,selfID(transceiver,:)),:) = [];
     %
