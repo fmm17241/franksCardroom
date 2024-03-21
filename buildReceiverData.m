@@ -254,7 +254,7 @@ end
 %clearly showing its out of the water, or times out of our range, or NaN
 %values from concatenating the two arrays.
 receiverData{1}= receiverData{1}(2:end,:);
-receiverData{2}= receiverData{2}(2:end,:);
+receiverData{2}= receiverData{2}(17:end,:);
 receiverData{3}= receiverData{3}(2:9598,:);
 receiverData{4}= receiverData{4}(20:9628,:);
 receiverData{5}= receiverData{5}(550:9627,:);
