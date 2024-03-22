@@ -83,9 +83,14 @@ xlabel('Longitude');
 ylabel('Latitude');
 axis equal
 hold on
-scatter(mooredGPS(11:14,2),mooredGPS(11:14,1),'k','filled');  
+scatter(mooredGPS(5,2),mooredGPS(5,1),'k','filled');  
 % legend('Moored Acoustic Transmitters');
-scatter(mooredGPS(14,2),mooredGPS(14,1),'r','filled');  
+scatter(mooredGPS(10,2),mooredGPS(10,1),'r','filled');  
+scatter(mooredGPS(4,2),mooredGPS(4,1),['g'],'filled');  
+
+
+distances(1) = lldistkm(mooredGPS(5,:),mooredGPS(10,:))
+distances(1) = lldistkm(mooredGPS(4,:),mooredGPS(5,:))
 
 
 buoyLocation =  [31.4 -80.866];

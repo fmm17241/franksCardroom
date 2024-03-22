@@ -270,3 +270,47 @@ receiverData{11}= receiverData{11}(4:7685,:);
 receiverData{12}= receiverData{12}(3:end,:);
 receiverData{13}= receiverData{13}(17:9373,:);
 
+
+
+figure()
+tiledlayout(4,1,'tileSpacing','compact')
+
+ax1 = nexttile()
+hold on
+for k = 1:length(receiverData)
+plot(receiverData{k}.DT,receiverData{k}.bulkThermalStrat)
+end
+title('Bulk Thermal Strat')
+
+ax2 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.windSpd)
+title('Windspeed')
+
+ax3 = nexttile()
+hold on
+for k = 1:length(receiverData)
+plot(receiverData{k}.DT,receiverData{k}.Temp)
+end
+plot(receiverData{4}.DT,receiverData{4}.surfaceTemp,'k','LineWidth',3)
+title('Temperatures')
+
+ax4 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.windDir)
+title('WindDir')
+yline(33,'label','UPWELLING')
+yline(213,'label','DOWNWELLING')
+yline(123,'label','OFFSHORE')
+yline(303,'label','ONSHORE')
+
+
+linkaxes([ax1,ax2,ax3,ax4],'x')
+
+
+
+
+
+
+
+
+
+

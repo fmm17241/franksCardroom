@@ -9,9 +9,9 @@ transmitters = {'63064' '63074' '63075' '63081'};
 % moored = {'STSNew2','FS6','39IN','SURTASS_05IN'}.';
 
 %testing real tidal angles to fix discrepancy
-%%FRANK TESTING: Adding +90 degrees to the angle measurements; this is so
+%Adding +90 degrees to the angle measurements; this is so
 %%that, when I rotate my perspective, my X axis will be source to receiver.
-%%Let's try it, what do i have to lose.
+
 
 tideAnglesD(1) = 123.3773;
 tideAnglesD(2) = 303.3773;
