@@ -168,6 +168,108 @@ title('High-Frequency Noise vs Increasing Windspeed')
 % title('','High-Frequency')
 
 
+highWindIndex =  [2076:2106,2187:2273];
+lowIndex      =  [395:425,506:592];
+
+figure()
+tiledlayout(2,5,'TileSpacing','Compact','TileIndexing', 'columnmajor')
+
+ax1 = nexttile([2 2])
+plot(receiverData{4}.DT,receiverData{4}.windSpd,'k')
+hold on
+ylabel('Windspeed (m/s)')
+y3 = yline(6,'--','Moderate Breeze')
+y3.LabelHorizontalAlignment = 'left';
+y2 = yline(10,'--','Strong Breeze')
+y2.LabelHorizontalAlignment = 'right';
+ylim([1 15])
+title('Wind''s Effect on a Shallow Coastal Reef''s Soundscape','Wind Magnitude')
+
+% ax1 = nexttile([1 1])
+% plot(octaveLevel{4}.Time,octaveLevel{4}.Var1(:,1),'b','LineWidth',2)
+% title('','Low-Frequency Noise (0.02-0.04 kHz)')
+% 
+% ax2 = nexttile([1 1])
+% scatter(receiverData{4}.windSpd(1678:4371,:),octaveLevel{4}.Var1(:,1),'r')
+% ylabel('Sound Pressure Level')
+% xlabel('Windspeed (m/s')
+% ylim([75 120])
+% 
+% ax3 = nexttile([1 1])
+% plot(octaveLevel{4}.Time,octaveLevel{4}.Var1(:,2),'b','LineWidth',2)
+% title('','Low-Frequency Noise (0.04-0.09 kHz)')
+% 
+% ax4 = nexttile([1 1])
+% scatter(receiverData{4}.windSpd(1678:4371,:),octaveLevel{4}.Var1(:,2),'r')
+% ylabel('Sound Pressure Level')
+% xlabel('Windspeed (m/s')
+% ylim([75 120])
+
+ax2 = nexttile([1 1])
+plot(octaveLevel{4}.Time(384:679),octaveLevel{4}.Var1(384:679,4),'b','LineWidth',2)
+title('','Low-Frequency Noise (0.17-0.36 kHz)')
+
+ax3 = nexttile([1 1])
+scatter(receiverData{4}.windSpd(2065:2360,:),octaveLevel{4}.Var1(384:679,4),'r')
+hold on
+scatter(receiverData{4}.windSpd(highWindIndex,:),octaveLevel{4}.Var1(lowIndex,4),'r','filled')
+ylabel('Sound Pressure Level')
+xlabel('Windspeed (m/s')
+legend('Low Windspeeds','High Windspeeds')
+
+% ylim([75 120])
+% 
+% ax7 = nexttile([1 1])
+% plot(octaveLevel{4}.Time,octaveLevel{4}.Var1(:,7),'b','LineWidth',2)
+% title('','Mid-Frequency Noise (1.4-3.0 kHz)')
+% 
+% ax8 = nexttile([1 1])
+% scatter(receiverData{4}.windSpd(1678:4371,:),octaveLevel{4}.Var1(:,7),'r')
+% ylabel('Sound Pressure Level')
+% xlabel('Windspeed (m/s')
+% ylim([75 120])
+
+% 
+% ax9 = nexttile([1 1])
+% plot(octaveLevel{4}.Time,octaveLevel{4}.Var1(:,9),'b','LineWidth',2)
+% title('','Mid-Frequency Noise (6-11 kHz)')
+% 
+% ax10 = nexttile([1 1])
+% scatter(receiverData{4}.windSpd(1678:4371,:),octaveLevel{4}.Var1(:,9),'r')
+% ylabel('Sound Pressure Level')
+% xlabel('Windspeed (m/s')
+% ylim([75 120])
+
+% scatter(receiverData{4}.windSpd(2065:2360,:),octaveLevel{4}.Var1(384:679,10),'r')
+
+ax4 = nexttile([1 1])
+plot(octaveLevel{4}.Time(384:679),octaveLevel{4}.Var1(384:679,10),'b','LineWidth',2)
+title('','Mid-Frequency Noise (11-22 kHz)')
+
+ax5 = nexttile([1 1])
+scatter(receiverData{4}.windSpd(2065:2360,:),octaveLevel{4}.Var1(384:679,10),'r')
+hold on
+scatter(receiverData{4}.windSpd(highWindIndex,:),octaveLevel{4}.Var1(lowIndex,10),'r','filled')
+ylabel('Sound Pressure Level')
+xlabel('Windspeed (m/s')
+% ylim([75 120])
+
+ax6 = nexttile([1 1])
+plot(receiverData{4}.DT(2065:2360,:),receiverData{4}.Noise(2065:2360,:),'b','LineWidth',2)
+title('','High-Frequency Noise (50-90 kHz)')
+
+ax7 = nexttile([1 1])
+scatter(receiverData{4}.windSpd(2065:2360,:),receiverData{4}.Noise(2065:2360,:),'r')
+hold on
+scatter(receiverData{4}.windSpd(highWindIndex,:),receiverData{4}.Noise(highWindIndex,:),'r','filled')
+ylabel('Sound Pressure Level')
+xlabel('Windspeed (m/s')
+% ylim([75 120])
+
+
+
+linkaxes([ax1 ax2 ax4 ax6],'x')
+
 %%
 
 
