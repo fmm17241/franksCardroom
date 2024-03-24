@@ -175,8 +175,8 @@ title('High-Frequency Noise vs Increasing Windspeed')
 
 
 
-highWindIndex =  [2076:2106,2187:2273];
-lowIndex      =  [395:425,506:592];
+highWindIndex =  [2076:2106,2187:2273,2363:2376];
+lowIndex      =  [395:425,506:592,682:695];
 
 figure()
 tiledlayout(2,5,'TileSpacing','Compact','TileIndexing', 'columnmajor')
