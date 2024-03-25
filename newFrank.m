@@ -101,33 +101,35 @@ winterSpringTAGS   = receiverData{2}(1232:3416,:);  % samesies
 % b = 0.5 * (fillmissing(matrixTemp, 'previous') + fillmissing(matrixTemp, 'next'))
 % 
 % 
-% 
-% figure()
-% tiledlayout(4,1,'TileSpacing','compact')
-% % ax1 = nexttile()
-% % plot(bulktime,bulktemp);
-% % title('Bulk Thermal Strat. From Glider')
-% 
-% % ax1 = nexttile()
-% % pcolor(matrixDT,matrixDepth(1,:),matrixTemp'); shading interp; colorbar; set(gca,'ydir','reverse'); datetick('x');
-% % title('Water Temperature','Glider')
-% 
-% % figure; h1=pcolor(dn,z,temp'); shading interp; colorbar; set(gca,'ydir','reverse'); datetick('x','keeplimits');
-% ax2 = nexttile()
-% plot(receiverData{2}.DT,receiverData{2}.bulkThermalStrat);
-% title('Bulk Temp Stratification','Buoy - Transceiver')
-% 
-% ax3 = nexttile()
-% plot(receiverData{4}.DT,receiverData{4}.windSpd);
-% title('','Windspeed')
-% 
-% 
-% ax4 = nexttile()
-% plot(receiverData{2}.DT,receiverData{2}.Noise);
-% title('','Noise')
-% yline(650)
 
-% %
+figure()
+tiledlayout(6,1,'TileSpacing','compact')
+% ax1 = nexttile()
+% plot(bulktime,bulktemp);
+% title('Bulk Thermal Strat. From Glider')
+
+ax1 = nexttile([2 1])
+pcolor(matrixDT,matrixDepth(1,:),matrixTemp'); shading interp; colorbar; set(gca,'ydir','reverse'); datetick('x');
+title('Thermal Stratification','Glider Data')
+clim([18 20])
+
+
+% figure; h1=pcolor(dn,z,temp'); shading interp; colorbar; set(gca,'ydir','reverse'); datetick('x','keeplimits');
+ax2 = nexttile()
+plot(receiverData{2}.DT,receiverData{2}.bulkThermalStrat);
+title('Bulk Thermal Stratification','Surface (Buoy) - Bottom (Transceiver)')
+
+ax3 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.windSpd);
+title('Windspeed')
+
+
+ax4 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.Noise);
+title('High-Frequency Noise','50-90 kHz (mV)')
+yline(650)
+
+%
 % averageDetections = receiverData
 % frank , ugh, make this work to give us average hourly for every hour
 % then use it to plot against stratification in April/May
@@ -145,10 +147,10 @@ winterSpringTAGS   = receiverData{2}(1232:3416,:);  % samesies
 
 
 ax5 = nexttile()
-plot(receiverData{9}.DT,receiverData{9}.HourlyDets);
-title('','Detections')
+plot(receiverData{4}.DT,receiverData{4}.HourlyDets);
+title('Hourly Detections')
 
-% linkaxes([ax1 ax2 ax3 ax4 ax5],'x')
+linkaxes([ax1 ax2 ax3 ax4 ax5],'x')
 
 
 sunkenReef = receiverData{5};
