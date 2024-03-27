@@ -85,6 +85,13 @@ hold off
 % ylim([0 450]);
 % title('Mariner''s Fall');
 % 
+
+edges = [0 650 1000];
+[x y] = discretize(MfallBin.Noise,edges)
+hist(x)
+
+
+
 % xTootz.Position(1) = xTootz.Position(1) - 8;
 tableDetections = timetable(receiverData{2}.DT,receiverData{2}.HourlyDets);
 
@@ -95,8 +102,6 @@ tableDetections = timetable(receiverData{2}.DT,receiverData{2}.HourlyDets);
 monthlyAVG = retime(tableDetections,'monthly','mean');
 monthlyVAR = retime(tableDetections,'monthly',@std);
 %% Noise, seasonality
-
-
 
 
 
