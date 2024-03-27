@@ -86,8 +86,19 @@ hold off
 % title('Mariner''s Fall');
 % 
 % xTootz.Position(1) = xTootz.Position(1) - 8;
+tableDetections = timetable(receiverData{2}.DT,receiverData{2}.HourlyDets);
 
+
+%Resetting the monthly avg. All transceivers is a crappy way of doing it,
+%lets focus on 2 or 4 or something.
+
+monthlyAVG = retime(tableDetections,'monthly','mean');
+monthlyVAR = retime(tableDetections,'monthly',@std);
 %% Noise, seasonality
+
+
+
+
 
 ff = figure()
 tiledlayout(3,5,'TileSpacing','Compact','Padding','Compact')
@@ -103,11 +114,11 @@ plot(fallBin.Time,fallBin.Noise,'-','Color','k');
 plot(MfallBin.Time,MfallBin.Noise,'-','Color','c');
 plot(winterBin.Time(1441:end),winterBin.Noise(1441:end),'-','Color','b');
 yline(650,'--',{'Challenging','Environment'})
-title('Average Measured Noise, Gray''s Reef 2020','Near-Bottom (1-3 meters), High Frequency (69 kHz)');
+title('Gray''s Reef Soundscape & Detection Efficiency','High Frequency (50-100 kHz)');
 ylabel('Average Noise (mV)');
 yyaxis right
-scatter(monthlyAVG.Time, monthlyAVG.Detections,65,'k','d','filled');
-ylabel('Average Hourly Detections');
+scatter(monthlyAVG.Time, monthlyAVG.Var1,65,'k','d','filled');
+ylabel('Avg. Hourly Detections');
 legend(' Hourly Noise','','','','','','',' Monthly Avg. Detections')
 ax = gca;
 ax.YAxis(2).Color = 'k'
