@@ -175,16 +175,58 @@ title('High-Frequency Noise vs Increasing Windspeed')
 %%
 %OKAY: Frank binning for big figure
 
-ol4
+OL4.dt     = octaveLevel{4}.Time(394:700);
+OL4.noise  = octaveLevel{4}.Var1(394:700,4);
+OL10.dt    = octaveLevel{4}.Time(394:700);
+OL10.noise = octaveLevel{4}.Var1(394:700,10);
 
+highWind     = receiverData{4}.windSpd(2075:2381,:) ;
+highWindTime = receiverData{4}.DT(2075:2381,:);
+
+
+binnedWindIndex{1} = highWind < 2;
+binnedWindIndex{2} = highWind < 5 & highWind > 2;
+binnedWindIndex{3} = highWind < 7 & highWind > 5;
+binnedWindIndex{4} = highWind < 9 & highWind > 7;
+binnedWindIndex{5} = highWind > 11 ;
+
+
+for k = 1:length(binnedWindIndex)
+    binnedWind{k} = receiverData{4}(binnedWindIndex{k},:)
+    avgDetsPerWind(k)   = mean(binnedWind{k}.HourlyDets);
+    avgHighNoisePerWind(k)   = mean(binnedWind{k}.Noise);
+end
+
+for k = 1:length(binnedWindIndex)
+    binnedLowNoise{k}     = OL4.noise(binnedWindIndex{k})
+    binnedMidNoise{k}     = OL10.noise(binnedWindIndex{k})
+    avgLowNoisePerWind(k) = mean(binnedLowNoise{k})
+    avgMidNoisePerWind(k) = mean(binnedMidNoise{k})
+end
+
+
+
+x = 2:2:11;
+
+figure()
+plot(x,avgDetsPerWind)
 %
+figure()
+yyaxis left
+plot(x,avgHighNoisePerWind)
+yyaxis right
+plot(x,avgLowNoisePerWind)
+hold on
+plot(x,avgMidNoisePerWind)
+
+
 
 
 highWindIndex =  [2076:2106,2187:2273,2363:2376];
 lowIndex      =  [395:425,506:592,682:695];
 
 figure()
-tiledlayout(2,5,'TileSpacing','Compact','TileIndexing', 'columnmajor')
+ff = tiledlayout(2,5,'TileSpacing','Compact','TileIndexing', 'columnmajor')
 
 ax1 = nexttile([2 2])
 plot(receiverData{4}.DT,receiverData{4}.windSpd,'k')
@@ -196,17 +238,18 @@ y2 = yline(10,'--','Strong Breeze')
 y2.LabelHorizontalAlignment = 'right';
 ylim([1 15])
 yyaxis right
-scatter(receiverData{4}.DT,receiverData{4}.HourlyDets,'r','sq','filled')
+scatter(receiverData{4}.DT,receiverData{4}.HourlyDets,70,'r','sq','filled')
 ylabel('Hourly Detections')
 ylim([0 8])
 ax1.YAxis(1).Color = 'k';
 ax1.YAxis(2).Color = 'k';
-title('Wind''s Effect on a Shallow Coastal Reef''s Soundscape','Wind Magnitude (-), Hourly Dets (Red Sq.)')
+legend('Windspeed','','','Detections')
+title('Case Study: Wind''s Effect on a Shallow Coastal Reef''s Soundscape','Wind Magnitude (-), Hourly Dets (Red Sq.)')
 
 
 ax2 = nexttile([1 1])
 plot(octaveLevel{4}.Time(394:700),octaveLevel{4}.Var1(394:700,4),'b','LineWidth',2)
-title('','Low-Frequency Noise (0.17-0.36 kHz)')
+title('Low-Frequency Noise','(0.17-0.36 kHz)')
 ylabel('Sound Pressure Level')
 
 ax3 = nexttile([1 1])
@@ -220,7 +263,7 @@ legend('Low Windspeeds','High Windspeeds')
 
 ax4 = nexttile([1 1])
 plot(octaveLevel{4}.Time(394:700),octaveLevel{4}.Var1(394:700,10),'b','LineWidth',2)
-title('','Mid-Frequency Noise (11-22 kHz)')
+title('Mid-Frequency Noise','(11-22 kHz)')
 ylabel('Sound Pressure Level')
 
 ax5 = nexttile([1 1])
@@ -233,7 +276,7 @@ xlabel('Windspeed (m/s)')
 
 ax6 = nexttile([1 1])
 plot(receiverData{4}.DT(2075:2381,:),receiverData{4}.Noise(2075:2381,:),'b','LineWidth',2)
-title('','High-Frequency Noise (50-90 kHz)')
+title('High-Frequency Noise ','(50-90 kHz)')
 ylabel('Noise (mV)')
 
 ax7 = nexttile([1 1])
@@ -247,6 +290,8 @@ xlabel('Windspeed (m/s)')
 
 
 linkaxes([ax1 ax2 ax4 ax6],'x')
+
+exportgraphics(ff,'saveIt.png')
 
 %%
 
