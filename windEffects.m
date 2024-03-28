@@ -155,8 +155,39 @@ R = corrcoef(anomalyU,winds2014.WSPD);
 testing = mean(anomalyU)
 
 testing2= mean(anomalyV)
+clearvars -except oneDrive githubToolbox windsAverage predicted* anomaly* measured*
+
+%%
+%Compare detections from that time?
+
+cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Glider\Data\2014'
+
+% Load in processed receiver and detection data 
+load receiver_reordered.mat
+
+rec.timeDT = datetime(rec.timeDN,'convertfrom','datenum','timezone','utc');
+
+%Picking receiver pairs that were successful and oriented in certain
+%directions.
+detsTime   = rec.timeDT;
+detsCross1 = [rec.r4_5m rec.r6_5m rec.r1_2m]; detsCross = mean(detsCross1,2,'OmitNan');
+detsAlong1 = [rec.r1_4m rec.r4_1m rec.r6_3m]; detsAlong = mean(detsAlong1,2, 'omitnan');
 
 
+fullTime = [datetime(2014,08,20,16,00,00),datetime(2014,10,12,19,00,00)];
+fullTime.TimeZone = 'UTC';
+
+windsIndex = isbetween(windsAverage.time,fullTime(1,1),fullTime(1,2),'closed');
+tideIndex = isbetween(measuredTime,fullTime(1,1),fullTime(1,2),'closed'); tideIndex(1276) = 1;
+fullWindsData = [windsAverage.WSPD(windsIndex) windsAverage.WDIR(windsIndex)];
+
+
+% fullData = table2timetable(table(tideDT, detsAlong,detsCross, windsAverage.WSPD(windsIndex), windsAverage.WDIR(windsIndex), tides'));
+fullData = table2timetable(table(detsTime, detsAlong,detsCross, windsAverage.WSPD(windsIndex), windsAverage.WDIR(windsIndex), ...
+    measuredU(tideIndex)',measuredV(tideIndex)',anomalyU(tideIndex)',anomalyV(tideIndex)'));
+fullData.Properties.VariableNames = {'detsAlong','detsCross','windSpeed','windDir','TideU','TideV','AnomalyU','AnomalyV'};
+
+clearvars -except fullData detections time bottom* receiverData github* oneDrive predicted* anomaly* measured*
 
 
 
