@@ -172,7 +172,12 @@ title('High-Frequency Noise vs Increasing Windspeed')
 % title('','High-Frequency')
 
 
+%%
+%OKAY: Frank binning for big figure
 
+ol4
+
+%
 
 
 highWindIndex =  [2076:2106,2187:2273,2363:2376];
@@ -191,47 +196,52 @@ y2 = yline(10,'--','Strong Breeze')
 y2.LabelHorizontalAlignment = 'right';
 ylim([1 15])
 yyaxis right
-scatter(receiverData{4}.DT,receiverData{4}.HourlyDets,'r','*')
+scatter(receiverData{4}.DT,receiverData{4}.HourlyDets,'r','sq','filled')
 ylabel('Hourly Detections')
 ylim([0 8])
-title('Wind''s Effect on a Shallow Coastal Reef''s Soundscape','Wind Magnitude (-), Hourly Dets (*)')
+ax1.YAxis(1).Color = 'k';
+ax1.YAxis(2).Color = 'k';
+title('Wind''s Effect on a Shallow Coastal Reef''s Soundscape','Wind Magnitude (-), Hourly Dets (Red Sq.)')
 
 
 ax2 = nexttile([1 1])
 plot(octaveLevel{4}.Time(394:700),octaveLevel{4}.Var1(394:700,4),'b','LineWidth',2)
 title('','Low-Frequency Noise (0.17-0.36 kHz)')
+ylabel('Sound Pressure Level')
 
 ax3 = nexttile([1 1])
 scatter(receiverData{4}.windSpd(2075:2381,:),octaveLevel{4}.Var1(394:700,4),'r')
 hold on
 scatter(receiverData{4}.windSpd(highWindIndex,:),octaveLevel{4}.Var1(lowIndex,4),'r','filled')
 ylabel('Sound Pressure Level')
-xlabel('Windspeed (m/s')
+xlabel('Windspeed (m/s)')
 legend('Low Windspeeds','High Windspeeds')
 
 
 ax4 = nexttile([1 1])
 plot(octaveLevel{4}.Time(394:700),octaveLevel{4}.Var1(394:700,10),'b','LineWidth',2)
 title('','Mid-Frequency Noise (11-22 kHz)')
+ylabel('Sound Pressure Level')
 
 ax5 = nexttile([1 1])
 scatter(receiverData{4}.windSpd(2075:2381,:),octaveLevel{4}.Var1(394:700,10),'r')
 hold on
 scatter(receiverData{4}.windSpd(highWindIndex,:),octaveLevel{4}.Var1(lowIndex,10),'r','filled')
 ylabel('Sound Pressure Level')
-xlabel('Windspeed (m/s')
+xlabel('Windspeed (m/s)')
 % ylim([75 120])
 
 ax6 = nexttile([1 1])
 plot(receiverData{4}.DT(2075:2381,:),receiverData{4}.Noise(2075:2381,:),'b','LineWidth',2)
 title('','High-Frequency Noise (50-90 kHz)')
+ylabel('Noise (mV)')
 
 ax7 = nexttile([1 1])
 scatter(receiverData{4}.windSpd(2075:2381,:),receiverData{4}.Noise(2075:2381,:),'r')
 hold on
 scatter(receiverData{4}.windSpd(highWindIndex,:),receiverData{4}.Noise(highWindIndex,:),'r','filled')
-ylabel('Sound Pressure Level')
-xlabel('Windspeed (m/s')
+ylabel('Noise (mV)')
+xlabel('Windspeed (m/s)')
 % ylim([75 120])
 
 
