@@ -16,8 +16,8 @@ tidalAnalysis2014
 %Predicted tides: ut and vt, names changed for Frank's clarity. Gonna
 %regret this.
 predictedTime = tideDT;
-predictedU = correctedUT;
-predictedV = correctedVT;
+predictedU = correctUT;
+predictedV = correctVT;
 
 %Original depth-averaged currents: uz and vz
 measuredTime = adcp.time(2:2:end)';
@@ -45,18 +45,20 @@ hold on
 plot(measuredTime,anomalyU)
 
 figure()
-nexttile()
+tiledlayout(4,1,'Tilespacing','Compact')
+ax1 = nexttile()
 plot(winds2014.time,winds2014.WSPD,'k')
 title('WindSpeed')
-nexttile()
+ax2 = nexttile()
 plot(winds2014.time,winds2014.WDIR,'k')
 title('WindDir')
-nexttile
+ax3 = nexttile
 scatter(measuredTime,anomalyU,'r','filled')
 title('Current Anom., U')
-nexttile
+ax4 = nexttile
 scatter(measuredTime,anomalyV,'b','filled')
 title('Current Anom., V')
+linkaxes([ax1 ax2 ax3 ax4],'x')
 
 %% Try to best plot this
 
@@ -146,13 +148,14 @@ for k = 1:length(cycleTime)-1
     close all
 end
 
-R = corrcoef(anomalyV,winds2014.WSPD);
+R = corrcoef(anomalyU,winds2014.WSPD);
 
 
 %%
 testing = mean(anomalyU)
 
 testing2= mean(anomalyV)
+
 
 
 

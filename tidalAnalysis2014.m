@@ -56,15 +56,15 @@ tides = [rotUtide' rotVtide']';
 
 
 flippedAlong = -rotVtide;
-tidalThetaEvil = -coef(3);
-thetaDegreeEvil = rad2deg(theta);
+tidalThetaNorth = -coef(3);
+thetaDegreeNorth = rad2deg(theta);
 
-[correctedUT,correctedVT] = rot(rotUtide,flippedAlong,tidalThetaEvil);
+[correctUT,correctVT] = rot(rotUtide,flippedAlong,tidalThetaNorth);
 
 %%
 %Doing same rotation to original uz/vz
 [rotUoriginal, rotVoriginal] = rot(uz,vz,theta)
 flippedAlongOG = -rotVoriginal;
 
-[uz,vz] = rot(rotUoriginal,flippedAlongOG,tidalThetaEvil);
+[uz,vz] = rot(rotUoriginal,flippedAlongOG,tidalThetaNorth);
 

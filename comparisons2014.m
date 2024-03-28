@@ -1,7 +1,7 @@
 % truthing2014.m has become corrupted and we shall not speak of it going
 % forward, under penalty of intense frowning and sighing.
 %Go to correct data folder
-cd D:\Glider\Data\2014
+cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Glider\Data\2014'
 
 % Load in processed receiver and detection data 
 load receiver_reordered.mat
@@ -10,8 +10,8 @@ rec.timeDT = datetime(rec.timeDN,'convertfrom','datenum','timezone','utc');
 
 %Picking receiver pairs that were successful and oriented in certain
 %directions.
-detsCross1 = [rec.r4_5m rec.r6_5m rec.r1_2m]; detsCross = nanmean(detsCross1,2);
-detsAlong1 = [rec.r1_4m rec.r4_1m rec.r6_3m]; detsAlong = nanmean(detsAlong1,2);
+detsCross1 = [rec.r4_5m rec.r6_5m rec.r1_2m]; detsCross = mean(detsCross1,2,'OmitNan');
+detsAlong1 = [rec.r1_4m rec.r4_1m rec.r6_3m]; detsAlong = nanmean(detsAlong1);
 
 
 %%
