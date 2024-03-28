@@ -130,6 +130,9 @@ legend({'Along-Pairs','Cross-Pairs'});
 title('2014 Cross and Alongshore Pairs');
 
 
+
+
+
 %%
 %Okay, now tides:
 clearvars -except fullData
