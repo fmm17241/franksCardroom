@@ -1,13 +1,27 @@
 %FM 4/2024
 %Studying the surface loss code from the acoustics toolbox
-x = 1: 13;
-theta = 90;
-freq = 69;
-U = [0 1 2 3 4 5 6 7 8 9 10 11 ...
-    12 ]
+x = 1: 6;
+AcuteTheta = 45;
+ObtuseTheta = 110;
+LowFreq = 0.6
+MidFreq = 2
+HighFreq = 69;
 
 
-calculatedLoss = SurfLoss(theta, U, freq)
+U = [4 10]
+
+
+calculatedHighFreqAcute = SurfLoss(AcuteTheta, U, HighFreq)
+calculatedHighFreqObtuse = SurfLoss(ObtuseTheta, U, HighFreq)
+% calculatedMidFreqAcute = SurfLoss(AcuteTheta, U, MidFreq)
+% calculatedMidFreqObtuse = SurfLoss(ObtuseTheta, U, MidFreq)
+calculatedLowFreqAcute = SurfLoss(AcuteTheta, U, LowFreq)
+calculatedLowFreqObtuse = SurfLoss(ObtuseTheta, U, LowFreq)
 
 figure()
-plot(x,calculatedLoss)
+plot(x,calculatedHighFreqLoss,'r')
+hold on
+plot(x,calculatedLowFreqLoss,'b')
+legend('High Frequency','Low Frequency')
+
+
