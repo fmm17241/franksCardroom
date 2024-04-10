@@ -71,70 +71,17 @@ for season = 1:length(seasons)
 end
 
 
-
-%
- 
-% X = 0:2:22;
-% 
-% 
-% cd (localPlots)
-% 
-% seasonName = [{'Winter','Spring','Summer','Fall','Mariner''s Fall','Fall'}]
-% color = ['r','r','g','g','k','k','b','b','m','m'];
-% 
-% figure()
-% scatter(X,yearlyTiltVsWindSpeed,'filled')
-% xlabel('Instrument Tilt')
-% ylabel('Normalized Det. Efficiency')
-% title('Yearly Avg Det Efficiency w/ different tilts')
-% 
-% for COUNT = 1:length(normalizedTilt)
-%     figure()
-%     hold on
-%     for season = 1:length(seasons)
-%         scatter(X,normalizedTilt{COUNT}{season},'filled')
-%     end
-%     nameit = sprintf('Tilt on Transceiver: %d',COUNT);
-%     title(nameit)
-%     ylabel('Normalized Det. Efficiency')
-%     xlabel('Instrument Tilt')
-%    lgd =  legend('Winter','Spring','Summer','Fall','Mariners Fall',loc='upper left')
-% %    lgd.Location = 'northwest';
-% %     exportgraphics(gcf,sprintf('Transceiver%dTilt.png',COUNT),'Resolution',300)
-% end
-
-
-
-
-for COUNT = 1:length(normalizedwindDir)
-    figure()
-    hold on
-    for season = 1:length(seasons)
-        scatter(X,normalizedwindDir{COUNT}{season},color(COUNT),'filled')
-%         plot(X,normalizedTilt{COUNT}{season})
-    end
-%     nameit = sprintf('Tilt on Transceiver: %d',COUNT);
-%     title(nameit)
-    ylabel('Normalized Det. Efficiency')
-    xlabel('Wind Dir.')
-%    lgd =  legend('Winter','Spring','Summer','Fall','Mariners Fall',loc='upper left')
-%    lgd.Location = 'northwest';
-%     exportgraphics(gcf,sprintf('Transceiver%dTilt.png',COUNT),'Resolution',300)
-    title('WindDir vs efficiency')
-end
-
-
 % Annuals
 
 x = 1:length(averageWindSpeedAnnual(1,:))
 seasonName = [{'Winter','Spring','Summer','Fall','Mariner''s Fall','Fall'}]
-color = ['r','r','g','g','k','k','b','b','m','m'];
+% color = ['r','r','g','g','k','k','b','b','m','m'];
 
 figure()
 hold on
 for COUNT = 1:height(averageWindSpeedAnnual)
-    plot(x,averageWindSpeedAnnual(COUNT,:),color(COUNT))
-    errorbar(x,averageWindSpeedAnnual(COUNT,:),errorWindAnnual(COUNT,:),color(COUNT),"LineStyle","none")
+    plot(x,averageWindSpeedAnnual(COUNT,:))
+    errorbar(x,averageWindSpeedAnnual(COUNT,:),errorWindAnnual(COUNT,:),"LineStyle","none")
 end
 xlabel('Wind Magnitude')
 ylabel('Detections')
@@ -177,20 +124,11 @@ x2.LabelVerticalAlignment = 'bottom'
 x3.LabelVerticalAlignment = 'bottom'
 title('Ambient Noise','Increasing Wind Magnitude')
 
-figure()
-hold on
-for COUNT = 1:length(tiltCompareWindAnnual)
-    plot(x,tiltCompareWindAnnual{COUNT},color(COUNT))
-end
-xlabel('Wind Magnitude')
-ylabel('Instrument Tilt °')
-title('Instrument Orientation','Increasing Wind Magnitude')
-
 
 figure()
 hold on
 for COUNT = 1:height(averageWindSpeedAnnual)
-    plot(x,wavesCompareAnnual{COUNT},color(COUNT))
+    plot(x,wavesCompareAnnual{COUNT})
 end
 xline(3.60,'label','Light Breeze')
 xline(5.65,'label','Moderate Breeze')
@@ -204,10 +142,10 @@ title('WaveHeight','Increasing Wind Magnitude')
 
 x = 1:length(averageWindSpeedAnnual(1,:))
 seasonName = [{'Winter','Spring','Summer','Fall','Mariner''s Fall','Fall'}]
-color = ['r','r','g','g','k','k','b','b','m','m'];
+% color = ['r','r','g','g','k','k','b','b','m','m'];
 
 % Frank adding colors so I can track who is who
-myColors = ['b','r','y','k','m','g','b','r','y','k','m','g','b']
+% myColors = ['b','r','y','k','m','g','b','r','y','k','m','g','b']
 myLineStyles = ["-";"--";"-o"]
 
 
