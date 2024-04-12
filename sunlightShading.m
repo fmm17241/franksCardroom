@@ -1,5 +1,5 @@
 %FM, run SunriseSunset
-
+%editing to remember
 %This is to shade a figure for every nighttime, to show diurnal changes.
 
 startDT = datetime(2020,01,01,00,00,00);
