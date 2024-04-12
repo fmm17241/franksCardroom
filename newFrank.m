@@ -79,9 +79,9 @@ matrixDepth = [matstruct4.z; matstruct1.z;matstruct2.z;matstruct3.z];
 
 
 
-%%
-clearvars -except receiverData hourlyDetections mooredReceivers oneDrive githubToolbox matstruct bulktime bulkrho bulktemp bulkdepth matstruct* matrix*
-close all
+% %%
+% clearvars -except receiverData hourlyDetections mooredReceivers oneDrive githubToolbox matstruct bulktime bulkrho bulktemp bulkdepth matstruct* matrix*
+% close all
 
 %Aight, Frank needs to pick specific time chunks to compare statistically.
 cd 'C:\Users\fmm17241\OneDrive - University of Georgia\statisticalAnalysis\envStatsSpring2024'
@@ -109,8 +109,10 @@ tiledlayout(6,1,'TileSpacing','compact')
 % title('Bulk Thermal Strat. From Glider')
 
 ax1 = nexttile([2 1])
-pcolor(matrixDT,matrixDepth(1,:),matrixTemp'); shading interp; colorbar; set(gca,'ydir','reverse'); datetick('x');
+pcolor(matrixDT,matrixDepth(1,:),matrixTemp'); shading interp; cb = colorbar; set(gca,'ydir','reverse'); datetick('x');
+set(gca,'Xticklabel',[]); set(gca,'xtick',[]); cb.Label.String = 'Temp (C)';
 title('Thermal Stratification','Glider Data')
+ylabel('Depth (m)')
 clim([18 20])
 
 
@@ -118,16 +120,18 @@ clim([18 20])
 ax2 = nexttile()
 plot(receiverData{2}.DT,receiverData{2}.bulkThermalStrat);
 title('Bulk Thermal Stratification','Surface (Buoy) - Bottom (Transceiver)')
+ylabel('Gradient (C)')
 
 ax3 = nexttile()
 plot(receiverData{4}.DT,receiverData{4}.windSpd);
 title('Windspeed')
-
+ylabel('Windspeed (m/s)')
 
 ax4 = nexttile()
 plot(receiverData{4}.DT,receiverData{4}.Noise);
-title('High-Frequency Noise','50-90 kHz (mV)')
+title('High-Frequency (50-90 kHz) Noise')
 yline(650)
+ylabel('Noise (mV)')
 
 %
 % averageDetections = receiverData
@@ -149,8 +153,13 @@ yline(650)
 ax5 = nexttile()
 plot(receiverData{4}.DT,receiverData{4}.HourlyDets);
 title('Hourly Detections')
+ylabel('Detections')
 
 linkaxes([ax1 ax2 ax3 ax4 ax5],'x')
+
+print(gcf,'timeseriesApril.png','-dpng','-r300'); 
+
+%%%
 
 
 sunkenReef = receiverData{5};
@@ -162,9 +171,9 @@ flatReef{4}   = receiverData{13};
 
 hillToSunken = hourlyDetections{11};
 hillToFlat   = hourlyDetections{14};
-
-clearvars -except receiverData sunkenReef flatReef hillTo* oneDrive githubToolbox
-close all
+% 
+% clearvars -except receiverData sunkenReef flatReef hillTo* oneDrive githubToolbox
+% close all
 
 %Okay. Two scenarios to compare, quantitatively
 
