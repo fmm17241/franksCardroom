@@ -36,7 +36,7 @@ set(gca,'Clipping','on')
 ax4 = nexttile()
 % yyaxis left
 plot(receiverData{4}.DT,receiverData{4}.Noise,'--','LineWidth',3);
-y1 = yline(650,'-','Challenging Acoustic Threshold'); y1.LabelHorizontalAlignment = 'Right'; y1.LabelVerticalAlignment = 'Top';
+y1 = yline(650,'-','Challenging Acoustic Threshold'); y1.LabelHorizontalAlignment = 'Center'; y1.LabelVerticalAlignment = 'Bottom';
 ylabel('Noise (mV)')
 set(gca,'Xticklabel',[]); set(gca,'xtick',[]);
 % yyaxis right
@@ -52,7 +52,7 @@ ylabel('Detections')
 
 linkaxes([ax1 ax2 ax4 ax5],'x')
 
-print(gcf,'timeseriesApril.png','-dpng','-r300'); 
+print(gcf,'timeseriesApril23.png','-dpng','-r300'); 
 %%
 
 figure()
@@ -87,13 +87,12 @@ hold on
 y1 = yline(650,'-','Challenging Acoustic Threshold'); y1.LabelHorizontalAlignment = 'Right'; y1.LabelVerticalAlignment = 'Top';
 ylabel('Noise (mV)')
 set(gca,'Xticklabel',[]); set(gca,'xtick',[]);
-for var = 1:length(sunRun)
-    xline(sunRun(1,var),'--')
-    xline(sunRun(2,var),'-')
+yValue = [0 10000];
+for k = 1:length(sunset)-1
+    x = [sunset(k) sunrise(k+1)];
+    area(x,yValue,'FaceColor','k','FaceAlpha',0.2);
 end
-
-
-
+ylim([250 800])
 title('High-Frequency (50-90 kHz) Noise')
 
 
@@ -101,6 +100,15 @@ ax3 = nexttile()
 plot(receiverData{4}.DT,receiverData{4}.HourlyDets,'k','LineWidth',3);
 title('Hourly Detections')
 ylabel('Detections')
+yValue = [0 10000];
+hold on
+for k = 1:length(sunset)-1
+    x = [sunset(k) sunrise(k+1)];
+    area(x,yValue,'FaceColor','k','FaceAlpha',0.2);
+end
+ylim([0 8])
+
 
 linkaxes([ax1 ax2 ax3],'x')
 
+print(gcf,'TimeseriesJuly.png','-dpng','-r300'); 
