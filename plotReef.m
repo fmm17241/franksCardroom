@@ -63,7 +63,7 @@ h(1) = plot(nan,nan,'rp','MarkerSize',50,'DisplayName','Skidaway Institute of Oc
 h(2) = plot(nan,nan,'-.k','DisplayName','Gray''s Reef NMS');
 legend(h);
 
-exportgraphics(yes,'GRNMSBigPic5.jpeg');
+% exportgraphics(yes,'GRNMSBigPic5.jpeg');
 
 
 
@@ -78,15 +78,20 @@ load mooredGPS
 %       
 %       
 figure()
-scatter(mooredGPS(:,2),mooredGPS(:,1),'k');      
+plot(mooredGPS(:,2),mooredGPS(:,1),'linestyle','none','marker','o','color','k','MarkerFaceColor','k'); 
 xlabel('Longitude');
 ylabel('Latitude');
-axis equal
+
 hold on
-scatter(mooredGPS(5,2),mooredGPS(5,1),'k','filled');  
-% legend('Moored Acoustic Transmitters');
-scatter(mooredGPS(10,2),mooredGPS(10,1),'r','filled');  
-scatter(mooredGPS(4,2),mooredGPS(4,1),['g'],'filled');  
+plot(mooredGPS(15,2),mooredGPS(15,1),'linestyle','none','marker','^','color','r','MarkerFaceColor','r','MarkerSize',12);
+
+plot(buoyLocation(2),buoyLocation(1),'linestyle','none','marker','^','color','b','MarkerFaceColor','b','MarkerSize',12);
+xlim([-80.91 -80.83])
+ylim([31.358 31.41])
+axis equal
+legend('Moored VR2Tx Transceiver','SoundTrap Hydrophone','Station 41008 - Weather Buoy')
+title('Acoustic Array')
+
 
 
 distances(1) = lldistkm(mooredGPS(5,:),mooredGPS(10,:))
@@ -115,6 +120,9 @@ plot(reef1(2),reef1(1),'linestyle','none','marker','*','color','k');
 plot(reef2(2),reef2(1),'linestyle','none','marker','*','color','k');
 plot(reef3(2),reef3(1),'linestyle','none','marker','*','color','k');
 plot(reef4(2),reef4(1),'linestyle','none','marker','*','color','k');
+plot(buoyLocation(2),buoyLocation(1),'linestyle','none','marker','^','color','R');
+plot()
+
 title('Gray''s Reef National Marine Sanctuary');
 xlabel('');
 ylabel('');
@@ -124,7 +132,7 @@ legend('Moored Transmitters');
 set(gca,'YTick',[]);
 set(gca,'Xticklabel',[])
 
-exportgraphics(pp,'GNMSLilPic4.jpeg');
+% exportgraphics(pp,'GNMSLilPic4.jpeg');
 
 %SURTASSSTN20 and STSNew1
 pairingAngle1 = atan2d((mooredGPS(2,2)-mooredGPS(15,2)),(mooredGPS(2,1)-mooredGPS(15,1)));
