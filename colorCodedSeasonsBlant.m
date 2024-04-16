@@ -119,7 +119,7 @@ plot(fallBin.Time,fallBin.Noise,'-','Color','k');
 plot(MfallBin.Time,MfallBin.Noise,'-','Color','c');
 plot(winterBin.Time(1441:end),winterBin.Noise(1441:end),'-','Color','b');
 yline(650,'--',{'Challenging','Environment'})
-title('Gray''s Reef Soundscape & Detection Efficiency','High Frequency (50-100 kHz)');
+title('Gray''s Reef Soundscape & Detection Efficiency','High Frequency Noise (50-90 kHz) and Monthly Avg. Detections');
 ylabel('Average Noise (mV)');
 yyaxis right
 scatter(monthlyAVG.Time, monthlyAVG.Var1,65,'k','d','filled');
@@ -130,42 +130,42 @@ ax.YAxis(2).Color = 'k'
 
 nexttile()
 hold on
-histogram([winterBin.Noise; winterBin.Noise],'FaceColor','b','BinWidth',10,'BinLimits',[350 800]);
+histogram(winterBin.Noise,'FaceColor','b','BinWidth',10,'BinLimits',[350 800]);
 % xticks('');
-ylim([0 320]);
+ylim([0 200]);
 xline(650,'--')
 ylabel('Hours');
-% annotation('textbox',[0.15 0.65 0.3 0.15], 'String', 'test', 'FontSize',10,'EdgeColor',[0 0 0],'Color','r')
 title('Winter');
 
 nexttile()
 histogram(springBin.Noise,'FaceColor','g','BinWidth',10,'BinLimits',[350 800]);
 % xticks('');
 yticks('');
-ylim([0 320]);
-title('Spring');
+ylim([0 200]);
 xline(650,'--')
+title('Spring');
+
 
 nexttile()
 histogram(summerBin.Noise,'FaceColor','r','BinWidth',10,'BinLimits',[350 800]);
 % ylabel('Hours');
 yticks('');
-ylim([0 320]);
-xTootz = xlabel('Average Measured Noise (mV)','fontweight','bold');
+ylim([0 200]);
+xTootz = xlabel('Measured Hourly HF Noise (mV)','fontweight','bold');
 title('Summer');
 xline(650,'--')
 
 nexttile()
 histogram(fallBin.Noise,'FaceColor','k','BinWidth',10,'BinLimits',[350 800]);
 yticks('');
-ylim([0 320]);
+ylim([0 200]);
 title('Fall');
 xline(650,'--',{'Challenging', 'Environment'})
 
 nexttile()
 histogram(MfallBin.Noise,'FaceColor','c','BinWidth',10,'BinLimits',[350 800]);
 yticks('');
-ylim([0 320]);
+ylim([0 200]);
 title('Mariner''s Fall');
 xline(650,'--')
 
