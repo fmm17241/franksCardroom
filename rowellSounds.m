@@ -244,7 +244,7 @@ ylim([0 8])
 ax1.YAxis(1).Color = 'k';
 ax1.YAxis(2).Color = 'k';
 legend('Windspeed','','','Detections')
-title('Case Study: Wind''s Effect on a Shallow Coastal Reef''s Soundscape','Wind Magnitude (-), Hourly Dets (Red Sq.)')
+title('Wind''s Effect on a Shallow Coastal Reef''s Soundscape','Windspeed & Detections')
 
 
 ax2 = nexttile([1 1])
@@ -292,6 +292,27 @@ xlabel('Windspeed (m/s)')
 linkaxes([ax1 ax2 ax4 ax6],'x')
 
 exportgraphics(ff,'saveIt.png')
+
+
+statsHFnoise = receiverData{4}.Noise(2075:2381,:);
+statsHFwinds = receiverData{4}.windSpd(2075:2381,:);
+
+statsHF = [receiverData{4}.Noise(2075:2381,:) receiverData{4}.windSpd(2075:2381,:)];
+statsMF = [octaveLevel{4}.Var1(394:700,10) receiverData{4}.windSpd(2075:2381,:)];
+statsLF = [octaveLevel{4}.Var1(394:700,4) receiverData{4}.windSpd(2075:2381,:)];
+
+
+statsMFnoise = octaveLevel{4}.Var1(394:700,10);
+statsMFwinds = receiverData{4}.windSpd(2075:2381,:);
+
+statsLFnoise = octaveLevel{4}.Var1(394:700,4);
+statsLFwinds = receiverData{4}.windSpd(2075:2381,:);
+
+highFreqStat = fitlm(statsHF(:,1),statsHF(:,2))
+medFreqStat = fitlm(statsMF(:,1),statsMF(:,2))
+lowFreqStat = fitlm(statsLF(:,1),statsLF(:,2))
+
+
 
 %%
 
