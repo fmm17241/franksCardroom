@@ -1,5 +1,5 @@
 
-
+buoyLocation =  [31.4 -80.866];
 GRNMSlat = [31.4210667 31.3627333];
 GRNMSlon = [-80.9212 -80.82815];
 reef1 = [GRNMSlat(1) GRNMSlon(1)];
@@ -85,20 +85,21 @@ ylabel('Latitude');
 hold on
 plot(mooredGPS(15,2),mooredGPS(15,1),'linestyle','none','marker','^','color','r','MarkerFaceColor','r','MarkerSize',12);
 
-plot(buoyLocation(2),buoyLocation(1),'linestyle','none','marker','^','color','b','MarkerFaceColor','b','MarkerSize',12);
+plot(buoyLocation(2),buoyLocation(1),'linestyle','none','marker','pentagram','color','b','MarkerFaceColor','b','MarkerSize',12);
 xlim([-80.91 -80.83])
 ylim([31.358 31.41])
 axis equal
 legend('Moored VR2Tx Transceiver','SoundTrap Hydrophone','Station 41008 - Weather Buoy')
 title('Acoustic Array')
 
+exportgraphics(gcf,'acousticArray.png');
 
 
 distances(1) = lldistkm(mooredGPS(5,:),mooredGPS(10,:))
 distances(1) = lldistkm(mooredGPS(4,:),mooredGPS(5,:))
 
 
-buoyLocation =  [31.4 -80.866];
+
 
 
 
