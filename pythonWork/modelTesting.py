@@ -61,6 +61,7 @@ ssp = [
 
 #Creates new environment, accounting for change in SSP and bathy, then prints & plots
 env = pm.create_env2d(
+    frequency=69000,
     rx_range= 600,
     rx_depth= 18,
     depth=bathy,
@@ -92,7 +93,7 @@ env['rx_range'] = np.linspace(0, 600, 1001)
 env['rx_depth'] = np.linspace(0, 20, 301)
 
 #Computes coherent transmission loss through the environment
-tloss = pm.compute_transmission_loss(env)
+tloss = pm.compute_transmission_loss(env,mode='coherent')
 pm.plot_transmission_loss(tloss, env=env, clim=[-60,-30], width=900)
 
 #CComputes incoherent transmission loss through the environment
@@ -115,11 +116,11 @@ env['tx_directionality'] = beampattern
 tloss = pm.compute_transmission_loss(env)
 pm.plot_transmission_loss(tloss, env=env, clim=[-60,-30], width=900)
 
-surface = np.array([[r, 0.5+0.5*np.sin(2*np.pi*0.005*r)] for r in np.linspace(0,1000,1001)])
+surface = np.array([[r, 0.5+0.5*np.sin(2*np.pi*0.005*r)] for r in np.linspace(0,600,601)])
 env['surface'] = surface
 
 env['rx_range'] = 600
-env['rx_depth'] = 15
+env['rx_depth'] = 18.5
 
 rays = pm.compute_eigenrays(env)
 pm.plot_rays(rays, env=env, width=900)
