@@ -18,6 +18,9 @@ os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\toolbox\AT\wi
 import arlpy.uwapm as pm
 import arlpy.plot as plt
 import numpy as np
+import matplotlib.pyplot as plt
+
+
 
 #Create 2D environment with default settings
 env = pm.create_env2d()
@@ -68,7 +71,7 @@ env = pm.create_env2d(
     soundspeed=ssp,
     bottom_soundspeed=1450,
     bottom_density=1200,
-    bottom_absorption=1.0,
+    bottom_absorption=50.0,
     tx_depth=18
 )
 
@@ -122,9 +125,19 @@ env['surface'] = surface
 env['rx_range'] = 600
 env['rx_depth'] = 18.5
 
-rays = pm.compute_eigenrays(env)
-pm.plot_rays(rays, env=env, width=900)
+rays = pm.compute_rays(env)
+pm.plot_rays(rays, env=env)
 
 
+fig, axs = plt.subplots(2,1)
+pm.plot_transmission_loss(tloss, env=env, clim=[-60,-30])
+axs[0].set_title('Transmission Loss')
+axs[0].set_xlim(0, 600)
+axs[0].set_ylim(-20, 0)
+axs[0].set_title('TLoss')
 
 
+axs[1].set_title('Rays')
+axs[1].set_xlim(0, 600)
+axs[1].set_ylim(-20, 0)
+plt.tight_layout()
