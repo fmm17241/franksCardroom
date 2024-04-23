@@ -21,28 +21,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-
-#Create 2D environment with default settings
-env = pm.create_env2d()
-pm.print_env(env)
-
-
-#Plot the environment
-pm.plot_env(env,width=900)
-
-
-#Compute ray traces through the environment, ONLY those that go from T to R.
-rays = pm.compute_eigenrays(env)
-pm.plot_rays(rays,env=env,width=900)
-
-
-#Computes the arrival time of rays from T to R
-arrivals = pm.compute_arrivals(env)
-pm.plot_arrivals(arrivals, width=900)
-
-#Table of arrival times
-arrivals[arrivals.arrival_number < 10][['time_of_arrival', 'angle_of_arrival', 'surface_bounces', 'bottom_bounces']]
-
 ###################################################################
 
 #Sets bottom boundary layer of the environment
@@ -52,7 +30,6 @@ bathy = [
     [400, 16],  # 15 m water depth 300 m away
     [600, 20]  # 20 m water depth at 600 m
 ]
-
 
 #Changes soundspeed profile
 ssp = [
@@ -71,23 +48,10 @@ env = pm.create_env2d(
     soundspeed=ssp,
     bottom_soundspeed=1450,
     bottom_density=1200,
-    bottom_absorption=50.0,
+    bottom_absorption=0.0,
     tx_depth=18
 )
-
 pm.print_env(env)
-pm.plot_env(env, width=900)
-
-#Plots SSP
-pm.plot_ssp(env)
-
-#Computes and plots rays through env from T to R
-rays = pm.compute_eigenrays(env)
-pm.plot_rays(rays, env=env, width=900)
-
-#Computes and plots ALL rays through env
-rays = pm.compute_rays(env)
-pm.plot_rays(rays, env=env, width=900)
 
 ###################################################################
 
