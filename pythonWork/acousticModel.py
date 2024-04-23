@@ -44,13 +44,13 @@ ssp = [
 env = pm.create_env2d(
     frequency=600,
     rx_range= 450,
-    rx_depth= 19,
+    rx_depth= 18.5,
     depth=bathy,
     soundspeed=ssp,
     bottom_soundspeed=1450,
     bottom_density=1200,
     bottom_absorption=0.0,
-    tx_depth=14,
+    tx_depth=13.5,
 )
 pm.print_env(env)
 pm.plot_env(env)
@@ -80,13 +80,13 @@ surface = np.array([[r, 0.5+0.5*np.sin(10*np.pi*0.002*r)] for r in np.linspace(0
 env = pm.create_env2d(
     frequency=600,
     rx_range= 450,
-    rx_depth= 19,
+    rx_depth= 18.5,
     depth=bathy,
     soundspeed=ssp,
     bottom_soundspeed=1450,
     bottom_density=1200,
     bottom_absorption=0.0,
-    tx_depth=14,
+    tx_depth=13.5,
     surface = surface
 
 )
@@ -109,22 +109,22 @@ arrivalsWavy = arrivals
 
 ###################
 #Changes the surface, wave motion
+#This is different type of wave
 #surface = np.array([[r, 0.5+0.5*np.sin(2*np.pi*0.005*r)] for r in np.linspace(0,450,451)])
-surface = np.array([[r, 0.5+0.5*np.sin(10*np.pi*0.002*r)] for r in np.linspace(0,450,451)])
+surface = np.array([[r, 2.0+2.0*np.sin(10*np.pi*0.002*r)] for r in np.linspace(0,450,451)])
 
 #Creates new environment, accounting for change in SSP and bathy, then prints & plots. This is for transmission loss.
 env = pm.create_env2d(
     frequency=600,
     rx_range= 450,
-    rx_depth= 19,
+    rx_depth= 18.5,
     depth=bathy,
     soundspeed=ssp,
     bottom_soundspeed=1450,
     bottom_density=1200,
     bottom_absorption=0.0,
-    tx_depth=14,
+    tx_depth=13.5,
     surface = surface
-
 )
 pm.print_env(env)
 pm.plot_env(env)
@@ -132,16 +132,16 @@ pm.plot_env(env)
 
 
 rays = pm.compute_eigenrays(env)
-pm.plot_rays(rays, env=env,width=900,title='Eigenray Analysis: Wavy Surface')
+pm.plot_rays(rays, env=env,width=900,title='Eigenray Analysis: Higher Wavy Surface')
 
 #Computes the arrival time of rays from T to R
 arrivals = pm.compute_arrivals(env)
-pm.plot_arrivals(arrivals, width=500,title='Arrival Timing: Wavy Surface')
+pm.plot_arrivals(arrivals, width=500,title='Arrival Timing: Higher Wavy Surface')
 
 #Table of arrival times
 arrivals[['time_of_arrival', 'angle_of_arrival', 'surface_bounces', 'bottom_bounces']]
 
-arrivalsWavy = arrivals
+arrivalsVWavy = arrivals
 
 ######################################
 
