@@ -149,7 +149,8 @@ arrivalsVWavy = arrivals
 
 #Computes coherent transmission loss through the environment
 tloss = pm.compute_transmission_loss(env,mode='coherent')
-pm.plot_transmission_loss(tloss, env=env, clim=[-60,-30], width=900,title='Coherent Loss: 0.6 kHz', clabel='Noise Loss (dBs)')
+pm.plot_transmission_loss(tloss, env=env, clim=[-60,-30], width=900,title='Coherent Loss: 69 kHz', clabel='Noise Loss (dBs)')
+
 
 #CComputes incoherent transmission loss through the environment
 tloss = pm.compute_transmission_loss(env, mode='incoherent')
@@ -162,7 +163,7 @@ pm.plot_rays(rays, env=env,width=900)
 
 #Creates new environment, accounting for change in SSP and bathy, then prints & plots. This is for transmission loss.
 env = pm.create_env2d(
-    frequency=600,
+    frequency=69000,
     rx_range= np.linspace(0, 450, 1001),
     rx_depth= np.linspace(0, 20, 301),
     depth=bathy,
@@ -170,8 +171,8 @@ env = pm.create_env2d(
     bottom_soundspeed=1450,
     bottom_density=1200,
     bottom_absorption=0.0,
-    tx_depth=13,
-    surface = surface
+    tx_depth=13.5,
+    #surface = surface
 )
 pm.print_env(env)
 
