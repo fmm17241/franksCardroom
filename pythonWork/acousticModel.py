@@ -12,8 +12,8 @@ import os
 import shutil
 
 #Find where bellhop is, then set path
-os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\toolbox\AT\windows-bin-20201102")
-
+#os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\toolbox\AT\windows-bin-20201102")
+os.chdir(r"C:\Users\fmac4\OneDrive - University of Georgia\data\toolbox\AT\windows-bin-20201102")
 #Import
 import arlpy.uwapm as pm
 import arlpy.plot as plt
@@ -141,24 +141,10 @@ pm.plot_arrivals(arrivals, width=500,title='Arrival Timing: Higher Wavy Surface'
 #Table of arrival times
 arrivals[['time_of_arrival', 'angle_of_arrival', 'surface_bounces', 'bottom_bounces']]
 
-arrivalsVWavy = arrivals
+arrivalsVeryWavy = arrivals
 
 ######################################
 
-
-
-#Computes coherent transmission loss through the environment
-tloss = pm.compute_transmission_loss(env,mode='coherent')
-pm.plot_transmission_loss(tloss, env=env, clim=[-60,-30], width=900,title='Coherent Loss: 69 kHz', clabel='Noise Loss (dBs)')
-
-
-#CComputes incoherent transmission loss through the environment
-tloss = pm.compute_transmission_loss(env, mode='incoherent')
-pm.plot_transmission_loss(tloss, env=env, clim=[-60,-30], width=900,title='Incoherent Loss: 69 kHz', clabel='Noise Loss (dBs)')
-
-
-rays = pm.compute_rays(env)
-pm.plot_rays(rays, env=env,width=900)
 
 
 #Creates new environment, accounting for change in SSP and bathy, then prints & plots. This is for transmission loss.
@@ -170,11 +156,25 @@ env = pm.create_env2d(
     soundspeed=ssp,
     bottom_soundspeed=1450,
     bottom_density=1200,
-    bottom_absorption=0.0,
+    bottom_absorption=00.0,
     tx_depth=13.5,
     #surface = surface
 )
 pm.print_env(env)
+
+
+#Computes coherent transmission loss through the environment
+tloss = pm.compute_transmission_loss(env,mode='coherent')
+pm.plot_transmission_loss(tloss, env=env, clim=[-60,-30], width=900,title='Coherent Loss: 69 kHz', clabel='Noise Loss (dBs)')
+
+
+#CComputes incoherent transmission loss through the environment
+tloss = pm.compute_transmission_loss(env, mode='incoherent')
+pm.plot_transmission_loss(tloss, env=env, clim=[-60,-30], width=900,title='Incoherent Loss: 69 kHz, Absorption: 0', clabel='Noise Loss (dBs)')
+
+
+rays = pm.compute_rays(env)
+pm.plot_rays(rays, env=env,width=900)
 
 
 
