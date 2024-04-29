@@ -43,30 +43,36 @@ summary(model1)
 
 
 #Plots simple graph. Something is wrong with my model.
-win.graph(width=4.875, height=2.5,pointsize=8)
-plot(reefData$Noise~dateNumber,type='o',ylab='y',ylim=(c(-100, 800)))
-abline(model1) # add the fitted least squares line from model1
+win.graph(width=10, height=6,pointsize=8)
+main<- plot(reefData$Noise~dateNumber,type='o',ylab='y',ylim=(c(-100, 800)),main=('High-Frequency Noise on a Coastal Reef'))
+#abline(model1) # add the fitted least squares line from model1
 
 
 # Starts to look at seasonality
 #I am not sure why this error occurs; I am attempting
 # to detrend my data by removing the seasonality component.
-month.= season(reefData)
+#month.= season(reefData)
+#Can't get this working.
+
 
 #Frank's workaround: using spline fits and lowpass/highpass filtering techniques
 lowpass.spline<- smooth.spline(dateNumber,reefData$Noise,spar=0.6)
 lowpass.loess<- loess(reefData$Noise~dateNumber, data=reefData,span=0.3)
 
+#Plot the low frequencies: seasonal, longer
+win.graph(width=10, height=6,pointsize=8)
+main<- plot(reefData$Noise~dateNumber,type='n',ylab='y',ylim=(c(500, 800)),main=('Lowpass Filters: Seasonal Diffs.'))
 lines(predict(lowpass.spline, dateNumber), col = "red", lwd = 2)
 lines(predict(lowpass.loess, dateNumber), col = "blue", lwd = 2)
 
+
+#Just the high-frequencies, much less than the lower seasonal changes
 highpass<- reefData$Noise - predict(lowpass.loess,dateNumber)
-lines(dateNumber,highpass,lwd=2)
+
+#Plot the higher frequencies: noise, daily, etc.
+win.graph(width=10, height=6,pointsize=8)
+plot(reefData$Noise~dateNumber,type='n',ylab='y',ylim=(c(-250, 150)),main=('Highpass Filters: Wind, Daily Signals'))
+highLine1 <- lines(dateNumber,highpass,lwd=2)
 
 
 
-
-
-dev.new()
-grid.arrange(noiseCat1,noiseCat2,noiseCat3,noiseCat4,noiseCat5,noiseCat6, ncol=2)
-windows.options(width=10, height=10)
