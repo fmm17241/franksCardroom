@@ -22,11 +22,15 @@ library(psych)
 library(ggplot2)
 library(gridExtra)
 library(TSA)
-
+library('zoo')
 
 
 #Loading Frank's Data, more than a year's worth of one transceiver
 reefData<- na.omit(read.csv('flatReef.csv',sep=','))
+class(reefData)
+
+tseries<- read.zoo(reefData)
+
 
 
 # This creates a number to represent the datetime value in my dataframe.

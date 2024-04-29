@@ -1,6 +1,9 @@
 install.packages('forecast')
 install.packages('timetk')
-
+install.packages('UKgrid')
+install.packages('janitor')
+install.packages('TSstudio')
+install.packages('fable')
 
 library(forecast)
 data <- co2
