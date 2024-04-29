@@ -44,7 +44,7 @@ summary(model1)
 
 #Plots simple graph. Something is wrong with my model.
 win.graph(width=4.875, height=2.5,pointsize=8)
-plot(reefData$Noise~dateNumber,type='o',ylab='y')
+plot(reefData$Noise~dateNumber,type='o',ylab='y',ylim=(c(-100, 800)))
 abline(model1) # add the fitted least squares line from model1
 
 
@@ -53,9 +53,20 @@ abline(model1) # add the fitted least squares line from model1
 # to detrend my data by removing the seasonality component.
 month.= season(reefData)
 
+#Frank's workaround: using spline fits and lowpass/highpass filtering techniques
+lowpass.spline<- smooth.spline(dateNumber,reefData$Noise,spar=0.6)
+lowpass.loess<- loess(reefData$Noise~dateNumber, data=reefData,span=0.3)
 
-test<- decompose(reefData)
+lines(predict(lowpass.spline, dateNumber), col = "red", lwd = 2)
+lines(predict(lowpass.loess, dateNumber), col = "blue", lwd = 2)
+
+highpass<- reefData$Noise - predict(lowpass.loess,dateNumber)
+lines(dateNumber,highpass,lwd=2)
 
 
 
 
+
+dev.new()
+grid.arrange(noiseCat1,noiseCat2,noiseCat3,noiseCat4,noiseCat5,noiseCat6, ncol=2)
+windows.options(width=10, height=10)
