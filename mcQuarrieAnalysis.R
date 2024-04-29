@@ -38,7 +38,7 @@ summary(reefData$Noise)
 dateNumber<- 1:nrow(reefData)
 
 #Creates a simple model using the full timeseries.
-model1<- lm(data=reefData,dateNumber~Noise)
+model1<- lm(data=reefData,dateNumber~Noise+Temp+windSpd)
 summary(model1)
 
 
@@ -73,6 +73,29 @@ highpass<- reefData$Noise - predict(lowpass.loess,dateNumber)
 win.graph(width=10, height=6,pointsize=8)
 plot(reefData$Noise~dateNumber,type='n',ylab='y',ylim=(c(-250, 150)),main=('Highpass Filters: Wind, Daily Signals'))
 highLine1 <- lines(dateNumber,highpass,lwd=2)
+
+
+modela<- lm(reefData$Noise~reefData$windSpd,data=reefData)
+summary(modela)
+
+
+##
+#Frank, professor testing 4/29/24
+library(tseries)
+#Augmented Dickey-Fuller Test, testing if the time series is stationary
+#Full dataset:  DF, -6.77, Lag Order = 21
+adf.test(reefData$Noise)
+# Highpass filtered data: DF, -12.60
+adf.test(highpass)
+
+
+
+#KPSS test, testing if the trend is stationary. 
+#In the main dataset, KPSS ==24.5, Truncation lag = 12
+kpss.test(reefData$Noise)
+# in the highpass filtered noise data, KPSS = 0.042
+kpss.test(highpass)
+
 
 
 
