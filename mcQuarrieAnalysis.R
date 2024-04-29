@@ -28,17 +28,12 @@ library(TSA)
 #Loading Frank's Data, more than a year's worth of one transceiver
 reefData<- na.omit(read.csv('flatReef.csv',sep=','))
 
-#Creates variables from the dataset
-Noise<- reefData$Noise
-Temperature<-  reefData$Temp
-summary(reefData$Noise)
-
 
 # This creates a number to represent the datetime value in my dataframe.
 dateNumber<- 1:nrow(reefData)
 
 #Creates a simple model using the full timeseries.
-model1<- lm(data=reefData,dateNumber~Noise+Temp+windSpd)
+model1<- lm(data=reefData,Noise~Season+windSpd+crossShore+Temp)
 summary(model1)
 
 
@@ -65,12 +60,13 @@ main<- plot(reefData$Noise~dateNumber,type='n',ylab='y',ylim=(c(500, 800)),main=
 lines(predict(lowpass.spline, dateNumber), col = "red", lwd = 2)
 lines(predict(lowpass.loess, dateNumber), col = "blue", lwd = 2)
 
+#
 
 #Just the high-frequencies, much less than the lower seasonal changes
 highpass<- reefData$Noise - predict(lowpass.loess,dateNumber)
 
 #Plot the higher frequencies: noise, daily, etc.
-win.graph(width=10, height=6,pointsize=8)
+dev.new()
 plot(reefData$Noise~dateNumber,type='n',ylab='y',ylim=(c(-250, 150)),main=('Highpass Filters: Wind, Daily Signals'))
 highLine1 <- lines(dateNumber,highpass,lwd=2)
 
@@ -89,13 +85,14 @@ adf.test(reefData$Noise)
 adf.test(highpass)
 
 
-
 #KPSS test, testing if the trend is stationary. 
 #In the main dataset, KPSS ==24.5, Truncation lag = 12
 kpss.test(reefData$Noise)
 # in the highpass filtered noise data, KPSS = 0.042
 kpss.test(highpass)
 
+#Auto and cross-covariance and -correlation function
+acf(highpass)
 
 
 
