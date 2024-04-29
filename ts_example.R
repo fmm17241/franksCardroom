@@ -1,4 +1,7 @@
 install.packages('forecast')
+install.packages('timetk')
+
+
 library(forecast)
 data <- co2
 nw_ts<-diff(data,differences = 2)
