@@ -1,5 +1,6 @@
 # Set working directory, and read in my datasets as .csv
 setwd('C:/Users/fmm17241/OneDrive - University of Georgia/statisticalAnalysis/envStatsSpring2024')
+setwd('C:/Users/fmac4/OneDrive - University of Georgia/statisticalAnalysis/envStatsSpring2024')
 
 #Installs and calls all packages. Probably too many, used them at one point.
 install.packages("ggplot2")
@@ -28,9 +29,6 @@ library('zoo')
 #Loading Frank's Data, more than a year's worth of one transceiver
 reefData<- na.omit(read.csv('flatReef.csv',sep=','))
 class(reefData)
-
-tseries<- read.zoo(reefData)
-
 
 
 # This creates a number to represent the datetime value in my dataframe.
