@@ -54,13 +54,13 @@ monthly_data <-
   fullData %>% 
   summarize_by_time(.date_var = timestamp,
                     .by = "month",
-                    Noise = mean(Noise, na.rm = TRUE))
+                    Noise = mean(HourlyDets, na.rm = TRUE))
 
 daily_data <- 
   fullData %>% 
   summarize_by_time(.date_var = timestamp,
                     .by = "day",
-                    Noise = mean(Noise), na.rm = TRUE))
+                    Noise = mean(Noise, na.rm = TRUE))
 
 head(daily_data, 12)
 
@@ -69,8 +69,9 @@ head(daily_data, 12)
 ggplot(data = daily_data, aes(x = timestamp, y = Noise)) +
   geom_line() +
   geom_smooth(se = FALSE) +
-  labs(x = "Daily Data", y = "HF Noise") +
-  scale_x_datetime(date_breaks = "month", date_labels = "%b")
+  labs(x = "Daily Data", y = "High Frequency (50-90 kHz) Noise") +
+  scale_x_datetime(date_breaks = "month", date_labels = "%b") +
+  ggtitle('Daily Averages of High-Frequency Noise on Grays Reef')
 
 #################################################################################
 #using it as a timeseries
