@@ -44,7 +44,7 @@ fullData$HourlyDets[fullData$HourlyDets > 15] <- 6
 dateNumber<- 1:nrow(fullData)
 
 #Creates a simple model using the full timeseries.
-model1<- lm(data=fullData,Noise~Season+windSpd+crossShore+Temp)
+model1<- lm(data=fullData,Noise~windSpd+Temp+crossShore)
 summary(model1)
 
 
