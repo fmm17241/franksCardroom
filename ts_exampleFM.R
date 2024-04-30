@@ -27,24 +27,91 @@ library('zoo')
 
 
 #Loading Frank's Data, more than a year's worth of one transceiver
-reefData<- na.omit(read.csv('flatReef.csv',sep=','))
+fullData<- na.omit(read.csv('flatReef.csv',sep=','))
+fullData<- fullData[-(1:4),]
+class(fullData)
+fullData$timestamp<- as.POSIXct(fullData$DT, format = "%d-%b-%Y %H:%M:%S")
 
-class(reefData)
+fullData<- fullData %>%
+  na.omit()
 
-reefData$DT<- as.POSIXct(reefData$DT, format = "%d-%b-%Y %H:%M:%S")
-timeseries<- ts(data=reefData$DT,frequency=24)
+
+####################################################################################
+#Using it as a dataframe
+
+library(lubridate)
+library(timetk)
+library(janitor)
+
+fullData %>% 
+  group_by(year(timestamp), month(timestamp, label = TRUE), day(timestamp)) %>% 
+  summarize(Noise = mean(Noise))
+
+
+monthly_data <- 
+  fullData %>% 
+  summarize_by_time(.date_var = timestamp,
+                    .by = "month",
+                    Noise = mean(Noise, na.rm = TRUE))
+
+daily_data <- 
+  fullData %>% 
+  summarize_by_time(.date_var = timestamp,
+                    .by = "day",
+                    Noise = mean(Noise, na.rm = TRUE))
+daily_data<-
+
+head(daily_data, 12)
+
+
+
+ggplot(data = daily_data, aes(x = timestamp, y = Noise)) +
+  geom_line() +
+  geom_smooth(se = FALSE) +
+  labs(x = "Daily Data", y = "HF Noise") +
+  scale_x_datetime(date_breaks = "month", date_labels = "%b")
+
+#################################################################################
+#using it as a timeseries
+
+library(TSstudio)
+tk_tbl(fullData) %>% 
+  filter_by_time(.start_date = "2019", .end_date = "2021") %>% 
+  ggplot(aes(x = index, y = Noise)) +
+  geom_line()
+
+
+plot_stl_diagnostics(monthly_data, .date_var = timestamp, .value = Noise)
+
+
+plot_seasonal_diagnostics(monthly_data, .date_var = timestamp, .value = Noise)
+
+
+
+
+
+
+timeseries<- ts(data=reefData$Noise,frequency=24)
 print(timeseries)
 
 
-reefData<- reefData[, !names(reefData) %in% c("alongShore","waveHeight","surfaceTemp","Pings","DT")]
+reefData<- reefData[, !names(reefData) %in% c("alongShore","waveHeight","surfaceTemp","Pings","DT","Season","Tilt")]
 
 reefData<- cbind(timeseries,reefData)
-
-print(reefData)
 class(reefData)
+
+reefNoise<- reefNoise[,3]
+
+class(reefNoise)
 
 noise<- reefData$Noise
 
-nw_ts<-diff(reefData[,1:6],differences = 2)
+
+# Differences: found and plotted.
+nw_ts<-diff(reefNoise,differences = 2)
 plot(nw_ts)
+
+
+nw_ts2 <- diff(nw_ts,lag=12)
+plot(nw_ts2)
 
