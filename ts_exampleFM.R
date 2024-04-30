@@ -1,6 +1,6 @@
 # Set working directory, and read in my datasets as .csv
 setwd('C:/Users/fmm17241/OneDrive - University of Georgia/statisticalAnalysis/envStatsSpring2024')
-setwd('C:/Users/fmac4/OneDrive - University of Georgia/statisticalAnalysis/envStatsSpring2024')
+#setwd('C:/Users/fmac4/OneDrive - University of Georgia/statisticalAnalysis/envStatsSpring2024')
 
 #Installs and calls all packages. Probably too many, used them at one point.
 install.packages("ggplot2")
@@ -54,7 +54,7 @@ monthly_data <-
   fullData %>% 
   summarize_by_time(.date_var = timestamp,
                     .by = "month",
-                    Noise = mean(HourlyDets, na.rm = TRUE))
+                    Noise = mean(Noise, na.rm = TRUE))
 
 daily_data <- 
   fullData %>% 
@@ -89,15 +89,13 @@ plot_stl_diagnostics(monthly_data, .date_var = timestamp, .value = Noise)
 plot_seasonal_diagnostics(monthly_data, .date_var = timestamp, .value = Noise)
 
 
+month.= season(timeseries)
 
 
 
-
-timeseries<- ts(data=reefData$Noise,frequency=24)
+timeseries<- ts(data=fullData$Noise,frequency=24)
 print(timeseries)
 
-
-reefData<- reefData[, !names(reefData) %in% c("alongShore","waveHeight","surfaceTemp","Pings","DT","Season","Tilt")]
 
 reefData<- cbind(timeseries,reefData)
 class(reefData)

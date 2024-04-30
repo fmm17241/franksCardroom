@@ -76,14 +76,20 @@ lines(predict(lowpass.loess, dateNumber), col = "blue", lwd = 2)
 #Just the high-frequencies, much less than the lower seasonal changes
 highpass<- fullData$Noise - predict(lowpass.loess,dateNumber)
 
+fullData$highpass<- highpass
+
 #Plot the higher frequencies: noise, daily, etc.
 dev.new()
 plot(fullData$Noise~dateNumber,type='n',ylab='y',ylim=(c(-250, 150)),main=('Highpass Filters: Wind, Daily Signals'))
 highLine1 <- lines(dateNumber,highpass,lwd=2)
 
 
-modela<- lm(fullData$Noise~fullData$windSpd,data=fullData)
+modela<- lm(data=fullData,highpass~windSpd+Temp+crossShore)
 summary(modela)
+
+
+
+
 
 
 ##
