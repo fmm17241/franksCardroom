@@ -35,6 +35,8 @@ fullData$timestamp<- as.POSIXct(fullData$DT, format = "%d-%b-%Y %H:%M:%S")
 fullData<- fullData %>%
   na.omit()
 
+fullData$HourlyDets[fullData$HourlyDets > 15] <- 6
+
 
 ####################################################################################
 #Using it as a dataframe
@@ -58,8 +60,7 @@ daily_data <-
   fullData %>% 
   summarize_by_time(.date_var = timestamp,
                     .by = "day",
-                    Noise = mean(Noise, na.rm = TRUE))
-daily_data<-
+                    Noise = mean(Noise), na.rm = TRUE))
 
 head(daily_data, 12)
 
