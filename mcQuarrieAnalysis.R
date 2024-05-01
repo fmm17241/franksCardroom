@@ -53,7 +53,7 @@ summary(model1)
 
 #Plots simple graph. Something is wrong with my model.
 win.graph(width=10, height=6,pointsize=8)
-main<- plot(fullData$Noise~dateNumber,type='o',ylab='y',ylim=(c(-100, 800)),main=('High-Frequency Noise on a Coastal Reef'))
+main<- plot(fullData$Noise~dateNumber,type='o',ylab='High-Freq. Noise (mV)',xlab='Hours', ylim=(c(500, 800)),main=('High-Frequency Noise on a Coastal Reef'))
 #abline(model1) # add the fitted least squares line from model1
 
 
@@ -65,14 +65,14 @@ main<- plot(fullData$Noise~dateNumber,type='o',ylab='y',ylim=(c(-100, 800)),main
 
 
 #Frank's workaround: using spline fits and lowpass/highpass filtering techniques
-lowpass.spline<- smooth.spline(dateNumber,fullData$Noise,spar=0.6)
-lowpass.loess<- loess(fullData$Noise~dateNumber, data=fullData,span=0.3)
+lowpass.spline<- smooth.spline(dateNumber,fullData$Noise,spar=0.75)
+lowpass.loess<- loess(fullData$Noise~dateNumber, data=fullData,span=0.4)
 
 #Plot the low frequencies: seasonal, longer
 win.graph(width=10, height=6,pointsize=8)
 main<- plot(fullData$Noise~dateNumber,type='n',ylab='y',ylim=(c(500, 800)),main=('Lowpass Filters: Seasonal Diffs.'))
 lines(predict(lowpass.spline, dateNumber), col = "red", lwd = 2)
-lines(predict(lowpass.loess, dateNumber), col = "blue", lwd = 2)
+lines(predict(lowpass.loess, dateNumber), col = "blue", lwd = 10)
 
 #
 
@@ -83,7 +83,7 @@ fullData$highpass<- highpass
 
 #Plot the higher frequencies: noise, daily, etc.
 dev.new()
-plot(fullData$Noise~dateNumber,type='n',ylab='y',ylim=(c(-250, 150)),main=('Highpass Filters: Wind, Daily Signals'))
+plot(fullData$Noise~dateNumber,type='n',ylab='High-Freq. Noise (mV)', xlab='Hours', ylim=(c(-250, 150)),main=('Highpass Filters: Wind, Daily Signals'))
 highLine1 <- lines(dateNumber,highpass,lwd=2)
 
 
