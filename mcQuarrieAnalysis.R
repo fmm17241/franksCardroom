@@ -48,6 +48,9 @@ model1<- lm(data=fullData,Noise~windSpd+Temp+crossShore)
 summary(model1)
 
 
+
+
+
 #Plots simple graph. Something is wrong with my model.
 win.graph(width=10, height=6,pointsize=8)
 main<- plot(fullData$Noise~dateNumber,type='o',ylab='y',ylim=(c(-100, 800)),main=('High-Frequency Noise on a Coastal Reef'))
@@ -87,8 +90,8 @@ highLine1 <- lines(dateNumber,highpass,lwd=2)
 modela<- lm(data=fullData,highpass~windSpd+Temp+crossShore)
 summary(modela)
 
-
-
+modelb<- lm(data=fullData,Temp~Season+windSpd)
+summary(modelb)
 
 
 
