@@ -83,8 +83,76 @@ fullData$highpass<- highpass
 
 #Plot the higher frequencies: noise, daily, etc.
 dev.new()
-plot(fullData$Noise~dateNumber,type='n',ylab='High-Freq. Noise (mV)', xlab='Hours', ylim=(c(-250, 150)),main=('Highpass Filters: Wind, Daily Signals'))
+plot(fullData$Noise~fullData$DT,type='n',ylab='High-Freq. Noise (mV)', xlim=c(5,length(fullData$Noise)), xlab='Hours', ylim=(c(-250, 150)),main=('Highpass Filters: Wind, Daily Signals'))
 highLine1 <- lines(dateNumber,highpass,lwd=2)
+
+dev.new()
+
+
+
+
+# Sample data
+convFM<- as.POSIXct(fullData$timestamp, tz = "UTC")
+
+#All data
+x <- fullData$timestamp
+y1 <- fullData$highpass
+y2 <- fullData$windSpd
+y3 <- fullData$HourlyDet
+df <- data.frame(x, y1, y2, y3)
+
+#End of February Example
+x <- fullData$timestamp[2300:2600]
+y1 <- fullData$highpass[2300:2600]
+y2 <- fullData$windSpd[2300:2600]
+y3 <- fullData$HourlyDets[2300:2600]
+df <- data.frame(x, y1, y2, y3)
+
+
+# July Example
+x <- fullData$timestamp[5600:5750]
+y1 <- fullData$highpass[5600:5750]
+y2 <- fullData$windSpd[5600:5750]
+y3 <- fullData$HourlyDets[5600:5750]
+df <- data.frame(x, y1, y2, y3)
+
+
+# Create separate plots
+plot1 <- ggplot(df, aes(x, y1)) + geom_line() + ggtitle("High-Frequency Noise: Highpass Filter") + ylab("Filtered HF Noise (mV)") + xlab("")
+plot2 <- ggplot(df, aes(x, y2)) + geom_line() + ggtitle("Windspeeds (m/s)") + ylab("Wind Magnitude (m/s)") + xlab("")
+plot3 <- ggplot(df, aes(x, y3)) + geom_line() + ggtitle("Hourly Detections") + ylab("Detections") + xlab("Date")
+
+#Good for subset
+plot1 <- plot1 + scale_x_datetime(date_breaks = "72 hours", date_labels = "%Y-%m-%d %H:%M")
+plot2 <- plot2 + scale_x_datetime(date_breaks = "72 hours", date_labels = "%Y-%m-%d %H:%M")
+plot3 <-plot3 + scale_x_datetime(date_breaks = "72 hours", date_labels = "%Y-%m-%d %H:%M")
+
+#Good for whole view
+plot1 <- plot1 + scale_x_datetime(date_labels = "%Y-%m-%d")
+plot2 <- plot2 + scale_x_datetime(date_labels = "%Y-%m-%d")
+plot3 <-plot3 + scale_x_datetime(date_labels = "%Y-%m-%d")
+
+# Arrange plots in rows
+multiplot <- gridExtra::grid.arrange(plot1, plot2, plot3, nrow = 3)
+
+# Display the multiplot
+print(multiplot)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 modela<- lm(data=fullData,highpass~windSpd+Temp+crossShore)
