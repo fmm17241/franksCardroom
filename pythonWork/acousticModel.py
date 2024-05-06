@@ -125,7 +125,8 @@ env = pm.create_env2d(
     bottom_density=1200,
     bottom_absorption=0.0,
     tx_depth=13.5,
-    surface = surface
+    surface = surface,
+    surface_interp = 'curvilinear'
 )
 pm.print_env(env)
 pm.plot_env(env)
@@ -160,7 +161,7 @@ env = pm.create_env2d(
     bottom_absorption=00.0,
     tx_depth=13.5,
     surface = surface,
-    surface_interp = x
+    surface_interp = 'curvilinear'
 )
 pm.print_env(env)
 
