@@ -12,8 +12,8 @@ import os
 import shutil
 
 #Find where bellhop is, then set path
-#os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\toolbox\AT\windows-bin-20201102")
-os.chdir(r"C:\Users\fmac4\OneDrive - University of Georgia\data\toolbox\AT\windows-bin-20201102")
+os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\toolbox\AT\windows-bin-20201102")
+#os.chdir(r"C:\Users\fmac4\OneDrive - University of Georgia\data\toolbox\AT\windows-bin-20201102")
 #Import
 import arlpy.uwapm as pm
 import arlpy.plot as plt
@@ -39,6 +39,7 @@ ssp = [
     [15, 1532],  # 1532 m/s at 20 m depth
     [20, 1533],  # 1533 m/s at 25 m depth
 ]
+
 
 #Creates new environment, accounting for change in SSP and bathy, then prints & plots. This is for transmission loss.
 env = pm.create_env2d(
@@ -158,7 +159,8 @@ env = pm.create_env2d(
     bottom_density=1200,
     bottom_absorption=00.0,
     tx_depth=13.5,
-    #surface = surface
+    surface = surface,
+    surface_interp = x
 )
 pm.print_env(env)
 
@@ -170,7 +172,7 @@ pm.plot_transmission_loss(tloss, env=env, clim=[-60,-30], width=900,title='Coher
 
 #CComputes incoherent transmission loss through the environment
 tloss = pm.compute_transmission_loss(env, mode='incoherent')
-pm.plot_transmission_loss(tloss, env=env, clim=[-60,-30], width=900,title='Incoherent Loss: 69 kHz, Absorption: 0', clabel='Noise Loss (dBs)')
+pm.plot_transmission_loss(tloss, env=env, clim=[-60,-30], width=900,title='Incoherent Loss: 69 kHz, Wavy Surface', clabel='Noise Loss (dBs)')
 
 
 rays = pm.compute_rays(env)
