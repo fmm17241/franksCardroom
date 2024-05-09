@@ -3,7 +3,7 @@
 %find separate profiles.
 
 
-function [yoSSP,yotemps,yotimes,yodepths,yosalt,yospeed] = yoDefiner(dn, depth, temperature, salt, speed)
+function [yoSSP,yotemps,yotimes,yodepths,yosalt,yospeed,BensVar] = yoDefiner(dn, depth, temperature, salt, speed)
 
 
 
@@ -38,5 +38,14 @@ for k = 1:howmany
     yoSSP{k}    =[yotimes{k},yodepths{k},yospeed{k}];   
 end
 
+%Creating average variable for my friend Ben. This would be easy enough:
+%you have all the profiles separated for you, now you can piece together
+%averages or gradients here.
+
+for k = 1:howmany
+    BensVar(k,1) = mean(yotemps{k});
+
+    BensVar(k,2) = yosalt{k}(end) - yosalt{k}(1);
+end
 
 end

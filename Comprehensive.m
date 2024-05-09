@@ -28,7 +28,7 @@ vems = vemProcess(pwd);
 %     temperature,density,depth,pressure,salt,speed] =detectionprocesstest(fstruct,sstruct,vems);
 
 
-[yoSSP,yotemps,yotimes,yodepths,yosalt,yospeed] = yoDefiner(scidn, depth, temperature, salt, speed)
+[yoSSP,yotemps,yotimes,yodepths,yosalt,yospeed,BensVar] = yoDefiner(scidn, depth, temperature, salt, speed)
 
 
 %Gives us water column data before and after each detection. 
