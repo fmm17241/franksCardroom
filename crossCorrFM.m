@@ -1,17 +1,18 @@
 buildReceiverData   
 
 detections = receiverData{4}.HourlyDets;
+temp = receiverData{4}.Temp;
 noise      = receiverData{4}.Noise;
 
 
 % Compute the cross-correlation
-[c,lags] = xcorr(noise,detections,'coeff')
+[c,lags] = xcorr(noise,temp,'coeff')
 
 figure;
 plot(lags, c);
 xlabel('Lag');
 ylabel('Cross-Correlation Coefficient');
-title('Cross-Correlation between HourlyDetections and Noise');
+title('Cross-Correlation between Temp and Noise');
 grid on;
 
 % Plot the cross-correlation
