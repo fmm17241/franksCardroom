@@ -18,8 +18,7 @@ os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\toolbox\AT\wi
 import arlpy.uwapm as pm
 import arlpy.plot as plt
 import numpy as np
-import matplotlib.pyplot as plt
-
+import matplotlib.pyplot as plt_mpl
 
 
 #Create 2D environment with default settings
@@ -114,8 +113,10 @@ env['rx_range'] = 600
 env['rx_depth'] = 18.5
 
 rays = pm.compute_rays(env)
-pm.plot_rays(rays, env=env)
 
+
+# Create a figure with 2 subplots (1 row, 2 columns)
+fig, axs = plt_mpl.subplots(1, 2, figsize=(15, 5))
 
 pm.plot_transmission_loss(tloss, env=env, clim=[-60,-30], width=900)
 axs[0].set_title('Transmission Loss')
@@ -123,11 +124,11 @@ axs[0].set_xlim(0, 600)
 axs[0].set_ylim(-20, 0)
 axs[0].set_title('TLoss')
 
-
+pm.plot_rays(rays, env=env)
 axs[1].set_title('Rays')
 axs[1].set_xlim(0, 600)
 axs[1].set_ylim(-20, 0)
-plt.tight_layout()
+plt_mpl.tight_layout()
 
 
 
