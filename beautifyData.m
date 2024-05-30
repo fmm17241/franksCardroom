@@ -20,5 +20,5 @@ density=sw_dens(salt,temperature,pressure);
 dn=rt/3600/24+datenum(1970,1,1,0,0,0);
 
 %Mckenzie's eqtn for soundspeed (m/s)
-speed = Sndspd(salt,temperature,depth);
+speed = sndspd(salt,temperature,depth);
 end

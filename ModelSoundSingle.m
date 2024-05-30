@@ -1,5 +1,5 @@
 
-function  [waterdepth,beamFile] = ModelSoundSingle(yoSSP, directory,datadir,glider)
+function  [waterdepth,beamFile] = ModelSoundSingle(yoSSP, directory,datadir)
 
 %Frank added datadir and nbdFileName 8/21
 

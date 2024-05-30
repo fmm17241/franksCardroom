@@ -1,5 +1,5 @@
 
-cd G:\Glider\Data\Environmental\full
+cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Glider\Data\Environmental\full'
 % figure()
 bellhop('Mar28Late')
 [gridpoints,gridrays,sumRays] = loadray('Mar28Late');
