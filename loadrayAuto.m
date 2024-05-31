@@ -12,7 +12,8 @@ function [gridpoints,gridrays,fullRays] = loadrayAuto( rayfil )
 
 global units jkpsflag
 
-if ( strcmp( rayfil, 'RAYFIL' ) == 0 && ~isempty( strfind(rayfil, '.ray' )) )
+% rayfil = convertCharsToStrings(rayfil);
+if endsWith( rayfil, '.ray' ) == 0 
    rayfil = [ rayfil '.ray' ]; % append extension
 end
 

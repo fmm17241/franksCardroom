@@ -2,7 +2,7 @@
 %profiles and sound propagation.
 
 %Data directory that holds nbd. Change as needed.
-datadir  = 'C:\Users\fmac4\OneDrive - University of Georgia\data\Glider\Data\nbdasc\Test\';
+datadir  = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Glider\Data\nbdasc\Test\';
 
 %Reading data out of specific nbd
 files = wilddir(datadir, 'nbdasc');
@@ -27,23 +27,23 @@ directory = (localPlots);
 
 
 %Full ray tracing, show all
-[waterdepth,beamFile] = ModelSoundSingle(yoSSP,directory);
+[waterdepth,beamFile] = ModelSoundSingle(yoSSP,directory,datadir);
 
 % FM 8/21: Commented out these sections for now. I want the bellhop to run
 % but can't make it find the .ray file thats being created.
 
 % % Beam Density Analysis, finding ray propagation down range
-% [gridpoints, gridrays, sumRays] = bdaSingle(beamFile, directory);
+[gridpoints, gridrays, sumRays] = bdaSingle(beamFile, directory);
 % 
 % 
 % % Beam Density Plot, visualization of the beam density analysis
-% bdaPlotSingle(beamFile,gridpoints,sumRays)
+bdaPlotSingle(beamFile,gridpoints,sumRays)
 % 
 % 
 % 
 % %Gives output file for the yo, giving percentage of rays reaching
 % %distances down range, and by proxy estimated detection efficiency.
-% [percentage]=writeBDAoutput(sumRays,gridpoints);
+[percentage]=writeBDAoutput(sumRays,gridpoints);
 
 
 
