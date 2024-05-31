@@ -12,13 +12,13 @@ import os
 import shutil
 
 #Find where bellhop is, then set path
-os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\toolbox\AT\windows-bin-20201102")
-#os.chdir(r"C:\Users\fmac4\OneDrive - University of Georgia\data\toolbox\AT\windows-bin-20201102")
+os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\toolbox\AT\executables")
+#os.chdir(r"C:\Users\fmac4\OneDrive - University of Georgia\data\toolbox\AT\executables")
 #Import
 import arlpy.uwapm as pm
 import arlpy.plot as plt
 import numpy as np
-import matplotlib.pyplot as plt
+
 
 
 ###################################################################
