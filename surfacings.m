@@ -5,7 +5,7 @@
 datadir  = 'C:\Users\fmac4\OneDrive - University of Georgia\data\Glider\Data\nbdasc\Test\';
 
 %Reading data out of specific nbd
-files = wilddir(datadir, 'nbdasc');-09 8
+files = wilddir(datadir, 'nbdasc');
 nfile = size(files,1);
 sstruct = read_gliderasc([datadir,files(nfile,:)]);
 
