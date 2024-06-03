@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Spyder Editor
 
@@ -6,7 +5,7 @@ This is a temporary script file.
 """
 " This is arlpy.readthedocs.io testing for Bellhop"
 
-pip install arlpy
+#pip install arlpy
 import arlpy
 import os
 import shutil
@@ -43,7 +42,7 @@ ssp = [
 
 #Creates new environment, accounting for change in SSP and bathy, then prints & plots. This is for transmission loss.
 env = pm.create_env2d(
-    frequency=600,
+    frequency=69000,
     rx_range= 450,
     rx_depth= 18.5,
     depth=bathy,
@@ -58,9 +57,50 @@ pm.plot_env(env)
 
 
 
-rays = pm.compute_eigenrays(env)
-rays = pd.DataFrame(rays)
+rays = pm.compute_rays(env)
 pm.plot_rays(rays, env=env,width=900,title='Eigenray Analysis: Flat Surface')
+
+
+
+# Okay I've got to loop and try Beam Density Analysis in Python.
+rayOutput = []
+binariez = []
+distances_to_check = list(range(0,451,25))
+
+
+for ray_array in rays.ray:
+    max_value = max(ray_array[:,0])
+    binary_values = []
+    for distance in distances_to_check:
+        if max_value > distance: 
+            binary_values.append(1)
+        else:
+            binary_values.append(0)
+            
+            
+    rayOutput.append(max_value)
+    binariez.append(binary_values)
+
+rays['rayMaxDistance'] = rayOutput
+rays['BDA'] = binariez
+
+
+##########################################################################
+sumBDA = np.sum(binariez, axis=0)
+
+dataFraming = pd.DataFrame({'Yup': distances_to_check, 'Yes': sumBDA})
+
+plt.plot(dataFraming['Yup'], dataFraming['Yes'], 'o-', xlabel='Distances', ylabel='Beams Traveled', title='Beam Density Analysis')
+plt.show()
+
+
+##########################################################################
+
+
+single_row_test = rays.iloc[30]['ray']
+
+single_row_test2 = rays.iloc[35]['ray']
+
 
 #Computes the arrival time of rays from T to R
 arrivals = pm.compute_arrivals(env)
