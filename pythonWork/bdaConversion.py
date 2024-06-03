@@ -133,7 +133,7 @@ pm.plot_env(env)
 
 
 rays = pm.compute_rays(env)
-pm.plot_rays(rays, env=env,width=900,title='Eigenray Analysis: Higher Wavy Surface')
+pm.plot_rays(rays, env=env,width=900,title='Ray Tracing: Higher Wavy Surface')
 
 rayMax = []
 beamDistances = []
