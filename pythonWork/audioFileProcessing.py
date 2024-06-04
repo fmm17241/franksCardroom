@@ -54,7 +54,7 @@ plot_spectrogram(y_scale, sr, hop_size)
 #Log-Amplitude Spectrogram
 y_log_scale = librosa.power_to_db(y_scale)
 plot_spectrogram(y_log_scale, sr, hop_size)
-
+plt.tile('Imperial March')
 
 
 s_taunt  = librosa.stft(taunt, n_fft=frame_size, hop_length=hop_size)
@@ -62,10 +62,15 @@ s_reef   = librosa.stft(reef, n_fft=frame_size, hop_length=hop_size)
 s_tswift = librosa.stft(tswift, n_fft=frame_size, hop_length=hop_size)
 s_cantina = librosa.stft(cantina, n_fft=frame_size, hop_length=hop_size)
 
+y_march = librosa.power_to_db(np.abs(s_scale) ** 2)
 y_taunt = librosa.power_to_db(np.abs(s_taunt) ** 2 )
 y_reef = librosa.power_to_db(np.abs(s_reef) ** 2)
 y_tswift = librosa.power_to_db(np.abs(s_tswift) ** 2 )
 y_cantina = librosa.power_to_db(np.abs(s_cantina) ** 2 ) 
+
+
+plot_spectrogram(y_march, sr, hop_size, y_axis = "log")
+plt.title('Spectrogram: Imperial March')
 
 
 plot_spectrogram(y_taunt, sr, hop_size, y_axis = "log")
@@ -74,3 +79,26 @@ plt.title('French Taunter')
 
 plot_spectrogram(y_reef, sr, hop_size, y_axis = "log")
 plt.title('Grays Reef Soundscape')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
