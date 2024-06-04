@@ -18,12 +18,13 @@ taunt_file = 'taunt.wav'
 cantina_file = 'cantina.wav'
 reef_file = 'sanctSound.wav'
 march_file = 'march.wav'
+tswift_file = 'tswift.wav'
 
 taunt, sr = librosa.load(taunt_file)
 cantina, _ = librosa.load(cantina_file)
 reef, _ = librosa.load(reef_file)
 march, _ = librosa.load(march_file)
-
+tswift, _ = librosa.load(tswift_file)
 
 frame_size = 2048
 hop_size = 512
@@ -54,3 +55,22 @@ plot_spectrogram(y_scale, sr, hop_size)
 y_log_scale = librosa.power_to_db(y_scale)
 plot_spectrogram(y_log_scale, sr, hop_size)
 
+
+
+s_taunt  = librosa.stft(taunt, n_fft=frame_size, hop_length=hop_size)
+s_reef   = librosa.stft(reef, n_fft=frame_size, hop_length=hop_size)
+s_tswift = librosa.stft(tswift, n_fft=frame_size, hop_length=hop_size)
+s_cantina = librosa.stft(cantina, n_fft=frame_size, hop_length=hop_size)
+
+y_taunt = librosa.power_to_db(np.abs(s_taunt) ** 2 )
+y_reef = librosa.power_to_db(np.abs(s_reef) ** 2)
+y_tswift = librosa.power_to_db(np.abs(s_tswift) ** 2 )
+y_cantina = librosa.power_to_db(np.abs(s_cantina) ** 2 ) 
+
+
+plot_spectrogram(y_taunt, sr, hop_size, y_axis = "log")
+plt.title('French Taunter')
+
+
+plot_spectrogram(y_reef, sr, hop_size, y_axis = "log")
+plt.title('Grays Reef Soundscape')
