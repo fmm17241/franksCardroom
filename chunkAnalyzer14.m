@@ -8,14 +8,15 @@ tidalAnalysis2014
 %Detections with one transceiver pair, ~0.53 km. Uses
 %hourlyDetections{X}.time/detections
 % mooredEfficiency
+cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Glider\Data\2014'
 load receiver_reordered.mat
 rec.timeDT = datetime(rec.timeDN,'convertfrom','datenum','timezone','utc');
 
 %Picking receiver pairs that were successful and oriented in certain
 %directions.
-detsCross1 = [rec.r4_5m rec.r6_5m rec.r1_2m]; detsCross = nanmean(detsCross1,2);
-detsAlong1 = [rec.r1_4m rec.r4_1m rec.r6_3m]; detsAlong = nanmean(detsAlong1,2);
-detsCompare1 = [rec.r1_4m rec.r4_1m]; detsCompare = nanmean(detsCompare1,2);
+detsCross1 = [rec.r4_5m rec.r6_5m rec.r1_2m]; detsCross = mean(detsCross1,2,'omitnan');
+detsAlong1 = [rec.r1_4m rec.r4_1m rec.r6_3m]; detsAlong = mean(detsAlong1,2,'omitnan');
+detsCompare1 = [rec.r1_4m rec.r4_1m]; detsCompare = mean(detsCompare1,2,'omitnan');
 
 
 %Thermal stratification between transceiver temperature measurements and
