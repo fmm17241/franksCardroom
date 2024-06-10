@@ -18,10 +18,36 @@ SkiO = [31.988137878676937, -81.0219881445705]
 scatter(SkiO(2),SkiO(1),600,'r','p','filled');
 %%
 
-load January_23_angus_dbds.mat
-load January_23_angus_ebds.mat
+load September_21_salacia_dbds.mat
+load September_21_salacia_ebds.mat
 
 
+[matstruct,dn,z,temp,rho] = Bindata(fstruct,sstruct);
+
+
+
+
+
+scidn = sstruct.dn;
+[~,ind2,~] = unique(scidn);
+scidn = scidn(ind2);
+temperature = sstruct.sci_water_temp(ind2);
+cond = sstruct.sci_water_cond(ind2);
+cndr = ((cond)/(sw_c3515/10));
+pressure = sstruct.sci_water_pressure(ind2);
+pressure = pressure*10;
+index = ~(isnan(temperature) | isnan(pressure)| isnan(cond));
+temperature = temperature(index);
+pressure = pressure(index);
+latmean = nanmean(fstruct.m_gps_lat);
+scidn = scidn(index);
+% scidn = sstruct.dn(index);
+cndr = cndr(index);
+salt = sw_salt(cndr,temperature,pressure);
+salt(imag(salt) ~= 0) = 0;
+density = sw_dens(salt,temperature,pressure);
+depth = sw_dpth(pressure,latmean);
+speed = sndspd(salt,temperature,depth);
 dn = fstruct.dn;
 x = fstruct.m_gps_lat;
 y = fstruct.m_gps_lon;
@@ -61,7 +87,7 @@ correctedLat = xnew(1:end-1);
 correctedLon = ynew(1:end-1);
 correctedGPS = [correctedLat,correctedLon];
 
-
+benVariable = timetable(correcttime,correctedLat,correctedLon,)
 
 
 dtSep21 = datetime(fstruct.dn,'convertfrom','datenum');
