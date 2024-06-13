@@ -24,7 +24,7 @@ def beautifyData(data):
 
     rt = data[:, 0]  # seconds after some time
 
-    salt = gsw.SP_from_C(10 * cond / gsw.C3515, temperature, pressure)
+    salt = gsw.SP_from_C(10 * cond / 42.914, temperature, pressure)
     density = gsw.rho(salt, temperature, pressure)
 
     # Convert rt into datetime style
