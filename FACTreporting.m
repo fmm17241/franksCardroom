@@ -14,6 +14,5 @@ load Deployment_May_2019_franklin_tbds.mat
 
 
 
-[detections, detectionReporting, detectionDN,detectionLat,detectionLon,detectionGPS,gliderDN,...
-    temperature,density,depth,pressure,salt,speed] = processDetections(fstruct,sstruct,vems);
+[detections, detectionReporting] = processDetections(fstruct,sstruct,vems);
 

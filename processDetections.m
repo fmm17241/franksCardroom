@@ -5,8 +5,7 @@
 
 % fstruct = dbd or sbd, glider data. sstruct = ebd or tbd, glider data. Vems = vem structure
 
-function [detections, detectionReporting, detectionDN,gliderLat,gliderLon,gliderGPS,gliderDN,...
-    temperature,density,depth,pressure,salt,speed] = processDetections(fstruct,sstruct,vems)
+function [detections, detectionReporting] = processDetections(fstruct,sstruct,vems)
 
 %Detection datenums from glider
 detectionTime = vems.dn;
@@ -47,26 +46,28 @@ Lat(nanIndices) = interp1(rawDN(knownIndices), rawLat(knownIndices), rawDN(nanIn
 Lon(nanIndices) = interp1(rawDN(knownIndices), rawLon(knownIndices), rawDN(nanIndices), 'linear');
 
 
-detectionDN = rawDN;
-detectionDT = datetime(detectionDN,'ConvertFrom','datenum');
-gliderLat = Lat(1:end-1);
-gliderLon = Lon(1:end-1);
+gliderDN = rawDN;
+gliderDT = datetime(gliderDN,'ConvertFrom','datenum');
+gliderLat = Lat;
+gliderLon = Lon;
 gliderGPS = [gliderLat,gliderLon];
 
-detectionlat = interp1(detectionDN,gliderLat,vems.dn);
-detectionlon = interp1(detectionDN,gliderLon,vems.dn);
 
+
+detectionlat = interp1(gliderDN,gliderLat,vems.dn);
+detectionlon = interp1(gliderDN,gliderLon,vems.dn);
+detectionSalt = interp1(gliderDN,salt,detectionTime);
+detectionTemp = interp1(gliderDN,temperature,detectionTime);
+detectionPress = interp1(gliderDN,pressure,detectionTime);
+detectionDensity = interp1(gliderDN,density,detectionTime);
+detectionDepth = interp1(gliderDN,depth,detectionTime);
 % I used to take out detections because both receivers caught it, but doing
 % to stop doing that for now.
 % [~,TransIndex] = unique(vems.dn);
 %I'm keeping this one memorialized so I remember how I did it.
 % detections.DN = vems.dn(TransIndex);
 
-detectionSalt = interp1(gliderDN,salt,detectionTime);
-detectionTemp = interp1(gliderDN,temperature,detectionTime);
-detectionPress = interp1(gliderDN,pressure,detectionTime);
-detectionDensity = interp1(gliderDN,density,detectionTime);
-detectionDepth = interp1(gliderDN,depth,detectionTime);
+
 
 
 
@@ -76,17 +77,14 @@ detections.DT = datetime(detections.DN,'ConvertFrom','datenum');
 detections.receiver = vems.rec.';
 detections.tag = cell2mat(vems.tag.');
 detections.id = cellfun(@str2double,vems.id.');
-detections.gps_lat = detectionlat;
-detections.gps_lon = detectionlon;
-
-
-detections.density = detectionDensity;
-detections.depth = detectionDepth;
-detections.press = detectionPress;
-detections.salt = detectionSalt;
-detections.temp = detectionTemp;
-spd = sndspd(detectionSalt,detectionTemp,detectionDepth);
-detections.speedsound = spd;
+detections.gps_lat = interp1(gliderDN,gliderLat,vems.dn);
+detections.gps_lon = interp1(gliderDN,gliderLon,vems.dn);
+detections.density = interp1(gliderDN,density,detectionTime);
+detections.depth = interp1(gliderDN,depth,detectionTime);
+detections.pressure = interp1(gliderDN,pressure,detectionTime);
+detections.salt = interp1(gliderDN,salt,detectionTime);
+detections.temp = interp1(gliderDN,temperature,detectionTime);
+detections.speedsound = sndspd(detections.salt,detections.temp,detections.depth);
 detections.latmean    = latmean;
 
 detectionReporting = [detections.DN, detections.id, detections.gps_lat, detections.gps_lon, detections.depth, detections.temp, detections.density]
