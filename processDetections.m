@@ -5,15 +5,13 @@
 
 % fstruct = dbd or sbd, glider data. sstruct = ebd or tbd, glider data. Vems = vem structure
 
+
 function [detections, detectionReporting] = processDetections(fstruct,sstruct,vems)
 
-%Detection datenums from glider
-detectionTime = vems.dn;
-
 %Glider data cleanup; finds unique time values without NaNs.
-gliderDN = sstruct.dn;
-[~,ind2,~] = unique(gliderDN);
-gliderDN = gliderDN(ind2);
+sciDN = sstruct.dn;
+[~,ind2,~] = unique(sciDN);
+sciDN = sciDN(ind2);
 temperature = sstruct.sci_water_temp(ind2);
 cond = sstruct.sci_water_cond(ind2);
 cndr = ((cond)/(sw_c3515/10));
@@ -23,7 +21,7 @@ index = ~(isnan(temperature) | isnan(pressure)| isnan(cond));
 temperature = temperature(index);
 pressure = pressure(index);
 latmean = nanmean(fstruct.m_gps_lat);
-gliderDN = gliderDN(index);
+sciDN = sciDN(index);
 cndr = cndr(index);
 salt = sw_salt(cndr,temperature,pressure);
 salt(imag(salt) ~= 0) = 0;
@@ -37,56 +35,51 @@ rawLat = fstruct.m_gps_lat;
 rawLon = fstruct.m_gps_lon;
 
 
-% Strip nans, and interpolate to make it complete
+% Strip nans, and linearly interpolate between surfacings.
 knownIndices = ~isnan(rawLat);
 nanIndices   = isnan(rawLat);
-Lat = rawLat;
-Lon = rawLon;
-Lat(nanIndices) = interp1(rawDN(knownIndices), rawLat(knownIndices), rawDN(nanIndices), 'linear');
-Lon(nanIndices) = interp1(rawDN(knownIndices), rawLon(knownIndices), rawDN(nanIndices), 'linear');
+gliderLat = rawLat;
+gliderLon = rawLon;
+gliderLat(nanIndices) = interp1(rawDN(knownIndices), rawLat(knownIndices), rawDN(nanIndices), 'linear');
+gliderLon(nanIndices) = interp1(rawDN(knownIndices), rawLon(knownIndices), rawDN(nanIndices), 'linear');
 
-
-gliderDN = rawDN;
-gliderDT = datetime(gliderDN,'ConvertFrom','datenum');
-gliderLat = Lat;
-gliderLon = Lon;
+%Just the flight pathing.
+pathDN = rawDN;
+pathDT = datetime(sciDN,'ConvertFrom','datenum');
 gliderGPS = [gliderLat,gliderLon];
 
-
-
-detectionlat = interp1(gliderDN,gliderLat,vems.dn);
-detectionlon = interp1(gliderDN,gliderLon,vems.dn);
-detectionSalt = interp1(gliderDN,salt,detectionTime);
-detectionTemp = interp1(gliderDN,temperature,detectionTime);
-detectionPress = interp1(gliderDN,pressure,detectionTime);
-detectionDensity = interp1(gliderDN,density,detectionTime);
-detectionDepth = interp1(gliderDN,depth,detectionTime);
 % I used to take out detections because both receivers caught it, but doing
 % to stop doing that for now.
 % [~,TransIndex] = unique(vems.dn);
 %I'm keeping this one memorialized so I remember how I did it.
 % detections.DN = vems.dn(TransIndex);
 
-
-
-
-
+%Timing of detections
 detections.DN = vems.dn;
 detections.DT = datetime(detections.DN,'ConvertFrom','datenum');
 
+%The receiver that detected it, and the tag/id of the transmitter.
 detections.receiver = vems.rec.';
 detections.tag = cell2mat(vems.tag.');
 detections.id = cellfun(@str2double,vems.id.');
-detections.gps_lat = interp1(gliderDN,gliderLat,vems.dn);
-detections.gps_lon = interp1(gliderDN,gliderLon,vems.dn);
-detections.density = interp1(gliderDN,density,detectionTime);
-detections.depth = interp1(gliderDN,depth,detectionTime);
-detections.pressure = interp1(gliderDN,pressure,detectionTime);
-detections.salt = interp1(gliderDN,salt,detectionTime);
-detections.temp = interp1(gliderDN,temperature,detectionTime);
-detections.speedsound = sndspd(detections.salt,detections.temp,detections.depth);
-detections.latmean    = latmean;
 
-detectionReporting = [detections.DN, detections.id, detections.gps_lat, detections.gps_lon, detections.depth, detections.temp, detections.density]
+%Interpolated positioning at time of detection
+detections.gps_lat = interp1(pathDN,gliderLat,vems.dn);
+detections.gps_lon = interp1(pathDN,gliderLon,vems.dn);
+
+%Environmental context for the detection
+detections.density = interp1(sciDN,density,vems.dn);
+detections.depth = interp1(sciDN,depth,vems.dn);
+detections.pressure = interp1(sciDN,pressure,vems.dn);
+detections.salt = interp1(sciDN,salt,vems.dn);
+detections.temp = interp1(sciDN,temperature,vems.dn);
+detections.speedsound = sndspd(detections.salt,detections.temp,detections.depth);
+
+%One variable. We can play with output, but spits out an array telling us
+%the time, identity of receiver and transmitter, GPS of detection, and some
+%environmental data.
+detectionReporting = table(detections.DT,detections.DN, detections.tag, detections.id, detections.gps_lat, detections.gps_lon, detections.depth, detections.temp, detections.density);
+columnLabels = {'TimeUTC','Datenum','Tag','ID','Lat','Lon','Z','Temp','Rho'};
+detectionReporting.Properties.VariableNames = columnLabels;
 end
 
