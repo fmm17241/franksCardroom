@@ -308,7 +308,7 @@ plt.show()
 
 ################################################################################
 # Okay, SSP is in. Now I have to convert the rest of the dials from Matlab to Python. DOABLE.
-
+os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\toolbox\AT\executables")
 # We can automate this if needed, but for now just build toybox.
 bathy = [
     [0, 25],    # 20 m water depth at the transmitter
@@ -335,11 +335,11 @@ pm.plot_env(env)
 
 rays = pm.compute_eigenrays(env)
 
-pm.plot_rays(rays, env=env,width=900,title='Eigenray Analysis: Wavy Surface')
+pm.plot_rays(rays, env=env,width=900,title='Eigenray Analysis: Flat Surface')
 
 #Computes the arrival time of rays from T to R
 arrivals = pm.compute_arrivals(env)
-pm.plot_arrivals(arrivals, width=500,title='Arrival Timing: Wavy Surface')
+pm.plot_arrivals(arrivals, width=500,title='Arrival Timing: Flat Surface')
 
 
 
