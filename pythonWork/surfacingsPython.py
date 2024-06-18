@@ -14,6 +14,10 @@ import shutil
 import numpy as np
 import gsw
 from datetime import datetime, timedelta
+import matplotlib.pyplot as plt
+
+
+import arlpy.uwapm as pm
 #Frank needs to figure out how to read in the data files like in Matlab
 
 
@@ -257,6 +261,7 @@ def yoDefiner(dn, depth, temperature, salt, speed):
 yoSSP, yotemps, yotimes, yodepths, yosalt, yospeed = yoDefiner(dn, depth, temperature, salt, speed);
 
 
+
 ################################################################################
 #Frank needs to now take the yoSSP and turn it into the ssp variable shown in "acousticModel.py" sandbox script.
 #Format needs to be depth paired with the speed of sound for that depth. 
@@ -266,7 +271,79 @@ yoSSP, yotemps, yotimes, yodepths, yosalt, yospeed = yoDefiner(dn, depth, temper
 #                    [X, Y]         
 #                    [X, Y]  
 #                    [bot, Y]  
-ssp =[yoSSP[1],yoSSP[2]]
+
+exampleSSP = [
+    [ 0, 1540],  # 1540 m/s at the surface
+    [10, 1530],  # 1530 m/s at 10 m depth
+    [15, 1532],  # 1532 m/s at 20 m depth
+    [20, 1533],  # 1533 m/s at 25 m depth
+]
+
+
+ssp_tuples = (zip(yodepths, yospeed))
+
+ssp = [list(pair) for pair in ssp_tuples]
+ssp[0][0] = 0
+
+print(ssp)
+
+
+
+
+depths_list = [pair[0] for pair in ssp]
+soundspeeds_list = [pair[1] for pair in ssp]
+
+
+
+# Plotting the data
+plt.figure(figsize=(10, 6))
+plt.plot(soundspeeds_list, depths_list, marker='o', linestyle='-')
+plt.gca().invert_yaxis()  # Invert y-axis to have depth increase downward
+plt.xlabel('Sound Speed (m/s)')
+plt.ylabel('Depth (m)')
+plt.title('Depth vs Sound Speed')
+plt.grid(True)
+plt.show()
+
+
+################################################################################
+# Okay, SSP is in. Now I have to convert the rest of the dials from Matlab to Python. DOABLE.
+
+# We can automate this if needed, but for now just build toybox.
+bathy = [
+    [0, 25],    # 20 m water depth at the transmitter
+    [200, 25],    # 20 m water depth at the transmitter    
+    [300, 25],  # 15 m water depth 300 m away
+    [350, 25],  # 15 m water depth 300 m away
+    [450, 25]  # 20 m water depth at 600 m
+]
+
+
+env = pm.create_env2d(
+    frequency=600,
+    rx_range= 450,
+    rx_depth= 22.5,
+    depth=bathy,
+    soundspeed=ssp,
+    bottom_soundspeed=1450,
+    bottom_density=1200,
+    bottom_absorption=0.0,
+    tx_depth=13.5,
+)
+pm.print_env(env)
+pm.plot_env(env)
+
+rays = pm.compute_eigenrays(env)
+
+pm.plot_rays(rays, env=env,width=900,title='Eigenray Analysis: Wavy Surface')
+
+#Computes the arrival time of rays from T to R
+arrivals = pm.compute_arrivals(env)
+pm.plot_arrivals(arrivals, width=500,title='Arrival Timing: Wavy Surface')
+
+
+
+
 
 
 
