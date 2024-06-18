@@ -36,7 +36,7 @@ def beautifyData(data):
 
     return dn, temperature, salt, density, depth, speed
 
-# Example usage with dummy data
+
 # data should be a numpy array with columns representing time, conductivity, pressure, temperature, and other measurements as necessary.
 data = np.array([
     [0, 4.5, 1.5, 15.0],  # example row: [rt, cond, rawpressure, temperature]
@@ -52,3 +52,4 @@ print("Salinity:", salt)
 print("Density:", density)
 print("Depth:", depth)
 print("Sound Speed:", speed)
+

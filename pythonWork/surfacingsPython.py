@@ -125,7 +125,21 @@ def read_gliderasc(file_path):
         print(f"An error occurred: {e}")
 
     return dstruct
+###################################################################################
+def extract_column(dstruct, label):
+    if 'varlabs' not in dstruct or 'data' not in dstruct:
+        raise ValueError("The dictionary does not contain 'varlabs' or 'data' keys.")
+    
+    if label not in dstruct['varlabs']:
+        raise ValueError(f"Label '{label}' not found in 'varlabs'.")
 
+    # Find the index of the label in 'varlabs'
+    index = dstruct['varlabs'].index(label)
+    
+    # Extract the corresponding column from 'data'
+    column = [row[index] for row in dstruct['data']]
+    
+    return column
 ###################################################################################
 
 
@@ -144,67 +158,51 @@ for file in files:
 
 last_file_path = get_last_file_path(datadir)
 
-# Example usage:
+# Data file:
 dstruct = read_gliderasc(last_file_path)
 
-print("File Name:", dstruct['fname'])
-print("Mission Name:", dstruct['mname'])
-print("Variables:", dstruct['vars'])
-print("Variable Labels:", dstruct['varlabs'])
-print("Data:", dstruct['data'])
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+################################################################################
+#Time Conversions
+def datenum_to_datetime(datenum):
+    # MATLAB's datenum starts from the year 0, whereas Python's datetime starts from the year 1
+    # Therefore, we need to offset the date by 1 year less 1 day
+    matlab_datenum_offset = datetime(1, 1, 1) - timedelta(days=366)
+    python_datetime = matlab_datenum_offset + timedelta(days=datenum)
+    return python_datetime
     
     
 ################################################################################
 # BEAUTIFICATION
 
 def beautifyData(data):
-    temperature = data[:, 3]  # degC
-    cond = data[:, 1]  # S/m
-    rawpressure = data[:, 2]  # bar
-    pressure = rawpressure * 10  # converts pressure to dbar
+    rawTime = extract_column(data,'imestamp')
+    temperature = extract_column(data, 'degc')
+    cond = extract_column(data, 's/m')
+    rawpressure = extract_column(data, 'bar')
+    pressure = [x * 10 for x in rawpressure]  # converts pressure to dbar
 
     # Mean latitude for near Gray's Reef
     latmean = 31.3960
     depth = gsw.z_from_p(pressure, latmean) * -1  # depth, m (negative z from p, so multiply by -1)
 
-    rt = data[:, 0]  # seconds after some time
-
-    salt = gsw.SP_from_C(10 * cond / 42.914, temperature, pressure)
+    salt = gsw.SP_from_C([(x*10)/42.914 for x in cond],temperature,pressure)
+    #salt = gsw.SP_from_C(10 * cond / 42.914, temperature, pressure)
     density = gsw.rho(salt, temperature, pressure)
 
-    # Convert rt into datetime style
+
+    # Convert rawTime into datetime style
     base_time = datetime(1970, 1, 1)
-    dn = np.array([base_time + timedelta(seconds=float(rt_i)) for rt_i in rt])
+    dt = np.array([base_time + timedelta(seconds=float(rt_i)) for rt_i in rawTime])
 
     # McKenzie's equation for sound speed (m/s)
     speed = gsw.sound_speed(salt, temperature, pressure)
 
-    return dn, temperature, salt, density, depth, speed
+    return dt, temperature, salt, density, depth, speed
+################################################################################
 
-# Example usage with dummy data
-# data should be a numpy array with columns representing time, conductivity, pressure, temperature, and other measurements as necessary.
-data = np.array([
-    [0, 4.5, 1.5, 15.0],  # example row: [rt, cond, rawpressure, temperature]
-    [3600, 4.6, 1.6, 15.5],  # example row after one hour
-    # add more rows as needed
-])
-
-dn, temperature, salt, density, depth, speed = beautifyData()
-
-print("Datetime:", dn)
-print("Temperature:", temperature)
-print("Salinity:", salt)
-print("Density:", density)
-print("Depth:", depth)
-print("Sound Speed:", speed)
+dt, temperature, salt, density, depth, speed = beautifyData(dstruct)
 
 
 
