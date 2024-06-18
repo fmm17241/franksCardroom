@@ -207,7 +207,7 @@ def sound_speed_mackenzie(T, S, D):
 # BEAUTIFICATION
 
 def beautifyData(data):
-    rawTime = extract_column(data,'imestamp')
+    dn = extract_column(data,'imestamp')
     temperature = extract_column(data, 'degc')
     cond = extract_column(data, 's/m')
     rawpressure = extract_column(data, 'bar')
@@ -225,26 +225,35 @@ def beautifyData(data):
 
     # Convert rawTime into datetime style. Checked, same as MatLab.
     base_time = datetime(1970, 1, 1)
-    dt = np.array([base_time + timedelta(seconds=float(rt_i)) for rt_i in rawTime])
+    dt = np.array([base_time + timedelta(seconds=float(rt_i)) for rt_i in dn])
 
     # McKenzie's equation for sound speed (m/s)
     speed = [sound_speed_mackenzie(temperature, salt, depth) for temperature, salt, depth in zip(temperature, salt, depth)]
 
 
-    return dt, temperature, salt, density, depth, pressure, speed
+    return dt, dn, temperature, salt, density, depth, pressure, speed
 ################################################################################
 
-dt, temperature, salt, density, depth, pressure, speed = beautifyData(dstruct)
+dt, dn, temperature, salt, density, depth, pressure, speed = beautifyData(dstruct)
+
+
+################################################################################
+#Frank's way of breaking down the data into separate yos, profiles from the glider.
+def yoDefiner(dn, depth, temperature, salt, speed):
+    difference= np.diff(depth);
+    indexTop = np.argmax(difference);
+    indexBot = np.argmax(depth);
+    ##
+    yotemps = temperature[indexTop:indexBot];
+    yotimes = dn[indexTop:indexBot];
+    yodepths = depth[indexTop:indexBot];
+    yosalt = salt[indexTop:indexBot];
+    yospeed  = speed[indexTop:indexBot];
+    yoSSP    =[yotimes,yodepths,yospeed];   
+
+    return yoSSP, yotemps, yotimes, yodepths, yosalt, yospeed
 
 
 
 
-
-
-
-
-
-
-sstruct = read_gliderasc([datadir,files(nfile,:)]);
-
-         
+       
