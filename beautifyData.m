@@ -1,6 +1,6 @@
 
 
-function [dn,temperature,salt,density,depth,speed]=beautifyData(data)
+function [dn,temperature,salt,density,depth,pressure,speed]=beautifyData(data)
 
 temperature=data.data(:,4); %degC
 cond=data.data(:,2); %S/m

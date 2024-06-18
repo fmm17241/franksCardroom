@@ -12,7 +12,7 @@ sstruct = read_gliderasc([datadir,files(nfile,:)]);
 
 
 %Current iteration of Frank's data cleanup
-[dn,temperature,salt,density,depth,speed]=beautifyData(sstruct);
+[dn,temperature,salt,density,depth,pressure,speed]=beautifyData(sstruct);
 
 
 %%  Defining single profile, creating SSP

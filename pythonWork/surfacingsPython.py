@@ -172,7 +172,37 @@ def datenum_to_datetime(datenum):
     python_datetime = matlab_datenum_offset + timedelta(days=datenum)
     return python_datetime
     
+################################################################################
+# Soundspeed Equation
+def sound_speed_mackenzie(T, S, D):
+    """
+    Calculate the speed of sound in seawater using Mackenzie's 9-term equation.
+
+    Parameters:
+    T (float): Temperature in degrees Celsius
+    S (float): Salinity in practical salinity units (psu)
+    D (float): Depth in meters
+
+    Returns:
+    float: Speed of sound in meters per second (m/s)
+    """
+    # Mackenzie's 9-term equation
+    c = (1448.96 + 4.591 * T - 5.304e-2 * T**2 + 2.374e-4 * T**3 + 
+         1.340 * (S - 35) + 1.630e-2 * D + 1.675e-7 * D**2 - 
+         1.025e-2 * T * (S - 35) - 7.139e-13 * T * D**3)
     
+    return c
+
+# Example usage
+#temperature = [10.0, 11.0, 12.0]  # in degrees Celsius
+#salinity = [35.0, 35.1, 35.2]     # in psu
+#depth = [1000.0, 1100.0, 1200.0]  # in meters
+
+#sound_speed_values = [sound_speed_mackenzie(T, S, D) for T, S, D in zip(temperature, salinity, depth)]
+
+#speed_of_sound = sound_speed_mackenzie(temperature, salinity, depth)
+#print(f"The speed of sound is {speed_of_sound:.2f} m/s")
+
 ################################################################################
 # BEAUTIFICATION
 
@@ -187,22 +217,24 @@ def beautifyData(data):
     latmean = 31.3960
     depth = gsw.z_from_p(pressure, latmean) * -1  # depth, m (negative z from p, so multiply by -1)
 
-    salt = gsw.SP_from_C([(x*10)/42.914 for x in cond],temperature,pressure)
-    #salt = gsw.SP_from_C(10 * cond / 42.914, temperature, pressure)
+    #Frank's wrestling with units for conductivity
+    salt = gsw.SP_from_C([(x*10) for x in cond],temperature,pressure)
+    #Calculating seawater density
     density = gsw.rho(salt, temperature, pressure)
 
 
-    # Convert rawTime into datetime style
+    # Convert rawTime into datetime style. Checked, same as MatLab.
     base_time = datetime(1970, 1, 1)
     dt = np.array([base_time + timedelta(seconds=float(rt_i)) for rt_i in rawTime])
 
     # McKenzie's equation for sound speed (m/s)
-    speed = gsw.sound_speed(salt, temperature, pressure)
+    speed = [sound_speed_mackenzie(temperature, salt, depth) for temperature, salt, depth in zip(temperature, salt, depth)]
 
-    return dt, temperature, salt, density, depth, speed
+
+    return dt, temperature, salt, density, depth, pressure, speed
 ################################################################################
 
-dt, temperature, salt, density, depth, speed = beautifyData(dstruct)
+dt, temperature, salt, density, depth, pressure, speed = beautifyData(dstruct)
 
 
 
