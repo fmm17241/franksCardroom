@@ -29,9 +29,6 @@ directory = (localPlots);
 %Full ray tracing, show all
 [waterdepth,beamFile] = ModelSoundSingle(yoSSP,directory,datadir);
 
-% FM 8/21: Commented out these sections for now. I want the bellhop to run
-% but can't make it find the .ray file thats being created.
-
 % % Beam Density Analysis, finding ray propagation down range
 [gridpoints, gridrays, sumRays] = bdaSingle(beamFile, directory);
 % 

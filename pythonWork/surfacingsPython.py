@@ -244,16 +244,17 @@ def yoDefiner(dn, depth, temperature, salt, speed):
     indexTop = np.argmax(difference);
     indexBot = np.argmax(depth);
     ##
-    yotemps = temperature[indexTop:indexBot];
-    yotimes = dn[indexTop:indexBot];
-    yodepths = depth[indexTop:indexBot];
-    yosalt = salt[indexTop:indexBot];
-    yospeed  = speed[indexTop:indexBot];
-    yoSSP    =[yotimes,yodepths,yospeed];   
+    yotemps = temperature[indexTop:indexBot+1];
+    yotimes = dn[indexTop:indexBot+1];
+    yodepths = depth[indexTop:indexBot+1];
+    yosalt = salt[indexTop:indexBot+1];
+    yospeed  = speed[indexTop:indexBot+1];
+    yoSSP    = [yotimes,yodepths,yospeed];   
 
     return yoSSP, yotemps, yotimes, yodepths, yosalt, yospeed
 
 
+yoSSP, yotemps, yotimes, yodepths, yosalt, yospeed = yoDefiner(dn, depth, temperature, salt, speed);
 
 
        
