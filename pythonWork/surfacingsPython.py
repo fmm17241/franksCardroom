@@ -257,4 +257,25 @@ def yoDefiner(dn, depth, temperature, salt, speed):
 yoSSP, yotemps, yotimes, yodepths, yosalt, yospeed = yoDefiner(dn, depth, temperature, salt, speed);
 
 
-       
+################################################################################
+#Frank needs to now take the yoSSP and turn it into the ssp variable shown in "acousticModel.py" sandbox script.
+#Format needs to be depth paired with the speed of sound for that depth. 
+#             ssp =  [
+#                    [0, Y]
+#                    [X, Y]        
+#                    [X, Y]         
+#                    [X, Y]  
+#                    [bot, Y]  
+ssp =[yoSSP[1],yoSSP[2]]
+
+
+
+
+
+
+
+
+
+
+
+
