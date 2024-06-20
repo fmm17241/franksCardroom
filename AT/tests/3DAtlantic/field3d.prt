@@ -1,0 +1,261 @@
+
+ __________________________________________________________________________
+ Running FIELD3D
+ Sums modes, producing pressure
+
+                                                                                 
+ Option = STDFM  
+ Number of modes =           60
+
+ __________________________________________________________________________
+
+ Number of source   x-coordinates, Sx =            1
+ source   x-coordinates, Sx (km)
+   333.000    
+
+
+ __________________________________________________________________________
+
+ Number of source   y-coordinates, Sy =            1
+ source   y-coordinates, Sy (km)
+   315.000    
+
+
+ __________________________________________________________________________
+
+ Number of Source   depths, Sz =            1
+ Source   depths, Sz (m)
+   100.000    
+
+
+ __________________________________________________________________________
+
+ Number of Receiver depths, Rz =          201
+ Receiver depths, Rz (m)
+   0.00000       25.0000       50.0000       75.0000       100.000    
+   125.000       150.000       175.000       200.000       225.000    
+          ... 
+   5000.00    
+
+
+ __________________________________________________________________________
+
+ Number of Receiver ranges, Rr =         1001
+ Receiver ranges, Rr (km)
+   0.00000      0.275000      0.550000      0.825000       1.10000    
+   1.37500       1.65000       1.92500       2.20000       2.47500    
+          ... 
+   275.000    
+
+
+ __________________________________________________________________________
+
+ Number of receiver bearings, theta =            1
+ receiver bearings, theta (degrees)
+   90.0000    
+
+ NNodes =          397
+ NElts  =          727
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+ Number of distinct sets of modes =           53
+CPU time =       15.6    s
+ Field3D completed successfully

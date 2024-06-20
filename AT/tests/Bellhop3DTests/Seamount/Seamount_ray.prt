@@ -1,0 +1,149 @@
+ BELLHOP/BELLHOP3D
+
+ BELLHOP3D- Seamount profile                                                     
+ frequency =   10.00     Hz
+
+ Dummy parameter NMedia =            1
+
+     C-linear approximation to SSP
+     Attenuation units: dB/wavelength
+     VACUUM
+
+ Depth =   20000.00 m
+
+ Sound speed profile:
+   z (m)     alphaR (m/s)   betaR  rho (g/cm^3)  alphaI     betaI
+
+      0.00      1500.00      0.00     1.00       0.0000    0.0000
+  20000.00      1500.00      0.00     1.00       0.0000    0.0000
+
+                                 ( RMS roughness =   0.00     )
+     Bathymetry file selected
+     Perfectly RIGID
+
+ __________________________________________________________________________
+
+ Number of source   x-coordinates, Sx =            1
+ source   x-coordinates, Sx (km)
+   5.00000    
+
+
+ __________________________________________________________________________
+
+ Number of source   y-coordinates, Sy =            1
+ source   y-coordinates, Sy (km)
+   0.00000    
+
+
+ __________________________________________________________________________
+
+ Number of Source   depths, Sz =            1
+ Source   depths, Sz (m)
+   100.000    
+
+
+ __________________________________________________________________________
+
+ Number of Receiver depths, Rz =            1
+ Receiver depths, Rz (m)
+   100.000    
+
+
+ __________________________________________________________________________
+
+ Number of Receiver ranges, Rr =          701
+ Receiver ranges, Rr (km)
+   0.00000      0.142857E-01  0.285714E-01  0.428571E-01  0.571429E-01
+  0.714286E-01  0.857143E-01  0.100000      0.114286      0.128571    
+          ... 
+   10.0000    
+
+
+ __________________________________________________________________________
+
+ Number of receiver bearings, theta =           15
+ receiver bearings, theta (degrees)
+   90.0000       102.857       115.714       128.571       141.429    
+   154.286       167.143       180.000       192.857       205.714    
+          ... 
+   270.000    
+
+
+ Ray trace run
+ Cartesian beams
+ Point source (cylindrical coordinates)
+ Rectilinear receiver grid: Receivers at Rr( : ) x Rz( : )
+ 3D calculation
+ __________________________________________________________________________
+
+ Number of beams in elevation   =            2
+ Beam take-off angles (degrees)
+   19.0000       20.0000    
+
+ Number of beams in bearing   =           15
+ Beam take-off angles (degrees)
+   90.0000       102.857       115.714       128.571       141.429    
+   154.286       167.143       180.000       192.857       205.714    
+          ... 
+   270.000    
+
+ __________________________________________________________________________
+
+
+ Step length,       deltas =   2000.     m
+
+ Maximum ray x-range, Box%x =   9900.     m
+ Maximum ray y-range, Box%y =   9900.     m
+ Maximum ray z-range, Box%z =  0.2050E+05 m
+ No beam shift in effect
+
+ *********************************
+ Using bottom-bathymetry file
+ Regular grid for a 3D run (curvilinear)
+
+ Number of bathymetry points in x-direction         500
+  -15.0000      -14.9399      -14.8798      -14.8196      -14.7595    
+  -14.6994      -14.6393      -14.5792      -14.5190      -14.4589    
+  -14.3988      -14.3387      -14.2786      -14.2184      -14.1583    
+  -14.0982      -14.0381      -13.9780      -13.9178      -13.8577    
+  -13.7976    
+          ... 
+   15.0000    
+
+ Number of bathymetry points in y-direction         500
+  -15.0000      -14.9399      -14.8798      -14.8196      -14.7595    
+  -14.6994      -14.6393      -14.5792      -14.5190      -14.4589    
+  -14.3988      -14.3387      -14.2786      -14.2184      -14.1583    
+  -14.0982      -14.0381      -13.9780      -13.9178      -13.8577    
+  -13.7976    
+          ... 
+   15.0000    
+
+
+
+xs =   0.500E+04     0.00         100.    
+
+ Geometric beam, hat-shaped, Cart. coord.                                        
+ HalfWidth1  =    0.0000000000000000     
+ HalfWidth2  =    0.0000000000000000     
+ epsilonOPT1 =  (  0.0000000000000000     ,  0.0000000000000000     )
+ epsilonOPT2 =  (  0.0000000000000000     ,  0.0000000000000000     )
+ EpsMult     =    1.0000000000000000     
+
+Tracing azimuthal beam    1     90.00
+Tracing azimuthal beam    2    102.86
+Tracing azimuthal beam    3    115.71
+Tracing azimuthal beam    4    128.57
+Tracing azimuthal beam    5    141.43
+Tracing azimuthal beam    6    154.29
+Tracing azimuthal beam    7    167.14
+Tracing azimuthal beam    8    180.00
+Tracing azimuthal beam    9    192.86
+Tracing azimuthal beam   10    205.71
+Tracing azimuthal beam   11    218.57
+Tracing azimuthal beam   12    231.43
+Tracing azimuthal beam   13    244.29
+Tracing azimuthal beam   14    257.14
+Tracing azimuthal beam   15    270.00
+
+ CPU Time =       0.625E-01s

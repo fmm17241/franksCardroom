@@ -1,0 +1,450 @@
+ BELLHOP/BELLHOP3D
+
+ BELLHOP3D- Seamount2D, HatCart 721x1301, 721x4801                               
+ frequency =   5.000     Hz
+
+ Dummy parameter NMedia =            1
+
+     C-linear approximation to SSP
+     Attenuation units: dB/wavelength
+     VACUUM
+
+ Depth =   20000.00 m
+
+ Sound speed profile:
+   z (m)     alphaR (m/s)   betaR  rho (g/cm^3)  alphaI     betaI
+
+      0.00      1500.00      0.00     1.00       0.0000    0.0000
+  20000.00      1500.00      0.00     1.00       0.0000    0.0000
+
+                                 ( RMS roughness =   0.00     )
+     Bathymetry file selected
+     Perfectly RIGID
+
+ __________________________________________________________________________
+
+ Number of source   x-coordinates, Sx =            1
+ source   x-coordinates, Sx (km)
+   3.00000    
+
+
+ __________________________________________________________________________
+
+ Number of source   y-coordinates, Sy =            1
+ source   y-coordinates, Sy (km)
+   0.00000    
+
+
+ __________________________________________________________________________
+
+ Number of Source   depths, Sz =            1
+ Source   depths, Sz (m)
+   100.000    
+
+
+ __________________________________________________________________________
+
+ Number of Receiver depths, Rz =            1
+ Receiver depths, Rz (m)
+   100.000    
+
+
+ __________________________________________________________________________
+
+ Number of Receiver ranges, Rr =         1301
+ Receiver ranges, Rr (km)
+   0.00000      0.100000E-01  0.200000E-01  0.300000E-01  0.400000E-01
+  0.500000E-01  0.600000E-01  0.700000E-01  0.800000E-01  0.900000E-01
+          ... 
+   13.0000    
+
+
+ __________________________________________________________________________
+
+ Number of receiver bearings, theta =          721
+ receiver bearings, theta (degrees)
+   90.0000       90.1250       90.2500       90.3750       90.5000    
+   90.6250       90.7500       90.8750       91.0000       91.1250    
+          ... 
+   180.000    
+
+
+ Coherent TL calculation
+ Geometric gaussian beams in Cartesian coordinates
+ Point source (cylindrical coordinates)
+ Rectilinear receiver grid: Receivers at Rr( : ) x Rz( : )
+ N x 2D calculation (neglects horizontal refraction)
+ __________________________________________________________________________
+
+ Number of beams in elevation   =         4801
+ Beam take-off angles (degrees)
+  -89.0000      -88.9629      -88.9258      -88.8888      -88.8517    
+  -88.8146      -88.7775      -88.7404      -88.7033      -88.6663    
+          ... 
+   89.0000    
+
+ Replacing beam take-off angles, beta, with receiver bearing lines, theta
+
+ Number of beams in bearing   =          721
+ Beam take-off angles (degrees)
+   90.0000       90.1250       90.2500       90.3750       90.5000    
+   90.6250       90.7500       90.8750       91.0000       91.1250    
+          ... 
+   180.000    
+
+ __________________________________________________________________________
+
+
+ Step length,       deltas =   1000.     m
+
+ Maximum ray x-range, Box%x =   9100.     m
+ Maximum ray y-range, Box%y =   9100.     m
+ Maximum ray z-range, Box%z =  0.2050E+05 m
+ No beam shift in effect
+
+ *********************************
+ Using bottom-bathymetry file
+ Regular grid for a 3D run (curvilinear)
+
+ Number of bathymetry points in x-direction         500
+  -15.0000      -14.9399      -14.8798      -14.8196      -14.7595    
+  -14.6994      -14.6393      -14.5792      -14.5190      -14.4589    
+  -14.3988      -14.3387      -14.2786      -14.2184      -14.1583    
+  -14.0982      -14.0381      -13.9780      -13.9178      -13.8577    
+  -13.7976    
+          ... 
+   15.0000    
+
+ Number of bathymetry points in y-direction         500
+  -15.0000      -14.9399      -14.8798      -14.8196      -14.7595    
+  -14.6994      -14.6393      -14.5792      -14.5190      -14.4589    
+  -14.3988      -14.3387      -14.2786      -14.2184      -14.1583    
+  -14.0982      -14.0381      -13.9780      -13.9178      -13.8577    
+  -13.7976    
+          ... 
+   15.0000    
+
+
+
+xs =   0.300E+04     0.00         100.    
+
+ Geometric beam, Gaussian-shaped, Cart. coord.                                   
+ HalfWidth1  =    0.0000000000000000     
+ HalfWidth2  =    0.0000000000000000     
+ epsilonOPT1 =  (  0.0000000000000000     ,  0.0000000000000000     )
+ epsilonOPT2 =  (  0.0000000000000000     ,  0.0000000000000000     )
+ EpsMult     =    1.0000000000000000     
+
+Tracing azimuthal beam    1     90.00
+Tracing azimuthal beam    2     90.12
+Tracing azimuthal beam    3     90.25
+Tracing azimuthal beam    4     90.38
+Tracing azimuthal beam    5     90.50
+Tracing azimuthal beam    6     90.62
+Tracing azimuthal beam    7     90.75
+Tracing azimuthal beam    8     90.88
+Tracing azimuthal beam    9     91.00
+Tracing azimuthal beam   10     91.12
+Tracing azimuthal beam   11     91.25
+Tracing azimuthal beam   12     91.38
+Tracing azimuthal beam   13     91.50
+Tracing azimuthal beam   14     91.62
+Tracing azimuthal beam   15     91.75
+Tracing azimuthal beam   16     91.88
+Tracing azimuthal beam   17     92.00
+Tracing azimuthal beam   18     92.12
+Tracing azimuthal beam   19     92.25
+Tracing azimuthal beam   20     92.38
+Tracing azimuthal beam   21     92.50
+Tracing azimuthal beam   22     92.62
+Tracing azimuthal beam   23     92.75
+Tracing azimuthal beam   24     92.88
+Tracing azimuthal beam   25     93.00
+Tracing azimuthal beam   26     93.12
+Tracing azimuthal beam   27     93.25
+Tracing azimuthal beam   28     93.38
+Tracing azimuthal beam   29     93.50
+Tracing azimuthal beam   30     93.62
+Tracing azimuthal beam   31     93.75
+Tracing azimuthal beam   32     93.88
+Tracing azimuthal beam   33     94.00
+Tracing azimuthal beam   34     94.12
+Tracing azimuthal beam   35     94.25
+Tracing azimuthal beam   36     94.38
+Tracing azimuthal beam   37     94.50
+Tracing azimuthal beam   38     94.62
+Tracing azimuthal beam   39     94.75
+Tracing azimuthal beam   40     94.88
+Tracing azimuthal beam   41     95.00
+Tracing azimuthal beam   42     95.12
+Tracing azimuthal beam   43     95.25
+Tracing azimuthal beam   44     95.38
+Tracing azimuthal beam   45     95.50
+Tracing azimuthal beam   46     95.62
+Tracing azimuthal beam   47     95.75
+Tracing azimuthal beam   48     95.87
+Tracing azimuthal beam   49     96.00
+Tracing azimuthal beam   50     96.12
+Tracing azimuthal beam   51     96.25
+Tracing azimuthal beam   52     96.38
+Tracing azimuthal beam   53     96.50
+Tracing azimuthal beam   54     96.62
+Tracing azimuthal beam   55     96.75
+Tracing azimuthal beam   56     96.87
+Tracing azimuthal beam   57     97.00
+Tracing azimuthal beam   58     97.12
+Tracing azimuthal beam   59     97.25
+Tracing azimuthal beam   60     97.38
+Tracing azimuthal beam   61     97.50
+Tracing azimuthal beam   62     97.62
+Tracing azimuthal beam   63     97.75
+Tracing azimuthal beam   64     97.87
+Tracing azimuthal beam   65     98.00
+Tracing azimuthal beam   66     98.12
+Tracing azimuthal beam   67     98.25
+Tracing azimuthal beam   68     98.38
+Tracing azimuthal beam   69     98.50
+Tracing azimuthal beam   70     98.62
+Tracing azimuthal beam   71     98.75
+Tracing azimuthal beam   72     98.88
+Tracing azimuthal beam   73     99.00
+Tracing azimuthal beam   74     99.12
+Tracing azimuthal beam   75     99.25
+Tracing azimuthal beam   76     99.38
+Tracing azimuthal beam   77     99.50
+Tracing azimuthal beam   78     99.62
+Tracing azimuthal beam   79     99.75
+Tracing azimuthal beam   80     99.88
+Tracing azimuthal beam   81    100.00
+Tracing azimuthal beam   82    100.12
+Tracing azimuthal beam   83    100.25
+Tracing azimuthal beam   84    100.38
+Tracing azimuthal beam   85    100.50
+Tracing azimuthal beam   86    100.62
+Tracing azimuthal beam   87    100.75
+Tracing azimuthal beam   88    100.88
+Tracing azimuthal beam   89    101.00
+Tracing azimuthal beam   90    101.12
+Tracing azimuthal beam   91    101.25
+Tracing azimuthal beam   92    101.38
+Tracing azimuthal beam   93    101.50
+Tracing azimuthal beam   94    101.62
+Tracing azimuthal beam   95    101.75
+Tracing azimuthal beam   96    101.88
+Tracing azimuthal beam   97    102.00
+Tracing azimuthal beam   98    102.12
+Tracing azimuthal beam   99    102.25
+Tracing azimuthal beam  100    102.38
+Tracing azimuthal beam  101    102.50
+Tracing azimuthal beam  102    102.62
+Tracing azimuthal beam  103    102.75
+Tracing azimuthal beam  104    102.88
+Tracing azimuthal beam  105    103.00
+Tracing azimuthal beam  106    103.12
+Tracing azimuthal beam  107    103.25
+Tracing azimuthal beam  108    103.37
+Tracing azimuthal beam  109    103.50
+Tracing azimuthal beam  110    103.62
+Tracing azimuthal beam  111    103.75
+Tracing azimuthal beam  112    103.88
+Tracing azimuthal beam  113    104.00
+Tracing azimuthal beam  114    104.12
+Tracing azimuthal beam  115    104.25
+Tracing azimuthal beam  116    104.37
+Tracing azimuthal beam  117    104.50
+Tracing azimuthal beam  118    104.62
+Tracing azimuthal beam  119    104.75
+Tracing azimuthal beam  120    104.88
+Tracing azimuthal beam  121    105.00
+Tracing azimuthal beam  122    105.12
+Tracing azimuthal beam  123    105.25
+Tracing azimuthal beam  124    105.37
+Tracing azimuthal beam  125    105.50
+Tracing azimuthal beam  126    105.62
+Tracing azimuthal beam  127    105.75
+Tracing azimuthal beam  128    105.88
+Tracing azimuthal beam  129    106.00
+Tracing azimuthal beam  130    106.12
+Tracing azimuthal beam  131    106.25
+Tracing azimuthal beam  132    106.38
+Tracing azimuthal beam  133    106.50
+Tracing azimuthal beam  134    106.62
+Tracing azimuthal beam  135    106.75
+Tracing azimuthal beam  136    106.88
+Tracing azimuthal beam  137    107.00
+Tracing azimuthal beam  138    107.12
+Tracing azimuthal beam  139    107.25
+Tracing azimuthal beam  140    107.38
+Tracing azimuthal beam  141    107.50
+Tracing azimuthal beam  142    107.62
+Tracing azimuthal beam  143    107.75
+Tracing azimuthal beam  144    107.88
+Tracing azimuthal beam  145    108.00
+Tracing azimuthal beam  146    108.12
+Tracing azimuthal beam  147    108.25
+Tracing azimuthal beam  148    108.38
+Tracing azimuthal beam  149    108.50
+Tracing azimuthal beam  150    108.62
+Tracing azimuthal beam  151    108.75
+Tracing azimuthal beam  152    108.88
+Tracing azimuthal beam  153    109.00
+Tracing azimuthal beam  154    109.12
+Tracing azimuthal beam  155    109.25
+Tracing azimuthal beam  156    109.38
+Tracing azimuthal beam  157    109.50
+Tracing azimuthal beam  158    109.62
+Tracing azimuthal beam  159    109.75
+Tracing azimuthal beam  160    109.88
+Tracing azimuthal beam  161    110.00
+Tracing azimuthal beam  162    110.12
+Tracing azimuthal beam  163    110.25
+Tracing azimuthal beam  164    110.38
+Tracing azimuthal beam  165    110.50
+Tracing azimuthal beam  166    110.62
+Tracing azimuthal beam  167    110.75
+Tracing azimuthal beam  168    110.88
+Tracing azimuthal beam  169    111.00
+Tracing azimuthal beam  170    111.12
+Tracing azimuthal beam  171    111.25
+Tracing azimuthal beam  172    111.38
+Tracing azimuthal beam  173    111.50
+Tracing azimuthal beam  174    111.62
+Tracing azimuthal beam  175    111.75
+Tracing azimuthal beam  176    111.87
+Tracing azimuthal beam  177    112.00
+Tracing azimuthal beam  178    112.12
+Tracing azimuthal beam  179    112.25
+Tracing azimuthal beam  180    112.38
+Tracing azimuthal beam  181    112.50
+Tracing azimuthal beam  182    112.62
+Tracing azimuthal beam  183    112.75
+Tracing azimuthal beam  184    112.87
+Tracing azimuthal beam  185    113.00
+Tracing azimuthal beam  186    113.12
+Tracing azimuthal beam  187    113.25
+Tracing azimuthal beam  188    113.38
+Tracing azimuthal beam  189    113.50
+Tracing azimuthal beam  190    113.62
+Tracing azimuthal beam  191    113.75
+Tracing azimuthal beam  192    113.87
+Tracing azimuthal beam  193    114.00
+Tracing azimuthal beam  194    114.12
+Tracing azimuthal beam  195    114.25
+Tracing azimuthal beam  196    114.38
+Tracing azimuthal beam  197    114.50
+Tracing azimuthal beam  198    114.62
+Tracing azimuthal beam  199    114.75
+Tracing azimuthal beam  200    114.88
+Tracing azimuthal beam  201    115.00
+Tracing azimuthal beam  202    115.12
+Tracing azimuthal beam  203    115.25
+Tracing azimuthal beam  204    115.38
+Tracing azimuthal beam  205    115.50
+Tracing azimuthal beam  206    115.62
+Tracing azimuthal beam  207    115.75
+Tracing azimuthal beam  208    115.87
+Tracing azimuthal beam  209    116.00
+Tracing azimuthal beam  210    116.12
+Tracing azimuthal beam  211    116.25
+Tracing azimuthal beam  212    116.38
+Tracing azimuthal beam  213    116.50
+Tracing azimuthal beam  214    116.62
+Tracing azimuthal beam  215    116.75
+Tracing azimuthal beam  216    116.88
+Tracing azimuthal beam  217    117.00
+Tracing azimuthal beam  218    117.12
+Tracing azimuthal beam  219    117.25
+Tracing azimuthal beam  220    117.38
+Tracing azimuthal beam  221    117.50
+Tracing azimuthal beam  222    117.62
+Tracing azimuthal beam  223    117.75
+Tracing azimuthal beam  224    117.87
+Tracing azimuthal beam  225    118.00
+Tracing azimuthal beam  226    118.12
+Tracing azimuthal beam  227    118.25
+Tracing azimuthal beam  228    118.38
+Tracing azimuthal beam  229    118.50
+Tracing azimuthal beam  230    118.62
+Tracing azimuthal beam  231    118.75
+Tracing azimuthal beam  232    118.88
+Tracing azimuthal beam  233    119.00
+Tracing azimuthal beam  234    119.13
+Tracing azimuthal beam  235    119.25
+Tracing azimuthal beam  236    119.37
+Tracing azimuthal beam  237    119.50
+Tracing azimuthal beam  238    119.62
+Tracing azimuthal beam  239    119.75
+Tracing azimuthal beam  240    119.87
+Tracing azimuthal beam  241    120.00
+Tracing azimuthal beam  242    120.12
+Tracing azimuthal beam  243    120.25
+Tracing azimuthal beam  244    120.38
+Tracing azimuthal beam  245    120.50
+Tracing azimuthal beam  246    120.62
+Tracing azimuthal beam  247    120.75
+Tracing azimuthal beam  248    120.88
+Tracing azimuthal beam  249    121.00
+Tracing azimuthal beam  250    121.12
+Tracing azimuthal beam  251    121.25
+Tracing azimuthal beam  252    121.37
+Tracing azimuthal beam  253    121.50
+Tracing azimuthal beam  254    121.62
+Tracing azimuthal beam  255    121.75
+Tracing azimuthal beam  256    121.87
+Tracing azimuthal beam  257    122.00
+Tracing azimuthal beam  258    122.12
+Tracing azimuthal beam  259    122.25
+Tracing azimuthal beam  260    122.38
+Tracing azimuthal beam  261    122.50
+Tracing azimuthal beam  262    122.62
+Tracing azimuthal beam  263    122.75
+Tracing azimuthal beam  264    122.88
+Tracing azimuthal beam  265    123.00
+Tracing azimuthal beam  266    123.12
+Tracing azimuthal beam  267    123.25
+Tracing azimuthal beam  268    123.37
+Tracing azimuthal beam  269    123.50
+Tracing azimuthal beam  270    123.62
+Tracing azimuthal beam  271    123.75
+Tracing azimuthal beam  272    123.88
+Tracing azimuthal beam  273    124.00
+Tracing azimuthal beam  274    124.12
+Tracing azimuthal beam  275    124.25
+Tracing azimuthal beam  276    124.38
+Tracing azimuthal beam  277    124.50
+Tracing azimuthal beam  278    124.62
+Tracing azimuthal beam  279    124.75
+Tracing azimuthal beam  280    124.88
+Tracing azimuthal beam  281    125.00
+Tracing azimuthal beam  282    125.12
+Tracing azimuthal beam  283    125.25
+Tracing azimuthal beam  284    125.37
+Tracing azimuthal beam  285    125.50
+Tracing azimuthal beam  286    125.62
+Tracing azimuthal beam  287    125.75
+Tracing azimuthal beam  288    125.88
+Tracing azimuthal beam  289    126.00
+Tracing azimuthal beam  290    126.12
+Tracing azimuthal beam  291    126.25
+Tracing azimuthal beam  292    126.38
+Tracing azimuthal beam  293    126.50
+Tracing azimuthal beam  294    126.63
+Tracing azimuthal beam  295    126.75
+Tracing azimuthal beam  296    126.87
+Tracing azimuthal beam  297    127.00
+Tracing azimuthal beam  298    127.12
+Tracing azimuthal beam  299    127.25
+Tracing azimuthal beam  300    127.37
+Tracing azimuthal beam  301    127.50
+Tracing azimuthal beam  302    127.62
+Tracing azimuthal beam  303    127.75
+Tracing azimuthal beam  304    127.88
+Tracing azimuthal beam  305    128.00
+Tracing azimuthal beam  306    128.12
+Tracing azimuthal beam  307    128.25
+Tracing azimuthal beam  308    128.38
+Tracing azimuthal beam  309    128.50
+Tracing azimuthal beam  310    128.62
+Tracing azimuthal beam  311    128.75
+Tracing azimuthal beam  312    128.88
+Tracing azimuthal beam  313    129.00

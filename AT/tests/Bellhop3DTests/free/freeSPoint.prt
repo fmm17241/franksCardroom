@@ -1,0 +1,45 @@
+ _________________________________________________
+
+ SCOOTER-Free space                                                              
+ Nominal Frequency =   5.000    Hz
+ NMedia    =   1
+
+
+     N2-Linear approximation to SSP
+     Attenuation units: dB/mkHz
+
+
+   z (m)     alphaR (m/s)   betaR  rho (g/cm^3)  alphaI     betaI
+
+     ACOUSTO-ELASTIC half-space
+      0.00      1500.00      0.00     1.00       0.0000    0.0000
+
+       ( # mesh points =  1500  RMS roughness =   0.00     m )
+      0.00      1500.00      0.00     1.00       0.0000    0.0000
+   5000.00      1500.00      0.00     1.00       0.0000    0.0000
+
+                              ( RMS roughness =   0.00     m )
+     ACOUSTO-ELASTIC half-space
+   5000.00      1500.00      0.00     1.00       0.0000    0.0000
+
+ cLow =   500.00     m/s      cHigh =  0.10000E+31 m/s
+ RMax =   100.00     km
+
+ __________________________________________________________________________
+
+ Number of Source   depths, Sz =            1
+ Source   depths, Sz (m)
+   3000.00    
+
+
+ __________________________________________________________________________
+
+ Number of Receiver depths, Rz =          501
+ Receiver depths, Rz (m)
+   0.00000       10.0000       20.0000       30.0000       40.0000    
+   50.0000       60.0000       70.0000       80.0000       90.0000    
+          ... 
+   5000.00    
+
+ Nk =         4000
+ CPU Time:     0.26562    s   ---cumulative
