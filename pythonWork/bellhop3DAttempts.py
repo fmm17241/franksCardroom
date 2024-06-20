@@ -74,6 +74,11 @@ from mpl_toolkits.mplot3d.axes3d import get_test_data
 from pandas import read_csv
 
 
+#FRANK figuring out what "bathy.txt" looks like, hmhhmhmmhfgfnhndnh
+#Path: C:\Users\fmm17241\OneDrive - University of Georgia\data\bellhopTesting
+#Created a bathy.txt but I want to find an example of one so I can easily model in it.
+
+
 
 data = read_csv('bathy.txt', sep='\s+', header=None, names=['x', 'y', 'depth'])
 
