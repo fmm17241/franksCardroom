@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Jun 13 10:45:34 2024
+Created on Thu Jun 20 10:23:52 2024
 
 @author: fmm17241
 """
+
 import os
 
+
 def wilddir(datadir=None, string=None):
+
     """
     Creates a list of files ending with the given string in the specified directory.
     Pads the filenames with trailing blanks (spaces) to match the length of the longest filename.
@@ -50,11 +53,29 @@ def wilddir(datadir=None, string=None):
     return files, Dout, nfile
 
 
+##########################################################################################################
 
-os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\Glider\Data\nbdasc\Test")
+def get_last_file_path(datadir):
+    files = [f for f in os.listdir(datadir) if os.path.isfile(os.path.join(datadir, f))]
+    if not files:
+        raise FileNotFoundError("No files found in the directory.")
+    files.sort()  # Sort files if necessary, depends on how "last" is defined
+    last_file = files[-1]  # Get the last file
+    return os.path.join(datadir, last_file)
 
-files, Dout, nfile = wilddir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\Glider\Data\nbdasc\Test", '.nbdasc')
-for file in files:
-    print(file)
+##########################################################################################################
 
+def extract_column(dstruct, label):
+    if 'varlabs' not in dstruct or 'data' not in dstruct:
+        raise ValueError("The dictionary does not contain 'varlabs' or 'data' keys.")
+    
+    if label not in dstruct['varlabs']:
+        raise ValueError(f"Label '{label}' not found in 'varlabs'.")
 
+    # Find the index of the label in 'varlabs'
+    index = dstruct['varlabs'].index(label)
+    
+    # Extract the corresponding column from 'data'
+    column = [row[index] for row in dstruct['data']]
+    
+    return column

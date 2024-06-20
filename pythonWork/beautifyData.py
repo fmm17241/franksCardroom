@@ -5,15 +5,14 @@ Created on Thu Jun 13 11:16:00 2024
 @author: fmm17241
 """
 
-pip install gsw
-
-
 import numpy as np
 import gsw
 from datetime import datetime, timedelta
+from soundSpeed import sound_speed_mackenzie
+
 
 def beautifyData(data):
-    rawTime = extract_column(data,'imestamp')
+    dn = extract_column(data,'imestamp')
     temperature = extract_column(data, 'degc')
     cond = extract_column(data, 's/m')
     rawpressure = extract_column(data, 'bar')
@@ -31,10 +30,10 @@ def beautifyData(data):
 
     # Convert rawTime into datetime style. Checked, same as MatLab.
     base_time = datetime(1970, 1, 1)
-    dt = np.array([base_time + timedelta(seconds=float(rt_i)) for rt_i in rawTime])
+    dt = np.array([base_time + timedelta(seconds=float(rt_i)) for rt_i in dn])
 
     # McKenzie's equation for sound speed (m/s)
     speed = [sound_speed_mackenzie(temperature, salt, depth) for temperature, salt, depth in zip(temperature, salt, depth)]
 
 
-    return dt, temperature, salt, density, depth, pressure, speed
+    return dt, dn, temperature, salt, density, depth, pressure, speed
