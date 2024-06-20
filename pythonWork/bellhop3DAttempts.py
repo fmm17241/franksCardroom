@@ -18,6 +18,8 @@ import matplotlib.pyplot as plt
 import fileManagement
 import gliderDataProcessing
 import arlpy.uwapm as pm
+import stl
+
 # add/change bathy to env
 bathy = [
     [0, 30],    # 30 m water depth at the transmitter
@@ -65,6 +67,7 @@ import scipy
 from matplotlib import cm
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+
 from stl import mesh, Mode
 import matplotlib.tri as mtri
 from mpl_toolkits.mplot3d.axes3d import get_test_data
