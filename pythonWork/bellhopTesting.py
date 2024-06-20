@@ -58,6 +58,49 @@ pm.plot_rays(rays, env=env, width=900)
 rays = pm.compute_rays(env)
 pm.plot_rays(rays, env=env, width=900)
 
+
+
+
+import pandas as pd
+
+sea_state = 3
+# Ambient noise table
+# TODO: Convert to lookup table based on sea_state and scenario.tx_frequency
+an = pd.DataFrame({
+1: [34], # profile at SS1
+2: [39], # profile at SS2
+3: [47], # profile at SS3
+4: [50], # profile at SS4
+5: [52], # profile at SS5
+6: [54]}, # profile at SS6
+index=[20000]) # frequency of profiles in Hz
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import numpy as np
 from scipy.interpolate import griddata
 import scipy.ndimage as ndimage
