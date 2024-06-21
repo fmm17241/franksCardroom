@@ -6,6 +6,9 @@ Created on Thu Jun 20 11:11:29 2024
 """
 #Walking through 2021 intro to bellhop. lol
 
+import os
+import sys
+os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\toolbox\AT\executables")
 import arlpy.uwapm as pm
 import arlpy.plot as plt
 import numpy as np
