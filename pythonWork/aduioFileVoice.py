@@ -28,7 +28,7 @@ audio_files = glob(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\aud
 ipd.Audio(audio_files[0])
 
 
-y, sr = librosa.load(audio_files[2])
+y, sr = librosa.load(audio_files[1])
 print(f'y: {y[:10]}')
 print(f'shape y: {y.shape}')
 print(f'sr: {sr}')
