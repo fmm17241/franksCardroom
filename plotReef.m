@@ -95,7 +95,7 @@ title('Acoustic Array')
 exportgraphics(gcf,'acousticArray.png');
 
 
-distances(1) = lldistkm(mooredGPS(5,:),mooredGPS(10,:))
+distances(1) = lldistkm(mooredGPS(4,:),mooredGPS(15,:))
 distances(1) = lldistkm(mooredGPS(4,:),mooredGPS(5,:))
 
 

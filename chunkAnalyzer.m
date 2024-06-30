@@ -94,7 +94,7 @@ cycleTime2 = cycleTime;
 
 
 for COUNT = 1:length(receiverData)
-    noiseDT{COUNT} = datetime(receiverData{1,COUNT}.avgNoise(:,1),'convertfrom','datenum');
+    noiseDT{COUNT} = datetime(receiverData{1,COUNT}.Noise(:,1),'convertfrom','datenum');
     noiseDT{COUNT}.TimeZone = 'UTC';
 end
 
@@ -111,13 +111,13 @@ end
 for COUNT = 1:length(receiverData)
     for PT = 1:length(chunkTime)
         % Detections, chose transceivers above
-        indexDet = isbetween(hourlyDetections{COUNT}.time,...
+        indexDet = isbetween(receiverData{COUNT}.DT,...
              chunkTime{PT}(1),chunkTime{PT}(2));
-        cStructure{COUNT}{PT}.detections = hourlyDetections{COUNT}(indexDet,:);
+        cStructure{COUNT}{PT}.detections = receiverData{COUNT}.HourlyDets(indexDet,:);
     
         % Tides for time period
         indexTide = isbetween(tideDT,chunkTime{PT}(1),chunkTime{PT}(2));
-        cStructure{COUNT}{PT}.tides = timetable(tideDT(indexTide),rotUtide(COUNT,indexTide)',rotVtide(COUNT,indexTide)');
+        cStructure{COUNT}{PT}.tides = timetable(tideDT(indexTide),crossshore(COUNT,indexTide)',alongshore(COUNT,indexTide)');
         cStructure{COUNT}{PT}.tides = cStructure{COUNT}{PT}.tides(1:2:end,:);
         cStructure{COUNT}{PT}.tides.Properties.VariableNames = {'XShore','AlongShore'}';
         
