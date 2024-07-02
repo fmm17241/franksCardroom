@@ -84,13 +84,21 @@ plt.title('Grays Reef Soundscape')
 
 
 
+##########################################################################
+#FM 7/2/2024 Using filtered data from Raven Lite, bandwidth (14-24 kHz)
+# Attempting to find peaks in the waveform data to identify snapping shrimp snap rate and frequency
+import os
+os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\audioFiles")
+         
+import numpy as np
+import pandas as pd
 
+# Load data 
+data = pd.read_csv('cropGR.Waveform 1.samples.csv')
 
-
-
-
-
-
+# Assuming the data has two columns: 'time' and 'amplitude'
+time = data['time']
+amplitude = data['amplitude']
 
 
 
