@@ -3,35 +3,21 @@
 buildReceiverData
 
 clearvars index
-for k = 1:length(receiverData)
-    indexDay{k} = receiverData{k}.windSpd > 6 & receiverData{k}.daytime ==1;
-    indexNight{k} = receiverData{k}.windSpd > 6 & receiverData{k}.daytime ==0;
-
-
-end
-
-
-
+% FM now trying to find times with high winds, along with 4 hours before
+% and after these times to compare the difference in noise.
 for k = 1:length(receiverData)
     % Find high wind events during day and night
-    indexDay{k} = receiverData{k}.windSpd > 6 & receiverData{k}.daytime == 1;
-    indexNight{k} = receiverData{k}.windSpd > 6 & receiverData{k}.daytime == 0;
+    index{k} = receiverData{k}.windSpd > 6;
     
     % Initialize logical arrays for hours before and after
-    before4HoursIndexDay{k} = false(size(indexDay{k}));
-    after4HoursIndexDay{k} = false(size(indexDay{k}));
-    before4HoursIndexNight{k} = false(size(indexNight{k}));
-    after4HoursIndexNight{k} = false(size(indexNight{k}));
+    before4HoursIndex{k} = false(size(index{k}));
+    after4HoursIndex{k} = false(size(index{k}));
 
     % Shift indices to find 4 hours before and after high wind events
     for i = 1:4
-        if length(indexDay{k}) > i
-            before4HoursIndexDay{k}(i+1:end) = before4HoursIndexDay{k}(i+1:end) | indexDay{k}(1:end-i);
-            after4HoursIndexDay{k}(1:end-i) = after4HoursIndexDay{k}(1:end-i) | indexDay{k}(i+1:end);
-        end
-        if length(indexNight{k}) > i
-            before4HoursIndexNight{k}(i+1:end) = before4HoursIndexNight{k}(i+1:end) | indexNight{k}(1:end-i);
-            after4HoursIndexNight{k}(1:end-i) = after4HoursIndexNight{k}(1:end-i) | indexNight{k}(i+1:end);
+        if length(index{k}) > i
+            before4HoursIndex{k}(i+1:end) = before4HoursIndex{k}(i+1:end) | index{k}(1:end-i);
+            after4HoursIndex{k}(1:end-i) = after4HoursIndex{k}(1:end-i) | index{k}(i+1:end);
         end
     end
 end
@@ -54,8 +40,11 @@ title('Noise')
 ax2 = nexttile()
 plot(receiverData{4}.DT,receiverData{4}.windSpd)
 hold on
-scatter(receiverData{4}.DT(indexDay{4}),receiverData{4}.windSpd(indexDay{4}),'r')
-scatter(receiverData{4}.DT(indexNight{4}),receiverData{4}.windSpd(indexNight{4}),'b')
+scatter(receiverData{4}.DT(index{4}),receiverData{4}.windSpd(index{4}),'r')
+% scatter(receiverData{4}.DT(before4HoursIndex{4}),receiverData{4}.windSpd(before4HoursIndex{4}),'k')
+% scatter(receiverData{4}.DT(after4HoursIndex{4}),receiverData{4}.windSpd(after4HoursIndex{4}),'g')
+
+
 title('Windspeed')
 
 ax3 = nexttile()
