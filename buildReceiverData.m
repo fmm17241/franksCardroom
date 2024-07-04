@@ -273,7 +273,7 @@ receiverData{13}= receiverData{13}(17:9373,:);
 
 
 figure()
-tiledlayout(3,1,'tileSpacing','compact')
+tiledlayout(4,1,'tileSpacing','compact')
 
 ax1 = nexttile()
 hold on
@@ -291,25 +291,17 @@ hold on
 for k = 1:length(receiverData)
 plot(receiverData{k}.DT,receiverData{k}.Temp)
 end
-plot(receiverData{4}.DT,receiverData{4}.surfaceTemp,'k','LineWidth',3)
-title('Temperatures')
+% plot(receiverData{4}.DT,receiverData{4}.surfaceTemp,'k','LineWidth',3)
+title('Temperature')
 % 
-% ax4 = nexttile()
-% plot(receiverData{4}.DT,receiverData{4}.windDir)
-% title('WindDir')
-% yline(33,'label','UPWELLING')
-% yline(213,'label','DOWNWELLING')
-% yline(123,'label','OFFSHORE')
-% yline(303,'label','ONSHORE')
+ax4 = nexttile()
+for k = 1:length(receiverData)
+plot(receiverData{k}.DT,receiverData{k}.HourlyDets)
+end
+title('Detections')
 
 
-linkaxes([ax1,ax2,ax3],'x')
-
-
-
-
-
-
+linkaxes([ax1,ax2,ax3,ax4],'x')
 
 
 
