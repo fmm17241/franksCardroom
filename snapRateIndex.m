@@ -35,3 +35,44 @@ for k = 1:length(receiverData)
         end
     end
 end
+
+
+%%
+
+
+figure()
+tiledlayout(4,1,'tileSpacing','compact')
+
+ax1 = nexttile()
+hold on
+for k = 1:length(receiverData)
+plot(receiverData{k}.DT,receiverData{k}.Noise)
+
+end
+title('Noise')
+
+ax2 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.windSpd)
+hold on
+scatter(receiverData{4}.DT(indexDay{4}),receiverData{4}.windSpd(indexDay{4}),'r')
+scatter(receiverData{4}.DT(indexNight{4}),receiverData{4}.windSpd(indexNight{4}),'b')
+title('Windspeed')
+
+ax3 = nexttile()
+hold on
+for k = 1:length(receiverData)
+plot(receiverData{k}.DT,receiverData{k}.Temp)
+end
+% plot(receiverData{4}.DT,receiverData{4}.surfaceTemp,'k','LineWidth',3)
+title('Temperature')
+% 
+ax4 = nexttile()
+for k = 1:length(receiverData)
+plot(receiverData{k}.DT,receiverData{k}.HourlyDets)
+end
+title('Detections')
+
+
+linkaxes([ax1,ax2,ax3,ax4],'x')
+
+
