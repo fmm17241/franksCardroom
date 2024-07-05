@@ -178,6 +178,8 @@ for i = 1:size(eventPeriods, 1)
     for k = 4
         plot(receiverData{k}.DT, receiverData{k}.crossShore);
     end
+    hold on
+    yline(0)
     title('Cross-Shore Tide')
     xlim(xLimits)
     % ylim(ylimTemp)
