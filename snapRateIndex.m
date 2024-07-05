@@ -61,7 +61,7 @@ highWindIndex = receiverData{4}.windSpd > 8;
 sustainedHighWindIndex = false(size(highWindIndex));
 
 % Define the window size (more than 4 hours means at least 5 consecutive hours)
-windowSize = 5;
+windowSize = 3;
 
 % Check for sustained high winds
 for i = 1:(length(highWindIndex) - windowSize + 1)
@@ -143,7 +143,7 @@ ylimDets  = [0 10];
 
 for i = 1:size(eventPeriods, 1)
     figure()
-    tiledlayout(4,1,'TileSpacing','compact')
+    tiledlayout(5,1,'TileSpacing','compact')
     
     % Determine the x-axis limits
     if ~isempty(eventPeriods{i, 1})
@@ -171,8 +171,19 @@ for i = 1:size(eventPeriods, 1)
     xlim(xLimits)
     ylim(ylimWind)
 
-    % Plot Temperature
+    % Plot Tide
     ax3 = nexttile();
+    hold on
+    % for k = 1:length(receiverData)
+    for k = 4
+        plot(receiverData{k}.DT, receiverData{k}.crossShore);
+    end
+    title('Cross-Shore Tide')
+    xlim(xLimits)
+    % ylim(ylimTemp)
+
+    % Plot Temperature
+    ax4 = nexttile();
     hold on
     % for k = 1:length(receiverData)
     for k = 4
@@ -183,7 +194,7 @@ for i = 1:size(eventPeriods, 1)
     % ylim(ylimTemp)
 
     % Plot Detections
-    ax4 = nexttile();
+    ax5 = nexttile();
     hold on
     % for k = 1:length(receiverData)
     for k = 4
@@ -194,7 +205,7 @@ for i = 1:size(eventPeriods, 1)
     ylim(ylimDets)
 
     % Link axes
-    linkaxes([ax1, ax2, ax3, ax4], 'x');
+    linkaxes([ax1, ax2, ax3, ax4, ax5], 'x');
 end
 
 
