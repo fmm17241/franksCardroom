@@ -51,6 +51,7 @@ clearvars index
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 % Define the datetime array (assuming hourly data)
 timeArray = receiverData{4}.DT; % This should be an array of datetime objects
+windSpdArray = receiverData{4}.windSpd;
 
 % Initialize a cell array to store the event periods
 eventPeriods = {};
@@ -101,6 +102,7 @@ for i = 1:length(startIndices)
         eventPeriods{end+1, 1} = [];
     end
     eventPeriods{end, 2} = timeArray(startIndices(i):endIndices(i));
+
     if ~isempty(afterPeriod) && afterPeriod(1) <= length(timeArray)
         eventPeriods{end, 3} = timeArray(afterPeriod);
     else
