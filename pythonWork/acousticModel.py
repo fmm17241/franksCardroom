@@ -30,7 +30,7 @@ bathy = [
     [200, 17],    # 20 m water depth at the transmitter    
     [300, 17],  # 15 m water depth 300 m away
     [350, 18],  # 15 m water depth 300 m away
-    [450, 20]  # 20 m water depth at 600 m
+    [600, 20]  # 20 m water depth at 600 m
 ]
 
 #Changes soundspeed profile
@@ -44,14 +44,14 @@ ssp = [
 
 #Creates new environment, accounting for change in SSP and bathy, then prints & plots. This is for transmission loss.
 env = pm.create_env2d(
-    frequency=600,
-    rx_range= 450,
+    frequency=69000,
+    rx_range= 600,
     rx_depth= 18.5,
     depth=bathy,
     soundspeed=ssp,
     bottom_soundspeed=1450,
     bottom_density=1200,
-    bottom_absorption=0.0,
+    bottom_absorption=10.0,
     tx_depth=13.5,
 )
 pm.print_env(env)
@@ -66,6 +66,10 @@ pm.plot_rays(rays, env=env,width=900,title='Eigenray Analysis: Flat Surface')
 #Computes the arrival time of rays from T to R
 arrivals = pm.compute_arrivals(env)
 pm.plot_arrivals(arrivals, width=500, title='Arrival Timing: Flat Surface')
+column_to_export = ['tx_depth','rx_depth','time_of_arrival','arrival_amplitude','surface_bounces','bottom_bounces']
+os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\bellhopTesting")
+arrivals.to_csv('output.csv',columns=column_to_export,index=False)
+
 
 pm.plot_arrivals(arrivals, width=500, ylim=(0,0.0004), title='Arrival Timing: Flat Surface')
 
@@ -80,58 +84,23 @@ target_dir = (r"C:/Users/fmm17241/OneDrive - University of Georgia/data/bellhopT
 os.chdir(target_dir)
 arrivals.to_csv('output.csv',index=False)
 os.chdir(original_dir)
-#############
-#Changes the surface, wave motion
-#surface = np.array([[r, 0.5+0.5*np.sin(2*np.pi*0.005*r)] for r in np.linspace(0,450,451)])
-surface = np.array([[r, 0.5+0.5*np.sin(10*np.pi*0.002*r)] for r in np.linspace(0,450,451)])
-
-#Creates new environment, accounting for change in SSP and bathy, then prints & plots. This is for transmission loss.
-env = pm.create_env2d(
-    frequency=600,
-    rx_range= 450,
-    rx_depth= 18.5,
-    depth=bathy,
-    soundspeed=ssp,
-    bottom_soundspeed=1450,
-    bottom_density=1200,
-    bottom_absorption=0.0,
-    tx_depth=13.5,
-    surface = surface
-
-)
-pm.print_env(env)
-pm.plot_env(env)
-
-
-
-rays = pm.compute_eigenrays(env)
-pm.plot_rays(rays, env=env,width=900,title='Eigenray Analysis: Wavy Surface')
-
-#Computes the arrival time of rays from T to R
-arrivals = pm.compute_arrivals(env)
-pm.plot_arrivals(arrivals, width=500,title='Arrival Timing: Wavy Surface')
-
-#Table of arrival times
-arrivals[['time_of_arrival', 'angle_of_arrival', 'surface_bounces', 'bottom_bounces']]
-
-arrivalsWavy = arrivals
 
 ###################
 #Changes the surface, wave motion
 #This is different type of wave
 #surface = np.array([[r, 0.5+0.5*np.sin(2*np.pi*0.005*r)] for r in np.linspace(0,450,451)])
-surface = np.array([[r, 2.0+2.0*np.sin(10*np.pi*0.002*r)] for r in np.linspace(0,450,451)])
-
+surface = np.array([[r, 2.0+2.0*np.sin(10*np.pi*0.002*r)] for r in np.linspace(0,600,601)])
+os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\toolbox\AT\executables")
 #Creates new environment, accounting for change in SSP and bathy, then prints & plots. This is for transmission loss.
 env = pm.create_env2d(
-    frequency=600,
-    rx_range= 450,
+    frequency=69000,
+    rx_range= 600,
     rx_depth= 18.5,
     depth=bathy,
     soundspeed=ssp,
     bottom_soundspeed=1450,
     bottom_density=1200,
-    bottom_absorption=0.0,
+    bottom_absorption=10.0,
     tx_depth=13.5,
     surface = surface,
     surface_interp = 'curvilinear'
@@ -150,6 +119,9 @@ pm.plot_arrivals(arrivals, width=500, title='Arrival Timing: Higher Wavy Surface
 
 #Table of arrival times
 arrivals[['time_of_arrival', 'angle_of_arrival', 'surface_bounces', 'bottom_bounces']]
+column_to_export = ['tx_depth','rx_depth','time_of_arrival','arrival_amplitude','surface_bounces','bottom_bounces']
+os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\bellhopTesting")
+arrivals.to_csv('output2.csv',columns=column_to_export,index=False)
 
 arrivalsVeryWavy = arrivals
 
