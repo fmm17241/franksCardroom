@@ -137,6 +137,7 @@ end
 fclose(fid);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\windEventPlots'
 
 ylimNoise = [400 800];
 ylimWind  = [0 14];
@@ -210,7 +211,13 @@ for i = 1:size(eventPeriods, 1)
 
     % Link axes
     linkaxes([ax1, ax2, ax3, ax4, ax5], 'x');
+
+
+    filename = sprintf('figure_%d.png', i);
+
+    saveas(gcf,filename)
 end
+close all
 
 
 

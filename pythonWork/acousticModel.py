@@ -17,6 +17,7 @@ os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\toolbox\AT\ex
 #Import
 import arlpy.uwapm as pm
 import arlpy.plot as plt
+import matplotlib.pyplot as plt2
 import numpy as np
 import pandas as pd
 
@@ -64,15 +65,21 @@ pm.plot_rays(rays, env=env,width=900,title='Eigenray Analysis: Flat Surface')
 
 #Computes the arrival time of rays from T to R
 arrivals = pm.compute_arrivals(env)
-pm.plot_arrivals(arrivals, width=500,title='Arrival Timing: Flat Surface')
+pm.plot_arrivals(arrivals, width=500, title='Arrival Timing: Flat Surface')
+
+pm.plot_arrivals(arrivals, width=500, ylim=(0,0.0004), title='Arrival Timing: Flat Surface')
+
+pm.plot_arrivals(arrivals=arrivals, dB=False, color='blue', width=500, ylim=[0, 1], title='Arrival Timing: Flat Surface')
 
 #Table of arrival times
 arrivals[['time_of_arrival', 'angle_of_arrival', 'surface_bounces', 'bottom_bounces']]
 
 arrivalsFlat = arrivals
-
-
-
+original_dir = os.getcwd()
+target_dir = (r"C:/Users/fmm17241/OneDrive - University of Georgia/data/bellhopTesting/arrivalOutputs/")
+os.chdir(target_dir)
+arrivals.to_csv('output.csv',index=False)
+os.chdir(original_dir)
 #############
 #Changes the surface, wave motion
 #surface = np.array([[r, 0.5+0.5*np.sin(2*np.pi*0.005*r)] for r in np.linspace(0,450,451)])
@@ -139,7 +146,7 @@ pm.plot_rays(rays, env=env,width=900,title='Eigenray Analysis: Higher Wavy Surfa
 
 #Computes the arrival time of rays from T to R
 arrivals = pm.compute_arrivals(env)
-pm.plot_arrivals(arrivals, width=500,title='Arrival Timing: Higher Wavy Surface')
+pm.plot_arrivals(arrivals, width=500, title='Arrival Timing: Higher Wavy Surface')
 
 #Table of arrival times
 arrivals[['time_of_arrival', 'angle_of_arrival', 'surface_bounces', 'bottom_bounces']]
