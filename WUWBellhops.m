@@ -126,3 +126,121 @@ title('Beam Density Analysis: # of Rays Present');
 % change font size for tick and x/y labels:
 % set(gca,'FontSize',14)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Reworking the figure to avoid subaxis, instead using tiledlayout
+
+rr = 5; cc = 8; 
+fig = figure();
+tiledlayout(rr,cc,'TileSpacing','compact')
+% set(gcf,'Position',[300 100 1000 700])
+set(gcf,'Position',[300 100 1000 700])
+% CA: I changed the figure window width to 800 but the spacing in the code
+% below works for 100 also
+ax1 = nexttile([1,2])
+% s1=subaxis(rr,cc,1:2,'MarginTop',0.04,'MarginLeft',0.06,'MarginRight',0.03,'SpacingHoriz',0.01,'SpacingVert',0.04);
+hold on
+plotssp('Mar28Late','k')
+ticks = [1513.5 1515.5 1517.5];
+xticks(ticks)
+% xlabel('SSP (m/s)');
+xlim([1513 1518]);
+title('Sound Speed Profiles','FontSize',08);
+% set(gca,'FontSize',08)
+xlabel('');
+ylabel('Depth (m)');
+
+
+% s2=subaxis(rr,cc,3:8);
+ax2 = nexttile([1,6])
+bellhop('Mar28Late')
+plotray('Mar28Late')
+ylim([0 17]);
+xlim([0 2000]);
+xticks([0 500 1000 1500 2000])
+xticklabels({0 '500m' '1km' '1.5km' '2km'})
+% ylabel('Depth (m)');
+yticks('')
+set(gca,'YTickLabel',[],'XTickLabel',[]);
+% xtickangle(10);
+title('A) March');
+set(gca,'FontSize',11);
+
+
+ax3 = nexttile([1,2])
+plotssp('SpringMidnight','b')
+ylabel('Depth (m)');
+xlabel('');
+xlim([1521.25 1523.9]);
+ticks = [1521.55 1522.55 1523.55];
+xticks(ticks);
+% title('B) April');
+
+
+ax4 = nexttile([1,6])
+hold on
+bellhop('SpringMidnight')
+plotray('SpringMidnight')
+ylim([0 16.5]);
+xlim([0 2000]);
+xticks([0 500 1000 1500 2000]);
+set(gca,'YTickLabel',[],'XTickLabel',[]);
+% xtickangle(10);
+yticks('')
+title('B) April');
+set(gca,'FontSize',11);
+
+
+% s5=subaxis(rr,cc,17:18);
+ax5 = nexttile([1,2])
+plotssp('Nov24Afternoon','r');
+xlim([1517 1519]);
+% xlabel('Sound Speed (m/s');
+xlabel('');
+ylabel('Depth(m)');
+ticks = [1517.25 1518 1518.75];
+xticks(ticks);
+% title('C) November');
+
+
+% s6=subaxis(rr,cc,19:24);
+ax6 = nexttile([1,6])
+bellhop('Nov24Afternoon');
+plotray('Nov24Afternoon')
+ylim([0 17]);
+xlim([0 2000]);
+set(gca,'YTickLabel',[]);
+xticks([0 500 1000 1500 2000])
+xticklabels({0 '0.5km' '1km' '1.5km' '2km'})
+% xlabel('Distance Traveled')
+yticks('')
+title('C) November');
+set(gca,'FontSize',11);
+
+
+% s7 = subaxis(rr,cc,[25:26 33:34],'MarginBottom',0.1,'MarginTop',0.12,'MarginRight',0.14);
+ax7 = nexttile([2,2])
+hold on
+plotssp('Mar28Late','k')
+plotssp('SpringMidnight','b')
+plotssp('Nov24Afternoon','r');
+title('SSP Comparison');
+xlim([1512 1525]);
+xticks([1514 1518 1523]);
+
+
+
+% s8 = subaxis(rr,cc,[27:32 35:40],'MarginBottom',0.1,'MarginTop',0.12,'MarginRight',0.03);
+ax8 = nexttile([2,6])
+hold on
+scatter(gridpoints,sumRays,'k')
+scatter(gridpoints,sumRays2,'b');
+scatter(gridpoints,sumRays3,'r');
+set(gca,'Yscale','log')
+xlabel('Distance (m)');
+% ylabel('# of Rays Present');
+ylabel('');
+
+xticks([0 200 400 600 800 1000 1200 1400 1600 1800 2000]);
+xtickangle(45);
+title('Beam Density Analysis: # of Rays Present');
+
+saveas(fig,'WUWBDA')
