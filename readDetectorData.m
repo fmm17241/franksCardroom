@@ -20,36 +20,64 @@ totalSnaps   =  [];
 for k = 1:length(audioFiles)                %Loop to process each file
    
     file = audioFiles(k).name;
-    fid = fopen(file, 'rt');
+
+    % Extract the 12-digit number before ".wav..."
+    match = regexp(file, '(\d{12})\.wav', 'tokens');
     
-    while true
-        line =fgetl(fid);
-        if ~ischar(line)                %If the lines empty, done, move to next file
-            fclose(fid);
-            break;
-        end
+    if ~isempty(match)
+        % Convert the matched string to a datetime if necessary
+        numStr = match{1}{1};
+        disp(['Found number: ', numStr]);
         
-      if(contains(line,'STS'))     %If line contains STS, move to next line, they're empty.
-          continue;
-      end
-      Mydata=strsplit(line,',');   %split the data by the commas
-      receiver{end+1}=Mydata{1};   %Put data in previously made bins
-      number{end+1} = Mydata{2};
-      usedatetime{end+1}=Mydata{3};
-      tag{end+1} = Mydata{4};
-      id{end+1}= Mydata{5};
-      pound{end+1}= Mydata{6};
-    end   
-    counter = counter +1
+        % Example: Convert to datetime if the number represents a timestamp
+        dt = datetime(numStr, 'InputFormat', 'yyMMddHHmmss');
+        startDT = [startDT; dt];
+    else
+        disp(['No match found in file name: ', file]);
+
+    end
 end
-receiver(1)=[];                    %Erase first value of all, its empty
-number(1)=[];
-usedatetime(1)=[];
-tag(1)=[];
-id(1)=[];
-pound(1)=[];
+
+
+rawFile = cell(1,length(audioFiles));
+snapStartDT = cell(1,length(audioFiles));
+snapEndDT = cell(1,length(audioFiles));
+for k = 1:length(audioFiles)
+    rawFile{k} = readtable(audioFiles(k).name)
+    rawFile{k}.Properties.VariableNames = {'Detection','View','Number','Channel','BeginSecs','EndSecs','LowFreq','HighFreq'}
+    
+% Initialize datetime arrays for each file
+    snapStartDT{k} = NaT(size(rawFile{k}.BeginSecs));
+    snapEndDT{k} = NaT(size(rawFile{k}.EndSecs));
+    
+    % Convert BeginSecs and EndSecs to datetime
+    for i = 1:length(rawFile{k}.BeginSecs)
+        snapStartDT{k}(i) = startDT(k) + seconds(rawFile{k}.BeginSecs(i));
+        snapEndDT{k}(i) = startDT(k) + seconds(rawFile{k}.EndSecs(i));
+    end
+end
 
 
 
-%
-testing = readtable('sanctsound_audio_gr01_sanctsound_gr01_04_audio_SanctSound_GR01_04_5421_200129231235.wav.Table01.txt')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
