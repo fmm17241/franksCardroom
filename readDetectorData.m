@@ -39,6 +39,8 @@ for k = 1:length(audioFiles)                %Loop to process each file
 end
 
 
+
+
 rawFile = cell(1,length(audioFiles));
 snapStartDT = cell(1,length(audioFiles));
 snapEndDT = cell(1,length(audioFiles));
@@ -58,6 +60,28 @@ for k = 1:length(audioFiles)
 end
 
 
+
+% Assume snapStartDT is a cell array of datetime arrays
+% Flatten all datetime arrays into one array
+allSnaps = vertcat(snapStartDT{:});
+
+% Create an array of hour bins from the earliest to the latest datetime
+startHour = dateshift(min(allSnaps), 'start', 'hour');
+endHour = dateshift(max(allSnaps), 'start', 'hour') + hours(1);
+hourBins = startHour:hours(1):endHour;
+
+% Initialize an array to count snaps per hour
+snapsPerHour = zeros(size(hourBins));
+
+% Count the number of snaps in each hour bin
+for i = 1:length(hourBins)-1
+    snapsPerHour(i) = sum(allSnaps >= hourBins(i) & allSnaps < hourBins(i+1));
+end
+
+% Display the results
+for i = 1:length(hourBins)-1
+    fprintf('Hour starting at %s: %d snaps\n', datestr(hourBins(i)), snapsPerHour(i));
+end
 
 
 
