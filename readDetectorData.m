@@ -46,16 +46,16 @@ snapStartDT = cell(1,length(audioFiles));
 snapEndDT = cell(1,length(audioFiles));
 for k = 1:length(audioFiles)
     rawFile{k} = readtable(audioFiles(k).name)
-    rawFile{k}.Properties.VariableNames = {'Detection','View','Number','Channel','BeginSecs','EndSecs','LowFreq','HighFreq'}
+    % rawFile{k}.Properties.VariableNames = {'Detection','View','Number','Channel','BeginSecs','EndSecs','LowFreq','HighFreq','RMSamp','F-RMSamp','MaxAmp','PeakFreq','PWD'}
     
 % Initialize datetime arrays for each file
-    snapStartDT{k} = NaT(size(rawFile{k}.BeginSecs));
-    snapEndDT{k} = NaT(size(rawFile{k}.EndSecs));
+    snapStartDT{k} = NaT(size(rawFile{k}.BeginTime_s_));
+    snapEndDT{k} = NaT(size(rawFile{k}.EndTime_s_));
     
     % Convert BeginSecs and EndSecs to datetime
-    for i = 1:length(rawFile{k}.BeginSecs)
-        snapStartDT{k}(i) = startDT(k) + seconds(rawFile{k}.BeginSecs(i));
-        snapEndDT{k}(i) = startDT(k) + seconds(rawFile{k}.EndSecs(i));
+    for i = 1:length(rawFile{k}.BeginTime_s_)
+        snapStartDT{k}(i) = startDT(k) + seconds(rawFile{k}.BeginTime_s_(i));
+        snapEndDT{k}(i) = startDT(k) + seconds(rawFile{k}.EndTime_s_(i));
     end
 end
 
@@ -83,7 +83,33 @@ for i = 1:length(hourBins)-1
     fprintf('Hour starting at %s: %d snaps\n', datestr(hourBins(i)), snapsPerHour(i));
 end
 
+%%
+%Frank needs to edit:
+% Assume rawFile is a cell array of tables read from each file
+waveformData = [];
+spectrogramData = [];
 
+for k = 1:length(rawFile)
+    % Extract the current table
+    dataTable = rawFile{k};
+    
+    % Logical indexing to separate rows by 'View'
+    isWaveform = strcmp(dataTable.View, 'Waveform 1');
+    isSpectrogram = strcmp(dataTable.View, 'Spectrogram 1');
+    
+    % Extract Waveform data (X and Y columns)
+    waveformData = [waveformData; dataTable(isWaveform, {'Selection','BeginTime_s_', 'EndTime_s_','RMSAmp_U_','F_RMSAmp_U_'})];
+    
+    % Extract Spectrogram data (A and B columns)
+    spectrogramData = [spectrogramData; dataTable(isSpectrogram, {'Selection', 'BeginTime_s_', 'EndTime_s_','PeakFreq_Hz_','PeakPowerDensity_dBFS_Hz_'})];
+end
+
+% Display results for verification
+disp('Waveform Data:');
+disp(waveformData);
+
+disp('Spectrogram Data:');
+disp(spectrogramData);
 
 
 
