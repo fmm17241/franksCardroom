@@ -24,9 +24,9 @@
 
 
 % set some parameters
-glider='franklin'; %glider='saltdawg';
+glider='unit_1091'; %glider='saltdawg';
 
-localdir=['G:\Glider\LegPlanner\'];	% where on your computer you want to write mafiles and plots; copy ec2001.mat here
+localdir=([oneDrive,'Glider\LegPlanner\']);	% where on your computer you want to write mafiles and plots; copy ec2001.mat here
 
 % set some parameters for track spacing, etc. Distances in meters
 givendir= [330]; 		% bearing degrees CW from N, consistent with waypoint reporting from glider
