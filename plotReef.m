@@ -60,7 +60,7 @@ SkiO = [31.988137878676937, -81.0219881445705]
 scatter(SkiO(2),SkiO(1),600,'r','p','filled');
 
 h(1) = plot(nan,nan,'rp','MarkerSize',50,'DisplayName','Skidaway Institute of Oceanography');
-h(2) = plot(nan,nan,'-.k','DisplayName','Gray''s Reef NMS');
+h(2) = plot(nan,nan,'k*','DisplayName','Gray''s Reef NMS');
 legend(h);
 
 % exportgraphics(yes,'GRNMSBigPic5.jpeg');
