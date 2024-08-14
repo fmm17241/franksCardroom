@@ -53,6 +53,7 @@ env = pm.create_env2d(
     bottom_density=1200,
     bottom_absorption=10.0,
     tx_depth=13.5,
+    surface_interp = 'curvilinear'
 )
 pm.print_env(env)
 pm.plot_env(env)
@@ -84,6 +85,8 @@ target_dir = (r"C:/Users/fmm17241/OneDrive - University of Georgia/data/bellhopT
 os.chdir(target_dir)
 arrivals.to_csv('output.csv',index=False)
 os.chdir(original_dir)
+
+
 
 ###################
 #Changes the surface, wave motion
