@@ -56,7 +56,7 @@ windSpdArray = receiverData{4}.windSpd;
 % Initialize a cell array to store the event periods
 eventPeriods = {};
 
-highWindIndex = receiverData{4}.windSpd > 8;
+highWindIndex = receiverData{4}.windSpd > 7;
 
 % Initialize logical arrays for periods of high wind
 sustainedHighWindIndex = false(size(highWindIndex));
@@ -109,6 +109,8 @@ for i = 1:length(startIndices)
         eventPeriods{end, 3} = [];
     end
 end
+
+cd 
 
 % Write the event periods to a text file
 fid = fopen('WindEvents.txt', 'w');
