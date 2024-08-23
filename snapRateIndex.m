@@ -217,7 +217,7 @@ for i = 1:size(eventPeriods, 1)
 
     filename = sprintf('figure_%d.png', i);
 
-    saveas(gcf,filename)
+    % saveas(gcf,filename)
 end
 close all
 
@@ -225,18 +225,6 @@ close all
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-
-
-
-
-
-
-
-
 
 figure()
 tiledlayout(4,1,'tileSpacing','compact')
