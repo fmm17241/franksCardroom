@@ -216,7 +216,7 @@ for i = 1:size(eventPeriods, 1)
 
     filename = sprintf('figure_%d.png', i);
 
-    saveas(gcf,filename)
+    % saveas(gcf,filename)
 end
 close all
 
@@ -225,6 +225,7 @@ close all
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+<<<<<<< HEAD
 
 
 cd 'E:\audioFiles\windEvent2020Apr12'
@@ -263,6 +264,8 @@ plot(T.uniqueHours,T.hourlyCounts);
 
 
 
+=======
+>>>>>>> a03566c032bbf58f5cbead63a896d4153ff0b2dc
 figure()
 tiledlayout(4,1,'tileSpacing','compact')
 
