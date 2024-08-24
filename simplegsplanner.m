@@ -24,7 +24,7 @@
 
 
 % set some parameters
-glider='unit_1091'; %glider='saltdawg';
+glider='pelagia'; %glider='saltdawg';
 
 localdir=([oneDrive,'Glider\LegPlanner\']);	% where on your computer you want to write mafiles and plots; copy ec2001.mat here
 

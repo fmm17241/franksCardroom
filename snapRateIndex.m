@@ -110,8 +110,6 @@ for i = 1:length(startIndices)
     end
 end
 
-cd 
-
 % Write the event periods to a text file
 fid = fopen('WindEvents.txt', 'w');
 for i = 1:size(eventPeriods, 1)
@@ -139,7 +137,8 @@ end
 fclose(fid);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\windEventPlots'
+cd ([oneDrive,'\windEventPlots'])
+
 
 ylimNoise = [400 800];
 ylimWind  = [0 14];
@@ -228,11 +227,37 @@ close all
 
 
 
+cd 'E:\audioFiles\windEvent2020Apr12'
 
 
+windEventSnaps = readtable('april12Amplitude.Detector.selections.txt')
+
+%Frank manually making the DT values
+startTime = datetime(2020,04,12,10,45,32);
+
+secondsColumn = seconds(windEventSnaps.BeginTime_s_);
 
 
+windEventSnaps.DT = startTime + secondsColumn;
+rawSnaps = windEventSnaps.DT;
 
+
+WFindex   = windEventSnaps(1:2:end,:);
+specIndex = windEventSnaps(2:2:end,:);
+
+% FIx
+hourlyTimes = dateshift(rawSnaps, 'start', 'hour');
+
+% Find the unique hours and count occurrences
+[uniqueHours, ~, idx] = unique(hourlyTimes);
+hourlyCounts = accumarray(idx, 1);
+
+% Display the result
+T = table(uniqueHours, hourlyCounts);
+disp(T);
+ figure()
+plot(T.uniqueHours,T.hourlyCounts);
+%%
 
 
 
