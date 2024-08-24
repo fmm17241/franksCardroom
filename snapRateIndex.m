@@ -225,7 +225,6 @@ close all
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-<<<<<<< HEAD
 
 
 cd 'E:\audioFiles\windEvent2020Apr12'
@@ -260,12 +259,6 @@ disp(T);
 plot(T.uniqueHours,T.hourlyCounts);
 %%
 
-
-
-
-
-=======
->>>>>>> a03566c032bbf58f5cbead63a896d4153ff0b2dc
 figure()
 tiledlayout(4,1,'tileSpacing','compact')
 
