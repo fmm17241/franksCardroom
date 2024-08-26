@@ -260,14 +260,16 @@ plot(T.uniqueHours,T.hourlyCounts);
 %%
 
 figure()
-tiledlayout(4,1,'tileSpacing','compact')
+tiledlayout(3,1,'tileSpacing','compact')
+
+% ax1 = nexttile()
+% hold on
+% for k = 1:length(receiverData)
+% plot(receiverData{k}.DT,receiverData{k}.Noise)
 
 ax1 = nexttile()
 hold on
-for k = 1:length(receiverData)
-plot(receiverData{k}.DT,receiverData{k}.Noise)
-
-end
+plot(receiverData{4}.DT,receiverData{4}.Noise,'k')
 title('Noise')
 
 ax2 = nexttile()
@@ -275,20 +277,20 @@ plot(receiverData{4}.DT,receiverData{4}.windSpd)
 hold on
 title('Windspeed')
 
-ax3 = nexttile()
-hold on
-for k = 1:length(receiverData)
-plot(receiverData{k}.DT,receiverData{k}.Temp)
-end
-title('Temperature')
+% ax3 = nexttile()
+% hold on
+% for k = 1:length(receiverData)
+% plot(receiverData{k}.DT,receiverData{k}.Temp)
+% end
+% title('Temperature')
 % 
-ax4 = nexttile()
+ax3 = nexttile()
 for k = 1:length(receiverData)
-plot(receiverData{k}.DT,receiverData{k}.HourlyDets)
+plot(receiverData{k}.DT,receiverData{k}.HourlyDets,'r')
 end
 title('Detections')
 
 
-linkaxes([ax1,ax2,ax3,ax4],'x')
+linkaxes([ax1,ax2,ax3],'x')
 
 
