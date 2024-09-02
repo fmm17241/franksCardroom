@@ -291,53 +291,21 @@ for i = 1:length(snapRateTables)
 
     %Average it by hour, or minute.
     hourSnaps{i} = retime(SnapCountTable{i},'hourly','sum');
+    hourSnaps{i}.Time.TimeZone = 'UTC';
     hourAmp{i} = retime(PeakAmpTable{i},'hourly','mean');
+    hourAmp{i}.Time.TimeZone = 'UTC';
     hourEnergy{i} = retime(EnergyTable{i},'hourly','mean');
+    hourEnergy{i}.Time.TimeZone = 'UTC';
+    %Average it by hour, or minute.
+    minuteSnaps{i} = retime(SnapCountTable{i},'minute','sum');
+    minuteSnaps{i}.Time.TimeZone = 'UTC';
+    minuteAmp{i} = retime(PeakAmpTable{i},'minute','mean');
+    minuteAmp{i}.Time.TimeZone = 'UTC';
+    minuteEnergy{i} = retime(EnergyTable{i},'minute','mean');
+    minuteEnergy{i}.Time.TimeZone = 'UTC';
 end
 
 
-snapCountTable = timetable(snapRateTables{1}.DateTime,snapRateTables{1}.Channel)
-snapCountTable.Properties.VariableNames = {'SnapCount'}
-
-PeakAmpTable = timetable(snapRateTables{1}.DateTime,snapRateTables{1}.PeakAmp_U_)
-PeakAmpTable.Properties.VariableNames = {'PeakAmp'}
-
-EnergyTable = timetable(snapRateTables{1}.DateTime,snapRateTables{1}.Energy_dBFS_)
-EnergyTable.Properties.VariableNames = {'Energy'}
-
-
-minuteSnaps = retime(testTable,'hourly','sum');
-
-
-
-for i = 1
-    minuteSnaps{i} = retime(snapRateTables{i}.channel,'hourly','sum');
-
-end
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-windEventSnaps.DT = startTime + secondsColumn;
-rawSnaps = windEventSnaps.DT;
-
-
-WFindex   = windEventSnaps(1:2:end,:);
-specIndex = windEventSnaps(2:2:end,:);
-
-% FIx
-hourlyTimes = dateshift(rawSnaps, 'start', 'hour');
-
-% Find the unique hours and count occurrences
-[uniqueHours, ~, idx] = unique(hourlyTimes);
-hourlyCounts = accumarray(idx, 1);
-
-% Display the result
-T = table(uniqueHours, hourlyCounts);
-disp(T);
- figure()
-plot(T.uniqueHours,T.hourlyCounts);
-%%
 
 
 
@@ -359,18 +327,29 @@ plot(receiverData{4}.DT,receiverData{4}.windSpd)
 hold on
 title('Windspeed')
 
+% 
 ax3 = nexttile()
 hold on
-for k = 1:length(receiverData)
-plot(receiverData{k}.DT,receiverData{k}.crossShore)
+for i = 1:length(hourSnaps)
+plot(minuteSnaps{i}.Time,minuteSnaps{i}.SnapCount)
 end
-title('XShore Tide')
-% 
+legend({'Mid','High','Low'})
+title('SnapRate')
+
 ax4 = nexttile()
-for k = 1:length(receiverData)
-plot(receiverData{k}.DT,receiverData{k}.HourlyDets,'r')
+hold on
+for i = 1:length(hourAmp)
+    plot(minuteAmp{i}.Time,minuteAmp{i}.PeakAmp)
 end
-title('Detections')
+legend({'Mid','High','Low'})
+title('Peak Amplitude')
+
+
+% ax3 = nexttile()
+% for k = 1:length(receiverData)
+% plot(receiverData{k}.DT,receiverData{k}.HourlyDets,'r')
+% end
+% title('Detections')
 
 
 linkaxes([ax1,ax2,ax3,ax4],'x')
