@@ -279,10 +279,32 @@ snapDates{3}(329981:length(snapRateTables{3}.Selection),1) = datetime(2020,09,30
 
 for i = 1:length(snapRateTables)
     snapRateTables{i}.DateTime = snapDates{i} + snapRateTables{i}.BeginClockTime;
+
+    SnapCountTable{i} = timetable(snapRateTables{i}.DateTime,snapRateTables{i}.Channel)
+    SnapCountTable{i}.Properties.VariableNames = {'SnapCount'}
+    
+    PeakAmpTable{i} = timetable(snapRateTables{i}.DateTime,snapRateTables{i}.PeakAmp_U_)
+    PeakAmpTable{i}.Properties.VariableNames = {'PeakAmp'}
+    
+    EnergyTable{i} = timetable(snapRateTables{i}.DateTime,snapRateTables{i}.Energy_dBFS_)
+    EnergyTable{i}.Properties.VariableNames = {'Energy'}
+
+    %Average it by hour, or minute.
+    hourSnaps{i} = retime(SnapCountTable{i},'hourly','sum');
+    hourAmp{i} = retime(PeakAmpTable{i},'hourly','mean');
+    hourEnergy{i} = retime(EnergyTable{i},'hourly','mean');
 end
 
-testTable = timetable(snapRateTables{1}.DateTime,snapRateTables{1}.Channel,snapRateTables{1}.PeakAmp_U_,snapRateTables{1}.Energy_dBFS_)
-testTable.Properties.VariableNames = {'SnapCount','PeakAmp','Energy'}
+
+snapCountTable = timetable(snapRateTables{1}.DateTime,snapRateTables{1}.Channel)
+snapCountTable.Properties.VariableNames = {'SnapCount'}
+
+PeakAmpTable = timetable(snapRateTables{1}.DateTime,snapRateTables{1}.PeakAmp_U_)
+PeakAmpTable.Properties.VariableNames = {'PeakAmp'}
+
+EnergyTable = timetable(snapRateTables{1}.DateTime,snapRateTables{1}.Energy_dBFS_)
+EnergyTable.Properties.VariableNames = {'Energy'}
+
 
 minuteSnaps = retime(testTable,'hourly','sum');
 
