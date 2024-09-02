@@ -496,7 +496,59 @@ for i = 1:length(snapRateTables)
     minuteEnergy{i}.Time.TimeZone = 'UTC';
 end
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%March 31
+cd ([oneDrive,'\acousticAnalysis\windEvent2020Mar31'])
+dataFiles = dir('*.txt')
+fileNames = {dataFiles.name};
+snapRateTables = cell(1, length(fileNames));
 
+originalDatetime= datetime(2020,03,31,0,0,0);
+
+for i = 1:length(fileNames)
+snapRateTables{i} = readtable(fileNames{i});
+end
+
+snapDates{1}(1:114478,1) = datetime(2020,03,31,0,0,0);
+snapDates{1}(114479:262424,1) = datetime(2020,04,01,0,0,0);
+snapDates{1}(262425:length(snapRateTables{1}.Selection),1) = datetime(2020,04,02,0,0,0);
+
+snapDates{2}(1:35902,1) = datetime(2020,03,31,0,0,0);
+snapDates{2}(35903:81658,1) = datetime(2020,04,01,0,0,0);
+snapDates{2}(81659:length(snapRateTables{2}.Selection),1) = datetime(2020,04,02,0,0,0);
+
+snapDates{3}(1:665870,1) = datetime(2020,03,31,0,0,0);
+snapDates{3}(665871:1499324,1) = datetime(2020,04,01,0,0,0);
+snapDates{3}(1499325:length(snapRateTables{3}.Selection),1) = datetime(2020,04,02,0,0,0);
+
+
+for i = 1:length(snapRateTables)
+    snapRateTables{i}.DateTime = snapDates{i} + snapRateTables{i}.BeginClockTime;
+
+    SnapCountTable{i} = timetable(snapRateTables{i}.DateTime,snapRateTables{i}.Channel)
+    SnapCountTable{i}.Properties.VariableNames = {'SnapCount'}
+    
+    PeakAmpTable{i} = timetable(snapRateTables{i}.DateTime,snapRateTables{i}.PeakAmp_U_)
+    PeakAmpTable{i}.Properties.VariableNames = {'PeakAmp'}
+    
+    EnergyTable{i} = timetable(snapRateTables{i}.DateTime,snapRateTables{i}.Energy_dBFS_)
+    EnergyTable{i}.Properties.VariableNames = {'Energy'}
+
+    %Average it by hour, or minute.
+    hourSnaps{i} = retime(SnapCountTable{i},'hourly','sum');
+    hourSnaps{i}.Time.TimeZone = 'UTC';
+    hourAmp{i} = retime(PeakAmpTable{i},'hourly','mean');
+    hourAmp{i}.Time.TimeZone = 'UTC';
+    hourEnergy{i} = retime(EnergyTable{i},'hourly','mean');
+    hourEnergy{i}.Time.TimeZone = 'UTC';
+    %Average it by hour, or minute.
+    minuteSnaps{i} = retime(SnapCountTable{i},'minute','sum');
+    minuteSnaps{i}.Time.TimeZone = 'UTC';
+    minuteAmp{i} = retime(PeakAmpTable{i},'minute','mean');
+    minuteAmp{i}.Time.TimeZone = 'UTC';
+    minuteEnergy{i} = retime(EnergyTable{i},'minute','mean');
+    minuteEnergy{i}.Time.TimeZone = 'UTC';
+end
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
