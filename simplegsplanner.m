@@ -24,16 +24,16 @@
 
 
 % set some parameters
-glider='pelagia'; %glider='saltdawg';
+glider='unit_1091'; %glider='saltdawg';
 
 localdir=([oneDrive,'Glider\LegPlanner\']);	% where on your computer you want to write mafiles and plots; copy ec2001.mat here
 
 % set some parameters for track spacing, etc. Distances in meters
-givendir= [135]; 		% bearing degrees CW from N, consistent with waypoint reporting from glider
+givendir= [215]; 		% bearing degrees CW from N, consistent with waypoint reporting from glider
 ds=3000;			% distance between waypoints at each bearing (set wrt max waypt abort distance, when_wpt_dist)
 dsoffset=5000;			% distance between waypoints for parallel offset (should be small)
 distoffset=10000;		% offset distance from path
-nseg=10;
+nseg=5;
 
 % note: default set up expects a Gulf Stream like current and poleward motion. If flow direction and/or path changes, 
 % you can change the direction of pathang by changing the sign of pi/2 in the definition of perppathang/velang 
