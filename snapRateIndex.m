@@ -550,10 +550,67 @@ for i = 1:length(snapRateTables)
     minuteEnergy{i}.Time.TimeZone = 'UTC';
 end
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% The Dreaded November 14th
+cd ([oneDrive,'\acousticAnalysis\windEvent2020Nov14'])
+dataFiles = dir('*.txt')
+fileNames = {dataFiles.name};
+snapRateTables = cell(1, length(fileNames));
+
+originalDatetime= datetime(2020,11,14,0,0,0);
+
+for i = 1:length(fileNames)
+snapRateTables{i} = readtable(fileNames{i});
+end
+
+snapDates{1}(1:60306,1) = datetime(2020,11,14,0,0,0);
+snapDates{1}(60307:109148,1) = datetime(2020,11,15,0,0,0);
+snapDates{1}(109149:376378,1) = datetime(2020,11,16,0,0,0);
+snapDates{1}(376379:519430,1) = datetime(2020,11,17,0,0,0);
+snapDates{1}(519431:662738,1) = datetime(2020,11,18,0,0,0);
+snapDates{1}(662739:797650,1) = datetime(2020,11,19,0,0,0);
+snapDates{1}(797651:length(snapRateTables{1}.Selection),1) = datetime(2020,11,20,0,0,0);
+
+snapDates{2}(1:19278,1) = datetime(2020,11,14,0,0,0);
+snapDates{2}(19279:67544,1) = datetime(2020,11,15,0,0,0);
+snapDates{2}(67545:118090,1) = datetime(2020,11,16,0,0,0);
+snapDates{2}(118091:161552,1) = datetime(2020,11,17,0,0,0);
+snapDates{2}(161553:202864,1) = datetime(2020,11,18,0,0,0);
+snapDates{2}(202865:241536,1) = datetime(2020,11,19,0,0,0);
+snapDates{2}(241537:length(snapRateTables{2}.Selection),1) = datetime(2020,11,20,0,0,0);
+
+for i = 1:length(snapRateTables)
+    snapRateTables{i}.DateTime = snapDates{i} + snapRateTables{i}.BeginClockTime;
+
+    SnapCountTable{i} = timetable(snapRateTables{i}.DateTime,snapRateTables{i}.Channel)
+    SnapCountTable{i}.Properties.VariableNames = {'SnapCount'}
+    
+    PeakAmpTable{i} = timetable(snapRateTables{i}.DateTime,snapRateTables{i}.PeakAmp_U_)
+    PeakAmpTable{i}.Properties.VariableNames = {'PeakAmp'}
+    
+    EnergyTable{i} = timetable(snapRateTables{i}.DateTime,snapRateTables{i}.Energy_dBFS_)
+    EnergyTable{i}.Properties.VariableNames = {'Energy'}
+
+    %Average it by hour, or minute.
+    hourSnaps{i} = retime(SnapCountTable{i},'hourly','sum');
+    hourSnaps{i}.Time.TimeZone = 'UTC';
+    hourAmp{i} = retime(PeakAmpTable{i},'hourly','mean');
+    hourAmp{i}.Time.TimeZone = 'UTC';
+    hourEnergy{i} = retime(EnergyTable{i},'hourly','mean');
+    hourEnergy{i}.Time.TimeZone = 'UTC';
+    %Average it by hour, or minute.
+    minuteSnaps{i} = retime(SnapCountTable{i},'minute','sum');
+    minuteSnaps{i}.Time.TimeZone = 'UTC';
+    minuteAmp{i} = retime(PeakAmpTable{i},'minute','mean');
+    minuteAmp{i}.Time.TimeZone = 'UTC';
+    minuteEnergy{i} = retime(EnergyTable{i},'minute','mean');
+    minuteEnergy{i}.Time.TimeZone = 'UTC';
+end
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure()
-tiledlayout(4,1,'tileSpacing','compact')
+tiledlayout(5,1,'tileSpacing','compact')
 
 % ax1 = nexttile()
 % hold on
@@ -570,8 +627,14 @@ plot(receiverData{4}.DT,receiverData{4}.windSpd)
 hold on
 title('Windspeed')
 
-% 
 ax3 = nexttile()
+plot(receiverData{4}.DT,receiverData{4}.crossShore)
+hold on
+yline(0)
+title('CrossShore Tide')
+
+% 
+ax4 = nexttile()
 hold on
 for i = 1:length(hourSnaps)
 plot(minuteSnaps{i}.Time,minuteSnaps{i}.SnapCount)
@@ -579,7 +642,7 @@ end
 legend({'Mid','High','Low'})
 title('SnapRate')
 
-ax4 = nexttile()
+ax5 = nexttile()
 hold on
 for i = 1:length(hourAmp)
     plot(minuteAmp{i}.Time,minuteAmp{i}.PeakAmp)
@@ -595,6 +658,6 @@ title('Peak Amplitude')
 % title('Detections')
 
 
-linkaxes([ax1,ax2,ax3,ax4],'x')
+linkaxes([ax1,ax2,ax3,ax4, ax5],'x')
 
 
