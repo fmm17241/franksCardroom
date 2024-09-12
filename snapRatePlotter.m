@@ -83,24 +83,26 @@ end
 %%
 
 for k = 1:height(windSpeedBins)
-    for ii = 1:length(windSpeedBins{1})
+    for ii = 1:height(windSpeedBins{1})
         windSpeedScenario{k}= subset(windSpeedBins{k}(ii,:),:);
     
-        averageWindSpeedAnnual(COUNT,k) = mean(windSpeedScenario{1,k}.HourlyDets);
+        averageDets(k,ii) = mean(windSpeedScenario{1,k}.HourlyDets);
         noiseCompareAnnual(k) = mean(windSpeedScenario{1,k}.Noise);
         wavesCompareAnnual(k) = mean(windSpeedScenario{1,k}.waveHeight,'omitnan');
         tiltCompareWindAnnual(k) = mean(windSpeedScenario{1,k}.Tilt);
         stratCompareWindAnnual(k) = mean(windSpeedScenario{1,k}.bulkThermalStrat)
+
+        
+    end
 end
 
 
-
 for k = 1:height(windSpeedBins)
-    snapCompare{k,1}            =  snaps(windSpeedBins(k,:));
-    snapCompare{k,2}            =  snaps(windSpeedBins(k,:));
-%
-    avgSnaps{1}(k)  = mean(snapCompare{k,1})
-    avgSnaps{2}(k)  = mean(snapCompare{k,2}) 
+    for ii = 1:height(windSpeedBins{1})
+    snapCompare{k,ii}   =  snaps(windSpeedBins{k}(ii,:));
+    %
+    avgSnaps{k}(ii)  = mean(snapCompare{k,ii})
+    end
 end
 
 
