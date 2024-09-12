@@ -457,48 +457,35 @@ dataFiles = dir('*.txt')
 fileNames = {dataFiles.name};
 snapRateTables = cell(1, length(fileNames));
 
+originalDatetime= datetime(2020,02,28,0,0,0);
+
 for i = 1:length(fileNames)
 snapRateTables{i} = readtable(fileNames{i});
 end
 
-% Initialize a cell array to store the formatted datetime strings
-formattedDates = cell(size(fileNames));
+snapDates{1}(1:7536,1) = datetime(2020,02,28,0,0,0);
+snapDates{1}(7537:58346,1) = datetime(2020,02,29,0,0,0);
+snapDates{1}(58347:length(snapRateTables{1}.Selection),1) = datetime(2020,03,01,0,0,0);
 
-for i = 1:length(fileNames)
-    % Extract the date and time portion from the filename
-    dateStr = regexp(fileNames{i}, '\d{12}', 'match', 'once');
-    
-    % Convert the string to a datetime object
-    if ~isempty(dateStr)
-        % Define the input format of the datetime string
-        dt(i,1) = datetime(dateStr, 'InputFormat', 'yyMMddHHmmss');
-    else
-        % Handle cases where the pattern is not found
-        formattedDates{i} = 'Date not found';
-    end
-end
+snapDates{2}(1:2056,1) = datetime(2020,02,28,0,0,0);
+snapDates{2}(2057:17828,1) = datetime(2020,02,29,0,0,0);
+snapDates{2}(17829:length(snapRateTables{2}.Selection),1) = datetime(2020,03,01,0,0,0);
 
-%Okay, now I have to add seconds.
-for i = 1:length(fileNames)
-snapRateTables{i}.EventDateTime = dt(i) + seconds(snapRateTables{i}.BeginTime_s_);
-snapRateTables{i}.EventDateTime.Format = 'dd-MMM-yyyy HH:mm:ss.SSS';
-end
+snapDates{3}(1:48290,1) = datetime(2020,02,28,0,0,0);
+snapDates{3}(48291:350802,1) = datetime(2020,02,29,0,0,0);
+snapDates{3}(350803:length(snapRateTables{3}.Selection),1) = datetime(2020,03,01,0,0,0);
+
 
 for i = 1:length(snapRateTables)
+    snapRateTables{i}.DateTime = snapDates{i} + snapRateTables{i}.BeginClockTime;
 
-    % Filter rows where the 'View' column contains the string 'Waveform 1'
-    waveFormTable{i} = snapRateTables{i}(contains(snapRateTables{1}.View, 'Waveform 1'), :);
-    
-    % Filter rows where the 'View' column contains the string 'Waveform 1'
-    spectrogramTable{i} = snapRateTables{i}(contains(snapRateTables{1}.View, 'Spectrogram 1'), :);
-
-    SnapCountTable{i} = timetable(snapRateTables{i}.EventDateTime,snapRateTables{i}.Channel)
+    SnapCountTable{i} = timetable(snapRateTables{i}.DateTime,snapRateTables{i}.Channel)
     SnapCountTable{i}.Properties.VariableNames = {'SnapCount'}
     
-    PeakAmpTable{i} = timetable(snapRateTables{i}.EventDateTime,snapRateTables{i}.PeakAmp_U_)
+    PeakAmpTable{i} = timetable(snapRateTables{i}.DateTime,snapRateTables{i}.PeakAmp_U_)
     PeakAmpTable{i}.Properties.VariableNames = {'PeakAmp'}
     
-    EnergyTable{i} = timetable(snapRateTables{i}.EventDateTime,snapRateTables{i}.Energy_dBFS_)
+    EnergyTable{i} = timetable(snapRateTables{i}.DateTime,snapRateTables{i}.Energy_dBFS_)
     EnergyTable{i}.Properties.VariableNames = {'Energy'}
 
     %Average it by hour, or minute.
