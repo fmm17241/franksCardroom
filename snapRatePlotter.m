@@ -70,7 +70,21 @@ scatter(windSpeeds,hourSnaps{1}.SnapCount)
 
 
 
-
+for COUNT = 1:length(receiverData)
+    windSpeedBins{COUNT}(1,:) = receiverData{COUNT}.windSpd < 1 ;
+    windSpeedBins{COUNT}(2,:) = receiverData{COUNT}.windSpd > 1 & receiverData{COUNT}.windSpd < 2 ;
+    windSpeedBins{COUNT}(3,:) = receiverData{COUNT}.windSpd > 2 & receiverData{COUNT}.windSpd < 3 ;
+    windSpeedBins{COUNT}(4,:) = receiverData{COUNT}.windSpd > 3 & receiverData{COUNT}.windSpd < 4 ;
+    windSpeedBins{COUNT}(5,:) = receiverData{COUNT}.windSpd > 4 & receiverData{COUNT}.windSpd < 5 ;
+    windSpeedBins{COUNT}(6,:) = receiverData{COUNT}.windSpd > 5 & receiverData{COUNT}.windSpd < 6 ;
+    windSpeedBins{COUNT}(7,:) = receiverData{COUNT}.windSpd > 6 & receiverData{COUNT}.windSpd < 7 ;
+    windSpeedBins{COUNT}(8,:) = receiverData{COUNT}.windSpd > 7 & receiverData{COUNT}.windSpd < 8 ;
+    windSpeedBins{COUNT}(9,:) = receiverData{COUNT}.windSpd > 8 & receiverData{COUNT}.windSpd < 9 ;
+    windSpeedBins{COUNT}(10,:) = receiverData{COUNT}.windSpd > 9 & receiverData{COUNT}.windSpd < 10 ;
+    windSpeedBins{COUNT}(11,:) = receiverData{COUNT}.windSpd > 10 & receiverData{COUNT}.windSpd < 11 ;
+    windSpeedBins{COUNT}(12,:) = receiverData{COUNT}.windSpd > 11 & receiverData{COUNT}.windSpd < 12 ;
+    windSpeedBins{COUNT}(13,:) = receiverData{COUNT}.windSpd > 12 ;
+end
 
 
 
