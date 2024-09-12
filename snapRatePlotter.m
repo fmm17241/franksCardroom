@@ -7,7 +7,7 @@ clearvars index
 
 
 
-fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\windEvent2020Nov28';
+fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis';
 [SnapCountTable, PeakAmpTable, EnergyTable, hourSnaps, hourAmp, hourEnergy, minuteSnaps, minuteAmp, minuteEnergy] = snapRateAnalyzer(fileLocation)
 
 
@@ -115,12 +115,20 @@ end
 
 
 for k = 1:height(windSpeedDay)
-    snapCompare(k,1)            =  snaps(windSpeedDay{1,k},:))
-    snapCompare(k,2)            =  snaps(windSpeedNight{1,k},:))
+    snapCompare{k,1}            =  snaps(windSpeedDay(k,:));
+    snapCompare{k,2}            =  snaps(windSpeedNight(k,:));
+
+    avgSnaps{k,1}  = mean(snapCompare{k,1})
+    avgSnaps{k,2}  = mean(snapCompare{k,2}) 
 end
 
 
-normalizedWSpeedAnnual(COUNT,:)  = averageWindSpeedAnnual(COUNT,:)/(max(averageWindSpeedAnnual(COUNT,:)));
+X = 1:length(snapCompare);
+
+figure()
+scatter(X,snapCompare)
+
+
 
 
 
