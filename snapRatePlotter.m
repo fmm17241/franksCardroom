@@ -67,7 +67,7 @@ tideVelocity = receiverData{4}.crossShore(2480:3152);
 
 
 
-
+%
 windSpeedDay(1,:) = subset.windSpd < 1 & subset.daytime == 1 ;
 windSpeedDay(2,:) = subset.windSpd > 1 & subset.windSpd < 2 & subset.daytime == 1 ;
 windSpeedDay(3,:) = subset.windSpd > 2 & subset.windSpd < 3 & subset.daytime == 1 ;
@@ -81,9 +81,9 @@ windSpeedDay(10,:) = subset.windSpd > 9 & subset.windSpd < 10 & subset.daytime =
 windSpeedDay(11,:) = subset.windSpd > 10 & subset.windSpd < 11 & subset.daytime == 1 ;
 windSpeedDay(12,:) = subset.windSpd > 11 & subset.windSpd < 12 & subset.daytime == 1 ;
 windSpeedDay(13,:) = subset.windSpd > 12 & subset.daytime == 1 ;
+%
 
-
-
+%
 windSpeedNight(1,:) = subset.windSpd < 1 & subset.daytime == 0 ;
 windSpeedNight(2,:) = subset.windSpd > 1 & subset.windSpd < 2 & subset.daytime == 0 ;
 windSpeedNight(3,:) = subset.windSpd > 2 & subset.windSpd < 3 & subset.daytime == 0 ;
@@ -97,19 +97,24 @@ windSpeedNight(10,:) = subset.windSpd > 9 & subset.windSpd < 10 & subset.daytime
 windSpeedNight(11,:) = subset.windSpd > 10 & subset.windSpd < 11 & subset.daytime == 0 ;
 windSpeedNight(12,:) = subset.windSpd > 11 & subset.windSpd < 12 & subset.daytime == 0 ;
 windSpeedNight(13,:) = subset.windSpd > 12 & subset.daytime == 0 ;
-
+%
 
 
 %%
 
 for k = 1:height(windSpeedDay)
-    windSpeedScenarioAnnual{k}= receiverData(windSpeedBinsAnnual(k,:),:);
-    averageWindSpeedAnnual(COUNT,k) = mean(windSpeedScenarioAnnual{1,k}.HourlyDets);
-    noiseCompareAnnual(k) = mean(windSpeedScenarioAnnual{1,k}.Noise);
-    wavesCompareAnnual(k) = mean(windSpeedScenarioAnnual{1,k}.waveHeight,'omitnan');
-    tiltCompareWindAnnual(k) = mean(windSpeedScenarioAnnual{1,k}.Tilt);
-    stratCompareWindAnnual(k) = mean(windSpeedScenarioAnnual{1,k}.bulkThermalStrat)
+    windSpeedScenarioDay{k}= subset(windSpeedDay(k,:),:);
+
+    averageWindSpeedAnnual(COUNT,k) = mean(windSpeedScenarioDay{1,k}.HourlyDets);
+    noiseCompareAnnual(k) = mean(windSpeedScenarioDay{1,k}.Noise);
+    wavesCompareAnnual(k) = mean(windSpeedScenarioDay{1,k}.waveHeight,'omitnan');
+    tiltCompareWindAnnual(k) = mean(windSpeedScenarioDay{1,k}.Tilt);
+    stratCompareWindAnnual(k) = mean(windSpeedScenarioDay{1,k}.bulkThermalStrat)
+    snapCompare(k)            =  mean(hourSnaps{1}.SnapCount(windSpeedScenarioDay{1,k}))
 end
+
+
+
 normalizedWSpeedAnnual(COUNT,:)  = averageWindSpeedAnnual(COUNT,:)/(max(averageWindSpeedAnnual(COUNT,:)));
 
 
