@@ -7,7 +7,7 @@ clearvars index
 
 
 
-fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis';
+fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\windEvent2020Nov28';
 [SnapCountTable, PeakAmpTable, EnergyTable, hourSnaps, hourAmp, hourEnergy, minuteSnaps, minuteAmp, minuteEnergy] = snapRateAnalyzer(fileLocation)
 
 
@@ -64,7 +64,7 @@ subset = receiverData{4}(2480:3152,:);
 timeTest = receiverData{4}.DT(2480:3152);
 noise = receiverData{4}.Noise(2480:3152);
 tideVelocity = receiverData{4}.crossShore(2480:3152);
-
+snaps = hourSnaps{1}.SnapCount;
 
 
 %
@@ -110,9 +110,14 @@ for k = 1:height(windSpeedDay)
     wavesCompareAnnual(k) = mean(windSpeedScenarioDay{1,k}.waveHeight,'omitnan');
     tiltCompareWindAnnual(k) = mean(windSpeedScenarioDay{1,k}.Tilt);
     stratCompareWindAnnual(k) = mean(windSpeedScenarioDay{1,k}.bulkThermalStrat)
-    snapCompare(k)            =  mean(hourSnaps{1}.SnapCount(windSpeedScenarioDay{1,k}))
 end
 
+
+
+for k = 1:height(windSpeedDay)
+    snapCompare(k,1)            =  snaps(windSpeedDay{1,k},:))
+    snapCompare(k,2)            =  snaps(windSpeedNight{1,k},:))
+end
 
 
 normalizedWSpeedAnnual(COUNT,:)  = averageWindSpeedAnnual(COUNT,:)/(max(averageWindSpeedAnnual(COUNT,:)));
