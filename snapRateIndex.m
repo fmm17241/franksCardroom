@@ -232,56 +232,7 @@ dataFiles = dir('*.txt')
 fileNames = {dataFiles.name};
 snapRateTables = cell(1, length(fileNames));
 
-originalDatetime= datetime(2019,12,11,0,0,0);
 
-for i = 1:length(fileNames)
-    snapRateTables{i} = readtable(fileNames{i});
-end
-
-snapDates{1}(1:133622,1) = datetime(2019,12,11,0,0,0);
-snapDates{1}(133623:271014,1) = datetime(2019,12,12,0,0,0);
-snapDates{1}(271014:length(snapRateTables{1}.Selection),1) = datetime(2019,12,13,0,0,0);
-
-
-snapDates{2}(1:42244,1) = datetime(2019,12,11,0,0,0);
-snapDates{2}(42245:85596,1) = datetime(2019,12,12,0,0,0);
-snapDates{2}(85597:length(snapRateTables{2}.Selection),1) = datetime(2019,12,13,0,0,0);
-
-snapDates{3}(1:761424,1) = datetime(2019,12,11,0,0,0);
-snapDates{3}(761425:1526360,1) = datetime(2019,12,12,0,0,0);
-snapDates{3}(1526361:length(snapRateTables{3}.Selection),1) = datetime(2019,12,13,0,0,0);
-
-for i = length(snapRateTables)
-    snapRateTables{i}.DateTime = snapDates{i} + snapRateTables{i}.BeginClockTime;
-end
-
-for i = 1:length(snapRateTables)
-    snapRateTables{i}.DateTime = snapDates{i} + snapRateTables{i}.BeginClockTime;
-
-    SnapCountTable{i} = timetable(snapRateTables{i}.DateTime,snapRateTables{i}.Channel)
-    SnapCountTable{i}.Properties.VariableNames = {'SnapCount'}
-    
-    PeakAmpTable{i} = timetable(snapRateTables{i}.DateTime,snapRateTables{i}.PeakAmp_U_)
-    PeakAmpTable{i}.Properties.VariableNames = {'PeakAmp'}
-    
-    EnergyTable{i} = timetable(snapRateTables{i}.DateTime,snapRateTables{i}.Energy_dBFS_)
-    EnergyTable{i}.Properties.VariableNames = {'Energy'}
-
-    %Average it by hour, or minute.
-    dec12hourSnaps{i} = retime(SnapCountTable{i},'hourly','sum');
-    dec12hourSnaps{i}.Time.TimeZone = 'UTC';
-    dec12hourAmp{i} = retime(PeakAmpTable{i},'hourly','mean');
-    dec12hourAmp{i}.Time.TimeZone = 'UTC';
-    dec12hourEnergy{i} = retime(EnergyTable{i},'hourly','mean');
-    dec12hourEnergy{i}.Time.TimeZone = 'UTC';
-    %Average it by hour, or minute.
-    dec12minuteSnaps{i} = retime(SnapCountTable{i},'minute','sum');
-    dec12minuteSnaps{i}.Time.TimeZone = 'UTC';
-    dec12minuteAmp{i} = retime(PeakAmpTable{i},'minute','mean');
-    dec12minuteAmp{i}.Time.TimeZone = 'UTC';
-    dec12minuteEnergy{i} = retime(EnergyTable{i},'minute','mean');
-    dec12minuteEnergy{i}.Time.TimeZone = 'UTC';
-end
 
 clearvars SnapCountTable PeakAmpTable EnergyTable snapDates
 
@@ -292,48 +243,6 @@ dataFiles = dir('*.txt')
 fileNames = {dataFiles.name};
 snapRateTables = cell(1, length(fileNames));
 
-originalDatetime= datetime(2020,09,29,0,0,0);
-
-for i = 1:length(fileNames)
-snapRateTables{i} = readtable(fileNames{i});
-end
-
-snapDates{1}(1:49072,1) = datetime(2020,09,29,0,0,0);
-snapDates{1}(49073:length(snapRateTables{1}.Selection),1) = datetime(2020,09,30,0,0,0);
-
-snapDates{2}(1:16254,1) = datetime(2020,09,29,0,0,0);
-snapDates{2}(16255:length(snapRateTables{2}.Selection),1) = datetime(2020,09,30,0,0,0);
-
-snapDates{3}(1:329980,1) = datetime(2020,09,29,0,0,0);
-snapDates{3}(329981:length(snapRateTables{3}.Selection),1) = datetime(2020,09,30,0,0,0);
-
-for i = 1:length(snapRateTables)
-    snapRateTables{i}.DateTime = snapDates{i} + snapRateTables{i}.BeginClockTime;
-
-    SnapCountTable{i} = timetable(snapRateTables{i}.DateTime,snapRateTables{i}.Channel)
-    SnapCountTable{i}.Properties.VariableNames = {'SnapCount'}
-    
-    PeakAmpTable{i} = timetable(snapRateTables{i}.DateTime,snapRateTables{i}.PeakAmp_U_)
-    PeakAmpTable{i}.Properties.VariableNames = {'PeakAmp'}
-    
-    EnergyTable{i} = timetable(snapRateTables{i}.DateTime,snapRateTables{i}.Energy_dBFS_)
-    EnergyTable{i}.Properties.VariableNames = {'Energy'}
-
-    %Average it by hour, or minute.
-    hourSnaps{i} = retime(SnapCountTable{i},'hourly','sum');
-    hourSnaps{i}.Time.TimeZone = 'UTC';
-    hourAmp{i} = retime(PeakAmpTable{i},'hourly','mean');
-    hourAmp{i}.Time.TimeZone = 'UTC';
-    hourEnergy{i} = retime(EnergyTable{i},'hourly','mean');
-    hourEnergy{i}.Time.TimeZone = 'UTC';
-    %Average it by hour, or minute.
-    minuteSnaps{i} = retime(SnapCountTable{i},'minute','sum');
-    minuteSnaps{i}.Time.TimeZone = 'UTC';
-    minuteAmp{i} = retime(PeakAmpTable{i},'minute','mean');
-    minuteAmp{i}.Time.TimeZone = 'UTC';
-    minuteEnergy{i} = retime(EnergyTable{i},'minute','mean');
-    minuteEnergy{i}.Time.TimeZone = 'UTC';
-end
 
 clearvars SnapCountTable PeakAmpTable EnergyTable snapDates
 
@@ -400,52 +309,6 @@ dataFiles = dir('*.txt')
 fileNames = {dataFiles.name};
 snapRateTables = cell(1, length(fileNames));
 
-originalDatetime= datetime(2020,04,15,0,0,0);
-
-for i = 1:length(fileNames)
-snapRateTables{i} = readtable(fileNames{i});
-end
-
-snapDates{1}(1:185778,1) = datetime(2020,04,15,0,0,0);
-snapDates{1}(185779:395734,1) = datetime(2020,04,16,0,0,0);
-snapDates{1}(395735:length(snapRateTables{1}.Selection),1) = datetime(2020,04,17,0,0,0);
-
-snapDates{2}(1:56180,1) = datetime(2020,04,15,0,0,0);
-snapDates{2}(56181:120054,1) = datetime(2020,04,16,0,0,0);
-snapDates{2}(120055:length(snapRateTables{2}.Selection),1) = datetime(2020,04,17,0,0,0);
-
-snapDates{3}(1:1051810,1) = datetime(2020,04,15,0,0,0);
-snapDates{3}(1051811:2241546,1) = datetime(2020,04,16,0,0,0);
-snapDates{3}(2241547:length(snapRateTables{3}.Selection),1) = datetime(2020,04,17,0,0,0);
-
-
-for i = 1:length(snapRateTables)
-    snapRateTables{i}.DateTime = snapDates{i} + snapRateTables{i}.BeginClockTime;
-
-    SnapCountTable{i} = timetable(snapRateTables{i}.DateTime,snapRateTables{i}.Channel)
-    SnapCountTable{i}.Properties.VariableNames = {'SnapCount'}
-    
-    PeakAmpTable{i} = timetable(snapRateTables{i}.DateTime,snapRateTables{i}.PeakAmp_U_)
-    PeakAmpTable{i}.Properties.VariableNames = {'PeakAmp'}
-    
-    EnergyTable{i} = timetable(snapRateTables{i}.DateTime,snapRateTables{i}.Energy_dBFS_)
-    EnergyTable{i}.Properties.VariableNames = {'Energy'}
-
-    %Average it by hour, or minute.
-    hourSnaps{i} = retime(SnapCountTable{i},'hourly','sum');
-    hourSnaps{i}.Time.TimeZone = 'UTC';
-    hourAmp{i} = retime(PeakAmpTable{i},'hourly','mean');
-    hourAmp{i}.Time.TimeZone = 'UTC';
-    hourEnergy{i} = retime(EnergyTable{i},'hourly','mean');
-    hourEnergy{i}.Time.TimeZone = 'UTC';
-    %Average it by hour, or minute.
-    minuteSnaps{i} = retime(SnapCountTable{i},'minute','sum');
-    minuteSnaps{i}.Time.TimeZone = 'UTC';
-    minuteAmp{i} = retime(PeakAmpTable{i},'minute','mean');
-    minuteAmp{i}.Time.TimeZone = 'UTC';
-    minuteEnergy{i} = retime(EnergyTable{i},'minute','mean');
-    minuteEnergy{i}.Time.TimeZone = 'UTC';
-end
 
 clearvars SnapCountTable PeakAmpTable EnergyTable snapDates
 
@@ -488,17 +351,15 @@ for i = 1:length(snapRateTables)
 
     % Filter rows where the 'View' column contains the string 'Waveform 1'
     waveFormTable{i} = snapRateTables{i}(contains(snapRateTables{1}.View, 'Waveform 1'), :);
-    
-    % Filter rows where the 'View' column contains the string 'Waveform 1'
     spectrogramTable{i} = snapRateTables{i}(contains(snapRateTables{1}.View, 'Spectrogram 1'), :);
 
     SnapCountTable{i} = timetable(snapRateTables{i}.EventDateTime,snapRateTables{i}.Channel)
     SnapCountTable{i}.Properties.VariableNames = {'SnapCount'}
     
-    PeakAmpTable{i} = timetable(snapRateTables{i}.EventDateTime,snapRateTables{i}.PeakAmp_U_)
+    PeakAmpTable{i} = timetable(waveFormTable{i}.EventDateTime,waveFormTable{i}.PeakAmp_U_)
     PeakAmpTable{i}.Properties.VariableNames = {'PeakAmp'}
     
-    EnergyTable{i} = timetable(snapRateTables{i}.EventDateTime,snapRateTables{i}.Energy_dBFS_)
+    EnergyTable{i} = timetable(waveFormTable{i}.EventDateTime,waveFormTable{i}.Energy_dBFS_)
     EnergyTable{i}.Properties.VariableNames = {'Energy'}
 
     %Average it by hour, or minute.
