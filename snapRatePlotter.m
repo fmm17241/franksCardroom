@@ -60,34 +60,57 @@ linkaxes([ax1,ax2,ax3],'x')
 
 
 %Okay focus on one month 9/12/24 work
-windSpeeds = receiverData{4}.windSpd(2480:3152);
+subset = receiverData{4}(2480:3152,:);
 timeTest = receiverData{4}.DT(2480:3152);
 noise = receiverData{4}.Noise(2480:3152);
 tideVelocity = receiverData{4}.crossShore(2480:3152);
 
-figure()
-scatter(windSpeeds,hourSnaps{1}.SnapCount)
 
 
 
-for COUNT = 1:length(receiverData)
-    windSpeedBins{COUNT}(1,:) = receiverData{COUNT}.windSpd < 1 ;
-    windSpeedBins{COUNT}(2,:) = receiverData{COUNT}.windSpd > 1 & receiverData{COUNT}.windSpd < 2 ;
-    windSpeedBins{COUNT}(3,:) = receiverData{COUNT}.windSpd > 2 & receiverData{COUNT}.windSpd < 3 ;
-    windSpeedBins{COUNT}(4,:) = receiverData{COUNT}.windSpd > 3 & receiverData{COUNT}.windSpd < 4 ;
-    windSpeedBins{COUNT}(5,:) = receiverData{COUNT}.windSpd > 4 & receiverData{COUNT}.windSpd < 5 ;
-    windSpeedBins{COUNT}(6,:) = receiverData{COUNT}.windSpd > 5 & receiverData{COUNT}.windSpd < 6 ;
-    windSpeedBins{COUNT}(7,:) = receiverData{COUNT}.windSpd > 6 & receiverData{COUNT}.windSpd < 7 ;
-    windSpeedBins{COUNT}(8,:) = receiverData{COUNT}.windSpd > 7 & receiverData{COUNT}.windSpd < 8 ;
-    windSpeedBins{COUNT}(9,:) = receiverData{COUNT}.windSpd > 8 & receiverData{COUNT}.windSpd < 9 ;
-    windSpeedBins{COUNT}(10,:) = receiverData{COUNT}.windSpd > 9 & receiverData{COUNT}.windSpd < 10 ;
-    windSpeedBins{COUNT}(11,:) = receiverData{COUNT}.windSpd > 10 & receiverData{COUNT}.windSpd < 11 ;
-    windSpeedBins{COUNT}(12,:) = receiverData{COUNT}.windSpd > 11 & receiverData{COUNT}.windSpd < 12 ;
-    windSpeedBins{COUNT}(13,:) = receiverData{COUNT}.windSpd > 12 ;
+windSpeedDay(1,:) = subset.windSpd < 1 & subset.daytime == 1 ;
+windSpeedDay(2,:) = subset.windSpd > 1 & subset.windSpd < 2 & subset.daytime == 1 ;
+windSpeedDay(3,:) = subset.windSpd > 2 & subset.windSpd < 3 & subset.daytime == 1 ;
+windSpeedDay(4,:) = subset.windSpd > 3 & subset.windSpd < 4 & subset.daytime == 1 ;
+windSpeedDay(5,:) = subset.windSpd > 4 & subset.windSpd < 5 & subset.daytime == 1 ;
+windSpeedDay(6,:) = subset.windSpd > 5 & subset.windSpd < 6 & subset.daytime == 1 ;
+windSpeedDay(7,:) = subset.windSpd > 6 & subset.windSpd < 7 & subset.daytime == 1 ;
+windSpeedDay(8,:) = subset.windSpd > 7 & subset.windSpd < 8 & subset.daytime == 1 ;
+windSpeedDay(9,:) = subset.windSpd > 8 & subset.windSpd < 9 & subset.daytime == 1 ;
+windSpeedDay(10,:) = subset.windSpd > 9 & subset.windSpd < 10 & subset.daytime == 1 ;
+windSpeedDay(11,:) = subset.windSpd > 10 & subset.windSpd < 11 & subset.daytime == 1 ;
+windSpeedDay(12,:) = subset.windSpd > 11 & subset.windSpd < 12 & subset.daytime == 1 ;
+windSpeedDay(13,:) = subset.windSpd > 12 & subset.daytime == 1 ;
+
+
+
+windSpeedNight(1,:) = subset.windSpd < 1 & subset.daytime == 0 ;
+windSpeedNight(2,:) = subset.windSpd > 1 & subset.windSpd < 2 & subset.daytime == 0 ;
+windSpeedNight(3,:) = subset.windSpd > 2 & subset.windSpd < 3 & subset.daytime == 0 ;
+windSpeedNight(4,:) = subset.windSpd > 3 & subset.windSpd < 4 & subset.daytime == 0 ;
+windSpeedNight(5,:) = subset.windSpd > 4 & subset.windSpd < 5 & subset.daytime == 0 ;
+windSpeedNight(6,:) = subset.windSpd > 5 & subset.windSpd < 6 & subset.daytime == 0 ;
+windSpeedNight(7,:) = subset.windSpd > 6 & subset.windSpd < 7 & subset.daytime == 0 ;
+windSpeedNight(8,:) = subset.windSpd > 7 & subset.windSpd < 8 & subset.daytime == 0 ;
+windSpeedNight(9,:) = subset.windSpd > 8 & subset.windSpd < 9 & subset.daytime == 0 ;
+windSpeedNight(10,:) = subset.windSpd > 9 & subset.windSpd < 10 & subset.daytime == 0 ;
+windSpeedNight(11,:) = subset.windSpd > 10 & subset.windSpd < 11 & subset.daytime == 0 ;
+windSpeedNight(12,:) = subset.windSpd > 11 & subset.windSpd < 12 & subset.daytime == 0 ;
+windSpeedNight(13,:) = subset.windSpd > 12 & subset.daytime == 0 ;
+
+
+
+%%
+
+for k = 1:height(windSpeedDay)
+    windSpeedScenarioAnnual{k}= receiverData(windSpeedBinsAnnual(k,:),:);
+    averageWindSpeedAnnual(COUNT,k) = mean(windSpeedScenarioAnnual{1,k}.HourlyDets);
+    noiseCompareAnnual(k) = mean(windSpeedScenarioAnnual{1,k}.Noise);
+    wavesCompareAnnual(k) = mean(windSpeedScenarioAnnual{1,k}.waveHeight,'omitnan');
+    tiltCompareWindAnnual(k) = mean(windSpeedScenarioAnnual{1,k}.Tilt);
+    stratCompareWindAnnual(k) = mean(windSpeedScenarioAnnual{1,k}.bulkThermalStrat)
 end
-
-
-
+normalizedWSpeedAnnual(COUNT,:)  = averageWindSpeedAnnual(COUNT,:)/(max(averageWindSpeedAnnual(COUNT,:)));
 
 
 
