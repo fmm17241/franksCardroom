@@ -1,6 +1,6 @@
 %Frank's gotta find times to study with snap rate/frequency
 
-function output = snapRateAnalyzer(fileDirectory)
+function [SnapCountTable, PeakAmpTable, EnergyTable, hourSnaps, hourAmp, hourEnergy, minuteSnaps, minuteAmp, minuteEnergy] = snapRateAnalyzer(fileDirectory)
 
 %% February 28th
 % cd ([oneDrive,'\acousticAnalysis\windEvent2020Feb28'])
@@ -70,6 +70,5 @@ for i = 1:length(fileNames)
     minuteEnergy{i}.Time.TimeZone = 'UTC';
 end
 
-clearvars SnapCountTable PeakAmpTable EnergyTable snapDates
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

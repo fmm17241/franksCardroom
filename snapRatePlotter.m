@@ -7,12 +7,12 @@ clearvars index
 
 
 
-fileLocation = pwd;
-[SnapCountTable, PeakAmpTable, EnergyTable, hourSnaps, minuteSnaps, minuteAmp, minuteEnergy] = snapRateAnalyzer(fileLocation)
+fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis';
+[SnapCountTable, PeakAmpTable, EnergyTable, hourSnaps, hourAmp, hourEnergy, minuteSnaps, minuteAmp, minuteEnergy] = snapRateAnalyzer(fileLocation)
 
 
 figure()
-tiledlayout(5,1,'tileSpacing','compact')
+tiledlayout(3,1,'tileSpacing','compact')
 
 % ax1 = nexttile()
 % hold on
@@ -29,14 +29,8 @@ plot(receiverData{4}.DT,receiverData{4}.windSpd)
 hold on
 title('Windspeed')
 
-ax3 = nexttile()
-plot(receiverData{4}.DT,receiverData{4}.crossShore)
-hold on
-yline(0)
-title('CrossShore Tide')
-
 % 
-ax4 = nexttile()
+ax3 = nexttile()
 hold on
 for i = 1:length(hourSnaps)
 plot(minuteSnaps{i}.Time,minuteSnaps{i}.SnapCount)
@@ -44,13 +38,13 @@ end
 legend({'Mid','High','Low'})
 title('SnapRate')
 
-ax5 = nexttile()
-hold on
-for i = 1:length(hourAmp)
-    plot(minuteAmp{i}.Time,minuteAmp{i}.PeakAmp)
-end
-legend({'Mid','High','Low'})
-title('Peak Amplitude')
+% ax4 = nexttile()
+% hold on
+% for i = 1:length(hourAmp)
+%     plot(minuteAmp{i}.Time,minuteAmp{i}.PeakAmp)
+% end
+% legend({'Mid','High','Low'})
+% title('Peak Amplitude')
 
 
 % ax3 = nexttile()
@@ -60,4 +54,28 @@ title('Peak Amplitude')
 % title('Detections')
 
 
-linkaxes([ax1,ax2,ax3,ax4, ax5],'x')
+linkaxes([ax1,ax2,ax3],'x')
+
+
+
+
+%Okay focus on one month 9/12/24 work
+windSpeeds = receiverData{4}.windSpd(2480:3152);
+timeTest = receiverData{4}.DT(2480:3152);
+noise = receiverData{4}.Noise(2480:3152);
+tideVelocity = receiverData{4}.crossShore(2480:3152);
+
+figure()
+scatter(windSpeeds,hourSnaps{1}.SnapCount)
+
+
+
+
+
+
+
+
+
+
+
+
