@@ -68,66 +68,64 @@ snaps = hourSnaps{1}.SnapCount;
 
 
 %
-windSpeedDay(1,:) = subset.windSpd < 1 & subset.daytime == 1 ;
-windSpeedDay(2,:) = subset.windSpd > 1 & subset.windSpd < 2 & subset.daytime == 1 ;
-windSpeedDay(3,:) = subset.windSpd > 2 & subset.windSpd < 3 & subset.daytime == 1 ;
-windSpeedDay(4,:) = subset.windSpd > 3 & subset.windSpd < 4 & subset.daytime == 1 ;
-windSpeedDay(5,:) = subset.windSpd > 4 & subset.windSpd < 5 & subset.daytime == 1 ;
-windSpeedDay(6,:) = subset.windSpd > 5 & subset.windSpd < 6 & subset.daytime == 1 ;
-windSpeedDay(7,:) = subset.windSpd > 6 & subset.windSpd < 7 & subset.daytime == 1 ;
-windSpeedDay(8,:) = subset.windSpd > 7 & subset.windSpd < 8 & subset.daytime == 1 ;
-windSpeedDay(9,:) = subset.windSpd > 8 & subset.windSpd < 9 & subset.daytime == 1 ;
-windSpeedDay(10,:) = subset.windSpd > 9 & subset.windSpd < 10 & subset.daytime == 1 ;
-windSpeedDay(11,:) = subset.windSpd > 10 & subset.windSpd < 11 & subset.daytime == 1 ;
-windSpeedDay(12,:) = subset.windSpd > 11 & subset.windSpd < 12 & subset.daytime == 1 ;
-windSpeedDay(13,:) = subset.windSpd > 12 & subset.daytime == 1 ;
-%
+for k = 1:2
+    windSpeedBins{k}(1,:) = subset.windSpd < 2 & subset.daytime == (k-1) ;
+    windSpeedBins{k}(2,:) = subset.windSpd > 2 & subset.windSpd < 4 & subset.daytime == (k-1) ;
+    windSpeedBins{k}(3,:) = subset.windSpd > 4 & subset.windSpd < 6 & subset.daytime == (k-1) ;
+    windSpeedBins{k}(4,:) = subset.windSpd > 6 & subset.windSpd < 8 & subset.daytime == (k-1) ;
+    windSpeedBins{k}(5,:) = subset.windSpd > 8 & subset.windSpd < 10 & subset.daytime == (k-1) ;
+    windSpeedBins{k}(6,:) = subset.windSpd > 10 & subset.windSpd < 12 & subset.daytime == (k-1) ;
+    windSpeedBins{k}(7,:) = subset.windSpd > 12 & subset.daytime == (k-1) ;
+end
 
 %
-windSpeedNight(1,:) = subset.windSpd < 1 & subset.daytime == 0 ;
-windSpeedNight(2,:) = subset.windSpd > 1 & subset.windSpd < 2 & subset.daytime == 0 ;
-windSpeedNight(3,:) = subset.windSpd > 2 & subset.windSpd < 3 & subset.daytime == 0 ;
-windSpeedNight(4,:) = subset.windSpd > 3 & subset.windSpd < 4 & subset.daytime == 0 ;
-windSpeedNight(5,:) = subset.windSpd > 4 & subset.windSpd < 5 & subset.daytime == 0 ;
-windSpeedNight(6,:) = subset.windSpd > 5 & subset.windSpd < 6 & subset.daytime == 0 ;
-windSpeedNight(7,:) = subset.windSpd > 6 & subset.windSpd < 7 & subset.daytime == 0 ;
-windSpeedNight(8,:) = subset.windSpd > 7 & subset.windSpd < 8 & subset.daytime == 0 ;
-windSpeedNight(9,:) = subset.windSpd > 8 & subset.windSpd < 9 & subset.daytime == 0 ;
-windSpeedNight(10,:) = subset.windSpd > 9 & subset.windSpd < 10 & subset.daytime == 0 ;
-windSpeedNight(11,:) = subset.windSpd > 10 & subset.windSpd < 11 & subset.daytime == 0 ;
-windSpeedNight(12,:) = subset.windSpd > 11 & subset.windSpd < 12 & subset.daytime == 0 ;
-windSpeedNight(13,:) = subset.windSpd > 12 & subset.daytime == 0 ;
-%
-
 
 %%
 
-for k = 1:height(windSpeedDay)
-    windSpeedScenarioDay{k}= subset(windSpeedDay(k,:),:);
-
-    averageWindSpeedAnnual(COUNT,k) = mean(windSpeedScenarioDay{1,k}.HourlyDets);
-    noiseCompareAnnual(k) = mean(windSpeedScenarioDay{1,k}.Noise);
-    wavesCompareAnnual(k) = mean(windSpeedScenarioDay{1,k}.waveHeight,'omitnan');
-    tiltCompareWindAnnual(k) = mean(windSpeedScenarioDay{1,k}.Tilt);
-    stratCompareWindAnnual(k) = mean(windSpeedScenarioDay{1,k}.bulkThermalStrat)
+for k = 1:height(windSpeedBins)
+    for ii = 1:length(windSpeedBins{1})
+        windSpeedScenario{k}= subset(windSpeedBins{k}(ii,:),:);
+    
+        averageWindSpeedAnnual(COUNT,k) = mean(windSpeedScenario{1,k}.HourlyDets);
+        noiseCompareAnnual(k) = mean(windSpeedScenario{1,k}.Noise);
+        wavesCompareAnnual(k) = mean(windSpeedScenario{1,k}.waveHeight,'omitnan');
+        tiltCompareWindAnnual(k) = mean(windSpeedScenario{1,k}.Tilt);
+        stratCompareWindAnnual(k) = mean(windSpeedScenario{1,k}.bulkThermalStrat)
 end
 
 
 
-for k = 1:height(windSpeedDay)
-    snapCompare{k,1}            =  snaps(windSpeedDay(k,:));
-    snapCompare{k,2}            =  snaps(windSpeedNight(k,:));
-
-    avgSnaps{k,1}  = mean(snapCompare{k,1})
-    avgSnaps{k,2}  = mean(snapCompare{k,2}) 
+for k = 1:height(windSpeedBins)
+    snapCompare{k,1}            =  snaps(windSpeedBins(k,:));
+    snapCompare{k,2}            =  snaps(windSpeedBins(k,:));
+%
+    avgSnaps{1}(k)  = mean(snapCompare{k,1})
+    avgSnaps{2}(k)  = mean(snapCompare{k,2}) 
 end
 
 
-X = 1:length(snapCompare);
+
+%Day Confidence Intervals
+for k = 1:length(snapCompare)
+    %Finding standard deviations/CIs of values
+    SEM = std(snapCompare{k,1}(:),'omitnan')/sqrt(length(snapCompare{k,1}));  
+    ts = tinv([0.025  0.975],length(snapCompare{k,1})-1);  
+    CIdayNoise(k,:) = mean(snapCompare{k,1},'all','omitnan') + ts*SEM; 
+
+end
+
+
+
+
+
+
+X = 1:length(avgSnaps{1});
 
 figure()
-scatter(X,snapCompare)
-
+scatter(X,avgSnaps{1},'filled','r')
+hold on
+scatter(X,avgSnaps{2},'filled','b')
+legend('Day','Night')
 
 
 
