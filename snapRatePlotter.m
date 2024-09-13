@@ -9,7 +9,16 @@ clearvars index
 
 fileLocation = ([oneDrive,'\acousticAnalysis']);
 % fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis';
-[SnapCountTable, PeakAmpTable, EnergyTable, hourSnaps, hourAmp, hourEnergy, minuteSnaps, minuteAmp, minuteEnergy] = snapRateAnalyzer(fileLocation)
+[SnapCountTable, snapRateTables, PeakAmpTable, EnergyTable, hourSnaps, hourAmp, hourEnergy, minuteSnaps, minuteAmp, minuteEnergy] = snapRateAnalyzer(fileLocation)
+
+%FM This is just for the March 2020 dataset, two small times had bad data and so I'm removing those hours.
+
+badTimes = [351;547];
+
+if hourSnaps{1}.Time(1,1) == '02-Mar-2020 23:00:00.000';
+    hourSnaps{1}.SnapCount(351,:) = NaN;
+    hourSnaps{1}.SnapCount(547,:) = NaN;
+end
 
 
 figure()
@@ -101,7 +110,7 @@ for k = 1:length(windSpeedBins)
     for ii = 1:height(windSpeedBins{1})
     snapCompare{k,ii}   =  snaps(windSpeedBins{k}(ii,:));
     %
-    avgSnaps{k}(ii)  = mean(snapCompare{k,ii})
+    avgSnaps{k}(ii)  = mean(snapCompare{k,ii},'omitNan')
     end
 end
 
@@ -138,6 +147,7 @@ title('','Night')
 
 %%
 %Okay, interesting but need more. What if I remove "sunset" and "sunrise" hours?
+%FFFFFFFFFFFFFFFFFFFFFFFFF
 
 
 

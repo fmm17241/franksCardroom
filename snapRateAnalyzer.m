@@ -1,6 +1,6 @@
 %Frank's gotta find times to study with snap rate/frequency
 
-function [SnapCountTable, PeakAmpTable, EnergyTable, hourSnaps, hourAmp, hourEnergy, minuteSnaps, minuteAmp, minuteEnergy] = snapRateAnalyzer(fileDirectory)
+function [SnapCountTable, snapRateTables, PeakAmpTable, EnergyTable, hourSnaps, hourAmp, hourEnergy, minuteSnaps, minuteAmp, minuteEnergy] = snapRateAnalyzer(fileDirectory)
 
 %% February 28th
 % cd ([oneDrive,'\acousticAnalysis\windEvent2020Feb28'])
@@ -67,10 +67,16 @@ for i = 1:length(fileNames)
     %Average it by hour, or minute.
     minuteSnaps{i} = retime(SnapCountTable{i},'minute','sum');
     minuteSnaps{i}.Time.TimeZone = 'UTC';
+
+    %Removes outliers, two random huge spikes that appear.
+    wayTooHigh = minuteSnaps{i}.SnapCount > 300;
+    minuteSnaps{i}.SnapCount(wayTooHigh) = NaN;
+
     minuteAmp{i} = retime(PeakAmpTable{i},'minute','mean');
     minuteAmp{i}.Time.TimeZone = 'UTC';
     minuteEnergy{i} = retime(EnergyTable{i},'minute','mean');
     minuteEnergy{i}.Time.TimeZone = 'UTC';
+
 end
 
 
