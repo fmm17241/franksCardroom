@@ -7,7 +7,8 @@ clearvars index
 
 
 
-fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis';
+fileLocation = ([oneDrive,'\acousticAnalysis']);
+% fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis';
 [SnapCountTable, PeakAmpTable, EnergyTable, hourSnaps, hourAmp, hourEnergy, minuteSnaps, minuteAmp, minuteEnergy] = snapRateAnalyzer(fileLocation)
 
 
@@ -75,7 +76,8 @@ for k = 1:2
     windSpeedBins{k}(4,:) = subset.windSpd > 6 & subset.windSpd < 8 & subset.daytime == (k-1) ;
     windSpeedBins{k}(5,:) = subset.windSpd > 8 & subset.windSpd < 10 & subset.daytime == (k-1) ;
     windSpeedBins{k}(6,:) = subset.windSpd > 10 & subset.windSpd < 12 & subset.daytime == (k-1) ;
-    windSpeedBins{k}(7,:) = subset.windSpd > 12 & subset.daytime == (k-1) ;
+    windSpeedBins{k}(7,:) = subset.windSpd > 12 & subset.windSpd < 14 & subset.daytime == (k-1) ;
+    windSpeedBins{k}(8,:) = subset.windSpd > 14 & subset.daytime == (k-1) ;
 end
 
 %
@@ -90,14 +92,12 @@ for k = 1:height(windSpeedBins)
         noiseCompareAnnual(k) = mean(windSpeedScenario{1,k}.Noise);
         wavesCompareAnnual(k) = mean(windSpeedScenario{1,k}.waveHeight,'omitnan');
         tiltCompareWindAnnual(k) = mean(windSpeedScenario{1,k}.Tilt);
-        stratCompareWindAnnual(k) = mean(windSpeedScenario{1,k}.bulkThermalStrat)
-
-        
+        stratCompareWindAnnual(k) = mean(windSpeedScenario{1,k}.bulkThermalStrat)        
     end
 end
 
 
-for k = 1:height(windSpeedBins)
+for k = 1:length(windSpeedBins)
     for ii = 1:height(windSpeedBins{1})
     snapCompare{k,ii}   =  snaps(windSpeedBins{k}(ii,:));
     %
@@ -110,9 +110,9 @@ end
 %Day Confidence Intervals
 for k = 1:length(snapCompare)
     %Finding standard deviations/CIs of values
-    SEM = std(snapCompare{k,1}(:),'omitnan')/sqrt(length(snapCompare{k,1}));  
-    ts = tinv([0.025  0.975],length(snapCompare{k,1})-1);  
-    CIdayNoise(k,:) = mean(snapCompare{k,1},'all','omitnan') + ts*SEM; 
+    SEM = std(snapCompare{1,k}(:),'omitnan')/sqrt(length(snapCompare{1,k}));  
+    ts = tinv([0.025  0.975],length(snapCompare{1,k})-1);  
+    CIdayNoise(k,:) = mean(snapCompare{1,k},'all','omitnan') + ts*SEM; 
 
 end
 
@@ -121,13 +121,31 @@ end
 
 
 
-X = 1:length(avgSnaps{1});
+X = 0:2:14
 
 figure()
-scatter(X,avgSnaps{1},'filled','r')
-hold on
-scatter(X,avgSnaps{2},'filled','b')
-legend('Day','Night')
+tiledlayout(2,1)
+ax1 = nexttile()
+scatter(X,avgSnaps{2},'filled','r')
+ylabel('Hourly Snaps')
+title('Shrimp Activity vs Wind, March','Day')
+ax2 = nexttile()
+scatter(X,avgSnaps{1},'filled','b')
+ylabel('Hourly Snaps')
+xlabel('Windspeed (m/s)')
+title('','Night')
+
+
+
+
+fft(avgSnaps{1})
+
+
+
+
+
+
+
 
 
 
