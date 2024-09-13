@@ -127,10 +127,20 @@ end
 
 
 
+%Day Confidence Intervals
+for ii = 1:height(snapCompare)
+    for k = 1:length(snapCompare)
+    %Finding standard deviations/CIs of values
+    SEM = std(snapCompare{ii,k}(:),'omitnan')/sqrt(length(snapCompare{ii,k}));  
+    ts = tinv([0.025  0.975],length(snapCompare{ii,k})-1);  
+    CIsnaps{ii}(k,:) = mean(snapCompare{i,k},'all','omitnan') + ts*SEM; 
+    end
+end
 
 
 
-X = 0:2:14
+X = 0:2:12
+
 
 figure()
 tiledlayout(2,1)
@@ -146,8 +156,43 @@ title('','Night')
 
 
 %%
-%Okay, interesting but need more. What if I remove "sunset" and "sunrise" hours?
-%FFFFFFFFFFFFFFFFFFFFFFFFF
+
+figure()
+scatter(X,avgSnaps{2},'filled','r')
+ylabel('Hourly Snaps')
+title('Shrimp Activity vs Wind, March','Day')
+hold on
+scatter(X,avgSnaps{1},'filled','b')
+ylabel('Hourly Snaps')
+xlabel('Windspeed (m/s)')
+
+
+
+figure()
+hold on
+% ciplot(CIsunsetNoise(:,1),CIsunsetNoise(:,2),1:5,'k')
+ciplot(CIsnaps{1}(:,1),CIsnaps{1}(:,2),1:7,'b')
+ciplot(CIsnaps{2}(:,1),CIsnaps{2}(:,2),1:7,'r')
+xlabel('Seasons, 2020')
+ylabel('Average Noise (mV)')
+title('Average Noise By Time of Day and Season','95% Conf. Interval, 69 kHz')
+legend('Night','Day')
+
+
+
+
+
+
+%mscohere()
+
+
+
+
+
+
+
+
+
 
 
 
