@@ -43,9 +43,12 @@ for i = 1:length(snapRateTables)
     waveFormTable{i} = snapRateTables{i}(contains(snapRateTables{i}.View, 'Waveform 1'), :);
     spectrogramTable{i} = snapRateTables{i}(contains(snapRateTables{i}.View, 'Spectrogram 1'), :);
 
-    SnapCountTable{i} = timetable(snapRateTables{i}.EventDateTime,snapRateTables{i}.Channel);
+    %There are two rows for each snap, one being waveform, one being
+    %spectrogram. I've arbitrarily chosen waveform, this just gives a "1"
+    %for each snap so I can find hourly averages.
+    SnapCountTable{i} = timetable(waveFormTable{i}.EventDateTime,waveFormTable{i}.Channel);
     SnapCountTable{i}.Properties.VariableNames = {'SnapCount'};
-    
+
     PeakAmpTable{i} = timetable(waveFormTable{i}.EventDateTime,waveFormTable{i}.PeakAmp_U_);
     PeakAmpTable{i}.Properties.VariableNames = {'PeakAmp'};
     
