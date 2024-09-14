@@ -551,6 +551,7 @@ for i = 1:length(snapRateTables)
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
 % The Dreaded November 14th
 cd ([oneDrive,'\acousticAnalysis\windEvent2020Nov14'])
 dataFiles = dir('*.txt')
@@ -578,6 +579,8 @@ snapDates{2}(118091:161552,1) = datetime(2020,11,17,0,0,0);
 snapDates{2}(161553:202864,1) = datetime(2020,11,18,0,0,0);
 snapDates{2}(202865:241536,1) = datetime(2020,11,19,0,0,0);
 snapDates{2}(241537:length(snapRateTables{2}.Selection),1) = datetime(2020,11,20,0,0,0);
+
+snapDates{3}(1:)
 
 for i = 1:length(snapRateTables)
     snapRateTables{i}.DateTime = snapDates{i} + snapRateTables{i}.BeginClockTime;
@@ -607,7 +610,7 @@ for i = 1:length(snapRateTables)
     minuteEnergy{i}.Time.TimeZone = 'UTC';
 end
 
-
+%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 figure()
 tiledlayout(5,1,'tileSpacing','compact')
