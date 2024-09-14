@@ -117,14 +117,14 @@ end
 for month = 1:length(envData)
     for k = 1:length(windSpeedBins)
         for ii = 1:height(windSpeedBins{month,k})
-        snapCompare{k,month}(ii,:)   =  snaps(windSpeedBins{month,k}(ii,:));
+        snapCompare{month,k}(ii,:)   =  snaps{month}(windSpeedBins{month,k}(ii,:));
         %
-        avgSnaps{k,month}(ii)  = mean(snapCompare{k,ii},'omitNan')
+        avgSnaps{month,k}(ii)  = mean(snapCompare{k,ii},'omitNan')
         end
     end
 end
 
-
+%%
 
 %Day Confidence Intervals
 for k = 1:length(snapCompare)
