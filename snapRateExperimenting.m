@@ -88,37 +88,36 @@ snaps{2} = hourSnaps{2}.SnapCount;
 %
 for month = 1:length(envData)
     for k = 1:2
-        windSpeedBins{k,month}(1,:) = envData{month}.windSpd < 2 & envData{month}.daytime == (k-1) ;
-        windSpeedBins{k,month}(2,:) = envData{month}.windSpd > 2 & envData{month}.windSpd < 4 & envData{month}.daytime == (k-1) ;
-        windSpeedBins{k,month}(3,:) = envData{month}.windSpd > 4 & envData{month}.windSpd < 6 & envData{month}.daytime == (k-1) ;
-        windSpeedBins{k,month}(4,:) = envData{month}.windSpd > 6 & envData{month}.windSpd < 8 & envData{month}.daytime == (k-1) ;
-        windSpeedBins{k,month}(5,:) = envData{month}.windSpd > 8 & envData{month}.windSpd < 10 & envData{month}.daytime == (k-1) ;
-        windSpeedBins{k,month}(6,:) = envData{month}.windSpd > 10 & envData{month}.windSpd < 12 & envData{month}.daytime == (k-1) ;
-        windSpeedBins{k,month}(7,:) = envData{month}.windSpd > 12 & envData{month}.windSpd < 14 & envData{month}.daytime == (k-1) ;
-        windSpeedBins{k,month}(8,:) = envData{month}.windSpd > 14 & envData{month}.daytime == (k-1) ;
+        windSpeedBins{month,k}(1,:) = envData{month}.windSpd < 2 & envData{month}.daytime == (k-1) ;
+        windSpeedBins{month,k}(2,:) = envData{month}.windSpd > 2 & envData{month}.windSpd < 4 & envData{month}.daytime == (k-1) ;
+        windSpeedBins{month,k}(3,:) = envData{month}.windSpd > 4 & envData{month}.windSpd < 6 & envData{month}.daytime == (k-1) ;
+        windSpeedBins{month,k}(4,:) = envData{month}.windSpd > 6 & envData{month}.windSpd < 8 & envData{month}.daytime == (k-1) ;
+        windSpeedBins{month,k}(5,:) = envData{month}.windSpd > 8 & envData{month}.windSpd < 10 & envData{month}.daytime == (k-1) ;
+        windSpeedBins{month,k}(6,:) = envData{month}.windSpd > 10 & envData{month}.windSpd < 12 & envData{month}.daytime == (k-1) ;
+        windSpeedBins{month,k}(7,:) = envData{month}.windSpd > 12 & envData{month}.windSpd < 14 & envData{month}.daytime == (k-1) ;
+        windSpeedBins{month,k}(8,:) = envData{month}.windSpd > 14 & envData{month}.daytime == (k-1) ;
     end
 end
 
 %%
 for month = 1:length(envData)
     for k = 1:2
-        for ii = 1:height(windSpeedBins{k,month})
+        for ii = 1:height(windSpeedBins{month,k})
             % windSpeedScenario{k,month}= envData(windSpeedBins{k,month}(ii,:),:);
-            windSpeedScenario{k,month}= envData{1,month}(windSpeedBins{k,month}(ii,:),:);        
+            windSpeedScenario{month,k}{ii}= envData{1,month}(windSpeedBins{month,k}(ii,:),:);        
 
-            averageDets{month}(k,ii) = mean(windSpeedScenario{k,month}.HourlyDets,'omitnan');
-            noiseCompareAnnual{month}(k) = mean(windSpeedScenario{k,month}.Noise,'omitnan');
-            wavesCompareAnnual{month}(k) = mean(windSpeedScenario{k,month}.waveHeight,'omitnan');
-            tiltCompareWindAnnual{month}(k) = mean(windSpeedScenario{k,month}.Tilt,'omitnan');
-            stratCompareWindAnnual{month}(k) = mean(windSpeedScenario{k,month}.bulkThermalStrat,'omitnan')        
+            averageDets{month}(k,ii) = mean(windSpeedScenario{month,k}{ii}.HourlyDets,'omitnan');
+            noiseCompareAnnual{month}(k,ii) = mean(windSpeedScenario{month,k}{ii}.Noise,'omitnan');
+            wavesCompareAnnual{month}(k,ii) = mean(windSpeedScenario{month,k}{ii}.waveHeight,'omitnan');
+            stratCompareWindAnnual{month}(k,ii) = mean(windSpeedScenario{month,k}{ii}.bulkThermalStrat,'omitnan')        
         end
     end
 end
 %%
 for month = 1:length(envData)
     for k = 1:length(windSpeedBins)
-        for ii = 1:height(windSpeedBins{k,month})
-        snapCompare{k,month}(ii,:)   =  snaps(windSpeedBins{k,month}(ii,:));
+        for ii = 1:height(windSpeedBins{month,k})
+        snapCompare{k,month}(ii,:)   =  snaps(windSpeedBins{month,k}(ii,:));
         %
         avgSnaps{k,month}(ii)  = mean(snapCompare{k,ii},'omitNan')
         end
