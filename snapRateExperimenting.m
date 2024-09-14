@@ -117,9 +117,9 @@ end
 for month = 1:length(envData)
     for k = 1:length(windSpeedBins)
         for ii = 1:height(windSpeedBins{month,k})
-        snapCompare{month,k}(ii,:)   =  snaps{month}(windSpeedBins{month,k}(ii,:));
+        snapCompare{month,k}{ii}   =  snaps{month}(windSpeedBins{month,k}(ii,:));
         %
-        avgSnaps{month,k}(ii)  = mean(snapCompare{k,ii},'omitNan')
+        avgSnaps{month,k}(ii)  = mean(snapCompare{month,k}{ii},'omitNan')
         end
     end
 end
