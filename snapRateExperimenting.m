@@ -94,8 +94,7 @@ for month = 1:length(envData)
         windSpeedBins{month,k}(4,:) = envData{month}.windSpd > 6 & envData{month}.windSpd < 8 & envData{month}.daytime == (k-1) ;
         windSpeedBins{month,k}(5,:) = envData{month}.windSpd > 8 & envData{month}.windSpd < 10 & envData{month}.daytime == (k-1) ;
         windSpeedBins{month,k}(6,:) = envData{month}.windSpd > 10 & envData{month}.windSpd < 12 & envData{month}.daytime == (k-1) ;
-        windSpeedBins{month,k}(7,:) = envData{month}.windSpd > 12 & envData{month}.windSpd < 14 & envData{month}.daytime == (k-1) ;
-        windSpeedBins{month,k}(8,:) = envData{month}.windSpd > 14 & envData{month}.daytime == (k-1) ;
+        windSpeedBins{month,k}(7,:) = envData{month}.windSpd > 12 & envData{month}.daytime == (k-1) ;
     end
 end
 
@@ -155,11 +154,11 @@ X = 0:2:12
 figure()
 tiledlayout(2,1)
 ax1 = nexttile()
-scatter(X,avgSnaps{2},'filled','r')
+scatter(X,avgSnaps{1,2},'filled','r')
 ylabel('Hourly Snaps')
 title('Shrimp Activity vs Wind, March','Day')
 ax2 = nexttile()
-scatter(X,avgSnaps{1},'filled','b')
+scatter(X,avgSnaps{1,1},'filled','b')
 ylabel('Hourly Snaps')
 xlabel('Windspeed (m/s)')
 title('','Night')
