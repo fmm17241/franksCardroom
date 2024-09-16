@@ -83,6 +83,14 @@ noise{2} = receiverData{4}.Noise(7532:8192);
 tideVelocity{2} = receiverData{4}.crossShore(7532:8192);
 snaps{2} = hourSnaps{2}.SnapCount;
 
+%April 2020
+envData{3} = receiverData{4}(3279:3563,:);
+timeTest{3} = receiverData{4}.DT(3279:3563);
+noise{3} = receiverData{4}.Noise(3279:3563);
+tideVelocity{3} = receiverData{4}.crossShore(3279:3563);
+snaps{3} = hourSnaps{3}.SnapCount;
+
+
 
 
 %
@@ -107,10 +115,10 @@ for month = 1:length(envData)
             windSpeedScenario{k,month}= envData{1,month}(windSpeedBins{k,month}(ii,:),:);        
 
             averageDets{month}(k,ii) = mean(windSpeedScenario{k,month}.HourlyDets,'omitnan');
-            noiseCompareAnnual{month}(k) = mean(windSpeedScenario{k,month}.Noise,'omitnan');
-            wavesCompareAnnual{month}(k) = mean(windSpeedScenario{k,month}.waveHeight,'omitnan');
-            tiltCompareWindAnnual{month}(k) = mean(windSpeedScenario{k,month}.Tilt,'omitnan');
-            stratCompareWindAnnual{month}(k) = mean(windSpeedScenario{k,month}.bulkThermalStrat,'omitnan')        
+            noiseCompare{month}(k) = mean(windSpeedScenario{k,month}.Noise,'omitnan');
+            wavesCompare{month}(k) = mean(windSpeedScenario{k,month}.waveHeight,'omitnan');
+            tiltCompareWind{month}(k) = mean(windSpeedScenario{k,month}.Tilt,'omitnan');
+            stratCompareWind{month}(k) = mean(windSpeedScenario{k,month}.bulkThermalStrat,'omitnan')        
         end
     end
 end
@@ -118,9 +126,9 @@ end
 for month = 1:length(envData)
     for k = 1:length(windSpeedBins)
         for ii = 1:height(windSpeedBins{k,month})
-        snapCompare{k,month}(ii,:)   =  snaps(windSpeedBins{k,month}(ii,:));
+            snapCompare{k,month}(ii,:)   =  snaps(windSpeedBins{k,month}(ii,:));
         %
-        avgSnaps{k,month}(ii)  = mean(snapCompare{k,ii},'omitNan')
+            avgSnaps{k,month}(ii)  = mean(snapCompare{k,ii},'omitNan')
         end
     end
 end
