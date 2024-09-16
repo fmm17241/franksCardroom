@@ -67,29 +67,38 @@ title('SnapRate')
 linkaxes([ax1,ax2,ax3],'x')
 
 
+for K = 1:length(hourSnaps)
+    clear snapTimeRange envFit
+    snapTimeRange = [hourSnaps{K}.Time(1); hourSnaps{K}.Time(end)];
+    
+    envFit = isbetween(receiverData{4}.DT, snapTimeRange(1),snapTimeRange(2));
+
+    envData{K} = receiverData{4}(envFit,:);
+
+end
 
 
-%Okay focus on one month 9/12/24 work
-envData{1} = receiverData{4}(2480:3152,:);
-timeTest{1} = receiverData{4}.DT(2480:3152);
-noise{1} = receiverData{4}.Noise(2480:3152);
-tideVelocity{1} = receiverData{4}.crossShore(2480:3152);
-snaps{1} = hourSnaps{1}.SnapCount;
-
-%Sept/Oct 2020
-envData{2} = receiverData{4}(7532:8192,:);
-timeTest{2} = receiverData{4}.DT(7532:8192);
-noise{2} = receiverData{4}.Noise(7532:8192);
-tideVelocity{2} = receiverData{4}.crossShore(7532:8192);
-snaps{2} = hourSnaps{2}.SnapCount;
-
-%April 2020
-envData{3} = receiverData{4}(3279:3563,:);
-timeTest{3} = receiverData{4}.DT(3279:3563);
-noise{3} = receiverData{4}.Noise(3279:3563);
-tideVelocity{3} = receiverData{4}.crossShore(3279:3563);
-snaps{3} = hourSnaps{3}.SnapCount;
-
+% %Okay focus on one month 9/12/24 work
+% envData{1} = receiverData{4}(2480:3152,:);
+% timeTest{1} = receiverData{4}.DT(2480:3152);
+% noise{1} = receiverData{4}.Noise(2480:3152);
+% tideVelocity{1} = receiverData{4}.crossShore(2480:3152);
+% snaps{1} = hourSnaps{1}.SnapCount;
+% 
+% %Sept/Oct 2020
+% envData{2} = receiverData{4}(7532:8192,:);
+% timeTest{2} = receiverData{4}.DT(7532:8192);
+% noise{2} = receiverData{4}.Noise(7532:8192);
+% tideVelocity{2} = receiverData{4}.crossShore(7532:8192);
+% snaps{2} = hourSnaps{2}.SnapCount;
+% 
+% %April 2020
+% envData{3} = receiverData{4}(3279:3563,:);
+% timeTest{3} = receiverData{4}.DT(3279:3563);
+% noise{3} = receiverData{4}.Noise(3279:3563);
+% tideVelocity{3} = receiverData{4}.crossShore(3279:3563);
+% snaps{3} = hourSnaps{3}.SnapCount;
+% 
 
 
 
