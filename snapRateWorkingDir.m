@@ -22,11 +22,10 @@ fileLocation = ([oneDrive,'\acousticAnalysis']);
 %occur in. I Need to convert to spectral/frequency domain to start
 %experimenting.
 
-springNeapSpectralTesting
 springNeapSpectral
 
 %%
-%From Brock
+%From Brock, this is my best lead.
 % Function returns power spectra of input
 % dataout=Power_spectra(datainA,bins,DT,windoww,samplinginterval,cutoff)
 Power_spectra
