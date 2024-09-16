@@ -1,20 +1,18 @@
 
-
+function [receiverData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets] = snapRatePlotter(oneDrive, SnapCountTable, snapRateTables, hourSnaps, hourEnergy, hourAmp, minuteSnaps, minuteAmp, minuteEnergy)
 
 buildReceiverData
 close all
 clearvars index
 
-
-
-fileLocation = ([oneDrive,'\acousticAnalysis']);
-% fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis';
-[SnapCountTable, snapRateTables, PeakAmpTable, EnergyTable, hourSnaps, hourAmp, hourEnergy, minuteSnaps, minuteAmp, minuteEnergy] = snapRateAnalyzer(fileLocation)
+% 
+%  %Run "snapRateAnalyzer" first
+% fileLocation = ([oneDrive,'\acousticAnalysis']);
+% % fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis';
+% [SnapCountTable, snapRateTables, PeakAmpTable, EnergyTable, hourSnaps, hourAmp, hourEnergy, minuteSnaps, minuteAmp, minuteEnergy] = snapRateAnalyzer(fileLocation)
 
 %FM This is just for the March 2020 dataset, two small times had bad data and so I'm removing those hours.
-
 badTimes = [351;547];
-
 if hourSnaps{1}.Time(1,1) == '02-Mar-2020 23:00:00.000';
     % hourSnaps{1}.SnapCount(351,:) = NaN;
     hourSnaps{1}.SnapCount(badTimes,:) = NaN;
@@ -69,33 +67,8 @@ for K = 1:length(hourSnaps)
     envFit = isbetween(receiverData{4}.DT, snapTimeRange(1),snapTimeRange(2));
 
     envData{K} = receiverData{4}(envFit,:);
-
+    snaps{K} = hourSnaps{K}.SnapCount;
 end
-
-
-% %Okay focus on one month 9/12/24 work
-% envData{1} = receiverData{4}(2480:3152,:);
-% timeTest{1} = receiverData{4}.DT(2480:3152);
-% noise{1} = receiverData{4}.Noise(2480:3152);
-% tideVelocity{1} = receiverData{4}.crossShore(2480:3152);
-% snaps{1} = hourSnaps{1}.SnapCount;
-% 
-% %Sept/Oct 2020
-% envData{2} = receiverData{4}(7532:8192,:);
-% timeTest{2} = receiverData{4}.DT(7532:8192);
-% noise{2} = receiverData{4}.Noise(7532:8192);
-% tideVelocity{2} = receiverData{4}.crossShore(7532:8192);
-% snaps{2} = hourSnaps{2}.SnapCount;
-% 
-% %April 2020
-% envData{3} = receiverData{4}(3279:3563,:);
-% timeTest{3} = receiverData{4}.DT(3279:3563);
-% noise{3} = receiverData{4}.Noise(3279:3563);
-% tideVelocity{3} = receiverData{4}.crossShore(3279:3563);
-% snaps{3} = hourSnaps{3}.SnapCount;
-% 
-
-
 
 %
 for month = 1:length(envData)
@@ -128,7 +101,7 @@ for month = 1:length(envData)
 end
 %%
 for month = 1:length(envData)
-    for k = 1:length(windSpeedBins)
+    for k = 1:height(windSpeedBins)
         for ii = 1:height(windSpeedBins{k,month})
             binnedSnaps{k,month}{ii}   =  snaps{month}(windSpeedBins{k,month}(ii,:));
         %
@@ -162,17 +135,17 @@ end
 
 
 
-X = 0:2:12
+X = 0:2:14
 
 
 figure()
 tiledlayout(2,1)
 ax1 = nexttile()
-scatter(X,avgSnaps{2},'filled','r')
+scatter(X,avgSnaps{2,1},'filled','r')
 ylabel('Hourly Snaps')
 title('Shrimp Activity vs Wind, March','Day')
 ax2 = nexttile()
-scatter(X,avgSnaps{1},'filled','b')
+scatter(X,avgSnaps{1,1},'filled','b')
 ylabel('Hourly Snaps')
 xlabel('Windspeed (m/s)')
 title('','Night')
@@ -181,48 +154,25 @@ title('','Night')
 %%
 
 figure()
-scatter(X,avgSnaps{2},'filled','r')
+scatter(X,avgSnaps{2,1},'filled','r')
 ylabel('Hourly Snaps')
 title('Shrimp Activity vs Wind, March','Day')
 hold on
-scatter(X,avgSnaps{1},'filled','b')
+scatter(X,avgSnaps{1,1},'filled','b')
 ylabel('Hourly Snaps')
 xlabel('Windspeed (m/s)')
 
 
-
-figure()
-hold on
-% ciplot(CIsunsetNoise(:,1),CIsunsetNoise(:,2),1:5,'k')
-ciplot(CIsnaps{1}(:,1),CIsnaps{1}(:,2),1:7,'b')
-ciplot(CIsnaps{2}(:,1),CIsnaps{2}(:,2),1:7,'r')
-xlabel('Seasons, 2020')
-ylabel('Average Noise (mV)')
-title('Average Noise By Time of Day and Season','95% Conf. Interval, 69 kHz')
-legend('Night','Day')
-
-
-
-
-
-
-%mscohere()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+% 
+% figure()
+% hold on
+% % ciplot(CIsunsetNoise(:,1),CIsunsetNoise(:,2),1:5,'k')
+% ciplot(CIsnaps{1}(:,1),CIsnaps{1}(:,2),1:7,'b')
+% ciplot(CIsnaps{2}(:,1),CIsnaps{2}(:,2),1:7,'r')
+% xlabel('Seasons, 2020')
+% ylabel('Average Noise (mV)')
+% title('Average Noise By Time of Day and Season','95% Conf. Interval, 69 kHz')
+% legend('Night','Day')
 
 
 
@@ -230,14 +180,6 @@ legend('Night','Day')
 
 
 %mscohere()
-
-
-
-
-
-
-
-
 
 
 

@@ -1,64 +1,20 @@
 
 
-
-buildReceiverData
-close all
-clearvars index
+%Frank's work for chapter 4.
 
 
+%%
+%First step: load in the processed files. This gives tables and
+%datastructures with the number of snaps and the energy.
 
 fileLocation = ([oneDrive,'\acousticAnalysis']);
 % fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis';
 [SnapCountTable, snapRateTables, PeakAmpTable, EnergyTable, hourSnaps, hourAmp, hourEnergy, minuteSnaps, minuteAmp, minuteEnergy] = snapRateAnalyzer(fileLocation)
 
-%FM This is just for the March 2020 dataset, two small times had bad data and so I'm removing those hours.
 
-badTimes = [351;547];
-
-if hourSnaps{1}.Time(1,1) == '02-Mar-2020 23:00:00.000';
-    % hourSnaps{1}.SnapCount(351,:) = NaN;
-    hourSnaps{1}.SnapCount(badTimes,:) = NaN;
-end
-
-
-figure()
-tiledlayout(4,1,'tileSpacing','compact')
-
-% ax1 = nexttile()
-% hold on
-% for k = 1:length(receiverData)
-% plot(receiverData{k}.DT,receiverData{k}.Noise)
-
-ax1 = nexttile()
-hold on
-plot(receiverData{4}.DT,receiverData{4}.Noise,'k')
-title('Noise')
-
-ax2 = nexttile()
-plot(receiverData{4}.DT,receiverData{4}.windSpd)
-hold on
-title('Windspeed')
-
-% 
-ax3 = nexttile()
-hold on
-for i = 1:length(hourSnaps)
-plot(minuteSnaps{i}.Time,minuteSnaps{i}.SnapCount)
-end
-% legend({'Mid','High','Low'})
-title('SnapRate')
-
-ax4 = nexttile()
-hold on
-for i = 1:length(hourAmp)
-    plot(minuteAmp{i}.Time,minuteAmp{i}.PeakAmp)
-end
-% legend({'Mid','High','Low'})
-title('Peak Amplitude')
-
-
-
-linkaxes([ax1,ax2,ax3,ax4],'x')
+% Second step: this bins, averages, and plots some of their
+[receiverData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets] = snapRatePlotter(oneDrive, SnapCountTable, snapRateTables, ...
+    hourSnaps, hourEnergy, hourAmp, minuteSnaps, minuteAmp, minuteEnergy);
 
 %%
 
@@ -73,27 +29,6 @@ for K = 1:length(hourSnaps)
 end
 
 
-% %Okay focus on one month 9/12/24 work
-% envData{1} = receiverData{4}(2480:3152,:);
-% timeTest{1} = receiverData{4}.DT(2480:3152);
-% noise{1} = receiverData{4}.Noise(2480:3152);
-% tideVelocity{1} = receiverData{4}.crossShore(2480:3152);
-% snaps{1} = hourSnaps{1}.SnapCount;
-% 
-% %Sept/Oct 2020
-% envData{2} = receiverData{4}(7532:8192,:);
-% timeTest{2} = receiverData{4}.DT(7532:8192);
-% noise{2} = receiverData{4}.Noise(7532:8192);
-% tideVelocity{2} = receiverData{4}.crossShore(7532:8192);
-% snaps{2} = hourSnaps{2}.SnapCount;
-% 
-% %April 2020
-% envData{3} = receiverData{4}(3279:3563,:);
-% timeTest{3} = receiverData{4}.DT(3279:3563);
-% noise{3} = receiverData{4}.Noise(3279:3563);
-% tideVelocity{3} = receiverData{4}.crossShore(3279:3563);
-% snaps{3} = hourSnaps{3}.SnapCount;
-% 
 
 
 
