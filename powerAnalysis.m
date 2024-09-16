@@ -11,74 +11,12 @@ close all
 for COUNT = 1:length(receiverData)
     signalNoise{COUNT}  =   receiverData{COUNT}.Noise;
     signalDets{COUNT}   =   receiverData{COUNT}.HourlyDets;
-    signalPings{COUNT}  =   receiverData{COUNT}.Pings;
-    signalRatio{COUNT}  =   receiverData{COUNT}.PingRatio;
     signalWinds{COUNT}  =   receiverData{COUNT}.windSpd;
     signalTilt{COUNT}  =   receiverData{COUNT}.Tilt;
     signalTemp{COUNT}  =   receiverData{COUNT}.Temp;
     signalCrossTides{COUNT}  =  receiverData{COUNT}.crossShore;
 end
 
-figure()
-tiledlayout(3,1,'TileSpacing','compact')
-ax1 = nexttile()
-plot(receiverData{4}.DT,receiverData{4}.windSpd,'k')
-ylabel('Windspd (m/s)')
-title('Windspeed')
-ax2 = nexttile()
-plot(receiverData{4}.DT,receiverData{4}.Noise,'r')
-ylabel('Noise (mV)')
-title('ON Reef, 33OUT')
-ylim([200 900])
-ax3 = nexttile()
-plot(receiverData{5}.DT,receiverData{5}.Noise,'b')
-ylabel('Noise (mV)')
-title('OFF Reef, FS17')
-ylim([200 900])
-
-linkaxes([ax1,ax2,ax3],'x')
-
-%%
-figure()
-tiledlayout(3,1,'TileSpacing','compact')
-ax1 = nexttile()
-colororder(ax1,{'k','k'})
-plot(receiverData{4}.DT,receiverData{4}.windDir,'k')
-ylabel('WindDir')
-title('WindDir')
-
-
-ax2 = nexttile()
-colororder(ax2,{'k','k'})
-plot(receiverData{4}.DT,receiverData{4}.HourlyDets,'r')
-ylabel('Hourly Dets')
-title('ON Reef, 33OUT')
-ylim([0 7])
-yyaxis right
-plot(receiverData{4}.DT,receiverData{4}.Noise,'k--')
-ylabel('HF Noise (mV)')
-ylim([300 750])
-ax = gca;
-ax.YAxis(1).Color = 'r';
-ax.YAxis(2).Color = 'k';
-% ylim([200 900])
-
-ax3 = nexttile()
-colororder(ax3,{'k','k'})
-plot(receiverData{5}.DT,receiverData{5}.HourlyDets,'b')
-ylabel('Hourly Dets')
-title('OFF Reef, FS17')
-ylim([0 7])
-yyaxis right
-plot(receiverData{5}.DT,receiverData{5}.Noise,'k--')
-ylabel('HF Noise (mV)')
-ylim([300 750])
-ax = gca;
-ax.YAxis(1).Color = 'b';
-ax.YAxis(2).Color = 'k';
-% ylim([200 900])
-
-linkaxes([ax1,ax2,ax3],'x')
 
 %%
         
@@ -117,6 +55,7 @@ sizeLabels   = [{'WHOLE'};{'30 Days'};{'10 Days'};{'7 Days'};{'40 Hours'}];
 %Number of hours in each bin; 1st value represents whole dataset
 binLength = [NaN;720;240;168;40]; 
 
+%%
 
 %Hmmmmm how do I automate this part? Let's try.
 for COUNT = 1:length(receiverData)
@@ -130,8 +69,6 @@ for COUNT = 1:length(receiverData)
         noiseStruct{COUNT,binCOUNT} = Power_spectra(signalNoise{COUNT}',numberOfBins(COUNT,binCOUNT),1,0,3600,0)
         detectionStruct{COUNT,binCOUNT} = Power_spectra(signalDets{COUNT}',numberOfBins(COUNT,binCOUNT),1,0,3600,0)
         tideStruct{COUNT,binCOUNT} = Power_spectra(signalCrossTides{COUNT}',numberOfBins(COUNT,binCOUNT),1,0,3600,0)  
-        pingsStruct{COUNT,binCOUNT} = Power_spectra(signalPings{COUNT}',numberOfBins(COUNT,binCOUNT),1,0,3600,0)  
-        pingRatioStruct{COUNT,binCOUNT} = Power_spectra(signalRatio{COUNT}',numberOfBins(COUNT,binCOUNT),1,0,3600,0)  
         continue
         end
         numberOfBins(COUNT,binCOUNT) = datasetLength(COUNT)/binLength(binCOUNT)
@@ -139,8 +76,6 @@ for COUNT = 1:length(receiverData)
         noiseStruct{COUNT,binCOUNT} = Power_spectra(signalNoise{COUNT}',numberOfBins(COUNT,binCOUNT),1,0,3600,0)
         detectionStruct{COUNT,binCOUNT} = Power_spectra(signalDets{COUNT}',numberOfBins(COUNT,binCOUNT),1,0,3600,0)
         tideStruct{COUNT,binCOUNT} = Power_spectra(signalCrossTides{COUNT}',numberOfBins(COUNT,binCOUNT),1,0,3600,0)  
-        pingsStruct{COUNT,binCOUNT} = Power_spectra(signalPings{COUNT}',numberOfBins(COUNT,binCOUNT),1,0,3600,0)  
-        pingRatioStruct{COUNT,binCOUNT} = Power_spectra(signalRatio{COUNT}',numberOfBins(COUNT,binCOUNT),1,0,3600,0) 
     end
 end
 

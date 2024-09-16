@@ -24,9 +24,56 @@ fileLocation = ([oneDrive,'\acousticAnalysis']);
 
 springNeapSpectralTesting
 springNeapSpectral
+
+%%
+%From Brock
+% Function returns power spectra of input
+% dataout=Power_spectra(datainA,bins,DT,windoww,samplinginterval,cutoff)
 Power_spectra
+
+%%
 noiseDetrended
+% for k = 1:length(receiverData)
+%     testingDetrend{k} = detrend(receiverData{k}.Noise,'constant')
+% end
+
+
+%%
+%
+
 powerAnalysis
+Fs = (2*pi)/(60*60);            % Sampling frequency, 1 sample every 60 minutes. Added 2pi; this is per second, Hz
+FsPerDay = Fs*86400;            % This turns it to how many times per day
+
+
+%Set up FFT variables
+Fs = (2*pi)/(60*60);            % Sampling frequency, 1 sample every 60 minutes. Added 2pi.
+FsPerDay = Fs*86400;
+
+for COUNT =  1:length(receiverData)
+    Y{COUNT} = fft(signalNoise{COUNT})              % FFT of the processed signals 
+    L{COUNT} = height(signalNoise{COUNT})        % Length of signal
+    magnitude{COUNT} = abs(Y{COUNT});
+    averageWindowOutput{COUNT}(:,1) = mean(Y{COUNT},2); %Averaging all my windows
+end
+% Passing
+wpass = (2*pi)/172800;
+Fs = (2*pi)/3600 %Frequency, hertz
+% Fs = (2*pi) %Frequency, hertz
+
+%First band: between 2 and 30 days
+bandWork1 = [(2*pi)/2592000 (2*pi)/172800]
+
+%Second band: between 14 and 30 days
+bandWorkMid = [(2*pi)/2592000 (2*pi)/1209600]
+
+%Third band: between 30 and 100 days
+bandWorkLow = [(2*pi)/8640000 (2*pi)/2592000]
+
+%Fourth band: between 2 hours and 2 days
+bandWorkHigh = [(2*pi)/2592000 (2*pi)/7200]
+
+%%
 crossCorrFM
 
 
