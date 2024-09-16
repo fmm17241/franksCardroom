@@ -13,28 +13,21 @@ fileLocation = ([oneDrive,'\acousticAnalysis']);
 
 
 % Second step: this bins, averages, and plots some of their
-[receiverData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets] = snapRatePlotter(oneDrive, SnapCountTable, snapRateTables, ...
+[receiverData, envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets] = snapRatePlotter(oneDrive, SnapCountTable, snapRateTables, ...
     hourSnaps, hourEnergy, hourAmp, minuteSnaps, minuteAmp, minuteEnergy);
 
 %%
 
+%Okay, so I currently have hourly/minute snaps and the environment they
+%occur in. I Need to convert to spectral/frequency domain to start
+%experimenting.
 
-for K = 1:length(hourSnaps)
-    clear snapTimeRange envFit
-    snapTimeRange = [hourSnaps{K}.Time(1); hourSnaps{K}.Time(end)];
-    
-    envFit = isbetween(receiverData{4}.DT, snapTimeRange(1),snapTimeRange(2));
-
-    envData{K} = receiverData{4}(envFit,:);
-
-end
-
-
-
-
-
-
-
+springNeapSpectralTesting
+springNeapSpectral
+Power_spectra
+noiseDetrended
+powerAnalysis
+crossCorrFM
 
 
 %mscohere()

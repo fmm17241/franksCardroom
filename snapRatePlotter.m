@@ -1,5 +1,5 @@
 
-function [receiverData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets] = snapRatePlotter(oneDrive, SnapCountTable, snapRateTables, hourSnaps, hourEnergy, hourAmp, minuteSnaps, minuteAmp, minuteEnergy)
+function [receiverData,envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets] = snapRatePlotter(oneDrive, SnapCountTable, snapRateTables, hourSnaps, hourEnergy, hourAmp, minuteSnaps, minuteAmp, minuteEnergy)
 
 buildReceiverData
 close all
