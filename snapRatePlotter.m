@@ -115,10 +115,10 @@ for month = 1:length(envData)
             windSpeedScenario{k,month}= envData{1,month}(windSpeedBins{k,month}(ii,:),:);        
 
             averageDets{month}(k,ii) = mean(windSpeedScenario{k,month}.HourlyDets,'omitnan');
-            noiseCompare{month}(k) = mean(windSpeedScenario{k,month}.Noise,'omitnan');
-            wavesCompare{month}(k) = mean(windSpeedScenario{k,month}.waveHeight,'omitnan');
-            tiltCompareWind{month}(k) = mean(windSpeedScenario{k,month}.Tilt,'omitnan');
-            stratCompareWind{month}(k) = mean(windSpeedScenario{k,month}.bulkThermalStrat,'omitnan')        
+            noiseCompare{month}(k,ii) = mean(windSpeedScenario{k,month}.Noise,'omitnan');
+            wavesCompare{month}(k,ii) = mean(windSpeedScenario{k,month}.waveHeight,'omitnan');
+            tiltCompareWind{month}(k,ii) = mean(windSpeedScenario{k,month}.Tilt,'omitnan');
+            stratCompareWind{month}(k,ii) = mean(windSpeedScenario{k,month}.bulkThermalStrat,'omitnan')        
         end
     end
 end
@@ -126,9 +126,9 @@ end
 for month = 1:length(envData)
     for k = 1:length(windSpeedBins)
         for ii = 1:height(windSpeedBins{k,month})
-            snapCompare{k,month}(ii,:)   =  snaps(windSpeedBins{k,month}(ii,:));
+            binnedSnaps{k,month}{ii}   =  snaps{month}(windSpeedBins{k,month}(ii,:));
         %
-            avgSnaps{k,month}(ii)  = mean(snapCompare{k,ii},'omitNan')
+            avgSnaps{k,month}(ii)  = mean(binnedSnaps{k,month}{ii},'omitNan')
         end
     end
 end
@@ -136,23 +136,23 @@ end
 
 
 %Day Confidence Intervals
-for k = 1:length(snapCompare)
+for k = 1:length(binnedSnaps)
     %Finding standard deviations/CIs of values
-    SEM = std(snapCompare{1,k}(:),'omitnan')/sqrt(length(snapCompare{1,k}));  
-    ts = tinv([0.025  0.975],length(snapCompare{1,k})-1);  
-    CIdayNoise(k,:) = mean(snapCompare{1,k},'all','omitnan') + ts*SEM; 
+    SEM = std(binnedSnaps{1,k}(:),'omitnan')/sqrt(length(binnedSnaps{1,k}));  
+    ts = tinv([0.025  0.975],length(binnedSnaps{1,k})-1);  
+    CIdayNoise(k,:) = mean(binnedSnaps{1,k},'all','omitnan') + ts*SEM; 
 
 end
 
 
 
 %Day Confidence Intervals
-for ii = 1:height(snapCompare)
-    for k = 1:length(snapCompare)
+for ii = 1:height(binnedSnaps)
+    for k = 1:length(binnedSnaps)
     %Finding standard deviations/CIs of values
-    SEM = std(snapCompare{ii,k}(:),'omitnan')/sqrt(length(snapCompare{ii,k}));  
-    ts = tinv([0.025  0.975],length(snapCompare{ii,k})-1);  
-    CIsnaps{ii}(k,:) = mean(snapCompare{i,k},'all','omitnan') + ts*SEM; 
+    SEM = std(binnedSnaps{ii,k}(:),'omitnan')/sqrt(length(binnedSnaps{ii,k}));  
+    ts = tinv([0.025  0.975],length(binnedSnaps{ii,k})-1);  
+    CIsnaps{ii}(k,:) = mean(binnedSnaps{i,k},'all','omitnan') + ts*SEM; 
     end
 end
 
