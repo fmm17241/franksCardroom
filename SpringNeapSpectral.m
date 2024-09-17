@@ -12,6 +12,7 @@
 % specified.
 
 rawSignal = Power_spectra(hourSnaps{1}.SnapCount,1,1,0,3600,0);
+
 %Power_spectra inputs
 % dataout=Power_spectra(datainA,bins,DT,windoww,samplinginterval,cutoff)
 
@@ -42,9 +43,13 @@ title('Snaps','Detrended-Mean Data')
 
 
 
+tides = envData{1}.crossShore;
 
+rawSignal = Power_spectra(tides,1,1,0,3600,0);
 
-
+figure()
+plot(rawSignal.f*86400,rawSignal.psdw);
+title('Tides','Raw Data')
 
 
 
