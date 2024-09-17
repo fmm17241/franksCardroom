@@ -11,7 +11,10 @@
 % hourSnaps : hourly count of snaps at a certain threshold, 1000U if not
 % specified.
 
-rawSignal = Power_spectra(hourSnaps{1}.SnapCount,1,1,0,3600,0)
+rawSignal = Power_spectra(hourSnaps{1}.SnapCount,1,1,0,3600,0);
+%Power_spectra inputs
+% dataout=Power_spectra(datainA,bins,DT,windoww,samplinginterval,cutoff)
+
 
 figure()
 plot(rawSignal.f*86400,rawSignal.psdw);
