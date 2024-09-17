@@ -17,14 +17,26 @@ fileLocation = ([oneDrive,'\acousticAnalysis']);
     hourSnaps, hourEnergy, hourAmp, minuteSnaps, minuteAmp, minuteEnergy);
 
 %%
+%This is a way of analyzing whether or not I missed a datafile, finds the
+%difference between seconds
+% Assuming your time series is stored in a vector called `timeSeries`
+for K = 1:length(snapRateTables)
+    timeSeriesDiff = diff(snapRateTables{K}.BeginClockTime);
+    timeSeriesDiffSeconds = seconds(timeSeriesDiff{K});    
+% To identify the missing times (i.e., where the difference is larger than 1 second)
+    missingTimesIdx = find(timeSeriesDiff > 3);
+
+% To get the actual missing time gaps and where they occur
+    missingGaps = timeSeriesDiff(missingTimesIdx);
+    missingTimes{K} = snapRateTables{K}(missingTimesIdx,:); % This gives you the times just before the gaps
+end
+
+%%
 
 %Okay, so I currently have hourly/minute snaps and the environment they
 %occur in. I Need to convert to spectral/frequency domain to start
 %experimenting.
 frankSpectralAnalysis
-
-
-
 
 
 %%
