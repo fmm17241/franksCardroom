@@ -1,7 +1,17 @@
 
 
 %Frank's work for chapter 4.
-
+% Current work explained.
+% 1. snapRateAnalyzer       - Processes Raven Pro outputs from CSV into Matlab datastructures.
+%
+% 2. snapRatePlotter        - Builds the environmental data and plots a few basic examples.
+%
+%                                   - Only takes hours that has recording data analyzed.
+%
+% 3. snapRateWindRose       - visualizes the wind speed and direction as context.
+%
+% 4. frankSpectralAnalysis  - This is where we're at. Converting from time domain to frequency domain.
+%
 
 %%
 %First step: load in the processed files. This gives tables and
@@ -17,22 +27,8 @@ fileLocation = ([oneDrive,'\acousticAnalysis']);
     hourSnaps, hourEnergy, hourAmp, minuteSnaps, minuteAmp, minuteEnergy);
 
 %%
-% %This is a way of analyzing whether or not I missed a datafile, finds the
-% %difference between seconds
-% % Assuming your time series is stored in a vector called `timeSeries`
-% for K = 1:length(snapRateTables)
-%     timeSeriesDiff = diff(snapRateTables{K}.BeginClockTime);
-%     timeSeriesDiffSeconds = seconds(timeSeriesDiff);    
-% % To identify the missing times (i.e., where the difference is larger than 1 second)
-%     missingTimesIdx = find(timeSeriesDiffSeconds > 1800);
-% 
-% % To get the actual missing time gaps and where they occur
-%     missingGaps = timeSeriesDiff(missingTimesIdx);
-%     missingTimes{K} = snapRateTables{K}(missingTimesIdx,:); % This gives you the times just before the gaps
-% end
-
-%%
 snapRateWindRose
+%%
 
 %Okay, so I currently have hourly/minute snaps and the environment they
 %occur in. I Need to convert to spectral/frequency domain to start
@@ -49,6 +45,19 @@ Power_spectra
 
 
 %%
+% %This is a way of analyzing whether or not I missed a datafile, finds the
+% %difference between seconds
+% % Assuming your time series is stored in a vector called `timeSeries`
+% for K = 1:length(snapRateTables)
+%     timeSeriesDiff = diff(snapRateTables{K}.BeginClockTime);
+%     timeSeriesDiffSeconds = seconds(timeSeriesDiff);    
+% % To identify the missing times (i.e., where the difference is larger than 1 second)
+%     missingTimesIdx = find(timeSeriesDiffSeconds > 1800);
+% 
+% % To get the actual missing time gaps and where they occur
+%     missingGaps = timeSeriesDiff(missingTimesIdx);
+%     missingTimes{K} = snapRateTables{K}(missingTimesIdx,:); % This gives you the times just before the gaps
+% end
 %
 
 powerAnalysis

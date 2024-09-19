@@ -22,35 +22,6 @@
 % hourSnaps : hourly count of snaps at a certain threshold, 1000U if not
 % specified.
 
-
-
-rawSignal = Power_spectra(hourSnaps{1}.SnapCount,1,1,0,3600,0);
-
-testSignal = Power_spectra(receiverData{4}.crossShore,1,1,0,3600,0)
-
-%Power_spectra inputs
-% dataout=Power_spectra(datainA,bins,DT,windoww,samplinginterval,cutoff)
-
-
-figure()
-plot(rawSignal.f*86400,rawSignal.psdw);
-title('Snaps','Raw Data')
-
-for K = 1:length(envData)
-    % Detrending the signal
-    detrendedSignal{K} = detrend(hourSnaps{K}.SnapCount,'constant')
-    
-    %Removing the mean from the signal:
-    processedSignal{K} = detrendedSignal{K} - mean(detrendedSignal{K});
-    
-    %Find the frequency of the signal
-    signalDetrended{K} = Power_spectra(processedSignal{K},1,1,0,3600,0)
-end
-
-
-X = 1:length(processedSignal)
-
-
 for K = 1:length(envData)
     figure()
     tiledlayout(3,1)
@@ -66,11 +37,34 @@ for K = 1:length(envData)
     nexttile()
     ax4 = plot(envData{K}.DT,envData{K}.windSpd);
     title('','Winds')
-
+% linkaxes([ax1,ax3,ax4],'x')
 end
 
 
-linkaxes([ax1,ax3,ax4],'x')
+%%
+rawSignal = Power_spectra(hourSnaps{1}.SnapCount,1,1,0,3600,0);
+
+testSignal = Power_spectra(receiverData{4}.crossShore,1,1,0,3600,0)
+
+%Power_spectra inputs
+% dataout=Power_spectra(datainA,bins,DT,windoww,samplinginterval,cutoff)
+
+figure()
+plot(rawSignal.f*86400,rawSignal.psdw);
+title('Snaps','Raw Data')
+
+for K = 1:length(envData)
+    % Detrending the signal
+    detrendedSignal{K} = detrend(hourSnaps{K}.SnapCount,'constant')
+    %Removing the mean from the signal:
+    processedSignal{K} = detrendedSignal{K} - mean(detrendedSignal{K});
+    %Find the frequency of the signal
+    powerAnalysis{K} = Power_spectra(processedSignal{K},1,1,0,3600,0)
+end
+
+
+X = 1:length(processedSignal)
+
 
 
 % I need to add windows and bins; if the signal is whole there's too much
@@ -84,7 +78,7 @@ linkaxes([ax1,ax3,ax4],'x')
 
 
 figure()
-plot(signalDetrended.f*86400,signalDetrended.psdw);
+plot(powerAnalysis.f*86400,powerAnalysis.psdw);
 title('Snaps','Detrended-Mean Data')
 
 
