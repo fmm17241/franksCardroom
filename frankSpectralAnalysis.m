@@ -1,15 +1,15 @@
-%Frank tried FFTs in powerAnalysis, now I want to compare
-% at different tides. We'll see, IDK anymore.
 
 
 %Running this after snapRateAnalyzer and snapRatePlotter, so I have nice
 %variables and structures to work with.
 % 
 % envData : cell structure of environmental and detection data during the
-% times that we have analyzed hydrophones.
+% times that we have analyzed hydrophone data.
 % 
 % hourSnaps : hourly count of snaps at a certain threshold, 1000U if not
 % specified.
+
+
 
 rawSignal = Power_spectra(hourSnaps{1}.SnapCount,1,1,0,3600,0);
 
@@ -23,14 +23,42 @@ figure()
 plot(rawSignal.f*86400,rawSignal.psdw);
 title('Snaps','Raw Data')
 
-% Detrending the signal
-detrendedSignal = detrend(hourSnaps{1}.SnapCount,'constant')
+for K = 1:length(envData)
+    % Detrending the signal
+    detrendedSignal{K} = detrend(hourSnaps{K}.SnapCount,'constant')
+    
+    %Removing the mean from the signal:
+    processedSignal{K} = detrendedSignal{K} - mean(detrendedSignal{K});
+    
+    %Find the frequency of the signal
+    signalDetrended{K} = Power_spectra(processedSignal{K},1,1,0,3600,0)
+end
 
-%Removing the mean from the signal:
-processedSignal = detrendedSignal - mean(detrendedSignal);
 
-%Find the frequency of the signal
-signalDetrended = Power_spectra(processedSignal,1,1,0,3600,0)
+X = 1:length(processedSignal)
+
+
+for K = 1:length(envData)
+    figure()
+    tiledlayout(3,1)
+    nexttile()
+    ax1 = plot(envData{K}.DT,envData{K}.crossShore)
+    title('','Tidal Magnitude')
+    % nexttile()
+    % ax2 = plot(envData{1}.DT,envData{1}.Noise)
+    % title('','Noise')
+    nexttile()
+    ax3 = plot(hourSnaps{K}.Time,processedSignal{K})
+    title('','SnapCounts')
+    nexttile()
+    ax4 = plot(envData{K}.DT,envData{K}.windSpd);
+    title('','Winds')
+
+end
+
+
+linkaxes([ax1,ax3,ax4],'x')
+
 
 % I need to add windows and bins; if the signal is whole there's too much
 % aliasing and leakage.
