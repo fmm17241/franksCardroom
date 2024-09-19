@@ -15,6 +15,25 @@
 % hourSnaps : hourly count of snaps at a certain threshold, 1000U if not
 % specified.
 
+Options.AngleNorth     = 0;
+Options.AngleEast      = 90;
+Options.nDirections    = 6;
+Options.nSpeeds        = 5;
+% Options.
+% Options.Labels         = {'N (0Â°)','E (90°)','S (180°)','W (270°)'};
+Options.labelnorth     = 'N'
+Options.labelsouth     = 'S'
+Options.labelwest      = 'W'
+Options.labeleast      = 'E'
+
+Options.FreqLabelAngle = 45;
+
+% Properties = {'AngleNorth',0,'AngleEast',90,'nDirections',6,'FreqLabelAngle','ruler'};
+for K = 1:length(envData)
+    WindRose(envData{K}.windDir,envData{K}.windSpd,Options);
+    title(sprintf('WindRose,%d',K))
+end
+
 
 
 
