@@ -30,6 +30,10 @@ processedSignal = detrendedSignal - mean(detrendedSignal);
 %Find the frequency of the signal
 signalDetrended = Power_spectra(processedSignal,1,1,0,3600,0)
 
+% I need to add windows and bins; if the signal is whole there's too much
+% aliasing and leakage.
+
+
 % %This cuts the entire year+ dataset into 40 hour chunks
 % windowedSignal = buffer(processedSignal,40,20);  
 % paddedSignal = padarray(processedSignal,height(processedSignal)*2,'post');
