@@ -5,7 +5,20 @@
 % 
 % envData : cell structure of environmental and detection data during the
 % times that we have analyzed hydrophone data.
-% 
+%
+% envData{X}.DT datetime, hourly
+% envData{X}.Noise  high-frequency (50-90 khz) noise, averaged hourly
+% envData{X}.Tilt   instrument tilt
+% envData{X}.Temp   Deg C, ~1 m off bottom
+% envData{X}.windSpd  hourly m/s, magnitude
+% envData{X}.windDir  dir, wind is GOING TOWARDS, CW from True N
+% envData{X}.bulkThermalStrat  surface-bottom temps
+% envData{X}.waveHeight   Significant waveheight from NDBC buoy 41008
+% envData{X}.crossShore   Cross-shore tidal velocity
+% envData{X}.hourlyDets   Detections collected by transceiver 4,
+%                         same mooring as hydrophone
+%
+%
 % hourSnaps : hourly count of snaps at a certain threshold, 1000U if not
 % specified.
 

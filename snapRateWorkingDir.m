@@ -17,19 +17,19 @@ fileLocation = ([oneDrive,'\acousticAnalysis']);
     hourSnaps, hourEnergy, hourAmp, minuteSnaps, minuteAmp, minuteEnergy);
 
 %%
-%This is a way of analyzing whether or not I missed a datafile, finds the
-%difference between seconds
-% Assuming your time series is stored in a vector called `timeSeries`
-for K = 1:length(snapRateTables)
-    timeSeriesDiff = diff(snapRateTables{K}.BeginClockTime);
-    timeSeriesDiffSeconds = seconds(timeSeriesDiff);    
-% To identify the missing times (i.e., where the difference is larger than 1 second)
-    missingTimesIdx = find(timeSeriesDiffSeconds > 1800);
-
-% To get the actual missing time gaps and where they occur
-    missingGaps = timeSeriesDiff(missingTimesIdx);
-    missingTimes{K} = snapRateTables{K}(missingTimesIdx,:); % This gives you the times just before the gaps
-end
+% %This is a way of analyzing whether or not I missed a datafile, finds the
+% %difference between seconds
+% % Assuming your time series is stored in a vector called `timeSeries`
+% for K = 1:length(snapRateTables)
+%     timeSeriesDiff = diff(snapRateTables{K}.BeginClockTime);
+%     timeSeriesDiffSeconds = seconds(timeSeriesDiff);    
+% % To identify the missing times (i.e., where the difference is larger than 1 second)
+%     missingTimesIdx = find(timeSeriesDiffSeconds > 1800);
+% 
+% % To get the actual missing time gaps and where they occur
+%     missingGaps = timeSeriesDiff(missingTimesIdx);
+%     missingTimes{K} = snapRateTables{K}(missingTimesIdx,:); % This gives you the times just before the gaps
+% end
 
 %%
 
@@ -40,16 +40,11 @@ frankSpectralAnalysis
 
 
 %%
-%From Brock, this is my best lead.
+%From Brock.
 % Function returns power spectra of input
 % dataout=Power_spectra(datainA,bins,DT,windoww,samplinginterval,cutoff)
 Power_spectra
 
-%%
-noiseDetrended
-% for k = 1:length(receiverData)
-%     testingDetrend{k} = detrend(receiverData{k}.Noise,'constant')
-% end
 
 
 %%
