@@ -32,6 +32,7 @@ fileLocation = ([oneDrive,'\acousticAnalysis']);
 % end
 
 %%
+snapRateWindRose
 
 %Okay, so I currently have hourly/minute snaps and the environment they
 %occur in. I Need to convert to spectral/frequency domain to start
