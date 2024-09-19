@@ -22,9 +22,9 @@ fileLocation = ([oneDrive,'\acousticAnalysis']);
 % Assuming your time series is stored in a vector called `timeSeries`
 for K = 1:length(snapRateTables)
     timeSeriesDiff = diff(snapRateTables{K}.BeginClockTime);
-    timeSeriesDiffSeconds = seconds(timeSeriesDiff{K});    
+    timeSeriesDiffSeconds = seconds(timeSeriesDiff);    
 % To identify the missing times (i.e., where the difference is larger than 1 second)
-    missingTimesIdx = find(timeSeriesDiff > 3);
+    missingTimesIdx = find(timeSeriesDiffSeconds > 1800);
 
 % To get the actual missing time gaps and where they occur
     missingGaps = timeSeriesDiff(missingTimesIdx);

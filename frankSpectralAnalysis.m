@@ -13,6 +13,8 @@
 
 rawSignal = Power_spectra(hourSnaps{1}.SnapCount,1,1,0,3600,0);
 
+testSignal = Power_spectra(receiverData{4}.crossShore,1,1,0,3600,0)
+
 %Power_spectra inputs
 % dataout=Power_spectra(datainA,bins,DT,windoww,samplinginterval,cutoff)
 
