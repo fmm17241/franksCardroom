@@ -11,6 +11,7 @@
 % 3. snapRateWindRose       - visualizes the wind speed and direction as context.
 %
 % 4. frankSpectralAnalysis  - This is where we're at. Converting from time domain to frequency domain.
+%                                   - I've got Power_spectra
 %
 
 %%
