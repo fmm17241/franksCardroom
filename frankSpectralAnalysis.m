@@ -22,6 +22,16 @@
 % hourSnaps : hourly count of snaps at a certain threshold, 1000U if not
 % specified.
 
+%This processes our snap counts, removing the trend and mean from the data.
+for K = 1:length(envData)
+    % Detrending the signal
+    detrendedSignal{K} = detrend(hourSnaps{K}.SnapCount,'constant')
+    %Removing the mean from the signal:
+    processedSignal{K} = detrendedSignal{K} - mean(detrendedSignal{K});
+end
+
+
+%This visualizes the different hydrophone analysis.
 for K = 1:length(envData)
     figure()
     tiledlayout(3,1)
@@ -46,21 +56,17 @@ rawSignal = Power_spectra(hourSnaps{1}.SnapCount,1,1,0,3600,0);
 
 testSignal = Power_spectra(receiverData{4}.crossShore,1,1,0,3600,0)
 
+for K = 1:length(envData)
+    %Find the frequency of the signal
+    powerAnalysis{K} = Power_spectra(processedSignal{K},1,1,0,3600,0)
+end
+
 %Power_spectra inputs
 % dataout=Power_spectra(datainA,bins,DT,windoww,samplinginterval,cutoff)
 
 figure()
 plot(rawSignal.f*86400,rawSignal.psdw);
 title('Snaps','Raw Data')
-
-for K = 1:length(envData)
-    % Detrending the signal
-    detrendedSignal{K} = detrend(hourSnaps{K}.SnapCount,'constant')
-    %Removing the mean from the signal:
-    processedSignal{K} = detrendedSignal{K} - mean(detrendedSignal{K});
-    %Find the frequency of the signal
-    powerAnalysis{K} = Power_spectra(processedSignal{K},1,1,0,3600,0)
-end
 
 
 X = 1:length(processedSignal)

@@ -137,19 +137,19 @@ end
 
 X = 0:2:14
 
-
-figure()
-tiledlayout(2,1)
-ax1 = nexttile()
-scatter(X,avgSnaps{2,1},'filled','r')
-ylabel('Hourly Snaps')
-title('Shrimp Activity vs Wind, March','Day')
-ax2 = nexttile()
-scatter(X,avgSnaps{1,1},'filled','b')
-ylabel('Hourly Snaps')
-xlabel('Windspeed (m/s)')
-title('','Night')
-
+for K = 1:length(avgSnaps)
+    figure()
+    tiledlayout(2,1)
+    ax1 = nexttile()
+    scatter(X,avgSnaps{2,K},'filled','r')
+    ylabel('Hourly Snaps')
+    title('Shrimp Activity vs Wind','Day')
+    ax2 = nexttile()
+    scatter(X,avgSnaps{1,K},'filled','b')
+    ylabel('Hourly Snaps')
+    xlabel('Windspeed (m/s)')
+    title('','Night')
+end
 
 %%
 
