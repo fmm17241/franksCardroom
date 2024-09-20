@@ -65,7 +65,7 @@ end
 % dataout=Power_spectra(datainA,bins,DT,windoww,samplinginterval,cutoff)
 
 figure()
-plot(rawSignal.f*86400,rawSignal.psdw);
+loglog(rawSignal.f*86400,rawSignal.psdw);
 title('Snaps','Raw Data')
 
 
@@ -95,8 +95,18 @@ tides = envData{1}.crossShore;
 rawSignal = Power_spectra(tides,1,1,0,3600,0);
 
 figure()
-plot(rawSignal.f*86400,rawSignal.psdw);
+loglog(rawSignal.f*86400,rawSignal.psdw);
 title('Tides','Raw Data')
+
+
+winds = envData{1}.windSpd;
+
+rawSignal = Power_spectra(winds,1,1,0,3600,0);
+
+figure()
+loglog(rawSignal.f*86400,rawSignal.psdw);
+title('Winds','Raw Data')
+
 
 
 
