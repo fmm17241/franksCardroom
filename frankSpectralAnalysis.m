@@ -125,6 +125,14 @@ title('Winds','Raw Data')
 % 
 
 
+%%
+%Frank playing with mscohere
+
+
+
+
+
+
 
 
 
