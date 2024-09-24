@@ -25,6 +25,7 @@ grid on;
 
 window = hann(256);
 
+
 figure()
 semilogx(f, Cxy);
 xlabel('Frequency (Hz)');
@@ -80,7 +81,9 @@ window = rectwin(length(noiseSignal{1}));  % Rectangular window with no tapering
 noverlap = 0;          % Number of overlapping samples
 nfft = length(windSignal{1});              % Number of FFT points
 
-[Cxy, f] = mscohere(windSignal{1}, noiseSignal{1}, window, noverlap, nfft, fs);
+[Cxy, f] = mscohere(windSignal{1}, snapSignal{1}, window, noverlap, nfft, fs);
+
+[Cxy, f] = mscohere(envData{1}.windSpd, hourSnaps{1}.SnapCount, window, noverlap, nfft, fs);
 
 when 1000 data:
 window = hamming(256);   % Define a window function (Hamming window)
