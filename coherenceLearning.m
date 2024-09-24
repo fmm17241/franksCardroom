@@ -51,10 +51,11 @@ fileLocation = ([oneDrive,'\acousticAnalysis']);
 snapSignal = Power_spectra(hourSnaps{1}.SnapCount,1,1,0,3600,0);
 windSignal = Power_spectra(envData{1}.windSpd,1,1,0,3600,0);
 noiseSignal = Power_spectra(envData{1}.Noise,1,1,0,3600,0);
+tempSignal  = Power_spectra(envData{1}.Temp,1,1,0,3600,0);
 
 %Coherence: comparing the signals created by Power_spectra
 % Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
-coh = Coherence_whelch_overlap(snapSignal.psdw,windSignal.psdw,3600,1,0,1,0)
+coh = Coherence_whelch_overlap(snapSignal.psdw,tempSignal.psdw,3600,1,0,1,0)
 
 
 
