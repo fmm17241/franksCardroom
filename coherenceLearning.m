@@ -30,3 +30,38 @@ semilogx(f, Cxy);
 xlabel('Frequency (Hz)');
 ylabel('Coherence');
 grid on;
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Frank tries his own data now
+%Run snapRateAnalyzer and Plotter.
+
+%This processes our snap counts, removing the trend and mean from the data.
+for K = 1:length(envData)
+    % Detrending the signal
+    detrendedSnapSignal{K} = detrend(hourSnaps{K}.SnapCount,'constant');
+    %Removing the mean from the signal:
+    snapSignal{K} = detrendedSnapSignal{K} - mean(detrendedSnapSignal{K});
+end
+
+%This processes our noise data, removing the trend and mean from the data.
+for K = 1:length(envData)
+    % Detrending the signal
+    detrendedNoiseSignal{K} = detrend(envData{K}.Noise,'constant');
+    %Removing the mean from the signal:
+    noiseSignal{K} = detrendedNoiseSignal{K} - mean(detrendedNoiseSignal{K});
+end
+
+%This processes our wind data, removing the trend and mean from the data.
+for K = 1:length(envData)
+    % Detrending the signal
+    detrendedWindSignal{K} = detrend(envData{K}.windSpd,'constant');
+    %Removing the mean from the signal:
+    windSignal{K} = detrendedWindSignal{K} - mean(detrendedWindSignal{K});
+end
+
+%Sampling frequency: Hourly (Hz)
+fs =
+
+clearvars detrended* minute*
+
