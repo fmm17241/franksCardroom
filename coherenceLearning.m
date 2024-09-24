@@ -36,6 +36,15 @@ grid on;
 %Frank tries his own data now
 %Run snapRateAnalyzer and Plotter.
 
+fileLocation = ([oneDrive,'\acousticAnalysis']);
+% fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis';
+[SnapCountTable, snapRateTables, PeakAmpTable, EnergyTable, hourSnaps, hourAmp, hourEnergy, minuteSnaps, minuteAmp, minuteEnergy] = snapRateAnalyzer(fileLocation)
+
+
+% Second step: this bins, averages, and plots some of their
+[receiverData, envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets] = snapRatePlotter(oneDrive, SnapCountTable, snapRateTables, ...
+    hourSnaps, hourEnergy, hourAmp, minuteSnaps, minuteAmp, minuteEnergy);
+
 %This processes our snap counts, removing the trend and mean from the data.
 for K = 1:length(envData)
     % Detrending the signal
@@ -54,26 +63,28 @@ end
 
 %This processes our wind data, removing the trend and mean from the data.
 for K = 1:length(envData)
+    %Remove NaNs
+    index = isnan(envData{K}.windSpd);
+    envData{K}.windSpd = fillmissing(envData{K}.windSpd, 'linear');
     % Detrending the signal
-    detrendedWindSignal{K} = detrend(envData{K}.windSpd,'constant');
+    detrendedWindSignal{K} = detrend(envData{K}.windSpd);
     %Removing the mean from the signal:
     windSignal{K} = detrendedWindSignal{K} - mean(detrendedWindSignal{K});
 end
 
-%Sampling frequency: Hourly (Hz) 1 Hz = second, so 1/
+%Sampling frequency: Hourly (Hz) 1 Hz = second, so 1/(seconds*minutes)
 fs = 1/3600;
 
 % Set window to cover the whole signal, no overlap, FFT length = length of signal
-window = rectwin(length(x));  % Rectangular window with no tapering (i.e., no windowing)
-noverlap = 330;          % Number of overlapping samples
-nfft = 330;              % Number of FFT points
+window = rectwin(length(noiseSignal{1}));  % Rectangular window with no tapering (i.e., no windowing)
+noverlap = 0;          % Number of overlapping samples
+nfft = length(windSignal{1});              % Number of FFT points
 
 [Cxy, f] = mscohere(windSignal{1}, noiseSignal{1}, window, noverlap, nfft, fs);
 
 when 1000 data:
 window = hamming(256);   % Define a window function (Hamming window)
-noverlap = 0;          % Number of overlapping samples
-nfft = length(windSignal{1});              % Number of FFT points
+
 
 
 clearvars detrended* minute*
