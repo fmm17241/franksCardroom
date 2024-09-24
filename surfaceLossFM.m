@@ -52,3 +52,48 @@ calculatedLowFreqAcute = SurfLoss(AcuteTheta, U, LowFreq)
 calculatedLowFreqObtuse = SurfLoss(ObtuseTheta, U, LowFreq)
 
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Installed the Phased Array System Toolbox in Matlab
+%Looking at albersheim and range2tl
+
+%Albersheim equation
+
+SNR (dB) = -5log110(N) + [6.2 + 4.54/N + 044]log10(A+0.12AB-1.7B)
+
+% Where 
+% N = Number of noncoherently integrated samples
+% A = ln(0.62 * Pfa)
+% B = ln(Pd/(1-Pd))
+
+albersheim
+shnidman
+
+freq2wavelen
+npwgnthresh
+rocpfa
+rocsnr
+
+tl2range
+range2tl
+spectrogram
+
+cranerainpl
+
+phased.IsoSpeedUnderwaterPaths
+phased.UnderwaterRadiatedNoise
+
+
+%
+nsamp = 100;
+x = exp(1i*2*pi*rand(nsamp,1));
+
+linspectrum = gausswin(nsamp);
+spectrum = mag2db(linspectrum);
+[y,info] = shapespectrum(spectrum,x,DesiredSpectrumRange="centered");
+
+
+shapespectrum(spectrum,x,DesiredSpectrumRange="centered")
+
