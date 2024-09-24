@@ -60,8 +60,21 @@ for K = 1:length(envData)
     windSignal{K} = detrendedWindSignal{K} - mean(detrendedWindSignal{K});
 end
 
-%Sampling frequency: Hourly (Hz)
-fs =
+%Sampling frequency: Hourly (Hz) 1 Hz = second, so 1/
+fs = 1/3600;
+
+% Calculate coherence between x and y
+window = hamming(661);   % Define a window function (Hamming window)
+noverlap = 330;          % Number of overlapping samples
+nfft = 330;              % Number of FFT points
+
+[Cxy, f] = mscohere(windSignal{1}, noiseSignal{1}, window, noverlap, nfft, fs);
+
+when 1000 data:
+window = hamming(256);   % Define a window function (Hamming window)
+noverlap = 128;          % Number of overlapping samples
+nfft = 512;              % Number of FFT points
+
 
 clearvars detrended* minute*
 
