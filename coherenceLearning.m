@@ -54,11 +54,21 @@ noiseSignal = Power_spectra(envData{1}.Noise,1,1,0,3600,0);
 
 %Coherence: comparing the signals created by Power_spectra
 % Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
-coh = Coherence_whelch_overlap(snapSignal.psdw,noiseSignal.psdw,3600,1,0,1,0)
+coh = Coherence_whelch_overlap(snapSignal.psdw,windSignal.psdw,3600,1,0,1,0)
 
 
 
+figure()
+loglog(coh.f*86400,coh.psda)
 
+figure()
+loglog(coh.f*86400,coh.psdb)
+
+figure()
+plot(coh.f*86400,coh.cspd)
+
+figure()
+plot(coh.f*86400,coh.phase)
 
 
 
