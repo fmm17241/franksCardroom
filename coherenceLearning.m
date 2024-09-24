@@ -63,8 +63,8 @@ end
 %Sampling frequency: Hourly (Hz) 1 Hz = second, so 1/
 fs = 1/3600;
 
-% Calculate coherence between x and y
-window = hamming(661);   % Define a window function (Hamming window)
+% Set window to cover the whole signal, no overlap, FFT length = length of signal
+window = rectwin(length(x));  % Rectangular window with no tapering (i.e., no windowing)
 noverlap = 330;          % Number of overlapping samples
 nfft = 330;              % Number of FFT points
 
@@ -72,8 +72,8 @@ nfft = 330;              % Number of FFT points
 
 when 1000 data:
 window = hamming(256);   % Define a window function (Hamming window)
-noverlap = 128;          % Number of overlapping samples
-nfft = 512;              % Number of FFT points
+noverlap = 0;          % Number of overlapping samples
+nfft = length(windSignal{1});              % Number of FFT points
 
 
 clearvars detrended* minute*
