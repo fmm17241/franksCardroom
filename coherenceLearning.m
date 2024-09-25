@@ -1,45 +1,54 @@
 %Frank teaching himself cohere. This is from ChatGPT, NOT for use, just for following the technique.
-
-fs = 1000;            % Sampling frequency (Hz)
-t = 0:1/fs:1-1/fs;    % Time vector (1 second of data)
-
-% Generate two signals with shared and independent components
-x = cos(2*pi*50*t) + randn(size(t));  % Signal 1: 50 Hz tone with noise
-y = cos(2*pi*50*t) + randn(size(t));  % Signal 2: Same 50 Hz tone but different noise
-
-% Calculate coherence between x and y
-window = hamming(256);   % Define a window function (Hamming window)
-noverlap = 128;          % Number of overlapping samples
-nfft = 512;              % Number of FFT points
-
-[Cxy, f] = mscohere(x, y, window, noverlap, nfft, fs);
-
-
-% Plot coherence
-figure;
-plot(f, Cxy);
-xlabel('Frequency (Hz)');
-ylabel('Coherence');
-title('Magnitude-Squared Coherence between x and y');
-grid on;
-
-window = hann(256);
-
-
-figure()
-semilogx(f, Cxy);
-xlabel('Frequency (Hz)');
-ylabel('Coherence');
-grid on;
+% 
+% fs = 1000;            % Sampling frequency (Hz)
+% t = 0:1/fs:1-1/fs;    % Time vector (1 second of data)
+% 
+% % Generate two signals with shared and independent components
+% x = cos(2*pi*50*t) + randn(size(t));  % Signal 1: 50 Hz tone with noise
+% y = cos(2*pi*50*t) + randn(size(t));  % Signal 2: Same 50 Hz tone but different noise
+% 
+% % Calculate coherence between x and y
+% window = hamming(256);   % Define a window function (Hamming window)
+% noverlap = 128;          % Number of overlapping samples
+% nfft = 512;              % Number of FFT points
+% 
+% [Cxy, f] = mscohere(x, y, window, noverlap, nfft, fs);
+% 
+% 
+% % Plot coherence
+% figure;
+% plot(f, Cxy);
+% xlabel('Frequency (Hz)');
+% ylabel('Coherence');
+% title('Magnitude-Squared Coherence between x and y');
+% grid on;
+% 
+% window = hann(256);
+% 
+% 
+% figure()
+% semilogx(f, Cxy);
+% xlabel('Frequency (Hz)');
+% ylabel('Coherence');
+% grid on;
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Frank tries his own data now
 %Run snapRateAnalyzer and Plotter.
 
-fileLocation = ([oneDrive,'\acousticAnalysis']);
+fileLocation = ([oneDrive,'\acousticAnalysis\KnotTying']);
 % fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis';
 [SnapCountTable, snapRateTables, PeakAmpTable, EnergyTable, hourSnaps, hourAmp, hourEnergy, minuteSnaps, minuteAmp, minuteEnergy] = snapRateAnalyzer(fileLocation)
+
+%Frank's running parts of the season separately, now I'm combining them.
+combinedSnaps = synchronize(hourSnaps{1},hourSnaps{2});
+combinedSnaps = sum([combinedSnaps.SnapCount_1, combinedSnaps.SnapCount_2], 2, 'omitnan');
+springSnaps = timetable(combinedSnaps.Time,combinedSnaps)
+
+
+
+springSnaps.Properties.VariableNames = {'Snaps'};
 
 
 % Second step: this bins, averages, and plots some of their
@@ -55,23 +64,22 @@ tempSignal  = Power_spectra(envData{1}.Temp,1,1,0,3600,0);
 
 %Coherence: comparing the signals created by Power_spectra
 % Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
-coh = Coherence_whelch_overlap(snapSignal.psdw,tempSignal.psdw,3600,1,0,1,0)
-
-
+coherenceSW = Coherence_whelch_overlap(snapSignal.psdw,tempSignal.psdw,3600,1,0,1,0)
 
 figure()
-loglog(coh.f*86400,coh.psda)
+loglog(coherenceSW.f*86400,coherenceSW.psda)
 
 figure()
-loglog(coh.f*86400,coh.psdb)
+loglog(coherenceSW.f*86400,coherenceSW.psdb)
 
 figure()
-plot(coh.f*86400,coh.cspd)
+plot(coherenceSW.f*86400,coherenceSW.cspd)
 
 figure()
-plot(coh.f*86400,coh.phase)
+plot(coherenceSW.f*86400,coherenceSW.phase)
 
-
+%
+coherenceSN = Coherence_whelch_overlap(snapSignal.psdw,noiseSignal.psdw,3600,1,0,1,0)
 
 
 

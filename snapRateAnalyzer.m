@@ -37,6 +37,25 @@ snapRateTables{i}.EventDateTime = dt(i) + seconds(snapRateTables{i}.BeginTime_s_
 snapRateTables{i}.EventDateTime.Format = 'dd-MMM-yyyy HH:mm:ss.SSS';
 end
 %%
+% for i = 1:length(snapRateTables)
+% 
+%     % Filter rows where the 'View' column contains the string 'Waveform 1'
+%     waveFormTable{i} = snapRateTables{i}(contains(snapRateTables{i}.View, 'Waveform 1'), :);
+%     spectrogramTable{i} = snapRateTables{i}(contains(snapRateTables{i}.View, 'Spectrogram 1'), :);
+% 
+%     %There are two rows for each snap, one being waveform, one being
+%     %spectrogram. I've arbitrarily chosen waveform, this just gives a "1"
+%     %for each snap so I can find hourly averages.
+%     SnapCountTable{i} = timetable(waveFormTable{i}.EventDateTime,waveFormTable{i}.Channel);
+%     SnapCountTable{i}.Properties.VariableNames = {'SnapCount'};
+% 
+%     PeakAmpTable{i} = timetable(waveFormTable{i}.EventDateTime,waveFormTable{i}.PeakAmp_U_);
+%     PeakAmpTable{i}.Properties.VariableNames = {'PeakAmp'};
+% 
+%     EnergyTable{i} = timetable(spectrogramTable{i}.EventDateTime,spectrogramTable{i}.Energy_dBFS_);
+%     EnergyTable{i}.Properties.VariableNames = {'Energy'};
+% end
+
 for i = 1:length(snapRateTables)
 
     % Filter rows where the 'View' column contains the string 'Waveform 1'
@@ -46,15 +65,23 @@ for i = 1:length(snapRateTables)
     %There are two rows for each snap, one being waveform, one being
     %spectrogram. I've arbitrarily chosen waveform, this just gives a "1"
     %for each snap so I can find hourly averages.
-    SnapCountTable{i} = timetable(waveFormTable{i}.EventDateTime,waveFormTable{i}.Channel);
-    SnapCountTable{i}.Properties.VariableNames = {'SnapCount'};
-
-    PeakAmpTable{i} = timetable(waveFormTable{i}.EventDateTime,waveFormTable{i}.PeakAmp_U_);
-    PeakAmpTable{i}.Properties.VariableNames = {'PeakAmp'};
+    SnapCountTable{i} = timetable(waveFormTable{i}.EventDateTime,waveFormTable{i}.Channel,waveFormTable{i}.PeakAmp_U_);
+    SnapCountTable{i}.Properties.VariableNames = {'SnapCount','PeakAmp'};
     
-    EnergyTable{i} = timetable(spectrogramTable{i}.EventDateTime,spectrogramTable{i}.Energy_dBFS_);
-    EnergyTable{i}.Properties.VariableNames = {'Energy'};
+    EnergyTable{i} = timetable(spectrogramTable{i}.EventDateTime,spectrogramTable{i}.Energy_dBFS_,spectrogramTable{i}.PeakPowerDensity_dBFS_Hz_);
+    EnergyTable{i}.Properties.VariableNames = {'Energy','PeakPower'};
 end
+
+%%
+%This is Frank combining the datasets. This only works for the single season, connected files.
+
+for i = 1:length(snapRateTables)
+    dinnerTable{i} = synchronize(SnapCountTable{i},EnergyTable{i});
+end
+
+platter = synchronize(dinnerTable{1},dinnerTable{2})
+
+
 %%
 for i = 1:length(fileNames)
     %Average it by hour, or minute.
