@@ -27,23 +27,26 @@ fileLocation = ([oneDrive,'\acousticAnalysis']);
 [receiverData, envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets] = snapRatePlotter(oneDrive, SnapCountTable, snapRateTables, ...
     hourSnaps, hourEnergy, hourAmp, minuteSnaps, minuteAmp, minuteEnergy);
 
-%%
-snapRateWindRose
-%%
 
+%%
 %Okay, so I currently have hourly/minute snaps and the environment they
 %occur in. I Need to convert to spectral/frequency domain to start
 %experimenting.
 frankSpectralAnalysis
 
+%
+coherenceLearning
+
+
+
+
+
+
+
 
 %%
-%From Brock.
-% Function returns power spectra of input
-% dataout=Power_spectra(datainA,bins,DT,windoww,samplinginterval,cutoff)
-Power_spectra
-
-
+%Wind direction and speed
+snapRateWindRose
 
 %%
 % %This is a way of analyzing whether or not I missed a datafile, finds the
