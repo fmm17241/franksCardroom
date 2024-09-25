@@ -79,7 +79,9 @@ for i = 1:length(snapRateTables)
     dinnerTable{i} = synchronize(SnapCountTable{i},EnergyTable{i});
 end
 
+
 platter = synchronize(dinnerTable{1},dinnerTable{2})
+% combinedSnaps = sum([platter, 2, 'omitnan');
 
 
 %%
