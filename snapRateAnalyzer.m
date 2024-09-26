@@ -67,7 +67,7 @@ for i = 1:length(snapRateTables)
     %for each snap so I can find hourly averages.
     SnapCountTable{i} = timetable(waveFormTable{i}.EventDateTime,waveFormTable{i}.Channel,waveFormTable{i}.PeakAmp_U_);
     SnapCountTable{i}.Properties.VariableNames = {'SnapCount','PeakAmp'};
-    
+    %
     EnergyTable{i} = timetable(spectrogramTable{i}.EventDateTime,spectrogramTable{i}.Energy_dBFS_,spectrogramTable{i}.PeakPowerDensity_dBFS_Hz_);
     EnergyTable{i}.Properties.VariableNames = {'Energy','PeakPower'};
 end
@@ -76,13 +76,28 @@ end
 %This is Frank combining the datasets. This only works for the single season, connected files.
 
 for i = 1:length(snapRateTables)
-    dinnerTable{i} = synchronize(SnapCountTable{i},EnergyTable{i});
+    comboTable{i} = [SnapCountTable{i} EnergyTable{i}];
 end
 
 
-platter = synchronize(dinnerTable{1},dinnerTable{2})
+
+platter = synchronize(comboTable{1},comboTable{2})
 % combinedSnaps = sum([platter, 2, 'omitnan');
 
+index = ismissing(platter(:,{'SnapCount_1','PeakAmp_1','Energy_1','PeakPower_1','SnapCount_2','PeakAmp_2','Energy_2','PeakPower_2'}))
+
+platter{:,{'SnapCount_1','PeakAmp_1','Energy_1','PeakPower_1','SnapCount_2','PeakAmp_2','Energy_2','PeakPower_2'}}(index) = 0;
+
+Time = platter.Time;
+allSnapCount = platter.SnapCount_1 + platter.SnapCount_2;
+allPeakAmp = platter.PeakAmp_1 + platter.PeakAmp_2;
+allEnergy = platter.Energy_1 + platter.Energy_2;
+allPeakPower = platter.PeakPower_1 + platter.PeakPower_2;
+
+snapRateData = timetable(Time,allSnapCount,allPeakAmp,allEnergy,allPeakPower)
+
+
+comboTable{i}(index,:) = 0;
 
 %%
 for i = 1:length(fileNames)
