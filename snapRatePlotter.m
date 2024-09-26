@@ -1,5 +1,5 @@
 
-function [receiverData,envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets] = snapRatePlotter(oneDrive, SnapCountTable, snapRateTables, hourSnaps, hourEnergy, hourAmp, minuteSnaps, minuteAmp, minuteEnergy)
+function [receiverData,envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets] = snapRatePlotter(oneDrive, snapRateHourly, snapRateMinute)
 
 buildReceiverData
 close all
@@ -7,12 +7,14 @@ clearvars index
 
 
 %FM This is just for the Spring 2020 dataset, two small times had bad data and so I'm removing those hours.
-badTimesMinute = [67554, 79327, 94902];
+badTimesMinute = [67554, 79327, 94902, 94903];
 badTimesHour    = [1127, 1323, 1582];
 if snapRateMinute.Time(1) == '30-Jan-2020 15:12:00.000';
     % Set the rows at the specified indices to NaN, ensuring you use an array of NaNs 
-    snapRateMinute(badTimesMinute,:) = array2table(NaN(numel(badTimesMinute), width(snapRateMinute)), 'VariableNames', snapRateMinute.Properties.VariableNames);
-    snapRateHourly(badTimesHour,:) = array2table(NaN(numel(badTimesHour), width(snapRateHourly)), 'VariableNames', snapRateHourly.Properties.VariableNames);
+    snapRateMinute(badTimesMinute,:) = array2table(NaN(numel(badTimesMinute), width(snapRateMinute)), ...
+                'VariableNames', snapRateMinute.Properties.VariableNames);
+    snapRateHourly(badTimesHour,:) = array2table(NaN(numel(badTimesHour), width(snapRateHourly)), ...
+                'VariableNames', snapRateHourly.Properties.VariableNames);
 end
 
 
@@ -37,17 +39,17 @@ title('Windspeed')
 % 
 ax3 = nexttile()
 hold on
-for i = 1:length(hourSnaps)
-plot(minuteSnaps{i}.Time,minuteSnaps{i}.SnapCount)
-end
+% for i = 1:length(hourSnaps)
+plot(snapRateMinute.Time,snapRateMinute.SnapCount)
+% end
 % legend({'Mid','High','Low'})
 title('SnapRate')
 
 ax4 = nexttile()
 hold on
-for i = 1:length(hourAmp)
-    plot(minuteAmp{i}.Time,minuteAmp{i}.PeakAmp)
-end
+% for i = 1:length(hourAmp)
+plot(snapRateMinute.Time,snapRateMinute.PeakAmp)
+% end
 % legend({'Mid','High','Low'})
 title('Peak Amplitude')
 
@@ -57,55 +59,56 @@ linkaxes([ax1,ax2,ax3,ax4],'x')
 
 %%
 
-for K = 1:length(hourSnaps)
-    clear snapTimeRange envFit
-    snapTimeRange = [hourSnaps{K}.Time(1); hourSnaps{K}.Time(end)];
-    
-    envFit = isbetween(receiverData{4}.DT, snapTimeRange(1),snapTimeRange(2));
+% for K = 1:length(hourSnaps)
+clear snapTimeRange envFit
+snapTimeRange = [snapRateHourly.Time(1); snapRateHourly.Time(end)];
 
-    envData{K} = receiverData{4}(envFit,:);
-    snaps{K} = hourSnaps{K}.SnapCount;
-end
+
+envFit = isbetween(receiverData{4}.DT, snapTimeRange(1),snapTimeRange(2));
+
+envData = receiverData{4}(envFit,:);
+snaps = snapRateHourly.SnapCount;
+% end
 
 %
-for month = 1:length(envData)
-    for k = 1:2
-        windSpeedBins{k,month}(1,:) = envData{month}.windSpd < 2 & envData{month}.daytime == (k-1) ;
-        windSpeedBins{k,month}(2,:) = envData{month}.windSpd > 2 & envData{month}.windSpd < 4 & envData{month}.daytime == (k-1) ;
-        windSpeedBins{k,month}(3,:) = envData{month}.windSpd > 4 & envData{month}.windSpd < 6 & envData{month}.daytime == (k-1) ;
-        windSpeedBins{k,month}(4,:) = envData{month}.windSpd > 6 & envData{month}.windSpd < 8 & envData{month}.daytime == (k-1) ;
-        windSpeedBins{k,month}(5,:) = envData{month}.windSpd > 8 & envData{month}.windSpd < 10 & envData{month}.daytime == (k-1) ;
-        windSpeedBins{k,month}(6,:) = envData{month}.windSpd > 10 & envData{month}.windSpd < 12 & envData{month}.daytime == (k-1) ;
-        windSpeedBins{k,month}(7,:) = envData{month}.windSpd > 12 & envData{month}.windSpd < 14 & envData{month}.daytime == (k-1) ;
-        windSpeedBins{k,month}(8,:) = envData{month}.windSpd > 14 & envData{month}.daytime == (k-1) ;
-    end
+% for month = 1:length(envData)
+for k = 1:2
+    windSpeedBins{k}(1,:) = envData.windSpd < 2 & envData.daytime == (k-1) ;
+    windSpeedBins{k}(2,:) = envData.windSpd > 2 & envData.windSpd < 4 & envData.daytime == (k-1) ;
+    windSpeedBins{k}(3,:) = envData.windSpd > 4 & envData.windSpd < 6 & envData.daytime == (k-1) ;
+    windSpeedBins{k}(4,:) = envData.windSpd > 6 & envData.windSpd < 8 & envData.daytime == (k-1) ;
+    windSpeedBins{k}(5,:) = envData.windSpd > 8 & envData.windSpd < 10 & envData.daytime == (k-1) ;
+    windSpeedBins{k}(6,:) = envData.windSpd > 10 & envData.windSpd < 12 & envData.daytime == (k-1) ;
+    windSpeedBins{k}(7,:) = envData.windSpd > 12 & envData.windSpd < 14 & envData.daytime == (k-1) ;
+    windSpeedBins{k}(8,:) = envData.windSpd > 14 & envData.daytime == (k-1) ;
 end
+% end
 
 %%
-for month = 1:length(envData)
-    for k = 1:2
-        for ii = 1:height(windSpeedBins{k,month})
-            % windSpeedScenario{k,month}= envData(windSpeedBins{k,month}(ii,:),:);
-            windSpeedScenario{k,month}= envData{1,month}(windSpeedBins{k,month}(ii,:),:);        
+% for month = 1:length(envData)
+for k = 1:2
+    for ii = 1:height(windSpeedBins{k})
+        % windSpeedScenario{k}= envData(windSpeedBins{k}(ii,:),:);
+        windSpeedScenario{k}= envData(windSpeedBins{k}(ii,:),:);        
 
-            averageDets{month}(k,ii) = mean(windSpeedScenario{k,month}.HourlyDets,'omitnan');
-            noiseCompare{month}(k,ii) = mean(windSpeedScenario{k,month}.Noise,'omitnan');
-            wavesCompare{month}(k,ii) = mean(windSpeedScenario{k,month}.waveHeight,'omitnan');
-            tiltCompareWind{month}(k,ii) = mean(windSpeedScenario{k,month}.Tilt,'omitnan');
-            stratCompareWind{month}(k,ii) = mean(windSpeedScenario{k,month}.bulkThermalStrat,'omitnan')        
-        end
+        averageDets(k,ii) = mean(windSpeedScenario{k}.HourlyDets,'omitnan');
+        noiseCompare(k,ii) = mean(windSpeedScenario{k}.Noise,'omitnan');
+        wavesCompare(k,ii) = mean(windSpeedScenario{k}.waveHeight,'omitnan');
+        tiltCompareWind(k,ii) = mean(windSpeedScenario{k}.Tilt,'omitnan');
+        stratCompareWind(k,ii) = mean(windSpeedScenario{k}.bulkThermalStrat,'omitnan')        
     end
 end
+% end
 %%
-for month = 1:length(envData)
-    for k = 1:height(windSpeedBins)
-        for ii = 1:height(windSpeedBins{k,month})
-            binnedSnaps{k,month}{ii}   =  snaps{month}(windSpeedBins{k,month}(ii,:));
-        %
-            avgSnaps{k,month}(ii)  = mean(binnedSnaps{k,month}{ii},'omitNan')
-        end
+% for month = 1:length(envData)
+for k = 1:length(windSpeedBins)
+    for ii = 1:height(windSpeedBins{k})
+        binnedSnaps{k}{ii}   =  snaps(windSpeedBins{k}(ii,:));
+    %
+        avgSnaps{k}(ii)  = mean(binnedSnaps{k}{ii},'omitNan')
     end
 end
+% end
 
 
 % 
@@ -134,30 +137,30 @@ end
 
 X = 0:2:14
 
-for K = 1:length(avgSnaps)
-    figure()
-    tiledlayout(2,1)
-    ax1 = nexttile()
-    scatter(X,avgSnaps{2,K},'filled','r')
-    ylabel('Hourly Snaps')
-    title('Shrimp Activity vs Wind','Day')
-    ax2 = nexttile()
-    scatter(X,avgSnaps{1,K},'filled','b')
-    ylabel('Hourly Snaps')
-    xlabel('Windspeed (m/s)')
-    title('','Night')
-end
+% for K = 1:length(avgSnaps)
+    % figure()
+    % % tiledlayout(2,1)
+    % ax1 = nexttile()
+    % scatter(X,avgSnaps,'filled','r')
+    % ylabel('Hourly Snaps')
+    % title('Shrimp Activity vs Wind','Day')
+    % % ax2 = nexttile()
+    % % scatter(X,avgSnaps,'filled','b')
+    % ylabel('Hourly Snaps')
+    % xlabel('Windspeed (m/s)')
+    % title('','Night')
+% end
 
 %%
-
-figure()
-scatter(X,avgSnaps{2,1},'filled','r')
-ylabel('Hourly Snaps')
-title('Shrimp Activity vs Wind, March','Day')
-hold on
-scatter(X,avgSnaps{1,1},'filled','b')
-ylabel('Hourly Snaps')
-xlabel('Windspeed (m/s)')
+% 
+% figure()
+% scatter(X,avgSnaps{2,1},'filled','r')
+% ylabel('Hourly Snaps')
+% title('Shrimp Activity vs Wind, March','Day')
+% hold on
+% scatter(X,avgSnaps{1,1},'filled','b')
+% ylabel('Hourly Snaps')
+% xlabel('Windspeed (m/s)')
 
 
 % 

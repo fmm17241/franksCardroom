@@ -78,7 +78,8 @@ Energy = platter.Energy_1 + platter.Energy_2 + platter.Energy_3;
 PeakPower = platter.PeakPower_1 + platter.PeakPower_2 + platter.PeakPower_3;
 
 snapRateData = timetable(Time,SnapCount,PeakAmp,Energy,PeakPower)
-
+% snapRateData.Time.TimeZone = 'UTC';
+snapRateData.Time.TimeZone = 'UTC';
 
 snapRateHourly = retime(snapRateData, 'hourly', 'mean');
 snapRateHourly.SnapCount = retime(snapRateData(:, 'SnapCount'), 'hourly', 'sum').SnapCount;

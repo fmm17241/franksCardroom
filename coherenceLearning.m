@@ -42,8 +42,7 @@ fileLocation = ([oneDrive,'\acousticAnalysis\KnotTying']);
 [snapRateData, snapRateHourly, snapRateMinute] = snapRateAnalyzer(fileLocation);
 
 % Second step: this bins, averages, and plots some of their
-[receiverData, envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets] = snapRatePlotter(oneDrive, SnapCountTable, snapRateTables, ...
-    hourSnaps, hourEnergy, hourAmp, minuteSnaps, minuteAmp, minuteEnergy);
+[receiverData, envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets] = snapRatePlotter(oneDrive, snapRateHourly, snapRateMinute);
 
 %Brock's breakdown into the power spectra
 % dataout=Power_spectra(datainA,bins,DT,windoww,samplinginterval,cutoff)
