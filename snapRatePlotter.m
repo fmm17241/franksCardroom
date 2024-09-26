@@ -12,11 +12,11 @@ clearvars index
 % [SnapCountTable, snapRateTables, PeakAmpTable, EnergyTable, hourSnaps, hourAmp, hourEnergy, minuteSnaps, minuteAmp, minuteEnergy] = snapRateAnalyzer(fileLocation)
 
 %FM This is just for the March 2020 dataset, two small times had bad data and so I'm removing those hours.
-badTimes = [351;547];
-if hourSnaps{1}.Time(1,1) == '02-Mar-2020 23:00:00.000';
-    % hourSnaps{1}.SnapCount(351,:) = NaN;
-    hourSnaps{1}.SnapCount(badTimes,:) = NaN;
-end
+% badTimes = [351;547];
+% if hourSnaps{1}.Time(1,1) == '02-Mar-2020 23:00:00.000';
+%     % hourSnaps{1}.SnapCount(351,:) = NaN;
+%     hourSnaps{1}.SnapCount(badTimes,:) = NaN;
+% end
 
 
 figure()

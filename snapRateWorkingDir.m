@@ -20,7 +20,7 @@
 
 fileLocation = ([oneDrive,'\acousticAnalysis']);
 % fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis';
-[SnapCountTable, snapRateTables, PeakAmpTable, EnergyTable, hourSnaps, hourAmp, hourEnergy, minuteSnaps, minuteAmp, minuteEnergy] = snapRateAnalyzer(fileLocation)
+[snapRateData, snapRateHourly, snapRateMinute] = snapRateAnalyzer(fileLocation)
 
 
 % Second step: this bins, averages, and plots some of their

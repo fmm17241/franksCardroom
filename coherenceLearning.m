@@ -39,17 +39,7 @@
 
 fileLocation = ([oneDrive,'\acousticAnalysis\KnotTying']);
 % fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis';
-[SnapCountTable, snapRateTables, PeakAmpTable, EnergyTable, hourSnaps, hourAmp, hourEnergy, minuteSnaps, minuteAmp, minuteEnergy] = snapRateAnalyzer(fileLocation)
-
-%Frank's running parts of the season separately, now I'm combining them.
-combinedSnaps = synchronize(hourSnaps{1},hourSnaps{2});
-combinedSnaps = sum([combinedSnaps.SnapCount_1, combinedSnaps.SnapCount_2], 2, 'omitnan');
-springSnaps = timetable(combinedSnaps.Time,combinedSnaps)
-
-
-
-springSnaps.Properties.VariableNames = {'Snaps'};
-
+[snapRateData, snapRateHourly, snapRateMinute] = snapRateAnalyzer(fileLocation);
 
 % Second step: this bins, averages, and plots some of their
 [receiverData, envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets] = snapRatePlotter(oneDrive, SnapCountTable, snapRateTables, ...

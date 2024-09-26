@@ -1,6 +1,6 @@
 %Frank's gotta find times to study with snap rate/frequency
 
-function [SnapCountTable, snapRateTables, PeakAmpTable, EnergyTable, hourSnaps, hourAmp, hourEnergy, minuteSnaps, minuteAmp, minuteEnergy] = snapRateAnalyzer(fileDirectory)
+function [snapRateData, snapRateHourly, snapRateMinute] = snapRateAnalyzer(fileDirectory)
 
 %% February 28th
 % cd ([oneDrive,'\acousticAnalysis\windEvent2020Feb28'])
@@ -37,24 +37,6 @@ snapRateTables{i}.EventDateTime = dt(i) + seconds(snapRateTables{i}.BeginTime_s_
 snapRateTables{i}.EventDateTime.Format = 'dd-MMM-yyyy HH:mm:ss.SSS';
 end
 %%
-% for i = 1:length(snapRateTables)
-% 
-%     % Filter rows where the 'View' column contains the string 'Waveform 1'
-%     waveFormTable{i} = snapRateTables{i}(contains(snapRateTables{i}.View, 'Waveform 1'), :);
-%     spectrogramTable{i} = snapRateTables{i}(contains(snapRateTables{i}.View, 'Spectrogram 1'), :);
-% 
-%     %There are two rows for each snap, one being waveform, one being
-%     %spectrogram. I've arbitrarily chosen waveform, this just gives a "1"
-%     %for each snap so I can find hourly averages.
-%     SnapCountTable{i} = timetable(waveFormTable{i}.EventDateTime,waveFormTable{i}.Channel);
-%     SnapCountTable{i}.Properties.VariableNames = {'SnapCount'};
-% 
-%     PeakAmpTable{i} = timetable(waveFormTable{i}.EventDateTime,waveFormTable{i}.PeakAmp_U_);
-%     PeakAmpTable{i}.Properties.VariableNames = {'PeakAmp'};
-% 
-%     EnergyTable{i} = timetable(spectrogramTable{i}.EventDateTime,spectrogramTable{i}.Energy_dBFS_);
-%     EnergyTable{i}.Properties.VariableNames = {'Energy'};
-% end
 
 for i = 1:length(snapRateTables)
 
@@ -81,47 +63,54 @@ end
 
 
 
-platter = synchronize(comboTable{1},comboTable{2})
+platter = synchronize(comboTable{1},comboTable{2});
 % combinedSnaps = sum([platter, 2, 'omitnan');
 
-index = ismissing(platter(:,{'SnapCount_1','PeakAmp_1','Energy_1','PeakPower_1','SnapCount_2','PeakAmp_2','Energy_2','PeakPower_2'}))
+index = ismissing(platter(:,{'SnapCount_1','PeakAmp_1','Energy_1','PeakPower_1','SnapCount_2','PeakAmp_2','Energy_2','PeakPower_2'}));
 
 platter{:,{'SnapCount_1','PeakAmp_1','Energy_1','PeakPower_1','SnapCount_2','PeakAmp_2','Energy_2','PeakPower_2'}}(index) = 0;
 
 Time = platter.Time;
-allSnapCount = platter.SnapCount_1 + platter.SnapCount_2;
-allPeakAmp = platter.PeakAmp_1 + platter.PeakAmp_2;
-allEnergy = platter.Energy_1 + platter.Energy_2;
-allPeakPower = platter.PeakPower_1 + platter.PeakPower_2;
+SnapCount = platter.SnapCount_1 + platter.SnapCount_2;
+PeakAmp = platter.PeakAmp_1 + platter.PeakAmp_2;
+Energy = platter.Energy_1 + platter.Energy_2;
+PeakPower = platter.PeakPower_1 + platter.PeakPower_2;
 
-snapRateData = timetable(Time,allSnapCount,allPeakAmp,allEnergy,allPeakPower)
+snapRateData = timetable(Time,SnapCount,PeakAmp,Energy,PeakPower)
 
 
-comboTable{i}(index,:) = 0;
+snapRateHourly = retime(snapRateData, 'hourly', 'mean');
+snapRateHourly.SnapCount = retime(snapRateData(:, 'SnapCount'), 'hourly', 'sum').SnapCount;
+
+snapRateMinute = retime(snapRateData, 'minute', 'mean');
+snapRateMinute.SnapCount = retime(snapRateData(:, 'SnapCount'), 'minute', 'sum').SnapCount;
 
 %%
-for i = 1:length(fileNames)
-    %Average it by hour, or minute.
-    hourSnaps{i} = retime(SnapCountTable{i},'hourly','sum');
-    hourSnaps{i}.Time.TimeZone = 'UTC';
-    hourAmp{i} = retime(PeakAmpTable{i},'hourly','mean');
-    hourAmp{i}.Time.TimeZone = 'UTC';
-    hourEnergy{i} = retime(EnergyTable{i},'hourly','mean');
-    hourEnergy{i}.Time.TimeZone = 'UTC';
-    %Average it by hour, or minute.
-    minuteSnaps{i} = retime(SnapCountTable{i},'minute','sum');
-    minuteSnaps{i}.Time.TimeZone = 'UTC';
+% for i = 1:length(fileNames)
+%     %Average it by hour, or minute.
+%     hourSnaps{i} = retime(SnapCountTable{i},'hourly','sum');
+%     hourSnaps{i}.Time.TimeZone = 'UTC';
+% 
+% 
 
-    %Removes outliers, two random huge spikes that appear.
-    wayTooHigh = minuteSnaps{i}.SnapCount > 300;
-    minuteSnaps{i}.SnapCount(wayTooHigh) = NaN;
+    % hourAmp{i} = retime(PeakAmpTable{i},'hourly','mean');
+    % hourAmp{i}.Time.TimeZone = 'UTC';
+    % hourEnergy{i} = retime(EnergyTable{i},'hourly','mean');
+    % hourEnergy{i}.Time.TimeZone = 'UTC';
+    % %Average it by hour, or minute.
+    % minuteSnaps{i} = retime(SnapCountTable{i},'minute','sum');
+    % minuteSnaps{i}.Time.TimeZone = 'UTC';
+    % 
+    % %Removes outliers, two random huge spikes that appear.
+    % wayTooHigh = minuteSnaps{i}.SnapCount > 300;
+    % minuteSnaps{i}.SnapCount(wayTooHigh) = NaN;
+    % 
+    % minuteAmp{i} = retime(PeakAmpTable{i},'minute','mean');
+    % minuteAmp{i}.Time.TimeZone = 'UTC';
+    % minuteEnergy{i} = retime(EnergyTable{i},'minute','mean');
+    % minuteEnergy{i}.Time.TimeZone = 'UTC';
 
-    minuteAmp{i} = retime(PeakAmpTable{i},'minute','mean');
-    minuteAmp{i}.Time.TimeZone = 'UTC';
-    minuteEnergy{i} = retime(EnergyTable{i},'minute','mean');
-    minuteEnergy{i}.Time.TimeZone = 'UTC';
-
-end
+% end
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
