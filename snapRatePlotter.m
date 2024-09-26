@@ -5,18 +5,15 @@ buildReceiverData
 close all
 clearvars index
 
-% 
-%  %Run "snapRateAnalyzer" first
-% fileLocation = ([oneDrive,'\acousticAnalysis']);
-% % fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis';
-% [SnapCountTable, snapRateTables, PeakAmpTable, EnergyTable, hourSnaps, hourAmp, hourEnergy, minuteSnaps, minuteAmp, minuteEnergy] = snapRateAnalyzer(fileLocation)
 
-%FM This is just for the March 2020 dataset, two small times had bad data and so I'm removing those hours.
-% badTimes = [351;547];
-% if hourSnaps{1}.Time(1,1) == '02-Mar-2020 23:00:00.000';
-%     % hourSnaps{1}.SnapCount(351,:) = NaN;
-%     hourSnaps{1}.SnapCount(badTimes,:) = NaN;
-% end
+%FM This is just for the Spring 2020 dataset, two small times had bad data and so I'm removing those hours.
+badTimesMinute = [67554, 79327, 94902];
+badTimesHour    = [1127, 1323, 1582];
+if snapRateMinute.Time(1) == '30-Jan-2020 15:12:00.000';
+    % Set the rows at the specified indices to NaN, ensuring you use an array of NaNs 
+    snapRateMinute(badTimesMinute,:) = array2table(NaN(numel(badTimesMinute), width(snapRateMinute)), 'VariableNames', snapRateMinute.Properties.VariableNames);
+    snapRateHourly(badTimesHour,:) = array2table(NaN(numel(badTimesHour), width(snapRateHourly)), 'VariableNames', snapRateHourly.Properties.VariableNames);
+end
 
 
 figure()

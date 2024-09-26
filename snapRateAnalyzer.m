@@ -63,18 +63,19 @@ end
 
 
 
-platter = synchronize(comboTable{1},comboTable{2});
+platter = synchronize(comboTable{1},comboTable{2},comboTable{3});
+
 % combinedSnaps = sum([platter, 2, 'omitnan');
 
-index = ismissing(platter(:,{'SnapCount_1','PeakAmp_1','Energy_1','PeakPower_1','SnapCount_2','PeakAmp_2','Energy_2','PeakPower_2'}));
+index = ismissing(platter(:,{'SnapCount_1','PeakAmp_1','Energy_1','PeakPower_1','SnapCount_2','PeakAmp_2','Energy_2','PeakPower_2','SnapCount_3','PeakAmp_3','Energy_3','PeakPower_3'}));
 
-platter{:,{'SnapCount_1','PeakAmp_1','Energy_1','PeakPower_1','SnapCount_2','PeakAmp_2','Energy_2','PeakPower_2'}}(index) = 0;
+platter{:,{'SnapCount_1','PeakAmp_1','Energy_1','PeakPower_1','SnapCount_2','PeakAmp_2','Energy_2','PeakPower_2','SnapCount_3','PeakAmp_3','Energy_3','PeakPower_3'}}(index) = 0;
 
 Time = platter.Time;
-SnapCount = platter.SnapCount_1 + platter.SnapCount_2;
-PeakAmp = platter.PeakAmp_1 + platter.PeakAmp_2;
-Energy = platter.Energy_1 + platter.Energy_2;
-PeakPower = platter.PeakPower_1 + platter.PeakPower_2;
+SnapCount = platter.SnapCount_1 + platter.SnapCount_2 + platter.SnapCount_3;
+PeakAmp = platter.PeakAmp_1 + platter.PeakAmp_2 + platter.PeakAmp_3;
+Energy = platter.Energy_1 + platter.Energy_2 + platter.Energy_3;
+PeakPower = platter.PeakPower_1 + platter.PeakPower_2 + platter.PeakPower_3;
 
 snapRateData = timetable(Time,SnapCount,PeakAmp,Energy,PeakPower)
 
