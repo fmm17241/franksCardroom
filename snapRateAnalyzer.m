@@ -88,31 +88,16 @@ snapRateMinute = retime(snapRateData, 'minute', 'mean');
 snapRateMinute.SnapCount = retime(snapRateData(:, 'SnapCount'), 'minute', 'sum').SnapCount;
 
 %%
-% for i = 1:length(fileNames)
-%     %Average it by hour, or minute.
-%     hourSnaps{i} = retime(SnapCountTable{i},'hourly','sum');
-%     hourSnaps{i}.Time.TimeZone = 'UTC';
-% 
-% 
-
-    % hourAmp{i} = retime(PeakAmpTable{i},'hourly','mean');
-    % hourAmp{i}.Time.TimeZone = 'UTC';
-    % hourEnergy{i} = retime(EnergyTable{i},'hourly','mean');
-    % hourEnergy{i}.Time.TimeZone = 'UTC';
-    % %Average it by hour, or minute.
-    % minuteSnaps{i} = retime(SnapCountTable{i},'minute','sum');
-    % minuteSnaps{i}.Time.TimeZone = 'UTC';
-    % 
-    % %Removes outliers, two random huge spikes that appear.
-    % wayTooHigh = minuteSnaps{i}.SnapCount > 300;
-    % minuteSnaps{i}.SnapCount(wayTooHigh) = NaN;
-    % 
-    % minuteAmp{i} = retime(PeakAmpTable{i},'minute','mean');
-    % minuteAmp{i}.Time.TimeZone = 'UTC';
-    % minuteEnergy{i} = retime(EnergyTable{i},'minute','mean');
-    % minuteEnergy{i}.Time.TimeZone = 'UTC';
-
-% end
+%FM This is just for the Spring 2020 dataset, two small times had bad data and so I'm removing those hours.
+badTimesMinute = [67554, 79327, 94902, 94903];
+badTimesHour    = [1127, 1323, 1582];
+if snapRateMinute.Time(1) == '30-Jan-2020 15:12:00.000';
+    % Set the rows at the specified indices to NaN, ensuring you use an array of NaNs 
+    snapRateMinute(badTimesMinute,:) = array2table(NaN(numel(badTimesMinute), width(snapRateMinute)), ...
+                'VariableNames', snapRateMinute.Properties.VariableNames);
+    snapRateHourly(badTimesHour,:) = array2table(NaN(numel(badTimesHour), width(snapRateHourly)), ...
+                'VariableNames', snapRateHourly.Properties.VariableNames);
+end
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
