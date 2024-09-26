@@ -37,12 +37,21 @@
 %Frank tries his own data now
 %Run snapRateAnalyzer and Plotter.
 
-fileLocation = ([oneDrive,'\acousticAnalysis\KnotTying']);
+fileLocation = ([oneDrive,'\acousticAnalysis\matlabVariables']);
 % fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis';
-[snapRateData, snapRateHourly, snapRateMinute] = snapRateAnalyzer(fileLocation);
+% [snapRateData, snapRateHourly, snapRateMinute] = snapRateAnalyzer(fileLocation);
 
 % Second step: this bins, averages, and plots some of their
-[receiverData, envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets] = snapRatePlotter(oneDrive, snapRateHourly, snapRateMinute);
+% [receiverData, envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets] = snapRatePlotter(oneDrive, snapRateHourly, snapRateMinute);
+
+cd (fileLocation)
+load envDataSpring
+load receiverData
+load snapRateDataSpring
+load snapRateHourlySpring
+load snapRateMinuteSpring
+
+
 
 %Brock's breakdown into the power spectra
 % dataout=Power_spectra(datainA,bins,DT,windoww,samplinginterval,cutoff)
