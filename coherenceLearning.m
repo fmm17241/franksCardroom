@@ -37,14 +37,14 @@
 %Frank tries his own data now
 %Run snapRateAnalyzer and Plotter.
 
-fileLocation = ([oneDrive,'\acousticAnalysis\matlabVariables']);
+% fileLocation = ([oneDrive,'\acousticAnalysis\matlabVariables']);
 % fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis';
 % [snapRateData, snapRateHourly, snapRateMinute] = snapRateAnalyzer(fileLocation);
 
 % Second step: this bins, averages, and plots some of their
 % [receiverData, envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets] = snapRatePlotter(oneDrive, snapRateHourly, snapRateMinute);
 
-cd (fileLocation)
+% cd (fileLocation)
 load envDataSpring
 load receiverData
 load snapRateDataSpring
@@ -95,13 +95,46 @@ coherenceSN = Coherence_whelch_overlap(snapSignal.psdw,noiseSignal.psdw,3600,1,0
 
 
 %%
-%
+snapRateHourly.SnapCount(isnan(snapRateHourly.SnapCount)) = interp1(snapRateHourly.Time(~isnan(snapRateHourly.SnapCount)),...
+    snapRateHourly.SnapCount(~isnan(snapRateHourly.SnapCount)),snapRateHourly.Time(isnan(snapRateHourly.SnapCount))) ;
+
+
 fs = 1 / 3600;  % Sampling frequency in Hz (1 sample per hour)
 fc = 1 / (40 * 3600);  % Cutoff frequency for 40-hour period in Hz
-filteredData_highpass = highpass(envData, fc, fs);
+filteredSnaps_highpass = highpass(snapRateHourly.SnapCount, fc, fs);
 
-fc = 1 / (48 * 3600);  % Cutoff frequency for 48-hour period in Hz
-filteredData_lowpass = lowpass(envData, fc, fs);
+fc = 1 / (72 * 3600);  % Cutoff frequency for 72-hours
+filteredSnaps_lowpass = lowpass(snapRateHourly.SnapCount, fc, fs);
+filteredVariables_Lowpass.snaps = lowpass(snapRateHourly.SnapCount, fc, fs);
+filteredVariables_Lowpass.noise = lowpass(envData.Noise, fc, fs);
+filteredVariables_Lowpass.waveheight = lowpass(envData.waveHeight, fc, fs);
+filteredVariables_Lowpass.temp = lowpass(envData.Temp, fc, fs);
+
+%Frank fix later, just accounting for several NaNs first.
+envData.windSpd(isnan(envData.windSpd)) = interp1(envData.DT(~isnan(envData.windSpd)),...
+    envData.windSpd(~isnan(envData.windSpd)),envData.DT(isnan(envData.windSpd))) ;
+%
+filteredVariables_Lowpass.windspd = lowpass(envData.windSpd, fc, fs);
+filteredVariables_Lowpass.tides = lowpass(envData.crossShore, fc, fs);
+
+
+figure()
+yyaxis left
+plot(envData.DT,envData.windSpd,'r')
+ylabel('WindSpd (m/s)')
+yyaxis right
+plot(envData.DT,filteredVariables_Lowpass.windspd,'k','LineWidth',2)
+ylabel('Wind-Lowpass')
+
+figure()
+yyaxis left
+plot(envData.DT,envData.Noise,'r')
+ylabel('Noise')
+hold on
+plot(envData.DT,filteredVariables_Lowpass.noise,'k','LineWidth',2)
+% ylabel('Noise-Lowpass')
+legend('Raw','72hr-Lowpass')
+
 
 
 
