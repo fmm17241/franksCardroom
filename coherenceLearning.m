@@ -51,7 +51,20 @@ load snapRateDataSpring
 load snapRateHourlySpring
 load snapRateMinuteSpring
 
+figure()
+tiledlayout(2,1)
+ax1 = nexttile()
+yyaxis left
+plot(envData.DT,envData.Noise,'k');
+ylabel('HF Noise')
+yyaxis right
+plot(envData.DT,envData.windSpd,'b')
+ylabel('Winds')
+ax2 = nexttile()
+plot(snapRateHourly.Time,snapRateHourly.SnapCount,'r');
+ylabel('SnapCount')
 
+linkaxes([ax1, ax2],'x')
 
 %Brock's breakdown into the power spectra
 % dataout=Power_spectra(datainA,bins,DT,windoww,samplinginterval,cutoff)
@@ -59,10 +72,11 @@ snapSignal = Power_spectra(snapRateHourly.SnapCount,1,1,0,3600,0);
 windSignal = Power_spectra(envData.windSpd,1,1,0,3600,0);
 noiseSignal = Power_spectra(envData.Noise,1,1,0,3600,0);
 tempSignal  = Power_spectra(envData.Temp,1,1,0,3600,0);
+waveSignal  = Power_spectra(envData.waveHeight,1,1,0,3600,0);
 
 %Coherence: comparing the signals created by Power_spectra
 % Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
-coherenceSW = Coherence_whelch_overlap(snapSignal.psdw,tempSignal.psdw,3600,1,0,1,0)
+coherenceSW = Coherence_whelch_overlap(snapSignal.psdw,waveSignal.psdw,3600,1,0,1,0)
 
 figure()
 loglog(coherenceSW.f*86400,coherenceSW.psda)
@@ -71,18 +85,23 @@ figure()
 loglog(coherenceSW.f*86400,coherenceSW.psdb)
 
 figure()
-plot(coherenceSW.f*86400,coherenceSW.cspd)
+loglog(coherenceSW.f*86400,coherenceSW.cspd)
 
 figure()
-plot(coherenceSW.f*86400,coherenceSW.phase)
+loglog(coherenceSW.f*86400,coherenceSW.phase)
 
 %
 coherenceSN = Coherence_whelch_overlap(snapSignal.psdw,noiseSignal.psdw,3600,1,0,1,0)
 
 
+%%
+%
+fs = 1 / 3600;  % Sampling frequency in Hz (1 sample per hour)
+fc = 1 / (40 * 3600);  % Cutoff frequency for 40-hour period in Hz
+filteredData_highpass = highpass(envData, fc, fs);
 
-
-
+fc = 1 / (48 * 3600);  % Cutoff frequency for 48-hour period in Hz
+filteredData_lowpass = lowpass(envData, fc, fs);
 
 
 
@@ -135,42 +154,3 @@ window = hamming(256);   % Define a window function (Hamming window)
 clearvars detrended* minute*
 
 
-
-figure()
-tiledlayout(3,1,'tileSpacing','compact')
-
-% ax1 = nexttile()
-% hold on
-% for k = 1:length(receiverData)
-% plot(receiverData{k}.DT,receiverData{k}.Noise)
-
-ax1 = nexttile()
-hold on
-plot(receiverData{4}.DT,receiverData{4}.Noise,'k')
-title('Noise')
-
-ax2 = nexttile()
-plot(receiverData{4}.DT,receiverData{4}.windSpd)
-hold on
-title('Windspeed')
-
-% 
-ax3 = nexttile()
-hold on
-for i = 1:length(hourSnaps)
-plot(minuteSnaps{i}.Time,minuteSnaps{i}.SnapCount,'r')
-end
-% legend({'Mid','High','Low'})
-title('SnapRate')
-% 
-% ax4 = nexttile()
-% hold on
-% for i = 1:length(hourAmp)
-%     plot(minuteAmp{i}.Time,minuteAmp{i}.PeakAmp)
-% end
-% % legend({'Mid','High','Low'})
-% title('Peak Amplitude')
-
-
-
-linkaxes([ax1,ax2,ax3],'x')
