@@ -139,6 +139,16 @@ legend('Raw','72hr-Lowpass')
 
 
 
+windSpdSignal = Power_spectra(filteredVariables_Lowpass.windspd,1,1,0,3600,0);
+
+coherenceSW = Coherence_whelch_overlap(snapSignal.psdw,windSpdSignal.psdw,3600,1,0,1,0)
+
+figure()
+loglog(coherenceSW.f*86400,coherenceSW.psda)
+
+figure()
+loglog(coherenceSW.f*86400,coherenceSW.psdb)
+
 %%
 %This processes our snap counts, removing the trend and mean from the data.
 for K = 1:length(envData)
