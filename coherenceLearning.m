@@ -149,6 +149,9 @@ loglog(coherenceSW.f*86400,coherenceSW.psda)
 figure()
 loglog(coherenceSW.f*86400,coherenceSW.psdb)
 
+figure()
+loglog(coherenceSW.f*86400,coherenceSW.cspd)
+
 %%
 %This processes our snap counts, removing the trend and mean from the data.
 for K = 1:length(envData)
