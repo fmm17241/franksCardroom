@@ -54,16 +54,16 @@ linkaxes([ax1, ax2],'x')
 % dataout=Power_spectra(datainA,bins,DT,windoww,samplinginterval,cutoff)
 %I have not windowed to start; I want to look at lower frequencies and I only have a few months to work with.
 % This will probably change if I'm going to focus on the synoptic wind bands
-snapSignal = Power_spectra(snapRateHourly.SnapCount,1,1,0,3600,0);
-windSignal = Power_spectra(envData.windSpd,1,1,0,3600,0);
-noiseSignal = Power_spectra(envData.Noise,1,1,0,3600,0);
-tempSignal  = Power_spectra(envData.Temp,1,1,0,3600,0);
-waveSignal  = Power_spectra(envData.waveHeight,1,1,0,3600,0);
+snapSignal = Power_spectra(snapRateHourly.SnapCount,5,1,0,3600,0);
+windSignal = Power_spectra(envData.windSpd,5,1,0,3600,0);
+noiseSignal = Power_spectra(envData.Noise,5,1,0,3600,0);
+tempSignal  = Power_spectra(envData.Temp,5,1,0,3600,0);
+waveSignal  = Power_spectra(envData.waveHeight,5,1,0,3600,0);
 
 %Coherence: comparing the signals created by Power_spectra
 % Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
 %First attempt is to compare something I know is very related, snaprate and noise levels.
-coherenceSnapNoise = Coherence_whelch_overlap(snapRateHourly.SnapCount,envData.Noise,3600,10,0,1,0)
+coherenceSnapNoise = Coherence_whelch_overlap(snapRateHourly.SnapCount,envData.Noise,3600,5,1,1,0)
 
 % Power spectral density of signal A, Snaprate
 % This still shows odd spikes at every hour possible if I don't window.
@@ -134,14 +134,14 @@ legend('Raw','48hr-Lowpass')
 
 %%
 %Same power analysis, but after lowpass filtering it to focus on frequencies lower than every 2 days.
-filteredSnapSignal = Power_spectra(filteredVariables_Lowpass.snaps,1,1,0,3600,0);
-filteredWindSignal = Power_spectra(filteredVariables_Lowpass.windspd,1,1,0,3600,0);
-filteredNoiseSignal = Power_spectra(filteredVariables_Lowpass.noise,1,1,0,3600,0);
-filteredTempSignal  = Power_spectra(filteredVariables_Lowpass.temp,1,1,0,3600,0);
-filteredWaveSignal  = Power_spectra(filteredVariables_Lowpass.waveheight,1,1,0,3600,0);
+% filteredSnapSignal = Power_spectra(filteredVariables_Lowpass.snaps,1,1,0,3600,0);
+% filteredWindSignal = Power_spectra(filteredVariables_Lowpass.windspd,1,1,0,3600,0);
+% filteredNoiseSignal = Power_spectra(filteredVariables_Lowpass.noise,1,1,0,3600,0);
+% filteredTempSignal  = Power_spectra(filteredVariables_Lowpass.temp,1,1,0,3600,0);
+% filteredWaveSignal  = Power_spectra(filteredVariables_Lowpass.waveheight,1,1,0,3600,0);
 
-
-coherenceSNfiltered = Coherence_whelch_overlap(filteredSnapSignal.psdw,filteredNoiseSignal.psdw,3600,1,0,1,0)
+% Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
+coherenceSNfiltered = Coherence_whelch_overlap(filteredVariables_Lowpass.snaps,filteredVariables_Lowpass.noise,3600,4,0,1,0)
 
 % Power spectral density of signal A, filtered Snaps
 figure()
@@ -156,7 +156,7 @@ title('PSD','HF Noise')
 
 % The co-spectral power of both A and B
 figure()
-loglog(coherenceSNfiltered.f*86400,coherenceSNfiltered.cspd)
+loglog(coherenceSNfiltered.f*86400,coherenceSNfiltered.coh)
 title('Co-Spectral Power','Comparing Snaps and Noise')
 
 
