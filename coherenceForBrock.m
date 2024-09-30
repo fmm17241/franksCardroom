@@ -161,11 +161,28 @@ plot(envData.DT,filteredVariables_Lowpass.noise,'k','LineWidth',2)
 legend('Raw','24hr-Lowpass')
 
 %%
-%Same power analysis, but after lowpass filtering it to focus on frequencies lower than every 2 days.
-% filteredSnapSignal = Power_spectra(filteredVariables_Lowpass.snaps,1,1,0,3600,0);
-% filteredWindSignal = Power_spectra(filteredVariables_Lowpass.windspd,1,1,0,3600,0);
-% filteredNoiseSignal = Power_spectra(filteredVariables_Lowpass.noise,1,1,0,3600,0);
-% filteredTempSignal  = Power_spectra(filteredVariables_Lowpass.temp,1,1,0,3600,0);
-% filteredWaveSignal  = Power_spectra(filteredVariables_Lowpass.waveheight,1,1,0,3600,0);
-8
+% Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
+coherenceSNfiltered = Coherence_whelch_overlap(filteredVariables_Lowpass.noise,filteredVariables_Lowpass.windspd,3600,7,1,1,0)
+
+% Power spectral density of signal A, filtered Snaps
+figure()
+loglog(coherenceSNfiltered.f*86400,coherenceSNfiltered.psda)
+title('PSD','A')
+
+% Power spectral density of signal B, filtered Noise
+figure()
+loglog(coherenceSNfiltered.f*86400,coherenceSNfiltered.psdb)
+title('PSD','B')
+
+
+% The co-spectral power of both A and B
+figure()
+semilogx(coherenceSNfiltered.f*86400,coherenceSNfiltered.coh)
+title('Co-Spectral Power, Lowpass Filtered','Comparing Noise and Windspeeds')
+
+figure()
+semilogx(coherenceSNfiltered.f*86400,coherenceSNfiltered.phase)
+title('Phase, Lowpass Filtered','Snaps and Windspeed')
+
+
 %%
