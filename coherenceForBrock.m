@@ -133,7 +133,7 @@ filteredVariables_Highpass.windspd = highpass(envData.windSpd, fc, fs);
 filteredVariables_Highpass.tides = highpass(envData.crossShore, fc, fs);
 
 %%
-fc = 1 / (72 * 3600);  % Cutoff frequency for 48-hours
+fc = 1 / (24 * 3600);  % Cutoff frequency for 24-hours
 filteredSnaps_lowpass = lowpass(snapRateHourly.SnapCount, fc, fs);
 filteredVariables_Lowpass.snaps = lowpass(snapRateHourly.SnapCount, fc, fs);
 filteredVariables_Lowpass.noise = lowpass(envData.Noise, fc, fs);
@@ -158,7 +158,7 @@ ylabel('Noise')
 hold on
 plot(envData.DT,filteredVariables_Lowpass.noise,'k','LineWidth',2)
 % ylabel('Noise-Lowpass')
-legend('Raw','48hr-Lowpass')
+legend('Raw','24hr-Lowpass')
 
 %%
 %Same power analysis, but after lowpass filtering it to focus on frequencies lower than every 2 days.
@@ -167,29 +167,5 @@ legend('Raw','48hr-Lowpass')
 % filteredNoiseSignal = Power_spectra(filteredVariables_Lowpass.noise,1,1,0,3600,0);
 % filteredTempSignal  = Power_spectra(filteredVariables_Lowpass.temp,1,1,0,3600,0);
 % filteredWaveSignal  = Power_spectra(filteredVariables_Lowpass.waveheight,1,1,0,3600,0);
-
-% Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
-coherenceSNfiltered = Coherence_whelch_overlap(filteredVariables_Highpass.noise,filteredVariables_Highpass.windspd,3600,7,1,1,0)
-
-% Power spectral density of signal A, filtered Snaps
-figure()
-loglog(coherenceSNfiltered.f*86400,coherenceSNfiltered.psda)
-title('PSD','A')
-
-% Power spectral density of signal B, filtered Noise
-figure()
-loglog(coherenceSNfiltered.f*86400,coherenceSNfiltered.psdb)
-title('PSD','B')
-
-
-% The co-spectral power of both A and B
-figure()
-semilogx(coherenceSNfiltered.f*86400,coherenceSNfiltered.coh)
-title('Co-Spectral Power, Highpass Filtered','Comparing Noise and Windspeeds')
-
-figure()
-semilogx(coherenceSNfiltered.f*86400,coherenceSNfiltered.phase)
-title('Phase, Highpass Filtered','Snaps and Windspeed')
-
-
+8
 %%
