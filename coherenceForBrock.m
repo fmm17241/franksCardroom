@@ -62,7 +62,7 @@ linkaxes([ax1, ax2],'x')
 
 %Coherence: comparing the signals created by Power_spectra
 % Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
-coherenceSnapWind = Coherence_whelch_overlap(snapRateHourly.SnapCount,envData.waveHeight,3600,5,1,1,0)
+coherenceSnapWind = Coherence_whelch_overlap(snapRateHourly.SnapCount,envData.windSpd,3600,4,1,1,0)
 
 % Power spectral density of signal A, Snaprate
 % This still shows odd spikes at every hour possible if I don't window.
@@ -73,23 +73,23 @@ title('PSD','SnapRate (/hr)')
 % Power spectral density of signal B, HF noise levels
 figure()
 loglog(coherenceSnapWind.f*86400,coherenceSnapWind.psdb)
-title('PSD','WaveHeight (m)')
+title('PSD','Windspeeds (m/s)')
 
 
 % The co-spectral power of both A and B
 figure()
 semilogx(coherenceSnapWind.f*86400,coherenceSnapWind.coh)
-title('Coherence Values','Comparing Snaps and Waveheight')
+title('Coherence Values','Comparing Snaps and Windspeeds')
 
 figure()
 semilogx(coherenceSnapWind.f*86400,coherenceSnapWind.phase)
-title('Phase','Snaps and Waveheight')
+title('Phase','Snaps and Windspeeds')
 
 %FRANK: NEED WINDOWS
 %ADD HAMMING
 % PHASE: Divide by pi or 2pi, multiply by period
 %%
-coherenceSnapWind = Coherence_whelch_overlap(snapRateHourly.SnapCount,envData.windSpd,3600,5,1,1,0)
+coherenceSnapWind = Coherence_whelch_overlap(snapRateHourly.SnapCount,envData.windSpd,3600,4,1,1,0)
 
 % Power spectral density of signal A
 figure()
@@ -169,7 +169,7 @@ legend('Raw','48hr-Lowpass')
 % filteredWaveSignal  = Power_spectra(filteredVariables_Lowpass.waveheight,1,1,0,3600,0);
 
 % Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
-coherenceSNfiltered = Coherence_whelch_overlap(filteredVariables_Lowpass.noise,filteredVariables_Lowpass.waveheight,3600,9,0,1,0)
+coherenceSNfiltered = Coherence_whelch_overlap(filteredVariables_Highpass.noise,filteredVariables_Highpass.windspd,3600,7,1,1,0)
 
 % Power spectral density of signal A, filtered Snaps
 figure()
@@ -185,7 +185,11 @@ title('PSD','B')
 % The co-spectral power of both A and B
 figure()
 semilogx(coherenceSNfiltered.f*86400,coherenceSNfiltered.coh)
-title('Co-Spectral Power, Lowpass Filtered','Comparing Noise and Waveheight')
+title('Co-Spectral Power, Highpass Filtered','Comparing Noise and Windspeeds')
+
+figure()
+semilogx(coherenceSNfiltered.f*86400,coherenceSNfiltered.phase)
+title('Phase, Highpass Filtered','Snaps and Windspeed')
 
 
 %%
