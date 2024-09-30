@@ -63,29 +63,29 @@ waveSignal  = Power_spectra(envData.waveHeight,5,1,0,3600,0);
 %Coherence: comparing the signals created by Power_spectra
 % Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
 %First attempt is to compare something I know is very related, snaprate and noise levels.
-coherenceSnapNoise = Coherence_whelch_overlap(snapRateHourly.SnapCount,envData.Noise,3600,5,1,1,0)
+coherenceSnapWind = Coherence_whelch_overlap(snapRateHourly.SnapCount,envData.waveHeight,3600,5,1,1,0)
 
 % Power spectral density of signal A, Snaprate
 % This still shows odd spikes at every hour possible if I don't window.
 figure()
-loglog(coherenceSnapNoise.f*86400,coherenceSnapNoise.psda)
-title('SnapRate')
+loglog(coherenceSnapWind.f*86400,coherenceSnapWind.psda)
+title('PSD','SnapRate (/hr)')
 
 % Power spectral density of signal B, HF noise levels
 figure()
-loglog(coherenceSnapNoise.f*86400,coherenceSnapNoise.psdb)
-title('HF Noise levels')
+loglog(coherenceSnapWind.f*86400,coherenceSnapWind.psdb)
+title('PSD','WaveHeight (m)')
 
 
 % The co-spectral power of both A and B
 figure()
-semilogx(coherenceSnapNoise.f*86400,coherenceSnapNoise.coh)
-title('Co-Spectral Power','Comparing Snaps and Noise')
+semilogx(coherenceSnapWind.f*86400,coherenceSnapWind.coh)
+title('Coherence Values','Comparing Snaps and Waveheight')
 
 
 figure()
-semilogx(coherenceSnapNoise.f*86400,coherenceSnapNoise.phase)
-title('Phase')
+semilogx(coherenceSnapWind.f*86400,coherenceSnapWind.phase)
+title('Phase','Snaps and Waveheight')
 
 %FRANK: NEED WINDOWS
 %ADD HAMMING
@@ -141,7 +141,7 @@ legend('Raw','48hr-Lowpass')
 % filteredWaveSignal  = Power_spectra(filteredVariables_Lowpass.waveheight,1,1,0,3600,0);
 
 % Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
-coherenceSNfiltered = Coherence_whelch_overlap(filteredVariables_Lowpass.snaps,filteredVariables_Lowpass.noise,3600,9,0,1,0)
+coherenceSNfiltered = Coherence_whelch_overlap(filteredVariables_Lowpass.snaps,filteredVariables_Lowpass.waveheight,3600,9,0,1,0)
 
 % Power spectral density of signal A, filtered Snaps
 figure()
@@ -156,8 +156,8 @@ title('PSD','HF Noise')
 
 % The co-spectral power of both A and B
 figure()
-loglog(coherenceSNfiltered.f*86400,coherenceSNfiltered.coh)
-title('Co-Spectral Power','Comparing Snaps and Noise')
+semilogx(coherenceSNfiltered.f*86400,coherenceSNfiltered.coh)
+title('Co-Spectral Power, Lowpass Filtered','Comparing Snaps and Noise')
 
 
 %%
