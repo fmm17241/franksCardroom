@@ -62,7 +62,6 @@ waveSignal  = Power_spectra(envData.waveHeight,5,1,0,3600,0);
 
 %Coherence: comparing the signals created by Power_spectra
 % Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
-%First attempt is to compare something I know is very related, snaprate and noise levels.
 coherenceSnapWind = Coherence_whelch_overlap(snapRateHourly.SnapCount,envData.waveHeight,3600,5,1,1,0)
 
 % Power spectral density of signal A, Snaprate
@@ -82,7 +81,6 @@ figure()
 semilogx(coherenceSnapWind.f*86400,coherenceSnapWind.coh)
 title('Coherence Values','Comparing Snaps and Waveheight')
 
-
 figure()
 semilogx(coherenceSnapWind.f*86400,coherenceSnapWind.phase)
 title('Phase','Snaps and Waveheight')
@@ -90,6 +88,37 @@ title('Phase','Snaps and Waveheight')
 %FRANK: NEED WINDOWS
 %ADD HAMMING
 % PHASE: Divide by pi or 2pi, multiply by period
+%%
+coherenceSnapWind = Coherence_whelch_overlap(snapRateHourly.SnapCount,envData.waveHeight,3600,5,1,1,0)
+
+% Power spectral density of signal A, Snaprate
+% This still shows odd spikes at every hour possible if I don't window.
+figure()
+loglog(coherenceSnapWind.f*86400,coherenceSnapWind.psda)
+title('PSD','SnapRate (/hr)')
+
+% Power spectral density of signal B, HF noise levels
+figure()
+loglog(coherenceSnapWind.f*86400,coherenceSnapWind.psdb)
+title('PSD','WaveHeight (m)')
+
+
+% The co-spectral power of both A and B
+figure()
+semilogx(coherenceSnapWind.f*86400,coherenceSnapWind.coh)
+title('Coherence Values','Comparing Snaps and Waveheight')
+
+figure()
+semilogx(coherenceSnapWind.f*86400,coherenceSnapWind.phase)
+title('Phase','Snaps and Waveheight')
+
+
+
+
+
+
+
+
 
 %%
 % Using filters to focus on either the high frequency (less than 40 hours) or low frequency (greater than 48-hour) 
