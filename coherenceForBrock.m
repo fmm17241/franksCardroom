@@ -175,14 +175,21 @@ loglog(coherenceSNfiltered.f*86400,coherenceSNfiltered.psdb)
 title('PSD','B')
 
 
-% The co-spectral power of both A and B
+% The coherence between A and B
 figure()
 semilogx(coherenceSNfiltered.f*86400,coherenceSNfiltered.coh)
-title('Co-Spectral Power, Lowpass Filtered','Comparing Noise and Windspeeds')
+title('Coherence, Noise and Windspeeds ','Lowpass (24hr) Filtered')
 
 figure()
 semilogx(coherenceSNfiltered.f*86400,coherenceSNfiltered.phase)
 title('Phase, Lowpass Filtered','Snaps and Windspeed')
 
+
+time_delay = coherenceSNfiltered.phase ./ (2 * pi * (coherenceSNfiltered.f));
+timeDelaySeconds = time_delay*86400;
+
+figure()
+semilogx(coherenceSNfiltered.f*86400,time_delay)
+title('Phase, Lowpass Filtered','Snaps and Windspeed')
 
 %%
