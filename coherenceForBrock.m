@@ -187,6 +187,7 @@ title('Phase, Lowpass Filtered','Snaps and Windspeed')
 
 time_delay = coherenceSNfiltered.phase ./ (2 * pi * (coherenceSNfiltered.f));
 timeDelaySeconds = time_delay*86400;
+timeDelayHours   = timeDelaySeconds ./3600;
 
 figure()
 semilogx(coherenceSNfiltered.f*86400,time_delay)
