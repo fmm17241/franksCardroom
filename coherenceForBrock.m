@@ -64,7 +64,7 @@ linkaxes([ax1, ax2],'x')
 
 %Coherence: comparing the signals created by Power_spectra
 % Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
-coherences = Coherence_whelch_overlap(snapRateHourly.SnapCount,envData.waveHeight,3600,4,1,1,0)
+coherences = Coherence_whelch_overlap(envData.Noise,envData.waveHeight,3600,4,1,1,0)
 
 % Power spectral density of signal A, Snaprate
 % This still shows odd spikes at every hour possible if I don't window.
@@ -81,7 +81,7 @@ title('PSD','Windspeeds (m/s)')
 % The co-spectral power of both A and B
 figure()
 semilogx(coherences.f*86400,coherences.coh)
-title('Coherence Values','Comparing Snaps and Waves')
+title('Coherence Values','Comparing Noise and Waves')
 
 figure()
 semilogx(coherences.f*86400,coherences.phase)
@@ -164,7 +164,7 @@ legend('Raw','24hr-Lowpass')
 
 %%
 % Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
-coherenceSNfiltered = Coherence_whelch_overlap(filteredVariables_Lowpass.snaps,filteredVariables_Lowpass.windspd,3600,4,1,1,0)
+coherenceSNfiltered = Coherence_whelch_overlap(filteredVariables_Lowpass.noise,filteredVariables_Lowpass.waveheight,3600,4,1,1,0)
 
 % coherenceSNfiltered = Coherence_whelch_overlap(filteredVariables_Lowpass.snaps,filteredVariables_Lowpass.windspd,3600,4,1,1,0)
 
@@ -182,14 +182,14 @@ title('PSD','B')
 % The coherence between A and B
 figure()
 semilogx(coherenceSNfiltered.f*86400,coherenceSNfiltered.coh)
-title('Coherence, Snaps and Windspeed','Lowpass (40hr) Filtered')
+title('Coherence, Noise and Waveheights','Lowpass (40hr) Filtered')
 ylabel('Coherence')
 xlabel('Times Per Day')
 
 
 figure()
 semilogx(coherenceSNfiltered.f*86400,coherenceSNfiltered.phase)
-title('Phase, Lowpass Filtered','Snaps and Windspeed')
+title('Phase, Lowpass Filtered','Snaps and Noise')
 
 %Converting Phase Angle to time shift.
 % Phase Angle (degs) = time delay (ms) x Frequency f (Hz) x 360
@@ -199,14 +199,14 @@ phase = rad2deg(coherenceSNfiltered.phase); %converting phase from rads to degs
 fs; %frequency, set above
 % fs = 1/3600;
 % period = 3600;
-timeDelay = phase/(fs*360) %Should be in seconds.
+timeDelay = phase/(fs*360); %Should be in seconds.
 timeDelayHours = timeDelay./3600;
 
 
 
 figure()
 semilogx(coherenceSNfiltered.f*86400,timeDelayHours)
-title('Phase, Snaps and Windspeed','Lowpass (40hr) Filtered')
+title('Phase, Noise and Waves','Lowpass (40hr) Filtered')
 ylabel('TimeDelay (hrs)')
 xlabel('Times Per Day')
 
