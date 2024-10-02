@@ -135,7 +135,7 @@ filteredVariables_Highpass.windspd = highpass(envData.windSpd, fc, fs);
 filteredVariables_Highpass.tides = highpass(envData.crossShore, fc, fs);
 
 %%
-fc = 1 / (48 * 3600);  % Cutoff frequency for 24-hours
+fc = 1 / (40 * 3600);  % Cutoff frequency for 24-hours
 filteredSnaps_lowpass = lowpass(snapRateHourly.SnapCount, fc, fs);
 filteredVariables_Lowpass.snaps = lowpass(snapRateHourly.SnapCount, fc, fs);
 filteredVariables_Lowpass.noise = lowpass(envData.Noise, fc, fs);
@@ -182,7 +182,10 @@ title('PSD','B')
 % The coherence between A and B
 figure()
 semilogx(coherenceSNfiltered.f*86400,coherenceSNfiltered.coh)
-title('Coherence, Snaps and Windspeed','Lowpass (24hr) Filtered')
+title('Coherence, Snaps and Windspeed','Lowpass (40hr) Filtered')
+ylabel('Coherence')
+xlabel('Times Per Day')
+
 
 figure()
 semilogx(coherenceSNfiltered.f*86400,coherenceSNfiltered.phase)
