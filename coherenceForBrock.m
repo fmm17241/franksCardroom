@@ -64,7 +64,7 @@ linkaxes([ax1, ax2],'x')
 
 %Coherence: comparing the signals created by Power_spectra
 % Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
-coherences = Coherence_whelch_overlap(envData.Noise,envData.windSpd,3600,4,1,1,0)
+coherences = Coherence_whelch_overlap(snapRateHourly.SnapCount,envData.Noise,3600,4,1,1,0)
 
 % Power spectral density of signal A, Snaprate
 % This still shows odd spikes at every hour possible if I don't window.
@@ -81,7 +81,7 @@ title('PSD','Windspeeds (m/s)')
 % The co-spectral power of both A and B
 figure()
 semilogx(coherences.f*86400,coherences.coh)
-title('Coherence Values','Comparing Snaps and Windspeeds')
+title('Coherence Values','Comparing Snaps and Noise')
 
 figure()
 semilogx(coherences.f*86400,coherences.phase)
@@ -164,7 +164,7 @@ legend('Raw','24hr-Lowpass')
 
 %%
 % Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
-coherenceSNfiltered = Coherence_whelch_overlap(filteredVariables_Lowpass.noise,filteredVariables_Lowpass.windspd,3600,4,1,1,0)
+coherenceSNfiltered = Coherence_whelch_overlap(filteredVariables_Lowpass.snaps,filteredVariables_Lowpass.noise,3600,4,1,1,0)
 
 coherenceSNfiltered = Coherence_whelch_overlap(filteredVariables_Lowpass.snaps,filteredVariables_Lowpass.windspd,3600,4,1,1,0)
 
@@ -182,7 +182,7 @@ title('PSD','B')
 % The coherence between A and B
 figure()
 semilogx(coherenceSNfiltered.f*86400,coherenceSNfiltered.coh)
-title('Coherence, Noise and Windspeeds ','Lowpass (24hr) Filtered')
+title('Coherence, Snaps and Noise','Lowpass (24hr) Filtered')
 
 figure()
 semilogx(coherenceSNfiltered.f*86400,coherenceSNfiltered.phase)
