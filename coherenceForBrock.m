@@ -135,7 +135,7 @@ filteredVariables_Highpass.windspd = highpass(envData.windSpd, fc, fs);
 filteredVariables_Highpass.tides = highpass(envData.crossShore, fc, fs);
 
 %%
-fc = 1 / (24 * 3600);  % Cutoff frequency for 24-hours
+fc = 1 / (48 * 3600);  % Cutoff frequency for 24-hours
 filteredSnaps_lowpass = lowpass(snapRateHourly.SnapCount, fc, fs);
 filteredVariables_Lowpass.snaps = lowpass(snapRateHourly.SnapCount, fc, fs);
 filteredVariables_Lowpass.noise = lowpass(envData.Noise, fc, fs);
@@ -164,7 +164,7 @@ legend('Raw','24hr-Lowpass')
 
 %%
 % Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
-coherenceSNfiltered = Coherence_whelch_overlap(filteredVariables_Lowpass.snaps,filteredVariables_Lowpass.noise,3600,4,1,1,0)
+coherenceSNfiltered = Coherence_whelch_overlap(filteredVariables_Lowpass.snaps,filteredVariables_Lowpass.windspd,3600,4,1,1,0)
 
 % coherenceSNfiltered = Coherence_whelch_overlap(filteredVariables_Lowpass.snaps,filteredVariables_Lowpass.windspd,3600,4,1,1,0)
 
@@ -182,7 +182,7 @@ title('PSD','B')
 % The coherence between A and B
 figure()
 semilogx(coherenceSNfiltered.f*86400,coherenceSNfiltered.coh)
-title('Coherence, Snaps and Noise','Lowpass (24hr) Filtered')
+title('Coherence, Snaps and Windspeed','Lowpass (24hr) Filtered')
 
 figure()
 semilogx(coherenceSNfiltered.f*86400,coherenceSNfiltered.phase)
@@ -204,6 +204,8 @@ timeDelayHours = timeDelay./3600;
 figure()
 semilogx(coherenceSNfiltered.f*86400,timeDelayHours)
 title('Phase, Lowpass Filtered','Snaps and Windspeed')
+ylabel('TimeDelay (hrs)')
+xlabel('Times Per Day')
 
 %%
 
