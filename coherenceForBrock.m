@@ -206,7 +206,7 @@ timeDelayHours = timeDelay./3600;
 
 figure()
 semilogx(coherenceSNfiltered.f*86400,timeDelayHours)
-title('Phase, Lowpass Filtered','Snaps and Windspeed')
+title('Phase, Snaps and Windspeed','Lowpass (40hr) Filtered')
 ylabel('TimeDelay (hrs)')
 xlabel('Times Per Day')
 
