@@ -7,7 +7,9 @@
 %Step 4: Compare the different signals using coherence
 %%
 %Run snapRateAnalyzer and Plotter.
-% fileLocation = ([oneDrive,'\acousticAnalysis\matlabVariables']);
+fileLocation = ([oneDrive,'\acousticAnalysis\matlabVariables']);
+cd (fileLocation)
+
 % fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis';
 % [snapRateData, snapRateHourly, snapRateMinute] = snapRateAnalyzer(fileLocation);
 % Second step: this bins, averages, and plots some of their
@@ -62,53 +64,53 @@ linkaxes([ax1, ax2],'x')
 
 %Coherence: comparing the signals created by Power_spectra
 % Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
-coherenceSnapWind = Coherence_whelch_overlap(snapRateHourly.SnapCount,envData.windSpd,3600,4,1,1,0)
+coherences = Coherence_whelch_overlap(envData.Noise,envData.windSpd,3600,4,1,1,0)
 
 % Power spectral density of signal A, Snaprate
 % This still shows odd spikes at every hour possible if I don't window.
 figure()
-loglog(coherenceSnapWind.f*86400,coherenceSnapWind.psda)
+loglog(coherences.f*86400,coherences.psda)
 title('PSD','SnapRate (/hr)')
 
 % Power spectral density of signal B, HF noise levels
 figure()
-loglog(coherenceSnapWind.f*86400,coherenceSnapWind.psdb)
+loglog(coherences.f*86400,coherences.psdb)
 title('PSD','Windspeeds (m/s)')
 
 
 % The co-spectral power of both A and B
 figure()
-semilogx(coherenceSnapWind.f*86400,coherenceSnapWind.coh)
+semilogx(coherences.f*86400,coherences.coh)
 title('Coherence Values','Comparing Snaps and Windspeeds')
 
 figure()
-semilogx(coherenceSnapWind.f*86400,coherenceSnapWind.phase)
+semilogx(coherences.f*86400,coherences.phase)
 title('Phase','Snaps and Windspeeds')
 
 %FRANK: NEED WINDOWS
 %ADD HAMMING
 % PHASE: Divide by pi or 2pi, multiply by period
 %%
-coherenceSnapWind = Coherence_whelch_overlap(snapRateHourly.SnapCount,envData.windSpd,3600,4,1,1,0)
+coherences = Coherence_whelch_overlap(snapRateHourly.SnapCount,envData.windSpd,3600,4,1,1,0)
 
 % Power spectral density of signal A
 figure()
-loglog(coherenceSnapWind.f*86400,coherenceSnapWind.psda)
+loglog(coherences.f*86400,coherences.psda)
 title('PSD','A')
 
 % Power spectral density of signal B
 figure()
-loglog(coherenceSnapWind.f*86400,coherenceSnapWind.psdb)
+loglog(coherences.f*86400,coherences.psdb)
 title('PSD','B')
 
 
 % The co-spectral power of both A and B
 figure()
-semilogx(coherenceSnapWind.f*86400,coherenceSnapWind.coh)
-title('Coherence Values','Comparing Snaps and Winds')
+semilogx(coherences.f*86400,coherences.coh)
+title('Coherence Values','Comparing Noise and Winds')
 
 figure()
-semilogx(coherenceSnapWind.f*86400,coherenceSnapWind.phase)
+semilogx(coherences.f*86400,coherences.phase)
 title('Phase','Snaps and Waveheight')
 
 
@@ -162,7 +164,9 @@ legend('Raw','24hr-Lowpass')
 
 %%
 % Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
-coherenceSNfiltered = Coherence_whelch_overlap(filteredVariables_Lowpass.noise,filteredVariables_Lowpass.windspd,3600,7,1,1,0)
+coherenceSNfiltered = Coherence_whelch_overlap(filteredVariables_Lowpass.noise,filteredVariables_Lowpass.windspd,3600,4,1,1,0)
+
+coherenceSNfiltered = Coherence_whelch_overlap(filteredVariables_Lowpass.snaps,filteredVariables_Lowpass.windspd,3600,4,1,1,0)
 
 % Power spectral density of signal A, filtered Snaps
 figure()
@@ -190,7 +194,7 @@ timeDelaySeconds = time_delay*86400;
 timeDelayHours   = timeDelaySeconds ./3600;
 
 figure()
-semilogx(coherenceSNfiltered.f*86400,time_delay)
+semilogx(coherenceSNfiltered.f*86400,timeDelayHours)
 title('Phase, Lowpass Filtered','Snaps and Windspeed')
 
 %%
