@@ -64,7 +64,7 @@ linkaxes([ax1, ax2],'x')
 
 %Coherence: comparing the signals created by Power_spectra
 % Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
-coherences = Coherence_whelch_overlap(snapRateHourly.SnapCount,envData.Noise,3600,4,1,1,0)
+coherences = Coherence_whelch_overlap(snapRateHourly.SnapCount,envData.waveHeight,3600,4,1,1,0)
 
 % Power spectral density of signal A, Snaprate
 % This still shows odd spikes at every hour possible if I don't window.
@@ -81,11 +81,11 @@ title('PSD','Windspeeds (m/s)')
 % The co-spectral power of both A and B
 figure()
 semilogx(coherences.f*86400,coherences.coh)
-title('Coherence Values','Comparing Snaps and Noise')
+title('Coherence Values','Comparing Snaps and Waves')
 
 figure()
 semilogx(coherences.f*86400,coherences.phase)
-title('Phase','Snaps and Windspeeds')
+title('Phase','Snaps and Waves')
 
 %FRANK: NEED WINDOWS
 %ADD HAMMING
@@ -166,7 +166,7 @@ legend('Raw','24hr-Lowpass')
 % Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
 coherenceSNfiltered = Coherence_whelch_overlap(filteredVariables_Lowpass.snaps,filteredVariables_Lowpass.noise,3600,4,1,1,0)
 
-coherenceSNfiltered = Coherence_whelch_overlap(filteredVariables_Lowpass.snaps,filteredVariables_Lowpass.windspd,3600,4,1,1,0)
+% coherenceSNfiltered = Coherence_whelch_overlap(filteredVariables_Lowpass.snaps,filteredVariables_Lowpass.windspd,3600,4,1,1,0)
 
 % Power spectral density of signal A, filtered Snaps
 figure()
@@ -192,6 +192,17 @@ title('Phase, Lowpass Filtered','Snaps and Windspeed')
 time_delay = coherenceSNfiltered.phase ./ (2 * pi * (coherenceSNfiltered.f));
 timeDelaySeconds = time_delay*86400;
 timeDelayHours   = timeDelaySeconds ./3600;
+
+%Converting Phase Angle to time shift.
+% Phase Angle (degs) = time delay (ms) x Frequency f (Hz) x 360
+% Time Delay (ms) = Phase Angle/(Freq*360)
+
+phase = rad2deg(coherenceSNfiltered.phase); %converting phase from rads to degs
+fs; %frequency, set above
+
+
+
+
 
 figure()
 semilogx(coherenceSNfiltered.f*86400,timeDelayHours)
