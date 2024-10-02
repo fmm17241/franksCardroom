@@ -188,19 +188,16 @@ figure()
 semilogx(coherenceSNfiltered.f*86400,coherenceSNfiltered.phase)
 title('Phase, Lowpass Filtered','Snaps and Windspeed')
 
-%Frank come back to and fix this.
-time_delay = coherenceSNfiltered.phase ./ (2 * pi * (coherenceSNfiltered.f));
-timeDelaySeconds = time_delay*86400;
-timeDelayHours   = timeDelaySeconds ./3600;
-
 %Converting Phase Angle to time shift.
 % Phase Angle (degs) = time delay (ms) x Frequency f (Hz) x 360
 % Time Delay (ms) = Phase Angle/(Freq*360)
 
 phase = rad2deg(coherenceSNfiltered.phase); %converting phase from rads to degs
 fs; %frequency, set above
-
-
+% fs = 1/3600;
+% period = 3600;
+timeDelay = phase/(fs*360) %Should be in seconds.
+timeDelayHours = timeDelay./3600;
 
 
 
@@ -209,3 +206,7 @@ semilogx(coherenceSNfiltered.f*86400,timeDelayHours)
 title('Phase, Lowpass Filtered','Snaps and Windspeed')
 
 %%
+
+
+
+
