@@ -164,7 +164,7 @@ legend('Raw','24hr-Lowpass')
 
 %%
 % Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
-coherenceSNfiltered = Coherence_whelch_overlap(filteredVariables_Lowpass.noise,filteredVariables_Lowpass.waveheight,3600,4,1,1,0)
+coherenceSNfiltered = Coherence_whelch_overlap(filteredVariables_Lowpass.windspd,filteredVariables_Lowpass.waveheight,3600,4,1,1,0)
 
 % coherenceSNfiltered = Coherence_whelch_overlap(filteredVariables_Lowpass.snaps,filteredVariables_Lowpass.windspd,3600,4,1,1,0)
 
@@ -182,14 +182,14 @@ title('PSD','B')
 % The coherence between A and B
 figure()
 semilogx(coherenceSNfiltered.f*86400,coherenceSNfiltered.coh)
-title('Coherence, Noise and Waveheights','Lowpass (40hr) Filtered')
+title('Coherence, Windspeeds and Waveheights','Lowpass (40hr) Filtered')
 ylabel('Coherence')
 xlabel('Times Per Day')
 
 
 figure()
 semilogx(coherenceSNfiltered.f*86400,coherenceSNfiltered.phase)
-title('Phase, Lowpass Filtered','Snaps and Noise')
+title('Phase, Lowpass Filtered','Windspeeds and Waveheights')
 
 %Converting Phase Angle to time shift.
 % Phase Angle (degs) = time delay (ms) x Frequency f (Hz) x 360
@@ -206,7 +206,7 @@ timeDelayHours = timeDelay./3600;
 
 figure()
 semilogx(coherenceSNfiltered.f*86400,timeDelayHours)
-title('Phase, Noise and Waves','Lowpass (40hr) Filtered')
+title('Phase, Wind and Waves','Lowpass (40hr) Filtered')
 ylabel('TimeDelay (hrs)')
 xlabel('Times Per Day')
 
