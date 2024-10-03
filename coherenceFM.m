@@ -32,94 +32,6 @@ snapRateHourly.SnapCount(isnan(snapRateHourly.SnapCount)) = interp1(snapRateHour
 envData.windSpd(isnan(envData.windSpd)) = interp1(envData.DT(~isnan(envData.windSpd)),...
     envData.windSpd(~isnan(envData.windSpd)),envData.DT(isnan(envData.windSpd))) ;
 
-% csvwrite
-%%
-% Plots HF noise, windspeed, and hourly snaps to visualize the relationship.
-figure()
-tiledlayout(2,1)
-ax1 = nexttile()
-yyaxis left
-plot(envData.DT,envData.Noise,'b');
-ylabel('HF Noise')
-yyaxis right
-plot(envData.DT,envData.windSpd,'r')
-ylabel('Winds')
-title('Environmental Noise and Winds')
-ax2 = nexttile()
-plot(snapRateHourly.Time,snapRateHourly.SnapCount,'k');
-ylabel('SnapCount')
-title('Hourly Recorded Snaps')
-
-linkaxes([ax1, ax2],'x')
-
-%Breakdown into the power spectra
-% dataout=Power_spectra(datainA,bins,DT,windoww,samplinginterval,cutoff)
-%I have not windowed to start; I want to look at lower frequencies and I only have a few months to work with.
-% This will probably change if I'm going to focus on the synoptic wind bands
-% snapSignal = Power_spectra(snapRateHourly.SnapCount,5,1,0,3600,0);
-% windSignal = Power_spectra(envData.windSpd,5,1,0,3600,0);
-% noiseSignal = Power_spectra(envData.Noise,5,1,0,3600,0);
-% tempSignal  = Power_spectra(envData.Temp,5,1,0,3600,0);
-% waveSignal  = Power_spectra(envData.waveHeight,5,1,0,3600,0);
-
-%Coherence: comparing the signals created by Power_spectra
-% Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
-coherences = Coherence_whelch_overlap(envData.Noise,envData.waveHeight,3600,4,1,1,0)
-
-% Power spectral density of signal A, Snaprate
-% This still shows odd spikes at every hour possible if I don't window.
-figure()
-loglog(coherences.f*86400,coherences.psda)
-title('PSD','SnapRate (/hr)')
-
-% Power spectral density of signal B, HF noise levels
-figure()
-loglog(coherences.f*86400,coherences.psdb)
-title('PSD','Windspeeds (m/s)')
-
-
-% The co-spectral power of both A and B
-figure()
-semilogx(coherences.f*86400,coherences.coh)
-title('Coherence Values','Comparing Noise and Waves')
-
-figure()
-semilogx(coherences.f*86400,coherences.phase)
-title('Phase','Snaps and Waves')
-
-%FRANK: NEED WINDOWS
-%ADD HAMMING
-% PHASE: Divide by pi or 2pi, multiply by period
-%%
-coherences = Coherence_whelch_overlap(snapRateHourly.SnapCount,envData.windSpd,3600,4,1,1,0)
-
-% Power spectral density of signal A
-figure()
-loglog(coherences.f*86400,coherences.psda)
-title('PSD','A')
-
-% Power spectral density of signal B
-figure()
-loglog(coherences.f*86400,coherences.psdb)
-title('PSD','B')
-
-
-% The co-spectral power of both A and B
-figure()
-semilogx(coherences.f*86400,coherences.coh)
-title('Coherence Values','Comparing Noise and Winds')
-
-figure()
-semilogx(coherences.f*86400,coherences.phase)
-title('Phase','Snaps and Waveheight')
-
-
-
-
-
-
-
-
 
 %%
 % Using filters to focus on either the high frequency (less than 40 hours) or low frequency (greater than 48-hour) 
@@ -135,7 +47,7 @@ filteredVariables_Highpass.windspd = highpass(envData.windSpd, fc, fs);
 filteredVariables_Highpass.tides = highpass(envData.crossShore, fc, fs);
 
 %%
-fc = 1 / (40 * 3600);  % Cutoff frequency for 24-hours
+fc = 1 / (40 * 3600);  % Cutoff frequency for 40-hours
 filteredSnaps_lowpass = lowpass(snapRateHourly.SnapCount, fc, fs);
 filteredVariables_Lowpass.snaps = lowpass(snapRateHourly.SnapCount, fc, fs);
 filteredVariables_Lowpass.noise = lowpass(envData.Noise, fc, fs);
@@ -143,7 +55,33 @@ filteredVariables_Lowpass.waveheight = lowpass(envData.waveHeight, fc, fs);
 filteredVariables_Lowpass.temp = lowpass(envData.Temp, fc, fs);
 filteredVariables_Lowpass.windspd = lowpass(envData.windSpd, fc, fs);
 filteredVariables_Lowpass.tides = lowpass(envData.crossShore, fc, fs);
+%%
+%Coherence: comparing the signals created by Power_spectra
+% Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
+coherences = Coherence_whelch_overlap(envData.Noise,envData.waveHeight,3600,4,1,1,0)
 
+
+% Plots HF noise, windspeed, and hourly snaps to visualize the relationship.
+% figure()
+% tiledlayout(2,1)
+% ax1 = nexttile()
+% yyaxis left
+% plot(envData.DT,envData.Noise,'b');
+% ylabel('HF Noise')
+% yyaxis right
+% plot(envData.DT,envData.windSpd,'r')
+% ylabel('Winds')
+% title('Environmental Noise and Winds')
+% ax2 = nexttile()
+% plot(snapRateHourly.Time,snapRateHourly.SnapCount,'k');
+% ylabel('SnapCount')
+% title('Hourly Recorded Snaps')
+% 
+% linkaxes([ax1, ax2],'x')
+
+
+
+%%
 
 figure()
 % yyaxis left
@@ -176,38 +114,55 @@ title('Lowpass Filtered - HF Noise')
 
 %%
 % Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
-coherenceSNfiltered = Coherence_whelch_overlap(filteredVariables_Lowpass.noise,filteredVariables_Lowpass.waveheight,3600,4,1,1,0)
+coherenceNoiseWavefilt = Coherence_whelch_overlap(filteredVariables_Lowpass.noise,filteredVariables_Lowpass.waveheight,3600,4,1,1,0)
+coherenceWindWavefilt = Coherence_whelch_overlap(filteredVariables_Lowpass.windspd,filteredVariables_Lowpass.waveheight,3600,4,1,1,0)
+coherenceSnapsNoisefilt = Coherence_whelch_overlap(filteredVariables_Lowpass.waveheight,filteredVariables_Lowpass.noise,3600,4,1,1,0)
+coherenceSnapsWindfilt = Coherence_whelch_overlap(filteredVariables_Lowpass.snaps,filteredVariables_Lowpass.windspd,3600,4,1,1,0)
+coherenceSnapsTidesfilt = Coherence_whelch_overlap(filteredVariables_Lowpass.snaps,filteredVariables_Lowpass.tides,3600,4,1,1,0)
+coherenceTidesNoisefilt = Coherence_whelch_overlap(filteredVariables_Lowpass.tides,filteredVariables_Lowpass.noise,3600,4,1,1,0)
 
-% coherenceSNfiltered = Coherence_whelch_overlap(filteredVariables_Lowpass.snaps,filteredVariables_Lowpass.windspd,3600,4,1,1,0)
+% % Power spectral density of signal A, filtered Snaps
+% figure()
+% loglog(coherenceNoiseWavefilt.f*86400,coherenceNoiseWavefilt.psda)
+% title('PSD','A')
+% 
+% % Power spectral density of signal B, filtered Noise
+% figure()
+% loglog(coherenceNoiseWavefilt.f*86400,coherenceNoiseWavefilt.psdb)
+% title('PSD','B')
 
-% Power spectral density of signal A, filtered Snaps
+%Coherence between A and B
 figure()
-loglog(coherenceSNfiltered.f*86400,coherenceSNfiltered.psda)
-title('PSD','A')
-
-% Power spectral density of signal B, filtered Noise
-figure()
-loglog(coherenceSNfiltered.f*86400,coherenceSNfiltered.psdb)
-title('PSD','B')
-
-
-% The coherence between A and B
-figure()
-semilogx(coherenceSNfiltered.f*86400,coherenceSNfiltered.coh)
-title('Coherence, Noise and Waveheight','Lowpass (40hr) Filtered')
+semilogx(coherenceNoiseWavefilt.f*86400,coherenceNoiseWavefilt.coh,'LineWidth',2)
+hold on
+% semilogx(coherenceWindWavefilt.f*86400,coherenceWindWavefilt.coh,'LineWidth',2)
+semilogx(coherenceSnapsNoisefilt.f*86400,coherenceSnapsNoisefilt.coh,'LineWidth',2)
+semilogx(coherenceSnapsWindfilt.f*86400,coherenceSnapsWindfilt.coh,'LineWidth',2)
+semilogx(coherenceSnapsTidesfilt.f*86400,coherenceSnapsTidesfilt.coh,'LineWidth',2)
+semilogx(coherenceTidesNoisefilt.f*86400,coherenceTidesNoisefilt.coh,'LineWidth',2)
+yline(0.4128)
+legend([{'Noise-Wave'},{'Snaps-Noise'},{'Snaps-Wind'},{'Snaps-Tides'},{'Tides-Noise'},{'95% Sig.'}])
+% legend([{'Noise-Wave'},{'Wind-Wave'},{'Snaps-Noise'},{'Snaps-Wind'},{'Snaps-Tides'},{'Tides-Noise'}])
+title('Coherence in Spring 2020','Lowpass (48hr) Filtered')
 ylabel('Coherence')
 xlabel('Times Per Day')
 
 
+
+
+
 figure()
-semilogx(coherenceSNfiltered.f*86400,coherenceSNfiltered.phase)
+semilogx(coherenceNoiseWavefilt.f*86400,coherenceNoiseWavefilt.phase)
 title('Phase, Lowpass Filtered','Snaps and Windspeed')
+
+
+
 
 %Converting Phase Angle to time shift.
 % Phase Angle (degs) = time delay (ms) x Frequency f (Hz) x 360
 % Time Delay (ms) = Phase Angle/(Freq*360)
 
-phase = rad2deg(coherenceSNfiltered.phase); %converting phase from rads to degs
+phase = rad2deg(coherenceNoiseWavefilt.phase); %converting phase from rads to degs
 fs; %frequency, set above
 % fs = 1/3600;
 % period = 3600;
@@ -217,7 +172,7 @@ timeDelayHours = timeDelay./3600;
 
 
 figure()
-semilogx(coherenceSNfiltered.f*86400,timeDelayHours)
+semilogx(coherenceNoiseWavefilt.f*86400,timeDelayHours)
 title('Phase, Noise and Waveheight','Lowpass (40hr) Filtered')
 ylabel('TimeDelay (hrs)')
 xlabel('Times Per Day')
