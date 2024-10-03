@@ -140,10 +140,10 @@ semilogx(coherenceSnapsNoisefilt.f*86400,coherenceSnapsNoisefilt.coh,'LineWidth'
 semilogx(coherenceSnapsWindfilt.f*86400,coherenceSnapsWindfilt.coh,'LineWidth',2)
 semilogx(coherenceSnapsTidesfilt.f*86400,coherenceSnapsTidesfilt.coh,'LineWidth',2)
 semilogx(coherenceTidesNoisefilt.f*86400,coherenceTidesNoisefilt.coh,'LineWidth',2)
-yline(0.4128)
-legend([{'Noise-Wave'},{'Snaps-Noise'},{'Snaps-Wind'},{'Snaps-Tides'},{'Tides-Noise'},{'95% Sig.'}])
+yline(0.4128,'-','Significance')
+legend([{'Noise-Wave'},{'Snaps-Noise'},{'Snaps-Wind'},{'Snaps-Tides'},{'Tides-Noise'}])
 % legend([{'Noise-Wave'},{'Wind-Wave'},{'Snaps-Noise'},{'Snaps-Wind'},{'Snaps-Tides'},{'Tides-Noise'}])
-title('Coherence in Spring 2020','Lowpass (48hr) Filtered')
+title('Coherence in Spring 2020','Lowpass (40hr) Filtered')
 ylabel('Coherence')
 xlabel('Times Per Day')
 
