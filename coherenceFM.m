@@ -58,7 +58,7 @@ filteredVariables_Lowpass.tides = lowpass(envData.crossShore, fc, fs);
 %%
 %Coherence: comparing the signals created by Power_spectra
 % Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
-coherences = Coherence_whelch_overlap(envData.Noise,envData.waveHeight,3600,4,1,1,0)
+% coherences = Coherence_whelch_overlap(envData.Noise,envData.waveHeight,3600,4,1,1,0)
 
 
 % Plots HF noise, windspeed, and hourly snaps to visualize the relationship.
@@ -116,7 +116,7 @@ title('Lowpass Filtered - HF Noise')
 % Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
 coherenceNoiseWavefilt = Coherence_whelch_overlap(filteredVariables_Lowpass.noise,filteredVariables_Lowpass.waveheight,3600,4,1,1,0)
 coherenceWindWavefilt = Coherence_whelch_overlap(filteredVariables_Lowpass.windspd,filteredVariables_Lowpass.waveheight,3600,4,1,1,0)
-coherenceSnapsNoisefilt = Coherence_whelch_overlap(filteredVariables_Lowpass.waveheight,filteredVariables_Lowpass.noise,3600,4,1,1,0)
+coherenceSnapsNoisefilt = Coherence_whelch_overlap(filteredVariables_Lowpass.snaps,filteredVariables_Lowpass.noise,3600,4,1,1,0)
 coherenceSnapsWindfilt = Coherence_whelch_overlap(filteredVariables_Lowpass.snaps,filteredVariables_Lowpass.windspd,3600,4,1,1,0)
 coherenceSnapsTidesfilt = Coherence_whelch_overlap(filteredVariables_Lowpass.snaps,filteredVariables_Lowpass.tides,3600,4,1,1,0)
 coherenceTidesNoisefilt = Coherence_whelch_overlap(filteredVariables_Lowpass.tides,filteredVariables_Lowpass.noise,3600,4,1,1,0)
@@ -138,12 +138,12 @@ hold on
 % semilogx(coherenceWindWavefilt.f*86400,coherenceWindWavefilt.coh,'LineWidth',2)
 semilogx(coherenceSnapsNoisefilt.f*86400,coherenceSnapsNoisefilt.coh,'LineWidth',2)
 semilogx(coherenceSnapsWindfilt.f*86400,coherenceSnapsWindfilt.coh,'LineWidth',2)
-semilogx(coherenceSnapsTidesfilt.f*86400,coherenceSnapsTidesfilt.coh,'LineWidth',2)
-semilogx(coherenceTidesNoisefilt.f*86400,coherenceTidesNoisefilt.coh,'LineWidth',2)
-yline(0.4128,'-','Significance')
-legend([{'Noise-Wave'},{'Snaps-Noise'},{'Snaps-Wind'},{'Snaps-Tides'},{'Tides-Noise'}])
+% semilogx(coherenceSnapsTidesfilt.f*86400,coherenceSnapsTidesfilt.coh,'LineWidth',2)
+% semilogx(coherenceTidesNoisefilt.f*86400,coherenceTidesNoisefilt.coh,'LineWidth',2)
+yline(0.4128,'-','95% Significance')
+legend([{'Noise-Wave'},{'Snaps-Noise'},{'Snaps-Wind'}])
 % legend([{'Noise-Wave'},{'Wind-Wave'},{'Snaps-Noise'},{'Snaps-Wind'},{'Snaps-Tides'},{'Tides-Noise'}])
-title('Coherence in Spring 2020','Lowpass (40hr) Filtered')
+title('Coherence in Spring 2020','Lowpass (40hr) Filtered; 23 Day Windows')
 ylabel('Coherence')
 xlabel('Times Per Day')
 
