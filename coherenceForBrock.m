@@ -146,12 +146,23 @@ filteredVariables_Lowpass.tides = lowpass(envData.crossShore, fc, fs);
 
 
 figure()
-yyaxis left
+% yyaxis left
 plot(envData.DT,envData.windSpd,'r')
+hold on
 ylabel('WindSpd (m/s)')
-yyaxis right
+% yyaxis right
 plot(envData.DT,filteredVariables_Lowpass.windspd,'k','LineWidth',2)
 ylabel('Wind-Lowpass')
+
+figure()
+% yyaxis left
+plot(snapRateHourly.Time,snapRateHourly.SnapCount,'r')
+hold on
+ylabel('Hourly Snaps')
+% yyaxis right
+plot(snapRateHourly.Time,filteredVariables_Lowpass.snaps,'k','LineWidth',2)
+% ylabel('Snaps-Lowpass')
+legend('Raw','40hr-Lowpass')
 
 figure()
 yyaxis left
@@ -160,7 +171,8 @@ ylabel('Noise')
 hold on
 plot(envData.DT,filteredVariables_Lowpass.noise,'k','LineWidth',2)
 % ylabel('Noise-Lowpass')
-legend('Raw','24hr-Lowpass')
+legend('Raw','40hr-Lowpass')
+title('Lowpass Filtered - HF Noise')
 
 %%
 % Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
