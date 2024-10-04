@@ -13,13 +13,14 @@ ampB = 0.5;
 
 frequencyA = 2;
 frequencyB = 10;
+frequencyC = 5;
 
 duration = 10;
 Fs = 100;
 
 time = 0:1/Fs:duration;
 
-signalA = ampA * sin(2*pi*frequencyA*time);
+signalA = ampA * sin(2*pi*frequencyA*time) + ampA*2*(sin(2*pi*frequencyC*time));
 signalB = ampB * sin(2*pi*frequencyB*time);
 
 figure()
@@ -34,3 +35,6 @@ ax2 = nexttile()
 plot(time,signalB);
 title(['Sine Wave: Amplitude = ', num2str(ampB), ', Frequency = ', num2str(frequencyB), ' Hz']);
 grid on;
+
+
+testing = Coherence_whelch_overlap(signalA,signalB,Fs,2,0,0,0)
