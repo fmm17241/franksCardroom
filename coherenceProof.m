@@ -19,5 +19,18 @@ Fs = 100;
 
 time = 0:1/Fs:duration;
 
-signalA = 
-signalB =
+signalA = ampA * sin(2*pi*frequencyA*time);
+signalB = ampB * sin(2*pi*frequencyB*time);
+
+figure()
+tiledlayout(2,1)
+ax1 = nexttile()
+plot(time,signalA);
+title('signalA')
+title(['Sine Wave: Amplitude = ', num2str(ampA), ', Frequency = ', num2str(frequencyA), ' Hz']);
+xlabel('Time (s)');
+ylabel('Amplitude');
+ax2 = nexttile()
+plot(time,signalB);
+title(['Sine Wave: Amplitude = ', num2str(ampB), ', Frequency = ', num2str(frequencyB), ' Hz']);
+grid on;
