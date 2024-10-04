@@ -148,6 +148,48 @@ ylabel('Coherence')
 xlabel('Times Per Day')
 
 
+figure()
+tiledlayout(3,1)
+ax1 = nexttile()
+semilogx(coherenceNoiseWavefilt.f*86400,coherenceNoiseWavefilt.coh,'LineWidth',2)
+yline(0.4128,'-','95% Significance')
+title('Coherence','HF Noise and Waveheight')
+ylim([0 1])
+ax2 = nexttile()
+semilogx(coherenceSnapsNoisefilt.f*86400,coherenceSnapsNoisefilt.coh,'r','LineWidth',2)
+yline(0.4128)
+ylabel('Coherence')
+title('','Snaprate and HF Noise');
+ylim([0 1])
+ax3 = nexttile()
+semilogx(coherenceSnapsWindfilt.f*86400,coherenceSnapsWindfilt.coh,'k','LineWidth',2)
+yline(0.4128)
+title('','Snaprate and Winds');
+xlabel('Freq. Per Day')
+ylim([0 1])
+linkaxes([ax1,ax2,ax3],'x');
+
+
+figure()
+tiledlayout(3,1)
+ax1 = nexttile()
+semilogx(coherenceNoiseWavefilt.f*86400,coherenceNoiseWavefilt.phase,'LineWidth',2)
+% yline(0.4128,'-','95% Significance')
+title('Phase','HF Noise and Waveheight')
+% ylim([0 1])
+ax2 = nexttile()
+semilogx(coherenceSnapsNoisefilt.f*86400,coherenceSnapsNoisefilt.phase,'r','LineWidth',2)
+% yline(0.4128)
+ylabel('Phase')
+title('','Snaprate and HF Noise');
+% ylim([0 1])
+ax3 = nexttile()
+semilogx(coherenceSnapsWindfilt.f*86400,coherenceSnapsWindfilt.phase,'k','LineWidth',2)
+% yline(0.4128)
+title('','Snaprate and Winds');
+xlabel('Freq. Per Day')
+% ylim([0 1])
+linkaxes([ax1,ax2,ax3],'x');
 
 
 
@@ -156,18 +198,53 @@ semilogx(coherenceNoiseWavefilt.f*86400,coherenceNoiseWavefilt.phase)
 title('Phase, Lowpass Filtered','Snaps and Windspeed')
 
 
-
-
 %Converting Phase Angle to time shift.
 % Phase Angle (degs) = time delay (ms) x Frequency f (Hz) x 360
 % Time Delay (ms) = Phase Angle/(Freq*360)
 
-phase = rad2deg(coherenceNoiseWavefilt.phase); %converting phase from rads to degs
+phaseNW = rad2deg(coherenceNoiseWavefilt.phase); %converting phase from rads to degs
 fs; %frequency, set above
 % fs = 1/3600;
 % period = 3600;
-timeDelay = phase/(fs*360); %Should be in seconds.
-timeDelayHours = timeDelay./3600;
+timeDelay = phaseNW/(fs*360); %Should be in seconds.
+timeDelayHoursNW = timeDelay./3600;
+
+phaseSN = rad2deg(coherenceSnapsNoisefilt.phase); %converting phase from rads to degs
+fs; %frequency, set above
+% fs = 1/3600;
+% period = 3600;
+timeDelay = phaseSN/(fs*360); %Should be in seconds.
+timeDelayHoursSN = timeDelay./3600;
+
+phaseSW = rad2deg(coherenceSnapsWindfilt.phase); %converting phase from rads to degs
+fs; %frequency, set above
+% fs = 1/3600;
+% period = 3600;
+timeDelay = phaseSW/(fs*360); %Should be in seconds.
+timeDelayHoursSW = timeDelay./3600;
+
+
+figure()
+tiledlayout(3,1)
+ax1 = nexttile()
+semilogx(coherenceNoiseWavefilt.f*86400,timeDelayHoursNW,'LineWidth',2)
+% yline(0.4128,'-','95% Significance')
+title('Phase- Converted to HourDelay','HF Noise and Waveheight')
+% ylim([0 1])
+ax2 = nexttile()
+semilogx(coherenceSnapsNoisefilt.f*86400,timeDelayHoursSN,'r','LineWidth',2)
+% yline(0.4128)
+ylabel('Phase')
+title('','Snaprate and HF Noise');
+% ylim([0 1])
+ax3 = nexttile()
+semilogx(coherenceSnapsWindfilt.f*86400,timeDelayHoursSW,'k','LineWidth',2)
+% yline(0.4128)
+title('','Snaprate and Winds');
+xlabel('Freq. Per Day')
+% ylim([0 1])
+linkaxes([ax1,ax2,ax3],'x');
+
 
 
 

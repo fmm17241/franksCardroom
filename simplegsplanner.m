@@ -29,7 +29,7 @@ glider='unit_1091'; %glider='saltdawg';
 localdir=([oneDrive,'Glider\LegPlanner\']);	% where on your computer you want to write mafiles and plots; copy ec2001.mat here
 
 % set some parameters for track spacing, etc. Distances in meters
-givendir= [165]; 		% bearing degrees CW from N, consistent with waypoint reporting from glider
+givendir= [100]; 		% bearing degrees CW from N, consistent with waypoint reporting from glider
 ds=7000;			% distance between waypoints at each bearing (set wrt max waypt abort distance, when_wpt_dist)
 dsoffset=5000;			% distance between waypoints for parallel offset (should be small)
 distoffset=6000;		% offset distance from path
