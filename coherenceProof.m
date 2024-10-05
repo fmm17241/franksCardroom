@@ -8,20 +8,27 @@
 
 
 %Create two signals with known frequencies.
-ampA = 1;
-ampB = 0.5;
+ampA = 5;
+ampB = 10;
 
 frequencyA = 2;
 frequencyB = 10;
-frequencyC = 5;
+% frequencyC = 5;
 
 duration = 10;
 Fs = 100;
 
+
+% I want to add noise to test my coherence.
+noiseLevel1 = 0.2;  % Standard deviation of noise for signal 1
+noiseLevel2 = 0.3;    % Standard deviation of noise for signal 2
+
+
 time = 0:1/Fs:duration;
 
-signalA = ampA * sin(2*pi*frequencyA*time) + ampA*2*(sin(2*pi*frequencyC*time));
-signalB = ampB * sin(2*pi*frequencyB*time);
+% signalA = ampA * sin(2*pi*frequencyA*time) + ampA*2*(sin(2*pi*frequencyC*time));
+signalA = ampA * sin(2*pi*frequencyA*time); 
+signalB = ampB * sin(2*pi*frequencyA*time) + ampB * sin(2*pi*frequencyB*time) ;
 
 figure()
 tiledlayout(2,1)
@@ -37,4 +44,17 @@ title(['Sine Wave: Amplitude = ', num2str(ampB), ', Frequency = ', num2str(frequ
 grid on;
 
 
-testing = Coherence_whelch_overlap(signalA,signalB,Fs,2,0,0,0)
+% Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
+testing = Coherence_whelch_overlap(signalA,signalB,Fs,10,0,0,0)
+
+figure()
+tiledlayout(3,1)
+ax1 = nexttile()
+plot(testing.f,testing.psda)
+title('Test Signals, Power','Signal A')
+ax2 = nexttile()
+plot(testing.f,testing.psdb)
+title('','Signal B')
+ax3 = nexttile()
+semilogx(testing.f,testing.coh)
+title('','Coherence')
