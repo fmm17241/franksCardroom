@@ -13,6 +13,7 @@ ampB = 10;
 
 frequencyA = 2;
 frequencyB = 10;
+frequencyC = 40;
 % frequencyC = 5;
 
 duration = 10;
@@ -27,8 +28,8 @@ noiseLevel2 = 2.5;    % Standard deviation of noise for signal 2
 time = 0:1/Fs:duration;
 
 % signalA = ampA * sin(2*pi*frequencyA*time) + ampA*2*(sin(2*pi*frequencyC*time));
-signalA = ampA * sin(2*pi*frequencyA*time); 
-signalB = ampB * sin(2*pi*frequencyA*time) + ampB * sin(2*pi*frequencyB*time) ;
+signalA = ampA * sin(2*pi*frequencyA*time) + ampA*(sin(2*pi*frequencyC*time)); 
+signalB = ampB * sin(2*pi*frequencyA*time) + ampB * sin(2*pi*frequencyB*time) + ampA*(sin(2*pi*frequencyC*time)) ;
 
 signalA = signalA + noiseLevel1*randn(size(time));
 signalB = signalB + noiseLevel1*randn(size(time));
