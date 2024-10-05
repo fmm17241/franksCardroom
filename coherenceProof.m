@@ -20,8 +20,8 @@ Fs = 100;
 
 
 % I want to add noise to test my coherence.
-noiseLevel1 = 0.8;  % Standard deviation of noise for signal 1
-noiseLevel2 = 0.3;    % Standard deviation of noise for signal 2
+noiseLevel1 = 2.5;  % Standard deviation of noise for signal 1
+noiseLevel2 = 2.5;    % Standard deviation of noise for signal 2
 
 
 time = 0:1/Fs:duration;
