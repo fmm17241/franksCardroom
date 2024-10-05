@@ -20,7 +20,7 @@ Fs = 100;
 
 
 % I want to add noise to test my coherence.
-noiseLevel1 = 0.2;  % Standard deviation of noise for signal 1
+noiseLevel1 = 0.8;  % Standard deviation of noise for signal 1
 noiseLevel2 = 0.3;    % Standard deviation of noise for signal 2
 
 
@@ -29,6 +29,9 @@ time = 0:1/Fs:duration;
 % signalA = ampA * sin(2*pi*frequencyA*time) + ampA*2*(sin(2*pi*frequencyC*time));
 signalA = ampA * sin(2*pi*frequencyA*time); 
 signalB = ampB * sin(2*pi*frequencyA*time) + ampB * sin(2*pi*frequencyB*time) ;
+
+signalA = signalA + noiseLevel1*randn(size(time));
+signalB = signalB + noiseLevel1*randn(size(time));
 
 figure()
 tiledlayout(2,1)
