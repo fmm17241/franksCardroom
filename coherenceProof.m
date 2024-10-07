@@ -49,13 +49,13 @@ grid on;
 
 
 % Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
-testing = Coherence_whelch_overlap(signalA,signalB,Fs,10,0,1,1)
+testing = Coherence_whelch_overlap(signalA,signalB,Fs,2,0,0,0)
 
 figure()
 tiledlayout(3,1)
 ax1 = nexttile()
 plot(testing.f,testing.psda)
-title('Test Signals, Power','Signal A')
+title('Test Signals, Power, 2 Bins','Signal A')
 ax2 = nexttile()
 plot(testing.f,testing.psdb)
 title('','Signal B')
