@@ -49,7 +49,7 @@ grid on;
 
 
 % Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
-testing = Coherence_whelch_overlap(signalA,signalB,Fs,10,0,0,0)
+testing = Coherence_whelch_overlap(signalA,signalB,Fs,10,0,1,1)
 
 figure()
 tiledlayout(3,1)
