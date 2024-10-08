@@ -1,10 +1,9 @@
 
-function [receiverData,envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets] = snapRatePlotter(oneDrive, snapRateHourly, snapRateMinute)
+function [receiverData,envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets, windsAverage, seas] = snapRatePlotter(oneDrive, snapRateHourly, snapRateMinute)
 
 buildReceiverData
 close all
 clearvars index
-
 
 figure()
 tiledlayout(4,1,'tileSpacing','compact')
@@ -56,6 +55,11 @@ envFit = isbetween(receiverData{4}.DT, snapTimeRange(1),snapTimeRange(2));
 
 envData = receiverData{4}(envFit,:);
 snaps = snapRateHourly.SnapCount;
+
+windFit = isbetween(windsAverage.time, snapTimeRange(1),snapTimeRange(2));
+windData = windsAverage(windFit,:);
+
+
 % end
 
 %

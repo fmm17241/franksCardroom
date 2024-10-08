@@ -24,7 +24,7 @@ winds.WDIR(indexDOWN) = winds.WDIR(indexDOWN) + 180;
 
 bringIn1 = readtable ('weatherData2020.csv'); %IN UTC!!!!!
 bringIn2 = readtable ('weatherData2021.csv'); %IN UTC!!!!!
-
+bringIn = [bringIn1; bringIn2];
 testVector = table2array(bringIn(:,1:5)); testVector(:,6) = zeros(1,length(testVector));
 time = datetime(testVector,'TimeZone','UTC')+minutes(10); 
 waveHeight = table2timetable(table(time, bringIn.WVHT));
