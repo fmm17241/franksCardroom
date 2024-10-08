@@ -125,6 +125,10 @@ snapRateData = timetable(Time,SnapCount,PeakAmp,Energy,PeakPower)
 % snapRateData.Time.TimeZone = 'UTC';
 snapRateData.Time.TimeZone = 'UTC';
 
+%Frank testing the sum
+% snapRateData.SnapCount(1576737) = 10000;
+
+
 snapRateHourly = retime(snapRateData, 'hourly', 'mean');
 snapRateHourly.SnapCount = retime(snapRateData(:, 'SnapCount'), 'hourly', 'sum').SnapCount;
 
@@ -143,5 +147,16 @@ if snapRateMinute.Time(1) == '30-Jan-2020 15:12:00.000';
                 'VariableNames', snapRateHourly.Properties.VariableNames);
 end
 
+%FM This is for Fall 2020-Jan 2021 dataset.
+clearvars badTimes*
+badTimesMinute = [];
+badTimesHour    = [];
+if snapRateMinute.Time(1) == '30-Jan-2020 15:12:00.000';
+    % Set the rows at the specified indices to NaN, ensuring you use an array of NaNs 
+    snapRateMinute(badTimesMinute,:) = array2table(NaN(numel(badTimesMinute), width(snapRateMinute)), ...
+                'VariableNames', snapRateMinute.Properties.VariableNames);
+    snapRateHourly(badTimesHour,:) = array2table(NaN(numel(badTimesHour), width(snapRateHourly)), ...
+                'VariableNames', snapRateHourly.Properties.VariableNames);
+end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

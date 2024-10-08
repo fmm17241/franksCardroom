@@ -13,7 +13,7 @@ cd (fileLocation)
 fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\FallSnapStudy';
 [snapRateData, snapRateHourly, snapRateMinute] = snapRateAnalyzer(fileLocation);
 % Second step: this bins, averages, and plots some of their
-[receiverData, envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets, windsAverage, seas] = snapRatePlotter(oneDrive, snapRateHourly, snapRateMinute);
+[receiverData, envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets, surfaceData] = snapRatePlotter(oneDrive, snapRateHourly, snapRateMinute);
 %%
 % FM needs to add winds and waves for the fall-Jan 2021 fix.
 
