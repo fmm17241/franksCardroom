@@ -10,10 +10,10 @@
 fileLocation = ([oneDrive,'\acousticAnalysis\matlabVariables']);
 cd (fileLocation)
 
-% fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis';
-% [snapRateData, snapRateHourly, snapRateMinute] = snapRateAnalyzer(fileLocation);
+fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\FallSnapStudy';
+[snapRateData, snapRateHourly, snapRateMinute] = snapRateAnalyzer(fileLocation);
 % Second step: this bins, averages, and plots some of their
-% [receiverData, envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets] = snapRatePlotter(oneDrive, snapRateHourly, snapRateMinute);
+[receiverData, envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets] = snapRatePlotter(oneDrive, snapRateHourly, snapRateMinute);
 %%
 % Load in saved data
 % Environmental data matched to the hourly snaps.
@@ -28,6 +28,9 @@ load snapRateMinuteSpring
 %This removes a few NaNs by interpolating from the hours next to it
 snapRateHourly.SnapCount(isnan(snapRateHourly.SnapCount)) = interp1(snapRateHourly.Time(~isnan(snapRateHourly.SnapCount)),...
     snapRateHourly.SnapCount(~isnan(snapRateHourly.SnapCount)),snapRateHourly.Time(isnan(snapRateHourly.SnapCount))) ;
+
+snapRateMinute.SnapCount(isnan(snapRateMinute.SnapCount)) = interp1(snapRateMinute.Time(~isnan(snapRateMinute.SnapCount)),...
+    snapRateMinute.SnapCount(~isnan(snapRateMinute.SnapCount)),snapRateMinute.Time(isnan(snapRateMinute.SnapCount))) ;
 
 envData.windSpd(isnan(envData.windSpd)) = interp1(envData.DT(~isnan(envData.windSpd)),...
     envData.windSpd(~isnan(envData.windSpd)),envData.DT(isnan(envData.windSpd))) ;
