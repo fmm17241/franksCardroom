@@ -149,9 +149,9 @@ end
 
 %FM This is for Fall 2020-Jan 2021 dataset.
 clearvars badTimes*
-badTimesMinute = [];
-badTimesHour    = [];
-if snapRateMinute.Time(1) == '30-Jan-2020 15:12:00.000';
+badTimesMinute = [30544, 66845, 95338, 110120, 138109, 138110, 141794];
+badTimesHour    = [510, 1115, 1590, 1836, 2303, 2364];
+if snapRateMinute.Time(1) == '29-Sep-2020 11:20:00.000';
     % Set the rows at the specified indices to NaN, ensuring you use an array of NaNs 
     snapRateMinute(badTimesMinute,:) = array2table(NaN(numel(badTimesMinute), width(snapRateMinute)), ...
                 'VariableNames', snapRateMinute.Properties.VariableNames);
