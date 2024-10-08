@@ -1,5 +1,5 @@
 
-function [receiverData,envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets, windsAverage, seas] = snapRatePlotter(oneDrive, snapRateHourly, snapRateMinute)
+function [receiverData,envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets, surfaceData] = snapRatePlotter(oneDrive, snapRateHourly, snapRateMinute)
 
 buildReceiverData
 close all
@@ -59,6 +59,12 @@ snaps = snapRateHourly.SnapCount;
 windFit = isbetween(windsAverage.time, snapTimeRange(1),snapTimeRange(2));
 windData = windsAverage(windFit,:);
 
+waveFit = isbetween(seas.time, snapTimeRange(1),snapTimeRange(2));
+waveData = seas(waveFit,:);
+
+
+
+surfaceData = synchronize(windData,waveData);
 
 % end
 

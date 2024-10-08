@@ -42,7 +42,6 @@ snapRateMinute.SnapCount(isnan(snapRateMinute.SnapCount)) = interp1(snapRateMinu
 envData.windSpd(isnan(envData.windSpd)) = interp1(envData.DT(~isnan(envData.windSpd)),...
     envData.windSpd(~isnan(envData.windSpd)),envData.DT(isnan(envData.windSpd))) ;
 
-
 %%
 % Using filters to focus on either the high frequency (less than 40 hours) or low frequency (greater than 48-hour) 
 % components.
