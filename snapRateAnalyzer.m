@@ -62,20 +62,64 @@ for i = 1:length(snapRateTables)
 end
 
 
+if length(snapRateTables) == 2
+    platter = synchronize(comboTable{1},comboTable{2});
+end
 
-platter = synchronize(comboTable{1},comboTable{2},comboTable{3});
+
+if length(snapRateTables) == 3
+    platter = synchronize(comboTable{1},comboTable{2},comboTable{3});
+end
+
+if length(snapRateTables) == 4
+    platter = synchronize(comboTable{1},comboTable{2},comboTable{3},comboTable{4});
+end
+
+
+% platter = synchronize(comboTable{1},comboTable{2},comboTable{3});
+% platter{:,{'SnapCount_1','PeakAmp_1','Energy_1','PeakPower_1','SnapCount_2','PeakAmp_2','Energy_2','PeakPower_2','SnapCount_3','PeakAmp_3','Energy_3','PeakPower_3'}}(index) = 0;
 
 % combinedSnaps = sum([platter, 2, 'omitnan');
+if length(snapRateTables) == 2
+    index = ismissing(platter(:,{'SnapCount_1','PeakAmp_1','Energy_1','PeakPower_1','SnapCount_2','PeakAmp_2','Energy_2','PeakPower_2'}));
+    platter{:,{'SnapCount_1','PeakAmp_1','Energy_1','PeakPower_1','SnapCount_2','PeakAmp_2','Energy_2','PeakPower_2'}}(index) = 0;
+end
+if length(snapRateTables) == 3
+    index = ismissing(platter(:,{'SnapCount_1','PeakAmp_1','Energy_1','PeakPower_1','SnapCount_2','PeakAmp_2','Energy_2','PeakPower_2','SnapCount_3','PeakAmp_3','Energy_3','PeakPower_3'}));
+    platter{:,{'SnapCount_1','PeakAmp_1','Energy_1','PeakPower_1','SnapCount_2','PeakAmp_2','Energy_2','PeakPower_2','SnapCount_3','PeakAmp_3','Energy_3','PeakPower_3'}}(index) = 0;
+end
+if length(snapRateTables) == 4
+    index = ismissing(platter(:,{'SnapCount_1','PeakAmp_1','Energy_1','PeakPower_1','SnapCount_2','PeakAmp_2','Energy_2','PeakPower_2','SnapCount_3','PeakAmp_3','Energy_3','PeakPower_3','SnapCount_4','PeakAmp_4','Energy_4','PeakPower_4'}));
+    platter{:,{'SnapCount_1','PeakAmp_1','Energy_1','PeakPower_1','SnapCount_2','PeakAmp_2','Energy_2','PeakPower_2','SnapCount_3','PeakAmp_3','Energy_3','PeakPower_3','SnapCount_4','PeakAmp_4','Energy_4','PeakPower_4'}}(index) = 0;
+end
 
-index = ismissing(platter(:,{'SnapCount_1','PeakAmp_1','Energy_1','PeakPower_1','SnapCount_2','PeakAmp_2','Energy_2','PeakPower_2','SnapCount_3','PeakAmp_3','Energy_3','PeakPower_3'}));
 
-platter{:,{'SnapCount_1','PeakAmp_1','Energy_1','PeakPower_1','SnapCount_2','PeakAmp_2','Energy_2','PeakPower_2','SnapCount_3','PeakAmp_3','Energy_3','PeakPower_3'}}(index) = 0;
 
-Time = platter.Time;
-SnapCount = platter.SnapCount_1 + platter.SnapCount_2 + platter.SnapCount_3;
-PeakAmp = platter.PeakAmp_1 + platter.PeakAmp_2 + platter.PeakAmp_3;
-Energy = platter.Energy_1 + platter.Energy_2 + platter.Energy_3;
-PeakPower = platter.PeakPower_1 + platter.PeakPower_2 + platter.PeakPower_3;
+% platter{:,{'SnapCount_1','PeakAmp_1','Energy_1','PeakPower_1','SnapCount_2','PeakAmp_2','Energy_2','PeakPower_2','SnapCount_3','PeakAmp_3','Energy_3','PeakPower_3'}}(index) = 0;
+if length(snapRateTables) == 2
+    Time = platter.Time;
+    SnapCount = platter.SnapCount_1 + platter.SnapCount_2;
+    PeakAmp = platter.PeakAmp_1 + platter.PeakAmp_2;
+    Energy = platter.Energy_1 + platter.Energy_2;
+    PeakPower = platter.PeakPower_1 + platter.PeakPower_2;
+end
+if length(snapRateTables) == 3
+    Time = platter.Time;
+    SnapCount = platter.SnapCount_1 + platter.SnapCount_2 + platter.SnapCount_3;
+    PeakAmp = platter.PeakAmp_1 + platter.PeakAmp_2 + platter.PeakAmp_3;
+    Energy = platter.Energy_1 + platter.Energy_2 + platter.Energy_3;
+    PeakPower = platter.PeakPower_1 + platter.PeakPower_2 + platter.PeakPower_3;
+end
+
+if length(snapRateTables) == 4
+    Time = platter.Time;
+    SnapCount = platter.SnapCount_1 + platter.SnapCount_2 + platter.SnapCount_3 + platter.SnapCount_4;
+    PeakAmp = platter.PeakAmp_1 + platter.PeakAmp_2 + platter.PeakAmp_3 + platter.PeakAmp_4;
+    Energy = platter.Energy_1 + platter.Energy_2 + platter.Energy_3 + platter.Energy_4;
+    PeakPower = platter.PeakPower_1 + platter.PeakPower_2 + platter.PeakPower_3 + platter.PeakPower_4;
+end
+
+
 
 snapRateData = timetable(Time,SnapCount,PeakAmp,Energy,PeakPower)
 % snapRateData.Time.TimeZone = 'UTC';
