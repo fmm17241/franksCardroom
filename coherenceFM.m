@@ -10,7 +10,7 @@
 fileLocation = ([oneDrive,'\acousticAnalysis\matlabVariables']);
 cd (fileLocation)
 
-fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\FallSnapStudy';
+fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\springSnapStudy';
 [snapRateData, snapRateHourly, snapRateMinute] = snapRateAnalyzer(fileLocation);
 % Second step: this bins, averages, and plots some of their
 [receiverData, envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets, surfaceData] = snapRatePlotter(oneDrive, snapRateHourly, snapRateMinute);
@@ -32,21 +32,7 @@ load snapRateHourlySpring
 % Snaprate binned per minute
 load snapRateMinuteSpring
 
-%This removes a few NaNs by interpolating from the hours next to it
-snapRateHourly.SnapCount(isnan(snapRateHourly.SnapCount)) = interp1(snapRateHourly.Time(~isnan(snapRateHourly.SnapCount)),...
-    snapRateHourly.SnapCount(~isnan(snapRateHourly.SnapCount)),snapRateHourly.Time(isnan(snapRateHourly.SnapCount))) ;
 
-snapRateMinute.SnapCount(isnan(snapRateMinute.SnapCount)) = interp1(snapRateMinute.Time(~isnan(snapRateMinute.SnapCount)),...
-    snapRateMinute.SnapCount(~isnan(snapRateMinute.SnapCount)),snapRateMinute.Time(isnan(snapRateMinute.SnapCount))) ;
-
-envData.windSpd(isnan(envData.windSpd)) = interp1(envData.DT(~isnan(envData.windSpd)),...
-    envData.windSpd(~isnan(envData.windSpd)),envData.DT(isnan(envData.windSpd))) ;
-
-surfaceData.WSPD(isnan(surfaceData.WSPD))  = interp1(surfaceData.time(~isnan(surfaceData.WSPD)),...
-    surfaceData.WSPD(~isnan(surfaceData.WSPD)),surfaceData.time(isnan(surfaceData.WSPD))) ;
-
-surfaceData.waveHeight(isnan(surfaceData.waveHeight))  = interp1(surfaceData.time(~isnan(surfaceData.waveHeight)),...
-    surfaceData.waveHeight(~isnan(surfaceData.waveHeight)),surfaceData.time(isnan(surfaceData.waveHeight))) ;
 
 %%
 % Using filters to focus on either the high frequency (less than 40 hours) or low frequency (greater than 48-hour) 

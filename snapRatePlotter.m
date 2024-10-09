@@ -108,6 +108,23 @@ for k = 1:length(windSpeedBins)
 end
 % end
 
+%This removes a few NaNs by interpolating from the hours next to it
+snapRateHourly.SnapCount(isnan(snapRateHourly.SnapCount)) = interp1(snapRateHourly.Time(~isnan(snapRateHourly.SnapCount)),...
+    snapRateHourly.SnapCount(~isnan(snapRateHourly.SnapCount)),snapRateHourly.Time(isnan(snapRateHourly.SnapCount))) ;
+
+snapRateMinute.SnapCount(isnan(snapRateMinute.SnapCount)) = interp1(snapRateMinute.Time(~isnan(snapRateMinute.SnapCount)),...
+    snapRateMinute.SnapCount(~isnan(snapRateMinute.SnapCount)),snapRateMinute.Time(isnan(snapRateMinute.SnapCount))) ;
+
+envData.windSpd(isnan(envData.windSpd)) = interp1(envData.DT(~isnan(envData.windSpd)),...
+    envData.windSpd(~isnan(envData.windSpd)),envData.DT(isnan(envData.windSpd))) ;
+
+surfaceData.WSPD(isnan(surfaceData.WSPD))  = interp1(surfaceData.time(~isnan(surfaceData.WSPD)),...
+    surfaceData.WSPD(~isnan(surfaceData.WSPD)),surfaceData.time(isnan(surfaceData.WSPD))) ;
+
+surfaceData.waveHeight(isnan(surfaceData.waveHeight))  = interp1(surfaceData.time(~isnan(surfaceData.waveHeight)),...
+    surfaceData.waveHeight(~isnan(surfaceData.waveHeight)),surfaceData.time(isnan(surfaceData.waveHeight))) ;
+
+
 
 % 
 % %Day Confidence Intervals
