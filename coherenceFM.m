@@ -11,10 +11,10 @@
 % 
 % fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\springSnapStudy';
 % [snapRateData, snapRateHourly, snapRateMinute] = snapRateAnalyzer(fileLocation);
-% % Second step: this bins, averages, and plots some of their
-% [receiverData, envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets, surfaceData] = snapRatePlotter(oneDrive, snapRateHourly, snapRateMinute);
-% %%
-% FM needs to add winds and waves for the fall-Jan 2021 fix.
+% % % Second step: this bins, averages, and plots some of their
+% [receiverData, snapRateHourly, snapRateMinute, envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets, surfaceData] = snapRatePlotter(oneDrive, snapRateHourly, snapRateMinute);
+% % %%
+% % FM needs to add winds and waves for the fall-Jan 2021 fix.
 
 
 
@@ -24,27 +24,30 @@ cd (fileLocation)
 %%
 % Load in saved data
 % Environmental data matched to the hourly snaps.
-% load envDataSpring
-% % Full snaprate dataset
-% load snapRateDataSpring
-% % Snaprate binned hourly
-% load snapRateHourlySpring
-% % Snaprate binned per minute
-% load snapRateMinuteSpring
-
-load envDataFall
+load envDataSpring
 % Full snaprate dataset
-load snapRateDataFall
+load snapRateDataSpring
 % Snaprate binned hourly
-load snapRateHourlyFall
+load snapRateHourlySpring
 % Snaprate binned per minute
-load snapRateMinuteFall
+load snapRateMinuteSpring
+
+% load envDataFall
+% % Full snaprate dataset
+% load snapRateDataFall
+% % Snaprate binned hourly
+% load snapRateHourlyFall
+% % Snaprate binned per minute
+% load snapRateMinuteFall
+% 
+% load surfaceDataFall
 
 %%
 % Using filters to focus on either the high frequency (less than 40 hours) or low frequency (greater than 48-hour) 
 % components.
 fs = 1 / 3600;  % Sampling frequency in Hz (1 sample per hour)
 fc = 1 / (40 * 3600);  % Cutoff frequency for 40-hour period in Hz
+
 filteredSnaps_highpass = highpass(snapRateHourly.SnapCount, fc, fs);
 filteredVariables_Highpass.snaps = highpass(snapRateHourly.SnapCount, fc, fs);
 filteredVariables_Highpass.noise = highpass(envData.Noise, fc, fs);
@@ -123,10 +126,10 @@ title('Lowpass Filtered - HF Noise')
 % Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
 coherenceNoiseWavefilt = Coherence_whelch_overlap(filteredVariables_Lowpass.noise,filteredVariables_Lowpass.waveheight,3600,4,1,1,0)
 coherenceWindWavefilt = Coherence_whelch_overlap(filteredVariables_Lowpass.windspd,filteredVariables_Lowpass.waveheight,3600,4,1,1,0)
-coherenceSnapsNoisefilt = Coherence_whelch_overlap(filteredVariables_Lowpass.snaps,filteredVariables_Lowpass.noise,3600,4,1,1,0)
+% coherenceSnapsNoisefilt = Coherence_whelch_overlap(filteredVariables_Lowpass.snaps,filteredVariables_Lowpass.noise,3600,4,1,1,0)
 coherenceSnapsWindfilt = Coherence_whelch_overlap(filteredVariables_Lowpass.snaps,filteredVariables_Lowpass.windspd,3600,4,1,1,0)
-coherenceSnapsTidesfilt = Coherence_whelch_overlap(filteredVariables_Lowpass.snaps,filteredVariables_Lowpass.tides,3600,4,1,1,0)
-coherenceTidesNoisefilt = Coherence_whelch_overlap(filteredVariables_Lowpass.tides,filteredVariables_Lowpass.noise,3600,4,1,1,0)
+% coherenceSnapsTidesfilt = Coherence_whelch_overlap(filteredVariables_Lowpass.snaps,filteredVariables_Lowpass.tides,3600,4,1,1,0)
+% coherenceTidesNoisefilt = Coherence_whelch_overlap(filteredVariables_Lowpass.tides,filteredVariables_Lowpass.noise,3600,4,1,1,0)
 
 % % Power spectral density of signal A, filtered Snaps
 % figure()
@@ -142,8 +145,8 @@ coherenceTidesNoisefilt = Coherence_whelch_overlap(filteredVariables_Lowpass.tid
 figure()
 semilogx(coherenceNoiseWavefilt.f*86400,coherenceNoiseWavefilt.coh,'LineWidth',2)
 hold on
-% semilogx(coherenceWindWavefilt.f*86400,coherenceWindWavefilt.coh,'LineWidth',2)
-semilogx(coherenceSnapsNoisefilt.f*86400,coherenceSnapsNoisefilt.coh,'LineWidth',2)
+semilogx(coherenceWindWavefilt.f*86400,coherenceWindWavefilt.coh,'LineWidth',2)
+% semilogx(coherenceSnapsNoisefilt.f*86400,coherenceSnapsNoisefilt.coh,'LineWidth',2)
 semilogx(coherenceSnapsWindfilt.f*86400,coherenceSnapsWindfilt.coh,'LineWidth',2)
 % semilogx(coherenceSnapsTidesfilt.f*86400,coherenceSnapsTidesfilt.coh,'LineWidth',2)
 % semilogx(coherenceTidesNoisefilt.f*86400,coherenceTidesNoisefilt.coh,'LineWidth',2)
