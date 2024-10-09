@@ -24,10 +24,12 @@ load surfaceDataSpring
 COHsnapWind = Coherence_whelch_overlap(snapRateHourly.SnapCount,surfaceData.waveHeight,3600,10,1,1,0)
 COHnoiseWave = Coherence_whelch_overlap(envData.Noise,surfaceData.waveHeight,3600,10,1,1,0)
 
+wavePower = Power_spectra(envData.waveHeight,4,0,0,3600,0)
+
 
 figure()
-loglog(COHnoiseWave.f*86400,COHnoiseWave.psda)
-title('Noise PSD')
+loglog(wavePower.f*86400,wavePower.psdf)
+title('Wave PSD')
 
 
 figure()
@@ -43,17 +45,25 @@ title('Coherence NoiseWave')
 % Now, lets try to filter.
 
 % This is the way frank approached it.
-fs = 1 / 3600;  % Sampling frequency in Hz (1 sample per hour)
-fc = 1 / (40 * 3600);  % Cutoff frequency for 40-hour period in Hz
-filteredSnaps_lowpass = lowpass(snapRateHourly.SnapCount, fc, fs);
-filteredVariables_Lowpass.snaps = lowpass(snapRateHourly.SnapCount, fc, fs);
-filteredVariables_Lowpass.noise = lowpass(envData.Noise, fc, fs);
-filteredVariables_Lowpass.waveheight = lowpass(surfaceData.waveHeight, fc, fs);
-filteredVariables_Lowpass.windspd = lowpass(surfaceData.WSPD, fc, fs);
+% fs = 1 / 3600;  % Sampling frequency in Hz (1 sample per hour)
+% fc = 1 / (40 * 3600);  % Cutoff frequency for 40-hour period in Hz
+% filteredVar_Lowpass.Snaps = lowpass(snapRateHourly.SnapCount, fc, fs);
+% filteredVar_Lowpass.Noise = lowpass(envData.Noise, fc, fs);
+% filteredVar_Lowpass.waveHeight = lowpass(surfaceData.waveHeight, fc, fs);
+% filteredVar_Lowpass.Windspd = lowpass(surfaceData.WSPD, fc, fs);
+% 
+% 
+% wavePowerFilt = Power_spectra(filteredVar_Lowpass.waveHeight,4,0,0,3600,0)
+% 
+% %This is odd because diurnal still exists, after trying to filter past 40 hours. Banananananas.
+% figure()
+% loglog(wavePowerFilt.f*86400,wavePowerFilt.psdf)
 
 
+%%
+% Creating and using a better filter now.
 
-
+[b40,a40] = butter(4,cutoff(envData.DT,40),'low');
 
 
 
@@ -61,3 +71,14 @@ FROM CATHERINE::::::
 %  %dth is delta-t in hours of regularly spaced time series with no nans. 40 hours is cut-off in hours. 4 is the order of the filter
 % [b40,a40] = butter(4,cutoff(data.dth,40),'low');
 % data.ulp40=filtfilt(b40,a40,ui);
+
+
+
+
+
+
+
+
+
+
+
