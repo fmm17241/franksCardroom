@@ -32,6 +32,8 @@ load snapRateHourlySpring
 % Snaprate binned per minute
 load snapRateMinuteSpring
 
+load surfaceDataSpring
+
 % load envDataFall
 % % Full snaprate dataset
 % load snapRateDataFall
@@ -41,6 +43,29 @@ load snapRateMinuteSpring
 % load snapRateMinuteFall
 % 
 % load surfaceDataFall
+
+coherenceNoiseWind = Coherence_whelch_overlap(envData.Noise,envData.waveHeight,3600,10,1,1,0)
+
+
+figure()
+loglog(coherenceNoiseWind.f*86400,coherenceNoiseWind.psda)
+title('Noise','PSD')
+
+figure()
+loglog(coherenceNoiseWind.f*86400,coherenceNoiseWind.psdb)
+title('Waveheight','PSD')
+
+
+figure()
+semilogx(coherenceNoiseWind.f*86400,coherenceNoiseWind.coh)
+title('Coherence - NoiseWind')
+xlabel('Per Day Frequency')
+
+
+
+
+
+
 
 %%
 % Using filters to focus on either the high frequency (less than 40 hours) or low frequency (greater than 48-hour) 
@@ -69,6 +94,24 @@ filteredVariables_Lowpass.tides = lowpass(envData.crossShore, fc, fs);
 %Coherence: comparing the signals created by Power_spectra
 % Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
 % coherences = Coherence_whelch_overlap(envData.Noise,envData.waveHeight,3600,4,1,1,0)
+
+coherenceNoiseWindFilt = Coherence_whelch_overlap(filteredVariables_Lowpass.noise,filteredVariables_Lowpass.waveheight,3600,10,1,1,0)
+
+
+figure()
+loglog(coherenceNoiseWindFilt.f*86400,coherenceNoiseWindFilt.psda)
+title('Noise','PSD, LP Filt 40 hr')
+
+figure()
+loglog(coherenceNoiseWindFilt.f*86400,coherenceNoiseWindFilt.psdb)
+title('Waveheight','PSD, LP Filt 40 hr')
+
+
+figure()
+semilogx(coherenceNoiseWindFilt.f*86400,coherenceNoiseWindFilt.coh)
+title('Coherence - NoiseWind','LP Filt 40 hr')
+xlabel('Per Day Frequency')
+
 
 
 % Plots HF noise, windspeed, and hourly snaps to visualize the relationship.
@@ -126,20 +169,25 @@ title('Lowpass Filtered - HF Noise')
 % Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
 coherenceNoiseWavefilt = Coherence_whelch_overlap(filteredVariables_Lowpass.noise,filteredVariables_Lowpass.waveheight,3600,4,1,1,0)
 coherenceWindWavefilt = Coherence_whelch_overlap(filteredVariables_Lowpass.windspd,filteredVariables_Lowpass.waveheight,3600,4,1,1,0)
-% coherenceSnapsNoisefilt = Coherence_whelch_overlap(filteredVariables_Lowpass.snaps,filteredVariables_Lowpass.noise,3600,4,1,1,0)
+coherenceSnapsNoisefilt = Coherence_whelch_overlap(filteredVariables_Lowpass.snaps,filteredVariables_Lowpass.noise,3600,4,1,1,0)
 coherenceSnapsWindfilt = Coherence_whelch_overlap(filteredVariables_Lowpass.snaps,filteredVariables_Lowpass.windspd,3600,4,1,1,0)
-% coherenceSnapsTidesfilt = Coherence_whelch_overlap(filteredVariables_Lowpass.snaps,filteredVariables_Lowpass.tides,3600,4,1,1,0)
-% coherenceTidesNoisefilt = Coherence_whelch_overlap(filteredVariables_Lowpass.tides,filteredVariables_Lowpass.noise,3600,4,1,1,0)
+coherenceSnapsTidesfilt = Coherence_whelch_overlap(filteredVariables_Lowpass.snaps,filteredVariables_Lowpass.tides,3600,4,1,1,0)
+coherenceTidesNoisefilt = Coherence_whelch_overlap(filteredVariables_Lowpass.tides,filteredVariables_Lowpass.noise,3600,4,1,1,0)
 
 % % Power spectral density of signal A, filtered Snaps
-% figure()
-% loglog(coherenceNoiseWavefilt.f*86400,coherenceNoiseWavefilt.psda)
-% title('PSD','A')
-% 
-% % Power spectral density of signal B, filtered Noise
-% figure()
-% loglog(coherenceNoiseWavefilt.f*86400,coherenceNoiseWavefilt.psdb)
-% title('PSD','B')
+figure()
+loglog(coherenceNoiseWavefilt.f*86400,coherenceNoiseWavefilt.psda)
+title('PSD','A')
+
+% Power spectral density of signal B, filtered Noise
+figure()
+loglog(coherenceNoiseWavefilt.f*86400,coherenceNoiseWavefilt.psdb)
+title('PSD','B')
+
+figure()
+loglog(coherence)
+
+
 
 %Coherence between A and B
 figure()
