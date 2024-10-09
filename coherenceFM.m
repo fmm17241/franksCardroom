@@ -112,7 +112,7 @@ xlabel('Per Day Frequency')
 % Using filters to focus on either the high frequency (less than 40 hours) or low frequency (greater than 48-hour) 
 % components.
 fs = 1 / 3600;  % Sampling frequency in Hz (1 sample per hour)
-fc = 1 / (40 * 3600);  % Cutoff frequency for 40-hour period in Hz
+fc = 1 / (40);  % Cutoff frequency for 40-hour period in Hz
 
 filteredSnaps_highpass = highpass(snapRateHourly.SnapCount, fc, fs);
 filteredVariables_Highpass.snaps = highpass(snapRateHourly.SnapCount, fc, fs);
@@ -123,7 +123,7 @@ filteredVariables_Highpass.windspd = highpass(surfaceData.WSPD, fc, fs);
 filteredVariables_Highpass.tides = highpass(envData.crossShore, fc, fs);
 
 %%
-fc = 1 / (40 * 3600);  % Cutoff frequency for 40-hours
+fc = 1 / (40*3600);  % Cutoff frequency for 40-hours
 filteredSnaps_lowpass = lowpass(snapRateHourly.SnapCount, fc, fs);
 filteredVariables_Lowpass.snaps = lowpass(snapRateHourly.SnapCount, fc, fs);
 filteredVariables_Lowpass.noise = lowpass(envData.Noise, fc, fs);

@@ -62,8 +62,21 @@ title('Coherence NoiseWave')
 
 %%
 % Creating and using a better filter now.
+% Confused whether I need to go 1/(3600*40), but 1/40 seems to work.
+cutoff = 1/(40);
 
-[b40,a40] = butter(4,cutoff(envData.DT,40),'low');
+
+[b40,a40] = butter(4,cutoff,'low');
+
+LPfilteredData = filtfilt(b40,a40,snapRateHourly.SnapCount);
+
+figure()
+plot(snapRateHourly.Time,LPfilteredData)
+
+Test = Power_spectra(LPfilteredData,10,0,0,3600,0)
+
+figure()
+loglog(Test.f*86400,Test.psdf)
 
 
 
