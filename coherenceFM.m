@@ -62,10 +62,40 @@ title('Coherence - NoiseWind')
 xlabel('Per Day Frequency')
 
 
+coherenceNoiseSnaps = Coherence_whelch_overlap(envData.Noise,snapRateHourly.SnapCount,3600,10,1,1,0)
 
 
+figure()
+loglog(coherenceNoiseSnaps.f*86400,coherenceNoiseSnaps.psda)
+title('Noise','PSD')
+
+figure()
+loglog(coherenceNoiseSnaps.f*86400,coherenceNoiseSnaps.psdb)
+title('Snaprate','PSD')
 
 
+figure()
+semilogx(coherenceNoiseSnaps.f*86400,coherenceNoiseSnaps.coh)
+title('Coherence - NoiseSnaps')
+xlabel('Per Day Frequency')
+
+% Coherence_whelch_overlap(datainA, datainB, samplinginterval, bins, windoww, DT, cutoff)
+coherenceWindSnaps = Coherence_whelch_overlap(envData.windSpd,snapRateHourly.SnapCount,3600,4,1,1,0)
+
+
+figure()
+loglog(coherenceWindSnaps.f*86400,coherenceWindSnaps.psda)
+title('Wind','PSD')
+
+figure()
+loglog(coherenceWindSnaps.f*86400,coherenceWindSnaps.psdb)
+title('Snaprate','PSD')
+
+
+figure()
+semilogx(coherenceWindSnaps.f*86400,coherenceWindSnaps.coh)
+title('Coherence - WindSnaps')
+xlabel('Per Day Frequency')
 
 %%
 % Using filters to focus on either the high frequency (less than 40 hours) or low frequency (greater than 48-hour) 
@@ -99,11 +129,11 @@ coherenceNoiseWindFilt = Coherence_whelch_overlap(filteredVariables_Lowpass.nois
 
 
 figure()
-loglog(coherenceNoiseWindFilt.f*86400,coherenceNoiseWindFilt.psda)
+semilogx(coherenceNoiseWindFilt.f*86400,coherenceNoiseWindFilt.psda)
 title('Noise','PSD, LP Filt 40 hr')
 
 figure()
-loglog(coherenceNoiseWindFilt.f*86400,coherenceNoiseWindFilt.psdb)
+semilogx(coherenceNoiseWindFilt.f*86400,coherenceNoiseWindFilt.psdb)
 title('Waveheight','PSD, LP Filt 40 hr')
 
 
@@ -111,6 +141,11 @@ figure()
 semilogx(coherenceNoiseWindFilt.f*86400,coherenceNoiseWindFilt.coh)
 title('Coherence - NoiseWind','LP Filt 40 hr')
 xlabel('Per Day Frequency')
+
+
+
+
+
 
 
 
