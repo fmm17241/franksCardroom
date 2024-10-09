@@ -7,32 +7,38 @@
 %Step 4: Compare the different signals using coherence
 %%
 %Run snapRateAnalyzer and Plotter.
-fileLocation = ([oneDrive,'\acousticAnalysis\matlabVariables']);
-cd (fileLocation)
 
-fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\springSnapStudy';
-[snapRateData, snapRateHourly, snapRateMinute] = snapRateAnalyzer(fileLocation);
-% Second step: this bins, averages, and plots some of their
-[receiverData, envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets, surfaceData] = snapRatePlotter(oneDrive, snapRateHourly, snapRateMinute);
-%%
+% 
+% fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\springSnapStudy';
+% [snapRateData, snapRateHourly, snapRateMinute] = snapRateAnalyzer(fileLocation);
+% % Second step: this bins, averages, and plots some of their
+% [receiverData, envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets, surfaceData] = snapRatePlotter(oneDrive, snapRateHourly, snapRateMinute);
+% %%
 % FM needs to add winds and waves for the fall-Jan 2021 fix.
 
 
 
-
+fileLocation = ([oneDrive,'\acousticAnalysis\matlabVariables']);
+cd (fileLocation)
 
 %%
 % Load in saved data
 % Environmental data matched to the hourly snaps.
-load envDataSpring
+% load envDataSpring
+% % Full snaprate dataset
+% load snapRateDataSpring
+% % Snaprate binned hourly
+% load snapRateHourlySpring
+% % Snaprate binned per minute
+% load snapRateMinuteSpring
+
+load envDataFall
 % Full snaprate dataset
-load snapRateDataSpring
+load snapRateDataFall
 % Snaprate binned hourly
-load snapRateHourlySpring
+load snapRateHourlyFall
 % Snaprate binned per minute
-load snapRateMinuteSpring
-
-
+load snapRateMinuteFall
 
 %%
 % Using filters to focus on either the high frequency (less than 40 hours) or low frequency (greater than 48-hour) 
