@@ -42,6 +42,12 @@ snapRateMinute.SnapCount(isnan(snapRateMinute.SnapCount)) = interp1(snapRateMinu
 envData.windSpd(isnan(envData.windSpd)) = interp1(envData.DT(~isnan(envData.windSpd)),...
     envData.windSpd(~isnan(envData.windSpd)),envData.DT(isnan(envData.windSpd))) ;
 
+surfaceData.WSPD(isnan(surfaceData.WSPD))  = interp1(surfaceData.time(~isnan(surfaceData.WSPD)),...
+    surfaceData.WSPD(~isnan(surfaceData.WSPD)),surfaceData.time(isnan(surfaceData.WSPD))) ;
+
+surfaceData.waveHeight(isnan(surfaceData.waveHeight))  = interp1(surfaceData.time(~isnan(surfaceData.waveHeight)),...
+    surfaceData.waveHeight(~isnan(surfaceData.waveHeight)),surfaceData.time(isnan(surfaceData.waveHeight))) ;
+
 %%
 % Using filters to focus on either the high frequency (less than 40 hours) or low frequency (greater than 48-hour) 
 % components.
@@ -50,9 +56,9 @@ fc = 1 / (40 * 3600);  % Cutoff frequency for 40-hour period in Hz
 filteredSnaps_highpass = highpass(snapRateHourly.SnapCount, fc, fs);
 filteredVariables_Highpass.snaps = highpass(snapRateHourly.SnapCount, fc, fs);
 filteredVariables_Highpass.noise = highpass(envData.Noise, fc, fs);
-filteredVariables_Highpass.waveheight = highpass(envData.waveHeight, fc, fs);
-filteredVariables_Highpass.temp = highpass(envData.Temp, fc, fs);
-filteredVariables_Highpass.windspd = highpass(envData.windSpd, fc, fs);
+filteredVariables_Highpass.waveheight = highpass(surfaceData.waveHeight, fc, fs);
+filteredVariables_Highpass.temp = highpass(surfaceData.SST, fc, fs);
+filteredVariables_Highpass.windspd = highpass(surfaceData.WSPD, fc, fs);
 filteredVariables_Highpass.tides = highpass(envData.crossShore, fc, fs);
 
 %%
@@ -60,9 +66,9 @@ fc = 1 / (40 * 3600);  % Cutoff frequency for 40-hours
 filteredSnaps_lowpass = lowpass(snapRateHourly.SnapCount, fc, fs);
 filteredVariables_Lowpass.snaps = lowpass(snapRateHourly.SnapCount, fc, fs);
 filteredVariables_Lowpass.noise = lowpass(envData.Noise, fc, fs);
-filteredVariables_Lowpass.waveheight = lowpass(envData.waveHeight, fc, fs);
-filteredVariables_Lowpass.temp = lowpass(envData.Temp, fc, fs);
-filteredVariables_Lowpass.windspd = lowpass(envData.windSpd, fc, fs);
+filteredVariables_Lowpass.waveheight = lowpass(surfaceData.waveHeight, fc, fs);
+filteredVariables_Lowpass.temp = lowpass(surfaceData.SST, fc, fs);
+filteredVariables_Lowpass.windspd = lowpass(surfaceData.WSPD, fc, fs);
 filteredVariables_Lowpass.tides = lowpass(envData.crossShore, fc, fs);
 %%
 %Coherence: comparing the signals created by Power_spectra
@@ -165,10 +171,10 @@ yline(0.4128,'-','95% Significance')
 title('Coherence','HF Noise and Waveheight')
 ylim([0 1])
 ax2 = nexttile()
-semilogx(coherenceSnapsNoisefilt.f*86400,coherenceSnapsNoisefilt.coh,'r','LineWidth',2)
+semilogx(coherenceWindWavefilt.f*86400,coherenceWindWavefilt.coh,'r','LineWidth',2)
 yline(0.4128)
 ylabel('Coherence')
-title('','Snaprate and HF Noise');
+title('','Wind and Wave');
 ylim([0 1])
 ax3 = nexttile()
 semilogx(coherenceSnapsWindfilt.f*86400,coherenceSnapsWindfilt.coh,'k','LineWidth',2)
