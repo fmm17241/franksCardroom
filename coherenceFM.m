@@ -16,11 +16,6 @@
 % % %%
 % % FM needs to add winds and waves for the fall-Jan 2021 fix.
 
-FROM CATHERINE::::::
-%  %dth is delta-t in hours of regularly spaced time series with no nans. 40 hours is cut-off in hours. 4 is the order of the filter
-% [b40,a40] = butter(4,cutoff(data.dth,40),'low');
-% data.ulp40=filtfilt(b40,a40,ui);
-
 fileLocation = ([oneDrive,'\acousticAnalysis\matlabVariables']);
 cd (fileLocation)
 
