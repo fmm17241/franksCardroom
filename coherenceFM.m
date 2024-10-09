@@ -44,6 +44,19 @@ load surfaceDataSpring
 % 
 % load surfaceDataFall
 
+test = Coherence_whelch_overlap(snapRateMinute.SnapCount,snapRateMinute.PeakAmp,60,10,1,1,0)
+
+
+figure()
+loglog(test.f*86400,test.psda)
+title('Snaps','PSD')
+
+figure()
+loglog(test.f*86400,test.psdb)
+title('Amplitude','PSD')
+
+
+
 coherenceNoiseWind = Coherence_whelch_overlap(envData.Noise,envData.waveHeight,3600,10,1,1,0)
 
 
