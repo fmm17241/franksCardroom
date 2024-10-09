@@ -25,7 +25,7 @@ COHsnapWind = Coherence_whelch_overlap(snapRateHourly.SnapCount,surfaceData.wave
 COHnoiseWave = Coherence_whelch_overlap(envData.Noise,surfaceData.waveHeight,3600,10,1,1,0)
 
 wavePower = Power_spectra(envData.waveHeight,4,0,0,3600,0)
-
+snapPower = Power_spectra(snapRateHourly.SnapCount,4,0,0,3600,0)
 
 figure()
 loglog(wavePower.f*86400,wavePower.psdf)
@@ -67,7 +67,7 @@ title('Coherence NoiseWave')
 % Anything lower than 40-hour frequencies
 cutoff = 1/(40);
 
-%Create the filter
+%Create the lowpass filter
 [b40,a40] = butter(4,cutoff,'low');
 %Apply the filter
 lowpassData.Snaps = filtfilt(b40,a40,snapRateHourly.SnapCount);
@@ -78,21 +78,23 @@ lowpassData.Waves = filtfilt(b40,a40,snapRateHourly.SnapCount);
 
 
 
-figure()
-plot(snapRateHourly.Time,lowpassData)
-
-Test = Power_spectra(lowpassData,2,0,0,3600,0)
 
 figure()
-loglog(Test.f*86400,Test.psdf)
+plot(snapRateHourly.Time,snapRateHourly.SnapCount,'LineWidth',1)
+hold on
+plot(snapRateHourly.Time,lowpassData.Snaps,'LineWidth',3)
+
+
+snapsLowPass = Power_spectra(lowpassData.Snaps,4,0,0,3600,0)
+
+figure()
+loglog(snapsLowPass.f*86400,snapsLowPass.psdf)
+hold on
+loglog(snapPower.f*86400,snapPower.psdf)
 
 
 
 FROM CATHERINE::::::
-%  %dth is delta-t in hours of regularly spaced time series with no nans. 40 hours is cut-off in hours. 4 is the order of the filter
-% [b40,a40] = butter(4,cutoff(data.dth,40),'low');
-% data.ulp40=filtfilt(b40,a40,ui);
-
 
 
 
