@@ -74,6 +74,8 @@ lowpassData.Snaps = filtfilt(b24,a24,snapRateHourly.SnapCount);
 lowpassData.Noise = filtfilt(b24,a24,envData.Noise);
 lowpassData.Winds = filtfilt(b24,a24,envData.windSpd);
 lowpassData.Waves = filtfilt(b24,a24,envData.waveHeight);
+lowpassData.Tides  = filtfilt(b24,a24,envData.crossShore);
+lowpassData.TidesAbsolute = filtfilt(b24,a24,abs(envData.crossShore));
 
 
 
@@ -101,6 +103,8 @@ powerSnapWaveLP   = Coherence_whelch_overlap(lowpassData.Snaps,lowpassData.Waves
 powerSnapNoiseLP   = Coherence_whelch_overlap(lowpassData.Snaps,lowpassData.Noise,3600,4,1,1,1)
 powerWindWaveLP   = Coherence_whelch_overlap(lowpassData.Winds,lowpassData.Waves,3600,4,1,1,1)
 powerNoiseWaveLP   = Coherence_whelch_overlap(lowpassData.Noise,lowpassData.Waves,3600,4,1,1,1)
+powerSnapTidesLP = Coherence_whelch_overlap(lowpassData.Snaps,lowpassData.Tides,3600,4,1,1,1)
+powerSnapAbsTidesLP = Coherence_whelch_overlap(lowpassData.Noise,lowpassData.TidesAbsolute,3600,4,1,1,1)
 
 
 figure()
@@ -137,12 +141,27 @@ semilogx(powerSnapNoiseLP.f*86400,powerSnapNoiseLP.coh);
 title('Coherence - SnapNoise','24 Hr Lowpass')
 yline(powerSnapNoiseLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerSnapNoiseLP.pr95bendat))
 ylim([0 0.9])
-ax5.TickLength = [0.05,0.05];
+
+ax6 = nexttile()
+semilogx(powerSnapAbsTidesLP.f*86400,powerSnapAbsTidesLP.coh);
+title('Coherence - SnapTidalMagnitude','24 Hr Lowpass')
+yline(powerSnapAbsTidesLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerSnapAbsTidesLP.pr95bendat))
+ylim([0 0.9])
 
 
+figure()
+tiledlayout(2,1)
+ax1 = nexttile()
+semilogx(powerSnapTidesLP.f*86400,powerSnapTidesLP.coh);
+title('Coherence - SnapTidalVelocity','24 Hr Lowpass')
+yline(powerSnapTidesLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerSnapTidesLP.pr95bendat))
+ylim([0 0.9])
 
-
-
+ax2 = nexttile()
+semilogx(powerSnapAbsTidesLP.f*86400,powerSnapAbsTidesLP.coh);
+title('Coherence - SnapTidalMagnitude','24 Hr Lowpass')
+yline(powerSnapAbsTidesLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerSnapAbsTidesLP.pr95bendat))
+ylim([0 0.9])
 
 
 
