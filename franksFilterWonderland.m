@@ -103,9 +103,26 @@ powerNoiseWaveLP   = Coherence_whelch_overlap(lowpassData.Noise,lowpassData.Wave
 
 
 figure()
+tiledlayout(2,2)
+ax1 = nexttile()
 semilogx(powerSnapWindLP.f*86400,powerSnapWindLP.coh);
 title('Coherence - SnapsWinds','24 Hr Lowpass')
-yline(Testing.pr95bendat,'-',sprintf('95%% Sig: %.02g',Testing.pr95bendat))
+yline(powerSnapWindLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerSnapWindLP.pr95bendat))
+
+ax2 = nexttile()
+semilogx(powerSnapWaveLP.f*86400,powerSnapWaveLP.coh);
+title('Coherence - SnapsWaves','24 Hr Lowpass')
+yline(powerSnapWaveLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerSnapWaveLP.pr95bendat))
+
+ax3 = nexttile()
+semilogx(powerWindWaveLP.f*86400,powerWindWaveLP.coh);
+title('Coherence - WindsWaves','24 Hr Lowpass')
+yline(powerWindWaveLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerWindWaveLP.pr95bendat))
+
+ax4 = nexttile()
+semilogx(powerNoiseWaveLP.f*86400,powerNoiseWaveLP.coh);
+title('Coherence - NoiseWave','24 Hr Lowpass')
+yline(powerNoiseWaveLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerNoiseWaveLP.pr95bendat))
 
 
 
