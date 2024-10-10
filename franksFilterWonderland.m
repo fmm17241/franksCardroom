@@ -59,18 +59,21 @@ title('Coherence NoiseWave')
 % figure()
 % loglog(wavePowerFilt.f*86400,wavePowerFilt.psdf)
 
+close all
 
 %%
 % Creating and using a better filter now.
 
-% Anything lower than 24-hour frequencies
-cutoff = 1/(24);
+% Frequency cutoff for filter.
+cutoffHrs = 40;
+%Create the cutoff
+cutoff = 1/(cutoffHrs);
 filterType = 'low';
 bins = 4;
 
 [lowpassData, powerSnapWindLP, powerSnapWaveLP, powerSnapNoiseLP, powerWindWaveLP...
     powerNoiseWaveLP,powerSnapTidesLP,powerSnapAbsTidesLP] = filterSnapData(envData, snapRateHourly, surfaceData,...
-    cutoff, filterType, bins)
+    cutoff, cutoffHrs, filterType, bins)
 
 
 
