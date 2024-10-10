@@ -64,16 +64,16 @@ title('Coherence NoiseWave')
 % Creating and using a better filter now.
 % Confused whether I need to go 1/(3600*40). 1/40 seems to work.
 
-% Anything lower than 40-hour frequencies
+% Anything lower than 24-hour frequencies
 cutoff = 1/(24);
 
 %Create the lowpass filter
-[b40,a40] = butter(4,cutoff,'low');
+[b24,a24] = butter(4,cutoff,'low');
 %Apply the filter
-lowpassData.Snaps = filtfilt(b40,a40,snapRateHourly.SnapCount);
-lowpassData.Noise = filtfilt(b40,a40,envData.Noise);
-lowpassData.Winds = filtfilt(b40,a40,envData.windSpd);
-lowpassData.Waves = filtfilt(b40,a40,envData.waveHeight);
+lowpassData.Snaps = filtfilt(b24,a24,snapRateHourly.SnapCount);
+lowpassData.Noise = filtfilt(b24,a24,envData.Noise);
+lowpassData.Winds = filtfilt(b24,a24,envData.windSpd);
+lowpassData.Waves = filtfilt(b24,a24,envData.waveHeight);
 
 
 
