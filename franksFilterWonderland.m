@@ -65,15 +65,15 @@ title('Coherence NoiseWave')
 % Confused whether I need to go 1/(3600*40). 1/40 seems to work.
 
 % Anything lower than 40-hour frequencies
-cutoff = 1/(40);
+cutoff = 1/(24);
 
 %Create the lowpass filter
 [b40,a40] = butter(4,cutoff,'low');
 %Apply the filter
 lowpassData.Snaps = filtfilt(b40,a40,snapRateHourly.SnapCount);
-lowpassData.Noise = filtfilt(b40,a40,snapRateHourly.SnapCount);
-lowpassData.Winds = filtfilt(b40,a40,snapRateHourly.SnapCount);
-lowpassData.Waves = filtfilt(b40,a40,snapRateHourly.SnapCount);
+lowpassData.Noise = filtfilt(b40,a40,envData.Noise);
+lowpassData.Winds = filtfilt(b40,a40,envData.windSpd);
+lowpassData.Waves = filtfilt(b40,a40,envData.waveHeight);
 
 
 
@@ -85,16 +85,30 @@ hold on
 plot(snapRateHourly.Time,lowpassData.Snaps,'LineWidth',3)
 
 
+windLowPass  = Power_spectra(lowpassData.Winds,4,0,0,3600,0)
 snapsLowPass = Power_spectra(lowpassData.Snaps,4,0,0,3600,0)
 
+
 figure()
-loglog(snapsLowPass.f*86400,snapsLowPass.psdf)
+loglog(snapsLowPass.f*86400,snapsLowPass.psdw,'LineWidth',3)
 hold on
-loglog(snapPower.f*86400,snapPower.psdf)
+loglog(windLowPass.f*86400,windLowPass.psdw)
+legend('Snaps','Winds')
+
+
+powerSnapWindLP   = Coherence_whelch_overlap(lowpassData.Snaps,lowpassData.Winds,3600,4,1,1,1)
+powerSnapWaveLP   = Coherence_whelch_overlap(lowpassData.Snaps,lowpassData.Waves,3600,4,1,1,1)
+powerWindWaveLP   = Coherence_whelch_overlap(lowpassData.Winds,lowpassData.Waves,3600,4,1,1,1)
+powerNoiseWaveLP   = Coherence_whelch_overlap(lowpassData.Noise,lowpassData.Waves,3600,4,1,1,1)
+
+
+figure()
+semilogx(powerSnapWindLP.f*86400,powerSnapWindLP.coh);
+title('Coherence - SnapsWinds','24 Hr Lowpass')
+yline(Testing.pr95bendat,'-',sprintf('95%% Sig: %.02g',Testing.pr95bendat))
 
 
 
-FROM CATHERINE::::::
 
 
 
