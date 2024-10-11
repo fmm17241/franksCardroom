@@ -77,7 +77,7 @@ semilogx(powerSnapNoiseLP.f*86400,powerSnapNoiseLP.coh);
 title('Coherence - SnapNoise');
 yline(powerSnapNoiseLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerSnapNoiseLP.pr95bendat))
 ylim([0 0.9])
-xlabel('Freq.: Per Day')
+xlabel('Freq: Per Day')
 
 ax6 = nexttile()
 semilogx(powerSnapAbsTidesLP.f*86400,powerSnapAbsTidesLP.coh);
