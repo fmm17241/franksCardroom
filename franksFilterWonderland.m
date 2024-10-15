@@ -68,7 +68,7 @@ close all
 cutoffHrs = 40;
 %Create the cutoff
 % cutoff = 1/(cutoffHrs);
-cutoff = [1/24; 1/40]
+cutoff = [1/240; 1/40]
 filterType = 'bandpass';
 bins = 4;
 

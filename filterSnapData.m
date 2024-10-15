@@ -15,8 +15,6 @@ lowpassData.TidesAbsolute = filtfilt(b24,a24,abs(envData.crossShore));
 
 
 
-
-
 figure()
 plot(snapRateHourly.Time,snapRateHourly.SnapCount,'LineWidth',1)
 hold on
