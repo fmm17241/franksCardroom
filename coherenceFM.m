@@ -9,38 +9,38 @@
 %Run snapRateAnalyzer and Plotter.
 
 
-fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\FallSnapStudy';
-[snapRateData, snapRateHourly, snapRateMinute] = snapRateAnalyzer(fileLocation);
-% % Second step: this bins, averages, and plots some of their
-[receiverData, snapRateHourly, snapRateMinute, envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets, surfaceData] = snapRatePlotter(oneDrive, snapRateHourly, snapRateMinute);
-% %%
-% FM needs to add winds and waves for the fall-Jan 2021 fix.
-
-fileLocation = ([oneDrive,'\acousticAnalysis\matlabVariables']);
-cd (fileLocation)
+% fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\FallSnapStudy';
+% [snapRateData, snapRateHourly, snapRateMinute] = snapRateAnalyzer(fileLocation);
+% % % Second step: this bins, averages, and plots some of their
+% [receiverData, snapRateHourly, snapRateMinute, envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets, surfaceData] = snapRatePlotter(oneDrive, snapRateHourly, snapRateMinute);
+% % %%
+% % FM needs to add winds and waves for the fall-Jan 2021 fix.
+% 
+% fileLocation = ([oneDrive,'\acousticAnalysis\matlabVariables']);
+% cd (fileLocation)
 
 %%
 % Load in saved data
-% Environmental data matched to the hourly snaps.
-load envDataSpring
-% Full snaprate dataset
-load snapRateDataSpring
-% Snaprate binned hourly
-load snapRateHourlySpring
-% Snaprate binned per minute
-load snapRateMinuteSpring
-
-load surfaceDataSpring
-
-% load envDataFall
+% % Environmental data matched to the hourly snaps.
+% load envDataSpring
 % % Full snaprate dataset
-% load snapRateDataFall
+% load snapRateDataSpring
 % % Snaprate binned hourly
-% load snapRateHourlyFall
+% load snapRateHourlySpring
 % % Snaprate binned per minute
-% load snapRateMinuteFall
+% load snapRateMinuteSpring
 % 
-% load surfaceDataFall
+% load surfaceDataSpring
+
+load envDataFall
+% Full snaprate dataset
+load snapRateDataFall
+% Snaprate binned hourly
+load snapRateHourlyFall
+% Snaprate binned per minute
+load snapRateMinuteFall
+
+load surfaceDataFall
 
 test = Coherence_whelch_overlap(snapRateMinute.SnapCount,snapRateMinute.PeakAmp,60,10,1,1,0)
 
@@ -107,6 +107,16 @@ figure()
 semilogx(coherenceWindSnaps.f*86400,coherenceWindSnaps.coh)
 title('Coherence - WindSnaps')
 xlabel('Per Day Frequency')
+
+
+%Frank testing the Lomb-Scargle Periodogram, a method for using irregularly spaced time-series data. Estimates power spectrum.
+y = snapRateHourly.SnapCount;
+t = snapRateHourly.Time;
+
+[Pxx, F] = plomb(y, t);
+figure()
+plot(F, Pxx);
+
 
 %%
 % Using filters to focus on either the high frequency (less than 40 hours) or low frequency (greater than 48-hour) 
