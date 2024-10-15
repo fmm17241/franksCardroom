@@ -5,7 +5,7 @@ buildReceiverData
 close all
 clearvars index
 
-tides = [crossShore; alongShore];
+tides = [crossShore; alongShore]';
 
 figure()
 tiledlayout(4,1,'tileSpacing','compact')
@@ -58,6 +58,10 @@ envFit = isbetween(receiverData{4}.DT, snapTimeRange(1),snapTimeRange(2));
 envData = receiverData{4}(envFit,:);
 snaps = snapRateHourly.SnapCount;
 
+tideFit = isbetween(tideDT, snapTimeRange(1),snapTimeRange(2));
+tideData = timetable(tideDT(tideFit,:),tides(tideFit,1),tides(tideFit,2));
+tideData.Properties.VariableNames = [{'crossShore'},{'alongShore'}];
+
 windFit = isbetween(windsAverage.time, snapTimeRange(1),snapTimeRange(2));
 windData = windsAverage(windFit,:);
 
@@ -66,7 +70,7 @@ waveData = seas(waveFit,:);
 
 
 
-surfaceData = synchronize(windData,waveData);
+surfaceData = synchronize(windData,waveData,tideData);
 
 
 
@@ -129,80 +133,6 @@ for k = 1:length(windSpeedBins)
     end
 end
 % end
-
-
-
-
-
-% 
-% %Day Confidence Intervals
-% for k = 1:length(binnedSnaps)
-%     %Finding standard deviations/CIs of values
-%     SEM = std(binnedSnaps{1,k}(:),'omitnan')/sqrt(length(binnedSnaps{1,k}));  
-%     ts = tinv([0.025  0.975],length(binnedSnaps{1,k})-1);  
-%     CIdayNoise(k,:) = mean(binnedSnaps{1,k},'all','omitnan') + ts*SEM; 
-% 
-% end
-% 
-% 
-% 
-% %Day Confidence Intervals
-% for ii = 1:height(binnedSnaps)
-%     for k = 1:length(binnedSnaps)
-%     %Finding standard deviations/CIs of values
-%     SEM = std(binnedSnaps{ii,k}(:),'omitnan')/sqrt(length(binnedSnaps{ii,k}));  
-%     ts = tinv([0.025  0.975],length(binnedSnaps{ii,k})-1);  
-%     CIsnaps{ii}(k,:) = mean(binnedSnaps{i,k},'all','omitnan') + ts*SEM; 
-%     end
-% end
-
-
-
-% X = 0:2:14
-
-% for K = 1:length(avgSnaps)
-    % figure()
-    % % tiledlayout(2,1)
-    % ax1 = nexttile()
-    % scatter(X,avgSnaps,'filled','r')
-    % ylabel('Hourly Snaps')
-    % title('Shrimp Activity vs Wind','Day')
-    % % ax2 = nexttile()
-    % % scatter(X,avgSnaps,'filled','b')
-    % ylabel('Hourly Snaps')
-    % xlabel('Windspeed (m/s)')
-    % title('','Night')
-% end
-
-%%
-% 
-% figure()
-% scatter(X,avgSnaps{2,1},'filled','r')
-% ylabel('Hourly Snaps')
-% title('Shrimp Activity vs Wind, March','Day')
-% hold on
-% scatter(X,avgSnaps{1,1},'filled','b')
-% ylabel('Hourly Snaps')
-% xlabel('Windspeed (m/s)')
-
-
-% 
-% figure()
-% hold on
-% % ciplot(CIsunsetNoise(:,1),CIsunsetNoise(:,2),1:5,'k')
-% ciplot(CIsnaps{1}(:,1),CIsnaps{1}(:,2),1:7,'b')
-% ciplot(CIsnaps{2}(:,1),CIsnaps{2}(:,2),1:7,'r')
-% xlabel('Seasons, 2020')
-% ylabel('Average Noise (mV)')
-% title('Average Noise By Time of Day and Season','95% Conf. Interval, 69 kHz')
-% legend('Night','Day')
-
-
-
-
-
-
-%mscohere()
 
 
 
