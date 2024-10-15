@@ -74,6 +74,9 @@ end
 if length(snapRateTables) == 4
     platter = synchronize(comboTable{1},comboTable{2},comboTable{3},comboTable{4});
 end
+if length(snapRateTables) == 5
+    platter = synchronize(comboTable{1},comboTable{2},comboTable{3},comboTable{4},comboTable{5});
+end
 
 
 % platter = synchronize(comboTable{1},comboTable{2},comboTable{3});
@@ -93,7 +96,10 @@ if length(snapRateTables) == 4
     platter{:,{'SnapCount_1','PeakAmp_1','Energy_1','PeakPower_1','SnapCount_2','PeakAmp_2','Energy_2','PeakPower_2','SnapCount_3','PeakAmp_3','Energy_3','PeakPower_3','SnapCount_4','PeakAmp_4','Energy_4','PeakPower_4'}}(index) = 0;
 end
 
-
+if length(snapRateTables) == 5
+    index = ismissing(platter(:,{'SnapCount_1','PeakAmp_1','Energy_1','PeakPower_1','SnapCount_2','PeakAmp_2','Energy_2','PeakPower_2','SnapCount_3','PeakAmp_3','Energy_3','PeakPower_3','SnapCount_4','PeakAmp_4','Energy_4','PeakPower_4','SnapCount_5','PeakAmp_5','Energy_5','PeakPower_5'}));
+    platter{:,{'SnapCount_1','PeakAmp_1','Energy_1','PeakPower_1','SnapCount_2','PeakAmp_2','Energy_2','PeakPower_2','SnapCount_3','PeakAmp_3','Energy_3','PeakPower_3','SnapCount_4','PeakAmp_4','Energy_4','PeakPower_4','SnapCount_5','PeakAmp_5','Energy_5','PeakPower_5'}}(index) = 0;
+end
 
 % platter{:,{'SnapCount_1','PeakAmp_1','Energy_1','PeakPower_1','SnapCount_2','PeakAmp_2','Energy_2','PeakPower_2','SnapCount_3','PeakAmp_3','Energy_3','PeakPower_3'}}(index) = 0;
 if length(snapRateTables) == 2
@@ -119,6 +125,13 @@ if length(snapRateTables) == 4
     PeakPower = platter.PeakPower_1 + platter.PeakPower_2 + platter.PeakPower_3 + platter.PeakPower_4;
 end
 
+if length(snapRateTables) == 5
+    Time = platter.Time;
+    SnapCount = platter.SnapCount_1 + platter.SnapCount_2 + platter.SnapCount_3 + platter.SnapCount_4 + platter.SnapCount_5;
+    PeakAmp = platter.PeakAmp_1 + platter.PeakAmp_2 + platter.PeakAmp_3 + platter.PeakAmp_4 + platter.PeakAmp_5;
+    Energy = platter.Energy_1 + platter.Energy_2 + platter.Energy_3 + platter.Energy_4 + platter.Energy_5;
+    PeakPower = platter.PeakPower_1 + platter.PeakPower_2 + platter.PeakPower_3 + platter.PeakPower_4 + platter.PeakPower_5;
+end
 
 
 snapRateData = timetable(Time,SnapCount,PeakAmp,Energy,PeakPower)
@@ -149,8 +162,8 @@ end
 
 %FM This is for Fall 2020-Jan 2021 dataset.
 clearvars badTimes*
-badTimesMinute = [30544, 66845, 95338, 110120, 138109, 138110, 141794];
-badTimesHour    = [510, 1115, 1590, 1836, 2303, 2364];
+badTimesMinute = [30544, 51031, 51032, 66845, 95338, 110120, 138109, 138110, 141794];
+badTimesHour    = [510, 851, 1115, 1590, 1836, 2303, 2364];
 if snapRateMinute.Time(1) == '29-Sep-2020 11:20:00.000';
     % Set the rows at the specified indices to NaN, ensuring you use an array of NaNs 
     snapRateMinute(badTimesMinute,:) = array2table(NaN(numel(badTimesMinute), width(snapRateMinute)), ...

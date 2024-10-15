@@ -8,17 +8,26 @@
 fileLocation = ([oneDrive,'\acousticAnalysis\matlabVariables']);
 cd (fileLocation)
 
+% % Environmental data matched to the hourly snaps.
+% load envDataSpring
+% % Full snaprate dataset
+% load snapRateDataSpring
+% % Snaprate binned hourly
+% load snapRateHourlySpring
+% % Snaprate binned per minute
+% load snapRateMinuteSpring
+% % Separate wind and wave data
+% load surfaceDataSpring
 % Environmental data matched to the hourly snaps.
-load envDataSpring
+load envDataFall
 % Full snaprate dataset
-load snapRateDataSpring
+load snapRateDataFall
 % Snaprate binned hourly
-load snapRateHourlySpring
+load snapRateHourlyFall
 % Snaprate binned per minute
-load snapRateMinuteSpring
+load snapRateMinuteFall
 % Separate wind and wave data
-load surfaceDataSpring
-
+load surfaceDataFall
 
 
 COHsnapWind = Coherence_whelch_overlap(snapRateHourly.SnapCount,surfaceData.waveHeight,3600,10,1,1,0)
