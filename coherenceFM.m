@@ -115,9 +115,9 @@ t = snapRateHourly.Time;
 
 [Pxx, F] = plomb(y, t);
 figure()
-plot(F, Pxx);
+loglog(F*86400, Pxx);
 
-
+%This didn't work, looks little bit better but still oddly peaked.
 %%
 % Using filters to focus on either the high frequency (less than 40 hours) or low frequency (greater than 48-hour) 
 % components.
