@@ -1,4 +1,4 @@
-function [lowpassData, powerSnapWindLP, powerSnapWaveLP, powerSnapNoiseLP, powerWindWaveLP...
+function [filteredData, powerSnapWindLP, powerSnapWaveLP, powerSnapNoiseLP, powerWindWaveLP...
     powerNoiseWaveLP,powerSnapTidesLP,powerSnapAbsTidesLP] = filterSnapData(envData, snapRateHourly, surfaceData,...
     cutoff, cutoffHrs, filterType, bins)
 
@@ -6,23 +6,23 @@ function [lowpassData, powerSnapWindLP, powerSnapWaveLP, powerSnapNoiseLP, power
 
 [b24,a24] = butter(4,cutoff,filterType);
 %Apply the filter
-lowpassData.Snaps = filtfilt(b24,a24,snapRateHourly.SnapCount);
-lowpassData.Noise = filtfilt(b24,a24,envData.Noise);
-lowpassData.Winds = filtfilt(b24,a24,surfaceData.windSpd);
-lowpassData.Waves = filtfilt(b24,a24,surface.waveHeight);
-lowpassData.Tides  = filtfilt(b24,a24,envData.crossShore);
-lowpassData.TidesAbsolute = filtfilt(b24,a24,abs(envData.crossShore));
+filteredData.Snaps = filtfilt(b24,a24,snapRateHourly.SnapCount);
+filteredData.Noise = filtfilt(b24,a24,envData.Noise);
+filteredData.Winds = filtfilt(b24,a24,surfaceData.WSPD);
+filteredData.Waves = filtfilt(b24,a24,surfaceData.waveHeight);
+filteredData.Tides  = filtfilt(b24,a24,surfaceData.crossShore);
+filteredData.TidesAbsolute = filtfilt(b24,a24,abs(surfaceData.crossShore));
 
 
 
 figure()
 plot(snapRateHourly.Time,snapRateHourly.SnapCount,'LineWidth',1)
 hold on
-plot(snapRateHourly.Time,lowpassData.Snaps,'LineWidth',3)
+plot(snapRateHourly.Time,filteredData.Snaps,'LineWidth',3)
 
 
-windLowPass  = Power_spectra(lowpassData.Winds,bins,0,0,3600,0)
-snapsLowPass = Power_spectra(lowpassData.Snaps,bins,0,0,3600,0)
+windLowPass  = Power_spectra(filteredData.Winds,bins,0,0,3600,0)
+snapsLowPass = Power_spectra(filteredData.Snaps,bins,0,0,3600,0)
 
 
 figure()
@@ -32,13 +32,18 @@ loglog(windLowPass.f*86400,windLowPass.psdw)
 legend('Snaps','Winds')
 
 
-powerSnapWindLP   = Coherence_whelch_overlap(lowpassData.Snaps,lowpassData.Winds,3600,bins,1,1,1)
-powerSnapWaveLP   = Coherence_whelch_overlap(lowpassData.Snaps,lowpassData.Waves,3600,bins,1,1,1)
-powerSnapNoiseLP   = Coherence_whelch_overlap(lowpassData.Snaps,lowpassData.Noise,3600,bins,1,1,1)
-powerWindWaveLP   = Coherence_whelch_overlap(lowpassData.Winds,lowpassData.Waves,3600,bins,1,1,1)
-powerNoiseWaveLP   = Coherence_whelch_overlap(lowpassData.Noise,lowpassData.Waves,3600,bins,1,1,1)
-powerSnapTidesLP = Coherence_whelch_overlap(lowpassData.Snaps,lowpassData.Tides,3600,bins,1,1,1)
-powerSnapAbsTidesLP = Coherence_whelch_overlap(lowpassData.Noise,lowpassData.TidesAbsolute,3600,bins,1,1,1)
+powerSnapWindLP   = Coherence_whelch_overlap(filteredData.Snaps,filteredData.Winds,3600,bins,1,1,1)
+powerSnapWaveLP   = Coherence_whelch_overlap(filteredData.Snaps,filteredData.Waves,3600,bins,1,1,1)
+if length(filteredData.Snaps) == length(filteredData.Noise)
+    powerSnapNoiseLP   = Coherence_whelch_overlap(filteredData.Snaps,filteredData.Noise,3600,bins,1,1,1)
+    powerWindWaveLP   = Coherence_whelch_overlap(filteredData.Winds,filteredData.Waves,3600,bins,1,1,1)
+    % powerSnapAbsTidesLP = Coherence_whelch_overlap(filteredData.Noise,filteredData.TidesAbsolute,3600,bins,1,1,1)
+end
+% 
+
+powerNoiseWaveLP   = Coherence_whelch_overlap(filteredData.Noise,filteredData.Waves,3600,bins,1,1,1)
+powerSnapTidesLP = Coherence_whelch_overlap(filteredData.Snaps,filteredData.Tides,3600,bins,1,1,1)
+powerSnapAbsTidesLP = Coherence_whelch_overlap(filteredData.Snaps,filteredData.TidesAbsolute,3600,bins,1,1,1)
 
 
 figure()
