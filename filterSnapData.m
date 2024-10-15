@@ -8,8 +8,8 @@ function [lowpassData, powerSnapWindLP, powerSnapWaveLP, powerSnapNoiseLP, power
 %Apply the filter
 lowpassData.Snaps = filtfilt(b24,a24,snapRateHourly.SnapCount);
 lowpassData.Noise = filtfilt(b24,a24,envData.Noise);
-lowpassData.Winds = filtfilt(b24,a24,envData.windSpd);
-lowpassData.Waves = filtfilt(b24,a24,envData.waveHeight);
+lowpassData.Winds = filtfilt(b24,a24,surfaceData.windSpd);
+lowpassData.Waves = filtfilt(b24,a24,surface.waveHeight);
 lowpassData.Tides  = filtfilt(b24,a24,envData.crossShore);
 lowpassData.TidesAbsolute = filtfilt(b24,a24,abs(envData.crossShore));
 

@@ -1,9 +1,11 @@
 
-function [receiverData, snapRateHourly, snapRateMinute, envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets, surfaceData] = snapRatePlotter(oneDrive, snapRateHourly, snapRateMinute)
+function [receiverData, tides, snapRateHourly, snapRateMinute, envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets, surfaceData] = snapRatePlotter(oneDrive, snapRateHourly, snapRateMinute)
 
 buildReceiverData
 close all
 clearvars index
+
+tides = [crossShore; alongShore];
 
 figure()
 tiledlayout(4,1,'tileSpacing','compact')
