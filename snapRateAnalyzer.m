@@ -150,8 +150,8 @@ snapRateMinute.SnapCount = retime(snapRateData(:, 'SnapCount'), 'minute', 'sum')
 
 %%
 %FM This is just for the Spring 2020 dataset, two small times had bad data and so I'm removing those hours.
-badTimesMinute = [67554, 79327, 94902, 94903];
-badTimesHour    = [1127, 1323, 1582];
+badTimesMinute = [8800, 28704, 67554, 79327, 94902, 94903];
+badTimesHour    = [147, 479, 1127, 1323, 1582];
 if snapRateMinute.Time(1) == '30-Jan-2020 15:12:00.000';
     % Set the rows at the specified indices to NaN, ensuring you use an array of NaNs 
     snapRateMinute(badTimesMinute,:) = array2table(NaN(numel(badTimesMinute), width(snapRateMinute)), ...

@@ -16,8 +16,8 @@ fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acoustic
 % %%
 % % FM needs to add winds and waves for the fall-Jan 2021 fix.
 % 
-% fileLocation = ([oneDrive,'\acousticAnalysis\matlabVariables']);
-% cd (fileLocation)
+fileLocation = ([oneDrive,'\acousticAnalysis\matlabVariables']);
+cd (fileLocation)
 
 %%
 % Load in saved data
