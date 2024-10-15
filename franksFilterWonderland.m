@@ -40,30 +40,10 @@ figure()
 semilogx(COHnoiseWave.f*86400,COHnoiseWave.coh)
 title('Coherence NoiseWave')
 
-%%
-% Okay, we've got all this set. I created and plotted some PSDs for the raw data.
-% Now, lets try to filter.
-
-% This is the way frank approached it.
-% fs = 1 / 3600;  % Sampling frequency in Hz (1 sample per hour)
-% fc = 1 / (40 * 3600);  % Cutoff frequency for 40-hour period in Hz
-% filteredVar_Lowpass.Snaps = lowpass(snapRateHourly.SnapCount, fc, fs);
-% filteredVar_Lowpass.Noise = lowpass(envData.Noise, fc, fs);
-% filteredVar_Lowpass.waveHeight = lowpass(surfaceData.waveHeight, fc, fs);
-% filteredVar_Lowpass.Windspd = lowpass(surfaceData.WSPD, fc, fs);
-% 
-% 
-% wavePowerFilt = Power_spectra(filteredVar_Lowpass.waveHeight,4,0,0,3600,0)
-% 
-% %This is odd because diurnal still exists, after trying to filter past 40 hours. Banananananas.
-% figure()
-% loglog(wavePowerFilt.f*86400,wavePowerFilt.psdf)
-
 close all
 
 %%
-% Creating and using a better filter now.
-
+%Bandpass Creation
 % Frequency cutoff for filter.
 cutoffHrs = 40;
 %Create the cutoff
@@ -73,12 +53,28 @@ cutoffHrs = 40;
 % use those snaps as a proxy for noise creation.
 cutoff = [1/240; 1/40]
 filterType = 'bandpass';
-bins = 4;
+bins = 5;
 
 [lowpassData, powerSnapWindLP, powerSnapWaveLP, powerSnapNoiseLP, powerWindWaveLP...
     powerNoiseWaveLP,powerSnapTidesLP,powerSnapAbsTidesLP] = filterSnapData(envData, snapRateHourly, surfaceData,...
     cutoff, cutoffHrs, filterType, bins)
 
+%%
+% Highpass Creation
+% Frequency cutoff for filter.
+cutoffHrs = 24;
+%Create the cutoff
+% cutoff = 1/(cutoffHrs);
+% Bandpass filtering between 40 hours and 10 days; I want to focus on the
+% effect of synoptic winds and the Spring/Neap tidal cycle on snaps, and
+% use those snaps as a proxy for noise creation.
+cutoff = [1/24]
+filterType = 'High';
+bins = 4;
+
+[lowpassData, powerSnapWindLP, powerSnapWaveLP, powerSnapNoiseLP, powerWindWaveLP...
+    powerNoiseWaveLP,powerSnapTidesLP,powerSnapAbsTidesLP] = filterSnapData(envData, snapRateHourly, surfaceData,...
+    cutoff, cutoffHrs, filterType, bins)
 
 
 
