@@ -54,9 +54,9 @@ cutoffHrs = 40;
 % Bandpass filtering between 40 hours and 10 days; I want to focus on the
 % effect of synoptic winds and the Spring/Neap tidal cycle on snaps, and
 % use those snaps as a proxy for noise creation.
-cutoff = [1/24]
+cutoff = [1/40]
 filterType = 'low';
-bins = 4;
+bins = 6;
 
 [lowpassData, powerSnapWindLP, powerSnapWaveLP, powerSnapNoiseLP, powerWindWaveLP...
     powerNoiseWaveLP,powerSnapTidesLP,powerSnapAbsTidesLP] = filterSnapData(envData, snapRateHourly, surfaceData,...
