@@ -57,10 +57,11 @@ cutoffHrs = 40;
 cutoff = [1/40]
 filterType = 'low';
 bins = 5;
+filterOrder = 4;
 
-[lowpassData, powerSnapWindLP, powerSnapWaveLP, powerSnapNoiseLP, powerWindWaveLP...
+[filteredData, powerSnapWindLP, powerSnapWaveLP, powerSnapNoiseLP, powerWindWaveLP...
     powerNoiseWaveLP,powerSnapTidesLP,powerSnapAbsTidesLP] = filterSnapData(envData, snapRateHourly, surfaceData,...
-    cutoff, cutoffHrs, filterType, bins)
+    cutoff, cutoffHrs, filterType, bins, filterOrder)
 
 
 close all

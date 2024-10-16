@@ -1,10 +1,10 @@
-function [filteredData, powerSnapWindLP, powerSnapWaveLP, powerSnapNoiseLP, powerWindWaveLP...
+function [filteredData, powerSnapWindLP, powerSnapWaveLP, powerSnapNoiseLP, powerWindWaveLP,...
     powerNoiseWaveLP,powerSnapTidesLP,powerSnapAbsTidesLP] = filterSnapData(envData, snapRateHourly, surfaceData,...
-    cutoff, cutoffHrs, filterType, bins)
+    cutoff, cutoffHrs, filterType, bins, filterOrder)
 
 
 
-[b24,a24] = butter(4,cutoff,filterType);
+[b24,a24] = butter(filterOrder,cutoff,filterType);
 %Apply the filter
 filteredData.Snaps = filtfilt(b24,a24,snapRateHourly.SnapCount);
 filteredData.Noise = filtfilt(b24,a24,envData.Noise);
@@ -61,26 +61,26 @@ powerSnapAbsTidesLP.coh(powerSnapAbsTidesLP.coh < powerSnapAbsTidesLP.pr95bendat
 
 
 
-
+%%
 figure()
 tiledlayout(2,3)
 ax1 = nexttile()
 semilogx(powerSnapWindLP.f*86400,powerSnapWindLP.coh);
-title('Coherence - SnapsWinds',sprintf('%d Bins, %d Hr %s',bins,cutoffHrs,filterType))
+title('Coherence - SnapsWinds',sprintf('%d Bins, %d OrderFilt, %d Hr %s',bins, filterOrder, cutoffHrs,filterType))
 yline(powerSnapWindLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerSnapWindLP.pr95bendat))
 ylim([0 0.9])
 xlim([0.1 5])
 
 ax2 = nexttile()
 semilogx(powerSnapWaveLP.f*86400,powerSnapWaveLP.coh);
-title('Coherence - SnapsWaves',sprintf('%d Bins, %d Hr %s',bins,cutoffHrs,filterType))
+title('Coherence - SnapsWaves',sprintf('%d Bins, %d OrderFilt, %d Hr %s',bins,filterOrder, cutoffHrs, filterType))
 yline(powerSnapWaveLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerSnapWaveLP.pr95bendat))
 ylim([0 0.9])
 xlim([0.1 5])
 
 ax3 = nexttile()
 semilogx(powerWindWaveLP.f*86400,powerWindWaveLP.coh);
-title('Coherence - WindsWaves',sprintf('%d Bins, %d Hr %s',bins,cutoffHrs,filterType))
+title('Coherence - WindsWaves',sprintf('%d Bins, %d OrderFilt, %d Hr %s',bins, filterOrder, cutoffHrs,filterType))
 yline(powerWindWaveLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerWindWaveLP.pr95bendat))
 ylim([0 0.9])
 xlim([0.1 5])
@@ -109,18 +109,19 @@ xlim([0.1 5])
 
 linkaxes([ax1,ax2,ax3,ax4,ax5,ax6],'x')
 
+%%
 
 figure()
 tiledlayout(2,1)
 ax1 = nexttile()
 semilogx(powerSnapTidesLP.f*86400,powerSnapTidesLP.coh);
-title('Coherence - SnapTidalVelocity',sprintf('%d Bins, %d Hr %s',bins,cutoffHrs,filterType));
+title('Coherence - SnapTidalVelocity',sprintf('%d Bins, %d OrderFilt, %d Hr %s',bins, filterOrder,cutoffHrs, filterType));
 yline(powerSnapTidesLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerSnapTidesLP.pr95bendat))
 ylim([0 0.9])
 
 ax2 = nexttile()
 semilogx(powerSnapAbsTidesLP.f*86400,powerSnapAbsTidesLP.coh);
-title('Coherence - SnapTidalMagnitude',sprintf('%d Bins, %d Hr %s',bins,cutoffHrs,filterType));
+title('Coherence - SnapTidalMagnitude',sprintf('%d Bins, %d OrderFilt, %d Hr %s',bins, filterOrder, cutoffHrs, filterType));
 yline(powerSnapAbsTidesLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerSnapAbsTidesLP.pr95bendat))
 ylim([0 0.9])
 
