@@ -127,5 +127,15 @@ yline(powerSnapAbsTidesLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerSnapAbsT
 ylim([0 0.9])
 % xlim([0.1 1.1])
 
+%%
+figure()
+loglog(powerSnapWindLP.f*86400,powerSnapWindLP.psda,'b','LineWidth',2);
+hold on
+loglog(powerSnapWindLP.f*86400,powerSnapWindLP.psdb,'r','LineWidth',2);
+loglog(powerSnapWaveLP.f*86400,powerSnapWaveLP.psdb,'k','LineWidth',2);
+loglog(powerSnapTidesLP.f*86400,powerSnapTidesLP.psdb,'m','LineWidth',2);
+loglog(powerSnapAbsTidesLP.f*86400,powerSnapAbsTidesLP.psdb,'g','LineWidth',2)
+legend('Snaps','Winds','Waveheight','Tides','AbsTideMagnitude')
+title('Power Spectral Density',sprintf('Per Day: %d Bins, %d OrderFilt, %d Hr %s',bins, filterOrder, cutoffHrs, filterType));
 
 
