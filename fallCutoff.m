@@ -19,9 +19,27 @@ load surfaceDataFall
 
 
 surfaceData = surfaceData(1:2078,:);
+snapRateHourly = snapRateHourly(1:2078,:);
 
+%%
+% Highpass Creation
+% Frequency cutoff for filter.
+cutoffHrs = 40;
+%Create the cutoff
+% cutoff = 1/(cutoffHrs);
+% Bandpass filtering between 40 hours and 10 days; I want to focus on the
+% effect of synoptic winds and the Spring/Neap tidal cycle on snaps, and
+% use those snaps as a proxy for noise creation.
+cutoff = [1/40]
+filterType = 'low';
+bins = 6;
+filterOrder = 6;
 
+[filteredData, powerSnapWindLP, powerSnapWaveLP, powerSnapNoiseLP, powerWindWaveLP...
+    powerNoiseWaveLP,powerSnapTidesLP,powerSnapAbsTidesLP] = filterSnapData(envData, snapRateHourly, surfaceData,...
+    cutoff, cutoffHrs, filterType, bins, filterOrder)
 
+%%
 
 
 
