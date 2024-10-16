@@ -48,13 +48,13 @@ load surfaceDataSpring
 % 8 Bins: 11.8  days
 
 
-cutoffHrs = 40;
+cutoffHrs = 12;
 %Create the cutoff
 % cutoff = 1/(cutoffHrs);
 % Bandpass filtering between 40 hours and 10 days; I want to focus on the
 % effect of synoptic winds and the Spring/Neap tidal cycle on snaps, and
 % use those snaps as a proxy for noise creation.
-cutoff = [1/40]
+cutoff = [1/12]
 filterType = 'low';
 bins = 5;
 filterOrder = 4;
