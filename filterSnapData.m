@@ -36,18 +36,18 @@ powerSnapWindLP   = Coherence_whelch_overlap(filteredData.Snaps,filteredData.Win
 powerSnapWaveLP   = Coherence_whelch_overlap(filteredData.Snaps,filteredData.Waves,3600,bins,1,1,1)
 if length(filteredData.Snaps) == length(filteredData.Noise)
     powerSnapNoiseLP   = Coherence_whelch_overlap(filteredData.Snaps,filteredData.Noise,3600,bins,1,1,1)
-    powerWindWaveLP   = Coherence_whelch_overlap(filteredData.Winds,filteredData.Waves,3600,bins,1,1,1)
+    powerNoiseWaveLP   = Coherence_whelch_overlap(filteredData.Noise,filteredData.Waves,3600,bins,1,1,1)
     % powerSnapAbsTidesLP = Coherence_whelch_overlap(filteredData.Noise,filteredData.TidesAbsolute,3600,bins,1,1,1)
 end
 % 
+    powerWindWaveLP   = Coherence_whelch_overlap(filteredData.Winds,filteredData.Waves,3600,bins,1,1,1)
 
-powerNoiseWaveLP   = Coherence_whelch_overlap(filteredData.Noise,filteredData.Waves,3600,bins,1,1,1)
 powerSnapTidesLP = Coherence_whelch_overlap(filteredData.Snaps,filteredData.Tides,3600,bins,1,1,1)
 powerSnapAbsTidesLP = Coherence_whelch_overlap(filteredData.Snaps,filteredData.TidesAbsolute,3600,bins,1,1,1)
 
 
 figure()
-tiledlayout(2,3)
+tiledlayout(2,2)
 ax1 = nexttile()
 semilogx(powerSnapWindLP.f*86400,powerSnapWindLP.coh);
 title('Coherence - SnapsWinds',sprintf('%d Bins, %d Hr %s',bins,cutoffHrs,filterType))
@@ -68,21 +68,21 @@ yline(powerWindWaveLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerWindWaveLP.p
 ylim([0 0.9])
 
 
+% ax4 = nexttile()
+% semilogx(powerNoiseWaveLP.f*86400,powerNoiseWaveLP.coh);
+% title('Coherence - NoiseWave');
+% yline(powerNoiseWaveLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerNoiseWaveLP.pr95bendat))
+% ylim([0 0.9])
+
+
+% ax5 = nexttile()
+% semilogx(powerSnapNoiseLP.f*86400,powerSnapNoiseLP.coh);
+% title('Coherence - SnapNoise');
+% yline(powerSnapNoiseLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerSnapNoiseLP.pr95bendat))
+% ylim([0 0.9])
+% xlabel('Freq: Per Day')
+
 ax4 = nexttile()
-semilogx(powerNoiseWaveLP.f*86400,powerNoiseWaveLP.coh);
-title('Coherence - NoiseWave');
-yline(powerNoiseWaveLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerNoiseWaveLP.pr95bendat))
-ylim([0 0.9])
-
-
-ax5 = nexttile()
-semilogx(powerSnapNoiseLP.f*86400,powerSnapNoiseLP.coh);
-title('Coherence - SnapNoise');
-yline(powerSnapNoiseLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerSnapNoiseLP.pr95bendat))
-ylim([0 0.9])
-xlabel('Freq: Per Day')
-
-ax6 = nexttile()
 semilogx(powerSnapAbsTidesLP.f*86400,powerSnapAbsTidesLP.coh);
 title('Coherence - SnapTidalMagnitude');
 yline(powerSnapAbsTidesLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerSnapAbsTidesLP.pr95bendat))
