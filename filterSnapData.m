@@ -4,14 +4,14 @@ function [filteredData, powerSnapWindLP, powerSnapWaveLP, powerSnapNoiseLP, powe
 
 
 
-[b24,a24] = butter(filterOrder,cutoff,filterType);
+[Bsignal,Asignal] = butter(filterOrder,cutoff,filterType);
 %Apply the filter
-filteredData.Snaps = filtfilt(b24,a24,snapRateHourly.SnapCount);
-filteredData.Noise = filtfilt(b24,a24,envData.Noise);
-filteredData.Winds = filtfilt(b24,a24,surfaceData.WSPD);
-filteredData.Waves = filtfilt(b24,a24,surfaceData.waveHeight);
-filteredData.Tides  = filtfilt(b24,a24,surfaceData.crossShore);
-filteredData.TidesAbsolute = filtfilt(b24,a24,abs(surfaceData.crossShore));
+filteredData.Snaps = filtfilt(Bsignal,Asignal,snapRateHourly.SnapCount);
+filteredData.Noise = filtfilt(Bsignal,Asignal,envData.Noise);
+filteredData.Winds = filtfilt(Bsignal,Asignal,surfaceData.WSPD);
+filteredData.Waves = filtfilt(Bsignal,Asignal,surfaceData.waveHeight);
+filteredData.Tides  = filtfilt(Bsignal,Asignal,surfaceData.crossShore);
+filteredData.TidesAbsolute = filtfilt(Bsignal,Asignal,abs(surfaceData.crossShore));
 
 
 
@@ -135,7 +135,8 @@ loglog(powerSnapWindLP.f*86400,powerSnapWindLP.psdb,'r','LineWidth',2);
 loglog(powerSnapWaveLP.f*86400,powerSnapWaveLP.psdb,'k','LineWidth',2);
 loglog(powerSnapTidesLP.f*86400,powerSnapTidesLP.psdb,'m','LineWidth',2);
 loglog(powerSnapAbsTidesLP.f*86400,powerSnapAbsTidesLP.psdb,'g','LineWidth',2)
-legend('Snaps','Winds','Waveheight','Tides','AbsTideMagnitude')
+loglog(powerNoiseWaveLP.f*86400,powerNoiseWaveLP.psda,'c','LineWidth',2)
+legend('Snaps','Winds','Waveheight','Tides','AbsTideMagnitude','Noise')
 title('Power Spectral Density',sprintf('Per Day: %d Bins, %d OrderFilt, %d Hr %s',bins, filterOrder, cutoffHrs, filterType));
 
 
