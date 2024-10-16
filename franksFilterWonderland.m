@@ -108,6 +108,7 @@ filterOrder = 6;
     powerNoiseWaveLP,powerSnapTidesLP,powerSnapAbsTidesLP] = filterSnapData(envData, snapRateHourly, surfaceData,...
     cutoff, cutoffHrs, filterType, bins, filterOrder)
 
+%%
 
 
 
