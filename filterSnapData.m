@@ -60,7 +60,7 @@ powerSnapAbsTidesLP.coh(powerSnapAbsTidesLP.coh < powerSnapAbsTidesLP.pr95bendat
 
 
 figure()
-tiledlayout(2,2)
+tiledlayout(2,3)
 ax1 = nexttile()
 semilogx(powerSnapWindLP.f*86400,powerSnapWindLP.coh);
 title('Coherence - SnapsWinds',sprintf('%d Bins, %d Hr %s',bins,cutoffHrs,filterType))
@@ -81,21 +81,21 @@ yline(powerWindWaveLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerWindWaveLP.p
 ylim([0 0.9])
 
 
-% ax4 = nexttile()
-% semilogx(powerNoiseWaveLP.f*86400,powerNoiseWaveLP.coh);
-% title('Coherence - NoiseWave');
-% yline(powerNoiseWaveLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerNoiseWaveLP.pr95bendat))
-% ylim([0 0.9])
-
-
-% ax5 = nexttile()
-% semilogx(powerSnapNoiseLP.f*86400,powerSnapNoiseLP.coh);
-% title('Coherence - SnapNoise');
-% yline(powerSnapNoiseLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerSnapNoiseLP.pr95bendat))
-% ylim([0 0.9])
-% xlabel('Freq: Per Day')
-
 ax4 = nexttile()
+semilogx(powerNoiseWaveLP.f*86400,powerNoiseWaveLP.coh);
+title('Coherence - NoiseWave');
+yline(powerNoiseWaveLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerNoiseWaveLP.pr95bendat))
+ylim([0 0.9])
+
+
+ax5 = nexttile()
+semilogx(powerSnapNoiseLP.f*86400,powerSnapNoiseLP.coh);
+title('Coherence - SnapNoise');
+yline(powerSnapNoiseLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerSnapNoiseLP.pr95bendat))
+ylim([0 0.9])
+xlabel('Freq: Per Day')
+
+ax6 = nexttile()
 semilogx(powerSnapAbsTidesLP.f*86400,powerSnapAbsTidesLP.coh);
 title('Coherence - SnapTidalMagnitude');
 yline(powerSnapAbsTidesLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerSnapAbsTidesLP.pr95bendat))
