@@ -56,12 +56,12 @@ cutoffHrs = 40;
 % use those snaps as a proxy for noise creation.
 cutoff = [1/40]
 filterType = 'low';
-bins = 6;
+bins = 5;
 
 [lowpassData, powerSnapWindLP, powerSnapWaveLP, powerSnapNoiseLP, powerWindWaveLP...
     powerNoiseWaveLP,powerSnapTidesLP,powerSnapAbsTidesLP] = filterSnapData(envData, snapRateHourly, surfaceData,...
     cutoff, cutoffHrs, filterType, bins)
 
 
-
+close all
 
