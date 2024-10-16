@@ -34,16 +34,29 @@ legend('Snaps','Winds')
 
 powerSnapWindLP   = Coherence_whelch_overlap(filteredData.Snaps,filteredData.Winds,3600,bins,1,1,1)
 powerSnapWaveLP   = Coherence_whelch_overlap(filteredData.Snaps,filteredData.Waves,3600,bins,1,1,1)
+powerWindWaveLP   = Coherence_whelch_overlap(filteredData.Winds,filteredData.Waves,3600,bins,1,1,1)
+powerSnapTidesLP = Coherence_whelch_overlap(filteredData.Snaps,filteredData.Tides,3600,bins,1,1,1)
+powerSnapAbsTidesLP = Coherence_whelch_overlap(filteredData.Snaps,filteredData.TidesAbsolute,3600,bins,1,1,1)
+% In Fall, we have more wind/tides/snaps than we do noise, so this is accounting for that difference.
 if length(filteredData.Snaps) == length(filteredData.Noise)
     powerSnapNoiseLP   = Coherence_whelch_overlap(filteredData.Snaps,filteredData.Noise,3600,bins,1,1,1)
     powerNoiseWaveLP   = Coherence_whelch_overlap(filteredData.Noise,filteredData.Waves,3600,bins,1,1,1)
-    % powerSnapAbsTidesLP = Coherence_whelch_overlap(filteredData.Noise,filteredData.TidesAbsolute,3600,bins,1,1,1)
 end
-% 
-    powerWindWaveLP   = Coherence_whelch_overlap(filteredData.Winds,filteredData.Waves,3600,bins,1,1,1)
+% This creates a placeholder if  I don't have noise data for the entire dataset.
+if length(filteredData.Snaps) ~= length(filteredData.Noise)
+    powerSnapNoiseLP   = NaN;
+    powerNoiseWaveLP   = NaN;
+end
 
-powerSnapTidesLP = Coherence_whelch_overlap(filteredData.Snaps,filteredData.Tides,3600,bins,1,1,1)
-powerSnapAbsTidesLP = Coherence_whelch_overlap(filteredData.Snaps,filteredData.TidesAbsolute,3600,bins,1,1,1)
+%Frank is trying to remove non-significant peaks; it gets furry at the bottom of the Y, let's clean up.
+powerSnapWindLP.coh(powerSnapWindLP.coh < powerSnapWindLP.pr95bendat) = 0;
+powerSnapWaveLP.coh(powerSnapWaveLP.coh < powerSnapWaveLP.pr95bendat) = 0;
+powerWindWaveLP.coh(powerWindWaveLP.coh < powerWindWaveLP.pr95bendat) = 0;
+powerSnapTidesLP.coh(powerSnapTidesLP.coh < powerSnapTidesLP.pr95bendat) = 0;
+powerSnapAbsTidesLP.coh(powerSnapAbsTidesLP.coh < powerSnapAbsTidesLP.pr95bendat) = 0;
+
+
+
 
 
 figure()
