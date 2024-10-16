@@ -69,28 +69,28 @@ semilogx(powerSnapWindLP.f*86400,powerSnapWindLP.coh);
 title('Coherence - SnapsWinds',sprintf('%d Bins, %d OrderFilt, %d Hr %s',bins, filterOrder, cutoffHrs,filterType))
 yline(powerSnapWindLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerSnapWindLP.pr95bendat))
 ylim([0 0.9])
-xlim([0.1 5])
+% xlim([0.1 1.1])
 
 ax2 = nexttile()
 semilogx(powerSnapWaveLP.f*86400,powerSnapWaveLP.coh);
 title('Coherence - SnapsWaves',sprintf('%d Bins, %d OrderFilt, %d Hr %s',bins,filterOrder, cutoffHrs, filterType))
 yline(powerSnapWaveLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerSnapWaveLP.pr95bendat))
 ylim([0 0.9])
-xlim([0.1 5])
+% xlim([0.1 1.1])
 
 ax3 = nexttile()
 semilogx(powerWindWaveLP.f*86400,powerWindWaveLP.coh);
 title('Coherence - WindsWaves',sprintf('%d Bins, %d OrderFilt, %d Hr %s',bins, filterOrder, cutoffHrs,filterType))
 yline(powerWindWaveLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerWindWaveLP.pr95bendat))
 ylim([0 0.9])
-xlim([0.1 5])
+% xlim([0.1 1.1])
 
 ax4 = nexttile()
 semilogx(powerNoiseWaveLP.f*86400,powerNoiseWaveLP.coh);
 title('Coherence - NoiseWave');
 yline(powerNoiseWaveLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerNoiseWaveLP.pr95bendat))
 ylim([0 0.9])
-xlim([0.1 5])
+% xlim([0.1 1.1])
 
 ax5 = nexttile()
 semilogx(powerSnapNoiseLP.f*86400,powerSnapNoiseLP.coh);
@@ -98,14 +98,14 @@ title('Coherence - SnapNoise');
 yline(powerSnapNoiseLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerSnapNoiseLP.pr95bendat))
 ylim([0 0.9])
 xlabel('Freq: Per Day')
-xlim([0.1 5])
+% xlim([0.1 1.1])
 
 ax6 = nexttile()
 semilogx(powerSnapAbsTidesLP.f*86400,powerSnapAbsTidesLP.coh);
 title('Coherence - SnapTidalMagnitude');
 yline(powerSnapAbsTidesLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerSnapAbsTidesLP.pr95bendat))
 ylim([0 0.9])
-xlim([0.1 5])
+% xlim([0.1 1.1])
 
 linkaxes([ax1,ax2,ax3,ax4,ax5,ax6],'x')
 
@@ -118,12 +118,14 @@ semilogx(powerSnapTidesLP.f*86400,powerSnapTidesLP.coh);
 title('Coherence - SnapTidalVelocity',sprintf('%d Bins, %d OrderFilt, %d Hr %s',bins, filterOrder,cutoffHrs, filterType));
 yline(powerSnapTidesLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerSnapTidesLP.pr95bendat))
 ylim([0 0.9])
+% xlim([0.1 1.1])
 
 ax2 = nexttile()
 semilogx(powerSnapAbsTidesLP.f*86400,powerSnapAbsTidesLP.coh);
 title('Coherence - SnapTidalMagnitude',sprintf('%d Bins, %d OrderFilt, %d Hr %s',bins, filterOrder, cutoffHrs, filterType));
 yline(powerSnapAbsTidesLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerSnapAbsTidesLP.pr95bendat))
 ylim([0 0.9])
+% xlim([0.1 1.1])
 
 
 

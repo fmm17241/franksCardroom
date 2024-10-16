@@ -93,20 +93,30 @@ close all
 %%
 % Highpass Creation
 % Frequency cutoff for filter.
-cutoffHrs = 40;
+cutoffHrs = 12;
 %Create the cutoff
 % cutoff = 1/(cutoffHrs);
 % Bandpass filtering between 40 hours and 10 days; I want to focus on the
 % effect of synoptic winds and the Spring/Neap tidal cycle on snaps, and
 % use those snaps as a proxy for noise creation.
-cutoff = [1/40]
+cutoff = [1/12]
 filterType = 'low';
-bins = 4;
-filterOrder = 4;
+bins = 6;
+filterOrder = 6;
 
 [filteredData, powerSnapWindLP, powerSnapWaveLP, powerSnapNoiseLP, powerWindWaveLP...
     powerNoiseWaveLP,powerSnapTidesLP,powerSnapAbsTidesLP] = filterSnapData(envData, snapRateHourly, surfaceData,...
     cutoff, cutoffHrs, filterType, bins, filterOrder)
+
+
+figure()
+loglog(powerSnapWindLP.f*86400,powerSnapWindLP.psda,'b','LineWidth',2);
+hold on
+loglog(powerSnapWindLP.f*86400,powerSnapWindLP.psdb,'r','LineWidth',2);
+loglog(powerSnapWaveLP.f*86400,powerSnapWaveLP.psdb,'k','LineWidth',2);
+loglog(powerSnapTidesLP.f*86400,powerSnapTidesLP.psdb,'m','LineWidth',2);
+loglog(powerSnapAbsTidesLP.f*86400,powerSnapAbsTidesLP.psdb,'g','LineWidth',2)
+legend('Snaps','Winds','Waveheight','Tides','AbsTideMagnitude')
 
 
 
