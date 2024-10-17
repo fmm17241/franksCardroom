@@ -51,8 +51,8 @@ cutoffHrs = 24;
 cutoff = [1/240 1/24]
 % cutoff = [1/24];
 filterType = 'bandpass';
-bins = 4;
-filterOrder = 4;
+bins = 5;
+filterOrder = 5;
 
 [filteredData, powerSnapWindLP, powerSnapWaveLP, powerSnapNoiseLP, powerWindWaveLP...
     powerNoiseWaveLP,powerSnapTidesLP,powerSnapAbsTidesLP] = filterSnapData(envData, snapRateHourly, surfaceData,...
