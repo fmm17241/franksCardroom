@@ -40,40 +40,24 @@ times = surfaceData.time;
 % load surfaceDataFall
 % times = surfaceData.time;
 %%
-%This is just raw frequency
+
+%This is just raw frequency, without filtering.
 bins = 4;
 
 [powerSnapWind, powerSnapWave, powerSnapNoise, powerWindWave,...
     powerNoiseWave,powerSnapTides,powerSnapAbsTides] = filterSnapDataRaw(envData, snapRateHourly, surfaceData, bins)
 
-%Bandpass Creation
-% % Frequency cutoff for filter.
-% cutoffHrs = 40;
-% %Create the cutoff
-% % cutoff = 1/(cutoffHrs);
-% % Bandpass filtering between 40 hours and 10 days; I want to focus on the
-% % effect of synoptic winds and the Spring/Neap tidal cycle on snaps, and
-% % use those snaps as a proxy for noise creation.
-% cutoff = [1/240; 1/40]
-% filterType = 'bandpass';
-% bins = 5;
-% 
-% [lowpassData, powerSnapWindLP, powerSnapWaveLP, powerSnapNoiseLP, powerWindWaveLP...
-%     powerNoiseWaveLP,powerSnapTidesLP,powerSnapAbsTidesLP] = filterSnapData(envData, snapRateHourly, surfaceData,...
-%     cutoff, cutoffHrs, filterType, bins, filterOrder)
-
 %%
 % Filter Creation
-% Frequency cutoff for filter.
-cutoffHrs = 40;
-%Create the cutoff
-% cutoff = 1/(cutoffHrs);
-% Bandpass filtering between 40 hours and 10 days; I want to focus on the
-% effect of synoptic winds and the Spring/Neap tidal cycle on snaps, and
-% use those snaps as a proxy for noise creation.
-cutoff = [1/40]
+%Fitlers can be 'low', 'high', or 'bandpass'
 filterType = 'low';
+% Frequency cutoff for filter. Just used for titles and things
+cutoffHrs = 40;
+%Create the cutoff, 1/hours. For bandpass, format is [1/X 1/Y].
+cutoff = [1/40]
+%Bins to separate the data into.
 bins = 4;
+%Filter order
 filterOrder = 4;
 
 [filteredData, powerSnapWindLP, powerSnapWaveLP, powerSnapNoiseLP, powerWindWaveLP...
