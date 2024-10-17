@@ -14,8 +14,6 @@
 % % % Second step: this bins, averages, and plots some of their
 % [receiverData, tides, snapRateHourly, snapRateMinute, envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets, surfaceData] = snapRatePlotter(oneDrive, snapRateHourly, snapRateMinute);
 % % %%
-% % % FM needs to add winds and waves for the fall-Jan 2021 fix.
-% % 
 fileLocation = ([oneDrive,'\acousticAnalysis\matlabVariables']);
 cd (fileLocation)
 
@@ -31,8 +29,7 @@ load snapRateHourlySpring
 load snapRateMinuteSpring
 load surfaceDataSpring
 times = surfaceData.time;
-
-
+%%
 % load envDataFall
 % % Full snaprate dataset
 % load snapRateDataFall
@@ -42,9 +39,6 @@ times = surfaceData.time;
 % load snapRateMinuteFall
 % load surfaceDataFall
 % times = surfaceData.time;
-
-%%
-
 %%
 %This is just raw frequency
 bins = 4;
