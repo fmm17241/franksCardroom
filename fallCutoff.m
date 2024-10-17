@@ -67,9 +67,19 @@ title('','Windspeeds and Snaprates')
 legend('Windspeed','Hourly Snaprate')
 
 
+figure()
+yyaxis left
+plot(times,filteredData.Waves,'b')
+ylabel('Waveheight (m)')
+yyaxis right
+plot(times,filteredData.Snaps,'r')
+ylabel('Snaprate')
+title('','Waves n''snaps')
+legend('Waveheight','Snaps')
 
 
-
+figure()
+semilogx(powerSnapWaveLP.f*86400,powerSnapWaveLP.phase)
 
 
 
