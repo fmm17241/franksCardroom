@@ -33,6 +33,7 @@ times = surfaceData.time;
 % times = surfaceData.time;
 
 %%
+%This is just raw frequency
 bins = 4;
 
 [powerSnapWind, powerSnapWave, powerSnapNoise, powerWindWave,...
