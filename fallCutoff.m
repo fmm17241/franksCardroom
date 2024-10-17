@@ -35,8 +35,8 @@ cutoffHrs = 24;
 % use those snaps as a proxy for noise creation.
 cutoff = [1/240 1/24]
 filterType = 'bandpass';
-bins = 5;
-filterOrder = 4;
+bins = 4;
+filterOrder = 5;
 
 [filteredData, powerSnapWindLP, powerSnapWaveLP, powerSnapNoiseLP, powerWindWaveLP...
     powerNoiseWaveLP,powerSnapTidesLP,powerSnapAbsTidesLP] = filterSnapData(envData, snapRateHourly, surfaceData,...
@@ -65,7 +65,9 @@ plot(times,filteredData.Snaps,'r')
 ylabel('Snaprate')
 title('','Windspeeds and Snaprates')
 legend('Windspeed','Hourly Snaprate')
-linkaxes([ax1 ax2],'x')
+
+
+
 
 
 

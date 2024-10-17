@@ -94,7 +94,7 @@ ylim([0 0.9])
 
 ax5 = nexttile()
 semilogx(powerSnapNoiseLP.f*86400,powerSnapNoiseLP.coh);
-title('Coherence - SnapNoise');
+title('Coherence - SnapHFNoise');
 yline(powerSnapNoiseLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerSnapNoiseLP.pr95bendat))
 ylim([0 0.9])
 xlabel('Freq: Per Day')
@@ -102,7 +102,7 @@ xlabel('Freq: Per Day')
 
 ax6 = nexttile()
 semilogx(powerSnapAbsTidesLP.f*86400,powerSnapAbsTidesLP.coh);
-title('Coherence - SnapTidalMagnitude');
+title('Coherence - SnapTidalMagnitude(ABS)');
 yline(powerSnapAbsTidesLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerSnapAbsTidesLP.pr95bendat))
 ylim([0 0.9])
 % xlim([0.1 1.1])
