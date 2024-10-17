@@ -42,13 +42,13 @@ times = surfaceData.time;
 % 8 Bins: 11.8  days
 
 % Frequency cutoff for filter.
-cutoffHrs = 24;
+cutoffHrs = 12;
 %Create the cutoff
 % cutoff = 1/(cutoffHrs);
 % Bandpass filtering between 40 hours and 10 days; I want to focus on the
 % effect of synoptic winds and the Spring/Neap tidal cycle on snaps, and
 % use those snaps as a proxy for noise creation.
-cutoff = [1/240 1/24]
+cutoff = [1/240 1/12]
 % cutoff = [1/24];
 filterType = 'bandpass';
 bins = 5;
@@ -70,6 +70,9 @@ ylabel('HF Noise (mV)')
 title(sprintf('%s Filter (1-10day) Results',filterType),'HF Noise and Windspeed')
 legend('Windspeed','HF Noise')
 
+
+figure()
+scatter(filteredData.Winds,filteredData.Noise);
 
 
 figure()
