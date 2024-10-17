@@ -36,7 +36,7 @@ cutoffHrs = 24;
 cutoff = [1/240 1/24]
 % cutoff = [1/24];
 filterType = 'bandpass';
-bins = 10;
+bins = 6;
 filterOrder = 4;
 
 [filteredData, powerSnapWindLP, powerSnapWaveLP, powerSnapNoiseLP, powerWindWaveLP...

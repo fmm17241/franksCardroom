@@ -15,21 +15,21 @@ filteredData.TidesAbsolute = filtfilt(Bsignal,Asignal,abs(surfaceData.crossShore
 
 
 
-figure()
-plot(snapRateHourly.Time,snapRateHourly.SnapCount,'LineWidth',1)
-hold on
-plot(snapRateHourly.Time,filteredData.Snaps,'LineWidth',3)
+% figure()
+% plot(snapRateHourly.Time,snapRateHourly.SnapCount,'LineWidth',1)
+% hold on
+% plot(snapRateHourly.Time,filteredData.Snaps,'LineWidth',3)
 
 
 windLowPass  = Power_spectra(filteredData.Winds,bins,0,0,3600,0)
 snapsLowPass = Power_spectra(filteredData.Snaps,bins,0,0,3600,0)
 
 
-figure()
-loglog(snapsLowPass.f*86400,snapsLowPass.psdw,'LineWidth',3)
-hold on
-loglog(windLowPass.f*86400,windLowPass.psdw)
-legend('Snaps','Winds')
+% figure()
+% loglog(snapsLowPass.f*86400,snapsLowPass.psdw,'LineWidth',3)
+% hold on
+% loglog(windLowPass.f*86400,windLowPass.psdw)
+% legend('Snaps','Winds')
 
 
 powerSnapWindLP   = Coherence_whelch_overlap(filteredData.Snaps,filteredData.Winds,3600,bins,1,1,1)

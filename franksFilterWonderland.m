@@ -18,6 +18,8 @@ load snapRateHourlySpring
 load snapRateMinuteSpring
 % Separate wind and wave data
 load surfaceDataSpring
+times = surfaceData.time;
+
 % Environmental data matched to the hourly snaps.
 % load envDataFall
 % % Full snaprate dataset
@@ -28,30 +30,30 @@ load surfaceDataSpring
 % load snapRateMinuteFall
 % % Separate wind and wave data
 % load surfaceDataFall
+% times = surfaceData.time;
 
 
-times = surfaceData.time;
 
-COHsnapWind = Coherence_whelch_overlap(snapRateHourly.SnapCount,surfaceData.waveHeight,3600,10,1,1,0)
-COHnoiseWave = Coherence_whelch_overlap(envData.Noise,surfaceData.waveHeight,3600,10,1,1,0)
-
-wavePower = Power_spectra(envData.waveHeight,4,0,0,3600,0)
-snapPower = Power_spectra(snapRateHourly.SnapCount,4,0,0,3600,0)
-
-figure()
-loglog(wavePower.f*86400,wavePower.psdf)
-title('Wave PSD')
-
-
-figure()
-loglog(COHnoiseWave.f*86400,COHnoiseWave.psdb)
-title('Wave PSD')
-
-figure()
-semilogx(COHnoiseWave.f*86400,COHnoiseWave.coh)
-title('Coherence NoiseWave')
-
-close all
+% COHsnapWind = Coherence_whelch_overlap(snapRateHourly.SnapCount,surfaceData.waveHeight,3600,10,1,1,0)
+% COHnoiseWave = Coherence_whelch_overlap(envData.Noise,surfaceData.waveHeight,3600,10,1,1,0)
+% 
+% wavePower = Power_spectra(envData.waveHeight,4,0,0,3600,0)
+% snapPower = Power_spectra(snapRateHourly.SnapCount,4,0,0,3600,0)
+% 
+% figure()
+% loglog(wavePower.f*86400,wavePower.psdf)
+% title('Wave PSD')
+% 
+% 
+% figure()
+% loglog(COHnoiseWave.f*86400,COHnoiseWave.psdb)
+% title('Wave PSD')
+% 
+% figure()
+% semilogx(COHnoiseWave.f*86400,COHnoiseWave.coh)
+% title('Coherence NoiseWave')
+% 
+% close all
 
 %%
 % I want to smooth some of the snapt data. Technically snaps are events that are counted instantly
@@ -93,7 +95,7 @@ close all
 %     cutoff, cutoffHrs, filterType, bins, filterOrder)
 
 %%
-% Highpass Creation
+% Filter Creation
 % Frequency cutoff for filter.
 cutoffHrs = 24;
 %Create the cutoff
@@ -103,7 +105,7 @@ cutoffHrs = 24;
 % use those snaps as a proxy for noise creation.
 cutoff = [1/240 1/24]
 filterType = 'bandpass';
-bins = 4;
+bins = 6;
 filterOrder = 4;
 
 [filteredData, powerSnapWindLP, powerSnapWaveLP, powerSnapNoiseLP, powerWindWaveLP...
@@ -125,20 +127,51 @@ legend('Windspeed','HF Noise')
 
 figure()
 yyaxis left
-plot(times,filteredData.Winds,'b')
+plot(times,filteredData.Winds,'b','LineWidth',2)
 ylabel('WSPD (m/s)')
 yyaxis right
-plot(times,filteredData.Snaps,'r')
+plot(times,filteredData.Snaps,'r','LineWidth',2)
 ylabel('Snaprate')
 title('','Windspeeds and Snaprates')
 legend('Windspeed','Hourly Snaprate')
 
+%%
+% Filter Creation
+% Frequency cutoff for filter.
+cutoffHrs = 20;
+%Create the cutoff
+% cutoff = 1/(cutoffHrs);
+% Bandpass filtering between 40 hours and 10 days; I want to focus on the
+% effect of synoptic winds and the Spring/Neap tidal cycle on snaps, and
+% use those snaps as a proxy for noise creation.
+cutoff = [1/20]
+filterType = 'high';
+bins = 6;
+filterOrder = 6;
+
+[filteredData, powerSnapWindLP, powerSnapWaveLP, powerSnapNoiseLP, powerWindWaveLP...
+    powerNoiseWaveLP,powerSnapTidesLP,powerSnapAbsTidesLP] = filterSnapData(envData, snapRateHourly, surfaceData,...
+    cutoff, cutoffHrs, filterType, bins, filterOrder)
 
 
+figure()
+yyaxis left
+plot(times,filteredData.Winds,'b','LineWidth',2)
+ylabel('WSPD (m/s)')
+yyaxis right
+plot(times,filteredData.Noise,'r','LineWidth',2)
+ylabel('HF Noise (mV)')
+title(sprintf('%s Filter (1-10day) Results',filterType),'HF Noise and Windspeed')
+legend('Windspeed','HF Noise')
 
 
-
-
-
-
+figure()
+yyaxis left
+plot(times,filteredData.Winds,'b','LineWidth',2)
+ylabel('WSPD (m/s)')
+yyaxis right
+plot(times,filteredData.Snaps,'r','LineWidth',2)
+ylabel('Snaprate')
+title(sprintf('%s Filter (1-10day) Results',filterType),'Windspeed and Snaprates')
+legend('Windspeed','Hourly Snaprate')
 
