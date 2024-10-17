@@ -35,7 +35,7 @@ cutoffHrs = 24;
 % use those snaps as a proxy for noise creation.
 cutoff = [1/240 1/24]
 filterType = 'bandpass';
-bins = 6;
+bins = 5;
 filterOrder = 4;
 
 [filteredData, powerSnapWindLP, powerSnapWaveLP, powerSnapNoiseLP, powerWindWaveLP...
