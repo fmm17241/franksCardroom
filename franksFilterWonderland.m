@@ -104,7 +104,7 @@ cutoffHrs = 24;
 cutoff = [1/240 1/24]
 filterType = 'bandpass';
 bins = 4;
-filterOrder = 5;
+filterOrder = 4;
 
 [filteredData, powerSnapWindLP, powerSnapWaveLP, powerSnapNoiseLP, powerWindWaveLP...
     powerNoiseWaveLP,powerSnapTidesLP,powerSnapAbsTidesLP] = filterSnapData(envData, snapRateHourly, surfaceData,...
@@ -113,10 +113,10 @@ filterOrder = 5;
 %%
 figure()
 yyaxis left
-plot(times,filteredData.Winds,'b')
+plot(times,filteredData.Winds,'b','LineWidth',2)
 ylabel('WSPD (m/s)')
 yyaxis right
-plot(times,filteredData.Noise,'r')
+plot(times,filteredData.Noise,'r','LineWidth',2)
 ylabel('HF Noise (mV)')
 title(sprintf('%s Filter (1-10day) Results',filterType),'HF Noise and Windspeed')
 legend('Windspeed','HF Noise')
