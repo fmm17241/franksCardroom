@@ -105,7 +105,7 @@ cutoffHrs = 24;
 % use those snaps as a proxy for noise creation.
 cutoff = [1/240 1/24]
 filterType = 'bandpass';
-bins = 6;
+bins = 4;
 filterOrder = 4;
 
 [filteredData, powerSnapWindLP, powerSnapWaveLP, powerSnapNoiseLP, powerWindWaveLP...
@@ -174,4 +174,20 @@ plot(times,filteredData.Snaps,'r','LineWidth',2)
 ylabel('Snaprate')
 title(sprintf('%s Filter (1-10day) Results',filterType),'Windspeed and Snaprates')
 legend('Windspeed','Hourly Snaprate')
+
+
+figure()
+semilogx(powerSnapWindLP.f*86400,powerSnapWindLP.phase)
+
+
+
+figure()
+yyaxis left
+plot(times,filteredData.TidesAbsolute,'b','LineWidth',2)
+ylabel('Tidal Magnitude (m/s)')
+yyaxis right
+plot(times,filteredData.Snaps,'r','LineWidth',2)
+ylabel('Snaprate')
+title(sprintf('%s Filter (1-10day) Results',filterType),'Tides and Snaprates')
+legend('Tidal Magnitude','Hourly Snaprate')
 
