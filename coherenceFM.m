@@ -43,7 +43,7 @@ times = surfaceData.time;
 %%
 
 %This is just raw frequency, without filtering.
-bins = 4;
+bins = 6;
 
 [powerSnapWind, powerSnapWave, powerSnapNoise, powerWindWave,...
     powerNoiseWave,powerSnapTides,powerSnapAbsTides] = filterSnapDataRaw(envData, snapRateHourly, surfaceData, bins)
