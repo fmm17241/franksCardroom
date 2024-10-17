@@ -33,8 +33,10 @@ times = surfaceData.time;
 % times = surfaceData.time;
 
 %%
+bins = 4;
 
-
+[powerSnapWind, powerSnapWave, powerSnapNoise, powerWindWave,...
+    powerNoiseWave,powerSnapTides,powerSnapAbsTides] = filterSnapDataRaw(envData, snapRateHourly, surfaceData, bins)
 
 %Bandpass Creation
 % % Frequency cutoff for filter.
