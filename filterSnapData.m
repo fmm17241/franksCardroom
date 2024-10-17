@@ -94,20 +94,20 @@ yline(powerWindWaveLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerWindWaveLP.p
 ylim([0 0.9])
 xlim([0.1 1.2])
 
-ax4 = nexttile()
-semilogx(powerNoiseWaveLP.f*86400,powerNoiseWaveLP.coh);
-title('Coherence - NoiseWave');
-yline(powerNoiseWaveLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerNoiseWaveLP.pr95bendat))
-ylim([0 0.9])
-xlim([0.1 1.2])
+% ax4 = nexttile()
+% semilogx(powerNoiseWaveLP.f*86400,powerNoiseWaveLP.coh);
+% title('Coherence - NoiseWave');
+% yline(powerNoiseWaveLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerNoiseWaveLP.pr95bendat))
+% ylim([0 0.9])
+% xlim([0.1 1.2])
 
-ax5 = nexttile()
-semilogx(powerSnapNoiseLP.f*86400,powerSnapNoiseLP.coh);
-title('Coherence - SnapHFNoise');
-yline(powerSnapNoiseLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerSnapNoiseLP.pr95bendat))
-ylim([0 0.9])
-xlabel('Freq: Per Day')
-xlim([0.1 1.2])
+% ax5 = nexttile()
+% semilogx(powerSnapNoiseLP.f*86400,powerSnapNoiseLP.coh);
+% title('Coherence - SnapHFNoise');
+% yline(powerSnapNoiseLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerSnapNoiseLP.pr95bendat))
+% ylim([0 0.9])
+% xlabel('Freq: Per Day')
+% xlim([0.1 1.2])
 
 ax6 = nexttile()
 semilogx(powerSnapAbsTidesLP.f*86400,powerSnapAbsTidesLP.coh);
@@ -116,8 +116,8 @@ yline(powerSnapAbsTidesLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerSnapAbsT
 ylim([0 0.9])
 xlim([0.1 1.2])
 
-linkaxes([ax1,ax2,ax3,ax4,ax5,ax6],'x')
-
+% linkaxes([ax1,ax2,ax3,ax4,ax5,ax6],'x')
+linkaxes([ax1,ax2,ax3,ax6],'x')
 %%
 
 figure()
@@ -144,8 +144,9 @@ loglog(powerSnapWindLP.f*86400,powerSnapWindLP.psdb,'r','LineWidth',2);
 loglog(powerSnapWaveLP.f*86400,powerSnapWaveLP.psdb,'k','LineWidth',2);
 loglog(powerSnapTidesLP.f*86400,powerSnapTidesLP.psdb,'m','LineWidth',2);
 loglog(powerSnapAbsTidesLP.f*86400,powerSnapAbsTidesLP.psdb,'g','LineWidth',2)
-loglog(powerNoiseWaveLP.f*86400,powerNoiseWaveLP.psda,'c','LineWidth',2)
-legend('Snaps','Winds','Waveheight','Tides','AbsTideMagnitude','Noise')
+% loglog(powerNoiseWaveLP.f*86400,powerNoiseWaveLP.psda,'c','LineWidth',2)
+% legend('Snaps','Winds','Waveheight','Tides','AbsTideMagnitude','Noise')
+legend('Snaps','Winds','Waveheight','Tides','AbsTideMagnitude')
 title('Power Spectral Density',sprintf('Per Day: %d Bins, %d OrderFilt, %d Hr %s',bins, filterOrder, cutoffHrs, filterType));
 
 

@@ -17,12 +17,6 @@ load snapRateMinuteFall
 % Separate wind and wave data
 load surfaceDataFall
 
-%This is Frank pruning from Sept-Feb to Sept-Dec.
-if length(surfaceData.time) == 3308
-    surfaceData = surfaceData(1:2078,:);
-    snapRateHourly = snapRateHourly(1:2078,:);
-end
-
 times = surfaceData.time;
 
 %%
@@ -57,7 +51,7 @@ cutoffHrs = 24;
 cutoff = [1/240 1/24]
 % cutoff = [1/24];
 filterType = 'bandpass';
-bins = 6;
+bins = 4;
 filterOrder = 4;
 
 [filteredData, powerSnapWindLP, powerSnapWaveLP, powerSnapNoiseLP, powerWindWaveLP...
