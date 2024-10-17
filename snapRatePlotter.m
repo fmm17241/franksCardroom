@@ -90,6 +90,10 @@ surfaceData.WSPD(isnan(surfaceData.WSPD))  = interp1(surfaceData.time(~isnan(sur
 surfaceData.waveHeight(isnan(surfaceData.waveHeight))  = interp1(surfaceData.time(~isnan(surfaceData.waveHeight)),...
     surfaceData.waveHeight(~isnan(surfaceData.waveHeight)),surfaceData.time(isnan(surfaceData.waveHeight))) ;
 
+surfaceData.WDIR(isnan(surfaceData.WDIR))  = interp1(surfaceData.time(~isnan(surfaceData.WDIR)),...
+    surfaceData.WDIR(~isnan(surfaceData.WDIR)),surfaceData.time(isnan(surfaceData.WDIR))) ;
+
+
 %%
 
 % end
