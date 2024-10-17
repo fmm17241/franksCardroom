@@ -17,21 +17,24 @@ load snapRateMinuteFall
 % Separate wind and wave data
 load surfaceDataFall
 
+if length(surfaceData.time) == 3308
+    surfaceData = surfaceData(1:2078,:);
+    snapRateHourly = snapRateHourly(1:2078,:);
+end
 
-surfaceData = surfaceData(1:2078,:);
-snapRateHourly = snapRateHourly(1:2078,:);
+times = surfaceData.time;
 
 %%
-% Highpass Creation
+% Filter Creation
 % Frequency cutoff for filter.
-cutoffHrs = 40;
+cutoffHrs = 24;
 %Create the cutoff
 % cutoff = 1/(cutoffHrs);
 % Bandpass filtering between 40 hours and 10 days; I want to focus on the
 % effect of synoptic winds and the Spring/Neap tidal cycle on snaps, and
 % use those snaps as a proxy for noise creation.
-cutoff = [1/40]
-filterType = 'low';
+cutoff = [1/240 1/24]
+filterType = 'bandpass';
 bins = 6;
 filterOrder = 4;
 
@@ -40,6 +43,39 @@ filterOrder = 4;
     cutoff, cutoffHrs, filterType, bins, filterOrder)
 
 %%
+%Frank needs to "Show it in the data"
+figure()
+yyaxis left
+plot(times,filteredData.Winds,'b')
+ylabel('WSPD (m/s)')
+yyaxis right
+plot(times,filteredData.Noise,'r')
+ylabel('HF Noise (mV)')
+title(sprintf('%s Filter (1-10day) Results',filterType),'HF Noise and Windspeed')
+legend('Windspeed','HF Noise')
+
+
+
+figure()
+yyaxis left
+plot(times,filteredData.Winds,'b')
+ylabel('WSPD (m/s)')
+yyaxis right
+plot(times,filteredData.Snaps,'r')
+ylabel('Snaprate')
+title('','Windspeeds and Snaprates')
+legend('Windspeed','Hourly Snaprate')
+linkaxes([ax1 ax2],'x')
+
+
+
+
+
+
+
+
+
+
 
 
 
