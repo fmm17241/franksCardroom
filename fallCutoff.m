@@ -34,9 +34,10 @@ cutoffHrs = 24;
 % effect of synoptic winds and the Spring/Neap tidal cycle on snaps, and
 % use those snaps as a proxy for noise creation.
 cutoff = [1/240 1/24]
+% cutoff = [1/24];
 filterType = 'bandpass';
-bins = 4;
-filterOrder = 5;
+bins = 10;
+filterOrder = 4;
 
 [filteredData, powerSnapWindLP, powerSnapWaveLP, powerSnapNoiseLP, powerWindWaveLP...
     powerNoiseWaveLP,powerSnapTidesLP,powerSnapAbsTidesLP] = filterSnapData(envData, snapRateHourly, surfaceData,...
