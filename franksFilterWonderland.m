@@ -33,25 +33,6 @@ times = surfaceData.time;
 % times = surfaceData.time;
 
 %%
-% I want to smooth some of the snapt data. Technically snaps are events that are counted instantly
-% but binned by minute or hour.
-%Fall has 137 days, Spring has 94.5 days
-% FALL
-% 2 Bins: 68.5  days
-% 3 Bins: 45.6  days
-% 4 Bins: 34.3  days
-% 5 Bins: 27.4  days
-% 6 Bins: 22.8  days
-% 8 Bins: 17.1  days
-%10 Bins: 13.7  days
-
-% SPRING
-% 2 Bins: 47.3  days
-% 3 Bins: 31.5  days
-% 4 Bins: 23.6  days
-% 5 Bins: 18.9  days
-% 6 Bins: 15.8  days
-% 8 Bins: 11.8  days
 
 
 
