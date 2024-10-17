@@ -44,6 +44,9 @@ if length(filteredData.Snaps) == length(filteredData.Noise)
     %
     powerSnapNoiseLP.coh(powerSnapNoiseLP.coh < powerSnapNoiseLP.pr95bendat) = 0;
     powerNoiseWaveLP.coh(powerNoiseWaveLP.coh < powerNoiseWaveLP.pr95bendat) = 0;
+    %
+    powerSnapNoiseLP.phase(powerSnapNoiseLP.coh < powerSnapNoiseLP.pr95bendat) = 0;
+    powerNoiseWaveLP.phase(powerNoiseWaveLP.coh < powerNoiseWaveLP.pr95bendat) = 0;
 end
 % This creates a placeholder if  I don't have noise data for the entire dataset.
 if length(filteredData.Snaps) ~= length(filteredData.Noise)
@@ -58,6 +61,12 @@ powerWindWaveLP.coh(powerWindWaveLP.coh < powerWindWaveLP.pr95bendat) = 0;
 powerSnapTidesLP.coh(powerSnapTidesLP.coh < powerSnapTidesLP.pr95bendat) = 0;
 powerSnapAbsTidesLP.coh(powerSnapAbsTidesLP.coh < powerSnapAbsTidesLP.pr95bendat) = 0;
 
+%Frank doing the same for phases
+powerSnapWindLP.phase(powerSnapWindLP.coh < powerSnapWindLP.pr95bendat) = 0;
+powerSnapWaveLP.phase(powerSnapWaveLP.coh < powerSnapWaveLP.pr95bendat) = 0;
+powerWindWaveLP.phase(powerWindWaveLP.coh < powerWindWaveLP.pr95bendat) = 0;
+powerSnapTidesLP.phase(powerSnapTidesLP.coh < powerSnapTidesLP.pr95bendat) = 0;
+powerSnapAbsTidesLP.phase(powerSnapAbsTidesLP.coh < powerSnapAbsTidesLP.pr95bendat) = 0;
 
 
 
