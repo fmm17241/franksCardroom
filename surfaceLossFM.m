@@ -103,6 +103,9 @@ ylabel('Noise Loss (dBs)')
 
 figure()
 scatter(cappedLOSS,envData.Noise)
+xlabel('Calculated SBL (dB)')
+ylabel('HF Noise (mV)')
+title(['Capped Sound Attenuation due to Wind-Drive Surface Bubbles'])
 
 surfaceData.SBL = LOSS;
 surfaceData.SBLcapped = cappedLOSS;
