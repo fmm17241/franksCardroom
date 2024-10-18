@@ -158,8 +158,10 @@ cappedLOSS = LOSS; cappedLOSS(index) = 40;
 figure()
 plot(times,LOSS,'k')
 hold on
-plot(times,cappedLOSS,'r')
-
+plot(times,cappedLOSS,'r','LineWidth',2)
+ legend('SBL','Capped SBL')
+title('Surface Bubble Loss- HF (69 kHz) Attenuation')
+ylabel('Noise Loss (dBs)')
 
 % WOWWWW!!!!!
 [a,b] = corrcoef(cappedLOSS,envData.Noise)
