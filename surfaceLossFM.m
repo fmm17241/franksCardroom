@@ -169,7 +169,7 @@ ylabel('Noise Loss (dBs)')
 
 
 figure()
-scatter(LOSS,envData.Noise)
+scatter(cappedLOSS,envData.Noise)
 
 surfaceData.SBL = LOSS;
 surfaceData.SBLcapped = cappedLOSS;
