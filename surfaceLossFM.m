@@ -117,7 +117,7 @@ times = surfaceData.time;
 % High-Frequency Ocean Environmental Acoustic Models Handbook
 
 % theta = grazing angle (degrees)
-theta = 45;
+theta = 20;
 % U     = wind speed (m/s)
 U = surfaceData.WSPD;
 % f     = frequency (kHz)
@@ -126,10 +126,19 @@ f = 69;
 
 LOSS = SurfLoss( theta, U, f );
 
-% UWAPL gives a suggestion to cap the upper limit of SBL at 15 dB. 
+index = LOSS > 40;
+
+
+% UWAPL gives a suggestion to cap the upper limit of SBL at 15 dB. Believe this is outdated.
+% Chua et al 2018, -40 dB is more recent.
+cappedLOSS = LOSS; cappedLOSS(LOSS > 40) = 40;
 
 figure()
-plot(times,LOSS)
+plot(times,LOSS,'k')
+hold on
+plot(times,cappedLOSS,'r')
+
+
 
 figure()
 scatter(LOSS,surfaceData.waveHeight)
