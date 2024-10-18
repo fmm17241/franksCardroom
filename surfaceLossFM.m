@@ -68,11 +68,18 @@ SNR (dB) = -5log110(N) + [6.2 + 4.54/N + 044]log10(A+0.12AB-1.7B)
 % A = ln(0.62 * Pfa)
 % B = ln(Pd/(1-Pd))
 
+
 albersheim
-shnidman
+
 
 freq2wavelen
-npwgnthresh
+
+%This calculates the SNR threshold T (in dB) to detect a signal, given a certain probability
+% of false alarm (PFA), the number of pulses (N), coherent/noncoherent.
+
+[threshold] = npwgnthresh(0.01,8,'coherent')
+
+
 rocpfa
 rocsnr
 
@@ -80,20 +87,50 @@ tl2range
 range2tl
 spectrogram
 
-cranerainpl
 
-phased.IsoSpeedUnderwaterPaths
+
+
 phased.UnderwaterRadiatedNoise
 
 
-%
-nsamp = 100;
-x = exp(1i*2*pi*rand(nsamp,1));
-
-linspectrum = gausswin(nsamp);
-spectrum = mag2db(linspectrum);
-[y,info] = shapespectrum(spectrum,x,DesiredSpectrumRange="centered");
+%%
+% Fuck it, lets try it. I'll cap later.
+fileLocation = ([oneDrive,'\acousticAnalysis\matlabVariables']);
+cd (fileLocation)
 
 
-shapespectrum(spectrum,x,DesiredSpectrumRange="centered")
+load envDataFall
+% Full snaprate dataset
+load snapRateDataFall
+% Snaprate binned hourly
+load snapRateHourlyFall
+% Snaprate binned per minute
+load snapRateMinuteFall
+load surfaceDataFall
+times = surfaceData.time;
+
+
+% surface loss
+% bubble losses are assumed to be the dominant effect for the total field
+% (as opposed to just the coherent field)
+% see the discussion in
+% High-Frequency Ocean Environmental Acoustic Models Handbook
+
+% theta = grazing angle (degrees)
+theta = 45;
+% U     = wind speed (m/s)
+U = surfaceData.WSPD;
+% f     = frequency (kHz)
+f = 69;
+% LOSS   = surface bubble loss (dB)
+
+LOSS = SurfLoss( theta, U, f );
+
+% UWAPL gives a suggestion to cap the upper limit of SBL at 15 dB. 
+
+figure()
+plot(times,LOSS)
+
+figure()
+scatter(LOSS,surfaceData.waveHeight)
 

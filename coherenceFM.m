@@ -21,15 +21,15 @@ cd (fileLocation)
 %%
 % Load in saved data
 % Environmental data matched to the hourly snaps.
-load envDataSpring
-Full snaprate dataset
-load snapRateDataSpring
-Snaprate binned hourly
-load snapRateHourlySpring
-Snaprate binned per minute
-load snapRateMinuteSpring
-load surfaceDataSpring
-times = surfaceData.time;
+% load envDataSpring
+% Full snaprate dataset
+% load snapRateDataSpring
+% Snaprate binned hourly
+% load snapRateHourlySpring
+% Snaprate binned per minute
+% load snapRateMinuteSpring
+% load surfaceDataSpring
+% times = surfaceData.time;
 %%
 load envDataFall
 % Full snaprate dataset
@@ -82,4 +82,16 @@ filterOrder = 4;
 [filteredData, powerSnapWindLP, powerSnapWaveLP, powerWindWaveLP,...
     powerSnapTidesLP,powerSnapAbsTidesLP] = filterSnapDataSimple(snapRateHourly, surfaceData,...
     cutoff, cutoffHrs, filterType, bins, filterOrder)
+
+
+figure()
+scatter(filteredData.Winds,filteredData.Snaps);
+
+[R,P,RL,RU] =corrcoef(filteredData.Winds,filteredData.Waves)
+
+[R,P,RL,RU]= corrcoef(surfaceData.WSPD,snapRateHourly.SnapCount)
+[R,P,RL,RU] = corrcoef(filteredData.Winds,filteredData.Snaps)
+
+
+
 

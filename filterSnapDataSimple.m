@@ -53,28 +53,28 @@ semilogx(powerSnapWindLP.f*86400,powerSnapWindLP.coh);
 title('Coherence - SnapsWinds',sprintf('%d Bins, %d OrderFilt, %d Hr %s',bins, filterOrder, cutoffHrs,filterType))
 yline(powerSnapWindLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerSnapWindLP.pr95bendat))
 ylim([0 0.9])
-xlim([0.1 1.2])
+xlim([0.03 1.2])
 
 ax2 = nexttile()
 semilogx(powerSnapWaveLP.f*86400,powerSnapWaveLP.coh);
 title('Coherence - SnapsWaves',sprintf('%d Bins, %d OrderFilt, %d Hr %s',bins,filterOrder, cutoffHrs, filterType))
 yline(powerSnapWaveLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerSnapWaveLP.pr95bendat))
 ylim([0 0.9])
-xlim([0.1 1.2])
+xlim([0.03 1.2])
 
 ax3 = nexttile()
 semilogx(powerWindWaveLP.f*86400,powerWindWaveLP.coh);
 title('Coherence - WindsWaves')
 yline(powerWindWaveLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerWindWaveLP.pr95bendat))
 ylim([0 0.9])
-xlim([0.1 1.2])
+xlim([0.03 1.2])
 
 ax4 = nexttile()
 semilogx(powerWaveWindDirLP.f*86400,powerWaveWindDirLP.coh);
 title('Coherence - Waves and Wind Dir');
 yline(powerWaveWindDirLP.pr95bendat,'-',sprintf('95%% Sig: %.02g',powerWaveWindDirLP.pr95bendat))
 ylim([0 0.9])
-xlim([0.1 1.2])
+xlim([0.03 1.2])
 
 linkaxes([ax1,ax2,ax3,ax4],'x')
 %%
