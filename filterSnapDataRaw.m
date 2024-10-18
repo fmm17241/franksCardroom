@@ -1,5 +1,5 @@
 function [powerSnapWind, powerSnapWave, powerSnapNoise, powerWindWave,...
-    powerNoiseWave,powerSnapTides,powerSnapAbsTides] = filterSnapDataRaw(envData, snapRateHourly, surfaceData, bins)
+    powerNoiseWave,powerSnapTides,powerSnapAbsTides,powerSnapSBLcapped] = filterSnapDataRaw(envData, snapRateHourly, surfaceData, bins)
 
 
 
@@ -8,6 +8,7 @@ powerSnapWave   = Coherence_whelch_overlap(snapRateHourly.SnapCount,surfaceData.
 powerWindWave   = Coherence_whelch_overlap(surfaceData.WSPD,surfaceData.waveHeight,3600,bins,1,1,1)
 powerSnapTides = Coherence_whelch_overlap(snapRateHourly.SnapCount,surfaceData.crossShore,3600,bins,1,1,1)
 powerSnapAbsTides = Coherence_whelch_overlap(snapRateHourly.SnapCount,abs(surfaceData.crossShore),3600,bins,1,1,1)
+powerSnapSBLcapped = Coherence_whelch_overlap(snapRateHourly.SnapCount,surfaceData.SBLcapped,3600,bins,1,1,1)
 % In Fall, we have more wind/tides/snaps than we do noise, so this is accounting for that difference.
 if length(snapRateHourly.SnapCount) == length(envData.Noise)
     powerSnapNoise   = Coherence_whelch_overlap(snapRateHourly.SnapCount,envData.Noise,3600,bins,1,1,1)
@@ -31,6 +32,7 @@ powerSnapWave.coh(powerSnapWave.coh < powerSnapWave.pr95bendat) = 0;
 powerWindWave.coh(powerWindWave.coh < powerWindWave.pr95bendat) = 0;
 powerSnapTides.coh(powerSnapTides.coh < powerSnapTides.pr95bendat) = 0;
 powerSnapAbsTides.coh(powerSnapAbsTides.coh < powerSnapAbsTides.pr95bendat) = 0;
+powerSnapSBLcapped.coh(powerSnapSBLcapped.coh < powerSnapSBLcapped.pr95bendat) = 0;
 
 %Frank doing the same for phases
 powerSnapWind.phase(powerSnapWind.coh < powerSnapWind.pr95bendat) = 0;
@@ -38,7 +40,7 @@ powerSnapWave.phase(powerSnapWave.coh < powerSnapWave.pr95bendat) = 0;
 powerWindWave.phase(powerWindWave.coh < powerWindWave.pr95bendat) = 0;
 powerSnapTides.phase(powerSnapTides.coh < powerSnapTides.pr95bendat) = 0;
 powerSnapAbsTides.phase(powerSnapAbsTides.coh < powerSnapAbsTides.pr95bendat) = 0;
-
+powerSnapSBLcapped.phase(powerSnapSBLcapped.coh < powerSnapSBLcapped.pr95bendat) = 0;
 
 
 %%
@@ -116,7 +118,8 @@ loglog(powerSnapWave.f*86400,powerSnapWave.psdb,'k','LineWidth',2);
 loglog(powerSnapTides.f*86400,powerSnapTides.psdb,'m','LineWidth',2);
 loglog(powerSnapAbsTides.f*86400,powerSnapAbsTides.psdb,'g','LineWidth',2)
 loglog(powerNoiseWave.f*86400,powerNoiseWave.psda,'c','LineWidth',2)
-legend('Snaps','Winds','Waveheight','Tides','AbsTideMagnitude','Noise')
+loglog(powerSnapSBLcapped.f*86400,powerSnapSBLcapped.psdb,'k','LineWidth',2)
+legend('Snaps','Winds','Waveheight','Tides','AbsTideMagnitude','Noise','SBL')
 % legend('Snaps','Winds','Waveheight','Tides','AbsTideMagnitude')
 title('Power Spectral Density',sprintf('Per Day: %d Bins',bins));
 

@@ -1,5 +1,5 @@
 function [filteredData, powerSnapWindLP, powerSnapWaveLP, powerSnapNoiseLP, powerWindWaveLP,...
-    powerNoiseWaveLP,powerSnapTidesLP,powerSnapAbsTidesLP] = filterSnapData(envData, snapRateHourly, surfaceData,...
+    powerNoiseWaveLP,powerSnapTidesLP,powerSnapAbsTidesLP,powerSnapSBLcappedLP] = filterSnapData(envData, snapRateHourly, surfaceData,...
     cutoff, cutoffHrs, filterType, bins, filterOrder)
 
 
@@ -13,6 +13,9 @@ filteredData.Waves = filtfilt(Bsignal,Asignal,surfaceData.waveHeight);
 filteredData.Tides  = filtfilt(Bsignal,Asignal,surfaceData.crossShore);
 filteredData.TidesAbsolute = filtfilt(Bsignal,Asignal,abs(surfaceData.crossShore));
 filteredData.WindDir = filtfilt(Bsignal,Asignal,surfaceData.WDIR);
+filteredData.SBL = filtfilt(Bsignal,Asignal,surfaceData.SBL);
+filteredData.SBLcapped = filtfilt(Bsignal,Asignal,surfaceData.SBLcapped);
+
 
 
 % figure()
@@ -38,6 +41,9 @@ powerWindWaveLP   = Coherence_whelch_overlap(filteredData.Winds,filteredData.Wav
 powerSnapTidesLP = Coherence_whelch_overlap(filteredData.Snaps,filteredData.Tides,3600,bins,1,1,1)
 powerSnapAbsTidesLP = Coherence_whelch_overlap(filteredData.Snaps,filteredData.TidesAbsolute,3600,bins,1,1,1)
 powerWaveWindDirLP = Coherence_whelch_overlap(filteredData.Waves,filteredData.WindDir,3600,bins,1,1,1)
+powerSnapSBLcappedLP   = Coherence_whelch_overlap(filteredData.Snaps,filteredData.SBLcapped,3600,bins,1,1,1)
+powerSnapSBLLP   = Coherence_whelch_overlap(filteredData.Snaps,filteredData.SBL,3600,bins,1,1,1)
+
 % In Fall, we have more wind/tides/snaps than we do noise, so this is accounting for that difference.
 if length(filteredData.Snaps) == length(filteredData.Noise)
     powerSnapNoiseLP   = Coherence_whelch_overlap(filteredData.Snaps,filteredData.Noise,3600,bins,1,1,1)
@@ -62,6 +68,9 @@ powerWindWaveLP.coh(powerWindWaveLP.coh < powerWindWaveLP.pr95bendat) = 0;
 powerSnapTidesLP.coh(powerSnapTidesLP.coh < powerSnapTidesLP.pr95bendat) = 0;
 powerSnapAbsTidesLP.coh(powerSnapAbsTidesLP.coh < powerSnapAbsTidesLP.pr95bendat) = 0;
 powerWaveWindDirLP.coh(powerWaveWindDirLP.coh < powerWaveWindDirLP.pr95bendat) = 0;
+powerSnapSBLLP.coh(powerSnapSBLLP.coh < powerSnapSBLLP.pr95bendat) = 0;
+powerSnapSBLcappedLP.coh(powerSnapSBLcappedLP.coh < powerSnapSBLcappedLP.pr95bendat) = 0;
+
 
 %Frank doing the same for phases
 powerSnapWindLP.phase(powerSnapWindLP.coh < powerSnapWindLP.pr95bendat) = 0;
@@ -69,7 +78,8 @@ powerSnapWaveLP.phase(powerSnapWaveLP.coh < powerSnapWaveLP.pr95bendat) = 0;
 powerWindWaveLP.phase(powerWindWaveLP.coh < powerWindWaveLP.pr95bendat) = 0;
 powerSnapTidesLP.phase(powerSnapTidesLP.coh < powerSnapTidesLP.pr95bendat) = 0;
 powerSnapAbsTidesLP.phase(powerSnapAbsTidesLP.coh < powerSnapAbsTidesLP.pr95bendat) = 0;
-
+powerSnapSBLLP.phase(powerSnapSBLLP.coh < powerSnapSBLLP.pr95bendat) = 0;
+powerSnapSBLcappedLP.phase(powerSnapSBLcappedLP.coh < powerSnapSBLcappedLP.pr95bendat) = 0;
 
 
 %%

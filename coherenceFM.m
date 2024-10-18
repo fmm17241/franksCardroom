@@ -23,32 +23,32 @@ cd (fileLocation)
 %%
 % Load in saved data
 % Environmental data matched to the hourly snaps.
-% load envDataSpring
-% Full snaprate dataset
-% load snapRateDataSpring
-% Snaprate binned hourly
-% load snapRateHourlySpring
-% Snaprate binned per minute
-% load snapRateMinuteSpring
-% load surfaceDataSpring
-% times = surfaceData.time;
-%%
-load envDataFall
-% Full snaprate dataset
-load snapRateDataFall
-% Snaprate binned hourly
-load snapRateHourlyFall
-% Snaprate binned per minute
-load snapRateMinuteFall
-load surfaceDataFall
+load envDataSpring
+% % Full snaprate dataset
+load snapRateDataSpring
+% % Snaprate binned hourly
+load snapRateHourlySpring
+% % Snaprate binned per minute
+load snapRateMinuteSpring
+load surfaceDataSpring
 times = surfaceData.time;
+%%
+% load envDataFall
+% % Full snaprate dataset
+% load snapRateDataFall
+% % Snaprate binned hourly
+% load snapRateHourlyFall
+% % Snaprate binned per minute
+% load snapRateMinuteFall
+% load surfaceDataFall
+% times = surfaceData.time;
 %%
 
 %This is just raw frequency, without filtering.
 bins = 4;
 
 [powerSnapWind, powerSnapWave, powerSnapNoise, powerWindWave,...
-    powerNoiseWave,powerSnapTides,powerSnapAbsTides] = filterSnapDataRaw(envData, snapRateHourly, surfaceData, bins)
+    powerNoiseWave,powerSnapTides,powerSnapAbsTides,powerSnapSBLcapped] = filterSnapDataRaw(envData, snapRateHourly, surfaceData, bins)
 
 %%
 % Filter Creation
@@ -63,7 +63,7 @@ bins = 4;
 %Filter order
 filterOrder = 4;
 
-[filteredData, powerSnapWindLP, powerSnapWaveLP, powerSnapNoiseLP, powerWindWaveLP...
+[filteredData, powerSnapWindLP, powerSnapWaveLP, powerSnapNoiseLP, powerWindWaveLP,...
     powerNoiseWaveLP,powerSnapTidesLP,powerSnapAbsTidesLP] = filterSnapData(envData, snapRateHourly, surfaceData,...
     cutoff, cutoffHrs, filterType, bins, filterOrder)
 
