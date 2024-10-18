@@ -137,24 +137,29 @@ U = surfaceData.WSPD;
 f = 69;
 % LOSS   = surface bubble loss (dB)
 
-LOSS = SurfLoss(directAngle, U, f );
+LOSS = SurfLoss(grazingAngle, U, f );
 
 index = LOSS > 40;
 
 
 % UWAPL gives a suggestion to cap the upper limit of SBL at 15 dB. Believe this is outdated.
 % Chua et al 2018, -40 dB is more recent.
-cappedLOSS = LOSS; cappedLOSS(LOSS > 40) = 40;
+cappedLOSS = LOSS; cappedLOSS(index) = 40;
+
+%at midAngle, cap is at 9+ m/s
 
 figure()
 plot(times,LOSS,'k')
 hold on
 plot(times,cappedLOSS,'r')
 
+corrcoef(cappedLOSS,envData.Noise)
+
+corrcoef(LOSS,envData.Noise)
 
 
 figure()
-scatter(LOSS,surfaceData.waveHeight)
+scatter(LOSS,envData.Noise)
 
 surfaceData.SBL = LOSS;
 surfaceData.SBLcapped = cappedLOSS;
