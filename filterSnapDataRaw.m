@@ -117,6 +117,6 @@ loglog(powerSnapTides.f*86400,powerSnapTides.psdb,'m','LineWidth',2);
 loglog(powerSnapAbsTides.f*86400,powerSnapAbsTides.psdb,'g','LineWidth',2)
 loglog(powerNoiseWave.f*86400,powerNoiseWave.psda,'c','LineWidth',2)
 legend('Snaps','Winds','Waveheight','Tides','AbsTideMagnitude','Noise')
-legend('Snaps','Winds','Waveheight','Tides','AbsTideMagnitude')
+% legend('Snaps','Winds','Waveheight','Tides','AbsTideMagnitude')
 title('Power Spectral Density',sprintf('Per Day: %d Bins',bins));
 
