@@ -153,8 +153,9 @@ plot(times,LOSS,'k')
 hold on
 plot(times,cappedLOSS,'r')
 
-corrcoef(cappedLOSS,envData.Noise)
 
+% WOWWWW!!!!!
+corrcoef(cappedLOSS,envData.Noise)
 corrcoef(LOSS,envData.Noise)
 
 
