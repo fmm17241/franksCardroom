@@ -94,32 +94,39 @@ phased.UnderwaterRadiatedNoise
 
 
 %%
-% Fuck it, lets try it. I'll cap later.
+% Frank adding losses
 fileLocation = ([oneDrive,'\acousticAnalysis\matlabVariables']);
 cd (fileLocation)
 
 
-% load envDataFall
-% % Full snaprate dataset
-% load snapRateDataFall
-% % Snaprate binned hourly
-% load snapRateHourlyFall
-% % Snaprate binned per minute
-% load snapRateMinuteFall
-% load surfaceDataFall
-% times = surfaceData.time;
-
-% Load in saved data
-% Environmental data matched to the hourly snaps.
-load envDataSpring
+load envDataFall
 % Full snaprate dataset
-load snapRateDataSpring
+load snapRateDataFall
 % Snaprate binned hourly
-load snapRateHourlySpring
+load snapRateHourlyFall
 % Snaprate binned per minute
-load snapRateMinuteSpring
-load surfaceDataSpring
+load snapRateMinuteFall
+load surfaceDataFall
 times = surfaceData.time;
+
+%This is Frank pruning from Sept-Feb to Sept-Dec.
+if length(surfaceData.time) == 3308
+    surfaceData = surfaceData(1:2078,:);
+    snapRateHourly = snapRateHourly(1:2078,:);
+end
+
+times = surfaceData.time;
+% % Load in saved data
+% % Environmental data matched to the hourly snaps.
+% load envDataSpring
+% % Full snaprate dataset
+% load snapRateDataSpring
+% % Snaprate binned hourly
+% load snapRateHourlySpring
+% % Snaprate binned per minute
+% load snapRateMinuteSpring
+% load surfaceDataSpring
+% times = surfaceData.time;
 
 % surface loss
 % bubble losses are assumed to be the dominant effect for the total field
