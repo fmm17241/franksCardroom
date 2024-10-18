@@ -99,16 +99,27 @@ fileLocation = ([oneDrive,'\acousticAnalysis\matlabVariables']);
 cd (fileLocation)
 
 
-load envDataFall
-% Full snaprate dataset
-load snapRateDataFall
-% Snaprate binned hourly
-load snapRateHourlyFall
-% Snaprate binned per minute
-load snapRateMinuteFall
-load surfaceDataFall
-times = surfaceData.time;
+% load envDataFall
+% % Full snaprate dataset
+% load snapRateDataFall
+% % Snaprate binned hourly
+% load snapRateHourlyFall
+% % Snaprate binned per minute
+% load snapRateMinuteFall
+% load surfaceDataFall
+% times = surfaceData.time;
 
+% Load in saved data
+% Environmental data matched to the hourly snaps.
+load envDataSpring
+% Full snaprate dataset
+load snapRateDataSpring
+% Snaprate binned hourly
+load snapRateHourlySpring
+% Snaprate binned per minute
+load snapRateMinuteSpring
+load surfaceDataSpring
+times = surfaceData.time;
 
 % surface loss
 % bubble losses are assumed to be the dominant effect for the total field
@@ -117,14 +128,16 @@ times = surfaceData.time;
 % High-Frequency Ocean Environmental Acoustic Models Handbook
 
 % theta = grazing angle (degrees)
-theta = 20;
+directAngle = 20
+midAngle = 90
+grazingAngle = 130;
 % U     = wind speed (m/s)
 U = surfaceData.WSPD;
 % f     = frequency (kHz)
 f = 69;
 % LOSS   = surface bubble loss (dB)
 
-LOSS = SurfLoss( theta, U, f );
+LOSS = SurfLoss(directAngle, U, f );
 
 index = LOSS > 40;
 
@@ -143,3 +156,5 @@ plot(times,cappedLOSS,'r')
 figure()
 scatter(LOSS,surfaceData.waveHeight)
 
+surfaceData.SBL = LOSS;
+surfaceData.SBLcapped = cappedLOSS;
