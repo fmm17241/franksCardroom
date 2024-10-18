@@ -162,8 +162,8 @@ plot(times,cappedLOSS,'r')
 
 
 % WOWWWW!!!!!
-corrcoef(cappedLOSS,envData.Noise)
-corrcoef(LOSS,envData.Noise)
+[a,b] = corrcoef(cappedLOSS,envData.Noise)
+[a,b] = corrcoef(LOSS,envData.Noise)
 
 
 figure()
