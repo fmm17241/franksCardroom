@@ -32,34 +32,34 @@ fileLocation = ([oneDrive,'\acousticAnalysis\matlabVariables']);
 cd (fileLocation)
 
 
-% load envDataFall
-% % Full snaprate dataset
-% load snapRateDataFall
-% % Snaprate binned hourly
-% load snapRateHourlyFall
-% % Snaprate binned per minute
-% load snapRateMinuteFall
-% load surfaceDataFall
-% times = surfaceData.time;
-% 
-% %This is Frank pruning from Sept-Feb to Sept-Dec.
-% if length(surfaceData.time) == 3308
-%     surfaceData = surfaceData(1:2078,:);
-%     snapRateHourly = snapRateHourly(1:2078,:);
-% end
-% times = surfaceData.time;
+load envDataFall
+% Full snaprate dataset
+load snapRateDataFall
+% Snaprate binned hourly
+load snapRateHourlyFall
+% Snaprate binned per minute
+load snapRateMinuteFall
+load surfaceDataFall
+times = surfaceData.time;
+
+%This is Frank pruning from Sept-Feb to Sept-Dec.
+if length(surfaceData.time) == 3308
+    surfaceData = surfaceData(1:2078,:);
+    snapRateHourly = snapRateHourly(1:2078,:);
+end
+times = surfaceData.time;
 
 % Load in saved data
 % Environmental data matched to the hourly snaps.
-load envDataSpring
-% Full snaprate dataset
-load snapRateDataSpring
-% Snaprate binned hourly
-load snapRateHourlySpring
-% Snaprate binned per minute
-load snapRateMinuteSpring
-load surfaceDataSpring
-times = surfaceData.time;
+% load envDataSpring
+% % Full snaprate dataset
+% load snapRateDataSpring
+% % Snaprate binned hourly
+% load snapRateHourlySpring
+% % Snaprate binned per minute
+% load snapRateMinuteSpring
+% load surfaceDataSpring
+% times = surfaceData.time;
 
 % surface loss
 % bubble losses are assumed to be the dominant effect for the total field
@@ -100,12 +100,21 @@ ylabel('Noise Loss (dBs)')
 [a,b] = corrcoef(cappedLOSS,envData.Noise)
 [a,b] = corrcoef(LOSS,envData.Noise)
 
+% 
+% figure()
+% scatter(cappedLOSS,envData.Noise)
+% xlabel('Calculated SBL (dB)')
+% ylabel('HF Noise (mV)')
+% title(['Capped Sound Attenuation due to Wind-Drive Surface Bubbles'])
+% 
+% 
+% figure()
+% scatter(cappedLOSS,snapRateHourly.SnapCount)
+% xlabel('Calculated SBL (dB)')
+% ylabel('Hourly Snaps')
+% title(['Capped Sound Attenuation due to Wind-Drive Surface Bubbles'])
 
-figure()
-scatter(cappedLOSS,envData.Noise)
-xlabel('Calculated SBL (dB)')
-ylabel('HF Noise (mV)')
-title(['Capped Sound Attenuation due to Wind-Drive Surface Bubbles'])
+
 
 surfaceData.SBL = LOSS;
 surfaceData.SBLcapped = cappedLOSS;
