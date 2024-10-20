@@ -54,6 +54,15 @@ title('Coherence - Detections and SBL')
 
 
 
+%%
+%
+[R,P,RL,RU] =corrcoef(surfaceData.WSPD,surfaceData.SBLcapped)
+
+[R,P,RL,RU] =corrcoef(surfaceData.WSPD,surfaceData.SBL)
+
+
+[R,P,RL,RU]= corrcoef(surfaceData.WSPD,snapRateHourly.SnapCount)
+[R,P,RL,RU] = corrcoef(filteredData.Winds,filteredData.Snaps)
 
 
 
