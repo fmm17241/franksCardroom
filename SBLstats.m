@@ -32,22 +32,37 @@ times = surfaceData.time;
 %%
 bins = 6
 
-powerSnapSBLcapped = Coherence_whelch_overlap(snapRateHourly.SnapCount,surfaceData.SBLcapped,3600,bins,1,1,1)
-
+powerDetsSBLcapped = Coherence_whelch_overlap(envData.HourlyDets,surfaceData.SBLcapped,3600,bins,1,1,1)
 
 %Frank is trying to remove non-significant peaks; it gets furry at the bottom of the Y, let's clean up.
-powerSnapSBLcapped.coh(powerSnapSBLcapped.coh < powerSnapSBLcapped.pr95bendat) = 0;
+powerDetsSBLcapped.coh(powerDetsSBLcapped.coh < powerDetsSBLcapped.pr95bendat) = 0;
 
 %Frank doing the same for phases
-powerSnapSBLcapped.phase(powerSnapSBLcapped.coh < powerSnapSBLcapped.pr95bendat) = 0;
+powerDetsSBLcapped.phase(powerDetsSBLcapped.coh < powerDetsSBLcapped.pr95bendat) = 0;
 
 
 figure()
-loglog(powerSnapSBLcapped.f*86400,powerSnapSBLcapped.psdb)
+loglog(powerDetsSBLcapped.f*86400,powerDetsSBLcapped.psda,'k')
 hold on
-loglog(powerSnapSBLcapped.f*86400,powerSnapSBLcapped.psda)
+loglog(powerDetsSBLcapped.f*86400,powerDetsSBLcapped.psdb,'r')
+legend('Snaprate','SBLoss')
 
 figure()
-semilogx(powerSnapSBLcapped.f*86400,powerSnapSBLcapped.coh)
+semilogx(powerDetsSBLcapped.f*86400,powerDetsSBLcapped.coh)
+yline(powerDetsSBLcapped.pr95bendat,'-','95%')
+title('Coherence - Detections and SBL')
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
