@@ -15,6 +15,7 @@ filteredData.TidesAbsolute = filtfilt(Bsignal,Asignal,abs(surfaceData.crossShore
 filteredData.WindDir = filtfilt(Bsignal,Asignal,surfaceData.WDIR);
 filteredData.SBL = filtfilt(Bsignal,Asignal,surfaceData.SBL);
 filteredData.SBLcapped = filtfilt(Bsignal,Asignal,surfaceData.SBLcapped);
+filteredData.Detections = filtfilt(Bsignal,Asignal,envData.HourlyDets);
 
 
 

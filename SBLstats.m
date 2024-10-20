@@ -18,6 +18,8 @@ load snapRateHourlySpring
 % % Snaprate binned per minute
 load snapRateMinuteSpring
 load surfaceDataSpring
+load filteredData4Bin40HrLowSPRING
+
 times = surfaceData.time;
 %%
 % load envDataFall
@@ -30,7 +32,7 @@ times = surfaceData.time;
 % load surfaceDataFall
 % times = surfaceData.time;
 %%
-bins = 6
+bins = 4
 
 powerDetsSBLcapped = Coherence_whelch_overlap(envData.HourlyDets,surfaceData.SBLcapped,3600,bins,1,1,1)
 
@@ -58,7 +60,7 @@ title('Coherence - Detections and SBL')
 snapRateHourly.SnapCount
 surfaceData.
 
-[R,P,RL,RU] =corrcoef(envData.Noise,envData.HourlyDets)
+[R,P,RL,RU] =corrcoef(filteredData.Noise,filteredData.Detections)
 
 
 [R,P,RL,RU] =corrcoef(surfaceData.WSPD,surfaceData.SBL)
@@ -67,7 +69,7 @@ surfaceData.
 [R,P,RL,RU]= corrcoef(surfaceData.WSPD,snapRateHourly.SnapCount)
 [R,P,RL,RU] = corrcoef(filteredData.Winds,filteredData.Snaps)
 
-
+filtered.Data
 
 
 
