@@ -93,7 +93,39 @@ title('','90 kHz')
 %OKay, showed the cap, now I'll move on
 %Adding +/- dB buffer to each signal without worrying about cap.
 
+bufferLowHard = [lowFreqLoss.hardCap-3 lowFreqLoss.hardCap+3]
+bufferLowGrazing = [lowFreqLoss.grazingCap-3 lowFreqLoss.grazingCap+3]
 
+bufferHighHard = [highFreqLoss.hardCap-3 highFreqLoss.hardCap+3]
+bufferHighGrazing = [highFreqLoss.grazingCap-3 highFreqLoss.grazingCap+3]
+
+
+figure()
+figure()
+tiledlayout(2,1)
+ax1 = nexttile()
+plot(U,lowFreqLoss.grazingCap,'LineWidth',2)
+hold on
+plot(U,lowFreqLoss.hard,'LineWidth',2)
+plot(U,cappedLFLgrazing,'LineWidth',2)
+plot(U,cappedLFLhard,'LineWidth',2)
+xlim([0 15])
+ylim([0 20])
+ylabel('SBL (dB)')
+legend('GrazingAngle','HardAngle','Grazing(Cap)','Hard(Cap)')
+title('Calculated Surface Bubble Loss','50 kHz')
+
+ax2 = nexttile()
+plot(U,highFreqLoss.grazing,'LineWidth',2)
+hold on
+plot(U,highFreqLoss.hard,'LineWidth',2)
+plot(U,cappedHFLgrazing,'LineWidth',2)
+plot(U,cappedHFLhard,'LineWidth',2)
+xlim([0 15])
+ylim([ 0 20])
+ylabel('SBL (dB)')
+legend('GrazingAngle','HardAngle','Grazing(Cap)','Hard(Cap)')
+title('','90 kHz')
 
 
 
