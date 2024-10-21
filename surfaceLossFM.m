@@ -41,7 +41,7 @@ hardAngle    = 90;
 
 %Frank's got to slow it down
 for k = 1:length(U)
-    highFreqLoss(k,1) = SurfLoss(grazingAngle,U(k),highFrequency);
+    highFreqLoss(k,1) = SurfLoss(grazingAngle,U(k),69);
 end
 
 for k = 1:length(U)
@@ -66,8 +66,19 @@ plot(U,highFreqLoss,'LineWidth',2)
 plot(U,cappedHFL,'LineWidth',2)
 legend('50 kHz Loss','50 kHz CappedLoss', '90 kHz Loss','90 kHz CappedLoss')
 
+figure()
+tiledlayout(2,1)
+ax1 = nexttile()
+plot(U,lowFreqLoss,'LineWidth',2)
+hold on
+plot(U,cappedLFL,'LineWidth',2)
+xlim([0 15])
 
-
+ax2 = nexttile()
+plot(U,highFreqLoss,'LineWidth',2)
+hold on
+plot(U,cappedHFL,'LineWidth',2)
+xlim([0 15])
 
 
 
