@@ -36,52 +36,62 @@ highFrequency = 90;
 
 % Angles
 grazingAngle = 10; 
-hardAngle    = 90;
+hardAngle    = 60;
 
 
 %Frank's got to slow it down
 for k = 1:length(U)
-    highFreqLoss(k,1) = SurfLoss(grazingAngle,U(k),69);
+    highFreqLoss.grazing(k,1) = SurfLoss(grazingAngle,U(k),69);
+    highFreqLoss.hard(k,1) = SurfLoss(hardAngle,U(k),69);
 end
-
 for k = 1:length(U)
-    lowFreqLoss(k,1) = SurfLoss(grazingAngle,U(k),lowFrequency);
+    lowFreqLoss.grazing(k,1) = SurfLoss(grazingAngle,U(k),lowFrequency);
+    lowFreqLoss.hard(k,1) = SurfLoss(hardAngle,U(k),lowFrequency);
 end
 
 
 % UWAPL gives a suggestion to cap the upper limit of SBL at 15 dB. 
-indexHFL = highFreqLoss > 15;
-indexLFL = lowFreqLoss > 15;
-cappedHFL = highFreqLoss; cappedHFL(indexHFL) = 15;
-cappedLFL = lowFreqLoss; cappedLFL(indexLFL) = 15;
+indexHFLgrazing = highFreqLoss.grazing > 15;
+indexLFLgrazing = lowFreqLoss.grazing > 15;
+indexHFLhard = highFreqLoss.hard > 15;
+indexLFLhard = lowFreqLoss.hard > 15;
 
+highFreqLoss.grazingCap = highFreqLoss.grazing; highFreqLoss.grazingCap(indexHFLgrazing) = 15;
+highFreqLoss.hardCap = highFreqLoss.hard; highFreqLoss.hardCap(indexHFLhard) = 15;
+lowFreqLoss.grazingCap = lowFreqLoss.grazing; lowFreqLoss.grazingCap(indexLFLgrazing) = 15;
+lowFreqLoss.hardCap = lowFreqLoss.hard; lowFreqLoss.hard(indexLFLhard) = 15;
 
-
-
-figure()
-plot(U,lowFreqLoss,'LineWidth',2)
-hold on
-plot(U,cappedLFL,'LineWidth',2)
-plot(U,highFreqLoss,'LineWidth',2)
-plot(U,cappedHFL,'LineWidth',2)
-legend('50 kHz Loss','50 kHz CappedLoss', '90 kHz Loss','90 kHz CappedLoss')
 
 figure()
 tiledlayout(2,1)
 ax1 = nexttile()
-plot(U,lowFreqLoss,'LineWidth',2)
+plot(U,lowFreqLoss.grazing,'LineWidth',2)
 hold on
-plot(U,cappedLFL,'LineWidth',2)
+plot(U,lowFreqLoss.hard,'LineWidth',2)
+plot(U,cappedLFLgrazing,'LineWidth',2)
+plot(U,cappedLFLhard,'LineWidth',2)
 xlim([0 15])
+ylim([0 20])
+ylabel('SBL (dB)')
+legend('GrazingAngle','HardAngle','Grazing(Cap)','Hard(Cap)')
+title('Calculated Surface Bubble Loss','50 kHz')
 
 ax2 = nexttile()
-plot(U,highFreqLoss,'LineWidth',2)
+plot(U,highFreqLoss.grazing,'LineWidth',2)
 hold on
-plot(U,cappedHFL,'LineWidth',2)
+plot(U,highFreqLoss.hard,'LineWidth',2)
+plot(U,cappedHFLgrazing,'LineWidth',2)
+plot(U,cappedHFLhard,'LineWidth',2)
 xlim([0 15])
+ylim([ 0 20])
+ylabel('SBL (dB)')
+legend('GrazingAngle','HardAngle','Grazing(Cap)','Hard(Cap)')
+title('','90 kHz')
 
 
-
+%%
+%OKay, showed the cap, now I'll move on
+%Adding +/- dB buffer to each signal without worrying about cap.
 
 
 
