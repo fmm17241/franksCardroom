@@ -61,34 +61,6 @@ highFreqLoss.hardCap = highFreqLoss.hard; highFreqLoss.hardCap(indexHFLhard) = 1
 lowFreqLoss.grazingCap = lowFreqLoss.grazing; lowFreqLoss.grazingCap(indexLFLgrazing) = 15;
 lowFreqLoss.hardCap = lowFreqLoss.hard; lowFreqLoss.hard(indexLFLhard) = 15;
 
-
-figure()
-tiledlayout(2,1)
-ax1 = nexttile()
-plot(U,lowFreqLoss.grazing,'LineWidth',2)
-hold on
-plot(U,lowFreqLoss.hard,'LineWidth',2)
-plot(U,cappedLFLgrazing,'LineWidth',2)
-plot(U,cappedLFLhard,'LineWidth',2)
-xlim([0 15])
-ylim([0 20])
-ylabel('SBL (dB)')
-legend('GrazingAngle','HardAngle','Grazing(Cap)','Hard(Cap)')
-title('Calculated Surface Bubble Loss','50 kHz')
-
-ax2 = nexttile()
-plot(U,highFreqLoss.grazing,'LineWidth',2)
-hold on
-plot(U,highFreqLoss.hard,'LineWidth',2)
-plot(U,cappedHFLgrazing,'LineWidth',2)
-plot(U,cappedHFLhard,'LineWidth',2)
-xlim([0 15])
-ylim([ 0 20])
-ylabel('SBL (dB)')
-legend('GrazingAngle','HardAngle','Grazing(Cap)','Hard(Cap)')
-title('','90 kHz')
-
-
 %%
 %OKay, showed the cap, now I'll move on
 %Adding +/- dB buffer to each signal without worrying about cap.
@@ -101,8 +73,8 @@ bufferHighGrazing = [highFreqLoss.grazingCap-3 highFreqLoss.grazingCap+3]
 
 
 
-figure()
-tiledlayout('flow')
+fullPlots = figure()
+tiledlayout('flow','TileSpacing','Compact')
 ax1 = nexttile([1,1])
 plot(U,lowFreqLoss.grazingCap,'LineWidth',2)
 hold on
@@ -130,6 +102,7 @@ xlim([0 15])
 ylim([0 18])
 xlabel('SBL')
 xlabel('Windspeed (m/s')
+ylabel('Surface Bubble Loss (dBs)')
 yline(15,'--','SBL Boundary','LabelHorizontalAlignment', 'left')
 title('','90 kHz, 10deg Angle')
 
@@ -153,34 +126,35 @@ yline(15,'--','SBL Boundary','LabelHorizontalAlignment', 'left','LineWidth',2)
 title('Range of Surface Bubble Loss','High-Frequency Transceiver Bandwidth')
 xlabel('Windspeed (m/s')
 
+cd ('C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\plots')
+exportgraphics(fullPlots,'SBLexampleTiles.png')
 
-
-figure()
-ciplot(bufferLowGrazing(:,1),bufferLowGrazing(:,2),0:2:16)
-hold on
-ciplot(bufferHighGrazing(:,1),bufferHighGrazing(:,2),0:2:16,'r')
-
-
-plot(U,lowFreqLoss.hard,'LineWidth',2)
-plot(U,cappedLFLgrazing,'LineWidth',2)
-plot(U,cappedLFLhard,'LineWidth',2)
-xlim([0 15])
-ylim([0 20])
-ylabel('SBL (dB)')
-legend('GrazingAngle','HardAngle','Grazing(Cap)','Hard(Cap)')
-title('Calculated Surface Bubble Loss','50 kHz')
-
-ax2 = nexttile()
-plot(U,highFreqLoss.grazing,'LineWidth',2)
-hold on
-plot(U,highFreqLoss.hard,'LineWidth',2)
-plot(U,cappedHFLgrazing,'LineWidth',2)
-plot(U,cappedHFLhard,'LineWidth',2)
-xlim([0 15])
-ylim([ 0 20])
-ylabel('SBL (dB)')
-legend('GrazingAngle','HardAngle','Grazing(Cap)','Hard(Cap)')
-title('','90 kHz')
+% figure()
+% ciplot(bufferLowGrazing(:,1),bufferLowGrazing(:,2),0:2:16)
+% hold on
+% ciplot(bufferHighGrazing(:,1),bufferHighGrazing(:,2),0:2:16,'r')
+% 
+% 
+% plot(U,lowFreqLoss.hard,'LineWidth',2)
+% plot(U,cappedLFLgrazing,'LineWidth',2)
+% plot(U,cappedLFLhard,'LineWidth',2)
+% xlim([0 15])
+% ylim([0 20])
+% ylabel('SBL (dB)')
+% legend('GrazingAngle','HardAngle','Grazing(Cap)','Hard(Cap)')
+% title('Calculated Surface Bubble Loss','50 kHz')
+% 
+% ax2 = nexttile()
+% plot(U,highFreqLoss.grazing,'LineWidth',2)
+% hold on
+% plot(U,highFreqLoss.hard,'LineWidth',2)
+% plot(U,cappedHFLgrazing,'LineWidth',2)
+% plot(U,cappedHFLhard,'LineWidth',2)
+% xlim([0 15])
+% ylim([ 0 20])
+% ylabel('SBL (dB)')
+% legend('GrazingAngle','HardAngle','Grazing(Cap)','Hard(Cap)')
+% title('','90 kHz')
 
 
 
