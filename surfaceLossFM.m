@@ -67,14 +67,11 @@ times = surfaceData.time;
 % see the discussion in
 % High-Frequency Ocean Environmental Acoustic Models Handbook
 
-% theta = grazing angle (degrees)
-directAngle = 20
-midAngle = 90
-grazingAngle = 130;
-% U     = wind speed (m/s)
-U = surfaceData.WSPD;
-% f     = frequency (kHz)
-f = 69;
+
+midAngle = 90 %Angle of incidence, theta (degrees)
+
+U = surfaceData.WSPD; % Windspeed (m/s). Messed this up previously, can't use " if U > 6" with large dataset.
+f = 69; %Frequency (kHz)
 % LOSS   = surface bubble loss (dB)
 
 %Frank's got to slow it down
@@ -82,10 +79,8 @@ for k = 1:length(U)
     LOSS(k,1) = SurfLoss(midAngle,U(k),f);
 end
 
+%Think this is uneccessary, calculated it wrong. I'm flawed.
 index = LOSS > 40;
-
-
-
 % UWAPL gives a suggestion to cap the upper limit of SBL at 15 dB. Believe this is outdated.
 % Chua et al 2018, -40 dB is more recent and is more intuitive. 
 cappedLOSS = LOSS; cappedLOSS(index) = 40;
