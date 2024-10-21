@@ -28,26 +28,53 @@
 
 %%
 %Frank is flawed, he needs to fix his understanding of modeling SBL
-U = 0:2:20;
-frequency = 69;
-theta = 10; 
+U = 0:2:16;
+
+% Frequency Examples
+lowFrequency = 50;
+highFrequency = 90;
+
+% Angles
+grazingAngle = 10; 
+hardAngle    = 90;
+
 
 %Frank's got to slow it down
 for k = 1:length(U)
-    LOSS1(k,1) = SurfLoss(theta,U(k),frequency);
+    highFreqLoss(k,1) = SurfLoss(grazingAngle,U(k),highFrequency);
 end
 
-index = LOSS1 > 15;
-% UWAPL gives a suggestion to cap the upper limit of SBL at 15 dB. Believe this is outdated.
-% Chua et al 2018, -40 dB is more recent and is more intuitive. 
-cappedLOSS = LOSS1; cappedLOSS(index) = 15;
+for k = 1:length(U)
+    lowFreqLoss(k,1) = SurfLoss(grazingAngle,U(k),lowFrequency);
+end
+
+
+% UWAPL gives a suggestion to cap the upper limit of SBL at 15 dB. 
+indexHFL = highFreqLoss > 15;
+indexLFL = lowFreqLoss > 15;
+cappedHFL = highFreqLoss; cappedHFL(indexHFL) = 15;
+cappedLFL = lowFreqLoss; cappedLFL(indexLFL) = 15;
+
+
 
 
 figure()
-plot(U,LOSS1,'LineWidth',2)
+plot(U,lowFreqLoss,'LineWidth',2)
 hold on
-plot(U,cappedLOSS,'LineWidth',2)
-legend('Loss','CappedLoss')
+plot(U,cappedLFL,'LineWidth',2)
+plot(U,highFreqLoss,'LineWidth',2)
+plot(U,cappedHFL,'LineWidth',2)
+legend('50 kHz Loss','50 kHz CappedLoss', '90 kHz Loss','90 kHz CappedLoss')
+
+
+
+
+
+
+
+
+
+
 
 %%
 % Frank adding losses
