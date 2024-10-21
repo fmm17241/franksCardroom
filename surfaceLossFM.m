@@ -37,8 +37,17 @@ for k = 1:length(U)
     LOSS1(k,1) = SurfLoss(theta,U(k),frequency);
 end
 
+index = LOSS1 > 15;
+% UWAPL gives a suggestion to cap the upper limit of SBL at 15 dB. Believe this is outdated.
+% Chua et al 2018, -40 dB is more recent and is more intuitive. 
+cappedLOSS = LOSS1; cappedLOSS(index) = 15;
+
+
 figure()
 plot(U,LOSS1)
+hold on
+plot(U,cappedLOSS)
+legend('Loss','CappedLoss')
 
 %%
 % Frank adding losses
