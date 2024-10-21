@@ -44,9 +44,9 @@ cappedLOSS = LOSS1; cappedLOSS(index) = 15;
 
 
 figure()
-plot(U,LOSS1)
+plot(U,LOSS1,'LineWidth',2)
 hold on
-plot(U,cappedLOSS)
+plot(U,cappedLOSS,'LineWidth',2)
 legend('Loss','CappedLoss')
 
 %%
