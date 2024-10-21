@@ -102,36 +102,58 @@ bufferHighGrazing = [highFreqLoss.grazingCap-3 highFreqLoss.grazingCap+3]
 
 
 figure()
-tiledlayout(2,2)
-ax1 = nexttile()
+tiledlayout('flow')
+ax1 = nexttile([1,1])
 plot(U,lowFreqLoss.grazingCap,'LineWidth',2)
 hold on
 ciplot(bufferLowGrazing(:,1),bufferLowGrazing(:,2),0:2:16)
 xlim([0 15])
 ylim([0 18])
+xlabel('SBL')
 yline(15,'--','SBL Boundary','LabelHorizontalAlignment', 'left')
+title('Calculated Surface Bubble Loss','50 kHz, 10deg Angle')
 
-ax2 = nexttile()
+ax2 = nexttile([1,1])
 plot(U,lowFreqLoss.hardCap,'LineWidth',2)
 hold on
 ciplot(bufferLowHard(:,1),bufferLowHard(:,2),0:2:16)
 xlim([0 15])
 ylim([0 18])
+legend('','+/- 3 dB')
+title('Angle of Incidence vs the Surface','50 kHz, 60deg Angle')
 
-ax3 = nexttile()
+ax3 = nexttile([1,1])
 plot(U,highFreqLoss.grazingCap,'r','LineWidth',2)
 hold on
 ciplot(bufferHighGrazing(:,1),bufferHighGrazing(:,2),0:2:16,'r')
 xlim([0 15])
 ylim([0 18])
+xlabel('SBL')
+xlabel('Windspeed (m/s')
+yline(15,'--','SBL Boundary','LabelHorizontalAlignment', 'left')
+title('','90 kHz, 10deg Angle')
 
-ax4 = nexttile()
+ax4 = nexttile([1,1])
 plot(U,highFreqLoss.hardCap,'r','LineWidth',2)
 hold on
 ciplot(bufferHighHard(:,1),bufferHighHard(:,2),0:2:16,'r')
 xlim([0 15])
 ylim([0 18])
-legend('Test1','Test2')
+xlabel('Windspeed (m/s')
+legend('','+/- 3 dB')
+title('','90 kHz, 60deg Angle')
+
+ax5 = nexttile([1,2])
+ciplot(bufferLowGrazing(:,1),bufferLowGrazing(:,2),0:2:16)
+hold on
+ciplot(bufferHighGrazing(:,1),bufferHighGrazing(:,2),0:2:16,'r')
+xlim([0 15])
+ylim([0 18])
+yline(15,'--','SBL Boundary','LabelHorizontalAlignment', 'left','LineWidth',2)
+title('Comparison between 50-90 kHz','The High-Frequency Bandwidth')
+xlabel('Windspeed (m/s')
+
+
 
 figure()
 ciplot(bufferLowGrazing(:,1),bufferLowGrazing(:,2),0:2:16)
