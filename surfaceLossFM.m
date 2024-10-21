@@ -100,12 +100,45 @@ bufferHighHard = [highFreqLoss.hardCap-3 highFreqLoss.hardCap+3]
 bufferHighGrazing = [highFreqLoss.grazingCap-3 highFreqLoss.grazingCap+3]
 
 
+
 figure()
-figure()
-tiledlayout(2,1)
+tiledlayout(2,2)
 ax1 = nexttile()
 plot(U,lowFreqLoss.grazingCap,'LineWidth',2)
 hold on
+ciplot(bufferLowGrazing(:,1),bufferLowGrazing(:,2),0:2:16)
+xlim([0 15])
+ylim([0 18])
+yline(15,'--','Patch','LabelHorizontalAlignment', 'left')
+
+ax2 = nexttile()
+plot(U,lowFreqLoss.hardCap,'LineWidth',2)
+hold on
+ciplot(bufferLowHard(:,1),bufferLowHard(:,2),0:2:16)
+xlim([0 15])
+ylim([0 18])
+
+ax3 = nexttile()
+plot(U,highFreqLoss.grazingCap,'r','LineWidth',2)
+hold on
+ciplot(bufferHighGrazing(:,1),bufferHighGrazing(:,2),0:2:16,'r')
+xlim([0 15])
+ylim([0 18])
+
+ax4 = nexttile()
+plot(U,highFreqLoss.hardCap,'r','LineWidth',2)
+hold on
+ciplot(bufferHighHard(:,1),bufferHighHard(:,2),0:2:16,'r')
+xlim([0 15])
+ylim([0 18])
+legend('Test1','Test2')
+
+figure()
+ciplot(bufferLowGrazing(:,1),bufferLowGrazing(:,2),0:2:16)
+hold on
+ciplot(bufferHighGrazing(:,1),bufferHighGrazing(:,2),0:2:16,'r')
+
+
 plot(U,lowFreqLoss.hard,'LineWidth',2)
 plot(U,cappedLFLgrazing,'LineWidth',2)
 plot(U,cappedLFLhard,'LineWidth',2)
@@ -126,6 +159,34 @@ ylim([ 0 20])
 ylabel('SBL (dB)')
 legend('GrazingAngle','HardAngle','Grazing(Cap)','Hard(Cap)')
 title('','90 kHz')
+
+
+
+
+%%
+%For example later
+% for k = 1:length(seasons)
+%     %Finding standard deviations/CIs of values
+%     SEM = std(nightWinds{1,k}(:),'omitnan')/sqrt(length(nightWinds{1,k}));  
+%     ts = tinv([0.025  0.975],length(nightWinds{1,k})-1);  
+%     CInightWinds(k,:) = (mean(nightWinds{:,k},'all','omitnan') + ts*SEM); 
+% end
+% 
+% 
+% 
+% 
+% %%
+% 
+% 
+% figure()
+% hold on
+% % ciplot(CIsunsetNoise(:,1),CIsunsetNoise(:,2),1:5,'k')
+% ciplot(CInightNoise(:,1),CInightNoise(:,2),1:5,'b')
+% ciplot(CIdayNoise(:,1),CIdayNoise(:,2),1:5,'r')
+% xlabel('Seasons, 2020')
+% ylabel('Average Noise (mV)')
+% title('Average Noise By Time of Day and Season','95% Conf. Interval, 69 kHz')
+% legend('Night','Day')
 
 
 
