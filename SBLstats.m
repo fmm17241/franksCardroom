@@ -60,7 +60,7 @@ title('Coherence - Detections and SBL')
 snapRateHourly.SnapCount
 surfaceData.
 
-[R,P,RL,RU] =corrcoef(filteredData.Noise,filteredData.Detections)
+[R,P,RL,RU] =corrcoef(filteredData.Snaps,filteredData.SBLcapped)
 
 
 [R,P,RL,RU] =corrcoef(surfaceData.WSPD,surfaceData.SBL)
