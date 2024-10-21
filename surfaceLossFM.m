@@ -82,7 +82,7 @@ LOSS = SurfLoss(midAngle, U, f );
 index = LOSS > 40;
 
 
-calc = SurfLoss(midAngle,8.883,69)
+calc = SurfLoss(midAngle,surfaceData.WSPD(10),69)
 
 
 % UWAPL gives a suggestion to cap the upper limit of SBL at 15 dB. Believe this is outdated.
