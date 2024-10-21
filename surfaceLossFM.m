@@ -82,6 +82,9 @@ LOSS = SurfLoss(midAngle, U, f );
 index = LOSS > 40;
 
 
+calc = SurfLoss(midAngle,8.883,69)
+
+
 % UWAPL gives a suggestion to cap the upper limit of SBL at 15 dB. Believe this is outdated.
 % Chua et al 2018, -40 dB is more recent and is more intuitive. 
 cappedLOSS = LOSS; cappedLOSS(index) = 40;
