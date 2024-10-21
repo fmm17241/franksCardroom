@@ -27,6 +27,20 @@
 % phased.UnderwaterRadiatedNoise
 
 %%
+%Frank is flawed, he needs to fix his understanding of modeling SBL
+U = 0:2:20;
+frequency = 69;
+theta = 10; 
+
+%Frank's got to slow it down
+for k = 1:length(U)
+    LOSS1(k,1) = SurfLoss(theta,U(k),frequency);
+end
+
+figure()
+plot(U,LOSS1)
+
+%%
 % Frank adding losses
 fileLocation = ([oneDrive,'\acousticAnalysis\matlabVariables']);
 cd (fileLocation)
@@ -68,7 +82,7 @@ times = surfaceData.time;
 % High-Frequency Ocean Environmental Acoustic Models Handbook
 
 
-midAngle = 90 %Angle of incidence, theta (degrees)
+theta = 10 %Angle of incidence, theta (degrees)
 
 U = surfaceData.WSPD; % Windspeed (m/s). Messed this up previously, can't use " if U > 6" with large dataset.
 f = 69; %Frequency (kHz)
@@ -76,21 +90,21 @@ f = 69; %Frequency (kHz)
 
 %Frank's got to slow it down
 for k = 1:length(U)
-    LOSS1(k,1) = SurfLoss(midAngle,U(k),20);
+    LOSS1(k,1) = SurfLoss(theta,U(k),20);
 end
 
 %Frank's got to slow it down
 for k = 1:length(U)
-    LOSS2(k,1) = SurfLoss(midAngle,U(k),69);
+    LOSS2(k,1) = SurfLoss(theta,U(k),69);
 end
 
 LOSS3 = SurfLoss(10,15,40)
 
 %Think this is uneccessary, calculated it wrong. I'm flawed.
-index = LOSS > 40;
+index = LOSS > 15;
 % UWAPL gives a suggestion to cap the upper limit of SBL at 15 dB. Believe this is outdated.
 % Chua et al 2018, -40 dB is more recent and is more intuitive. 
-cappedLOSS = LOSS; cappedLOSS(index) = 40;
+cappedLOSS = LOSS; cappedLOSS(index) = 15;
 
 %at midAngle, cap is at 9+ m/s
 
