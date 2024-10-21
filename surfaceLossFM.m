@@ -96,7 +96,7 @@ plot(times,cappedLOSS,'r','LineWidth',2)
 title('Surface Bubble Loss- HF (69 kHz) Attenuation')
 ylabel('Noise Loss (dBs)')
 
-% WOWWWW!!!!!
+% WOW.
 [a,b] = corrcoef(cappedLOSS,envData.Noise)
 [a,b] = corrcoef(LOSS,envData.Noise)
 
