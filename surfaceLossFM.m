@@ -76,8 +76,15 @@ f = 69; %Frequency (kHz)
 
 %Frank's got to slow it down
 for k = 1:length(U)
-    LOSS(k,1) = SurfLoss(midAngle,U(k),f);
+    LOSS1(k,1) = SurfLoss(midAngle,U(k),20);
 end
+
+%Frank's got to slow it down
+for k = 1:length(U)
+    LOSS2(k,1) = SurfLoss(midAngle,U(k),69);
+end
+
+LOSS3 = SurfLoss(10,15,40)
 
 %Think this is uneccessary, calculated it wrong. I'm flawed.
 index = LOSS > 40;
@@ -86,6 +93,8 @@ index = LOSS > 40;
 cappedLOSS = LOSS; cappedLOSS(index) = 40;
 
 %at midAngle, cap is at 9+ m/s
+
+
 
 figure()
 plot(times,LOSS,'k')
