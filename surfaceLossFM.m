@@ -109,7 +109,7 @@ hold on
 ciplot(bufferLowGrazing(:,1),bufferLowGrazing(:,2),0:2:16)
 xlim([0 15])
 ylim([0 18])
-yline(15,'--','Patch','LabelHorizontalAlignment', 'left')
+yline(15,'--','SBL Boundary','LabelHorizontalAlignment', 'left')
 
 ax2 = nexttile()
 plot(U,lowFreqLoss.hardCap,'LineWidth',2)
