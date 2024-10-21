@@ -82,8 +82,6 @@ LOSS = SurfLoss(midAngle, U, f );
 index = LOSS > 40;
 
 
-calc = SurfLoss(midAngle,surfaceData.WSPD(10),69)
-
 
 % UWAPL gives a suggestion to cap the upper limit of SBL at 15 dB. Believe this is outdated.
 % Chua et al 2018, -40 dB is more recent and is more intuitive. 
@@ -121,3 +119,49 @@ ylabel('Noise Loss (dBs)')
 
 surfaceData.SBL = LOSS;
 surfaceData.SBLcapped = cappedLOSS;
+
+
+
+%%
+% %Franks testing
+%Found odd values in my code, so checking now
+
+U = 2;
+theta = 90;
+f = 69;
+
+
+%Test 1
+SBL1 = 1.26e-3 * U^1.57 * f^0.85 / sin( theta * pi / 180 );
+
+%Test 2
+SBL2= 1.26e-3 * 6^1.57 * f^0.85 / sin( theta * pi / 180 ) * exp( 1.2 * ( U - 6 ) );
+
+
+% 
+% if U > 6
+%     SBL = 1.26e-3 * U^1.57 * f^0.85 / sin( theta * pi / 180 );
+% else
+%     SBL = 1.26e-3 * 6^1.57 * f^0.85 / sin( theta * pi / 180 ) * exp( 1.2 * ( U - 6 ) );
+% end
+
+
+Loss = SBL;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
