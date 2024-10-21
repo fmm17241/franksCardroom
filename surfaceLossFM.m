@@ -150,7 +150,7 @@ ciplot(bufferHighGrazing(:,1),bufferHighGrazing(:,2),0:2:16,'r')
 xlim([0 15])
 ylim([0 18])
 yline(15,'--','SBL Boundary','LabelHorizontalAlignment', 'left','LineWidth',2)
-title('Comparison between 50-90 kHz','The High-Frequency Bandwidth')
+title('Range of Surface Bubble Loss','High-Frequency Transceiver Bandwidth')
 xlabel('Windspeed (m/s')
 
 
