@@ -77,7 +77,10 @@ U = surfaceData.WSPD;
 f = 69;
 % LOSS   = surface bubble loss (dB)
 
-LOSS = SurfLoss(midAngle, U, f );
+%Frank's got to slow it down
+for k = 1:length(U)
+    LOSS(k,1) = SurfLoss(midAngle,U(k),f);
+end
 
 index = LOSS > 40;
 
@@ -98,7 +101,7 @@ title('Surface Bubble Loss- HF (69 kHz) Attenuation')
 ylabel('Noise Loss (dBs)')
 
 % WOW.
-[a,b] = corrcoef(cappedLOSS,envData.Noise)
+[a,b] = corrcoef(LOSS,snapRateHourly.SnapCount)
 [a,b] = corrcoef(LOSS,envData.Noise)
 
 % 
@@ -126,16 +129,18 @@ surfaceData.SBLcapped = cappedLOSS;
 % %Franks testing
 %Found odd values in my code, so checking now
 
-U = 2;
+U = surfaceData.WSPD(12);
+
+
 theta = 90;
 f = 69;
 
 
 %Test 1
-SBL1 = 1.26e-3 * U^1.57 * f^0.85 / sin( theta * pi / 180 );
+SBL1 = 1.26e-3 * U^1.57 * f^0.85 / sin( theta * pi / 180 )
 
 %Test 2
-SBL2= 1.26e-3 * 6^1.57 * f^0.85 / sin( theta * pi / 180 ) * exp( 1.2 * ( U - 6 ) );
+SBL2= 1.26e-3 * 6^1.57 * f^0.85 / sin( theta * pi / 180 ) * exp( 1.2 * ( U - 6 ) )
 
 
 % 
