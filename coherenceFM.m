@@ -108,15 +108,15 @@ title('Surface Bubble Loss''s Effect on Detections','40 Hr. Lowpass')
 legend('SBL','Detections')
 
 ax2 = nexttile([1,1])
-plot(times,filteredData.SBLcapped,'b--','LineWidth',2)
-ylabel('SBL (dB)')
-ylim([0 16])
+plot(times,filteredData.Noise,'k-.','LineWidth',2)
+ylabel('HF Noise (mV)')
+% ylim([0 16])
 yyaxis right
 plot(times,filteredData.Snaps,'r-','LineWidth',2)
 % ylim([400 800])
 ylabel('Snaprates')
 title('Surface Bubble Loss''s Effect on Snaprate','40 Hr. Lowpass')
-legend('SBL','Snaprate')
+legend('Noise','Snaprate')
 
 
 ax3 = nexttile([1,2])
