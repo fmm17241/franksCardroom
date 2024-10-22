@@ -27,163 +27,6 @@
 % phased.UnderwaterRadiatedNoise
 
 %%
-%Frank is flawed, he needs to fix his understanding of modeling SBL
-U = 0:2:16;
-
-% Frequency Examples
-lowFrequency = 50;
-highFrequency = 90;
-
-% Angles
-grazingAngle = 10; 
-hardAngle    = 60;
-
-
-%Frank's got to slow it down
-for k = 1:length(U)
-    highFreqLoss.grazing(k,1) = SurfLoss(grazingAngle,U(k),69);
-    highFreqLoss.hard(k,1) = SurfLoss(hardAngle,U(k),69);
-end
-for k = 1:length(U)
-    lowFreqLoss.grazing(k,1) = SurfLoss(grazingAngle,U(k),lowFrequency);
-    lowFreqLoss.hard(k,1) = SurfLoss(hardAngle,U(k),lowFrequency);
-end
-
-
-% UWAPL gives a suggestion to cap the upper limit of SBL at 15 dB. 
-indexHFLgrazing = highFreqLoss.grazing > 15;
-indexLFLgrazing = lowFreqLoss.grazing > 15;
-indexHFLhard = highFreqLoss.hard > 15;
-indexLFLhard = lowFreqLoss.hard > 15;
-
-highFreqLoss.grazingCap = highFreqLoss.grazing; highFreqLoss.grazingCap(indexHFLgrazing) = 15;
-highFreqLoss.hardCap = highFreqLoss.hard; highFreqLoss.hardCap(indexHFLhard) = 15;
-lowFreqLoss.grazingCap = lowFreqLoss.grazing; lowFreqLoss.grazingCap(indexLFLgrazing) = 15;
-lowFreqLoss.hardCap = lowFreqLoss.hard; lowFreqLoss.hard(indexLFLhard) = 15;
-
-
-figure()
-tiledlayout(2,1)
-ax1 = nexttile()
-plot(U,lowFreqLoss.grazing,'LineWidth',2)
-hold on
-plot(U,lowFreqLoss.hard,'LineWidth',2)
-plot(U,cappedLFLgrazing,'LineWidth',2)
-plot(U,cappedLFLhard,'LineWidth',2)
-xlim([0 15])
-ylim([0 20])
-ylabel('SBL (dB)')
-legend('GrazingAngle','HardAngle','Grazing(Cap)','Hard(Cap)')
-title('Calculated Surface Bubble Loss','50 kHz')
-
-ax2 = nexttile()
-plot(U,highFreqLoss.grazing,'LineWidth',2)
-hold on
-plot(U,highFreqLoss.hard,'LineWidth',2)
-plot(U,cappedHFLgrazing,'LineWidth',2)
-plot(U,cappedHFLhard,'LineWidth',2)
-xlim([0 15])
-ylim([ 0 20])
-ylabel('SBL (dB)')
-legend('GrazingAngle','HardAngle','Grazing(Cap)','Hard(Cap)')
-title('','90 kHz')
-
-
-%%
-%OKay, showed the cap, now I'll move on
-%Adding +/- dB buffer to each signal without worrying about cap.
-
-bufferLowHard = [lowFreqLoss.hardCap-3 lowFreqLoss.hardCap+3]
-bufferLowGrazing = [lowFreqLoss.grazingCap-3 lowFreqLoss.grazingCap+3]
-
-bufferHighHard = [highFreqLoss.hardCap-3 highFreqLoss.hardCap+3]
-bufferHighGrazing = [highFreqLoss.grazingCap-3 highFreqLoss.grazingCap+3]
-
-
-
-figure()
-tiledlayout('flow')
-ax1 = nexttile([1,1])
-plot(U,lowFreqLoss.grazingCap,'LineWidth',2)
-hold on
-ciplot(bufferLowGrazing(:,1),bufferLowGrazing(:,2),0:2:16)
-xlim([0 15])
-ylim([0 18])
-xlabel('SBL')
-yline(15,'--','SBL Boundary','LabelHorizontalAlignment', 'left')
-title('Calculated Surface Bubble Loss','50 kHz, 10deg Angle')
-
-ax2 = nexttile([1,1])
-plot(U,lowFreqLoss.hardCap,'LineWidth',2)
-hold on
-ciplot(bufferLowHard(:,1),bufferLowHard(:,2),0:2:16)
-xlim([0 15])
-ylim([0 18])
-legend('','+/- 3 dB')
-title('Angle of Incidence vs the Surface','50 kHz, 60deg Angle')
-
-ax3 = nexttile([1,1])
-plot(U,highFreqLoss.grazingCap,'r','LineWidth',2)
-hold on
-ciplot(bufferHighGrazing(:,1),bufferHighGrazing(:,2),0:2:16,'r')
-xlim([0 15])
-ylim([0 18])
-xlabel('SBL')
-xlabel('Windspeed (m/s')
-yline(15,'--','SBL Boundary','LabelHorizontalAlignment', 'left')
-title('','90 kHz, 10deg Angle')
-
-ax4 = nexttile([1,1])
-plot(U,highFreqLoss.hardCap,'r','LineWidth',2)
-hold on
-ciplot(bufferHighHard(:,1),bufferHighHard(:,2),0:2:16,'r')
-xlim([0 15])
-ylim([0 18])
-xlabel('Windspeed (m/s')
-legend('','+/- 3 dB')
-title('','90 kHz, 60deg Angle')
-
-ax5 = nexttile([1,2])
-ciplot(bufferLowGrazing(:,1),bufferLowGrazing(:,2),0:2:16)
-hold on
-ciplot(bufferHighGrazing(:,1),bufferHighGrazing(:,2),0:2:16,'r')
-xlim([0 15])
-ylim([0 18])
-yline(15,'--','SBL Boundary','LabelHorizontalAlignment', 'left','LineWidth',2)
-title('Range of Surface Bubble Loss','High-Frequency Transceiver Bandwidth')
-xlabel('Windspeed (m/s')
-
-
-
-figure()
-ciplot(bufferLowGrazing(:,1),bufferLowGrazing(:,2),0:2:16)
-hold on
-ciplot(bufferHighGrazing(:,1),bufferHighGrazing(:,2),0:2:16,'r')
-
-
-plot(U,lowFreqLoss.hard,'LineWidth',2)
-plot(U,cappedLFLgrazing,'LineWidth',2)
-plot(U,cappedLFLhard,'LineWidth',2)
-xlim([0 15])
-ylim([0 20])
-ylabel('SBL (dB)')
-legend('GrazingAngle','HardAngle','Grazing(Cap)','Hard(Cap)')
-title('Calculated Surface Bubble Loss','50 kHz')
-
-ax2 = nexttile()
-plot(U,highFreqLoss.grazing,'LineWidth',2)
-hold on
-plot(U,highFreqLoss.hard,'LineWidth',2)
-plot(U,cappedHFLgrazing,'LineWidth',2)
-plot(U,cappedHFLhard,'LineWidth',2)
-xlim([0 15])
-ylim([ 0 20])
-ylabel('SBL (dB)')
-legend('GrazingAngle','HardAngle','Grazing(Cap)','Hard(Cap)')
-title('','90 kHz')
-
-
-%%
 % Frank adding losses
 fileLocation = ([oneDrive,'\acousticAnalysis\matlabVariables']);
 cd (fileLocation)
@@ -231,22 +74,16 @@ U = surfaceData.WSPD; % Windspeed (m/s). Messed this up previously, can't use " 
 f = 69; %Frequency (kHz)
 % LOSS   = surface bubble loss (dB)
 
-%Frank's got to slow it down
+
 for k = 1:length(U)
-    LOSS1(k,1) = SurfLoss(theta,U(k),20);
+    LOSS1(k,1) = SurfLoss(theta,U(k),f);
 end
 
-%Frank's got to slow it down
-for k = 1:length(U)
-    LOSS2(k,1) = SurfLoss(theta,U(k),69);
-end
-
-LOSS3 = SurfLoss(10,15,40)
 
 %Think this is uneccessary, calculated it wrong. I'm flawed.
 index = LOSS > 15;
 % UWAPL gives a suggestion to cap the upper limit of SBL at 15 dB. Believe this is outdated.
-% Chua et al 2018, -40 dB is more recent and is more intuitive. 
+% Chua et al 2018, -40 dB is more recent but too high.
 cappedLOSS = LOSS; cappedLOSS(index) = 15;
 
 %at midAngle, cap is at 9+ m/s
