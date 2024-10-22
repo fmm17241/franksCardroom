@@ -32,34 +32,34 @@ fileLocation = ([oneDrive,'\acousticAnalysis\matlabVariables']);
 cd (fileLocation)
 
 
-% load envDataFall
-% % Full snaprate dataset
-% load snapRateDataFall
-% % Snaprate binned hourly
-% load snapRateHourlyFall
-% % Snaprate binned per minute
-% load snapRateMinuteFall
-% load surfaceDataFall
-% times = surfaceData.time;
-% 
+load envDataFall
+% Full snaprate dataset
+load snapRateDataFall
+% Snaprate binned hourly
+load snapRateHourlyFall
+% Snaprate binned per minute
+load snapRateMinuteFall
+load surfaceDataFall
+times = surfaceData.time;
+
 % %This is Frank pruning from Sept-Feb to Sept-Dec.
 % if length(surfaceData.time) == 3308
 %     surfaceData = surfaceData(1:2078,:);
 %     snapRateHourly = snapRateHourly(1:2078,:);
 % end
 % times = surfaceData.time;
-
-% % Load in saved data
-% % Environmental data matched to the hourly snaps.
-load envDataSpring
-% Full snaprate dataset
-load snapRateDataSpring
-% Snaprate binned hourly
-load snapRateHourlySpring
-% Snaprate binned per minute
-load snapRateMinuteSpring
-load surfaceDataSpring
-times = surfaceData.time;
+% % 
+% % % Load in saved data
+% % % Environmental data matched to the hourly snaps.
+% load envDataSpring
+% % Full snaprate dataset
+% load snapRateDataSpring
+% % Snaprate binned hourly
+% load snapRateHourlySpring
+% % Snaprate binned per minute
+% load snapRateMinuteSpring
+% load surfaceDataSpring
+% times = surfaceData.time;
 
 % surface loss
 % bubble losses are assumed to be the dominant effect for the total field
@@ -103,69 +103,12 @@ ylabel('Noise Loss (dBs)')
 [a,b] = corrcoef(cappedLOSS,envData.HourlyDets)
 
 
-% 
-% figure()
-% scatter(cappedLOSS,envData.Noise)
-% xlabel('Calculated SBL (dB)')
-% ylabel('HF Noise (mV)')
-% title(['Capped Sound Attenuation due to Wind-Drive Surface Bubbles'])
-% 
-% 
-% figure()
-% scatter(cappedLOSS,snapRateHourly.SnapCount)
-% xlabel('Calculated SBL (dB)')
-% ylabel('Hourly Snaps')
-% title(['Capped Sound Attenuation due to Wind-Drive Surface Bubbles'])
-
-
-
 surfaceData.SBL = sbLOSS;
 surfaceData.SBLcapped = cappedLOSS;
 
 
 
 %%
-% %Franks testing
-%Found odd values in my code, so checking now
-
-U = surfaceData.WSPD(12);
-
-
-theta = 90;
-f = 69;
-
-
-%Test 1
-SBL1 = 1.26e-3 * U^1.57 * f^0.85 / sin( theta * pi / 180 )
-
-%Test 2
-SBL2= 1.26e-3 * 6^1.57 * f^0.85 / sin( theta * pi / 180 ) * exp( 1.2 * ( U - 6 ) )
-
-
-% 
-% if U > 6
-%     SBL = 1.26e-3 * U^1.57 * f^0.85 / sin( theta * pi / 180 );
-% else
-%     SBL = 1.26e-3 * 6^1.57 * f^0.85 / sin( theta * pi / 180 ) * exp( 1.2 * ( U - 6 ) );
-% end
-
-
-Loss = SBL;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
