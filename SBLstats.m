@@ -71,9 +71,26 @@ surfaceData.
 
 filtered.Data
 
+figure()
+scatter(surfaceData.WSPD,surfaceData.waveHeight)
 
+figure()
+yyaxis left
+scatter(surfaceData.WSPD,envData.Noise)
+yyaxis right
+plot(filteredData.Winds,filteredData.Snaps)
 
+figure()
+scatter(surfaceData.SST,snapRateHourly.SnapCount)
+xlabel('Sea Surface Temp (C)')
+ylabel('Hourly Snaps')
+title('Benthic Activity','Warming Waters')
 
+figure()
+scatter(filteredData.SST,filteredData.Snaps)
+xlabel('Sea Surface Temp (C)')
+ylabel('Hourly Snaps')
+title('Benthic Activity','Warming Waters')
 
 
 
