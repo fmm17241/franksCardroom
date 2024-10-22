@@ -105,9 +105,9 @@ xlabel('Windspeed (m/s)')
 hold on
 scatter(filteredData.Winds,filteredData.Noise)
 ax3 = nexttile([2,1])
-scatter(surfaceData.waveHeight,envData.Noise)
+scatter(snapRateHourly.SnapCount,envData.Noise)
 hold on
-scatter(filteredData.Waves,filteredData.Noise)
+scatter(filteredData.Snaps,filteredData.Noise)
 
 
 
