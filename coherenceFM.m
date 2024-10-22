@@ -89,13 +89,18 @@ filterOrder = 4;
 [R,P,RL,RU] =corrcoef(snapRateHourly.SnapCount,envData.Noise)
 
 figure()
+TT = tiledlayout('flow')
+ax1 = nexttile([1,1])
 yyaxis left
 plot(times,filteredData.SBLcapped,'b--','LineWidth',2)
-
 yyaxis right
 plot(times,filteredData.Detections,'r-','LineWidth',2)
 
+ax2 = nexttile([1,1])
+plot(times,surfaceData.SBLcapped,'b--','LineWidth',2)
+yyaxis right
+plot(times,snapRateHourly.SnapCount,'k-','LineWidth',2)
 
-
+linkaxes([ax1 ax2],'x')
 
 
