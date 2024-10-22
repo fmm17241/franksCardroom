@@ -41,8 +41,8 @@ hardAngle    = 60;
 
 %Frank's got to slow it down
 for k = 1:length(U)
-    highFreqLoss.grazing(k,1) = SurfLoss(grazingAngle,U(k),69);
-    highFreqLoss.hard(k,1) = SurfLoss(hardAngle,U(k),69);
+    highFreqLoss.grazing(k,1) = SurfLoss(grazingAngle,U(k),highFrequency);
+    highFreqLoss.hard(k,1) = SurfLoss(hardAngle,U(k),highFrequency);
 end
 for k = 1:length(U)
     lowFreqLoss.grazing(k,1) = SurfLoss(grazingAngle,U(k),lowFrequency);
@@ -92,7 +92,7 @@ ciplot(bufferLowHard(:,1),bufferLowHard(:,2),0:2:16)
 xlim([0 15])
 ylim([0 18])
 legend('','+/- 3 dB')
-title('Angle of Incidence vs the Surface','50 kHz, 60deg Angle')
+title('','50 kHz, 60deg Angle')
 
 ax3 = nexttile([1,1])
 plot(U,highFreqLoss.grazingCap,'r','LineWidth',2)
