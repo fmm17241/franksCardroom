@@ -32,34 +32,34 @@ fileLocation = ([oneDrive,'\acousticAnalysis\matlabVariables']);
 cd (fileLocation)
 
 
-load envDataFall
-% Full snaprate dataset
-load snapRateDataFall
-% Snaprate binned hourly
-load snapRateHourlyFall
-% Snaprate binned per minute
-load snapRateMinuteFall
-load surfaceDataFall
-times = surfaceData.time;
-
-%This is Frank pruning from Sept-Feb to Sept-Dec.
-if length(surfaceData.time) == 3308
-    surfaceData = surfaceData(1:2078,:);
-    snapRateHourly = snapRateHourly(1:2078,:);
-end
-times = surfaceData.time;
-
-% Load in saved data
-% Environmental data matched to the hourly snaps.
-% load envDataSpring
+% load envDataFall
 % % Full snaprate dataset
-% load snapRateDataSpring
+% load snapRateDataFall
 % % Snaprate binned hourly
-% load snapRateHourlySpring
+% load snapRateHourlyFall
 % % Snaprate binned per minute
-% load snapRateMinuteSpring
-% load surfaceDataSpring
+% load snapRateMinuteFall
+% load surfaceDataFall
 % times = surfaceData.time;
+% 
+% %This is Frank pruning from Sept-Feb to Sept-Dec.
+% if length(surfaceData.time) == 3308
+%     surfaceData = surfaceData(1:2078,:);
+%     snapRateHourly = snapRateHourly(1:2078,:);
+% end
+% times = surfaceData.time;
+
+% % Load in saved data
+% % Environmental data matched to the hourly snaps.
+load envDataSpring
+% Full snaprate dataset
+load snapRateDataSpring
+% Snaprate binned hourly
+load snapRateHourlySpring
+% Snaprate binned per minute
+load snapRateMinuteSpring
+load surfaceDataSpring
+times = surfaceData.time;
 
 % surface loss
 % bubble losses are assumed to be the dominant effect for the total field
@@ -68,7 +68,7 @@ times = surfaceData.time;
 % High-Frequency Ocean Environmental Acoustic Models Handbook
 
 
-theta = 10 %Angle of incidence, theta (degrees)
+theta = 10; %Angle of incidence, theta (degrees)
 
 U = surfaceData.WSPD; % Windspeed (m/s). Messed this up previously, can't use " if U > 6" with large dataset.
 f = 69; %Frequency (kHz)
@@ -76,22 +76,22 @@ f = 69; %Frequency (kHz)
 
 
 for k = 1:length(U)
-    LOSS1(k,1) = SurfLoss(theta,U(k),f);
+    sbLOSS(k,1) = SurfLoss(theta,U(k),f);
 end
 
 
 %Think this is uneccessary, calculated it wrong. I'm flawed.
-index = LOSS > 15;
+index = sbLOSS > 15;
 % UWAPL gives a suggestion to cap the upper limit of SBL at 15 dB. Believe this is outdated.
 % Chua et al 2018, -40 dB is more recent but too high.
-cappedLOSS = LOSS; cappedLOSS(index) = 15;
+cappedLOSS = sbLOSS; cappedLOSS(index) = 15;
 
 %at midAngle, cap is at 9+ m/s
 
 
 
 figure()
-plot(times,LOSS,'k')
+plot(times,sbLOSS,'k')
 hold on
 plot(times,cappedLOSS,'r','LineWidth',2)
  legend('SBL','Capped SBL')
@@ -99,8 +99,9 @@ title('Surface Bubble Loss- HF (69 kHz) Attenuation')
 ylabel('Noise Loss (dBs)')
 
 % WOW.
-[a,b] = corrcoef(LOSS,snapRateHourly.SnapCount)
-[a,b] = corrcoef(LOSS,envData.Noise)
+[a,b] = corrcoef(cappedLOSS,snapRateHourly.SnapCount)
+[a,b] = corrcoef(cappedLOSS,envData.HourlyDets)
+
 
 % 
 % figure()
@@ -118,7 +119,7 @@ ylabel('Noise Loss (dBs)')
 
 
 
-surfaceData.SBL = LOSS;
+surfaceData.SBL = sbLOSS;
 surfaceData.SBLcapped = cappedLOSS;
 
 
