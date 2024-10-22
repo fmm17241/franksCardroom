@@ -93,14 +93,26 @@ TT = tiledlayout('flow')
 ax1 = nexttile([1,1])
 yyaxis left
 plot(times,filteredData.SBLcapped,'b--','LineWidth',2)
+ylabel('SBL (dB)')
+ylim([0 10])
 yyaxis right
 plot(times,filteredData.Detections,'r-','LineWidth',2)
+ylim([0 4])
+ylabel('Detections')
 
 ax2 = nexttile([1,1])
-plot(times,surfaceData.SBLcapped,'b--','LineWidth',2)
+plot(times,filteredData.SBLcapped,'b--','LineWidth',2)
+ylabel('SBL (dB)')
+ylim([0 16])
 yyaxis right
-plot(times,snapRateHourly.SnapCount,'k-','LineWidth',2)
+plot(times,filteredData.Snaps,'r-','LineWidth',2)
+% ylim([400 800])
+ylabel('Snaprates')
+% linkaxes([ax1 ax2],'x')
 
-linkaxes([ax1 ax2],'x')
+ax1.YAxis(1).Color = 'k';
+ax1.YAxis(2).Color = 'k';
+ax2.YAxis(1).Color = 'k';
+ax2.YAxis(2).Color = 'k';
 
 
