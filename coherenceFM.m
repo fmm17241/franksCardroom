@@ -99,7 +99,7 @@ yyaxis right
 plot(times,filteredData.Detections,'r-','LineWidth',2)
 ylim([0 4])
 ylabel('Detections')
-
+title('Surface Bubble Loss''s Effect on Detections','40 Hr. Lowpass')
 ax2 = nexttile([1,1])
 plot(times,filteredData.SBLcapped,'b--','LineWidth',2)
 ylabel('SBL (dB)')
@@ -108,7 +108,8 @@ yyaxis right
 plot(times,filteredData.Snaps,'r-','LineWidth',2)
 % ylim([400 800])
 ylabel('Snaprates')
-% linkaxes([ax1 ax2],'x')
+title('Surface Bubble Loss''s Effect on Snaprate','40 Hr. Lowpass')
+linkaxes([ax1 ax2],'x')
 
 ax1.YAxis(1).Color = 'k';
 ax1.YAxis(2).Color = 'k';
