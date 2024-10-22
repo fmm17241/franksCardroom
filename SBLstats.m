@@ -91,10 +91,23 @@ title('Benthic Activity with Warming Waters','Raw versus 40Hr Lowpass')
 exportgraphics(gca,'TempSnaprate.png')
 
 figure()
-scatter(filteredData.SST,filteredData.Snaps)
-xlabel('Sea Surface Temp (C)')
+Tiled = tiledlayout(2,3)
+ax1 = nexttile([2,1])
+scatter(surfaceData.WSPD,snapRateHourly.SnapCount)
+hold on
+scatter(filteredData.Winds,filteredData.Snaps)
 ylabel('Hourly Snaps')
-title('Benthic Activity','Warming Waters')
+title('Benthic Activity','Winds')
+ax2 = nexttile([2,1])
+scatter(surfaceData.WSPD,envData.Noise)
+ylabel('HF Noise (mV)')
+xlabel('Windspeed (m/s)')
+hold on
+scatter(filteredData.Winds,filteredData.Noise)
+ax3 = nexttile([2,1])
+scatter(surfaceData.waveHeight,envData.Noise)
+hold on
+scatter(filteredData.Waves,filteredData.Noise)
 
 
 
