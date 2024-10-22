@@ -82,9 +82,13 @@ plot(filteredData.Winds,filteredData.Snaps)
 
 figure()
 scatter(surfaceData.SST,snapRateHourly.SnapCount)
+hold on
+scatter(filteredData.SST,filteredData.Snaps,'filled')
 xlabel('Sea Surface Temp (C)')
 ylabel('Hourly Snaps')
-title('Benthic Activity','Warming Waters')
+legend('Raw Data','40Hr Lowpass')
+title('Benthic Activity with Warming Waters','Raw versus 40Hr Lowpass')
+exportgraphics(gca,'TempSnaprate.png')
 
 figure()
 scatter(filteredData.SST,filteredData.Snaps)
