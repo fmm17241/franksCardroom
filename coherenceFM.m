@@ -9,12 +9,12 @@
 %Run snapRateAnalyzer and Plotter.
 
 
-fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\SpringSnapStudy';
-[snapRateData, snapRateHourly, snapRateMinute] = snapRateAnalyzer(fileLocation);
-% % Second step: this bins, averages, and plots some of their
-[receiverData, tides, snapRateHourly, snapRateMinute, envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets, surfaceData] = snapRatePlotter(oneDrive, snapRateHourly, snapRateMinute);
-% %%
-% surfaceLossFM
+% fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\SpringSnapStudy';
+% [snapRateData, snapRateHourly, snapRateMinute] = snapRateAnalyzer(fileLocation);
+% % % Second step: this bins, averages, and plots some of their
+% [receiverData, tides, snapRateHourly, snapRateMinute, envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets, surfaceData] = snapRatePlotter(oneDrive, snapRateHourly, snapRateMinute);
+% % %%
+% % surfaceLossFM
 
 
 fileLocation = ([oneDrive,'\acousticAnalysis\matlabVariables']);
@@ -31,6 +31,8 @@ load snapRateHourlySpring
 % % Snaprate binned per minute
 load snapRateMinuteSpring
 load surfaceDataSpring
+load filteredData4Bin40HrLowSPRING.mat
+
 times = surfaceData.time;
 %%
 % load envDataFall
@@ -86,20 +88,25 @@ filterOrder = 4;
     cutoff, cutoffHrs, filterType, bins, filterOrder)
 
 
-[R,P,RL,RU] =corrcoef(snapRateHourly.SnapCount,envData.Noise)
+[R,P,RL,RU] =corrcoef(snapRateHourly.SnapCount,surfaceData.SST)
+[R,P,RL,RU] =corrcoef(filteredData.Snaps,filteredData.SST)
+
+%%
 
 figure()
-TT = tiledlayout('flow')
+TT = tiledlayout('flow','TileSpacing','Compact')
 ax1 = nexttile([1,1])
 yyaxis left
 plot(times,filteredData.SBLcapped,'b--','LineWidth',2)
 ylabel('SBL (dB)')
-ylim([0 10])
+ylim([0 16])
 yyaxis right
 plot(times,filteredData.Detections,'r-','LineWidth',2)
-ylim([0 4])
+ylim([0 3])
 ylabel('Detections')
 title('Surface Bubble Loss''s Effect on Detections','40 Hr. Lowpass')
+legend('SBL','Detections')
+
 ax2 = nexttile([1,1])
 plot(times,filteredData.SBLcapped,'b--','LineWidth',2)
 ylabel('SBL (dB)')
@@ -109,11 +116,31 @@ plot(times,filteredData.Snaps,'r-','LineWidth',2)
 % ylim([400 800])
 ylabel('Snaprates')
 title('Surface Bubble Loss''s Effect on Snaprate','40 Hr. Lowpass')
-linkaxes([ax1 ax2],'x')
+legend('SBL','Snaprate')
+
+
+ax3 = nexttile([1,2])
+yyaxis left
+plot(times,filteredData.SST,'LineWidth',2)
+title('Rising Seasonal Temperatures and Increased Benthic Activity')
+ylabel('SST')
+yyaxis right
+plot(times,filteredData.Snaps,'LineWidth',2)
+ylabel('SnapRate')
+
+% linkaxes([ax1 ax2,ax3],'x')
 
 ax1.YAxis(1).Color = 'k';
 ax1.YAxis(2).Color = 'k';
 ax2.YAxis(1).Color = 'k';
 ax2.YAxis(2).Color = 'k';
 
+cd ('C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\plots')
+exportgraphics(TT,'SBLcomparisons.png')
+
+figure()
+yyaxis left
+plot(times,filteredData.SST)
+yyaxis right
+plot(times,filteredData.Snaps)
 

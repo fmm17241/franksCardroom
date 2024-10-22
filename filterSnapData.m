@@ -16,7 +16,7 @@ filteredData.WindDir = filtfilt(Bsignal,Asignal,surfaceData.WDIR);
 filteredData.SBL = filtfilt(Bsignal,Asignal,surfaceData.SBL);
 filteredData.SBLcapped = filtfilt(Bsignal,Asignal,surfaceData.SBLcapped);
 filteredData.Detections = filtfilt(Bsignal,Asignal,envData.HourlyDets);
-
+filteredData.SST = filtfilt(Bsignal,Asignal,surfaceData.SST);
 
 
 % figure()
@@ -44,6 +44,7 @@ powerSnapAbsTidesFilt = Coherence_whelch_overlap(filteredData.Snaps,filteredData
 powerWaveWindDirFilt = Coherence_whelch_overlap(filteredData.Waves,filteredData.WindDir,3600,bins,1,1,1)
 powerSnapSBLcappedFilt   = Coherence_whelch_overlap(filteredData.Snaps,filteredData.SBLcapped,3600,bins,1,1,1)
 powerSnapSBLFilt   = Coherence_whelch_overlap(filteredData.Snaps,filteredData.SBL,3600,bins,1,1,1)
+powerSnapTempFilt    = Coherence_whelch_overlap(filteredData.Snaps,filteredData.SST,3600,bins,1,1,1)
 
 % In Fall, we have more wind/tides/snaps than we do noise, so this is accounting for that difference.
 if length(filteredData.Snaps) == length(filteredData.Noise)
@@ -71,7 +72,7 @@ powerSnapAbsTidesFilt.coh(powerSnapAbsTidesFilt.coh < powerSnapAbsTidesFilt.pr95
 powerWaveWindDirFilt.coh(powerWaveWindDirFilt.coh < powerWaveWindDirFilt.pr95bendat) = 0;
 powerSnapSBLFilt.coh(powerSnapSBLFilt.coh < powerSnapSBLFilt.pr95bendat) = 0;
 powerSnapSBLcappedFilt.coh(powerSnapSBLcappedFilt.coh < powerSnapSBLcappedFilt.pr95bendat) = 0;
-
+powerSnapTempFilt.coh(powerSnapTempFilt.coh < powerSnapTempFilt.pr95bendat) = 0;
 
 %Frank doing the same for phases
 powerSnapWindFilt.phase(powerSnapWindFilt.coh < powerSnapWindFilt.pr95bendat) = 0;
@@ -81,7 +82,7 @@ powerSnapTidesFilt.phase(powerSnapTidesFilt.coh < powerSnapTidesFilt.pr95bendat)
 powerSnapAbsTidesFilt.phase(powerSnapAbsTidesFilt.coh < powerSnapAbsTidesFilt.pr95bendat) = 0;
 powerSnapSBLFilt.phase(powerSnapSBLFilt.coh < powerSnapSBLFilt.pr95bendat) = 0;
 powerSnapSBLcappedFilt.phase(powerSnapSBLcappedFilt.coh < powerSnapSBLcappedFilt.pr95bendat) = 0;
-
+powerSnapTempFilt.phase(powerSnapTempFilt.coh < powerSnapTempFilt.pr95bendat) = 0;
 
 %%
 figure()
