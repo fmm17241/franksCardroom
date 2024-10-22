@@ -93,24 +93,30 @@ exportgraphics(gca,'TempSnaprate.png')
 figure()
 Tiled = tiledlayout(2,3)
 ax1 = nexttile([2,1])
-scatter(surfaceData.WSPD,snapRateHourly.SnapCount)
-hold on
-scatter(filteredData.Winds,filteredData.Snaps)
-ylabel('Hourly Snaps')
-title('Benthic Activity','Winds')
-ax2 = nexttile([2,1])
-scatter(surfaceData.WSPD,envData.Noise)
-ylabel('HF Noise (mV)')
-xlabel('Windspeed (m/s)')
-hold on
-scatter(filteredData.Winds,filteredData.Noise)
-ax3 = nexttile([2,1])
 scatter(snapRateHourly.SnapCount,envData.Noise)
 hold on
-scatter(filteredData.Snaps,filteredData.Noise)
+scatter(filteredData.Snaps,filteredData.Noise,'filled')
+xlabel('Hourly Snaprate')
+ylabel('HF Noise (mV)')
+title('','High-Frequency Noise Being Created')
+legend('Raw','40Hr Lowpass')
+ax2 = nexttile([2,1])
+% scatter(surfaceData.WSPD,envData.Noise)
+scatter(surfaceData.SBLcapped,envData.Noise)
+ylabel('HF Noise (mV)')
+xlabel('Surface Bubble Loss (dBs)')
+hold on
+% scatter(filteredData.Winds,filteredData.Noise)
+scatter(filteredData.SBLcapped,filteredData.Noise,'filled')
+title('Gray''s Reef Soundscape, Spring 2020','Noise Being Attenuated at the Surface')
+ax3 = nexttile([2,1])
+scatter(surfaceData.WSPD,snapRateHourly.SnapCount)
+hold on
+scatter(filteredData.Winds,filteredData.Snaps,'filled')
+ylabel('Hourly Snaps')
+xlabel('Windspeed (m/s)')
+title('','Little Change in Snaprate')
 
-
-
-
-
+cd ('C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\plots')
+exportgraphics(Tiled,'soundscapeTiles.png')
 
