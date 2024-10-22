@@ -9,18 +9,18 @@ cd (fileLocation)
 
 %%
 % % Load in saved data
-% % Environmental data matched to the hourly snaps.
-% load envDataSpring
-% % % Full snaprate dataset
-% load snapRateDataSpring
-% % % Snaprate binned hourly
-% load snapRateHourlySpring
-% % % Snaprate binned per minute
-% load snapRateMinuteSpring
-% load surfaceDataSpring
-% load filteredData4Bin40HrLowSPRING
-% 
-% times = surfaceData.time;
+% Environmental data matched to the hourly snaps.
+load envDataSpring
+% % Full snaprate dataset
+load snapRateDataSpring
+% % Snaprate binned hourly
+load snapRateHourlySpring
+% % Snaprate binned per minute
+load snapRateMinuteSpring
+load surfaceDataSpring
+load filteredData4Bin40HrLowSPRING
+
+times = surfaceData.time;
 %%
 % load envDataFall
 % % Full snaprate dataset

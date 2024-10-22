@@ -86,13 +86,15 @@ filterOrder = 4;
     cutoff, cutoffHrs, filterType, bins, filterOrder)
 
 
+[R,P,RL,RU] =corrcoef(snapRateHourly.SnapCount,envData.Noise)
+
 figure()
-scatter(filteredData.Winds,filteredData.Snaps);
+yyaxis left
+plot(times,filteredData.SBLcapped,'b--','LineWidth',2)
 
-[R,P,RL,RU] =corrcoef(filteredData.Winds,filteredData.Waves)
+yyaxis right
+plot(times,filteredData.Detections,'r-','LineWidth',2)
 
-[R,P,RL,RU]= corrcoef(surfaceData.WSPD,snapRateHourly.SnapCount)
-[R,P,RL,RU] = corrcoef(filteredData.Winds,filteredData.Snaps)
 
 
 
