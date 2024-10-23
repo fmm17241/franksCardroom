@@ -55,7 +55,7 @@ bins = 4;
 %%
 % Filter Creation
 %Fitlers can be 'low', 'high', or 'bandpass'
-filterType = 'low';
+filterType = 'high';
 % Frequency cutoff for filter. Just used for titles and things
 cutoffHrs = 40;
 %Create the cutoff, 1/hours. For bandpass, format is [1/X 1/Y].
@@ -89,7 +89,7 @@ filterOrder = 4;
 
 
 [R,P,RL,RU] =corrcoef(snapRateHourly.SnapCount,surfaceData.SST)
-[R,P,RL,RU] =corrcoef(filteredData.Snaps,filteredData.SST)
+[R,P,RL,RU] =corrcoef(filteredData.Snaps,filteredData.Winds)
 
 %%
 
