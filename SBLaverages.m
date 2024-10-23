@@ -135,6 +135,7 @@ title('Waveheight')
 
 ax3 = nexttile()
 plot(X,averageSnaps,'LineWidth',2);
+ciplot(ConfIntSnaps(:,1),ConfIntSnaps(:,2),1:15,'b')
 xlabel('Windspeed (m/s)')
 ylabel('Snaprate')
 title('Hourly Snaprate')
@@ -142,6 +143,7 @@ title('Hourly Snaprate')
 
 ax4 = nexttile()
 plot(X,averageSST,'LineWidth',2)
+ciplot(ConfIntSST(:,1),ConfIntSST(:,2),1:15,'b')
 xlabel('Windspeed (m/s)')
 ylabel('SST (C)')
 title('Sea-surface Temperature')
