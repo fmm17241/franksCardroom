@@ -111,6 +111,12 @@ end
 
 % normalizedWSpeedAnnual(COUNT,:)  = averageWindSpeed(COUNT,:)/(max(averageWindSpeed(COUNT,:)));
 
+% % Previous example, Frank gotta use
+% ciplot(CInightNoise(:,1),CInightNoise(:,2),1:5,'b')
+% ciplot(CIdayNoise(:,1),CIdayNoise(:,2),1:5,'r')
+
+
+
 X = 0:14;
 figure()
 Test = tiledlayout(1,4)
