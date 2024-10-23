@@ -115,9 +115,40 @@ end
 % ciplot(CInightNoise(:,1),CInightNoise(:,2),1:5,'b')
 % ciplot(CIdayNoise(:,1),CIdayNoise(:,2),1:5,'r')
 
-
+% CONFINT Plots
 
 X = 0:14;
+figure()
+Test = tiledlayout(1,4)
+ax1 = nexttile()
+ciplot(ConfIntSBL(:,1),ConfIntSBL(:,2),1:15,'b')
+xlabel('Windspeed (m/s)')
+ylabel('SBL (dB)')
+title('Surface Bubble Loss')
+
+ax2 = nexttile()
+plot(X,averageWaves,'LineWidth',2);
+ciplot(ConfIntWaves(:,1),ConfIntWaves(:,2),1:15,'b')
+xlabel('Windspeed (m/s)')
+ylabel('Waveheight (m)')
+title('Waveheight')
+
+ax3 = nexttile()
+plot(X,averageSnaps,'LineWidth',2);
+xlabel('Windspeed (m/s)')
+ylabel('Snaprate')
+title('Hourly Snaprate')
+
+
+ax4 = nexttile()
+plot(X,averageSST,'LineWidth',2)
+xlabel('Windspeed (m/s)')
+ylabel('SST (C)')
+title('Sea-surface Temperature')
+
+%%
+% Regular Averages
+
 figure()
 Test = tiledlayout(1,4)
 ax1 = nexttile()
@@ -144,7 +175,6 @@ plot(X,averageSST,'LineWidth',2)
 xlabel('Windspeed (m/s)')
 ylabel('SST (C)')
 title('Sea-surface Temperature')
-
 
 %%
 
