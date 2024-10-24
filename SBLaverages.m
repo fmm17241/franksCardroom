@@ -306,25 +306,6 @@ ylabel('SST (C)')
 title('Sea-surface Temperature')
 
 %%
-
-for COUNT = 1:length(windSpeedScenario)
-    for season = 1:length(seasons)
-        errorWind(COUNT,season) = std(averageWindSpeed{COUNT}{season},'omitnan');
-        errorNoise(COUNT,season) = std(noiseCompare{COUNT}{season},'omitnan');
-        errorStrat(COUNT,season) = std(stratCompareWind{COUNT}{season},'omitnan');
-    end
-end
-
-
-for COUNT = 1:2:length(receiverData)-1
-    for season = 1:length(seasons)
-        comboPlatter = [averageWindSpeed{COUNT}{season},averageWindSpeed{COUNT+1}{season}];
-        normalizedWSpeed{COUNT}{season}  = averageWindSpeed{COUNT}{season}/(max(comboPlatter));
-        normalizedWSpeed{COUNT+1}{season}  = averageWindSpeed{COUNT+1}{season}/(max(comboPlatter));
-    end
-end
-
-%%
 % Binned by snaprate
 
 
