@@ -96,7 +96,7 @@ X = 1:length(times);
 figure()
 Tiled = tiledlayout(2,3)
 ax1 = nexttile([2,1])
-scatter(snapRateHourly.SnapCount,envData.Noise)
+scatter(snapRateHourly.SnapCount,envData.Noise,[],X)
 hold on
 scatter(filteredData.Snaps,filteredData.Noise,[],X,'filled')
 xlabel('Hourly Snaprate')
@@ -107,7 +107,7 @@ legend('Raw','40Hr Lowpass')
 
 ax2 = nexttile([2,1])
 % scatter(surfaceData.WSPD,envData.Noise)
-scatter(surfaceData.SBLcapped,envData.Noise)
+scatter(surfaceData.SBLcapped,envData.Noise,[],X)
 ylabel('HF Noise (mV)')
 xlabel('Surface Bubble Loss (dBs)')
 hold on
@@ -117,14 +117,14 @@ title('Gray''s Reef Soundscape, Spring 2020','Noise Being Attenuated at the Surf
 
 
 ax3 = nexttile([2,1])
-scatter(surfaceData.WSPD,snapRateHourly.SnapCount)
+scatter(surfaceData.WSPD,snapRateHourly.SnapCount,[],X)
 hold on
 scatter(filteredData.Winds,filteredData.Snaps,[],X,'filled')
 ylabel('Hourly Snaps')
 xlabel('Windspeed (m/s)')
 title('','Little Change in Snaprate')
 
-cd ('C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\plots')
+% cd ('C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\plots')
 % exportgraphics(Tiled,'soundscapeTiles.png')
 
 %%
