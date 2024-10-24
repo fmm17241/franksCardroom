@@ -40,13 +40,14 @@ load snapRateHourlyFall
 % Snaprate binned per minute
 load snapRateMinuteFall
 load surfaceDataFall
-times = surfaceData.time;
+
 
 % %This is Frank pruning from Sept-Feb to Sept-Dec.
-% if length(surfaceData.time) == 3308
-%     surfaceData = surfaceData(1:2078,:);
-%     snapRateHourly = snapRateHourly(1:2078,:);
-% end
+if length(surfaceData.time) == 3308
+    surfaceData = surfaceData(1:2078,:);
+    snapRateHourly = snapRateHourly(1:2078,:);
+end
+times = surfaceData.time;
 % times = surfaceData.time;
 % % 
 % % % Load in saved data

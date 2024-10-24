@@ -9,11 +9,11 @@
 %Run snapRateAnalyzer and Plotter.
 
 
-% fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\SpringSnapStudy';
-% [snapRateData, snapRateHourly, snapRateMinute] = snapRateAnalyzer(fileLocation);
-% % % Second step: this bins, averages, and plots some of their
-% [receiverData, tides, snapRateHourly, snapRateMinute, envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets, surfaceData] = snapRatePlotter(oneDrive, snapRateHourly, snapRateMinute);
-% % %%
+fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\FallSnapStudy';
+[snapRateData, snapRateHourly, snapRateMinute] = snapRateAnalyzer(fileLocation);
+% % Second step: this bins, averages, and plots some of their
+[receiverData, tides, snapRateHourly, snapRateMinute, envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets, surfaceData] = snapRatePlotter(oneDrive, snapRateHourly, snapRateMinute);
+% %%
 % % surfaceLossFM
 
 
@@ -23,18 +23,24 @@ cd (fileLocation)
 %%
 % Load in saved data
 % Environmental data matched to the hourly snaps.
-load envDataSpring
-% % Full snaprate dataset
-load snapRateDataSpring
-% % Snaprate binned hourly
-load snapRateHourlySpring
-% % Snaprate binned per minute
-load snapRateMinuteSpring
-load surfaceDataSpring
-load filteredData4Bin40HrLowSPRING.mat
-
-times = surfaceData.time;
+% load envDataSpring
+% % % Full snaprate dataset
+% load snapRateDataSpring
+% % % Snaprate binned hourly
+% load snapRateHourlySpring
+% % % Snaprate binned per minute
+% load snapRateMinuteSpring
+% load surfaceDataSpring
+% load filteredData4Bin40HrLowSPRING.mat
+% 
+% times = surfaceData.time;
 %%
+
+
+if length(surfaceData.time) == 3308
+    surfaceData = surfaceData(1:2078,:);
+    snapRateHourly = snapRateHourly(1:2078,:);
+end
 % load envDataFall
 % % Full snaprate dataset
 % load snapRateDataFall
@@ -44,6 +50,9 @@ times = surfaceData.time;
 % load snapRateMinuteFall
 % load surfaceDataFall
 % times = surfaceData.time;
+
+% times = surfaceData.time;
+
 %%
 
 %This is just raw frequency, without filtering.
@@ -55,7 +64,7 @@ bins = 4;
 %%
 % Filter Creation
 %Fitlers can be 'low', 'high', or 'bandpass'
-filterType = 'high';
+filterType = 'low';
 % Frequency cutoff for filter. Just used for titles and things
 cutoffHrs = 40;
 %Create the cutoff, 1/hours. For bandpass, format is [1/X 1/Y].
