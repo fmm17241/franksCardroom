@@ -69,7 +69,7 @@ surfaceData.
 [R,P,RL,RU]= corrcoef(surfaceData.WSPD,snapRateHourly.SnapCount)
 [R,P,RL,RU] = corrcoef(filteredData.Winds,filteredData.Snaps)
 
-filtered.Data
+% filtered.Data
 
 figure()
 scatter(surfaceData.WSPD,surfaceData.waveHeight)
@@ -88,18 +88,23 @@ xlabel('Sea Surface Temp (C)')
 ylabel('Hourly Snaps')
 legend('Raw Data','40Hr Lowpass')
 title('Benthic Activity with Warming Waters','Raw versus 40Hr Lowpass')
-exportgraphics(gca,'TempSnaprate.png')
+% exportgraphics(gca,'TempSnaprate.png')
+
+X = 1:length(times);
+
 
 figure()
 Tiled = tiledlayout(2,3)
 ax1 = nexttile([2,1])
 scatter(snapRateHourly.SnapCount,envData.Noise)
 hold on
-scatter(filteredData.Snaps,filteredData.Noise,'filled')
+scatter(filteredData.Snaps,filteredData.Noise,[],X,'filled')
 xlabel('Hourly Snaprate')
 ylabel('HF Noise (mV)')
 title('','High-Frequency Noise Being Created')
 legend('Raw','40Hr Lowpass')
+
+
 ax2 = nexttile([2,1])
 % scatter(surfaceData.WSPD,envData.Noise)
 scatter(surfaceData.SBLcapped,envData.Noise)
@@ -107,16 +112,37 @@ ylabel('HF Noise (mV)')
 xlabel('Surface Bubble Loss (dBs)')
 hold on
 % scatter(filteredData.Winds,filteredData.Noise)
-scatter(filteredData.SBLcapped,filteredData.Noise,'filled')
+scatter(filteredData.SBLcapped,filteredData.Noise,[],X,'filled')
 title('Gray''s Reef Soundscape, Spring 2020','Noise Being Attenuated at the Surface')
+
+
 ax3 = nexttile([2,1])
 scatter(surfaceData.WSPD,snapRateHourly.SnapCount)
 hold on
-scatter(filteredData.Winds,filteredData.Snaps,'filled')
+scatter(filteredData.Winds,filteredData.Snaps,[],X,'filled')
 ylabel('Hourly Snaps')
 xlabel('Windspeed (m/s)')
 title('','Little Change in Snaprate')
 
 cd ('C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\plots')
-exportgraphics(Tiled,'soundscapeTiles.png')
+% exportgraphics(Tiled,'soundscapeTiles.png')
 
+%%
+%
+figure()
+tiledlayout(2,1)
+ax1 = nexttile()
+scatter(times,envData.Noise);
+hold on
+scatter(times,filteredData.Noise,[],X);
+legend('Raw','Filtered')
+title('Noise')
+
+ax2 = nexttile()
+scatter(times,surfaceData.WSPD);
+hold on
+scatter(times,filteredData.Winds,[],X);
+legend('Raw','Filtered')
+title('Winds')
+
+linkaxes([ax1 ax2],'x')
