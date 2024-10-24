@@ -92,6 +92,11 @@ for k = 1:height(windSpeedBins)
 
     SnapWindScenario{k} = snapRateHourly(windSpeedBins(k,:),:);
     averageSnaps(1,k) = mean(SnapWindScenario{1,k}.SnapCount);
+
+    windEnviroScenario{k}= envData(windSpeedBins(k,:),:);
+    averageDets(1,k)  = mean(windEnviroScenario{1,k}.HourlyDets);
+    averageNoise(1,k) = mean(windEnviroScenario{1,k}.Noise);
+
 end
 %%
 %Filt averages.
@@ -103,6 +108,10 @@ for k = 1:height(windSpeedFiltBins)
 
     SnapWindFiltScenario{k} = snapRateHourly(windSpeedFiltBins(k,:),:);
     filtAverageSnaps(1,k) = mean(SnapWindFiltScenario{1,k}.SnapCount);
+
+    windEnviroFiltScenario{k}= envData(windSpeedFiltBins(k,:),:);
+    averageDets(1,k)  = mean(windEnviroFiltScenario{1,k}.HourlyDets);
+    averageNoise(1,k) = mean(windEnviroFiltScenario{1,k}.Noise);
 end
 
 %%
@@ -139,6 +148,15 @@ for k = 1:length(averageSBL)
     ConfIntSnaps(k,:) = mean(SnapWindScenario{1,k}.SnapCount,'all','omitnan') + ts*SEM; 
 end
 
+% Noise ConfInt
+for k = 1:length(averageSBL)
+    %Finding standard deviations/CIs of values
+    SEM = std(windEnviroScenario{1,k}.Noise(:),'omitnan')/sqrt(length(windEnviroScenario{1,k}.Noise));  
+    ts = tinv([0.025  0.975],length(windEnviroScenario{1,k}.Noise)-1);  
+    ConfIntNoise(k,:) = mean(windEnviroScenario{1,k}.Noise,'all','omitnan') + ts*SEM; 
+end
+
+
 %%
 % Confidence intervals for the filtered data
 % Surface Bubble Loss ConfInt
@@ -166,12 +184,21 @@ for k = 1:length(filtAverageSBL)
 end
 
 % Snaprate ConfInt
-for k = 1:length(filtAverageSBL)
+for k = 1:length(averageSBL)
     %Finding standard deviations/CIs of values
     SEM = std(SnapWindFiltScenario{1,k}.SnapCount(:),'omitnan')/sqrt(length(SnapWindFiltScenario{1,k}.SnapCount));  
     ts = tinv([0.025  0.975],length(SnapWindFiltScenario{1,k}.SnapCount)-1);  
     ConfIntSnapsfiltered(k,:) = mean(SnapWindFiltScenario{1,k}.SnapCount,'all','omitnan') + ts*SEM; 
 end
+
+% Noise ConfInt
+for k = 1:length(averageSBL)
+    %Finding standard deviations/CIs of values
+    SEM = std(windEnviroFiltScenario{1,k}.Noise(:),'omitnan')/sqrt(length(windEnviroFiltScenario{1,k}.Noise));  
+    ts = tinv([0.025  0.975],length(windEnviroFiltScenario{1,k}.Noise)-1);  
+    ConfIntNoisefiltered(k,:) = mean(windEnviroFiltScenario{1,k}.Noise,'all','omitnan') + ts*SEM; 
+end
+
 %%
 
 
@@ -193,14 +220,14 @@ ylabel('SBL (dB)')
 title('Surface Bubble Loss')
 
 ax2 = nexttile()
-plot(X,averageWaves,'LineWidth',2);
-ciplot(ConfIntWaves(:,1),ConfIntWaves(:,2),1:15,'b')
+% plot(X,averageWaves,'LineWidth',2);
+ciplot(ConfIntNoise(:,1),ConfIntNoise(:,2),1:15,'b')
 xlabel('Windspeed (m/s)')
-ylabel('Waveheight (m)')
-title('Waveheight')
+ylabel('Noise (mV)')
+title('High-Frequency (50-90 kHz) Noise')
 
 ax3 = nexttile()
-plot(X,averageSnaps,'LineWidth',2);
+% plot(X,averageSnaps,'LineWidth',2);
 ciplot(ConfIntSnaps(:,1),ConfIntSnaps(:,2),1:15,'b')
 xlabel('Windspeed (m/s)')
 ylabel('Snaprate')
@@ -208,7 +235,7 @@ title('Hourly Snaprate')
 
 
 ax4 = nexttile()
-plot(X,averageSST,'LineWidth',2)
+% plot(X,averageSST,'LineWidth',2)
 ciplot(ConfIntSST(:,1),ConfIntSST(:,2),1:15,'b')
 xlabel('Windspeed (m/s)')
 ylabel('SST (C)')
@@ -227,10 +254,10 @@ title('Surface Bubble Loss')
 
 ax2 = nexttile()
 plot(X,averageWaves,'LineWidth',2);
-ciplot(ConfIntWavesfiltered(:,1),ConfIntWavesfiltered(:,2),1:15,'b')
+ciplot(ConfIntNoisefiltered(:,1),ConfIntNoisefiltered(:,2),1:15,'b')
 xlabel('Windspeed (m/s)')
-ylabel('Waveheight (m)')
-title('Waveheight')
+ylabel('Noise (mV)')
+title('High-Frequency (50-90 kHz) Noise')
 
 ax3 = nexttile()
 plot(X,averageSnaps,'LineWidth',2);
