@@ -6,38 +6,38 @@ cd (fileLocation)
 
 %%
 % % Load in saved data
-% Environmental data matched to the hourly snaps.
-% load envDataSpring
-% % % Full snaprate dataset
-% load snapRateDataSpring
-% % % Snaprate binned hourly
-% load snapRateHourlySpring
-% % % Snaprate binned per minute
-% load snapRateMinuteSpring
-% load surfaceDataSpring
-% load filteredData4Bin40HrLowSPRING
-% 
-% times = surfaceData.time;
+% % Environmental data matched to the hourly snaps.
+load envDataSpring
+% % Full snaprate dataset
+load snapRateDataSpring
+% % Snaprate binned hourly
+load snapRateHourlySpring
+% % Snaprate binned per minute
+load snapRateMinuteSpring
+load surfaceDataSpring
+load filteredData4Bin40HrLowSPRING
+
+times = surfaceData.time;
 
 %%
 
-
-load envDataFall
-% Full snaprate dataset
-load snapRateDataFall
-% Snaprate binned hourly
-load snapRateHourlyFall
-% Snaprate binned per minute
-load snapRateMinuteFall
-load surfaceDataFall
-load filteredData4Bin40HrLowFALLpruned.mat
-
-% %This is Frank pruning from Sept-Feb to Sept-Dec.
-if length(surfaceData.time) == 3308
-    surfaceData = surfaceData(1:2078,:);
-    snapRateHourly = snapRateHourly(1:2078,:);
-end
-times = surfaceData.time;
+% 
+% load envDataFall
+% % Full snaprate dataset
+% load snapRateDataFall
+% % Snaprate binned hourly
+% load snapRateHourlyFall
+% % Snaprate binned per minute
+% load snapRateMinuteFall
+% load surfaceDataFall
+% load filteredData4Bin40HrLowFALLpruned.mat
+% 
+% % %This is Frank pruning from Sept-Feb to Sept-Dec.
+% if length(surfaceData.time) == 3308
+%     surfaceData = surfaceData(1:2078,:);
+%     snapRateHourly = snapRateHourly(1:2078,:);
+% end
+% times = surfaceData.time;
 
 %%
 
@@ -298,5 +298,101 @@ for COUNT = 1:2:length(receiverData)-1
 end
 
 %%
-% Binned by SBL
+% Binned by snaprate
+
+
+snapRateBins(1,:) = snapRateHourly.SnapCount < 750;
+snapRateBins(2,:) = snapRateHourly.SnapCount > 750 & snapRateHourly.SnapCount < 1125 ;
+snapRateBins(3,:) = snapRateHourly.SnapCount > 1125 & snapRateHourly.SnapCount < 1500 ;
+snapRateBins(4,:) = snapRateHourly.SnapCount > 1500 & snapRateHourly.SnapCount < 1875 ;
+snapRateBins(5,:) = snapRateHourly.SnapCount > 1875 & snapRateHourly.SnapCount < 2250 ;
+snapRateBins(6,:) = snapRateHourly.SnapCount > 2250 & snapRateHourly.SnapCount < 2625 ;
+snapRateBins(7,:) = snapRateHourly.SnapCount > 2625 & snapRateHourly.SnapCount < 3000 ;
+snapRateBins(8,:) = snapRateHourly.SnapCount > 3000 & snapRateHourly.SnapCount < 3375 ;
+snapRateBins(9,:) = snapRateHourly.SnapCount > 3375 & snapRateHourly.SnapCount < 3750 ;
+snapRateBins(10,:) = snapRateHourly.SnapCount > 3750 & snapRateHourly.SnapCount < 4125 ;
+snapRateBins(11,:) = snapRateHourly.SnapCount > 4125 & snapRateHourly.SnapCount < 4500 ;
+snapRateBins(12,:) = snapRateHourly.SnapCount > 4500 & snapRateHourly.SnapCount < 4875 ;
+snapRateBins(13,:) = snapRateHourly.SnapCount > 4875;
+
+%
+snapRateFiltBins(1,:) = filteredData.Snaps < 750;
+snapRateFiltBins(2,:) = filteredData.Snaps > 750 & filteredData.Snaps < 1125 ;
+snapRateFiltBins(3,:) = filteredData.Snaps > 1125 & filteredData.Snaps < 1500 ;
+snapRateFiltBins(4,:) = filteredData.Snaps > 1500 & filteredData.Snaps < 1875 ;
+snapRateFiltBins(5,:) = filteredData.Snaps > 1875 & filteredData.Snaps < 2250 ;
+snapRateFiltBins(6,:) = filteredData.Snaps > 2250 & filteredData.Snaps < 2625 ;
+snapRateFiltBins(7,:) = filteredData.Snaps > 2625 & filteredData.Snaps < 3000 ;
+snapRateFiltBins(8,:) = filteredData.Snaps > 3000 & filteredData.Snaps < 3375 ;
+snapRateFiltBins(9,:) = filteredData.Snaps > 3375 & filteredData.Snaps < 3750 ;
+snapRateFiltBins(10,:) = filteredData.Snaps > 3750 & filteredData.Snaps < 4125 ;
+snapRateFiltBins(11,:) = filteredData.Snaps > 4125 & filteredData.Snaps < 4500 ;
+snapRateFiltBins(12,:) = filteredData.Snaps > 4500 & filteredData.Snaps < 4875 ;
+snapRateFiltBins(13,:) = filteredData.Snaps > 4875;
+
+
+%%
+
+for k = 1:height(snapRateBins)
+    snapScenario{k}= surfaceData(snapRateBins(k,:),:);
+    averageSBL(1,k) = mean(snapScenario{1,k}.SBLcapped);
+    averageSST(1,k) = mean(snapScenario{1,k}.SST);
+    averageWaves(1,k) = mean(snapScenario{1,k}.waveHeight);
+    averageWinds(1,k) = mean(snapScenario{1,k}.WSPD);
+    averageDets(1,k)  = mean(snapScenario{1,k}.WSPD);
+    
+    snapEnviroScenario{k}= envData(snapRateBins(k,:),:);
+    averageNoise(1,k) = mean(snapEnviroScenario{1,k}.Noise);
+end
+%%
+%Filt averages.
+for k = 1:height(snapRateFiltBins)
+    snapFiltScenario{k}= surfaceData(snapRateFiltBins(k,:),:);
+    filtAverageSBL(1,k) = mean(snapFiltScenario{1,k}.SBLcapped);
+    filtAaverageSST(1,k) = mean(snapFiltScenario{1,k}.SST);
+    filtAverageWaves(1,k) = mean(snapFiltScenario{1,k}.waveHeight);
+    filtAverageWinds(1,k) = mean(snapFiltScenario{1,k}.WSPD);
+    filtAverageDets(1,k)  = mean(snapFiltScenario{1,k}.WSPD);
+    
+    snapEnviroFiltScenario{k}= envData(snapRateFiltBins(k,:),:);
+    averageFiltNoise(1,k) = mean(snapEnviroFiltScenario{1,k}.Noise);
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
