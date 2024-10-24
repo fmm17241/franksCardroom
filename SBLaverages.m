@@ -339,9 +339,10 @@ for k = 1:height(snapRateBins)
     averageSST(1,k) = mean(snapScenario{1,k}.SST);
     averageWaves(1,k) = mean(snapScenario{1,k}.waveHeight);
     averageWinds(1,k) = mean(snapScenario{1,k}.WSPD);
-    averageDets(1,k)  = mean(snapScenario{1,k}.WSPD);
+    
     
     snapEnviroScenario{k}= envData(snapRateBins(k,:),:);
+    averageDets(1,k)  = mean(snapEnviroScenario{1,k}.HourlyDets);
     averageNoise(1,k) = mean(snapEnviroScenario{1,k}.Noise);
 end
 %%
@@ -352,47 +353,187 @@ for k = 1:height(snapRateFiltBins)
     filtAaverageSST(1,k) = mean(snapFiltScenario{1,k}.SST);
     filtAverageWaves(1,k) = mean(snapFiltScenario{1,k}.waveHeight);
     filtAverageWinds(1,k) = mean(snapFiltScenario{1,k}.WSPD);
-    filtAverageDets(1,k)  = mean(snapFiltScenario{1,k}.WSPD);
+    
     
     snapEnviroFiltScenario{k}= envData(snapRateFiltBins(k,:),:);
     averageFiltNoise(1,k) = mean(snapEnviroFiltScenario{1,k}.Noise);
+    filtAverageDets(1,k)  = mean(snapEnviroFiltScenario{1,k}.HourlyDets);
 end
 
 
+%%
 
 
+% Surface Bubble Loss ConfInt
+for k = 1:length(averageSBL)
+    %Finding standard deviations/CIs of values
+    SEM = std(snapScenario{1,k}.SBLcapped(:),'omitnan')/sqrt(length(snapScenario{1,k}.SBLcapped));  
+    ts = tinv([0.025  0.975],length(snapScenario{1,k}.SBLcapped)-1);  
+    ConfIntSBL(k,:) = mean(snapScenario{1,k}.SBLcapped,'all','omitnan') + ts*SEM; 
+end
+
+% Seasurface Temperature ConfInt
+for k = 1:length(averageSBL)
+    %Finding standard deviations/CIs of values
+    SEM = std(snapScenario{1,k}.SST(:),'omitnan')/sqrt(length(snapScenario{1,k}.SST));  
+    ts = tinv([0.025  0.975],length(snapScenario{1,k}.SST)-1);  
+    ConfIntSST(k,:) = mean(snapScenario{1,k}.SST,'all','omitnan') + ts*SEM; 
+end
+
+% Waveheight ConfInt
+for k = 1:length(averageSBL)
+    %Finding standard deviations/CIs of values
+    SEM = std(snapScenario{1,k}.waveHeight(:),'omitnan')/sqrt(length(snapScenario{1,k}.waveHeight));  
+    ts = tinv([0.025  0.975],length(snapScenario{1,k}.waveHeight)-1);  
+    ConfIntWaves(k,:) = mean(snapScenario{1,k}.waveHeight,'all','omitnan') + ts*SEM; 
+end
+
+% Noise ConfInt
+for k = 1:length(averageSBL)
+    %Finding standard deviations/CIs of values
+    SEM = std(snapEnviroScenario{1,k}.Noise(:),'omitnan')/sqrt(length(snapEnviroScenario{1,k}.Noise));  
+    ts = tinv([0.025  0.975],length(snapEnviroScenario{1,k}.Noise)-1);  
+    ConfIntNoise(k,:) = mean(snapEnviroScenario{1,k}.Noise,'all','omitnan') + ts*SEM; 
+end
+
+% Dets ConfInt
+for k = 1:length(averageSBL)
+    %Finding standard deviations/CIs of values
+    SEM = std(snapEnviroScenario{1,k}.HourlyDets(:),'omitnan')/sqrt(length(snapEnviroScenario{1,k}.HourlyDets));  
+    ts = tinv([0.025  0.975],length(snapEnviroScenario{1,k}.HourlyDets)-1);  
+    ConfIntHourlyDets(k,:) = mean(snapEnviroScenario{1,k}.HourlyDets,'all','omitnan') + ts*SEM; 
+end
 
 
+%%
+% Confidence intervals for the filtered data
+% Surface Bubble Loss ConfInt
+for k = 1:length(filtAverageSBL)
+    %Finding standard deviations/CIs of values
+    SEM = std(snapFiltScenario{1,k}.SBLcapped(:),'omitnan')/sqrt(length(snapFiltScenario{1,k}.SBLcapped));  
+    ts = tinv([0.025  0.975],length(snapFiltScenario{1,k}.SBLcapped)-1);  
+    ConfIntSBLfiltered(k,:) = mean(snapFiltScenario{1,k}.SBLcapped,'all','omitnan') + ts*SEM; 
+end
+
+% Seasurface Temperature ConfInt
+for k = 1:length(filtAverageSBL)
+    %Finding standard deviations/CIs of values
+    SEM = std(snapFiltScenario{1,k}.SST(:),'omitnan')/sqrt(length(snapFiltScenario{1,k}.SST));  
+    ts = tinv([0.025  0.975],length(snapFiltScenario{1,k}.SST)-1);  
+    ConfIntSSTfiltered(k,:) = mean(snapFiltScenario{1,k}.SST,'all','omitnan') + ts*SEM; 
+end
+
+% Waveheight ConfInt
+for k = 1:length(filtAverageSBL)
+    %Finding standard deviations/CIs of values
+    SEM = std(snapFiltScenario{1,k}.waveHeight(:),'omitnan')/sqrt(length(snapFiltScenario{1,k}.waveHeight));  
+    ts = tinv([0.025  0.975],length(snapFiltScenario{1,k}.waveHeight)-1);  
+    ConfIntWavesfiltered(k,:) = mean(snapFiltScenario{1,k}.waveHeight,'all','omitnan') + ts*SEM; 
+end
 
 
+% Noise ConfInt
+for k = 1:length(averageSBL)
+    %Finding standard deviations/CIs of values
+    SEM = std(snapEnviroFiltScenario{1,k}.Noise(:),'omitnan')/sqrt(length(snapEnviroFiltScenario{1,k}.Noise));  
+    ts = tinv([0.025  0.975],length(snapEnviroFiltScenario{1,k}.Noise)-1);  
+    ConfIntNoisefiltered(k,:) = mean(snapEnviroFiltScenario{1,k}.Noise,'all','omitnan') + ts*SEM; 
+end
+
+% Dets ConfInt
+for k = 1:length(averageSBL)
+    %Finding standard deviations/CIs of values
+    SEM = std(snapEnviroFiltScenario{1,k}.HourlyDets(:),'omitnan')/sqrt(length(snapEnviroFiltScenario{1,k}.HourlyDets));  
+    ts = tinv([0.025  0.975],length(snapEnviroFiltScenario{1,k}.HourlyDets)-1);  
+    ConfIntHourlyDetsfiltered(k,:) = mean(snapEnviroFiltScenario{1,k}.HourlyDets,'all','omitnan') + ts*SEM; 
+end
+
+%%
+
+% Range of snaprates
+X = 750:375:5250;
+
+figure()
+Test = tiledlayout(1,5)
+ax1 = nexttile()
+ciplot(ConfIntSBL(:,1),ConfIntSBL(:,2),X,'b')
+xlabel('Snaprate')
+ylabel('SBL (dB)')
+title('Surface Bubble Loss')
+
+ax2 = nexttile()
+% plot(X,averageWaves,'LineWidth',2);
+ciplot(ConfIntWaves(:,1),ConfIntWaves(:,2),X,'b')
+xlabel('Snaprate')
+ylabel('Waveheight (m)')
+title('Waveheight')
+
+ax3 = nexttile()
+% plot(X,averageSnaps,'LineWidth',2);
+ciplot(ConfIntHourlyDets(:,1),ConfIntHourlyDets(:,2),X,'b')
+xlabel('Snaprate')
+ylabel('Detections')
+title('Hourly Detections')
 
 
+ax4 = nexttile()
+% plot(X,averageSST,'LineWidth',2)
+ciplot(ConfIntSST(:,1),ConfIntSST(:,2),X,'b')
+xlabel('Snaprate')
+ylabel('SST (C)')
+title('Sea-surface Temperature')
 
 
+ax5 = nexttile()
+% plot(X,averageSST,'LineWidth',2)
+ciplot(ConfIntNoise(:,1),ConfIntNoise(:,2),X,'b')
+xlabel('Snaprate')
+ylabel('Noise (mV)')
+title('High-Frequency Noise')
 
 
+%%
+% Same, but using the 40hr lowpass filt.
+% Range of snaprates
+X = 750:375:5250;
 
 
+figure()
+Test = tiledlayout(1,5)
+ax1 = nexttile()
+ciplot(ConfIntSBLfiltered(:,1),ConfIntSBLfiltered(:,2),X,'b')
+xlabel('Snaprate')
+ylabel('SBL (dB)')
+title('Surface Bubble Loss')
+
+ax2 = nexttile()
+% plot(X,averageWaves,'LineWidth',2);
+ciplot(ConfIntWavesfiltered(:,1),ConfIntWavesfiltered(:,2),X,'b')
+xlabel('Snaprate')
+ylabel('Waveheight (m)')
+title('Waveheight')
+
+ax3 = nexttile()
+% plot(X,averageSnaps,'LineWidth',2);
+ciplot(ConfIntHourlyDetsfiltered(:,1),ConfIntHourlyDetsfiltered(:,2),X,'b')
+xlabel('Snaprate')
+ylabel('Detections')
+title('Hourly Detections')
 
 
+ax4 = nexttile()
+% plot(X,averageSST,'LineWidth',2)
+ciplot(ConfIntSSTfiltered(:,1),ConfIntSSTfiltered(:,2),X,'b')
+xlabel('Snaprate')
+ylabel('SST (C)')
+title('Sea-surface Temperature')
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ax5 = nexttile()
+% plot(X,averageSST,'LineWidth',2)
+ciplot(ConfIntNoisefiltered(:,1),ConfIntNoisefiltered(:,2),X,'b')
+xlabel('Snaprate')
+ylabel('Noise (mV)')
+title('High-Frequency Noise')
 
 
 
