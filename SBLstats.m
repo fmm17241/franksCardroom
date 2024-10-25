@@ -92,6 +92,10 @@ title('Benthic Activity with Warming Waters','Raw versus 40Hr Lowpass')
 
 X = 1:length(times);
 
+FRANKFRANKFEFFSERFGF
+Loops in Noise and SBL: 2268, 2191, 2098, 2060, 2140'
+876, 803, 687, 610, 955, 1037
+387, 457, 301
 
 figure()
 Tiled = tiledlayout(2,3)
