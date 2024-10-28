@@ -17,7 +17,7 @@ filteredData.SBL = filtfilt(Bsignal,Asignal,surfaceData.SBL);
 filteredData.SBLcapped = filtfilt(Bsignal,Asignal,surfaceData.SBLcapped);
 filteredData.Detections = filtfilt(Bsignal,Asignal,envData.HourlyDets);
 filteredData.SST = filtfilt(Bsignal,Asignal,surfaceData.SST);
-
+filteredData.BottomTemp = filtfilt(Bsignal,Asignal,envData.Temp);
 
 % figure()
 % plot(snapRateHourly.Time,snapRateHourly.SnapCount,'LineWidth',1)

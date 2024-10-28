@@ -216,17 +216,47 @@ xlabel('Windspeed (m/s)')
 title('','Little Change in Snaprate')
 
 
+% cd ('C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\plots')
+% exportgraphics(Tiled,'decimatedTiles.png')
+
+
+
+%%
+%just making presentation plots
+
+figure()
+yyaxis left
+% plot(times,snapRateHourly.SnapCount)
+plot(times,filteredData.Snaps,'LineWidth',4)
+ylabel('Hourly Snaps')
+
+yyaxis right
+plot(times,filteredData.BottomTemp,'LineWidth',4)
+ylabel('Bottom Temperature (C)')
+
+title('Increase in Benthic Activity as Gray''s Reef Warms','40Hr Lowpass')
+
 cd ('C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\plots')
-exportgraphics(Tiled,'decimatedTiles.png')
+exportgraphics(gca,'snapTemps.png')
+
+%
+figure()
+scatter(decimatedData.Snaps,decimatedData.Noise,[],X2,'filled')
+ylabel('HF Noise (mV)')
+xlabel('Hourly Snaprate')
+title('Snapping Shrimp Noise Creation','40Hr Lowpass')
 
 
 
+cd ('C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\plots')
+exportgraphics(gca,'snapNoise.png')
 
 
 
+[R,P,RL,RU] =corrcoef(filteredData.Snaps,filteredData.BottomTemp)
+RSQ = R(1,2)*R(1,2)
 
-
-
-
+[R,P,RL,RU] =corrcoef(filteredData.Snaps,filteredData.Noise)
+RSQ = R(1,2)*R(1,2)
 
 
