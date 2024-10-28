@@ -138,15 +138,38 @@ tiledlayout(2,1)
 ax1 = nexttile()
 scatter(times,envData.Noise);
 hold on
-scatter(times,filteredData.Noise,[],X);
+scatter(times,filteredData.Noise,[],X,'filled');
 legend('Raw','Filtered')
 title('Noise')
 
 ax2 = nexttile()
 scatter(times,surfaceData.WSPD);
 hold on
-scatter(times,filteredData.Winds,[],X);
+scatter(times,filteredData.Winds,[],X,'filled');
 legend('Raw','Filtered')
 title('Winds')
 
 linkaxes([ax1 ax2],'x')
+
+%%
+% Frank learning to decimate()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
