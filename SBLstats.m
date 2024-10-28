@@ -60,10 +60,18 @@ title('Coherence - Detections and SBL')
 snapRateHourly.SnapCount
 surfaceData.
 
-[R,P,RL,RU] =corrcoef(filteredData.SST,filteredData.Snaps)
+[R,P,RL,RU] =corrcoef(filteredData.SBLcapped,filteredData.Noise)
+RSQ = R(1,2)*R(1,2)
+
+[R,P,RL,RU] =corrcoef(decimatedData.SBLcapped,decimatedData.Noise)
+RSQ = R(1,2)*R(1,2)
 
 
-[R,P,RL,RU] =corrcoef(surfaceData.SST,snapRateHourly.SnapCount)
+[R,P,RL,RU]= corrcoef(envData.Noise,surfaceData.SBLcapped)
+
+
+[R,P,RL,RU] =corrcoef(envData.Noise,snapRateHourly.SnapCount)
+RSQ = R(1,2)*R(1,2)
 
 
 [R,P,RL,RU]= corrcoef(surfaceData.WSPD,snapRateHourly.SnapCount)
@@ -91,11 +99,11 @@ title('Benthic Activity with Warming Waters','Raw versus 40Hr Lowpass')
 % exportgraphics(gca,'TempSnaprate.png')
 
 X = 1:length(times);
-
-FRANKFRANKFEFFSERFGF
-Loops in Noise and SBL: 2268, 2191, 2098, 2060, 2140'
-876, 803, 687, 610, 955, 1037
-387, 457, 301
+% 
+% FRANKFRANKFEFFSERFGF
+% Loops in Noise and SBL: 2268, 2191, 2098, 2060, 2140'
+% 876, 803, 687, 610, 955, 1037
+% 387, 457, 301
 
 figure()
 Tiled = tiledlayout(2,3)
