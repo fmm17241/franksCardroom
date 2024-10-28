@@ -154,6 +154,14 @@ linkaxes([ax1 ax2],'x')
 %%
 % Frank learning to decimate()
 
+decimatedData.Snaps = decimate(filteredData.Snaps,4);
+decimateTime = decimate(times,4);
+
+
+figure()
+scatter(times,filteredData.Snaps)
+figure()
+scatter(decimatedData.Snaps)
 
 
 
