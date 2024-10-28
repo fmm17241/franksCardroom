@@ -259,4 +259,15 @@ RSQ = R(1,2)*R(1,2)
 [R,P,RL,RU] =corrcoef(filteredData.Snaps,filteredData.Noise)
 RSQ = R(1,2)*R(1,2)
 
+figure()
+yyaxis left
+plot(times,filteredData.Winds,'LineWidth',3)
+yyaxis right
+plot(times,filteredData.Noise)
 
+
+
+ax1.YAxis(1).Color = 'k';
+ax1.YAxis(2).Color = 'k';
+ax2.YAxis(1).Color = 'k';
+ax2.YAxis(2).Color = 'k';
