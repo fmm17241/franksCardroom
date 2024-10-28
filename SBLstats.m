@@ -155,17 +155,57 @@ linkaxes([ax1 ax2],'x')
 % Frank learning to decimate()
 
 decimatedData.Snaps = decimate(filteredData.Snaps,4);
-decimateTime = decimate(times,4);
+decimatedData.Noise = decimate(filteredData.Noise,4);
+decimatedData.Winds = decimate(filteredData.Winds,4);
+decimatedData.Waves = decimate(filteredData.Waves,4);
+decimatedData.Tides = decimate(filteredData.Tides,4);
+decimatedData.TidesAbsolute = decimate(filteredData.TidesAbsolute,4);
+decimatedData.WindDir = decimate(filteredData.WindDir,4);
+decimatedData.SBL = decimate(filteredData.SBL,4);
+decimatedData.SBLcapped = decimate(filteredData.SBLcapped,4);
+decimatedData.Detections = decimate(filteredData.Detections,4);
+decimatedData.SST = decimate(filteredData.SST,4);
 
 
 figure()
 scatter(times,filteredData.Snaps)
 figure()
-scatter(decimatedData.Snaps)
+plot(decimatedData.Snaps)
 
 
+X1 = 1:length(times);
+X2 = 1:length(decimatedData.Snaps);
+
+figure()
+Tiled = tiledlayout(2,3)
+ax1 = nexttile([2,1])
+% scatter(snapRateHourly.SnapCount,envData.Noise,[],X1)
+% hold on
+scatter(decimatedData.Snaps,decimatedData.Noise,[],X2,'filled')
+xlabel('Hourly Snaprate')
+ylabel('HF Noise (mV)')
+title('','High-Frequency Noise Being Created')
+% legend('Raw','40Hr Lowpass')
 
 
+ax2 = nexttile([2,1])
+% scatter(surfaceData.WSPD,envData.Noise)
+% scatter(surfaceData.SBLcapped,envData.Noise,[],X1)
+ylabel('HF Noise (mV)')
+xlabel('Surface Bubble Loss (dBs)')
+% hold on
+% scatter(filteredData.Winds,filteredData.Noise)
+scatter(decimatedData.SBLcapped,decimatedData.Noise,[],X2,'filled')
+title('Gray''s Reef Soundscape, Spring 2020','Noise Being Attenuated at the Surface')
+
+
+ax3 = nexttile([2,1])
+% scatter(surfaceData.WSPD,snapRateHourly.SnapCount,[],X1)
+% hold on
+scatter(decimatedData.Winds,decimatedData.Snaps,[],X2,'filled')
+ylabel('Hourly Snaps')
+xlabel('Windspeed (m/s)')
+title('','Little Change in Snaprate')
 
 
 
