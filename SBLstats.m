@@ -271,3 +271,12 @@ ax1.YAxis(1).Color = 'k';
 ax1.YAxis(2).Color = 'k';
 ax2.YAxis(1).Color = 'k';
 ax2.YAxis(2).Color = 'k';
+
+
+%%
+figure()
+yyaxis left 
+plot(times,surfaceData.SBLcapped)
+yyaxis right
+plot(times,envData.Noise)
+
