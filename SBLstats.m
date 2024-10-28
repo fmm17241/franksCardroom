@@ -191,11 +191,11 @@ title('','High-Frequency Noise Being Created')
 ax2 = nexttile([2,1])
 % scatter(surfaceData.WSPD,envData.Noise)
 % scatter(surfaceData.SBLcapped,envData.Noise,[],X1)
-ylabel('HF Noise (mV)')
-xlabel('Surface Bubble Loss (dBs)')
 % hold on
 % scatter(filteredData.Winds,filteredData.Noise)
 scatter(decimatedData.SBLcapped,decimatedData.Noise,[],X2,'filled')
+ylabel('HF Noise (mV)')
+xlabel('Surface Bubble Loss (dBs)')
 title('Gray''s Reef Soundscape, Spring 2020','Noise Being Attenuated at the Surface')
 
 
@@ -208,7 +208,8 @@ xlabel('Windspeed (m/s)')
 title('','Little Change in Snaprate')
 
 
-
+cd ('C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\plots')
+exportgraphics(Tiled,'decimatedTiles.png')
 
 
 
