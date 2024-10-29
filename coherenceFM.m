@@ -9,32 +9,32 @@
 %Run snapRateAnalyzer and Plotter.
 
 
-% fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\FallSnapStudy';
-fileLocation = 'C:\Users\fmac4\OneDrive - University of Georgia\data\acousticAnalysis\FallSnapStudy';
-[snapRateData, snapRateHourly, snapRateMinute] = snapRateAnalyzer(fileLocation);
-% % Second step: this bins, averages, and plots some of their
-[receiverData, tides, snapRateHourly, snapRateMinute, envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets, surfaceData] = snapRatePlotter(oneDrive, snapRateHourly, snapRateMinute);
-% %%
-% % surfaceLossFM
+% % fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\FallSnapStudy';
+% fileLocation = 'C:\Users\fmac4\OneDrive - University of Georgia\data\acousticAnalysis\FallSnapStudy';
+% [snapRateData, snapRateHourly, snapRateMinute] = snapRateAnalyzer(fileLocation);
+% % % Second step: this bins, averages, and plots some of their
+% [receiverData, tides, snapRateHourly, snapRateMinute, envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets, surfaceData] = snapRatePlotter(oneDrive, snapRateHourly, snapRateMinute);
+% % %%
+% % % surfaceLossFM
 
 
 fileLocation = ([oneDrive,'\acousticAnalysis\matlabVariables']);
 cd (fileLocation)
 
 %%
-% Load in saved data
-% Environmental data matched to the hourly snaps.
-% load envDataSpring
-% % % Full snaprate dataset
-% load snapRateDataSpring
-% % % Snaprate binned hourly
-% load snapRateHourlySpring
-% % % Snaprate binned per minute
-% load snapRateMinuteSpring
-% load surfaceDataSpring
-% load filteredData4Bin40HrLowSPRING.mat
-% 
-% times = surfaceData.time;
+% % Load in saved data
+% % Environmental data matched to the hourly snaps.
+load envDataSpring
+% % Full snaprate dataset
+load snapRateDataSpring
+% % Snaprate binned hourly
+load snapRateHourlySpring
+% % Snaprate binned per minute
+load snapRateMinuteSpring
+load surfaceDataSpring
+load filteredData4Bin40HrLowSPRING.mat
+
+times = surfaceData.time;
 %%
 
 
@@ -42,15 +42,15 @@ if length(surfaceData.time) == 3308
     surfaceData = surfaceData(1:2078,:);
     snapRateHourly = snapRateHourly(1:2078,:);
 end
-load envDataFall
-% Full snaprate dataset
-load snapRateDataFall
-% Snaprate binned hourly
-load snapRateHourlyFall
-% Snaprate binned per minute
-load snapRateMinuteFall
-load surfaceDataFall
-times = surfaceData.time;
+% load envDataFall
+% % Full snaprate dataset
+% load snapRateDataFall
+% % Snaprate binned hourly
+% load snapRateHourlyFall
+% % Snaprate binned per minute
+% load snapRateMinuteFall
+% load surfaceDataFall
+% times = surfaceData.time;
 
 % times = surfaceData.time;
 
