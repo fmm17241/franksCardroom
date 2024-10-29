@@ -153,4 +153,20 @@ yyaxis left
 plot(times,filteredData.SST)
 yyaxis right
 plot(times,filteredData.Snaps)
+%%
+
+
+figure()
+semilogx()
+
+
+
+
+
+
+
+
+
+
+
 
