@@ -9,28 +9,36 @@ cd (fileLocation)
 
 %%
 % % Load in saved data
-% Environmental data matched to the hourly snaps.
-load envDataSpring
-% % Full snaprate dataset
-load snapRateDataSpring
-% % Snaprate binned hourly
-load snapRateHourlySpring
-% % Snaprate binned per minute
-load snapRateMinuteSpring
-load surfaceDataSpring
-load filteredData4Bin40HrLowSPRING
-
-times = surfaceData.time;
-%%
-% load envDataFall
-% % Full snaprate dataset
-% load snapRateDataFall
-% % Snaprate binned hourly
-% load snapRateHourlyFall
-% % Snaprate binned per minute
-% load snapRateMinuteFall
-% load surfaceDataFall
+% % Environmental data matched to the hourly snaps.
+% load envDataSpring
+% % % Full snaprate dataset
+% load snapRateDataSpring
+% % % Snaprate binned hourly
+% load snapRateHourlySpring
+% % % Snaprate binned per minute
+% load snapRateMinuteSpring
+% load surfaceDataSpring
+% load filteredData4Bin40HrLowSPRING
+% 
 % times = surfaceData.time;
+%%
+load envDataFall
+% Full snaprate dataset
+load snapRateDataFall
+% Snaprate binned hourly
+load snapRateHourlyFall
+% Snaprate binned per minute
+load snapRateMinuteFall
+load surfaceDataFall
+load filteredData4Bin40HrLowFALLpruned.mat
+times = surfaceData.time;
+
+envData = envData(30:2078,:);
+surfaceData = surfaceData(30:2078,:);
+snapRateHourly = snapRateHourly(30:2078,:);
+times = times(30:2078);
+FMFMFMFM Frank prune data
+
 %%
 bins = 4
 
@@ -60,7 +68,7 @@ title('Coherence - Detections and SBL')
 snapRateHourly.SnapCount
 surfaceData.
 
-[R,P,RL,RU] =corrcoef(filteredData.SBLcapped,filteredData.Noise)
+[R,P,RL,RU] =corrcoef(filteredData.SST,filteredData.Snaps)
 RSQ = R(1,2)*R(1,2)
 
 [R,P,RL,RU] =corrcoef(decimatedData.SBLcapped,decimatedData.Noise)
@@ -246,14 +254,17 @@ ylabel('HF Noise (mV)')
 xlabel('Hourly Snaprate')
 title('Snapping Shrimp Noise Creation','40Hr Lowpass')
 
-
+figure()
+plot(times,snapRateHourly.SnapCount,'LineWidth',4)
 
 cd ('C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\plots')
 exportgraphics(gca,'snapNoise.png')
 
-
-
 [R,P,RL,RU] =corrcoef(filteredData.Snaps,filteredData.BottomTemp)
+RSQ = R(1,2)*R(1,2)
+
+
+[R,P,RL,RU] =corrcoef(filteredData.Snaps(29:end),filteredData.BottomTemp(29:end))
 RSQ = R(1,2)*R(1,2)
 
 [R,P,RL,RU] =corrcoef(filteredData.Snaps,filteredData.Noise)

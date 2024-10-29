@@ -9,7 +9,8 @@
 %Run snapRateAnalyzer and Plotter.
 
 
-fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\FallSnapStudy';
+% fileLocation = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\FallSnapStudy';
+fileLocation = 'C:\Users\fmac4\OneDrive - University of Georgia\data\acousticAnalysis\FallSnapStudy';
 [snapRateData, snapRateHourly, snapRateMinute] = snapRateAnalyzer(fileLocation);
 % % Second step: this bins, averages, and plots some of their
 [receiverData, tides, snapRateHourly, snapRateMinute, envData, windSpeedBins, windSpeedScenario, avgSnaps, averageDets, surfaceData] = snapRatePlotter(oneDrive, snapRateHourly, snapRateMinute);
@@ -41,15 +42,15 @@ if length(surfaceData.time) == 3308
     surfaceData = surfaceData(1:2078,:);
     snapRateHourly = snapRateHourly(1:2078,:);
 end
-% load envDataFall
-% % Full snaprate dataset
-% load snapRateDataFall
-% % Snaprate binned hourly
-% load snapRateHourlyFall
-% % Snaprate binned per minute
-% load snapRateMinuteFall
-% load surfaceDataFall
-% times = surfaceData.time;
+load envDataFall
+% Full snaprate dataset
+load snapRateDataFall
+% Snaprate binned hourly
+load snapRateHourlyFall
+% Snaprate binned per minute
+load snapRateMinuteFall
+load surfaceDataFall
+times = surfaceData.time;
 
 % times = surfaceData.time;
 
@@ -97,7 +98,7 @@ filterOrder = 4;
     cutoff, cutoffHrs, filterType, bins, filterOrder)
 
 
-[R,P,RL,RU] =corrcoef(snapRateHourly.SnapCount,surfaceData.SST)
+[R,P,RL,RU] =corrcoef(snapRateHourly.SnapCount,envData.Temp)
 [R,P,RL,RU] =corrcoef(filteredData.Snaps,filteredData.Winds)
 
 %%
