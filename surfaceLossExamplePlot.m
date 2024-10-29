@@ -33,11 +33,11 @@ U = 0:2:16;
 % Frequency Examples
 lowFrequency = 50;
 highFrequency = 90;
+actualFrequency = 69;
 
 % Angles
 grazingAngle = 10; 
 hardAngle    = 60;
-
 
 %Frank's got to slow it down
 for k = 1:length(U)
@@ -49,17 +49,28 @@ for k = 1:length(U)
     lowFreqLoss.hard(k,1) = SurfLoss(hardAngle,U(k),lowFrequency);
 end
 
+for k = 1:length(U)
+    actualFreqLoss.grazing(k,1) = SurfLoss(grazingAngle,U(k),actualFrequency);
+    actualFreqLoss.hard(k,1) = SurfLoss(hardAngle,U(k),actualFrequency);
+end
+
 
 % UWAPL gives a suggestion to cap the upper limit of SBL at 15 dB. 
 indexHFLgrazing = highFreqLoss.grazing > 15;
 indexLFLgrazing = lowFreqLoss.grazing > 15;
 indexHFLhard = highFreqLoss.hard > 15;
 indexLFLhard = lowFreqLoss.hard > 15;
+indexAFLgrazing = actualFreqLoss.grazing > 15;
+indexAFLhard    = actualFreqLoss.hard > 15;
 
 highFreqLoss.grazingCap = highFreqLoss.grazing; highFreqLoss.grazingCap(indexHFLgrazing) = 15;
 highFreqLoss.hardCap = highFreqLoss.hard; highFreqLoss.hardCap(indexHFLhard) = 15;
 lowFreqLoss.grazingCap = lowFreqLoss.grazing; lowFreqLoss.grazingCap(indexLFLgrazing) = 15;
 lowFreqLoss.hardCap = lowFreqLoss.hard; lowFreqLoss.hard(indexLFLhard) = 15;
+actualFreqLoss.grazingCap = actualFreqLoss.grazing; actualFreqLoss.grazingCap(indexAFLgrazing) = 15;
+actualFreqLoss.hardCap = actualFreqLoss.hard; actualFreqLoss.hard(indexAFLhard) = 15;
+
+
 
 %%
 %OKay, showed the cap, now I'll move on
@@ -70,6 +81,7 @@ bufferLowGrazing = [lowFreqLoss.grazingCap-3 lowFreqLoss.grazingCap+3]
 
 bufferHighHard = [highFreqLoss.hardCap-3 highFreqLoss.hardCap+3]
 bufferHighGrazing = [highFreqLoss.grazingCap-3 highFreqLoss.grazingCap+3]
+
 
 
 
@@ -125,6 +137,21 @@ ylim([0 18])
 yline(15,'--','SBL Boundary','LabelHorizontalAlignment', 'left','LineWidth',2)
 title('Range of Surface Bubble Loss','High-Frequency Transceiver Bandwidth')
 xlabel('Windspeed (m/s')
+
+
+figure()
+ciplot(bufferLowGrazing(:,1),bufferLowGrazing(:,2),0:2:16)
+hold on
+ciplot(bufferHighGrazing(:,1),bufferHighGrazing(:,2),0:2:16,'r')
+plot(U,actualFreqLoss.grazingCap,'k--','lineWidth',4)
+xlim([0 15])
+ylim([0 18])
+yline(15,'--','SBL Boundary','LabelHorizontalAlignment', 'left','LineWidth',2)
+title('Range of Surface Bubble Loss','High-Frequency Transceiver Bandwidth')
+legend('50 kHz','90 kHz','69 kHz')
+xlabel('Windspeed (m/s')
+ylabel('SBL (dB)')
+
 
 cd ('C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\plots')
 exportgraphics(fullPlots,'SBLexampleTiles.png')
