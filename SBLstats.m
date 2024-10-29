@@ -9,35 +9,35 @@ cd (fileLocation)
 
 %%
 % % Load in saved data
-% % Environmental data matched to the hourly snaps.
-% load envDataSpring
-% % % Full snaprate dataset
-% load snapRateDataSpring
-% % % Snaprate binned hourly
-% load snapRateHourlySpring
-% % % Snaprate binned per minute
-% load snapRateMinuteSpring
-% load surfaceDataSpring
-% load filteredData4Bin40HrLowSPRING
-% 
-% times = surfaceData.time;
-%%
-load envDataFall
-% Full snaprate dataset
-load snapRateDataFall
-% Snaprate binned hourly
-load snapRateHourlyFall
-% Snaprate binned per minute
-load snapRateMinuteFall
-load surfaceDataFall
-load filteredData4Bin40HrLowFALLpruned.mat
-times = surfaceData.time;
+% Environmental data matched to the hourly snaps.
+load envDataSpring
+% % Full snaprate dataset
+load snapRateDataSpring
+% % Snaprate binned hourly
+load snapRateHourlySpring
+% % Snaprate binned per minute
+load snapRateMinuteSpring
+load surfaceDataSpring
+load filteredData4Bin40HrLowSPRING
 
-envData = envData(30:2078,:);
-surfaceData = surfaceData(30:2078,:);
-snapRateHourly = snapRateHourly(30:2078,:);
-times = times(30:2078);
-FMFMFMFM Frank prune data
+times = surfaceData.time;
+%%
+% load envDataFall
+% % Full snaprate dataset
+% load snapRateDataFall
+% % Snaprate binned hourly
+% load snapRateHourlyFall
+% % Snaprate binned per minute
+% load snapRateMinuteFall
+% load surfaceDataFall
+% load filteredData4Bin40HrLowFALLpruned.mat
+% times = surfaceData.time;
+% 
+% envData = envData(30:2078,:);
+% surfaceData = surfaceData(30:2078,:);
+% snapRateHourly = snapRateHourly(30:2078,:);
+% times = times(30:2078);
+% FMFMFMFM Frank prune data
 
 %%
 bins = 4
@@ -225,7 +225,7 @@ title('','Little Change in Snaprate')
 
 
 % cd ('C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\plots')
-% exportgraphics(Tiled,'decimatedTiles.png')
+exportgraphics(gca,'exampleNoiseWind.png')
 
 
 
