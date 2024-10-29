@@ -326,9 +326,11 @@ plot(times,snapRateHourly.SnapCount,'LineWidth',4)
 cd ('C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\plots')
 exportgraphics(gca,'snapNoise.png')
 
-[R,P,RL,RU] =corrcoef(filteredData.Snaps,filteredData.BottomTemp)
+[R,P,RL,RU] =corrcoef(filteredData.Noise,filteredData.Winds)
 RSQ = R(1,2)*R(1,2)
 
+[R,P,RL,RU] =corrcoef(envData.Noise,surfaceData.SBLcapped)
+RSQ = R(1,2)*R(1,2)
 
 [R,P,RL,RU] =corrcoef(filteredData.Snaps(29:end),filteredData.BottomTemp(29:end))
 RSQ = R(1,2)*R(1,2)
