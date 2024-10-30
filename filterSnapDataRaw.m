@@ -10,21 +10,21 @@ powerSnapTides = Coherence_whelch_overlap(snapRateHourly.SnapCount,surfaceData.c
 powerSnapAbsTides = Coherence_whelch_overlap(snapRateHourly.SnapCount,abs(surfaceData.crossShore),3600,bins,1,1,1)
 powerSnapSBLcapped = Coherence_whelch_overlap(snapRateHourly.SnapCount,surfaceData.SBLcapped,3600,bins,1,1,1)
 % In Fall, we have more wind/tides/snaps than we do noise, so this is accounting for that difference.
-if length(snapRateHourly.SnapCount) == length(envData.Noise)
-    powerSnapNoise   = Coherence_whelch_overlap(snapRateHourly.SnapCount,envData.Noise,3600,bins,1,1,1)
-    powerNoiseWave   = Coherence_whelch_overlap(envData.Noise,surfaceData.waveHeight,3600,bins,1,1,1)
-    %
-    powerSnapNoise.coh(powerSnapNoise.coh < powerSnapNoise.pr95bendat) = 0;
-    powerNoiseWave.coh(powerNoiseWave.coh < powerNoiseWave.pr95bendat) = 0;
-    %
-    powerSnapNoise.phase(powerSnapNoise.coh < powerSnapNoise.pr95bendat) = 0;
-    powerNoiseWave.phase(powerNoiseWave.coh < powerNoiseWave.pr95bendat) = 0;
-end
+
+powerSnapNoise   = Coherence_whelch_overlap(snapRateHourly.SnapCount,envData.Noise,3600,bins,1,1,1)
+powerNoiseWave   = Coherence_whelch_overlap(envData.Noise,surfaceData.waveHeight,3600,bins,1,1,1)
+%
+powerSnapNoise.coh(powerSnapNoise.coh < powerSnapNoise.pr95bendat) = 0;
+powerNoiseWave.coh(powerNoiseWave.coh < powerNoiseWave.pr95bendat) = 0;
+%
+powerSnapNoise.phase(powerSnapNoise.coh < powerSnapNoise.pr95bendat) = 0;
+powerNoiseWave.phase(powerNoiseWave.coh < powerNoiseWave.pr95bendat) = 0;
+
 % This creates a placeholder if  I don't have noise data for the entire dataset.
-if length(snapRateHourly.SnapCount) ~= length(envData.Noise)
-    powerSnapNoise   = NaN;
-    powerNoiseWave   = NaN;
-end
+% if length(snapRateHourly.SnapCount) ~= length(envData.Noise)
+%     powerSnapNoise   = NaN;
+%     powerNoiseWave   = NaN;
+% end
 
 %Frank is trying to remove non-significant peaks; it gets furry at the bottom of the Y, let's clean up.
 powerSnapWind.coh(powerSnapWind.coh < powerSnapWind.pr95bendat) = 0;
