@@ -155,13 +155,25 @@ yyaxis right
 plot(times,filteredData.Snaps)
 %%
 
+figure()
+yyaxis left
+plot(times,filteredData.Detections,'b');
+yyaxis right
+plot(times,filteredData.SBLcapped,'k');
 
 figure()
-semilogx()
+tilez = tiledlayout(3,3)
 
+ax1 = nexttile([1,3])
+plot(times,envData.HourlyDets)
 
+ax2 = nexttile([1,3])
+plot(times,surfaceData.WSPD)
 
+ax3 = nexttile([1,3])
+plot(times,snapRateHourly.SnapCount)
 
+linkaxes([ax1 ax2 ax3],'x')
 
 
 
