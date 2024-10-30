@@ -116,10 +116,11 @@ hold on
 loglog(powerSnapWind.f*86400,powerSnapWind.psdb,'r','LineWidth',2);
 loglog(powerSnapWave.f*86400,powerSnapWave.psdb,'k','LineWidth',2);
 loglog(powerSnapTides.f*86400,powerSnapTides.psdb,'m','LineWidth',2);
-loglog(powerSnapAbsTides.f*86400,powerSnapAbsTides.psdb,'g','LineWidth',2)
+% loglog(powerSnapAbsTides.f*86400,powerSnapAbsTides.psdb,'g','LineWidth',2)
 loglog(powerNoiseWave.f*86400,powerNoiseWave.psda,'c','LineWidth',2)
-loglog(powerSnapSBLcapped.f*86400,powerSnapSBLcapped.psdb,'k','LineWidth',2)
-legend('Snaps','Winds','Waveheight','Tides','AbsTideMagnitude','Noise','SBL')
+loglog(powerSnapSBLcapped.f*86400,powerSnapSBLcapped.psdb,'g','LineWidth',2)
+legend('Snaps','Winds','Waveheight','Tides','Noise','SBL')
 % legend('Snaps','Winds','Waveheight','Tides','AbsTideMagnitude')
 title('Power Spectral Density',sprintf('Per Day: %d Bins',bins));
+xlabel('Freq: Per Day')
 
