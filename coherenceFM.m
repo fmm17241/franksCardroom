@@ -162,7 +162,7 @@ yyaxis right
 plot(times,filteredData.SBLcapped,'k');
 
 figure()
-tilez = tiledlayout(3,3)
+tilez = tiledlayout(4,3)
 
 ax1 = nexttile([1,3])
 yyaxis left
@@ -193,13 +193,13 @@ ylabel('SnapRate')
 title('','Benthic Activity')
 
 
-% ax4 = nexttile([1,3])
-% plot(times,envData.crossShore)
-% ylim([-0.6 0.6])
-% ylabel('Tidal Velocity')
-% title('','Cross-shore Tides')
+ax4 = nexttile([1,3])
+plot(times,envData.crossShore)
+ylim([-0.6 0.6])
+ylabel('Tidal Velocity')
+title('','Cross-shore Tides')
 
-linkaxes([ax1 ax2 ax3],'x')
+linkaxes([ax1 ax2 ax3 ax4],'x')
 
 
 
