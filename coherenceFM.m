@@ -165,13 +165,39 @@ figure()
 tilez = tiledlayout(3,3)
 
 ax1 = nexttile([1,3])
-plot(times,envData.HourlyDets)
+yyaxis left
+plot(times,envData.HourlyDets,'LineWidth',2)
+ylim([0 7])
+ylabel('Detections')
+yyaxis right
+plot(times,envData.Noise)
+ylabel('Noise (mV)')
+title('Spring 2020 Case Studies','Detection Efficiency Vs. Interference')
 
 ax2 = nexttile([1,3])
-plot(times,surfaceData.WSPD)
+% yyaxis left
+% plot(times,surfaceData.WSPD)
+% yline(6,'--','Whitecaps')
+% ylabel('Windspeed (m/s')
+% yyaxis right
+plot(times,surfaceData.SBLcapped,'r','LineWidth',2)
+yline(4.42,'--','Whitecaps      ')
+ylabel('SBL (dB)')
+title('','Noise Attenuation at the Surface')
+
 
 ax3 = nexttile([1,3])
-plot(times,snapRateHourly.SnapCount)
+plot(times,snapRateHourly.SnapCount,'k','LineWidth',2)
+ylim([0 4500])
+ylabel('SnapRate')
+title('','Benthic Activity')
+
+
+% ax4 = nexttile([1,3])
+% plot(times,envData.crossShore)
+% ylim([-0.6 0.6])
+% ylabel('Tidal Velocity')
+% title('','Cross-shore Tides')
 
 linkaxes([ax1 ax2 ax3],'x')
 
