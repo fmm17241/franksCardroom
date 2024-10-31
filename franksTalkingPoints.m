@@ -23,13 +23,21 @@ times = surfaceData.time;
 
 
 %Create monthly variables
-test = retime(snapRateHourly,'monthly')
 
-mayIndex = snapRateHourly.Time == "May"
+surface = retime(surfaceData,'monthly','mean')
+enviro = retime(envData,'monthly','mean')
 
-temps = retime(envData,'monthly')
+snhaps = retime(snapRateHourly,'monthly','mean')
 
-surface = retime(surfaceData,'monthly')
+
+
+
+
+
+
+
+
+
 
 load envDataFall
 % Full snaprate dataset
