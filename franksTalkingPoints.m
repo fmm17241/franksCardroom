@@ -25,6 +25,8 @@ times = surfaceData.time;
 %Create monthly variables
 test = retime(snapRateHourly,'monthly')
 
+mayIndex = snapRateHourly.Time == "May"
+
 temps = retime(envData,'monthly')
 
 surface = retime(surfaceData,'monthly')
@@ -64,8 +66,18 @@ nightAvgs = retime(nightSnaps,'monthly','mean')
 
 testingAvgPercent = (nightAvgs - dayAvgs)./dayAvgs
 
+absoluteTides = abs(surfaceData.crossShore);
+
+
+
 %
 %FUFKDSFSGFDG 
+[R P] = corrcoef(filteredData.TidesAbsolute,filteredData.Snaps)
+Rsqwrd = R(1,2)*R(1,2)
+
+
+[R P] = corrcoef(absoluteTides,snapRateHourly.SnapCount)
+Rsqwrd = R(1,2)*R(1,2)
 
 
 
