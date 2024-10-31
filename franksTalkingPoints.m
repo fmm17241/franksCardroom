@@ -88,6 +88,46 @@ Rsqwrd = R(1,2)*R(1,2)
 Rsqwrd = R(1,2)*R(1,2)
 
 
+%%
+%loops, find the loops, save the world
+
+figure()
+fdg = tiledlayout(2,3)
+ax1 = nexttile([1,3])
+plot(times,filteredData.Noise)
+
+ax2 = nexttile([1,3])
+plot(times,filteredData.Winds)
+
+linkaxes([ax1 ax2],'x')
+
+
+figure()
+fdg = tiledlayout(2,3)
+ax1 = nexttile([1,3])
+plot(times,envData.Noise)
+
+ax2 = nexttile([1,3])
+plot(times,surfaceData.WSPD)
+
+linkaxes([ax1 ax2],'x')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
