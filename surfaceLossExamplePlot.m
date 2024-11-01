@@ -35,7 +35,7 @@ U = 0:2:16;
 lowFrequency = 50;
 highFrequency = 90;
 actualFrequency = 69;
-
+tinyFrequency    = 20;
 % Angles
 theta = 10:5:90;
 
@@ -58,10 +58,19 @@ for k = 1:length(U)
     end
 end
 
+for k = 1:length(U)
+    for Angle = 1:length(theta)
+        tinyFreqLoss(k,Angle) = SurfLoss(theta(Angle),U(k),tinyFrequency);
+    end
+end
+
+
+
 % UWAPL gives a suggestion to cap the upper limit of SBL at 15 dB. 
 indexHigh   = highFreqLoss > 15;
 indexLow    = lowFreqLoss > 15;
 indexActual = actualFreqLoss > 15;
+indexTiny   = tinyFreqLoss > 15;
 
 highFreqLoss(indexHigh) = 15;
 
@@ -69,11 +78,27 @@ lowFreqLoss(indexLow) = 15;
 
 actualFreqLoss(indexActual) = 15;
 
+tinyFreqLoss(indexTiny) = 15;
 %%
 
 
 figure()
+TT = tiledlayout(2,2)
+ax1 = nexttile([1,2])
 plot(U, actualFreqLoss,'LineWidth',2)
+xlabel('Windspeed (m/s)')
+ylabel('SBL (dB)')
+yline(15,'--','SBL Boundary','LabelHorizontalAlignment', 'left')
+title('Calculated Surface Bubble Loss','69 kHz, our transmission Frequency. 10-90 Angle')
+
+ax2 = nexttile([1,2])
+plot(U,tinyFreqLoss,'LineWidth',2)
+xlabel('Windspeed (m/s)')
+ylabel('SBL (dB)')
+ylim([0 15])
+title('','20 kHz, the top of our hydrophone recordings. 10-90 Angle')
+
+
 
 
 
@@ -85,7 +110,7 @@ hold on
 ciplot(bufferLowGrazing(:,1),bufferLowGrazing(:,2),0:2:16)
 xlim([0 15])
 ylim([0 18])
-xlabel('SBL')
+xlabel('Windspeed (m/s)')
 yline(15,'--','SBL Boundary','LabelHorizontalAlignment', 'left')
 title('Calculated Surface Bubble Loss','50 kHz, 10deg Angle')
 
