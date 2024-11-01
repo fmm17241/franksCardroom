@@ -63,6 +63,12 @@ indexHigh   = highFreqLoss > 15;
 indexLow    = lowFreqLoss > 15;
 indexActual = actualFreqLoss > 15;
 
+highFreqLoss(indexHigh) = 15;
+
+lowFreqLoss(indexLow) = 15;
+
+actualFreqLoss(indexActual) = 15;
+
 
 highFreqLoss.grazingCap = highFreqLoss.grazing; highFreqLoss.grazingCap(indexHFLgrazing) = 15;
 highFreqLoss.hardCap = highFreqLoss.hard; highFreqLoss.hardCap(indexHFLhard) = 15;
