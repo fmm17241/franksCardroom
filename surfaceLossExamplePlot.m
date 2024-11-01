@@ -69,33 +69,18 @@ lowFreqLoss(indexLow) = 15;
 
 actualFreqLoss(indexActual) = 15;
 
-
-highFreqLoss.grazingCap = highFreqLoss.grazing; highFreqLoss.grazingCap(indexHFLgrazing) = 15;
-highFreqLoss.hardCap = highFreqLoss.hard; highFreqLoss.hardCap(indexHFLhard) = 15;
-lowFreqLoss.grazingCap = lowFreqLoss.grazing; lowFreqLoss.grazingCap(indexLFLgrazing) = 15;
-lowFreqLoss.hardCap = lowFreqLoss.hard; lowFreqLoss.hard(indexLFLhard) = 15;
-actualFreqLoss.grazingCap = actualFreqLoss.grazing; actualFreqLoss.grazingCap(indexAFLgrazing) = 15;
-actualFreqLoss.hardCap = actualFreqLoss.hard; actualFreqLoss.hard(indexAFLhard) = 15;
-
-
-
 %%
-%OKay, showed the cap, now I'll move on
-%Adding +/- dB buffer to each signal without worrying about cap.
 
-bufferLowHard = [lowFreqLoss.hardCap-3 lowFreqLoss.hardCap+3]
-bufferLowGrazing = [lowFreqLoss.grazingCap-3 lowFreqLoss.grazingCap+3]
 
-bufferHighHard = [highFreqLoss.hardCap-3 highFreqLoss.hardCap+3]
-bufferHighGrazing = [highFreqLoss.grazingCap-3 highFreqLoss.grazingCap+3]
-
+figure()
+plot(U, actualFreqLoss,'LineWidth',2)
 
 
 
 fullPlots = figure()
 tiledlayout('flow','TileSpacing','Compact')
 ax1 = nexttile([1,1])
-plot(U,lowFreqLoss.grazingCap,'LineWidth',2)
+plot(U,lowFreqLoss,'LineWidth',2)
 hold on
 ciplot(bufferLowGrazing(:,1),bufferLowGrazing(:,2),0:2:16)
 xlim([0 15])
