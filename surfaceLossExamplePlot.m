@@ -42,19 +42,25 @@ theta = 10:5:90;
 %Frank's got to slow it down
 for k = 1:length(U)
     for Angle = 1:length(theta)
-    highFreqLoss(k,Angle) = SurfLoss(theta(Angle),U(k),highFrequency);
+        highFreqLoss(k,Angle) = SurfLoss(theta(Angle),U(k),highFrequency);
+    end
+end
+%Frank's got to slow it down
+for k = 1:length(U)
+    for Angle = 1:length(theta)
+        lowFreqLoss(k,Angle) = SurfLoss(theta(Angle),U(k),lowFrequency);
     end
 end
 
 for k = 1:length(U)
-    lowFreqLoss.grazing(k,1) = SurfLoss(grazingAngle,U(k),lowFrequency);
-    lowFreqLoss.hard(k,1) = SurfLoss(hardAngle,U(k),lowFrequency);
+    for Angle = 1:length(theta)
+        actualFreqLoss(k,Angle) = SurfLoss(theta(Angle),U(k),actualFrequency);
+    end
 end
 
-for k = 1:length(U)
-    actualFreqLoss.grazing(k,1) = SurfLoss(grazingAngle,U(k),actualFrequency);
-    actualFreqLoss.hard(k,1) = SurfLoss(hardAngle,U(k),actualFrequency);
-end
+indexHigh   = 
+indexLow    =
+indexActual =
 
 
 % UWAPL gives a suggestion to cap the upper limit of SBL at 15 dB. 
