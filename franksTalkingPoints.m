@@ -145,17 +145,30 @@ scatter(filteredData.SBL(1429:1534),filteredData.Noise(1429:1534),[],X(1429:1534
 xlabel('SBL')
 ylabel('HFnoise')
 
+%Green loop
+%  1534 loud
+% 1481 quiet
+% 1429 loud
 [R P] = corrcoef(envData.Noise(1429:1534),surfaceData.SBLcapped(1429:1534))
-
 [R P] = corrcoef(filteredData.Noise(1429:1534),filteredData.SBLcapped(1429:1534))
+squrd = R(1,2)*R(1,2)
 
+%Blue loop:
+% 601 loud
+% 524 quiet
+% 461 loud
+[R P] = corrcoef(envData.Noise(461:601),surfaceData.SBLcapped(461:601))
+[R P] = corrcoef(filteredData.Noise(461:601),filteredData.SBLcapped(461:601))
 squrd = R(1,2)*R(1,2)
 
 
 %Yellow loop:
 % 1844 quiet
 %1892 loud
-
+scatter(filteredData.SBL(1795:1891),filteredData.Noise(1795:1891),[],X(1795:1891),'filled')
+[R P] = corrcoef(envData.Noise(1795:1891),surfaceData.SBLcapped(1795:1891))
+[R P] = corrcoef(filteredData.Noise(1795:1891),filteredData.SBLcapped(1795:1891))
+squrd = R(1,2)*R(1,2)
 %1792 loud
 % 1818 quiet
 
@@ -166,14 +179,8 @@ squrd = R(1,2)*R(1,2)
 % 1679 quiet
 %1609 loud
 %1566 mini quiet
-%  1534 loud
-% 1481 quiet
-% 1429 loud
 
-%Blue loop:
-% 601 loud
-% 524 quiet
-% 461 loud
+
 
 
 % 130 loud
