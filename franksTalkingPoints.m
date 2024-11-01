@@ -175,6 +175,27 @@ squrd = R(1,2)*R(1,2)
 %1780 loud
 %1766 quiet
 %1722 loud
+figure()
+TTTT = tiledlayout(2,2)
+ax1 = nexttile([2,1])
+yyaxis left
+scatter(times(461:601),filteredData.SBLcapped(461:601),'filled')
+ylabel('SBL (dB)')
+yyaxis right
+scatter(times(461:601),filteredData.Noise(461:601),'filled')
+ylabel('Noise (mV)')
+title('1 "Loop", Lowpass Filtered')
+
+ax2 = nexttile([2,1])
+yyaxis left
+scatter(times(461:601),surfaceData.SBLcapped(461:601),'filled')
+ylabel('SBL (dB)')
+yyaxis right
+scatter(times(461:601),envData.Noise(461:601),'filled')
+ylabel('Noise (mV)')
+
+title('Same "Loop", Raw Data')
+
 scatter(filteredData.SBL(1722:1805),filteredData.Noise(1722:1805),[],X(1722:1805),'filled')
 [R P] = corrcoef(envData.Noise(1722:1805),surfaceData.SBLcapped(1722:1805))
 [R P] = corrcoef(filteredData.Noise(1722:1805),filteredData.SBLcapped(1722:1805))
