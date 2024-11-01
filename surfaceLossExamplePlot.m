@@ -58,9 +58,9 @@ for k = 1:length(U)
     end
 end
 
-indexHigh   = 
-indexLow    =
-indexActual =
+indexHigh   = highFreqLoss > 15;
+indexLow    = lowFreqLoss > 15;
+indexActual = actualFreqLoss > 15;
 
 
 % UWAPL gives a suggestion to cap the upper limit of SBL at 15 dB. 
