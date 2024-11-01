@@ -58,18 +58,11 @@ for k = 1:length(U)
     end
 end
 
+% UWAPL gives a suggestion to cap the upper limit of SBL at 15 dB. 
 indexHigh   = highFreqLoss > 15;
 indexLow    = lowFreqLoss > 15;
 indexActual = actualFreqLoss > 15;
 
-
-% UWAPL gives a suggestion to cap the upper limit of SBL at 15 dB. 
-indexHFLgrazing = highFreqLoss.grazing > 15;
-indexLFLgrazing = lowFreqLoss.grazing > 15;
-indexHFLhard = highFreqLoss.hard > 15;
-indexLFLhard = lowFreqLoss.hard > 15;
-indexAFLgrazing = actualFreqLoss.grazing > 15;
-indexAFLhard    = actualFreqLoss.hard > 15;
 
 highFreqLoss.grazingCap = highFreqLoss.grazing; highFreqLoss.grazingCap(indexHFLgrazing) = 15;
 highFreqLoss.hardCap = highFreqLoss.hard; highFreqLoss.hardCap(indexHFLhard) = 15;
