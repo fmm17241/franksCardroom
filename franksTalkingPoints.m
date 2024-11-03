@@ -19,11 +19,6 @@ load snapRateMinuteSpring
 load surfaceDataSpring
 load filteredData4Bin40HrLowSPRING.mat
 
-%Frank pruning hourly detection data
-badDets = [2229:2241];
-envData.HourlyDets(badDets) = 0;
-
-
 times = surfaceData.time;
 
 
