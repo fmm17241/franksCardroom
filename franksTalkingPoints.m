@@ -19,6 +19,11 @@ load snapRateMinuteSpring
 load surfaceDataSpring
 load filteredData4Bin40HrLowSPRING.mat
 
+%Frank pruning hourly detection data
+badDets = [2229:2241];
+envData.HourlyDets(badDets) = 0;
+
+
 times = surfaceData.time;
 
 
@@ -48,26 +53,26 @@ decimatedData.SST = decimate(filteredData.SST,4);
 
 
 
-
-
-load envDataFall
-% Full snaprate dataset
-load snapRateDataFall
-% Snaprate binned hourly
-load snapRateHourlyFall
-% Snaprate binned per minute
-load snapRateMinuteFall
-load surfaceDataFall
-load filteredData4Bin40HrLowFALLpruned.mat
-
-times = surfaceData.time;
-
-
-if length(surfaceData.time) == 3308
-    surfaceData = surfaceData(1:2078,:);
-    snapRateHourly = snapRateHourly(1:2078,:);
-    times = times(1:2078,:);
-end
+% 
+% 
+% load envDataFall
+% % Full snaprate dataset
+% load snapRateDataFall
+% % Snaprate binned hourly
+% load snapRateHourlyFall
+% % Snaprate binned per minute
+% load snapRateMinuteFall
+% load surfaceDataFall
+% load filteredData4Bin40HrLowFALLpruned.mat
+% 
+% times = surfaceData.time;
+% 
+% 
+% if length(surfaceData.time) == 3308
+%     surfaceData = surfaceData(1:2078,:);
+%     snapRateHourly = snapRateHourly(1:2078,:);
+%     times = times(1:2078,:);
+% end
 %%
 % CReating daily averages
 
@@ -162,6 +167,16 @@ scatter(filteredData.SBL(461:601),filteredData.Noise(461:601),[],X(461:601),'fil
 [R P] = corrcoef(filteredData.Noise(461:601),filteredData.SBLcapped(461:601))
 squrd = R(1,2)*R(1,2)
 
+[R P] = corrcoef(envData.HourlyDets(461:601),surfaceData.SBLcapped(461:601))
+squrd = R(1,2)*R(1,2)
+[R P] = corrcoef(filteredData.Detections(461:601),filteredData.SBLcapped(461:601))
+squrd = R(1,2)*R(1,2)
+
+[R P] = corrcoef(snapRateHourly.SnapCount(461:601),surfaceData.SBLcapped(461:601))
+squrd = R(1,2)*R(1,2)
+[R P] = corrcoef(filteredData.Snaps(461:601),filteredData.SBLcapped(461:601))
+squrd = R(1,2)*R(1,2)
+
 
 %Yellow loop:
 % 1844 quiet
@@ -176,30 +191,140 @@ squrd = R(1,2)*R(1,2)
 %1766 quiet
 %1722 loud
 figure()
-TTTT = tiledlayout(2,2)
+TTTT = tiledlayout(6,2)
 ax1 = nexttile([2,1])
 yyaxis left
 scatter(times(461:601),filteredData.SBLcapped(461:601),'filled')
 ylabel('SBL (dB)')
 yyaxis right
-scatter(times(461:601),filteredData.Noise(461:601),'filled')
+scatter(times(461:601),filteredData.Noise(461:601),'r','filled')
 ylabel('Noise (mV)')
-title('1 "Loop", Lowpass Filtered')
+title('Noise Attenuation due to SBL','40Hr Lowpass')
 
 ax2 = nexttile([2,1])
 yyaxis left
 scatter(times(461:601),surfaceData.SBLcapped(461:601),'filled')
 ylabel('SBL (dB)')
 yyaxis right
-scatter(times(461:601),envData.Noise(461:601),'filled')
+scatter(times(461:601),envData.Noise(461:601),'r','filled')
 ylabel('Noise (mV)')
+title('','Raw Data')
 
-title('Same "Loop", Raw Data')
 
+ax3 = nexttile([2,1])
+yyaxis left
+scatter(times(461:601),filteredData.SBLcapped(461:601),'filled')
+ylabel('SBL (dB)')
+yyaxis right
+scatter(times(461:601),filteredData.Detections(461:601),'r','filled')
+ylabel('Detections')
+title('Surface Attenuation Enabling Acoustic Telemetry','40Hr Lowpass')
+
+ax4 = nexttile([2,1])
+yyaxis left
+scatter(times(461:601),surfaceData.SBLcapped(461:601),'filled')
+ylabel('SBL (dB)')
+yyaxis right
+scatter(times(461:601),envData.HourlyDets(461:601),'r','filled')
+ylabel('Detections')
+title('','Raw Data')
+
+ax5 = nexttile([2,1])
+yyaxis left
+scatter(times(461:601),filteredData.SBLcapped(461:601),'filled')
+ylabel('SBL (dB)')
+yyaxis right
+scatter(times(461:601),filteredData.Snaps(461:601),'r','filled')
+ylabel('Snaps')
+title('Snaprate Unnaffected by Winds','40Hr Lowpass')
+
+ax6 = nexttile([2,1])
+yyaxis left
+scatter(times(461:601),surfaceData.SBLcapped(461:601),'filled')
+ylabel('SBL (dB)')
+yyaxis right
+scatter(times(461:601),snapRateHourly.SnapCount(461:601),'r','filled')
+ylabel('Snaps')
+title('','Raw Data')
+
+
+
+figure()
 scatter(filteredData.SBL(1722:1805),filteredData.Noise(1722:1805),[],X(1722:1805),'filled')
 [R P] = corrcoef(envData.Noise(1722:1805),surfaceData.SBLcapped(1722:1805))
 [R P] = corrcoef(filteredData.Noise(1722:1805),filteredData.SBLcapped(1722:1805))
 squrd = R(1,2)*R(1,2)
+
+
+figure()
+TTTT = tiledlayout(6,2)
+ax1 = nexttile([2,1])
+yyaxis left
+scatter(times(1722:1805),filteredData.SBLcapped(1722:1805),'filled')
+ylabel('SBL (dB)')
+yyaxis right
+scatter(times(1722:1805),filteredData.Noise(1722:1805),'r','filled')
+ylabel('Noise (mV)')
+title('Noise Attenuation due to SBL','40Hr Lowpass')
+
+ax2 = nexttile([2,1])
+yyaxis left
+scatter(times(1722:1805),surfaceData.SBLcapped(1722:1805),'filled')
+ylabel('SBL (dB)')
+yyaxis right
+scatter(times(1722:1805),envData.Noise(1722:1805),'r','filled')
+ylabel('Noise (mV)')
+title('','Raw Data')
+
+
+ax3 = nexttile([2,1])
+yyaxis left
+scatter(times(1722:1805),filteredData.SBLcapped(1722:1805),'filled')
+ylabel('SBL (dB)')
+yyaxis right
+scatter(times(1722:1805),filteredData.Detections(1722:1805),'r','filled')
+ylabel('Detections')
+title('Surface Attenuation Enabling Acoustic Telemetry','40Hr Lowpass')
+
+ax4 = nexttile([2,1])
+yyaxis left
+scatter(times(1722:1805),surfaceData.SBLcapped(1722:1805),'filled')
+ylabel('SBL (dB)')
+yyaxis right
+scatter(times(1722:1805),envData.HourlyDets(1722:1805),'r','filled')
+ylabel('Detections')
+title('','Raw Data')
+
+ax5 = nexttile([2,1])
+yyaxis left
+scatter(times(1722:1805),filteredData.SBLcapped(1722:1805),'filled')
+ylabel('SBL (dB)')
+yyaxis right
+scatter(times(1722:1805),filteredData.Snaps(1722:1805),'r','filled')
+ylabel('Snaps')
+title('Snaprate Unnaffected by Winds','40Hr Lowpass')
+
+ax6 = nexttile([2,1])
+yyaxis left
+scatter(times(1722:1805),surfaceData.SBLcapped(1722:1805),'filled')
+ylabel('SBL (dB)')
+yyaxis right
+scatter(times(1722:1805),snapRateHourly.SnapCount(1722:1805),'r','filled')
+ylabel('Snaps')
+title('','Raw Data')
+
+
+
+
+
+
+
+
+figure()
+plot(times,envData.HourlyDets)
+
+
+
 
 
 %Yellow loop
