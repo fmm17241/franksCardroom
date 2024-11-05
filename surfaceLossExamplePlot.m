@@ -37,7 +37,7 @@ highFrequency = 90;
 actualFrequency = 69;
 tinyFrequency    = 20;
 % Angles
-theta = 10:5:90;
+theta = 1:2:90;
 
 %Frank's got to slow it down
 for k = 1:length(U)
