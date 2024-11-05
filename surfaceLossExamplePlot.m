@@ -37,7 +37,7 @@ highFrequency = 90;
 actualFrequency = 69;
 tinyFrequency    = 20;
 % Angles
-theta = 1:2:90;
+theta = 2:2:90;
 
 %Frank's got to slow it down
 for k = 1:length(U)
@@ -80,16 +80,28 @@ actualFreqLoss(indexActual) = 15;
 
 tinyFreqLoss(indexTiny) = 15;
 %%
-
+cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\bellhopTesting'
 
 figure()
 TT = tiledlayout(2,2)
 ax1 = nexttile([1,2])
-plot(U, actualFreqLoss,'LineWidth',2)
+plot(U,actualFreqLoss(:,5),'r','LineWidth',5)
+hold on
+plot(U, actualFreqLoss,'b','LineWidth',2)
+plot(U,actualFreqLoss(:,5),'r','LineWidth',5)
 xlabel('Windspeed (m/s)')
 ylabel('SBL (dB)')
 yline(15,'--','SBL Boundary','LabelHorizontalAlignment', 'left')
-title('Calculated Surface Bubble Loss','69 kHz, our transmission Frequency. 10-90 Angle')
+title('Calculated Surface Bubble Loss',['69 kHz, 2-90' char(176),'Angle between Sound and Surface'])
+legend(['10' char(176),'Angle'],'Full Spectrum')
+
+ax2 = nexttile([1,2])
+bellhop('frank2D')
+plotray('frank2D')
+
+
+
+
 
 ax2 = nexttile([1,2])
 plot(U,tinyFreqLoss,'LineWidth',2)
