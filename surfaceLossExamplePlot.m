@@ -98,7 +98,10 @@ legend(['10' char(176),'Angle'],'Full Spectrum')
 ax2 = nexttile([1,2])
 bellhop('frank2D')
 plotray('frank2D')
-
+hold on
+plotbty('frank2D')
+title('Example of Sound Propagation & Bubble Formation','Bubble Layer Depth at 11 m/s Windspeed')
+yline(5,'--','Bubble Layer','LineWidth',4)
 
 
 
