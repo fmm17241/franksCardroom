@@ -65,7 +65,10 @@ pm.print_env(env)
 
 #CComputes incoherent transmission loss through the environment
 tloss = pm.compute_transmission_loss(env, mode='incoherent')
-pm.plot_transmission_loss(tloss, env=env, clim=[-60,-30], width=900,title='Incoherent Loss: 69 kHz, Wavy Surface', clabel='Noise Loss (dBs)')
+
+axxx = pm.plot_transmission_loss(tloss, env=env, clim=[-60,-30], width=900,title='Incoherent Loss: 69 kHz, Wavy Surface', clabel='Noise Loss (dBs)')
+
+plt2.axhline(y=2.5, color='r', linestyle='--')
 
 
 rays = pm.compute_rays(env)
