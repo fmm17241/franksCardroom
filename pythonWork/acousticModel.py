@@ -7,6 +7,7 @@ This is a temporary script file.
 " This is arlpy.readthedocs.io testing for Bellhop"
 
 pip install arlpy
+
 import arlpy
 import os
 import shutil
@@ -46,14 +47,6 @@ ssp = [
     [20, 1533],  # 1533 m/s at 25 m depth
 ]
 
-#No idea what this means
-surfae = [0, 0.5],
-surface = [
-    [ 0, 0.5],  # 1540 m/s at the surface
-    [10, 0.5],  # 1530 m/s at 10 m depth
-    [15, 0.1],  # 1532 m/s at 20 m depth
-    [20, 0.1],  # 1533 m/s at 25 m depth
-]
 
 
 
@@ -68,7 +61,6 @@ env = pm.create_env2d(
     bottom_density=1200,
     bottom_absorption=10.0,
     tx_depth=13.5,
-    surface= surface
     surface_interp = 'curvilinear'
 )
 pm.print_env(env)
@@ -90,7 +82,9 @@ arrivals.to_csv('output.csv',columns=column_to_export,index=False)
 
 pm.plot_arrivals(arrivals, width=500, ylim=(0,0.0004), title='Arrival Timing: Flat Surface')
 
-pm.plot_arrivals(arrivals=arrivals, dB=False, color='blue', width=500, ylim=[0, 1], title='Arrival Timing: Flat Surface')
+#pm.plot_arrivals(arrivals=arrivals, dB=False, color='blue', width=500, ylim=[0, 1] , title='Arrival Timing: Flat Surface')
+
+pm.plot_arrivals(arrivals=arrivals, dB=False, color='blue', width=500, title='Arrival Timing: Flat Surface')
 
 #Table of arrival times
 arrivals[['time_of_arrival', 'angle_of_arrival', 'surface_bounces', 'bottom_bounces']]
