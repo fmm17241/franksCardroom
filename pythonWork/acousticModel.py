@@ -10,7 +10,7 @@ pip install arlpy
 import arlpy
 import os
 import shutil
-
+import inspect
 #Find where bellhop is, then set path
 os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\toolbox\AT\executables")
 #os.chdir(r"C:\Users\fmac4\OneDrive - University of Georgia\data\toolbox\AT\executables")
@@ -21,6 +21,11 @@ import matplotlib.pyplot as plt2
 import numpy as np
 import pandas as pd
 
+
+env = pm.create_env2d()
+pm.print_env(env)
+
+print(inspect.signature(pm.create_env2d))
 
 ###################################################################
 
@@ -41,6 +46,16 @@ ssp = [
     [20, 1533],  # 1533 m/s at 25 m depth
 ]
 
+#No idea what this means
+surfae = [0, 0.5],
+surface = [
+    [ 0, 0.5],  # 1540 m/s at the surface
+    [10, 0.5],  # 1530 m/s at 10 m depth
+    [15, 0.1],  # 1532 m/s at 20 m depth
+    [20, 0.1],  # 1533 m/s at 25 m depth
+]
+
+
 
 #Creates new environment, accounting for change in SSP and bathy, then prints & plots. This is for transmission loss.
 env = pm.create_env2d(
@@ -53,6 +68,7 @@ env = pm.create_env2d(
     bottom_density=1200,
     bottom_absorption=10.0,
     tx_depth=13.5,
+    surface= surface
     surface_interp = 'curvilinear'
 )
 pm.print_env(env)
