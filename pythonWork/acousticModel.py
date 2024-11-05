@@ -107,13 +107,13 @@ os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\toolbox\AT\ex
 #Creates new environment, accounting for change in SSP and bathy, then prints & plots. This is for transmission loss.
 env = pm.create_env2d(
     frequency=69000,
-    rx_range= 600,
+    rx_range= 100,
     rx_depth= 18.5,
     depth=bathy,
     soundspeed=ssp,
     bottom_soundspeed=1450,
     bottom_density=1200,
-    bottom_absorption=100.0,
+    bottom_absorption=90.0,
     tx_depth=13.5,
     surface = surface,
     surface_interp = 'curvilinear'
@@ -157,12 +157,6 @@ env = pm.create_env2d(
     surface_interp = 'curvilinear'
 )
 pm.print_env(env)
-
-
-#Computes coherent transmission loss through the environment
-tloss = pm.compute_transmission_loss(env,mode='coherent')
-pm.plot_transmission_loss(tloss, env=env, clim=[-60,-30], width=900,title='Coherent Loss: 69 kHz', clabel='Noise Loss (dBs)')
-
 
 #CComputes incoherent transmission loss through the environment
 tloss = pm.compute_transmission_loss(env, mode='incoherent')
