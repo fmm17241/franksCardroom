@@ -102,6 +102,17 @@ Rsqwrd = R(1,2)*R(1,2)
 %%
 %loops, find the loops, save the world
 
+
+
+
+%%
+%Feb 5 00:00 - 
+%%
+%%
+%%
+
+
+
 figure()
 fdg = tiledlayout(2,3)
 ax1 = nexttile([1,3])
@@ -339,25 +350,7 @@ scatter(filteredData.SBLcapped(1566:1679),filteredData.Noise(1566:1679),[],X(156
 [R P] = corrcoef(filteredData.Noise(93:229),filteredData.SBLcapped(93:229))
 squrd = R(1,2)*R(1,2)
 
-%2097 quiet
-% 2141 loud
 
-
-%Green loop:
-% 1679 quiet
-%1609 loud
-%1566 mini quiet
-
-
-
-
-% 130 loud
-% 187 quiet
-% 259 loud
-
-%941 loud
-%871 quiet
-%810 loud
 
 
 
