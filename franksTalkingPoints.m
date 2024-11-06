@@ -117,6 +117,24 @@ scatter(filteredData.SBL(130:259),filteredData.Noise(130:259),[],X(130:259),'fil
 xlabel('SBL')
 ylabel('HFnoise')
 
+loop1WindMin = min(surfaceData.WSPD(130:259))
+loop1WindMax = max(surfaceData.WSPD(130:259))
+
+% [R P] = corrcoef(envData.Noise(130:259),surfaceData.SBLcapped(130:259))
+% squrd = R(1,2)*R(1,2)
+
+[R P] = corrcoef(filteredData.Snaps(130:259),filteredData.SBLcapped(130:259))
+squrd = R(1,2)*R(1,2)
+
+[R P] = corrcoef(filteredData.Noise(130:259),filteredData.SBLcapped(130:259))
+squrd = R(1,2)*R(1,2)
+
+[R P] = corrcoef(filteredData.Detections(130:259),filteredData.SBLcapped(130:259))
+squrd = R(1,2)*R(1,2)
+
+
+
+
 %%
 %Feb 12 04:00 - Feb 18 18:00 
 %302-460
@@ -126,6 +144,20 @@ hold on
 scatter(filteredData.SBL(302:460),filteredData.Noise(302:460),[],X(302:460),'filled');
 xlabel('SBL')
 ylabel('HFnoise')
+
+loop2WindMin = min(surfaceData.WSPD(302:460))
+loop2WindMax = max(surfaceData.WSPD(302:460))
+
+[R P] = corrcoef(filteredData.Snaps(302:460),filteredData.SBLcapped(302:460))
+squrd = R(1,2)*R(1,2)
+
+[R P] = corrcoef(filteredData.Noise(302:460),filteredData.SBLcapped(302:460))
+squrd = R(1,2)*R(1,2)
+
+[R P] = corrcoef(filteredData.Detections(302:460),filteredData.SBLcapped(302:460))
+squrd = R(1,2)*R(1,2)
+
+
 %%
 %Feb 18 19:00 - Feb 24 15:00
 %461:601
@@ -135,6 +167,21 @@ hold on
 scatter(filteredData.SBL(461:601),filteredData.Noise(461:601),[],X(461:601),'filled');
 xlabel('SBL')
 ylabel('HFnoise')
+
+loop3WindMin = min(surfaceData.WSPD(461:601))
+loop3WindMax = max(surfaceData.WSPD(461:601))
+
+
+[R P] = corrcoef(filteredData.Snaps(461:601),filteredData.SBLcapped(461:601))
+squrd = R(1,2)*R(1,2)
+
+[R P] = corrcoef(filteredData.Noise(461:601),filteredData.SBLcapped(461:601))
+squrd = R(1,2)*R(1,2)
+
+[R P] = corrcoef(filteredData.Detections(461:601),filteredData.SBLcapped(461:601))
+squrd = R(1,2)*R(1,2)
+
+
 %%
 %Mar. 30 03:00 - Apr. 3 12:00
 %1429:1534
@@ -144,6 +191,20 @@ hold on
 scatter(filteredData.SBL(1429:1534),filteredData.Noise(1429:1534),[],X(1429:1534),'filled');
 xlabel('SBL')
 ylabel('HFnoise')
+
+loop4WindMin = min(surfaceData.WSPD(1429:1534))
+loop4WindMax = max(surfaceData.WSPD(1429:1534))
+
+[R P] = corrcoef(filteredData.Snaps(1429:1534),filteredData.SBLcapped(1429:1534))
+squrd = R(1,2)*R(1,2)
+
+[R P] = corrcoef(filteredData.Noise(1429:1534),filteredData.SBLcapped(1429:1534))
+squrd = R(1,2)*R(1,2)
+
+[R P] = corrcoef(filteredData.Detections(1429:1534),filteredData.SBLcapped(1429:1534))
+squrd = R(1,2)*R(1,2)
+
+
 %%
 %Apr. 11 08:00 - Apr. 14 19:00
 %1722:1805
@@ -153,6 +214,22 @@ hold on
 scatter(filteredData.SBL(1722:1805),filteredData.Noise(1722:1805),[],X(1722:1805),'filled');
 xlabel('SBL')
 ylabel('HFnoise')
+
+
+loop5WindMin = min(surfaceData.WSPD(1722:1805))
+loop5WindMax = max(surfaceData.WSPD(1722:1805))
+
+
+[R P] = corrcoef(filteredData.Snaps(1722:1805),filteredData.SBLcapped(1722:1805))
+squrd = R(1,2)*R(1,2)
+
+[R P] = corrcoef(filteredData.Noise(1722:1805),filteredData.SBLcapped(1722:1805))
+squrd = R(1,2)*R(1,2)
+
+[R P] = corrcoef(filteredData.Detections(1722:1805),filteredData.SBLcapped(1722:1805))
+squrd = R(1,2)*R(1,2)
+
+
 %%
 %Apr. 14 20:00 - Apr. 18 09:00
 %1806:1891
@@ -162,6 +239,19 @@ hold on
 scatter(filteredData.SBL(1806:1891),filteredData.Noise(1806:1891),[],X(1806:1891),'filled');
 xlabel('SBL')
 ylabel('HFnoise')
+
+loop6WindMin = min(surfaceData.WSPD(1806:1891))
+loop6WindMax = max(surfaceData.WSPD(1806:1891))
+
+[R P] = corrcoef(filteredData.Snaps(1806:1891),filteredData.SBLcapped(1806:1891))
+squrd = R(1,2)*R(1,2)
+
+[R P] = corrcoef(filteredData.Noise(1806:1891),filteredData.SBLcapped(1806:1891))
+squrd = R(1,2)*R(1,2)
+
+[R P] = corrcoef(filteredData.Detections(1806:1891),filteredData.SBLcapped(1806:1891))
+squrd = R(1,2)*R(1,2)
+
 %%
 %Apr. 25 00:00 - Apr. 28 18:00
 %2050:2140
@@ -171,6 +261,20 @@ hold on
 scatter(filteredData.SBL(2050:2140),filteredData.Noise(2050:2140),[],X(2050:2140),'filled');
 xlabel('SBL')
 ylabel('HFnoise')
+
+loop7WindMin = min(surfaceData.WSPD(2050:2140))
+loop7WindMax = max(surfaceData.WSPD(2050:2140))
+
+[R P] = corrcoef(filteredData.Snaps(2050:2140),filteredData.SBLcapped(2050:2140))
+squrd = R(1,2)*R(1,2)
+
+[R P] = corrcoef(filteredData.Noise(2050:2140),filteredData.SBLcapped(2050:2140))
+squrd = R(1,2)*R(1,2)
+
+[R P] = corrcoef(filteredData.Detections(2050:2140),filteredData.SBLcapped(2050:2140))
+squrd = R(1,2)*R(1,2)
+
+
 %%
 %Apr. 28 19:00 - May 2 12:00
 %2141:2230
@@ -181,7 +285,17 @@ scatter(filteredData.SBL(2141:2230),filteredData.Noise(2141:2230),[],X(2141:2230
 xlabel('SBL')
 ylabel('HFnoise')
 
+loop8WindMin = min(surfaceData.WSPD(2141:2230))
+loop8WindMax = max(surfaceData.WSPD(2141:2230))
 
+[R P] = corrcoef(filteredData.Snaps(2141:2230),filteredData.SBLcapped(2141:2230))
+squrd = R(1,2)*R(1,2)
+
+[R P] = corrcoef(filteredData.Noise(2141:2230),filteredData.SBLcapped(2141:2230))
+squrd = R(1,2)*R(1,2)
+
+[R P] = corrcoef(filteredData.Detections(2141:2230),filteredData.SBLcapped(2141:2230))
+squrd = R(1,2)*R(1,2)
 
 
 %%
