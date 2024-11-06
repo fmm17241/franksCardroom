@@ -141,7 +141,7 @@ X = 1:length(filteredData.Noise);
 figure()
 scatter(filteredData.SBL,filteredData.Noise,[],X);
 hold on
-% scatter(filteredData.SBL(1429:1534),filteredData.Noise(1429:1534),[],X(1429:1534),'filled');
+scatter(filteredData.SBL(1805:1891),filteredData.Noise(1805:1891),[],X(1805:1891),'filled');
 xlabel('SBL')
 ylabel('HFnoise')
 
@@ -330,7 +330,7 @@ scatter(filteredData.SBLcapped(2140:2230),filteredData.Noise(2140:2230),[],X(214
 squrd = R(1,2)*R(1,2)
 
 figure()
-scatter(filteredData.SBLcapped(2140:2230),filteredData.Noise(2140:2230),[],X(2140:2230))
+scatter(filteredData.SBLcapped(1566:1679),filteredData.Noise(1566:1679),[],X(1566:1679),'filled')
 %1792 loud
 % 1818 quiet
 
