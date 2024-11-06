@@ -106,37 +106,85 @@ Rsqwrd = R(1,2)*R(1,2)
 
 
 %%
+%Franks creating loop tables.
+
 %Feb 5 00:00 - Feb 10 09:00 
 %130-259
+figure()
+scatter(filteredData.SBL,filteredData.Noise,[],X);
+hold on
+scatter(filteredData.SBL(130:259),filteredData.Noise(130:259),[],X(130:259),'filled');
+xlabel('SBL')
+ylabel('HFnoise')
 
 %%
 %Feb 12 04:00 - Feb 18 18:00 
 %302-460
-
+figure()
+scatter(filteredData.SBL,filteredData.Noise,[],X);
+hold on
+scatter(filteredData.SBL(302:460),filteredData.Noise(302:460),[],X(302:460),'filled');
+xlabel('SBL')
+ylabel('HFnoise')
 %%
 %Feb 18 19:00 - Feb 24 15:00
-%461-601
-
+%461:601
+figure()
+scatter(filteredData.SBL,filteredData.Noise,[],X);
+hold on
+scatter(filteredData.SBL(461:601),filteredData.Noise(461:601),[],X(461:601),'filled');
+xlabel('SBL')
+ylabel('HFnoise')
 %%
 %Mar. 30 03:00 - Apr. 3 12:00
-%1429-1534
-
+%1429:1534
+figure()
+scatter(filteredData.SBL,filteredData.Noise,[],X);
+hold on
+scatter(filteredData.SBL(1429:1534),filteredData.Noise(1429:1534),[],X(1429:1534),'filled');
+xlabel('SBL')
+ylabel('HFnoise')
 %%
 %Apr. 11 08:00 - Apr. 14 19:00
-%1722-805
-
+%1722:1805
+figure()
+scatter(filteredData.SBL,filteredData.Noise,[],X);
+hold on
+scatter(filteredData.SBL(1722:1805),filteredData.Noise(1722:1805),[],X(1722:1805),'filled');
+xlabel('SBL')
+ylabel('HFnoise')
 %%
 %Apr. 14 20:00 - Apr. 18 09:00
-%1806-1891
-
+%1806:1891
+figure()
+scatter(filteredData.SBL,filteredData.Noise,[],X);
+hold on
+scatter(filteredData.SBL(1806:1891),filteredData.Noise(1806:1891),[],X(1806:1891),'filled');
+xlabel('SBL')
+ylabel('HFnoise')
 %%
 %Apr. 25 00:00 - Apr. 28 18:00
-%2050-2140
-
+%2050:2140
+figure()
+scatter(filteredData.SBL,filteredData.Noise,[],X);
+hold on
+scatter(filteredData.SBL(2050:2140),filteredData.Noise(2050:2140),[],X(2050:2140),'filled');
+xlabel('SBL')
+ylabel('HFnoise')
 %%
 %Apr. 28 19:00 - May 2 12:00
-%2141-2230
+%2141:2230
+figure()
+scatter(filteredData.SBL,filteredData.Noise,[],X);
+hold on
+scatter(filteredData.SBL(2141:2230),filteredData.Noise(2141:2230),[],X(2141:2230),'filled');
+xlabel('SBL')
+ylabel('HFnoise')
 
+
+
+
+%%
 
 figure()
 fdg = tiledlayout(2,3)
