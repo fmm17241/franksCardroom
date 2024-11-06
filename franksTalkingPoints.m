@@ -91,7 +91,7 @@ absoluteTides = abs(surfaceData.crossShore);
 
 %
 %FUFKDSFSGFDG 
-[R P] = corrcoef(filteredData.TidesAbsolute,filteredData.Snaps)
+[R P] = corrcoef(surfaceData.SBLcapped,envData.Noise)
 Rsqwrd = R(1,2)*R(1,2)
 
 
