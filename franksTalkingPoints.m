@@ -18,19 +18,13 @@ load snapRateHourlySpring
 load snapRateMinuteSpring
 load surfaceDataSpring
 load filteredData4Bin40HrLowSPRING.mat
-
 times = surfaceData.time;
 
-
 %Create monthly variables
-
 surface = retime(surfaceData,'monthly','mean')
 enviro = retime(envData,'monthly','mean')
-
 snhaps = retime(snapRateHourly,'monthly','mean')
-
-
-
+%
 decimatedData.Snaps = decimate(filteredData.Snaps,4);
 decimatedData.Noise = decimate(filteredData.Noise,4);
 decimatedData.Winds = decimate(filteredData.Winds,4);
@@ -64,28 +58,17 @@ decimatedData.SST = decimate(filteredData.SST,4);
 % end
 %%
 % CReating daily averages
-
 dayIndex = envData.daytime ==1;
-
-
 daySnaps = snapRateHourly(dayIndex,:)
-
-
 nightSnaps = snapRateHourly(~dayIndex,:)
-
 dayAvgs = retime(daySnaps,'monthly','mean')
 nightAvgs = retime(nightSnaps,'monthly','mean')
-
-
 testingAvgPercent = (nightAvgs - dayAvgs)./dayAvgs
-
 absoluteTides = abs(surfaceData.crossShore);
 
 
 %%
 %loops, find the loops, save the world
-
-
 X = 1:length(filteredData.Noise);
 
 %%
@@ -94,19 +77,13 @@ X = 1:length(filteredData.Noise);
 %Feb 5 00:00 - Feb 10 09:00 
 %130-259
 loop1Index = 130:259;
-figure()
-scatter(filteredData.SBL,filteredData.Noise,[],X);
-hold on
-scatter(filteredData.SBL(loop1Index),filteredData.Noise(loop1Index),[],X(loop1Index),'filled');
-xlabel('SBL')
-ylabel('HFnoise')
-
+%
 figure()
 TR = tiledlayout(3,3)
 ax0 = nexttile([3,1])
-scatter(filteredData.SBL,filteredData.Noise,[],X);
+scatter(filteredData.SBLcapped,filteredData.Noise,[],X);
 hold on
-scatter(filteredData.SBL(loop1Index),filteredData.Noise(loop1Index),[],X(loop1Index),'filled');
+scatter(filteredData.SBLcapped(loop1Index),filteredData.Noise(loop1Index),[],X(loop1Index),'filled')
 xlabel('SBL')
 ylabel('HFnoise')
 title('Noise Attenuation')
@@ -167,19 +144,13 @@ loop1.DetectionsSBLpvalue = P(1,2);
 %Feb 12 04:00 - Feb 18 18:00 
 %302-460
 loop2Index = 302:460;
-figure()
-scatter(filteredData.SBL,filteredData.Noise,[],X);
-hold on
-scatter(filteredData.SBL(loop2Index),filteredData.Noise(loop2Index),[],X(loop2Index),'filled');
-xlabel('SBL')
-ylabel('HFnoise')
 %
 figure()
 TR = tiledlayout(3,3)
 ax0 = nexttile([3,1])
-scatter(filteredData.SBL,filteredData.Noise,[],X);
+scatter(filteredData.SBLcapped,filteredData.Noise,[],X);
 hold on
-scatter(filteredData.SBL(loop2Index),filteredData.Noise(loop2Index),[],X(loop2Index),'filled');
+scatter(filteredData.SBLcapped(loop2Index),filteredData.Noise(loop2Index),[],X(loop2Index),'filled');
 xlabel('SBL')
 ylabel('HFnoise')
 title('Noise Attenuation')
@@ -211,13 +182,6 @@ yyaxis right
 plot(times(loop2Index),filteredData.Detections(loop2Index),'LineWidth',2);
 ylabel('Detections')
 title('','SBL and Detections')
-
-
-
-
-
-
-
 %
 loop2.Duration = length(surfaceData.WSPD(loop2Index))
 loop2.WindMin = min(surfaceData.WSPD(loop2Index))
@@ -242,20 +206,13 @@ loop2.DetectionsSBLpvalue = P(1,2);
 %Feb 18 19:00 - Feb 24 15:00
 %461:601
 loop3Index = 461:601;
-figure()
-scatter(filteredData.SBL,filteredData.Noise,[],X);
-hold on
-scatter(filteredData.SBL(loop3Index),filteredData.Noise(loop3Index),[],X(loop3Index),'filled');
-xlabel('SBL')
-ylabel('HFnoise')
-
 %
 figure()
 TR = tiledlayout(3,3)
 ax0 = nexttile([3,1])
-scatter(filteredData.SBL,filteredData.Noise,[],X);
+scatter(filteredData.SBLcapped,filteredData.Noise,[],X);
 hold on
-scatter(filteredData.SBL(loop3Index),filteredData.Noise(loop3Index),[],X(loop3Index),'filled');
+scatter(filteredData.SBLcapped(loop3Index),filteredData.Noise(loop3Index),[],X(loop3Index),'filled');
 xlabel('SBL')
 ylabel('HFnoise')
 title('Noise Attenuation')
@@ -287,9 +244,6 @@ plot(times(loop3Index),filteredData.Detections(loop3Index),'LineWidth',2);
 ylabel('Detections')
 title('','SBL and Detections')
 
-
-
-
 %
 loop3.Duration = length(surfaceData.WSPD(loop3Index))
 loop3.WindMin = min(surfaceData.WSPD(loop3Index))
@@ -314,19 +268,13 @@ loop3.DetectionsSBLpvalue = P(1,2)
 %Mar. 30 03:00 - Apr. 3 12:00
 %1429:1534
 loop4Index = 1429:1534;
-figure()
-scatter(filteredData.SBL,filteredData.Noise,[],X);
-hold on
-scatter(filteredData.SBL(loop4Index),filteredData.Noise(loop4Index),[],X(loop4Index),'filled');
-xlabel('SBL')
-ylabel('HFnoise')
 %
 figure()
 TR = tiledlayout(3,3)
 ax0 = nexttile([3,1])
-scatter(filteredData.SBL,filteredData.Noise,[],X);
+scatter(filteredData.SBLcapped,filteredData.Noise,[],X);
 hold on
-scatter(filteredData.SBL(loop4Index),filteredData.Noise(loop4Index),[],X(loop4Index),'filled');
+scatter(filteredData.SBLcapped(loop4Index),filteredData.Noise(loop4Index),[],X(loop4Index),'filled');
 xlabel('SBL')
 ylabel('HFnoise')
 title('Noise Attenuation')
@@ -358,8 +306,6 @@ plot(times(loop4Index),filteredData.Detections(loop4Index),'LineWidth',2);
 ylabel('Detections')
 title('','SBL and Detections')
 
-
-
 %
 loop4.Duration = length(surfaceData.WSPD(loop4Index))
 loop4.WindMin = min(surfaceData.WSPD(loop4Index))
@@ -384,19 +330,13 @@ loop4.DetectionsSBLpvalue = P(1,2);
 %Apr. 11 08:00 - Apr. 14 19:00
 %1722:1805
 loop5Index = 1722:1805;
-figure()
-scatter(filteredData.SBL,filteredData.Noise,[],X);
-hold on
-scatter(filteredData.SBL(loop5Index),filteredData.Noise(loop5Index),[],X(loop5Index),'filled');
-xlabel('SBL')
-ylabel('HFnoise')
 %
 figure()
 TR = tiledlayout(3,3)
 ax0 = nexttile([3,1])
-scatter(filteredData.SBL,filteredData.Noise,[],X);
+scatter(filteredData.SBLcapped,filteredData.Noise,[],X);
 hold on
-scatter(filteredData.SBL(loop5Index),filteredData.Noise(loop5Index),[],X(loop5Index),'filled');
+scatter(filteredData.SBLcapped(loop5Index),filteredData.Noise(loop5Index),[],X(loop5Index),'filled');
 xlabel('SBL')
 ylabel('HFnoise')
 title('Noise Attenuation')
@@ -428,9 +368,6 @@ plot(times(loop5Index),filteredData.Detections(loop5Index),'LineWidth',2);
 ylabel('Detections')
 title('','SBL and Detections')
 
-
-
-
 %
 loop5.Duration = length(surfaceData.WSPD(loop5Index))
 loop5.WindMin = min(surfaceData.WSPD(loop5Index))
@@ -455,19 +392,13 @@ loop5.DetectionsSBLpvalue = P(1,2);
 %Apr. 14 20:00 - Apr. 18 09:00
 %1806:1891
 loop6Index = 1806:1891;
-figure()
-scatter(filteredData.SBL,filteredData.Noise,[],X);
-hold on
-scatter(filteredData.SBL(loop6Index),filteredData.Noise(loop6Index),[],X(loop6Index),'filled');
-xlabel('SBL')
-ylabel('HFnoise')
 %
 figure()
 TR = tiledlayout(3,3)
 ax0 = nexttile([3,1])
-scatter(filteredData.SBL,filteredData.Noise,[],X);
+scatter(filteredData.SBLcapped,filteredData.Noise,[],X);
 hold on
-scatter(filteredData.SBL(loop6Index),filteredData.Noise(loop6Index),[],X(loop6Index),'filled');
+scatter(filteredData.SBLcapped(loop6Index),filteredData.Noise(loop6Index),[],X(loop6Index),'filled');
 xlabel('SBL')
 ylabel('HFnoise')
 title('Noise Attenuation')
@@ -498,6 +429,43 @@ yyaxis right
 plot(times(loop6Index),filteredData.Detections(loop6Index),'LineWidth',2);
 ylabel('Detections')
 title('','SBL and Detections')
+%
+figure()
+TR = tiledlayout(3,3)
+ax0 = nexttile([3,1])
+scatter(filteredData.SBLcapped,filteredData.Noise,[],X);
+hold on
+scatter(filteredData.SBLcapped(loop6Index),filteredData.Noise(loop6Index),[],X(loop6Index),'filled');
+xlabel('SBL')
+ylabel('HFnoise')
+title('Noise Attenuation')
+legend({'Full','Selected'})
+ax1 = nexttile([1,2])
+yyaxis left
+plot(times(loop6Index),surfaceData.SBLcapped(loop6Index),'LineWidth',2);
+ylabel('SBL (dB)')
+yyaxis right
+plot(times(loop6Index),snapRateHourly.SnapCount(loop6Index),'LineWidth',2);
+ylabel('Snaps')
+title('Loop 6','SBL and Snaps')
+
+ax2 = nexttile([1,2])
+yyaxis left
+plot(times(loop6Index),surfaceData.SBLcapped(loop6Index),'LineWidth',2);
+ylabel('SBL (dB)')
+yyaxis right
+plot(times(loop6Index),envData.Noise(loop6Index),'LineWidth',2);
+ylabel('Noise (mV)')
+title('','SBL and Noise')
+
+ax3 = nexttile([1,2])
+yyaxis left
+plot(times(loop6Index),surfaceData.SBLcapped(loop6Index),'LineWidth',2);
+ylabel('SBL (dB)')
+yyaxis right
+plot(times(loop6Index),envData.HourlyDets(loop6Index),'LineWidth',2);
+ylabel('Detections')
+title('','SBL and Detections')
 
 
 %
@@ -524,19 +492,13 @@ loop6.DetectionsSBLpvalue = P(1,2);
 %Apr. 25 00:00 - Apr. 28 18:00
 %2050:2140
 loop7Index = 2050:2140;
-figure()
-scatter(filteredData.SBL,filteredData.Noise,[],X);
-hold on
-scatter(filteredData.SBL(loop7Index),filteredData.Noise(loop7Index),[],X(loop7Index),'filled');
-xlabel('SBL')
-ylabel('HFnoise')
 %
 figure()
 TR = tiledlayout(3,3)
 ax0 = nexttile([3,1])
-scatter(filteredData.SBL,filteredData.Noise,[],X);
+scatter(filteredData.SBLcapped,filteredData.Noise,[],X);
 hold on
-scatter(filteredData.SBL(loop7Index),filteredData.Noise(loop7Index),[],X(loop7Index),'filled');
+scatter(filteredData.SBLcapped(loop7Index),filteredData.Noise(loop7Index),[],X(loop7Index),'filled');
 xlabel('SBL')
 ylabel('HFnoise')
 title('Noise Attenuation')
@@ -568,8 +530,6 @@ plot(times(loop7Index),filteredData.Detections(loop7Index),'LineWidth',2);
 ylabel('Detections')
 title('','SBL and Detections')
 
-
-
 %
 loop7.Duration = length(surfaceData.WSPD(loop7Index))
 loop7.WindMin = min(surfaceData.WSPD(loop7Index))
@@ -591,19 +551,13 @@ loop7.DetectionsSBLpvalue = P(1,2)
 %Apr. 28 19:00 - May 2 12:00
 %2141:2230
 loop8Index = 2141:2230;
-figure()
-scatter(filteredData.SBL,filteredData.Noise,[],X);
-hold on
-scatter(filteredData.SBL(loop8Index),filteredData.Noise(loop8Index),[],X(loop8Index),'filled');
-xlabel('SBL')
-ylabel('HFnoise')
 %
 figure()
 TR = tiledlayout(3,3)
 ax0 = nexttile([3,1])
-scatter(filteredData.SBL,filteredData.Noise,[],X);
+scatter(filteredData.SBLcapped,filteredData.Noise,[],X);
 hold on
-scatter(filteredData.SBL(loop8Index),filteredData.Noise(loop8Index),[],X(loop8Index),'filled');
+scatter(filteredData.SBLcapped(loop8Index),filteredData.Noise(loop8Index),[],X(loop8Index),'filled');
 xlabel('SBL')
 ylabel('HFnoise')
 title('Noise Attenuation')
@@ -634,8 +588,6 @@ yyaxis right
 plot(times(loop8Index),filteredData.Detections(loop8Index),'LineWidth',2);
 ylabel('Detections')
 title('','SBL and Detections')
-
-
 
 %
 loop8.Duration = length(surfaceData.WSPD(loop8Index))
