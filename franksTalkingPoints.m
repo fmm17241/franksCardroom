@@ -175,7 +175,7 @@ xlabel('SBL')
 ylabel('HFnoise')
 %
 figure()
-TR = tiledlayout(3,2)
+TR = tiledlayout(3,3)
 ax0 = nexttile([3,1])
 scatter(filteredData.SBL,filteredData.Noise,[],X);
 hold on
@@ -251,7 +251,7 @@ ylabel('HFnoise')
 
 %
 figure()
-TR = tiledlayout(3,2)
+TR = tiledlayout(3,3)
 ax0 = nexttile([3,1])
 scatter(filteredData.SBL,filteredData.Noise,[],X);
 hold on
@@ -322,7 +322,7 @@ xlabel('SBL')
 ylabel('HFnoise')
 %
 figure()
-TR = tiledlayout(3,2)
+TR = tiledlayout(3,3)
 ax0 = nexttile([3,1])
 scatter(filteredData.SBL,filteredData.Noise,[],X);
 hold on
@@ -392,7 +392,7 @@ xlabel('SBL')
 ylabel('HFnoise')
 %
 figure()
-TR = tiledlayout(3,2)
+TR = tiledlayout(3,3)
 ax0 = nexttile([3,1])
 scatter(filteredData.SBL,filteredData.Noise,[],X);
 hold on
@@ -463,7 +463,7 @@ xlabel('SBL')
 ylabel('HFnoise')
 %
 figure()
-TR = tiledlayout(3,2)
+TR = tiledlayout(3,3)
 ax0 = nexttile([3,1])
 scatter(filteredData.SBL,filteredData.Noise,[],X);
 hold on
@@ -532,7 +532,7 @@ xlabel('SBL')
 ylabel('HFnoise')
 %
 figure()
-TR = tiledlayout(3,2)
+TR = tiledlayout(3,3)
 ax0 = nexttile([3,1])
 scatter(filteredData.SBL,filteredData.Noise,[],X);
 hold on
@@ -599,7 +599,7 @@ xlabel('SBL')
 ylabel('HFnoise')
 %
 figure()
-TR = tiledlayout(3,2)
+TR = tiledlayout(3,3)
 ax0 = nexttile([3,1])
 scatter(filteredData.SBL,filteredData.Noise,[],X);
 hold on
@@ -657,76 +657,6 @@ loop8.DetectionsSBLpvalue = P(1,2);
 
 %%
 
-figure()
-fdg = tiledlayout(2,3)
-ax1 = nexttile([1,3])
-plot(times,filteredData.Noise)
-
-ax2 = nexttile([1,3])
-plot(times,filteredData.Winds)
-
-linkaxes([ax1 ax2],'x')
-
-
-figure()
-fdg = tiledlayout(2,3)
-ax1 = nexttile([1,3])
-plot(times,envData.Noise,'LineWidth',1.5)
-title('HF Noise')
-
-ax2 = nexttile([1,3])
-plot(times,surfaceData.SBLcapped,'LineWidth',1.5)
-title('SBL')
-
-linkaxes([ax1 ax2],'x')
-
-
-
-figure()
-scatter(filteredData.SBL,filteredData.Noise,[],X);
-hold on
-scatter(filteredData.SBL(1805:1891),filteredData.Noise(1805:1891),[],X(1805:1891),'filled');
-xlabel('SBL')
-ylabel('HFnoise')
-
-%Green loop
-%  1534 loud
-% 1481 quiet
-% 1429 loud
-[R P] = corrcoef(envData.Noise(1429:1534),surfaceData.SBLcapped(1429:1534))
-[R P] = corrcoef(filteredData.Noise(1429:1534),filteredData.SBLcapped(1429:1534))
-squrd = R(1,2)*R(1,2)
-
-%Blue loop:
-% 601 loud
-% 524 quiet
-% 461 loud
-scatter(filteredData.SBL(461:601),filteredData.Noise(461:601),[],X(461:601),'filled');
-[R P] = corrcoef(envData.Noise(461:601),surfaceData.SBLcapped(461:601))
-[R P] = corrcoef(filteredData.Noise(461:601),filteredData.SBLcapped(461:601))
-squrd = R(1,2)*R(1,2)
-
-[R P] = corrcoef(envData.HourlyDets(461:601),surfaceData.SBLcapped(461:601))
-squrd = R(1,2)*R(1,2)
-[R P] = corrcoef(filteredData.Detections(461:601),filteredData.SBLcapped(461:601))
-squrd = R(1,2)*R(1,2)
-
-[R P] = corrcoef(snapRateHourly.SnapCount(461:601),surfaceData.SBLcapped(461:601))
-squrd = R(1,2)*R(1,2)
-[R P] = corrcoef(filteredData.Snaps(461:601),filteredData.SBLcapped(461:601))
-squrd = R(1,2)*R(1,2)
-
-
-%Yellow loop:
-% 1844 quiet
-%1892 loud
-scatter(filteredData.SBL(1795:1891),filteredData.Noise(1795:1891),[],X(1795:1891),'filled')
-[R P] = corrcoef(envData.Noise(1795:1891),surfaceData.SBLcapped(1795:1891))
-[R P] = corrcoef(filteredData.Noise(1795:1891),filteredData.SBLcapped(1795:1891))
-squrd = R(1,2)*R(1,2)
-
-%Yellow loop:
-%1780 loud
 %1766 quiet
 %1722 loud
 figure()
@@ -785,48 +715,6 @@ yyaxis right
 scatter(times(461:601),snapRateHourly.SnapCount(461:601),'r','filled')
 ylabel('Snaps')
 title('','Raw Data')
-
-
-
-figure()
-scatter(filteredData.SBL(1722:1805),filteredData.Noise(1722:1805),[],X(1722:1805),'filled')
-[R P] = corrcoef(envData.Noise(1722:1805),surfaceData.SBLcapped(1722:1805))
-[R P] = corrcoef(filteredData.Noise(1722:1805),filteredData.SBLcapped(1722:1805))
-squrd = R(1,2)*R(1,2)
-
-
-
-
-
-
-
-%Yellow loop
-figure()
-scatter(filteredData.SBLcapped(2140:2230),filteredData.Noise(2140:2230),[],X(2140:2230))
-[R P] = corrcoef(envData.Noise(2140:2230),surfaceData.SBLcapped(2140:2230))
-[R P] = corrcoef(filteredData.Noise(2140:2230),filteredData.SBLcapped(2140:2230))
-squrd = R(1,2)*R(1,2)
-
-figure()
-scatter(filteredData.SBLcapped(1566:1679),filteredData.Noise(1566:1679),[],X(1566:1679),'filled')
-%1792 loud
-% 1818 quiet
-
-%weird blue
-[R P] = corrcoef(envData.Noise(93:229),surfaceData.SBLcapped(93:229))
-[R P] = corrcoef(filteredData.Noise(93:229),filteredData.SBLcapped(93:229))
-squrd = R(1,2)*R(1,2)
-
-
-
-
-
-
-
-
-
-
-
 
 
 
