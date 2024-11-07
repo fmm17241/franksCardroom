@@ -42,12 +42,6 @@ decimatedData.SBL = decimate(filteredData.SBL,4);
 decimatedData.SBLcapped = decimate(filteredData.SBLcapped,4);
 decimatedData.Detections = decimate(filteredData.Detections,4);
 decimatedData.SST = decimate(filteredData.SST,4);
-
-
-
-
-
-
 % 
 % 
 % load envDataFall
@@ -88,22 +82,11 @@ testingAvgPercent = (nightAvgs - dayAvgs)./dayAvgs
 absoluteTides = abs(surfaceData.crossShore);
 
 
-
-%
-%FUFKDSFSGFDG 
-[R P] = corrcoef(surfaceData.SBLcapped,envData.Noise)
-Rsqwrd = R(1,2)*R(1,2)
-
-
-[R P] = corrcoef(absoluteTides,snapRateHourly.SnapCount)
-Rsqwrd = R(1,2)*R(1,2)
-
-
 %%
 %loops, find the loops, save the world
 
 
-
+X = 1:length(filteredData.Noise);
 
 %%
 %Franks creating loop tables.
@@ -117,21 +100,29 @@ scatter(filteredData.SBL(130:259),filteredData.Noise(130:259),[],X(130:259),'fil
 xlabel('SBL')
 ylabel('HFnoise')
 
-loop1WindMin = min(surfaceData.WSPD(130:259))
-loop1WindMax = max(surfaceData.WSPD(130:259))
+figure()
 
-% [R P] = corrcoef(envData.Noise(130:259),surfaceData.SBLcapped(130:259))
-% squrd = R(1,2)*R(1,2)
 
+%
+loop1.Duration = length(surfaceData.WSPD(130:259))
+loop1.WindMin = min(surfaceData.WSPD(130:259))
+loop1.WindMax = max(surfaceData.WSPD(130:259))
+%
+loop1.DetsMin = min(envData.HourlyDets(130:259))
+loop1.DetsMax = max(envData.HourlyDets(130:259))
+%
 [R P] = corrcoef(filteredData.Snaps(130:259),filteredData.SBLcapped(130:259))
-squrd = R(1,2)*R(1,2)
-
+loop1.SnapSBLRsqrd = R(1,2)*R(1,2)
+loop1.SnapSBLpvalue = P(1,2);
+%
 [R P] = corrcoef(filteredData.Noise(130:259),filteredData.SBLcapped(130:259))
-squrd = R(1,2)*R(1,2)
-
+loop1.NoiseSBLsqrd = R(1,2)*R(1,2)
+loop1.NoiseSBLpvalue = P(1,2);
+%
 [R P] = corrcoef(filteredData.Detections(130:259),filteredData.SBLcapped(130:259))
-squrd = R(1,2)*R(1,2)
-
+loop1.DetectionsSBLsqrd = R(1,2)*R(1,2)
+loop1.DetectionsSBLpvalue = P(1,2);
+%
 
 
 
@@ -144,19 +135,25 @@ hold on
 scatter(filteredData.SBL(302:460),filteredData.Noise(302:460),[],X(302:460),'filled');
 xlabel('SBL')
 ylabel('HFnoise')
-
-loop2WindMin = min(surfaceData.WSPD(302:460))
-loop2WindMax = max(surfaceData.WSPD(302:460))
-
+%
+loop2.Duration = length(surfaceData.WSPD(302:460))
+loop2.WindMin = min(surfaceData.WSPD(302:460))
+loop2.WindMax = max(surfaceData.WSPD(302:460))
+%
+loop2.DetsMin = min(envData.HourlyDets(302:460))
+loop2.DetsMax = max(envData.HourlyDets(302:460))
+%
 [R P] = corrcoef(filteredData.Snaps(302:460),filteredData.SBLcapped(302:460))
-squrd = R(1,2)*R(1,2)
+loop2.SnapSBLsqrd = R(1,2)*R(1,2)
+loop2.SnapSBLpvalue = P(1,2);
 
 [R P] = corrcoef(filteredData.Noise(302:460),filteredData.SBLcapped(302:460))
-squrd = R(1,2)*R(1,2)
+loop2.NoiseSBLsqrd = R(1,2)*R(1,2)
+loop2.NoiseSBLpvalue = P(1,2);
 
 [R P] = corrcoef(filteredData.Detections(302:460),filteredData.SBLcapped(302:460))
-squrd = R(1,2)*R(1,2)
-
+loop2.DetectionsSBLsqrd = R(1,2)*R(1,2)
+loop2.DetectionsSBLpvalue = P(1,2);
 
 %%
 %Feb 18 19:00 - Feb 24 15:00
@@ -168,19 +165,25 @@ scatter(filteredData.SBL(461:601),filteredData.Noise(461:601),[],X(461:601),'fil
 xlabel('SBL')
 ylabel('HFnoise')
 
-loop3WindMin = min(surfaceData.WSPD(461:601))
-loop3WindMax = max(surfaceData.WSPD(461:601))
-
-
+%
+loop3.Duration = length(surfaceData.WSPD(461:601))
+loop3.WindMin = min(surfaceData.WSPD(461:601))
+loop3.WindMax = max(surfaceData.WSPD(461:601))
+%
+loop3.DetsMin = min(envData.HourlyDets(461:601))
+loop3.DetsMax = max(envData.HourlyDets(461:601))
+%
 [R P] = corrcoef(filteredData.Snaps(461:601),filteredData.SBLcapped(461:601))
-squrd = R(1,2)*R(1,2)
+loop3.SnapSBLsqrd = R(1,2)*R(1,2)
+loop3.SnapSBLpvalue = P(1,2)
 
 [R P] = corrcoef(filteredData.Noise(461:601),filteredData.SBLcapped(461:601))
-squrd = R(1,2)*R(1,2)
+loop3.NoiseSBLsqrd = R(1,2)*R(1,2)
+loop3.NoiseSBLpvalue = P(1,2)
 
 [R P] = corrcoef(filteredData.Detections(461:601),filteredData.SBLcapped(461:601))
-squrd = R(1,2)*R(1,2)
-
+loop3.DetectionsSBLsqrd = R(1,2)*R(1,2)
+loop3.DetectionsSBLpvalue = P(1,2)
 
 %%
 %Mar. 30 03:00 - Apr. 3 12:00
@@ -191,20 +194,26 @@ hold on
 scatter(filteredData.SBL(1429:1534),filteredData.Noise(1429:1534),[],X(1429:1534),'filled');
 xlabel('SBL')
 ylabel('HFnoise')
-
-loop4WindMin = min(surfaceData.WSPD(1429:1534))
-loop4WindMax = max(surfaceData.WSPD(1429:1534))
-
+%
+loop4.Duration = length(surfaceData.WSPD(1429:1534))
+loop4.WindMin = min(surfaceData.WSPD(1429:1534))
+loop4.WindMax = max(surfaceData.WSPD(1429:1534))
+%
+loop4.DetsMin = min(envData.HourlyDets(1429:1534))
+loop4.DetsMax = max(envData.HourlyDets(1429:1534))
+%
 [R P] = corrcoef(filteredData.Snaps(1429:1534),filteredData.SBLcapped(1429:1534))
-squrd = R(1,2)*R(1,2)
-
+loop4.SnapSBLsqrd = R(1,2)*R(1,2)
+loop4.SnapSBLpvalue = P(1,2);
+%
 [R P] = corrcoef(filteredData.Noise(1429:1534),filteredData.SBLcapped(1429:1534))
-squrd = R(1,2)*R(1,2)
-
+loop4.NoiseSBLsqrd = R(1,2)*R(1,2)
+loop4.NoiseSBLpvalue = P(1,2);
+%
 [R P] = corrcoef(filteredData.Detections(1429:1534),filteredData.SBLcapped(1429:1534))
-squrd = R(1,2)*R(1,2)
-
-
+loop4.DetectionsSBLsqrd = R(1,2)*R(1,2)
+loop4.DetectionsSBLpvalue = P(1,2);
+%
 %%
 %Apr. 11 08:00 - Apr. 14 19:00
 %1722:1805
@@ -215,20 +224,25 @@ scatter(filteredData.SBL(1722:1805),filteredData.Noise(1722:1805),[],X(1722:1805
 xlabel('SBL')
 ylabel('HFnoise')
 
-
-loop5WindMin = min(surfaceData.WSPD(1722:1805))
-loop5WindMax = max(surfaceData.WSPD(1722:1805))
-
-
+%
+loop5.Duration = length(surfaceData.WSPD(1722:1805))
+loop5.WindMin = min(surfaceData.WSPD(1722:1805))
+loop5.WindMax = max(surfaceData.WSPD(1722:1805))
+%
+loop5.DetsMin = min(envData.HourlyDets(1722:1805))
+loop5.DetsMax = max(envData.HourlyDets(1722:1805))
+%
 [R P] = corrcoef(filteredData.Snaps(1722:1805),filteredData.SBLcapped(1722:1805))
-squrd = R(1,2)*R(1,2)
-
+loop5.SnapSBLsqrd = R(1,2)*R(1,2)
+loop5.SnapSBLpvalue = P(1,2);
+%
 [R P] = corrcoef(filteredData.Noise(1722:1805),filteredData.SBLcapped(1722:1805))
-squrd = R(1,2)*R(1,2)
-
+loop5.NoiseSBLsqrd = R(1,2)*R(1,2)
+loop5.NoiseSBLpvalue = P(1,2);
+%
 [R P] = corrcoef(filteredData.Detections(1722:1805),filteredData.SBLcapped(1722:1805))
-squrd = R(1,2)*R(1,2)
-
+loop5.DetectionsSBLsqrd = R(1,2)*R(1,2)
+loop5.DetectionsSBLpvalue = P(1,2);
 
 %%
 %Apr. 14 20:00 - Apr. 18 09:00
@@ -239,18 +253,25 @@ hold on
 scatter(filteredData.SBL(1806:1891),filteredData.Noise(1806:1891),[],X(1806:1891),'filled');
 xlabel('SBL')
 ylabel('HFnoise')
-
-loop6WindMin = min(surfaceData.WSPD(1806:1891))
-loop6WindMax = max(surfaceData.WSPD(1806:1891))
-
+%
+loop6.Duration = length(surfaceData.WSPD(1806:1891))
+loop6.WindMin = min(surfaceData.WSPD(1806:1891))
+loop6.WindMax = max(surfaceData.WSPD(1806:1891))
+%
+loop6.DetsMin = min(envData.HourlyDets(1806:1891))
+loop6.DetsMax = max(envData.HourlyDets(1806:1891))
+%
 [R P] = corrcoef(filteredData.Snaps(1806:1891),filteredData.SBLcapped(1806:1891))
-squrd = R(1,2)*R(1,2)
+loop6.SnapSBLsqrd = R(1,2)*R(1,2)
+loop6.SnapSBLpvalue = P(1,2);
 
 [R P] = corrcoef(filteredData.Noise(1806:1891),filteredData.SBLcapped(1806:1891))
-squrd = R(1,2)*R(1,2)
+loop6.NoiseSBLsqrd = R(1,2)*R(1,2)
+loop6.NoiseSBLpvalue = P(1,2);
 
 [R P] = corrcoef(filteredData.Detections(1806:1891),filteredData.SBLcapped(1806:1891))
-squrd = R(1,2)*R(1,2)
+loop6.DetectionsSBLsqrd = R(1,2)*R(1,2)
+loop6.DetectionsSBLpvalue = P(1,2);
 
 %%
 %Apr. 25 00:00 - Apr. 28 18:00
@@ -261,19 +282,22 @@ hold on
 scatter(filteredData.SBL(2050:2140),filteredData.Noise(2050:2140),[],X(2050:2140),'filled');
 xlabel('SBL')
 ylabel('HFnoise')
-
-loop7WindMin = min(surfaceData.WSPD(2050:2140))
-loop7WindMax = max(surfaceData.WSPD(2050:2140))
-
+%
+loop7.Duration = length(surfaceData.WSPD(2050:2140))
+loop7.WindMin = min(surfaceData.WSPD(2050:2140))
+loop7.WindMax = max(surfaceData.WSPD(2050:2140))
+%
 [R P] = corrcoef(filteredData.Snaps(2050:2140),filteredData.SBLcapped(2050:2140))
-squrd = R(1,2)*R(1,2)
-
+loop7.SnapSBLsqrd = R(1,2)*R(1,2)
+loop7.SnapSBLpvalue = P(1,2)
+%
 [R P] = corrcoef(filteredData.Noise(2050:2140),filteredData.SBLcapped(2050:2140))
 squrd = R(1,2)*R(1,2)
-
+loop7.NoiseSBLpvalue = P(1,2)
+%
 [R P] = corrcoef(filteredData.Detections(2050:2140),filteredData.SBLcapped(2050:2140))
-squrd = R(1,2)*R(1,2)
-
+loop7.DetectionsSBLsqrd = R(1,2)*R(1,2)
+loop7.DetectionsSBLpvalue = P(1,2)
 
 %%
 %Apr. 28 19:00 - May 2 12:00
@@ -284,18 +308,22 @@ hold on
 scatter(filteredData.SBL(2141:2230),filteredData.Noise(2141:2230),[],X(2141:2230),'filled');
 xlabel('SBL')
 ylabel('HFnoise')
-
-loop8WindMin = min(surfaceData.WSPD(2141:2230))
-loop8WindMax = max(surfaceData.WSPD(2141:2230))
-
+%
+loop8.Duration = length(surfaceData.WSPD(2141:2230))
+loop8.WindMin = min(surfaceData.WSPD(2141:2230))
+loop8.WindMax = max(surfaceData.WSPD(2141:2230))
+%
 [R P] = corrcoef(filteredData.Snaps(2141:2230),filteredData.SBLcapped(2141:2230))
-squrd = R(1,2)*R(1,2)
-
+loop8.SnapSBLsqrd = R(1,2)*R(1,2)
+loop8.SnapSBLpvalue = P(1,2);
+%
 [R P] = corrcoef(filteredData.Noise(2141:2230),filteredData.SBLcapped(2141:2230))
-squrd = R(1,2)*R(1,2)
-
+loop8.NoiseSBLsqrd = R(1,2)*R(1,2)
+loop8.NoiseSBLpvalue = P(1,2);
+%
 [R P] = corrcoef(filteredData.Detections(2141:2230),filteredData.SBLcapped(2141:2230))
-squrd = R(1,2)*R(1,2)
+loop8.DetectionsSBLsqrd = R(1,2)*R(1,2)
+loop8.DetectionsSBLpvalue = P(1,2);
 
 
 %%
@@ -324,17 +352,6 @@ title('SBL')
 linkaxes([ax1 ax2],'x')
 
 
-figure()
-fdg = tiledlayout(2,3)
-ax1 = nexttile([1,3])
-plot(times(1429:1534),envData.Noise(1429:1534),'LineWidth',1.5)
-title('HF Noise')
-
-ax2 = nexttile([1,3])
-plot(times(1429:1534),surfaceData.SBLcapped(1429:1534),'LineWidth',1.5)
-title('SBL')
-
-X = 1:length(filteredData.Noise);
 
 figure()
 scatter(filteredData.SBL,filteredData.Noise,[],X);
@@ -449,72 +466,6 @@ scatter(filteredData.SBL(1722:1805),filteredData.Noise(1722:1805),[],X(1722:1805
 squrd = R(1,2)*R(1,2)
 
 
-figure()
-TTTT = tiledlayout(6,2)
-ax1 = nexttile([2,1])
-yyaxis left
-scatter(times(1722:1805),filteredData.SBLcapped(1722:1805),'filled')
-ylabel('SBL (dB)')
-yyaxis right
-scatter(times(1722:1805),filteredData.Noise(1722:1805),'r','filled')
-ylabel('Noise (mV)')
-title('Noise Attenuation due to SBL','40Hr Lowpass')
-
-ax2 = nexttile([2,1])
-yyaxis left
-scatter(times(1722:1805),surfaceData.SBLcapped(1722:1805),'filled')
-ylabel('SBL (dB)')
-yyaxis right
-scatter(times(1722:1805),envData.Noise(1722:1805),'r','filled')
-ylabel('Noise (mV)')
-title('','Raw Data')
-
-
-ax3 = nexttile([2,1])
-yyaxis left
-scatter(times(1722:1805),filteredData.SBLcapped(1722:1805),'filled')
-ylabel('SBL (dB)')
-yyaxis right
-scatter(times(1722:1805),filteredData.Detections(1722:1805),'r','filled')
-ylabel('Detections')
-title('Surface Attenuation Enabling Acoustic Telemetry','40Hr Lowpass')
-
-ax4 = nexttile([2,1])
-yyaxis left
-scatter(times(1722:1805),surfaceData.SBLcapped(1722:1805),'filled')
-ylabel('SBL (dB)')
-yyaxis right
-scatter(times(1722:1805),envData.HourlyDets(1722:1805),'r','filled')
-ylabel('Detections')
-title('','Raw Data')
-
-ax5 = nexttile([2,1])
-yyaxis left
-scatter(times(1722:1805),filteredData.SBLcapped(1722:1805),'filled')
-ylabel('SBL (dB)')
-yyaxis right
-scatter(times(1722:1805),filteredData.Snaps(1722:1805),'r','filled')
-ylabel('Snaps')
-title('Snaprate Unnaffected by Winds','40Hr Lowpass')
-
-ax6 = nexttile([2,1])
-yyaxis left
-scatter(times(1722:1805),surfaceData.SBLcapped(1722:1805),'filled')
-ylabel('SBL (dB)')
-yyaxis right
-scatter(times(1722:1805),snapRateHourly.SnapCount(1722:1805),'r','filled')
-ylabel('Snaps')
-title('','Raw Data')
-
-
-
-
-
-
-
-
-figure()
-plot(times,envData.HourlyDets)
 
 
 
