@@ -102,18 +102,42 @@ xlabel('SBL')
 ylabel('HFnoise')
 
 figure()
-TR = tiledlayout(3,2)
+TR = tiledlayout(3,3)
+ax0 = nexttile([3,1])
+scatter(filteredData.SBL,filteredData.Noise,[],X);
+hold on
+scatter(filteredData.SBL(loop1Index),filteredData.Noise(loop1Index),[],X(loop1Index),'filled');
+xlabel('SBL')
+ylabel('HFnoise')
+title('Noise Attenuation')
+legend({'Full','Selected'})
+
 ax1 = nexttile([1,2])
 yyaxis left
-plot(times(loop1Index),filteredData.SBL(loop1Index));
+plot(times(loop1Index),filteredData.SBL(loop1Index),'LineWidth',2);
 ylabel('SBL (dB)')
 yyaxis right
-plot(times(loop1Index),filteredData.Noise(loop1Index));
+plot(times(loop1Index),filteredData.Snaps(loop1Index),'LineWidth',2);
+ylabel('Snaps')
+title('Loop 1','SBL and Snaps')
+
+ax2 = nexttile([1,2])
+yyaxis left
+plot(times(loop1Index),filteredData.SBL(loop1Index),'LineWidth',2);
+ylabel('SBL (dB)')
+yyaxis right
+plot(times(loop1Index),filteredData.Noise(loop1Index),'LineWidth',2);
 ylabel('Noise (mV)')
-title('Loop 1','SBL and Noise')
+title('','SBL and Noise')
 
-ax2 = 
-
+ax3 = nexttile([1,2])
+yyaxis left
+plot(times(loop1Index),filteredData.SBL(loop1Index),'LineWidth',2);
+ylabel('SBL (dB)')
+yyaxis right
+plot(times(loop1Index),filteredData.Detections(loop1Index),'LineWidth',2);
+ylabel('Detections')
+title('','SBL and Detections')
 
 
 %
@@ -150,6 +174,51 @@ scatter(filteredData.SBL(loop2Index),filteredData.Noise(loop2Index),[],X(loop2In
 xlabel('SBL')
 ylabel('HFnoise')
 %
+figure()
+TR = tiledlayout(3,2)
+ax0 = nexttile([3,1])
+scatter(filteredData.SBL,filteredData.Noise,[],X);
+hold on
+scatter(filteredData.SBL(loop2Index),filteredData.Noise(loop2Index),[],X(loop2Index),'filled');
+xlabel('SBL')
+ylabel('HFnoise')
+title('Noise Attenuation')
+legend({'Full','Selected'})
+
+ax1 = nexttile([1,2])
+yyaxis left
+plot(times(loop2Index),filteredData.SBL(loop2Index),'LineWidth',2);
+ylabel('SBL (dB)')
+yyaxis right
+plot(times(loop2Index),filteredData.Snaps(loop2Index),'LineWidth',2);
+ylabel('Snaps')
+title('Loop 2','SBL and Snaps')
+
+ax2 = nexttile([1,2])
+yyaxis left
+plot(times(loop2Index),filteredData.SBL(loop2Index),'LineWidth',2);
+ylabel('SBL (dB)')
+yyaxis right
+plot(times(loop2Index),filteredData.Noise(loop2Index),'LineWidth',2);
+ylabel('Noise (mV)')
+title('','SBL and Noise')
+
+ax3 = nexttile([1,2])
+yyaxis left
+plot(times(loop2Index),filteredData.SBL(loop2Index),'LineWidth',2);
+ylabel('SBL (dB)')
+yyaxis right
+plot(times(loop2Index),filteredData.Detections(loop2Index),'LineWidth',2);
+ylabel('Detections')
+title('','SBL and Detections')
+
+
+
+
+
+
+
+%
 loop2.Duration = length(surfaceData.WSPD(loop2Index))
 loop2.WindMin = min(surfaceData.WSPD(loop2Index))
 loop2.WindMax = max(surfaceData.WSPD(loop2Index))
@@ -179,6 +248,47 @@ hold on
 scatter(filteredData.SBL(loop3Index),filteredData.Noise(loop3Index),[],X(loop3Index),'filled');
 xlabel('SBL')
 ylabel('HFnoise')
+
+%
+figure()
+TR = tiledlayout(3,2)
+ax0 = nexttile([3,1])
+scatter(filteredData.SBL,filteredData.Noise,[],X);
+hold on
+scatter(filteredData.SBL(loop3Index),filteredData.Noise(loop3Index),[],X(loop3Index),'filled');
+xlabel('SBL')
+ylabel('HFnoise')
+title('Noise Attenuation')
+legend({'Full','Selected'})
+ax1 = nexttile([1,2])
+yyaxis left
+plot(times(loop3Index),filteredData.SBL(loop3Index),'LineWidth',2);
+ylabel('SBL (dB)')
+yyaxis right
+plot(times(loop3Index),filteredData.Snaps(loop3Index),'LineWidth',2);
+ylabel('Snaps')
+title('Loop 3','SBL and Snaps')
+
+ax2 = nexttile([1,2])
+yyaxis left
+plot(times(loop3Index),filteredData.SBL(loop3Index),'LineWidth',2);
+ylabel('SBL (dB)')
+yyaxis right
+plot(times(loop3Index),filteredData.Noise(loop3Index),'LineWidth',2);
+ylabel('Noise (mV)')
+title('','SBL and Noise')
+
+ax3 = nexttile([1,2])
+yyaxis left
+plot(times(loop3Index),filteredData.SBL(loop3Index),'LineWidth',2);
+ylabel('SBL (dB)')
+yyaxis right
+plot(times(loop3Index),filteredData.Detections(loop3Index),'LineWidth',2);
+ylabel('Detections')
+title('','SBL and Detections')
+
+
+
 
 %
 loop3.Duration = length(surfaceData.WSPD(loop3Index))
@@ -211,6 +321,46 @@ scatter(filteredData.SBL(loop4Index),filteredData.Noise(loop4Index),[],X(loop4In
 xlabel('SBL')
 ylabel('HFnoise')
 %
+figure()
+TR = tiledlayout(3,2)
+ax0 = nexttile([3,1])
+scatter(filteredData.SBL,filteredData.Noise,[],X);
+hold on
+scatter(filteredData.SBL(loop4Index),filteredData.Noise(loop4Index),[],X(loop4Index),'filled');
+xlabel('SBL')
+ylabel('HFnoise')
+title('Noise Attenuation')
+legend({'Full','Selected'})
+ax1 = nexttile([1,2])
+yyaxis left
+plot(times(loop4Index),filteredData.SBL(loop4Index),'LineWidth',2);
+ylabel('SBL (dB)')
+yyaxis right
+plot(times(loop4Index),filteredData.Snaps(loop4Index),'LineWidth',2);
+ylabel('Snaps')
+title('Loop 4','SBL and Snaps')
+
+ax2 = nexttile([1,2])
+yyaxis left
+plot(times(loop4Index),filteredData.SBL(loop4Index),'LineWidth',2);
+ylabel('SBL (dB)')
+yyaxis right
+plot(times(loop4Index),filteredData.Noise(loop4Index),'LineWidth',2);
+ylabel('Noise (mV)')
+title('','SBL and Noise')
+
+ax3 = nexttile([1,2])
+yyaxis left
+plot(times(loop4Index),filteredData.SBL(loop4Index),'LineWidth',2);
+ylabel('SBL (dB)')
+yyaxis right
+plot(times(loop4Index),filteredData.Detections(loop4Index),'LineWidth',2);
+ylabel('Detections')
+title('','SBL and Detections')
+
+
+
+%
 loop4.Duration = length(surfaceData.WSPD(loop4Index))
 loop4.WindMin = min(surfaceData.WSPD(loop4Index))
 loop4.WindMax = max(surfaceData.WSPD(loop4Index))
@@ -240,6 +390,46 @@ hold on
 scatter(filteredData.SBL(loop5Index),filteredData.Noise(loop5Index),[],X(loop5Index),'filled');
 xlabel('SBL')
 ylabel('HFnoise')
+%
+figure()
+TR = tiledlayout(3,2)
+ax0 = nexttile([3,1])
+scatter(filteredData.SBL,filteredData.Noise,[],X);
+hold on
+scatter(filteredData.SBL(loop5Index),filteredData.Noise(loop5Index),[],X(loop5Index),'filled');
+xlabel('SBL')
+ylabel('HFnoise')
+title('Noise Attenuation')
+legend({'Full','Selected'})
+ax1 = nexttile([1,2])
+yyaxis left
+plot(times(loop5Index),filteredData.SBL(loop5Index),'LineWidth',2);
+ylabel('SBL (dB)')
+yyaxis right
+plot(times(loop5Index),filteredData.Snaps(loop5Index),'LineWidth',2);
+ylabel('Snaps')
+title('Loop 5','SBL and Snaps')
+
+ax2 = nexttile([1,2])
+yyaxis left
+plot(times(loop5Index),filteredData.SBL(loop5Index),'LineWidth',2);
+ylabel('SBL (dB)')
+yyaxis right
+plot(times(loop5Index),filteredData.Noise(loop5Index),'LineWidth',2);
+ylabel('Noise (mV)')
+title('','SBL and Noise')
+
+ax3 = nexttile([1,2])
+yyaxis left
+plot(times(loop5Index),filteredData.SBL(loop5Index),'LineWidth',2);
+ylabel('SBL (dB)')
+yyaxis right
+plot(times(loop5Index),filteredData.Detections(loop5Index),'LineWidth',2);
+ylabel('Detections')
+title('','SBL and Detections')
+
+
+
 
 %
 loop5.Duration = length(surfaceData.WSPD(loop5Index))
@@ -272,6 +462,45 @@ scatter(filteredData.SBL(loop6Index),filteredData.Noise(loop6Index),[],X(loop6In
 xlabel('SBL')
 ylabel('HFnoise')
 %
+figure()
+TR = tiledlayout(3,2)
+ax0 = nexttile([3,1])
+scatter(filteredData.SBL,filteredData.Noise,[],X);
+hold on
+scatter(filteredData.SBL(loop6Index),filteredData.Noise(loop6Index),[],X(loop6Index),'filled');
+xlabel('SBL')
+ylabel('HFnoise')
+title('Noise Attenuation')
+legend({'Full','Selected'})
+ax1 = nexttile([1,2])
+yyaxis left
+plot(times(loop6Index),filteredData.SBL(loop6Index),'LineWidth',2);
+ylabel('SBL (dB)')
+yyaxis right
+plot(times(loop6Index),filteredData.Snaps(loop6Index),'LineWidth',2);
+ylabel('Snaps')
+title('Loop 6','SBL and Snaps')
+
+ax2 = nexttile([1,2])
+yyaxis left
+plot(times(loop6Index),filteredData.SBL(loop6Index),'LineWidth',2);
+ylabel('SBL (dB)')
+yyaxis right
+plot(times(loop6Index),filteredData.Noise(loop6Index),'LineWidth',2);
+ylabel('Noise (mV)')
+title('','SBL and Noise')
+
+ax3 = nexttile([1,2])
+yyaxis left
+plot(times(loop6Index),filteredData.SBL(loop6Index),'LineWidth',2);
+ylabel('SBL (dB)')
+yyaxis right
+plot(times(loop6Index),filteredData.Detections(loop6Index),'LineWidth',2);
+ylabel('Detections')
+title('','SBL and Detections')
+
+
+%
 loop6.Duration = length(surfaceData.WSPD(loop6Index))
 loop6.WindMin = min(surfaceData.WSPD(loop6Index))
 loop6.WindMax = max(surfaceData.WSPD(loop6Index))
@@ -302,6 +531,46 @@ scatter(filteredData.SBL(loop7Index),filteredData.Noise(loop7Index),[],X(loop7In
 xlabel('SBL')
 ylabel('HFnoise')
 %
+figure()
+TR = tiledlayout(3,2)
+ax0 = nexttile([3,1])
+scatter(filteredData.SBL,filteredData.Noise,[],X);
+hold on
+scatter(filteredData.SBL(loop7Index),filteredData.Noise(loop7Index),[],X(loop7Index),'filled');
+xlabel('SBL')
+ylabel('HFnoise')
+title('Noise Attenuation')
+legend({'Full','Selected'})
+ax1 = nexttile([1,2])
+yyaxis left
+plot(times(loop7Index),filteredData.SBL(loop7Index),'LineWidth',2);
+ylabel('SBL (dB)')
+yyaxis right
+plot(times(loop7Index),filteredData.Snaps(loop7Index),'LineWidth',2);
+ylabel('Snaps')
+title('Loop 7','SBL and Snaps')
+
+ax2 = nexttile([1,2])
+yyaxis left
+plot(times(loop7Index),filteredData.SBL(loop7Index),'LineWidth',2);
+ylabel('SBL (dB)')
+yyaxis right
+plot(times(loop7Index),filteredData.Noise(loop7Index),'LineWidth',2);
+ylabel('Noise (mV)')
+title('','SBL and Noise')
+
+ax3 = nexttile([1,2])
+yyaxis left
+plot(times(loop7Index),filteredData.SBL(loop7Index),'LineWidth',2);
+ylabel('SBL (dB)')
+yyaxis right
+plot(times(loop7Index),filteredData.Detections(loop7Index),'LineWidth',2);
+ylabel('Detections')
+title('','SBL and Detections')
+
+
+
+%
 loop7.Duration = length(surfaceData.WSPD(loop7Index))
 loop7.WindMin = min(surfaceData.WSPD(loop7Index))
 loop7.WindMax = max(surfaceData.WSPD(loop7Index))
@@ -328,6 +597,46 @@ hold on
 scatter(filteredData.SBL(loop8Index),filteredData.Noise(loop8Index),[],X(loop8Index),'filled');
 xlabel('SBL')
 ylabel('HFnoise')
+%
+figure()
+TR = tiledlayout(3,2)
+ax0 = nexttile([3,1])
+scatter(filteredData.SBL,filteredData.Noise,[],X);
+hold on
+scatter(filteredData.SBL(loop8Index),filteredData.Noise(loop8Index),[],X(loop8Index),'filled');
+xlabel('SBL')
+ylabel('HFnoise')
+title('Noise Attenuation')
+legend({'Full','Selected'})
+ax1 = nexttile([1,2])
+yyaxis left
+plot(times(loop8Index),filteredData.SBL(loop8Index),'LineWidth',2);
+ylabel('SBL (dB)')
+yyaxis right
+plot(times(loop8Index),filteredData.Snaps(loop8Index),'LineWidth',2);
+ylabel('Snaps')
+title('Loop 8','SBL and Snaps')
+
+ax2 = nexttile([1,2])
+yyaxis left
+plot(times(loop8Index),filteredData.SBL(loop8Index),'LineWidth',2);
+ylabel('SBL (dB)')
+yyaxis right
+plot(times(loop8Index),filteredData.Noise(loop8Index),'LineWidth',2);
+ylabel('Noise (mV)')
+title('','SBL and Noise')
+
+ax3 = nexttile([1,2])
+yyaxis left
+plot(times(loop8Index),filteredData.SBL(loop8Index),'LineWidth',2);
+ylabel('SBL (dB)')
+yyaxis right
+plot(times(loop8Index),filteredData.Detections(loop8Index),'LineWidth',2);
+ylabel('Detections')
+title('','SBL and Detections')
+
+
+
 %
 loop8.Duration = length(surfaceData.WSPD(loop8Index))
 loop8.WindMin = min(surfaceData.WSPD(loop8Index))
