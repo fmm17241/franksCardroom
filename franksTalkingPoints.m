@@ -682,7 +682,7 @@ dt = datetime(dn,'convertfrom','datenum')
 % test plot
 figure; 
 TTT = tiledlayout(5,3)
-ax1 = nexttile(2,3)
+ax1 = nexttile([2,3])
 yyaxis left
 h1=pcolor(dn,z,temp'); shading interp; colorbar; set(gca,'ydir','reverse'); 
 datetick('x','keeplimits');
@@ -694,26 +694,34 @@ ylim([4 15])
 
 yyaxis right
 plot(datenum(times),surfaceData.WSPD,'LineWidth',4)
-ylabel('Windspeed')
+ylabel('Windspeed (m/s)')
 
-ax2 = nexttile(1,3)
+
+ax2 = nexttile([1,3])
 yyaxis left 
-plot(times,envData.HourlyDets)
+plot(times,envData.HourlyDets,'LineWidth',2)
 ylim([0 6])
+ylabel('Dets (\hr)')
 
 yyaxis right
-plot(times,envData.Noise)
-ylim([350 780])
+plot(times,envData.Noise,'LineWidth',2)
+ylim([500 780])
+ylabel('Noise (mV)')
+yline(650,'--','Challenging')
+title('','Detection Efficiency Versus Noise Interference')
 
-ax3 = nexttile(1,3)
+ax3 = nexttile([1,3])
 plot(times,surfaceData.SBLcapped,'r','LineWidth',3)
 yline(4.85,'--','Whitecaps  ')
+ylabel('SBL (dB)')
+title('','Surface Bubble Loss, Attenuation')
 
-ax4 = nexttile(1,3)
+ax4 = nexttile([1,3])
 plot(times,snapRateHourly.SnapCount,'k','LineWidth',2)
 title('','Benthic Activity')
+ylabel('Snaps (\hr)')
 
-
+linkaxes([ax2 ax3 ax4],'x')
 
 
 
