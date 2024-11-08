@@ -668,5 +668,58 @@ scatter(times(461:601),snapRateHourly.SnapCount(461:601),'r','filled')
 ylabel('Snaps')
 title('','Raw Data')
 
+%%
+
+load angusdbdAprilMay
+load angusebdAprilMay
+
+% Bindata for different missions
+[matstruct,dn,z,temp] = Bindata(fstruct,sstruct);
+
+dt = datetime(dn,'convertfrom','datenum')
+
+
+% test plot
+figure; 
+TTT = tiledlayout(5,3)
+ax1 = nexttile(2,3)
+yyaxis left
+h1=pcolor(dn,z,temp'); shading interp; colorbar; set(gca,'ydir','reverse'); 
+datetick('x','keeplimits');
+clim([20.5 22])
+xlim([dn(1,1) dn(1,170)])
+title('Water Column Profile: Temperature','Glider mission')
+ylabel('Z (m)')
+ylim([4 15])
+
+yyaxis right
+plot(datenum(times),surfaceData.WSPD,'LineWidth',4)
+ylabel('Windspeed')
+
+ax2 = nexttile(1,3)
+yyaxis left 
+plot(times,envData.HourlyDets)
+ylim([0 6])
+
+yyaxis right
+plot(times,envData.Noise)
+ylim([350 780])
+
+ax3 = nexttile(1,3)
+plot(times,surfaceData.SBLcapped,'r','LineWidth',3)
+yline(4.85,'--','Whitecaps  ')
+
+ax4 = nexttile(1,3)
+plot(times,snapRateHourly.SnapCount,'k','LineWidth',2)
+title('','Benthic Activity')
+
+
+
+
+
+
+
+
+
 
 
