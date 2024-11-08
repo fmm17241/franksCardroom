@@ -540,7 +540,7 @@ loop7.SnapSBLsqrd = R(1,2)*R(1,2)
 loop7.SnapSBLpvalue = P(1,2)
 %
 [R P] = corrcoef(filteredData.Noise(loop7Index),filteredData.SBLcapped(loop7Index))
-squrd = R(1,2)*R(1,2)
+loop7.NoiseSBLsqrd = R(1,2)*R(1,2)
 loop7.NoiseSBLpvalue = P(1,2)
 %
 [R P] = corrcoef(filteredData.Detections(loop7Index),filteredData.SBLcapped(loop7Index))
