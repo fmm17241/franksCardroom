@@ -36,6 +36,23 @@ decimatedData.SBL = decimate(filteredData.SBL,4);
 decimatedData.SBLcapped = decimate(filteredData.SBLcapped,4);
 decimatedData.Detections = decimate(filteredData.Detections,4);
 decimatedData.SST = decimate(filteredData.SST,4);
+
+figure()
+TT = tiledlayout(2,4)
+ax1 = nexttile([2,2])
+yyaxis left
+plot(times,filteredData.Snaps,'LineWidth',3)
+ylabel('Snaprate (per Hour))')
+yyaxis right
+plot(times,filteredData.BottomTemp,'LineWidth',3)
+ylabel('Bottom Temp.(C)')
+title('Seasonal Warming Leads to Increased Benthic Activity','40Hr Lowpass')
+
+ax2 = nexttile([2,2])
+plot(times,snapRateHourly.SnapCount,'k','LineWidth',3)
+set(gca,'YAxisLocation','right')
+ylabel('Snaps Per Hour')
+title('Hourly/Daily Shrimp Activity')
 % 
 % 
 % load envDataFall
