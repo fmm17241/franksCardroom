@@ -20,6 +20,11 @@ load surfaceDataSpring
 load filteredData4Bin40HrLowSPRING.mat
 times = surfaceData.time;
 
+
+[R,P] = corrcoef(filteredData.Winds,filteredData.Noise)
+Rsqrd = R(1,2)*R(1,2)
+
+
 %Create monthly variables
 surface = retime(surfaceData,'monthly','mean')
 enviro = retime(envData,'monthly','mean')
