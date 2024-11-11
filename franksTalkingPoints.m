@@ -21,11 +21,11 @@ load filteredData4Bin40HrLowSPRING.mat
 times = surfaceData.time;
 
 
-[R,P] = corrcoef(filteredData.Winds,filteredData.BulkStrat)
+[R,P] = corrcoef(filteredData.SBLcapped,filteredData.Noise)
 Rsqrd = R(1,2)*R(1,2)
 
 
-[R,P] = corrcoef(envData.bulkThermalStrat,envData.Noise)
+[R,P] = corrcoef(surfaceData.SBLcapped,envData.Noise)
 Rsqrd = R(1,2)*R(1,2)
 
 [R,P] = corrcoef(filteredData.BulkStrat,filteredData.Noise)
