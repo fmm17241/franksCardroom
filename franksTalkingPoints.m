@@ -21,6 +21,11 @@ load filteredData4Bin40HrLowSPRING.mat
 times = surfaceData.time;
 
 
+bulkStrat = surfaceData.SST - envData.Temp;
+envData.bulkStrat = bulkStrat;
+
+
+
 [R,P] = corrcoef(filteredData.Winds,filteredData.Noise)
 Rsqrd = R(1,2)*R(1,2)
 
@@ -159,7 +164,9 @@ loop1.NoiseSBLpvalue = P(1,2);
 loop1.DetectionsSBLsqrd = R(1,2)*R(1,2)
 loop1.DetectionsSBLpvalue = P(1,2);
 %
-
+[R P] = corrcoef(filteredData.Detections(loop1Index),filteredData.SBLcapped(loop1Index))
+loop1.StratWindssqrd
+loop1.StratDetssqrd
 
 
 %%
