@@ -25,6 +25,13 @@ times = surfaceData.time;
 Rsqrd = R(1,2)*R(1,2)
 
 
+[R,P] = corrcoef(envData.bulkThermalStrat,envData.Noise)
+Rsqrd = R(1,2)*R(1,2)
+
+[R,P] = corrcoef(filteredData.BulkStrat,filteredData.Noise)
+Rsqrd = R(1,2)*R(1,2)
+
+
 %Create monthly variables
 surface = retime(surfaceData,'monthly','mean')
 enviro = retime(envData,'monthly','mean')
