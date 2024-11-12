@@ -188,17 +188,17 @@ avgDetectionsUnder= mean(detectionsUnder)
 
 figure()
 SunriseSunsetUTC
-sunlightShading
-
-lightIndex = [sunrise; sunset];
-
-binaryLight = zeros(8569,1);
-for k =1:length(sunrise)
-    current = [sunrise(k); sunset(k)]
-    index = isbetween(hourlyAVG.Time,sunrise(k),sunset(k))
-    binaryLight = binaryLight + index
-end
-
+% sunlightShading
+% 
+% lightIndex = [sunrise; sunset];
+% 
+% binaryLight = zeros(8569,1);
+% for k =1:length(sunrise)
+%     current = [sunrise(k); sunset(k)]
+%     index = isbetween(hourlyAVG.Time,sunrise(k),sunset(k))
+%     binaryLight = binaryLight + index
+% end
+% 
 
 
 %Datetimes FYI
