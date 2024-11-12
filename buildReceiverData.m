@@ -52,12 +52,12 @@ end
 %This turns my raw detection files into a timetable of ONLY OTHER TRANSCEIVER DETECTIONS!!!!!, then bins it hourly
 %and defines the timezone to UTC.
 for transceiver = 1:length(rawDetFile)
-    rawDetFile{transceiver} = table2timetable(rawDetFile{transceiver}(:,{'Var1','Var4'}));
-    rawDetFile{transceiver} = retime(rawDetFile{transceiver},'hourly','sum')
-    rawDetFile{transceiver}.Properties.VariableNames = {'HourlyDets'};
+    rawDetFile22{transceiver} = table2timetable(rawDetFile{transceiver}(:,{'Var1','Var4'}));
+    rawDetFile22{transceiver} = retime(rawDetFile{transceiver},'hourly','sum')
+    rawDetFile22{transceiver}.Properties.VariableNames = {'HourlyDets'};
     % receiverData{PT}.Properties.VariableNames = {'DN','HourlyDets','Noise','Pings','Tilt','Temp'};
-    rawDetFile{transceiver}.Properties.DimensionNames{1} = 'DT'; 
-    rawDetFile{transceiver}.DT.TimeZone = "UTC";
+    rawDetFile22{transceiver}.Properties.DimensionNames{1} = 'DT'; 
+    rawDetFile22{transceiver}.DT.TimeZone = "UTC";
 end
 
 
