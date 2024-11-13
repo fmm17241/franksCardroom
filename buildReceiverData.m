@@ -28,7 +28,15 @@ selfID = ['A69-1601-63062';'A69-1601-63064';'A69-1601-63066';'A69-1601-63067';..
 % can do an hourly sum of detections.
 for transceiver = 1:length(rawDetFile)
     heardSelf{transceiver}    = strcmp(rawDetFile{transceiver,1}.Var3,selfID(transceiver,:))
-    heardMooring{transceiver} = strfind(rawDetFile{transceiver,1}.Var3,'A69-1601')
+    % heardMooring{transceiver} = strfind(rawDetFile{transceiver,1}.Var3,'A69-1601') 
+    heardMooring{transceiver} = contains(rawDetFile{transceiver,1}.Var3,'A69-1601')
+    
+    self = heardSelf{transceiver};
+    mooring = heardMooring{transceiver};
+    
+    %THIS IS a logical array, gives me only the mooring detections that aren't self!
+    heardOthers{transceiver}  = heardMooring{1}-heardSelf{1};
+    
     % countMooring{transceiver} = sum(heardMooring{transceiver})
     countSelfDetects(transceiver,1) = sum(heardSelf{transceiver});
     rawDetFile{transceiver}(strcmp(rawDetFile{transceiver,1}.Var3,selfID(transceiver,:)),:) = [];
