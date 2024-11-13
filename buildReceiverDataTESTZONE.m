@@ -29,11 +29,10 @@ selfID = ['A69-1601-63062';'A69-1601-63064';'A69-1601-63066';'A69-1601-63067';..
 for transceiver = 1:length(rawDetFile)
     heardSelf{transceiver}    = strcmp(rawDetFile{transceiver,1}.Var3,selfID(transceiver,:))
     heardMooring{transceiver} = contains(rawDetFile{transceiver,1}.Var3,'A69-1601')
-    
+    heardTag{transceiver} = contains(rawDetFile{transceiver,1}.Var3,'A69-1602')
     %THIS IS a logical array, gives me only the mooring detections that aren't self!
-    heardOthers{transceiver}  = heardMooring{transceiver}-heardSelf{transceiver};
-    heardOthers{transceiver} = logical(heardOthers{transceiver});
-    testMatrix{transceiver}   = [heardMooring{transceiver}, heardSelf{transceiver}, heardOthers{transceiver}];
+    heardOthers{transceiver}  = heardMooring{transceiver}-heardSelf{transceiver}; heardOthers{transceiver} = logical(heardOthers{transceiver});
+    % testMatrix{transceiver}   = [heardMooring{transceiver}, heardSelf{transceiver}, heardOthers{transceiver}];
     %
     howMany{transceiver} = height(rawDetFile{transceiver});
     addIt = ones(howMany{transceiver},1);
@@ -59,6 +58,24 @@ for transceiver = 1:length(rawDetFile)
     onlyMoorings{transceiver}.Properties.VariableNames = {'HourlyDets'};
     onlyMoorings{transceiver}.Properties.DimensionNames{1} = 'DT'; 
     onlyMoorings{transceiver}.DT.TimeZone = "UTC";
+
+    rawFishDets{transceiver} = table2timetable(processedDetFile{transceiver}(heardTag{transceiver},{'Var1','Var4'}));
+    onlyFish{transceiver} = retime(rawFishDets{transceiver},'hourly','sum')
+    onlyFish{transceiver}.Properties.VariableNames = {'HourlyDets'};
+    onlyFish{transceiver}.Properties.DimensionNames{1} = 'DT'; 
+    onlyFish{transceiver}.DT.TimeZone = "UTC";
+
+    RAWallButMe{transceiver} = table2timetable(processedDetFile{transceiver}(~heardSelf{transceiver},{'Var1','Var4'}));
+    onlyThem{transceiver} = retime(RAWallButMe{transceiver},'hourly','sum')
+    onlyThem{transceiver}.Properties.VariableNames = {'HourlyDets'};
+    onlyThem{transceiver}.Properties.DimensionNames{1} = 'DT'; 
+    onlyThem{transceiver}.DT.TimeZone = "UTC";
+    %%
+    %Frank has to quantify the hours that have detections from fish
+    countFishHours{transceiver} = length(nonzeros(onlyFish{transceiver}.HourlyDets));
+    countAllHours{transceiver}  = length(rawDetFile{transceiver}.Var1)
+    countMoorings{transceiver}  = length(nonzeros(onlyMoorings{transceiver}.HourlyDets));
+    countAllButMe{transceiver} = length(nonzeros(onlyThem{transceiver}.HourlyDets));
 end
 
 
@@ -261,6 +278,11 @@ end
 for PT = 1:length(uniqueReceivers)
     receiverData{PT}            = synchronize(receiverData{PT},onlyMoorings{PT},'hourly')
 end
+
+for PT = 1:length(uniqueReceivers)
+    receiverDataFISH{PT}            = synchronize(receiverData{PT},onlyFish{PT},'hourly')
+end
+
 
 
 %Frank cleaning up data from deploy/retrieve
