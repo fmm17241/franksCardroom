@@ -28,37 +28,33 @@ selfID = ['A69-1601-63062';'A69-1601-63064';'A69-1601-63066';'A69-1601-63067';..
 % can do an hourly sum of detections.
 for transceiver = 1:length(rawDetFile)
     heardSelf{transceiver}    = strcmp(rawDetFile{transceiver,1}.Var3,selfID(transceiver,:))
-    % heardMooring{transceiver} = strfind(rawDetFile{transceiver,1}.Var3,'A69-1601') 
     heardMooring{transceiver} = contains(rawDetFile{transceiver,1}.Var3,'A69-1601')
     
     %THIS IS a logical array, gives me only the mooring detections that aren't self!
     heardOthers{transceiver}  = heardMooring{transceiver}-heardSelf{transceiver};
+    heardOthers{transceiver} = logical(heardOthers{transceiver});
     testMatrix{transceiver}   = [heardMooring{transceiver}, heardSelf{transceiver}, heardOthers{transceiver}];
-
-
-    % countMooring{transceiver} = sum(heardMooring{transceiver})
-    countSelfDetects(transceiver,1) = sum(heardSelf{transceiver});
-    rawDetFile{transceiver}(strcmp(rawDetFile{transceiver,1}.Var3,selfID(transceiver,:)),:) = [];
     %
     howMany{transceiver} = height(rawDetFile{transceiver});
     addIt = ones(howMany{transceiver},1);
-    rawDetFile{transceiver}.Var4 = addIt;
+    processedDetFile{transceiver} = rawDetFile{transceiver};
+    processedDetFile{transceiver}.Var4 = addIt;
 end
 
 %This turns my raw detection files into a timetable, then bins it hourly
 %and defines the timezone to UTC.
 for transceiver = 1:length(rawDetFile)
-    rawDetFile{transceiver} = table2timetable(rawDetFile{transceiver}(:,{'Var1','Var4'}));
-    rawDetFile{transceiver} = retime(rawDetFile{transceiver},'hourly','sum')
-    rawDetFile{transceiver}.Properties.VariableNames = {'HourlyDets'};
-    % receiverData{PT}.Properties.VariableNames = {'DN','HourlyDets','Noise','Pings','Tilt','Temp'};
-    rawDetFile{transceiver}.Properties.DimensionNames{1} = 'DT'; 
-    rawDetFile{transceiver}.DT.TimeZone = "UTC";
+    % processedDetFile{transceiver} = table2timetable(processedDetFile{transceiver}(:,{'Var1','Var4'}));
+    % processedDetFile{transceiver} = retime(processedDetFile{transceiver},'hourly','sum')
+    % processedDetFile{transceiver}.Properties.VariableNames = {'HourlyDets'};
+    % % receiverData{PT}.Properties.VariableNames = {'DN','HourlyDets','Noise','Pings','Tilt','Temp'};
+    % processedDetFile{transceiver}.Properties.DimensionNames{1} = 'DT'; 
+    % processedDetFile{transceiver}.DT.TimeZone = "UTC";
 
     %%
     %This does the same, but ONLY takes detections from transceivers that
     %are not self.
-    rawMooringDets{transceiver} = table2timetable(rawDetFile{transceiver}(heardOthers,{'Var1','Var4'}));
+    rawMooringDets{transceiver} = table2timetable(processedDetFile{transceiver}(heardOthers{transceiver},{'Var1','Var4'}));
     onlyMoorings{transceiver} = retime(rawMooringDets{transceiver},'hourly','sum')
     onlyMoorings{transceiver}.Properties.VariableNames = {'HourlyDets'};
     onlyMoorings{transceiver}.Properties.DimensionNames{1} = 'DT'; 
@@ -263,7 +259,7 @@ end
 
 %Frank testing
 for PT = 1:length(uniqueReceivers)
-    receiverData{PT}            = synchronize(receiverData{PT},rawDetFile{PT},'hourly')
+    receiverData{PT}            = synchronize(receiverData{PT},onlyMoorings{PT},'hourly')
 end
 
 
