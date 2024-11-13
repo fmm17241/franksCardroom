@@ -31,12 +31,11 @@ for transceiver = 1:length(rawDetFile)
     % heardMooring{transceiver} = strfind(rawDetFile{transceiver,1}.Var3,'A69-1601') 
     heardMooring{transceiver} = contains(rawDetFile{transceiver,1}.Var3,'A69-1601')
     
-    self = heardSelf{transceiver};
-    mooring = heardMooring{transceiver};
-    
     %THIS IS a logical array, gives me only the mooring detections that aren't self!
-    heardOthers{transceiver}  = heardMooring{1}-heardSelf{1};
-    
+    heardOthers{transceiver}  = heardMooring{transceiver}-heardSelf{transceiver};
+    testMatrix{transceiver}   = [heardMooring{transceiver}, heardSelf{transceiver}, heardOthers{transceiver}];
+
+
     % countMooring{transceiver} = sum(heardMooring{transceiver})
     countSelfDetects(transceiver,1) = sum(heardSelf{transceiver});
     rawDetFile{transceiver}(strcmp(rawDetFile{transceiver,1}.Var3,selfID(transceiver,:)),:) = [];
@@ -55,17 +54,15 @@ for transceiver = 1:length(rawDetFile)
     % receiverData{PT}.Properties.VariableNames = {'DN','HourlyDets','Noise','Pings','Tilt','Temp'};
     rawDetFile{transceiver}.Properties.DimensionNames{1} = 'DT'; 
     rawDetFile{transceiver}.DT.TimeZone = "UTC";
-end
 
-%This turns my raw detection files into a timetable of ONLY OTHER TRANSCEIVER DETECTIONS!!!!!, then bins it hourly
-%and defines the timezone to UTC.
-for transceiver = 1:length(rawDetFile)
-    rawDetFile22{transceiver} = table2timetable(rawDetFile{transceiver}(:,{'Var1','Var4'}));
-    rawDetFile22{transceiver} = retime(rawDetFile{transceiver},'hourly','sum')
-    rawDetFile22{transceiver}.Properties.VariableNames = {'HourlyDets'};
-    % receiverData{PT}.Properties.VariableNames = {'DN','HourlyDets','Noise','Pings','Tilt','Temp'};
-    rawDetFile22{transceiver}.Properties.DimensionNames{1} = 'DT'; 
-    rawDetFile22{transceiver}.DT.TimeZone = "UTC";
+    %%
+    %This does the same, but ONLY takes detections from transceivers that
+    %are not self.
+    rawMooringDets{transceiver} = table2timetable(rawDetFile{transceiver}(heardOthers,{'Var1','Var4'}));
+    onlyMoorings{transceiver} = retime(rawMooringDets{transceiver},'hourly','sum')
+    onlyMoorings{transceiver}.Properties.VariableNames = {'HourlyDets'};
+    onlyMoorings{transceiver}.Properties.DimensionNames{1} = 'DT'; 
+    onlyMoorings{transceiver}.DT.TimeZone = "UTC";
 end
 
 
