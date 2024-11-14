@@ -10,7 +10,7 @@
 for k = 1:length(receiverData)
     hourlyAVG{k} = retime(receiverData{k},'hourly','mean');
     hourlyVAR{k}= retime(receiverData{k},'hourly',@std);
-    
+
     dailyAVG{k} = retime(receiverData{k},'daily','mean');
     dailyVAR{k} = retime(receiverData{k},'daily',@std);
     
