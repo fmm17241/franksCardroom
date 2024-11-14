@@ -337,6 +337,21 @@ title('Detections')
 
 linkaxes([ax1,ax2,ax3,ax4],'x')
 
+%%
+%Frank fixing
+receiverDataFISH{1} = receiverDataFISH{1}(20:7778,:);
+receiverDataFISH{2} = receiverDataFISH{2}(16:9181,:);
+receiverDataFISH{3} = receiverDataFISH{3}(16:10155,:);
+receiverDataFISH{4} = receiverDataFISH{4}(24:13937,:);
+receiverDataFISH{5} = receiverDataFISH{5}(20:15017,:);
+receiverDataFISH{6} = receiverDataFISH{6}(96:9893,:);
+receiverDataFISH{7} = receiverDataFISH{7}(98:9962,:);
+receiverDataFISH{8} = receiverDataFISH{8}(25:9253,:);
+receiverDataFISH{9} = receiverDataFISH{9}(18:9209,:);
+receiverDataFISH{10} = receiverDataFISH{10}(26:9373,:);
+receiverDataFISH{11} = receiverDataFISH{11}(4:7685,:);
+receiverDataFISH{12} = receiverDataFISH{12}(4:8832,:);
+receiverDataFISH{13} = receiverDataFISH{13}(14:9373,:);
 
 
 

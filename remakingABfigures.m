@@ -3,7 +3,8 @@
 %%
 %
 % buildReceiverData   
-load receiverDataONLYMOORINGS.mat
+% buildReceiverDataFISH
+% load receiverDataONLYMOORINGS.mat
 
 
 for k = 1:length(receiverData)
@@ -47,7 +48,24 @@ yyaxis right
 plot(dailyAVGFISH{1}.DT,dailyAVGFISH{1}.HourlyDets_2)
 ylabel('Hourly Dets')
 title('','Only Fish!')
-
+%
+figure()
+tiledlayout(2,4)
+ax1 = nexttile([1,4])
+plot(monthlyAVG{1}.DT,monthlyAVG{1}.Noise)
+ylabel('HF Noise (mV)')
+yyaxis right
+plot(monthlyAVG{1}.DT,monthlyAVG{1}.HourlyDets)
+ylabel('Hourly Dets')
+title('monthly Averages: Low Tag Environment','Only Other Moorings!')
+ax2 = nexttile([1,4])
+plot(monthlyAVGFISH{1}.DT,monthlyAVGFISH{1}.Noise)
+ylabel('HF Noise (mV)')
+yyaxis right
+plot(monthlyAVGFISH{1}.DT,monthlyAVGFISH{1}.HourlyDets_2)
+ylabel('Hourly Dets')
+title('','Only Fish!')
+%
 
 figure()
 plot(dailyAVG{2}.DT,dailyAVG{2}.Noise)
