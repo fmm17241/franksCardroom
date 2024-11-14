@@ -6,6 +6,36 @@
 % buildReceiverDataFISH
 % load receiverDataONLYMOORINGS.mat
 
+%%
+% Collision analysis
+cd ('C:\Users\fmm17241\OneDrive - University of Georgia\data\collisionAnalysis')
+
+fishTagAnalysis = readtable('fishTagCollisions.csv')
+mooringTagAnalysis = readtable('mooringCollisions.csv')
+
+fishTagAnalysis.CollisionProb = 1-fishTagAnalysis.mean;
+mooringTagAnalysis.CollisionProb = 1-mooringTagAnalysis.mean;
+
+figure()
+plot(fishTagAnalysis.Var1,fishTagAnalysis.CollisionProb,'r','LineWidth',3);
+hold on
+plot(mooringTagAnalysis.Var1,mooringTagAnalysis.CollisionProb,'b','LineWidth',3);
+title('Collision Probability Analysis: Gray''s Reef 2020','(1-Detection Probability)')
+scatter(fishTagAnalysis.Var1(6),fishTagAnalysis.CollisionProb(6),70,'k','filled')
+scatter(mooringTagAnalysis.Var1(4),mooringTagAnalysis.CollisionProb(4),70,'k','filled')
+
+legend('Fish Tags','Moorings','Worst Case 2020')
+ylabel('Collision Probability')
+xlabel('# of Transmitters within Detection Range')
+
+
+
+figure()
+plot(mooringTagAnalysis.Var1,mooringTagAnalysis.CollisionProb)
+
+
+%%
+
 
 for k = 1:length(receiverData)
     hourlyAVG{k} = retime(receiverData{k},'hourly','mean');
