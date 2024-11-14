@@ -12,9 +12,12 @@ cd ('C:\Users\fmm17241\OneDrive - University of Georgia\data\collisionAnalysis')
 
 fishTagAnalysis = readtable('fishTagCollisions.csv')
 mooringTagAnalysis = readtable('mooringCollisions.csv')
+choTagAnalysis = readtable('choCollisions.csv')
 
 fishTagAnalysis.CollisionProb = 1-fishTagAnalysis.mean;
 mooringTagAnalysis.CollisionProb = 1-mooringTagAnalysis.mean;
+choTagAnalysis.CollisionProb = 1-choTagAnalysis.mean;
+
 
 figure()
 plot(fishTagAnalysis.Var1,fishTagAnalysis.CollisionProb,'r','LineWidth',3);
@@ -23,8 +26,8 @@ plot(mooringTagAnalysis.Var1,mooringTagAnalysis.CollisionProb,'b','LineWidth',3)
 title('Collision Probability Analysis: Gray''s Reef 2020','(1-Detection Probability)')
 scatter(fishTagAnalysis.Var1(6),fishTagAnalysis.CollisionProb(6),70,'k','filled')
 scatter(mooringTagAnalysis.Var1(4),mooringTagAnalysis.CollisionProb(4),70,'k','filled')
-
-legend('Fish Tags','Moorings','Worst Case 2020')
+plot(choTagAnalysis.Var1,choTagAnalysis.CollisionProb,'k--','LineWidth',4)
+legend('Fish Tags','Moorings','Worst Case 2020','','Cho et al 2016')
 ylabel('Collision Probability')
 xlabel('# of Transmitters within Detection Range')
 
