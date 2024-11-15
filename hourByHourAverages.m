@@ -43,9 +43,23 @@ for h = 1:24
 end
 
 
+%%
+% Finding the means and variances of all these mooks.
+for h = 1:24
+    avrgNoise(h) = nanmean(totalEachHour.Noise{h})
+    varNoise(h)  = nanvar(totalEachHour.Noise{h})
 
+    avgDetections(h) = nanmean(totalEachHour.Detections{h});
+    varDetections(h)  = nanvar(totalEachHour.Detections{h})
 
+end
 
-
-
-
+X = 1:24
+figure();
+yyaxis left
+plot(X,avrgNoise,'LineWidth',3);
+ylabel('Noise (mV)')
+yyaxis right
+plot(X,avgDetections,'LineWidth',3);
+ylabel('Detections')
+title('Hourly Averages','UTC, Jan-May')
