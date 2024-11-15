@@ -91,7 +91,28 @@ ylabel('Detections')
 % or Duh, don't change it, just change "X" to plot it prettier. Hmmhtmg dhthskl;bgmk;lgbf;m m    gfog 
 
 
+figure()
+tiledlayout(2,4)
+ax1 = nexttile([1,4])
+yyaxis left
+plot(X,avrgNoise,'lineWidth',3);
 
+yyaxis right
+plot(X,avgSnaps,'lineWidth',3);
+xticks(X);
+xticklabels({'Sunset','Sunset','22','','00','','','03','','','','Sunrise','Sunrise','09','','','Midday','','','15','','','','Sunset'})
+legend('HF Noise','Snaps')
+
+ax2 = nexttile([1,4])
+yyaxis left
+plot(X,avrgNoise,'lineWidth',3);
+ylabel('HF Noise (mV)')
+yyaxis right
+plot(X,avgDetections,'lineWidth',3);
+ylabel('Detections')
+legend('HF Noise','Detections')
+xticks(X);
+xticklabels({'Sunset','Sunset','22','','00','','','03','','','','Sunrise','Sunrise','09','','','Midday','','','15','','','','Sunset'})
 
 
 
