@@ -30,11 +30,7 @@ for transceiver = 1:length(rawDetFile)
     heardSelf{transceiver}    = strcmp(rawDetFile{transceiver,1}.Var3,selfID(transceiver,:))
     % heardMooring{transceiver} = strfind(rawDetFile{transceiver,1}.Var3,'A69-1601') 
     heardMooring{transceiver} = contains(rawDetFile{transceiver,1}.Var3,'A69-1601')
-    
-    %THIS IS a logical array, gives me only the mooring detections that aren't self!
-    heardOthers{transceiver}  = heardMooring{transceiver}-heardSelf{transceiver};
-    testMatrix{transceiver}   = [heardMooring{transceiver}, heardSelf{transceiver}, heardOthers{transceiver}];
-
+   
 
     % countMooring{transceiver} = sum(heardMooring{transceiver})
     countSelfDetects(transceiver,1) = sum(heardSelf{transceiver});
@@ -54,15 +50,6 @@ for transceiver = 1:length(rawDetFile)
     % receiverData{PT}.Properties.VariableNames = {'DN','HourlyDets','Noise','Pings','Tilt','Temp'};
     rawDetFile{transceiver}.Properties.DimensionNames{1} = 'DT'; 
     rawDetFile{transceiver}.DT.TimeZone = "UTC";
-
-    %%
-    %This does the same, but ONLY takes detections from transceivers that
-    %are not self.
-    rawMooringDets{transceiver} = table2timetable(rawDetFile{transceiver}(heardOthers,{'Var1','Var4'}));
-    onlyMoorings{transceiver} = retime(rawMooringDets{transceiver},'hourly','sum')
-    onlyMoorings{transceiver}.Properties.VariableNames = {'HourlyDets'};
-    onlyMoorings{transceiver}.Properties.DimensionNames{1} = 'DT'; 
-    onlyMoorings{transceiver}.DT.TimeZone = "UTC";
 end
 
 
