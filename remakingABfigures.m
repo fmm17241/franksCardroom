@@ -2,7 +2,7 @@
 
 %%
 %
-% buildReceiverData   
+buildReceiverData   
 % buildReceiverDataFISH
 % load receiverDataONLYMOORINGS.mat
 
