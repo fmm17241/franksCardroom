@@ -4,6 +4,20 @@
 %load in environmental and detection data
 buildReceiverData   
 
+cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\matlabVariables'
+% % Full snaprate dataset
+load snapRateDataSpring
+% % Snaprate binned hourly
+load snapRateHourlySpring
+% % Snaprate binned per minute
+load snapRateMinuteSpring
+load surfaceDataSpring
+load filteredData4Bin40HrLowSPRING.mat
+times = surfaceData.time;
+
+
+
+
 
 %Breakdown array by hours, not months or anything
 % Preallocate cell array to store data for each hour
@@ -13,13 +27,7 @@ hourlyData = cell(13, 24);
 for transceiver = 1:length(receiverData)
     for h = 0:23
         hourlyData{transceiver,h+1} = receiverData{transceiver}(hour(receiverData{transceiver}.DT) == h, :);
-    end
-end
-
-%Okay, hourlyData now has each hour separated. How do I use it? Hmmhfgmhgdhnjhd
-for transceiver = 1:length(receiverData)
-    for h = 0:23
-        hourlyAverages{transceiver,h+1} = mean(hourlyData{transceiver,h+1}.Noise,'Omitnan');
+        snapsByHour{h+1} = snapRateHourly(hour(snapRateHourly.Time)==h,:);
     end
 end
 
@@ -40,6 +48,7 @@ for h = 1:24
     %Detections
     totalEachHour.Detections{h} = [hourlyData{1,h}.HourlyDets; hourlyData{2,h}.HourlyDets;hourlyData{3,h}.HourlyDets; hourlyData{4,h}.HourlyDets;hourlyData{5,h}.HourlyDets; hourlyData{6,h}.HourlyDets;...
         hourlyData{7,h}.HourlyDets; hourlyData{8,h}.HourlyDets;hourlyData{9,h}.HourlyDets; hourlyData{10,h}.HourlyDets;hourlyData{11,h}.HourlyDets; hourlyData{12,h}.HourlyDets;hourlyData{13,h}.HourlyDets];
+
 end
 
 
@@ -52,14 +61,39 @@ for h = 1:24
     avgDetections(h) = nanmean(totalEachHour.Detections{h});
     varDetections(h)  = nanvar(totalEachHour.Detections{h})
 
+    avgSnaps(h) = nanmean(snapsByHour{h}.SnapCount)
+
 end
 
 X = 1:24
 figure();
+tiledlayout(2,4)
+ax1 = nexttile([1,4])
 yyaxis left
 plot(X,avrgNoise,'LineWidth',3);
 ylabel('Noise (mV)')
 yyaxis right
-plot(X,avgDetections,'LineWidth',3);
-ylabel('Detections')
+plot(X,avgSnaps,'LineWidth',3);
+ylabel('Snaps')
 title('Hourly Averages','UTC, Jan-May')
+ax2 = nexttile([1,4])
+yyaxis left
+plot(X,avrgNoise,'LineWidth',3);
+ylabel('Noise (mV)')
+yyaxis right
+plot(X,avgDetections,'LineWidth',3)
+ylabel('Detections')
+
+%%
+%Okay I want to make this prettier. 
+% Right now, 1:24 stands for 00:00 - 23:00 UTC! I want to switch to EST to make
+% the trend more obvious.
+% or Duh, don't change it, just change "X" to plot it prettier. Hmmhtmg dhthskl;bgmk;lgbf;m m    gfog 
+
+
+
+
+
+
+
+
