@@ -65,12 +65,14 @@ for h = 1:24
 
 end
 
+
+%%
 %Day Noise Confidence Intervals
-for k = 1:length(seasons)
+for h=1:24
     %Finding standard deviations/CIs of values
-    SEM = std(daySounds{1,k}(:),'omitnan')/sqrt(length(daySounds{1,k}));  
-    ts = tinv([0.025  0.975],length(daySounds{1,k})-1);  
-    CIdayNoise(k,:) = mean(daySounds{:,k},'all','omitnan') + ts*SEM; 
+    SEM = std(totalEachHour.Noise{h},'omitnan')/sqrt(length(totalEachHour.Noise{h}));  
+    ts = tinv([0.025  0.975],length(totalEachHour.Noise{h})-1);  
+    CIdayNoise(h,:) = mean(totalEachHour.Noise{h},'all','omitnan') + ts*SEM; 
 end
 
 
