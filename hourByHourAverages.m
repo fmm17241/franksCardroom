@@ -65,6 +65,18 @@ for h = 1:24
 
 end
 
+%Day Noise Confidence Intervals
+for k = 1:length(seasons)
+    %Finding standard deviations/CIs of values
+    SEM = std(daySounds{1,k}(:),'omitnan')/sqrt(length(daySounds{1,k}));  
+    ts = tinv([0.025  0.975],length(daySounds{1,k})-1);  
+    CIdayNoise(k,:) = mean(daySounds{:,k},'all','omitnan') + ts*SEM; 
+end
+
+
+
+%%
+
 X = 1:24
 figure();
 tiledlayout(2,4)
@@ -115,6 +127,7 @@ xticks(X);
 xticklabels({'Sunset','Sunset','22','','00','','','03','','','','Sunrise','Sunrise','09','','','Midday','','','15','','','','Sunset'})
 
 
-
+% ax1.YAxis(1).Color = 'k';
+% ax1.YAxis(2).Color = 'k';
 
 
