@@ -203,6 +203,7 @@ ciplot(CIhourlyNoise(:,1),CIhourlyNoise(:,2),1:24,'b')
 ylabel('HF Noise (mV)')
 yyaxis right
 ciplot(CIhourlyDetections(:,1),CIhourlyDetections(:,2),1:24,'r')
+ylabel('Detections/hr')
 xlabel('Seasons, 2020')
 % ylabel('Average Noise (mV)')
 title('Noise Interference by Time of Day','95% Conf. Interval')
