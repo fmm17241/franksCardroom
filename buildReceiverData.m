@@ -258,20 +258,22 @@ end
 %Not the prettiest, but this removes times where tilt and temperature are
 %clearly showing its out of the water, or times out of our range, or NaN
 %values from concatenating the two arrays.
-receiverData{1}= receiverData{1}(2:end,:);
-receiverData{2}= receiverData{2}(17:end,:);
-receiverData{3}= receiverData{3}(2:9598,:);
-receiverData{4}= receiverData{4}(20:9628,:);
-receiverData{5}= receiverData{5}(550:9627,:);
-receiverData{6}= receiverData{6}(96:9559,:);
-receiverData{7}= receiverData{7}(95:9558,:);
-receiverData{8}= receiverData{8}(23:end,:);
-receiverData{9}= receiverData{9}(14:end,:);
-receiverData{10}= receiverData{10}(25:9373,:);
+receiverData{1}= receiverData{1}(21:end,:);
+receiverData{2}= receiverData{2}(17:9188,:);
+receiverData{3}= receiverData{3}(20:10155,:);
+receiverData{4}= receiverData{4}(24:13937,:);
+receiverData{5}= receiverData{5}(20:15017,:);
+receiverData{6}= receiverData{6}(100:9893,:);
+receiverData{7}= receiverData{7}(97:9962,:);
+receiverData{8}= receiverData{8}(24:9253,:);
+receiverData{9}= receiverData{9}(18:9209,:);
+receiverData{10}= receiverData{10}(26:9367,:);
 receiverData{11}= receiverData{11}(4:7685,:);
+receiverData{12}= receiverData{12}(2:8832,:);
+receiverData{13}= receiverData{13}(14:9373,:);
+%% 
+%Further pruning.
 
-receiverData{12}= receiverData{12}(3:end,:);
-receiverData{13}= receiverData{13}(17:9373,:);
 
 
 
