@@ -4,7 +4,7 @@
 %load in environmental and detection data
 buildReceiverData   
 
-cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\matlabVariables'
+% cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\matlabVariables'
 % % Full snaprate dataset
 load snapRateDataSpring
 % % Snaprate binned hourly
@@ -17,6 +17,19 @@ times = surfaceData.time;
 
 
 %FM testing
+%frank sees a difference in phasing, I think noise is reported an hour
+%later than it should.
+
+% test = timetable(receiverData{1}.DT(1:end-1), receiverData{1}.Noise(2:end), receiverData{1}.HourlyDets(1:end-1));
+% test.Var1(1471) = 735;
+% [R,P] = corrcoef(test.Var1(1:7755),test.Var2(1:7755))
+% [R,P] = corrcoef(receiverData{1}.Noise,receiverData{1}.HourlyDets)
+% 
+% sum(isnan(test.Var2(1:7755)))
+% 
+% indx = isnan(test.Var1);
+% findem = test(indx,:)
+% 
 
 %Breakdown array by hours, not months or anything
 % Preallocate cell array to store data for each hour

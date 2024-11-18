@@ -25,26 +25,20 @@ selfID = ['A69-1601-63062';'A69-1601-63064';'A69-1601-63066';'A69-1601-63067';..
     'A69-1601-63081'];
 
 
-for k = 1:length(rawDetFile)
-    % Sample array
-    % Find unique elements
-    data{k} = rawDetFile{k,1}.Var3;
-    uniqueElements{k} = unique(data{k});
-    % Example cell array of strings
-    
-    % Find unique strings and their indices
-    [uniqueStr{k}, ~, idx{k}] = unique(data{k});
-    
-    % Count occurrences of each unique string
-    occurrences{k} = histc(idx, 1:numel(uniqueStr{k}));
-
-end
-
-% Display the results
-for i = 1:numel(uniqueStr)
-    fprintf('%s: %d\n', uniqueStr{i}, occurrences(i));
-end
-
+% for k = 1:length(rawDetFile)
+%     % Sample array
+%     % Find unique elements
+%     data{k} = rawDetFile{k,1}.Var3;
+%     uniqueElements{k} = unique(data{k});
+%     % Example cell array of strings
+% 
+%     % Find unique strings and their indices
+%     [uniqueStr{k}, ~, idx{k}] = unique(data{k});
+% 
+%     % Count occurrences of each unique string
+%     occurrences{k} = histc(idx, 1:numel(uniqueStr{k}));
+% 
+% end
 
 % THIS removes self detections, and adds a line of "1s" in a columnn so I
 % can do an hourly sum of detections.
