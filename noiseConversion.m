@@ -1,1 +1,0 @@
-L(dBm) = 10log(p(mV)/1mV)
