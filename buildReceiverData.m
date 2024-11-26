@@ -55,9 +55,8 @@ for transceiver = 1:length(rawDetFile)
     howMany{transceiver} = height(rawDetFile{transceiver});
     addIt = ones(howMany{transceiver},1);
     rawDetFile{transceiver}.Var4 = addIt;
-    %
     howManySelf{transceiver} = height(selfDets{transceiver});
-    addIt2 = ones(howManySelf{transceiver},1);
+    addIt2 = zeros(howManySelf{transceiver},1);
     selfDets{transceiver}.Var4 = addIt2;
 end
 
@@ -302,16 +301,12 @@ receiverData{13}= receiverData{13}(14:9373,:);
 
 selfArray{1} = selfArray{1}(21:7780,:);
 % rawDetFile{transceiver}.NonSelfPings = rawDetFile{transceiver}.Pings-selfArray{transceiver}.ExpectedSelfPings;
-receiverData{1}.NonSelfPings = receiverData{1}.Pings-selfArray{1}.ExpectedSelfPings;
+% 
+% for k = 1:length(receiverData)
+%     receiverData{k}.NonSelfPings = receiverData{k}.Pings-selfArray{k}.ExpectedSelfPings;
+% end
 %% 
 %Further pruning.
-figure()
-yyaxis left
-plot(receiverData{1}.DT,receiverData{1}.NonSelfPings)
-yyaxis right
-plot(receiverData{1}.DT,receiverData{1}.Noise)
-
-
 
 figure()
 tiledlayout(4,1,'tileSpacing','compact')
