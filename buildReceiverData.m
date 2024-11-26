@@ -75,7 +75,9 @@ for transceiver = 1:length(rawDetFile)
     selfArray{transceiver} = table2timetable(selfDets{transceiver}(:,{'Var1','Var4'}));
     selfArray{transceiver} = retime(selfArray{transceiver},'hourly','sum');
     selfArray{transceiver}.Properties.DimensionNames{1} = 'DT'; 
+    selfArray{transceiver}.Properties.DimensionNames{2} = 'SelfDets';
     selfArray{transceiver}.DT.TimeZone = "UTC";
+    selfArray{transceiver}.ExpectedSelfPings = selfArray{transceiver}.SelfDets*8;
 end
 
 
@@ -297,9 +299,17 @@ receiverData{10}= receiverData{10}(26:9367,:);
 receiverData{11}= receiverData{11}(4:7685,:);
 receiverData{12}= receiverData{12}(2:8832,:);
 receiverData{13}= receiverData{13}(14:9373,:);
+
+selfArray{1} = selfArray{1}(21:7780,:);
+% rawDetFile{transceiver}.NonSelfPings = rawDetFile{transceiver}.Pings-selfArray{transceiver}.ExpectedSelfPings;
+receiverData{1}.NonSelfPings = receiverData{1}.Pings-selfArray{1}.ExpectedSelfPings;
 %% 
 %Further pruning.
-
+figure()
+yyaxis left
+plot(receiverData{1}.DT,receiverData{1}.NonSelfPings)
+yyaxis right
+plot(receiverData{1}.DT,receiverData{1}.Noise)
 
 
 
