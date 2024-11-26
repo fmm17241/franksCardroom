@@ -339,6 +339,14 @@ title('Detections')
 
 linkaxes([ax1,ax2,ax3,ax4],'x')
 
+%%
+%
+for transceiver = 1:length(receiverData)
+    receiverData{transceiver}.windSpd = fillmissing(receiverData{transceiver}.windSpd, 'linear');
+    receiverData{transceiver}.Pings = fillmissing(receiverData{transceiver}.Pings, 'linear');
+    receiverData{transceiver}.Noise = fillmissing(receiverData{transceiver}.Noise, 'linear');
+     receiverData{transceiver}.HourlyDets = fillmissing(receiverData{transceiver}.HourlyDets, 'linear');
+end
 
 
 
