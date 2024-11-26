@@ -212,3 +212,20 @@ xticklabels({'Sunset','Sunset','22','','00','','','03','','','','Sunrise','Sunri
 
 ax2.YAxis(1).Color = 'k';
 ax2.YAxis(2).Color = 'k';
+
+figure()
+yyaxis left
+ciplot(CIhourlyNoise(:,1),CIhourlyNoise(:,2),1:24,'b')
+ylabel('HF Noise (mV)')
+yyaxis right
+ciplot(CIhourlyDetections(:,1),CIhourlyDetections(:,2),1:24,'r')
+ylabel('Hourly Detections')
+xlabel('Seasons, 2020')
+% ylabel('Average Noise (mV)')
+title('Noise Interference by Time of Day at SURTASStn20','95% Conf. Interval')
+legend('Noise','Detections')
+xticks(X);
+xticklabels({'Sunset','Sunset','22','','00','','','03','','','','Sunrise','Sunrise','09','','','Midday','','','15','','','','Sunset'})
+
+ax2.YAxis(1).Color = 'k';
+ax2.YAxis(2).Color = 'k';
