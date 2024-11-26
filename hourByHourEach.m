@@ -3,7 +3,7 @@
 %THIS ONLY TAKES ONE TRANSCEIVER'S WORTH OF DATA.
 %load in environmental and detection data
 buildReceiverData   
-transceiver = 1;
+transceiver = 2;
 
 cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\matlabVariables'
 % % Full snaprate dataset
@@ -18,7 +18,9 @@ times = surfaceData.time;
 
 
 %FM testing
-
+for transceiver = 1:length(receiverData)
+    receiverData{transceiver}.DT = receiverData{transceiver}.DT - hour(1);
+end
 %Breakdown array by hours, not months or anything
 % Preallocate cell array to store data for each hour
 hourlyData = cell(1, 24);

@@ -209,9 +209,9 @@ xticklabels({'Sunset','','22','','00','','','03','','','','Sunrise','Sunrise','0
 ax1.YAxis(1).Color = 'k';
 ax1.YAxis(2).Color = 'k';
 
-% ax2 = nexttile([1,4])
-figure()
-% hold on
+ax2 = nexttile([1,4])
+% figure()
+hold on
 yyaxis left
 ciplot(CIhourlyNoise(:,1),CIhourlyNoise(:,2),1:24,'b')
 ylabel('HF Noise (mV)')
