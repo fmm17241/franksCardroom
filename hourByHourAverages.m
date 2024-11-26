@@ -4,7 +4,7 @@
 %load in environmental and detection data
 buildReceiverData   
 
-% cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\matlabVariables'
+cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\matlabVariables'
 % % Full snaprate dataset
 load snapRateDataSpring
 % % Snaprate binned hourly
@@ -209,8 +209,9 @@ xticklabels({'Sunset','','22','','00','','','03','','','','Sunrise','Sunrise','0
 ax1.YAxis(1).Color = 'k';
 ax1.YAxis(2).Color = 'k';
 
-ax2 = nexttile([1,4])
-hold on
+% ax2 = nexttile([1,4])
+figure()
+% hold on
 yyaxis left
 ciplot(CIhourlyNoise(:,1),CIhourlyNoise(:,2),1:24,'b')
 ylabel('HF Noise (mV)')

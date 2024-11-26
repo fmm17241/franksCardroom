@@ -46,7 +46,7 @@ for transceiver = 1:length(rawDetFile)
     heardSelf{transceiver}    = strcmp(rawDetFile{transceiver,1}.Var3,selfID(transceiver,:))
     % heardMooring{transceiver} = strfind(rawDetFile{transceiver,1}.Var3,'A69-1601') 
     heardMooring{transceiver} = contains(rawDetFile{transceiver,1}.Var3,'A69-1601')
-   
+    selfDets{transceiver} = rawDetFile{transceiver,1}(heardSelf{transceiver},:)
 
     % countMooring{transceiver} = sum(heardMooring{transceiver})
     countSelfDetects(transceiver,1) = sum(heardSelf{transceiver});
@@ -55,6 +55,10 @@ for transceiver = 1:length(rawDetFile)
     howMany{transceiver} = height(rawDetFile{transceiver});
     addIt = ones(howMany{transceiver},1);
     rawDetFile{transceiver}.Var4 = addIt;
+    %
+    howManySelf{transceiver} = height(selfDets{transceiver});
+    addIt2 = ones(howManySelf{transceiver},1);
+    selfDets{transceiver}.Var4 = addIt2;
 end
 
 %This turns my raw detection files into a timetable, then bins it hourly
@@ -63,9 +67,15 @@ for transceiver = 1:length(rawDetFile)
     rawDetFile{transceiver} = table2timetable(rawDetFile{transceiver}(:,{'Var1','Var4'}));
     rawDetFile{transceiver} = retime(rawDetFile{transceiver},'hourly','sum')
     rawDetFile{transceiver}.Properties.VariableNames = {'HourlyDets'};
+    rawDetFile{transceiver}
     % receiverData{PT}.Properties.VariableNames = {'DN','HourlyDets','Noise','Pings','Tilt','Temp'};
     rawDetFile{transceiver}.Properties.DimensionNames{1} = 'DT'; 
     rawDetFile{transceiver}.DT.TimeZone = "UTC";
+    %
+    selfArray{transceiver} = table2timetable(selfDets{transceiver}(:,{'Var1','Var4'}));
+    selfArray{transceiver} = retime(selfArray{transceiver},'hourly','sum');
+    selfArray{transceiver}.Properties.DimensionNames{1} = 'DT'; 
+    selfArray{transceiver}.DT.TimeZone = "UTC";
 end
 
 
