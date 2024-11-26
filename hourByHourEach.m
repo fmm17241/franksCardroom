@@ -3,7 +3,7 @@
 %THIS ONLY TAKES ONE TRANSCEIVER'S WORTH OF DATA.
 %load in environmental and detection data
 buildReceiverData   
-transceiver = 2;
+transceiver = 1;
 
 cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\acousticAnalysis\matlabVariables'
 % % Full snaprate dataset
