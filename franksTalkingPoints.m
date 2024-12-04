@@ -651,119 +651,244 @@ figure()
 TTTT = tiledlayout(6,2)
 ax1 = nexttile([2,1])
 yyaxis left
-scatter(times(461:601),filteredData.SBLcapped(461:601),'filled')
+scatter(times(461:601),filteredData.SBLcapped(461:601),70,'filled')
+ylim([0 15])
 ylabel('SBL (dB)')
 yyaxis right
-scatter(times(461:601),filteredData.Noise(461:601),'r','filled')
+scatter(times(461:601),filteredData.Noise(461:601),70,'k','filled','^')
 ylabel('Noise (mV)')
-title('Noise Attenuation due to SBL','40Hr Lowpass')
+% title('Noise Attenuation due to SBL','40Hr Lowpass')
+title('Lowpass-Filtered Data','Noise Attenuation due to SBL')
+legend('SBL','Noise')
 
 ax2 = nexttile([2,1])
 yyaxis left
-scatter(times(461:601),surfaceData.SBLcapped(461:601),'filled')
-ylabel('SBL (dB)')
+scatter(times(461:601),surfaceData.SBLcapped(461:601),70,'filled')
+ylim([0 15])
+% ylabel('SBL (dB)')
 yyaxis right
-scatter(times(461:601),envData.Noise(461:601),'r','filled')
+scatter(times(461:601),envData.Noise(461:601),70,'k','filled','^')
 ylabel('Noise (mV)')
-title('','Raw Data')
-
+% title('','Raw Data')
+title('Raw Data','Noise Attenuation due to SBL')
+legend('SBL','Noise')
 
 ax3 = nexttile([2,1])
 yyaxis left
-scatter(times(461:601),filteredData.SBLcapped(461:601),'filled')
+scatter(times(461:601),filteredData.SBLcapped(461:601),70,'filled')
+ylim([0 15])
 ylabel('SBL (dB)')
 yyaxis right
-scatter(times(461:601),filteredData.Detections(461:601),'r','filled')
+scatter(times(461:601),filteredData.Detections(461:601),70,'r','filled','hexagram')
 ylabel('Detections')
-title('Surface Attenuation Enabling Acoustic Telemetry','40Hr Lowpass')
+% title('Surface Attenuation Enabling Acoustic Telemetry','40Hr Lowpass')
+title('','Surface Attenuation Enabling Acoustic Telemetry')
+legend('SBL','Detections')
 
 ax4 = nexttile([2,1])
 yyaxis left
-scatter(times(461:601),surfaceData.SBLcapped(461:601),'filled')
-ylabel('SBL (dB)')
+scatter(times(461:601),surfaceData.SBLcapped(461:601),70,'filled')
+ylim([0 15])
+% ylabel('SBL (dB)')
 yyaxis right
-scatter(times(461:601),envData.HourlyDets(461:601),'r','filled')
+scatter(times(461:601),envData.HourlyDets(461:601),70,'r','filled','hexagram')
 ylabel('Detections')
-title('','Raw Data')
+% title('','Raw Data')
+title('','Surface Attenuation Enabling Acoustic Telemetry')
+legend('SBL','Detections')
 
 ax5 = nexttile([2,1])
 yyaxis left
-scatter(times(461:601),filteredData.SBLcapped(461:601),'filled')
+scatter(times(461:601),filteredData.SBLcapped(461:601),70,'filled')
+ylim([0 15])
 ylabel('SBL (dB)')
 yyaxis right
-scatter(times(461:601),filteredData.Snaps(461:601),'r','filled')
+scatter(times(461:601),filteredData.Snaps(461:601),70,'g','filled','diamond')
 ylabel('Snaps')
-title('Snaprate Unnaffected by Winds','40Hr Lowpass')
+% title('Snaprate Unnaffected by Winds','40Hr Lowpass')
+title('','Snaprate Unnaffected by Winds')
+legend('SBL','Snaps')
 
 ax6 = nexttile([2,1])
 yyaxis left
-scatter(times(461:601),surfaceData.SBLcapped(461:601),'filled')
-ylabel('SBL (dB)')
+scatter(times(461:601),surfaceData.SBLcapped(461:601),70,'filled')
+ylim([0 15])
+% ylabel('SBL (dB)')
 yyaxis right
-scatter(times(461:601),snapRateHourly.SnapCount(461:601),'r','filled')
+scatter(times(461:601),snapRateHourly.SnapCount(461:601),70,'g','filled','diamond')
 ylabel('Snaps')
-title('','Raw Data')
+% title('','Raw Data')
+title('','Snaprate Unnaffected by Winds')
+legend('SBL','Snaps')
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % FM changing format
 
-%%
+min(surfaceData.WSPD(461:601))
 
-load angusdbdAprilMay
-load angusebdAprilMay
-
-% Bindata for different missions
-[matstruct,dn,z,temp] = Bindata(fstruct,sstruct);
-
-dt = datetime(dn,'convertfrom','datenum')
-
-
-% test plot
-figure; 
-TTT = tiledlayout(5,3)
-ax1 = nexttile([2,3])
+figure()
+TTTT = tiledlayout(4,6)
+ax1 = nexttile([2,2])
 yyaxis left
-h1=pcolor(dn,z,temp'); shading interp; colorbar; set(gca,'ydir','reverse'); 
-datetick('x','keeplimits');
-clim([20.5 22])
-xlim([dn(1,1) dn(1,170)])
-title('Water Column Profile: Temperature','Glider mission')
-ylabel('Z (m)')
-ylim([4 15])
-
-yyaxis right
-plot(datenum(times),surfaceData.WSPD,'LineWidth',4)
-ylabel('Windspeed (m/s)')
-
-
-ax2 = nexttile([1,3])
-yyaxis left 
-plot(times,envData.HourlyDets,'LineWidth',2)
-ylim([0 6])
-ylabel('Dets (\hr)')
-
-yyaxis right
-plot(times,envData.Noise,'LineWidth',2)
-ylim([500 780])
-ylabel('Noise (mV)')
-yline(650,'--','Challenging')
-title('','Detection Efficiency Versus Noise Interference')
-
-ax3 = nexttile([1,3])
-plot(times,surfaceData.SBLcapped,'r','LineWidth',3)
-yline(4.85,'--','Whitecaps  ')
+scatter(times(461:601),filteredData.SBLcapped(461:601),70,'filled')
+ylim([0 15])
 ylabel('SBL (dB)')
-title('','Surface Bubble Loss, Attenuation')
-
-ax4 = nexttile([1,3])
-plot(times,snapRateHourly.SnapCount,'k','LineWidth',2)
-title('','Benthic Activity')
-ylabel('Snaps (\hr)')
-
-linkaxes([ax2 ax3 ax4],'x')
-
-
-
+yyaxis right
+scatter(times(461:601),filteredData.Noise(461:601),70,'k','filled','^')
+ylabel('Noise (mV)')
+% title('Noise Attenuation due to SBL','40Hr Lowpass')
+title('Noise Attenuation due to Surface Bubble Loss')
+% legend('SBL','Noise')
+hleg = legend('SBL','Noise');
+htitle = get(hleg,'Title');
+set(htitle,'String','Lowpass-Filtered')
 
 
+ax2 = nexttile([2,2])
+yyaxis left
+scatter(times(461:601),filteredData.SBLcapped(461:601),70,'filled')
+ylim([0 15])
+% ylabel('SBL (dB)')
+yyaxis right
+scatter(times(461:601),filteredData.Detections(461:601),70,'r','filled','hexagram')
+ylabel('Detections')
+% title('Surface Attenuation Enabling Acoustic Telemetry','40Hr Lowpass')
+title('Telemetry Efficiency Versus Background Noise')
+% legend('SBL','Detections')
+hleg = legend('SBL','Detections');
+htitle = get(hleg,'Title');
+set(htitle,'String','Lowpass-Filtered')
+
+
+
+ax3 = nexttile([2,2])
+yyaxis left
+scatter(times(461:601),filteredData.SBLcapped(461:601),70,'filled')
+ylim([0 15])
+% ylabel('SBL (dB)')
+yyaxis right
+scatter(times(461:601),filteredData.Snaps(461:601),70,'g','filled','diamond')
+ylabel('Snaps')
+% title('Snaprate Unnaffected by Winds','40Hr Lowpass')
+title('Snapping Shrimp Behavior')
+% legend('SBL','Snaps')
+hleg = legend('SBL','Snaps');
+htitle = get(hleg,'Title');
+set(htitle,'String','Lowpass-Filtered')
+
+
+ax4 = nexttile([2,2])
+yyaxis left
+scatter(times(461:601),surfaceData.SBLcapped(461:601),70,'filled')
+ylim([0 15])
+ylabel('SBL (dB)')
+yyaxis right
+scatter(times(461:601),envData.Noise(461:601),70,'k','filled','^')
+ylabel('Noise (mV)')
+% title('','Raw Data')
+% title('Raw Data','Noise Attenuation due to SBL')
+% legend('SBL','Noise')
+hleg = legend('SBL','Noise');
+htitle = get(hleg,'Title');
+set(htitle,'String','Raw Data')
+
+
+ax5 = nexttile([2,2])
+yyaxis left
+scatter(times(461:601),surfaceData.SBLcapped(461:601),70,'filled')
+ylim([0 15])
+% ylabel('SBL (dB)')
+yyaxis right
+scatter(times(461:601),envData.HourlyDets(461:601),70,'r','filled','hexagram')
+ylabel('Detections')
+% title('','Raw Data')
+% title('','Surface Attenuation Enabling Acoustic Telemetry')
+% legend('SBL','Detections')
+hleg = legend('SBL','Detections');
+htitle = get(hleg,'Title');
+set(htitle,'String','Raw Data')
+
+
+
+ax6 = nexttile([2,2])
+yyaxis left
+scatter(times(461:601),surfaceData.SBLcapped(461:601),70,'filled')
+ylim([0 15])
+% ylabel('SBL (dB)')
+yyaxis right
+scatter(times(461:601),snapRateHourly.SnapCount(461:601),70,'g','filled','diamond')
+ylabel('Snaps')
+% title('','Raw Data')
+% title('','Snaprate Unnaffected by Winds')
+% legend('SBL','Snaps')
+hleg = legend('SBL','Snaps');
+htitle = get(hleg,'Title');
+set(htitle,'String','Raw Data')
 
 
 
 
+
+
+
+
+% load angusdbdAprilMay
+% load angusebdAprilMay
+% 
+% % Bindata for different missions
+% [matstruct,dn,z,temp] = Bindata(fstruct,sstruct);
+% 
+% dt = datetime(dn,'convertfrom','datenum')
+% 
+% 
+% % test plot
+% figure; 
+% TTT = tiledlayout(5,3)
+% ax1 = nexttile([2,3])
+% yyaxis left
+% h1=pcolor(dn,z,temp'); shading interp; colorbar; set(gca,'ydir','reverse'); 
+% datetick('x','keeplimits');
+% clim([20.5 22])
+% xlim([dn(1,1) dn(1,170)])
+% title('Water Column Profile: Temperature','Glider mission')
+% ylabel('Z (m)')
+% ylim([4 15])
+% 
+% yyaxis right
+% plot(datenum(times),surfaceData.WSPD,'LineWidth',4)
+% ylabel('Windspeed (m/s)')
+% 
+% 
+% ax2 = nexttile([1,3])
+% yyaxis left 
+% plot(times,envData.HourlyDets,'LineWidth',2)
+% ylim([0 6])
+% ylabel('Dets (\hr)')
+% 
+% yyaxis right
+% plot(times,envData.Noise,'LineWidth',2)
+% ylim([500 780])
+% ylabel('Noise (mV)')
+% yline(650,'--','Challenging')
+% title('','Detection Efficiency Versus Noise Interference')
+% 
+% ax3 = nexttile([1,3])
+% plot(times,surfaceData.SBLcapped,'r','LineWidth',3)
+% yline(4.85,'--','Whitecaps  ')
+% ylabel('SBL (dB)')
+% title('','Surface Bubble Loss, Attenuation')
+% 
+% ax4 = nexttile([1,3])
+% plot(times,snapRateHourly.SnapCount,'k','LineWidth',2)
+% title('','Benthic Activity')
+% ylabel('Snaps (\hr)')
+% 
+% linkaxes([ax2 ax3 ax4],'x')
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
