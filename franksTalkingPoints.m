@@ -31,6 +31,9 @@ Rsqrd = R(1,2)*R(1,2)
 [R,P] = corrcoef(filteredData.BulkStrat,filteredData.Noise)
 Rsqrd = R(1,2)*R(1,2)
 
+[R,P] = corrcoef(filteredData.BottomTemp,filteredData.Snaps)
+Rsqrd = R(1,2)*R(1,2)
+
 
 %Create monthly variables
 surface = retime(surfaceData,'monthly','mean')
@@ -50,34 +53,54 @@ decimatedData.Detections = decimate(filteredData.Detections,4);
 decimatedData.SST = decimate(filteredData.SST,4);
 
 figure()
-TT = tiledlayout(2,4)
+TT = tiledlayout(3,4)
 ax1 = nexttile([2,2])
 yyaxis left
 plot(times,filteredData.Snaps,'LineWidth',3)
 ylabel('Snaprate (per Hour))')
 yyaxis right
-plot(times,filteredData.BottomTemp,'LineWidth',3)
+plot(times,filteredData.BottomTemp,'-.','LineWidth',3)
 ylabel('Bottom Temp.(C)')
-title('Seasonal Warming Leads to Increased Benthic Activity','40Hr Lowpass')
+title('Snapping Shrimp Activity, Spring','40-Hr Lowpass Filter')
+
+ax2 = nexttile([1,4])
+plot(snapRateHourly.Time,snapRateHourly.SnapCount,'k','LineWidth',3)
+set(gca,'YAxisLocation','left')
+ylabel('Snaps Per Hour')
+title('Daily Shrimp Activity')
+
 
 ax2 = nexttile([2,2])
-plot(times,snapRateHourly.SnapCount,'k','LineWidth',3)
-set(gca,'YAxisLocation','right')
-ylabel('Snaps Per Hour')
-title('Hourly/Daily Shrimp Activity')
+yyaxis left
+plot(times,filteredData.Snaps,'LineWidth',3)
+ylabel('Snaprate (per Hour))')
+yyaxis right
+plot(times,filteredData.BottomTemp,'-.','LineWidth',3)
+ylabel('Bottom Temp.(C)')
+legend('Snap rate','Bottom Temp')
+title('Snapping Shrimp Activity, Fall','40-Hr Lowpass Filter')
+
+yyaxis left
+ylabel('')
+title('Snapping Shrimp Activity, Spring','40-Hr Lowpass Filter')
+title('Snapping Shrimp Activity, Fall','40-Hr Lowpass Filter')
+
 % 
 % 
-% load envDataFall
-% % Full snaprate dataset
-% load snapRateDataFall
-% % Snaprate binned hourly
-% load snapRateHourlyFall
-% % Snaprate binned per minute
-% load snapRateMinuteFall
-% load surfaceDataFall
-% load filteredData4Bin40HrLowFALLpruned.mat
-% 
-% times = surfaceData.time;
+load envDataFall
+% Full snaprate dataset
+load snapRateDataFall
+% Snaprate binned hourly
+load snapRateHourlyFall
+% Snaprate binned per minute
+load snapRateMinuteFall
+load surfaceDataFall
+load filteredData4Bin40HrLowFALLpruned.mat
+
+times = envData.DT;
+
+
+
 % 
 % 
 % if length(surfaceData.time) == 3308
