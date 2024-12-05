@@ -64,6 +64,16 @@ end
 states = readgeotable('usastatehi.shp');
 geoshow(states, 'FaceColor', [0.75 0.75 0.75])
 
+
+km_to_degrees_lat = 100 / 111; % 1 km in degrees of latitude
+km_to_degrees_lon = 100 / (111 * cos(-82)); % 1 km in degrees of longitude
+
+scalebar_lat = km_to_degrees_lat; % Change in latitude for 1 km
+scalebar_lon = km_to_degrees_lon; % Change in longitude for 1 km
+plot([-82, -82 + scalebar_lon], [28, 28], 'k-', 'LineWidth', 2);
+text(-82 + scalebar_lon/2, 28 - .08, '100 kms', 'HorizontalAlignment', 'center');
+
+
 % SkiO = [31.988137878676937, -81.0219881445705]
 % scatter(SkiO(2),SkiO(1),600,'r','p','filled');
 
@@ -71,8 +81,8 @@ geoshow(states, 'FaceColor', [0.75 0.75 0.75])
 % h(1) = scatter(nan,nan,'r','p','filled','DisplayName','Skidaway Institute of Oceanography');
 h(2) = plot(nan,nan,'k*','DisplayName','Gray''s Reef NMS');
 legend(h(2));
-xlim([-82.44 -77.02])
-ylim([24.42 36.14])
+xlim([-82.4 -79.85])
+ylim([27.75 34.25])
 
 
 % exportgraphics(yes,'GRNMSBigPic5.jpeg');
@@ -93,18 +103,14 @@ plot(mooredGPS(:,2),mooredGPS(:,1),'linestyle','none','marker','o','color','k','
 xlabel('Longitude');
 ylabel('Latitude');
 
-plot([-80.91,-80.9118],[31.42,31.42],'k')
-
-% Convert latitude to radians
-
 % Conversion factors
 km_to_degrees_lat = 1 / 111; % 1 km in degrees of latitude
 km_to_degrees_lon = 1 / (111 * cos(-80.9021)); % 1 km in degrees of longitude
 
 scalebar_lat = km_to_degrees_lat; % Change in latitude for 1 km
 scalebar_lon = km_to_degrees_lon; % Change in longitude for 1 km
-plot([-80.9021, -80.9021 + scalebar_lon], [31.41, 31.41], 'k-', 'LineWidth', 2);
-text(-80.9021 + scalebar_lon/2, 31.41 - 0.001, '1 km', 'HorizontalAlignment', 'center');
+plot([-80.9021, -80.9021 + scalebar_lon], [31.405, 31.405], 'k-', 'LineWidth', 2);
+text(-80.9021 + scalebar_lon/2, 31.405 - 0.001, '1 km', 'HorizontalAlignment', 'center');
 % hold off;
 
 xlabel('Longitude');
@@ -113,10 +119,11 @@ title('Scalebar Example in Kilometers');
 plot(buoyLocation(2),buoyLocation(1),'linestyle','none','marker','pentagram','color','b','MarkerFaceColor','b','MarkerSize',12);
 xlim([-80.91 -80.83])
 ylim([31.358 31.41])
-axis equal
-legend('SoundTrap Hydrophone','VR2Tx Transceiver','','','NDBC Station 41008')
+% axis equal
+legend('SoundTrap Hydrophone','VR2Tx Transceiver','','NDBC Station 41008')
 title('Gray''s Reef Acoustic Array')
 box off
+hold on
 
 
 
@@ -125,7 +132,7 @@ xline(ah,ah.XLim(2))
 yline(ah,ah.YLim(2))
 
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 exportgraphics(gcf,'acousticArray.png');
 
 
