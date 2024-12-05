@@ -1,44 +1,47 @@
 
-buoyLocation =  [31.4 -80.866];
-GRNMSlat = [31.4210667 31.3627333];
-GRNMSlon = [-80.9212 -80.82815];
-reef1 = [GRNMSlat(1) GRNMSlon(1)];
-reef2 = [GRNMSlat(1) GRNMSlon(2)];
-reef3 = [GRNMSlat(2) GRNMSlon(1)];
-reef4 = [GRNMSlat(2) GRNMSlon(2)];
-
-
-
-points_x=[];
-points_y=[];
-num_points = 4;
-for i=1:num_points
-points_x(i,1)=(reef1(2)*i+reef2(2)*(num_points-i+1))/(num_points+1);
-points_y(i,1)=(reef1(1)*i+reef2(1)*(num_points-i+1))/(num_points+1);
-points_x(i,2)=(reef1(2)*i+reef3(2)*(num_points-i+1))/(num_points+1);
-points_y(i,2)=(reef2(1)*i+reef3(1)*(num_points-i+1))/(num_points+1);
-points_x(i,3)=(reef2(2)*i+reef4(2)*(num_points-i+1))/(num_points+1);
-points_y(i,3)=(reef2(1)*i+reef4(1)*(num_points-i+1))/(num_points+1);
-points_x(i,4)=(reef3(2)*i+reef4(2)*(num_points-i+1))/(num_points+1);
-points_y(i,4)=(reef3(1)*i+reef4(1)*(num_points-i+1))/(num_points+1);
-end
-
-
-[ronda,rousey] = meshgrid(points_x,points_y);
-
-
-figure()
-plot(ronda,rousey,'k*')
-xlabel('Longitude');
-ylabel('Latitude');
-axis equal
-title('Gridded Grays Reef');
-
-% distkm{k}(distcount) = lldistkm(geeps{k},currentgps(distcount,:));
-distkm{1} = lldistkm(reef1,reef2);
-distkm{2} = lldistkm(reef1,reef3);
-areaGR   = distkm{1}*distkm{2};
+% buoyLocation =  [31.4 -80.866];
+% GRNMSlat = [31.4210667 31.3627333];
+% GRNMSlon = [-80.9212 -80.82815];
+% reef1 = [GRNMSlat(1) GRNMSlon(1)];
+% reef2 = [GRNMSlat(1) GRNMSlon(2)];
+% reef3 = [GRNMSlat(2) GRNMSlon(1)];
+% reef4 = [GRNMSlat(2) GRNMSlon(2)];
 % 
+% 
+% 
+% points_x=[];
+% points_y=[];
+% num_points = 4;
+% for i=1:num_points
+% points_x(i,1)=(reef1(2)*i+reef2(2)*(num_points-i+1))/(num_points+1);
+% points_y(i,1)=(reef1(1)*i+reef2(1)*(num_points-i+1))/(num_points+1);
+% points_x(i,2)=(reef1(2)*i+reef3(2)*(num_points-i+1))/(num_points+1);
+% points_y(i,2)=(reef2(1)*i+reef3(1)*(num_points-i+1))/(num_points+1);
+% points_x(i,3)=(reef2(2)*i+reef4(2)*(num_points-i+1))/(num_points+1);
+% points_y(i,3)=(reef2(1)*i+reef4(1)*(num_points-i+1))/(num_points+1);
+% points_x(i,4)=(reef3(2)*i+reef4(2)*(num_points-i+1))/(num_points+1);
+% points_y(i,4)=(reef3(1)*i+reef4(1)*(num_points-i+1))/(num_points+1);
+% end
+% 
+% 
+% [ronda,rousey] = meshgrid(points_x,points_y);
+% 
+% 
+% figure()
+% plot(ronda,rousey,'k*')
+% xlabel('Longitude');
+% ylabel('Latitude');
+% axis equal
+% title('Gridded Grays Reef');
+% 
+% % distkm{k}(distcount) = lldistkm(geeps{k},currentgps(distcount,:));
+% distkm{1} = lldistkm(reef1,reef2);
+% distkm{2} = lldistkm(reef1,reef3);
+% areaGR   = distkm{1}*distkm{2};
+% 
+
+
+
 load contourinfo
 
 
@@ -64,13 +67,12 @@ geoshow(states, 'FaceColor', [0.75 0.75 0.75])
 % SkiO = [31.988137878676937, -81.0219881445705]
 % scatter(SkiO(2),SkiO(1),600,'r','p','filled');
 
+
 % h(1) = scatter(nan,nan,'r','p','filled','DisplayName','Skidaway Institute of Oceanography');
 h(2) = plot(nan,nan,'k*','DisplayName','Gray''s Reef NMS');
-legend(h);
+legend(h(2));
 xlim([-82.44 -77.02])
 ylim([24.42 36.14])
-
-
 
 
 % exportgraphics(yes,'GRNMSBigPic5.jpeg');
@@ -91,14 +93,32 @@ plot(mooredGPS(:,2),mooredGPS(:,1),'linestyle','none','marker','o','color','k','
 xlabel('Longitude');
 ylabel('Latitude');
 
+plot([-80.91,-80.9118],[31.42,31.42],'k')
 
+% Convert latitude to radians
+
+% Conversion factors
+km_to_degrees_lat = 1 / 111; % 1 km in degrees of latitude
+km_to_degrees_lon = 1 / (111 * cos(-80.9021)); % 1 km in degrees of longitude
+
+scalebar_lat = km_to_degrees_lat; % Change in latitude for 1 km
+scalebar_lon = km_to_degrees_lon; % Change in longitude for 1 km
+plot([-80.9021, -80.9021 + scalebar_lon], [31.41, 31.41], 'k-', 'LineWidth', 2);
+text(-80.9021 + scalebar_lon/2, 31.41 - 0.001, '1 km', 'HorizontalAlignment', 'center');
+% hold off;
+
+xlabel('Longitude');
+ylabel('Latitude');
+title('Scalebar Example in Kilometers');
 plot(buoyLocation(2),buoyLocation(1),'linestyle','none','marker','pentagram','color','b','MarkerFaceColor','b','MarkerSize',12);
 xlim([-80.91 -80.83])
 ylim([31.358 31.41])
-% axis equal
-legend('SoundTrap Hydrophone','VR2Tx Transceiver','NDBC Station 41008')
+axis equal
+legend('SoundTrap Hydrophone','VR2Tx Transceiver','','','NDBC Station 41008')
 title('Gray''s Reef Acoustic Array')
 box off
+
+
 
 
 xline(ah,ah.XLim(2))

@@ -1,984 +1,254 @@
-%scalebar Create a scalebar showing magnitude with optional unit
-%
-%   hScalebar = scalebar() creates a scalebar in the current axes
-%
-%   hScalebar = scalebar(axis) creates a scalebar on the specified axis.
-%   Axis can be 'x' or 'y'. Default is 'x'.
-%
-%   hScalebar = scalebar(axis, n) creates a scalebar with length given by n
-%
-%   hScalebar = scalebar(__, unit) adds a unit label for the scalebar. Unit
-%   is a character vector
-%
-%   hScalebar = scalebar(hParent, __) creates the scalebar in the specified
-%   parent. hParent must be a valid Axes.
-%
-%   hScalebar = scalebar(__, Name, Value, ...)  sets scalebar properties 
-%   using one or more name-value pair arguments.
-%
-%
-%   Options (Name-value pairs)
-%       ConversionFactor : Conversion factor (if data units are different 
-%           than scalebar units). For example: If scalebar units is in mm 
-%           and 150 pixels of an image corresponds to 1 mm, 
-%           ConversionFactor should be 150.
-%       Location      : northwest, southeast, southwestoutside etc 
-%       Color         : Color of scalebar line and text
-%       LineWidth     : Width of scalebar line
-%       Margin        : Pixel units of offset from corner of axes.
-%       + FontSize, FontWeight, FontName etc. 
-%       
-%       type open scalebar in matlabs command window to see all public
-%       properties of the scalebar.
-%
-%
-%   EXAMPLE:
-%     f = figure();
-%     hAx = axes(f);
+function [h] = scalebar(varargin) 
+% SCALEBAR places a graphical reference scale on a map. This function was
+% designed as a simpler alternative to the built-in scaleruler function. 
 % 
-%     imshow('cell.tif', 'Parent', hAx);
+% This function requires Matlab's Mapping Toolbox. 
 % 
-%     pixPerUm = 5;
-%     scalebarLength = 10  % scalebar will be 10 micrometer long
-%     label = sprintf('%sm', '\mu'); % micrometer
-%     
-%     hScalebar = scalebar(hAx, 'x', scalebarLength, label, 'Location', 'southeast', ...
-%         'ConversionFactor', pixPerUm);
+%% Syntax 
 % 
-%     % Change color of scalebar
-%     hScalebar.Color = 'w';
-
-
-% Todo:
-%   [ ] Position + units property?
-%   [ ] Autogenerate code
-
-classdef scalebar < handle % & uiw.mixin.AssignPVPairs
-%SCALEBAR Add scalebar to axes
-
-    properties
-        Axis = 'x'            % Axis to place scalebar ('x' or 'y')   
-        ScalebarLength = nan  % Length of scalebar in "physical" units
-        UnitLabel = ''        % Unit label, ie 'um'
-        
-        ConversionFactor = 1 % Unit conversion if axes limits are in different units
-                       % than the units of the plot or image. E.g if 1mm in an
-                       % image is 150 pixels, ConversionFactor should be 150.
-                       % conversionFactor = data unit per scalebar unit
-        
-        AutoAdjustScalebarLength = false;
-        AutoScalebarLength = 20; % In percentage of axes size...
-        
-        Location = 'southeastoutside'  % northwest, southeast, southwestoutside etc 
-        Color = 'k'             % Color specification for line and text
-        LineWidth = 1           % Width of scalebar
-        
-        TextSpacing = 2;        % Spacing (offset) between scalebar line and text in pixels
-        FontName = 'Helvetica Neue';
-        FontSize = 10;          % Fontsize of scalebar text
-        FontWeight = 'normal'   % Fontweight of scalebar text
-        
-        Margin = [10, 10]       % Pixel units of offset from corner of image.
-    end
-    
-    properties (Dependent)
-        Parent
-        Visible matlab.lang.OnOffSwitchState
-    end
-    
-    properties (Access = private)
-        hAxes               % Handle for the axes
-        hScalebarLine       % Handle for the scalebar's line 
-        hScalebarText       % Handle for the scalebar's text label
-        ContextMenu         % Handle for scalebar's contextmenu
-        
-        IsConstructed = false
-        
-        MarginNorm          % Margins in normalized units   
-        ScalebarLengthDu    % Length of scalebar in data units
-        AxesSizePixels      % Size of axes in pixels
-    end
-    
-    properties (Access = private)
-        SizeChangedListener
-        LimitsChangedListener
-    end
-
-    properties (Constant, Hidden)
-        STYLE_PROPS = {'FontSize', 'FontWeight', 'LineWidth', ...
-            'Color', 'Location', 'FontName'};
-    end
-    
-    methods % Contructor/destructor
-        
-        function obj = scalebar(varargin)
-        %SCALEBAR Construct an instance of this class
-        %
-        %   hScalebar = scalebar() creates a scalebar in the current axes
-        %
-        %   hScalebar = scalebar(axis) creates a scalebar on the specified 
-        %   axis. Axis can be 'x' or 'y'. Default is 'x'.
-            
-            % Check for axes
-            varargin = obj.checkArgs(varargin);            
-            
-            % Set default style properties from preferences
-            nvPairs = prefs2props();
-            obj.assignPVPairs(nvPairs{:})
-            
-            % Parse nv pairs
-            [nvPairs, varargin] = getnvpairs(varargin{:});
-            obj.assignPVPairs(nvPairs{:})
-            
-            % % Start creating scalebar
-            isHoldOn = ishold(obj.hAxes);
-            hold(obj.hAxes, 'on')
-
-            if isnan(obj.ScalebarLength)
-                obj.autoAdjustScalebarLength()
-            end
-            
-            % Configure placement
-            updateAxesSizePixel(obj)
-            assignScalebarLength(obj)
-            calculateMarginDataUnits(obj)    
-
-            % Plot scalebar
-            obj.plotScalebar()
-            obj.plotTextLabel()
-            
-            % Create contextmenu 
-            obj.createContextMenu()
-            obj.createListeners()
-            
-            obj.IsConstructed = true;
-            
-            if ~isHoldOn
-                hold(obj.hAxes, 'off')
-            end
-            
-        end
-        
-        function delete(obj)
-        %delete Delete components of scalebar
-
-            obj.deleteListeners()
-            delete(obj.ContextMenu)
-            delete(obj.hScalebarLine)
-            delete(obj.hScalebarText)
-            
-        end
-    end
-    
-    methods % Set/get
-        function set.Parent(obj, newValue)
-            obj.validateAxes(newValue)
-            obj.hAxes = newValue;
-            
-            obj.onParentChanged()
-        end
-        function hParent = get.Parent(obj)
-            hParent = obj.hAxes;
-        end
-        
-        function set.Visible(obj, newValue)
-            if obj.IsConstructed
-                obj.hScalebarLine.Visible = newValue;
-                obj.hScalebarText.Visible = newValue;
-            end
-        end
-        function visible = get.Visible(obj)
-            if obj.IsConstructed
-                visible = obj.hScalebarLine.Visible;
-            else
-                visible = 'off';
-            end
-        end
-        
-        function set.Color(obj, newColor)
-            obj.onColorSet(newColor)
-            % Only set prop value if above does not fail
-            obj.Color = newColor;
-        end
-        
-        function set.UnitLabel(obj, newValue)
-            assert(ischar(newValue), 'Value must be a character vector')
-            obj.UnitLabel = newValue;
-            obj.updateTextLabel()
-        end
-        
-        function set.ConversionFactor(obj, newValue)
-            obj.ConversionFactor = newValue;
-            obj.updateScalebar()
-            %obj.updateTextLabel()
-            obj.updateTextPosition()
-        end
-        
-        function set.ScalebarLength(obj, newValue)
-            obj.ScalebarLength = newValue;
-            %obj.updateScalebar()
-            obj.updateTextLabel()
-            obj.updatePosition();
-        end
-        
-        function set.LineWidth(obj, newValue)
-            obj.onLinewidthChanged(newValue)
-            % Only set prop value if above does not fail
-            obj.LineWidth = newValue;
-            obj.updateTextPosition()
-            obj.updateContextMenu('Line Width')
-        end
-        
-        function set.FontName(obj, newValue)
-            obj.onFontNameChanged(newValue) 
-            % Only set prop value if above does not fail
-            obj.FontName = newValue;
-        end
-        
-        function set.FontSize(obj, newValue)
-            obj.onFontSizeChanged(newValue) 
-            % Only set prop value if above does not fail
-            obj.FontSize = newValue;
-            obj.updateContextMenu('Font Size')
-        end
-        
-        function set.FontWeight(obj, newValue)
-             obj.onFontWeightChanged(newValue) 
-            % Only set prop value if above does not fail
-            obj.FontWeight = newValue;
-        end
-        
-        function set.Location(obj, newValue)
-            obj.Location = newValue;
-            obj.updatePosition()
-            obj.updateContextMenu('Location')
-        end
-        
-        function set.Margin(obj, newValue)
-            obj.Margin = newValue;
-            obj.updatePosition()
-        end
-        
-    end
-    
-    methods (Access = private) % Config & creation
-        
-        function assignScalebarLength(obj)
-            
-            n = obj.ScalebarLength;
-            
-            switch obj.Axis
-                case 'x'
-                    obj.ScalebarLengthDu = [n * obj.ConversionFactor, 0];
-                case 'y'
-                    obj.ScalebarLengthDu = [0, n * obj.ConversionFactor];
-            end
-            
-        end
-        
-        function [xSign, ySign] = configurePositionDirection(obj)
-            
-            xSign = 1;
-            ySign = 1;
-
-            % Factor which moves coordinates outside of axes...
-            if contains(obj.Location, 'outside')
-                switch obj.Axis
-                    case 'x'
-                        ySign = -1;
-                    case 'y'
-                        xSign = -1;
-                end
-            end
-            
-        end
-        
-        function calculateMarginDataUnits(obj)
-            % Convert pixel margin to x and y margin
-            % NB: requires plotboxpos function from fileexchange and assumes axes
-            % units are normalized and figure units are pixels....
-            obj.updateAxesSizePixel()
-            obj.MarginNorm = obj.Margin ./ obj.AxesSizePixels;
-        end 
-        
-        function updateAxesSizePixel(obj)
-            
-            if exist('plotboxpos', 'file') == 2
-                axUnits = obj.hAxes.Units;
-                set(obj.hAxes, 'Units', 'normalized')
-                axpos = plotboxpos(obj.hAxes);
-                set(obj.hAxes, 'Units', axUnits)
-
-                figH = ancestor(obj.hAxes, 'figure');
-                figPos = getpixelposition(figH);
-                axPixSize = figPos(3:4) .* axpos(3:4);
-                
-            else
-                axPixPos = getpixelposition(obj.hAxes);
-                axPixSize = axPixPos(3:4);
-            end
-            
-            obj.AxesSizePixels = axPixSize;
-
-        end
-        
-        function xData = calculateXData(obj)    % Calculate x coordinates of line
-            
-            [xSign, ~] = configurePositionDirection(obj);
-
-            xLim = obj.hAxes.XLim;
-            xLimRange = max(xLim) - min(xLim);
-            
-            offsetDu = xLimRange * obj.MarginNorm(1) * xSign;
-
-            if contains(obj.Location, 'east')
-                xData = xLim(2) - offsetDu - [obj.ScalebarLengthDu(1), 0];
-            elseif contains(obj.Location, 'west')
-                xData = xLim(1) + offsetDu + [0, obj.ScalebarLengthDu(1)];
-            end
-            
-            xData = double(xData);
-        end
-        
-        function yData = calculateYData(obj) 
-            
-            yLim = obj.hAxes.YLim;
-            yLimRange = max(yLim) - min(yLim);
-
-            [~, ySign] = configurePositionDirection(obj);
-
-            offsetDu = yLimRange * obj.MarginNorm(2) * ySign;
-                        
-            % Calculate y coordinates of line
-            if contains(obj.Location, 'north')
-                yData = yLim(2) - offsetDu - [obj.ScalebarLengthDu(2), 0];
-            elseif contains(obj.Location, 'south')
-                yData = yLim(1) + offsetDu + [0, obj.ScalebarLengthDu(2)];
-            end
-            
-            if strcmp(obj.hAxes.YDir, 'reverse')
-                yData = yLim(1) - (yData - yLim(2));
-            end
-            
-            yData = double(yData);
-
-        end
-            
-        function txtPos = calculateTextPosition(obj)
-            
-            xData = calculateXData(obj) ;
-            yData = calculateYData(obj) ;
-            yLim = obj.hAxes.YLim;
-            
-            [xSign, ySign] = configurePositionDirection(obj);
-
-            if strcmp(obj.hAxes.YDir, 'reverse')
-                ySign = -ySign;
-            end
-            
-            
-            [~, vert] = getTextAlignment(obj);
-            yOffset = obj.TextSpacing + obj.LineWidth/2;
-            yOffset = (max(yLim)-min(yLim)) * (yOffset/obj.AxesSizePixels(2)) * ySign;
-
-            if strcmp(vert, 'top')
-                yOffset = -1 * yOffset;
-            end
-            
-            if contains(obj.Location, 'outside')
-                yOffset = -1 * yOffset;
-            end
-            
-            
-            % Calculate text coordinates and set alignment of text.
-            switch obj.Axis
-                case 'x'
-                    txtPos = struct('x', xData(1)+diff(xData)/2, 'y', yData(1) + yOffset);
-                case 'y'
-                    txtPos = struct('x', xData(1), 'y', yData(1)+diff(yData)/2);
-            end
-            
-            if strcmp(obj.hAxes.YDir, 'reverse')
-                %txtPos.y = yLim(2) - (txtPos.y - yLim(1));
-            end
-            
-            
-            
-        end
-        
-        function textLabel = getTextLabel(obj) % todo: dependent?
-        %getTextLabel Get formatted text label
-            
-        % Add text
-            n = obj.ScalebarLength;
-            
-            if strcmp(obj.UnitLabel, 'um') % Special case..
-                unitLabel = sprintf('%sm', '\mu'); % micrometer
-            else
-                unitLabel = obj.UnitLabel;
-            end
-            
-            % Todo....
-            if isequal(n, round(n))
-                textLabel = sprintf('%d %s', n, unitLabel);
-            else
-                textLabel = sprintf('%.3f %s', n, unitLabel);
-            end
-
-        end
-        
-        function [horz, vert] = getTextAlignment(obj)
-            horz = 'center';
-            vert = 'bottom';
-
-            switch obj.Axis
-                case 'x'
-                    if any(strcmp(obj.Location, { 'northeast', 'northwest', ...
-                            'southeastoutside', 'southwestoutside' }))
-                        vert = 'top';
-                    end
-                case 'y'
-                    if any(strcmp(obj.Location, { 'southeastoutside', 'southwest', ...
-                            'northeastoutside', 'northwest' }))
-                        vert = 'top';
-                    end
-            end 
-            
-            % Todo: X:  north: text under line. South: text over line
-            % Todo: y:  west: text right of line. east: text left of line
-            % Reverse when scalebar is outside of axes....
-        end
-        
-        function plotScalebar(obj)
-            
-            xData = calculateXData(obj) ;
-            yData = calculateYData(obj) ;
-            
-            % Plot scalebar
-            obj.hScalebarLine = plot(obj.hAxes, xData, yData);
-            %obj.hScalebarLine.HandleVisibility = 'off';
-            obj.hScalebarLine.Tag = 'Scalebar Line';
-            
-            addlistener(obj.hScalebarLine, 'ObjectBeingDestroyed', ...
-                @(s,e) obj.delete);
-            
-            % Make sure scalebar is not clipped.
-            %if contains(obj.Location, 'outside')
-                set(obj.hScalebarLine, 'Clipping', 'off')
-                % set(obj.hAxes, 'Clipping', 'on')
-            %end
-
-            obj.hScalebarLine.Color = obj.Color;
-            obj.hScalebarLine.LineWidth = obj.LineWidth;
-        end
-
-        function plotTextLabel(obj)
-            
-            % Add text
-
-            txtPos = calculateTextPosition(obj);
-            textLabel = getTextLabel(obj);
-            [horz, vert] = getTextAlignment(obj);
-            
-            if isempty(obj.hScalebarText)
-                obj.hScalebarText = text(obj.hAxes, txtPos.x, txtPos.y, ...
-                    textLabel, 'Color', obj.Color, 'FontSize', ...
-                    obj.FontSize, 'FontWeight', obj.FontWeight);
-                %obj.hScalebarText.HandleVisibility = 'off';
-                obj.hScalebarText.Tag = 'Scalebar Text';
-            else
-                obj.hScalebarText.Position(1:2) = [txtPos.x, txtPos.y];
-            end
-
-            obj.hScalebarText.VerticalAlignment = vert;
-            obj.hScalebarText.HorizontalAlignment = horz;
-
-            if strcmp(obj.Axis, 'y')
-                obj.hScalebarText.Rotation = 90;
-            end
-            
-        end
-        
-        function createContextMenu(obj)
-        
-            checked = {'off', 'on'};
-            
-            hFigure = ancestor(obj.hAxes, 'figure');
-            hMenu = uicontextmenu(hFigure);
-            
-            mItem = uimenu(hMenu, 'Text', 'Configure Scalebar...');
-            mItem.Callback = @(s,e) obj.uiEditScalebar;
-                     
-            mItem = uimenu(hMenu, 'Text', 'Autoadjust Scalebar');
-            mItem.Checked = checked{ obj.AutoAdjustScalebarLength + 1 };
-            mItem.Callback = @(s,e) obj.setAutoadjustScalebar(s);
-            
-            mItem = uimenu(hMenu, 'Text', 'Set Color...', 'Separator', 'on');
-            mItem.Callback = @(s,e) obj.setColor;
-            
-            mItem = uimenu(hMenu, 'Text', 'Set Line Width');
-            for i = 1:6
-                mSubItem = uimenu(mItem, 'Text', num2str(i, '%d'));
-                mSubItem.Checked = checked{ isequal(i, obj.LineWidth) + 1 };
-                mSubItem.Callback = @(s,e) obj.setLineWidth(i);
-            end
-            
-            mItem = uimenu(hMenu, 'Text', 'Set Font Size');
-            for i = 0:6
-                mSubItem = uimenu(mItem, 'Text', num2str(i+10, '%d'));
-                mSubItem.Checked = checked{ isequal(i+10, obj.FontSize) + 1 };
-                mSubItem.Callback = @(s,e) obj.setFontSize(i+10);
-            end
-            
-            mItem = uimenu(hMenu, 'Text', 'Set Font...');
-            mItem.Callback = @(s,e) obj.setFont;
-            
-            mItem = uimenu(hMenu, 'Text', 'Location');
-            locations = {'southeast', 'southwest', 'northwest', 'northeast'};
-            for i = 1:numel(locations)
-                mSubItem = uimenu(mItem, 'Text', locations{i});
-                mSubItem.Checked = checked{ strcmp(locations{i}, obj.Location) + 1 };
-                mSubItem.Callback = @(s,e) obj.setLocation(locations{i});
-            end
-            
-            mItem = uimenu(hMenu, 'Text', 'Save Current Style', 'Separator', 'on');
-            mItem.Callback = @(s,e) props2prefs(obj);
-                        
-            mItem = uimenu(hMenu, 'Text', 'Delete Scalebar', 'Separator', 'on');
-            mItem.Callback = @(s,e) obj.delete;
-            
-            obj.hScalebarText.ContextMenu = hMenu;
-            obj.hScalebarLine.ContextMenu = hMenu;
-            
-            obj.ContextMenu = hMenu; % store in property
-        end
-        
-        function updateContextMenu(obj, name, propName)
-            
-            if isempty(obj.ContextMenu); return; end
-            
-            if nargin < 3; propName = 'Checked'; end
-            
-            switch name
-                case 'Line Width'
-                    menuItem = findobj(obj.ContextMenu, 'Text', 'Set Line Width');
-                    menuSubItem = menuItem.Children;
-                    isMatched = strcmp({menuSubItem.Text}, num2str(obj.LineWidth, '%d'));
-                    
-                case 'Font Size'
-                    menuItem = findobj(obj.ContextMenu, 'Text', 'Set Font Size');
-                    menuSubItem = menuItem.Children;
-                    isMatched = strcmp({menuSubItem.Text}, num2str(obj.FontSize, '%d'));
-                    
-                case 'Location'
-                    menuItem = findobj(obj.ContextMenu, 'Text', 'Location');
-                    menuSubItem = menuItem.Children;
-                    isMatched = strcmp({menuSubItem.Text}, obj.Location);
-                    
-            end
-            
-            switch propName
-                case 'Checked'
-                    set(menuSubItem(~isMatched), 'Checked', 'off')
-                    set(menuSubItem(isMatched), 'Checked', 'on')
-                
-            end
-            
-        end
-        
-        function createListeners(obj)
-            
-            obj.SizeChangedListener = listener(obj.hAxes, 'SizeChanged', ...
-                @(s, e) obj.updatePosition);
-            
-            props = {'XLim', 'YLim'};
-            obj.LimitsChangedListener = listener(obj.hAxes, props, ...
-                'PostSet', @(s, e) obj.onAxesLimitsChanged);
-
-        end
-        
-        function deleteListeners(obj)
-            isdeletable = @(x) ~isempty(x) && isvalid(x);
-            
-            if isdeletable(obj.SizeChangedListener)
-                delete(obj.SizeChangedListener)
-            end
-            
-            if isdeletable(obj.LimitsChangedListener)
-                delete(obj.LimitsChangedListener)
-            end
-        end
-        
-    end
-    
-    methods (Access = private) % Internal updating
-        
-        function validateAxes(obj, hAxes)
-            assert(isa(hAxes, 'matlab.graphics.axis.Axes') && isvalid(hAxes), ...
-                'First argument must be a valid axes object')
-        end
-        
-        function args = checkArgs(obj, args)
-            
-            % Check if first argument is an axes object.
-            if numel(args) >= 1 && isa(args{1}, 'matlab.graphics.axis.Axes')
-                obj.hAxes = args{1};
-                args(1) = [];
-            end
-            
-            % If axes was not assigned, get the current axes.
-            if isempty(obj.hAxes) 
-                obj.hAxes = gca;
-            end
-            
-            % Check if first argument is axis 
-            if numel(args) >= 1 && ischar(args{1}) && ...
-                    any( strcmp({'x', 'y'}, args{1}) )
-                obj.Axis = args{1};
-                args(1) = [];
-            end
-            
-            % Check if second argument is length of scalebar
-            if numel(args) >= 1 && isnumeric(args{1})
-                obj.ScalebarLength = args{1};
-                args(1) = [];
-            end
-            
-            % Check if third argument is name of scalebar units
-            if numel(args) >= 1 && ischar(args{1})
-                if ~isprop(obj, args{1})
-                    obj.UnitLabel = args{1};
-                    args(1) = [];
-                end
-            end
-            
-        end
-        
-        function assignPVPairs(obj, varargin)
-           
-            names = varargin(1:2:end);
-            for i = 1:numel(names)
-                thisName = names{i};
-                if isprop(obj, thisName)
-                    obj.(thisName) = varargin{i*2};
-                else
-                    warning('Could not set the parameter "%s" for %s', thisName, class(obj))
-                end
-            end           
-        end
-        
-        function onColorSet(obj, newValue)
-            if obj.IsConstructed
-                set(obj.hScalebarLine, 'Color', newValue)
-                set(obj.hScalebarText, 'Color', newValue)
-            end
-        end
-        
-        function onLinewidthChanged(obj, newValue)
-            if ~obj.IsConstructed; return; end
-            set(obj.hScalebarLine, 'LineWidth', newValue)
-        end
-        
-        function onFontNameChanged(obj, newValue)
-            if ~obj.IsConstructed; return; end
-            set(obj.hScalebarText, 'FontName', newValue)
-        end
-        
-        function onFontSizeChanged(obj, newValue)
-            if ~obj.IsConstructed; return; end
-            set(obj.hScalebarText, 'FontSize', newValue)
-        end
-        
-        function onFontWeightChanged(obj, newValue)
-            if ~obj.IsConstructed; return; end
-            set(obj.hScalebarText, 'FontWeight', newValue)
-        end
-
-        function onAxesLimitsChanged(obj)
-            if obj.AutoAdjustScalebarLength
-                obj.autoAdjustScalebarLength()
-            end
-            
-            obj.updatePosition()
-        end
-        
-        function onParentChanged(obj)
-            if ~obj.IsConstructed; return; end
-            
-            wasHoldOn = ishold(obj.hAxes);
-            hold(obj.hAxes, 'on')
-            obj.hAxes.XLim = obj.hAxes.XLim;
-            obj.hAxes.YLim = obj.hAxes.YLim;
-            
-            obj.hScalebarLine.Parent = obj.hAxes;
-            obj.hScalebarText.Parent = obj.hAxes;
-            obj.deleteListeners()
-            obj.createListeners()
-            
-            obj.ContextMenu.Parent = ancestor(obj.hAxes, 'figure');
-            
-            obj.updatePosition()
-            
-            if ~wasHoldOn
-                hold(obj.hAxes, 'off')
-            end
-        end
-        
-        function updateTextLabel(obj)
-            if ~obj.IsConstructed; return; end
-            textLabel = obj.getTextLabel();
-            obj.hScalebarText.String = textLabel;
-        end
-        
-        function updateScalebar(obj)
-            if ~obj.IsConstructed; return; end
-            
-            obj.assignScalebarLength()
-            obj.hScalebarLine.XData = obj.calculateXData();
-            obj.hScalebarLine.YData = obj.calculateYData();
-        end
-        
-        function updatePosition(obj)
-            if ~obj.IsConstructed; return; end
-            
-            % Make sure limit mode is manual, because resizing the scalebar
-            % could change the axes limits.
-            xLimModePreUpdate = obj.hAxes.XLimMode;
-            yLimModePreUpdate = obj.hAxes.YLimMode;
-            
-            if ~strcmp(xLimModePreUpdate, 'manual')
-                obj.hAxes.XLimMode = 'manual';
-            end
-            if ~strcmp(yLimModePreUpdate, 'manual')
-                obj.hAxes.YLimMode = 'manual';
-            end
-
-            assignScalebarLength(obj)
-            calculateMarginDataUnits(obj)
-            
-            obj.updateScalebar()
-            obj.plotTextLabel()
-            
-            % Reset xlim and ylim modes
-            obj.hAxes.XLimMode = xLimModePreUpdate;
-            obj.hAxes.YLimMode = yLimModePreUpdate;
-        end
-        
-        function updateTextPosition(obj)
-            if ~obj.IsConstructed; return; end
-            
-            txtPos = calculateTextPosition(obj);
-            obj.hScalebarText.Position(1:2) = [txtPos.x, txtPos.y];
-        end
-        
-        function autoAdjustScalebarLength(obj)
-            
-            switch obj.Axis
-                case 'x'
-                    axesLimits = obj.hAxes.XLim;
-                case 'y'
-                    axesLimits = obj.hAxes.YLim;
-            end
-            
-            limRange = max(axesLimits) - min(axesLimits);
-            
-            scalebarLengthDu = limRange .* obj.AutoScalebarLength/100;
-            
-            % conversionFactor = data unit / scalebar unit;
-            scalebarLengthRu = scalebarLengthDu / obj.ConversionFactor;
-            
-            % Round to nearest 5 on first significant digit
-            x = floor( log10(scalebarLengthRu) );
-            scalebarLengthRu_ = scalebarLengthRu .* 10^-x;
-            scalebarLengthRu_ = round(scalebarLengthRu_);
-            scalebarLengthRu_ = scalebarLengthRu_ .* 10^x;
-            
-% %             if scalebarLengthRu_ == 0
-% %                 x = x + sign(x);
-% %                 scalebarLengthRu_ = round(scalebarLengthRu/5, -x) * 5;
-% %             end
-            
-            % Set autoadjusted scalebar length
-            obj.ScalebarLength = scalebarLengthRu_;
-            
-        end
-        
-    end
-    
-    methods
-        
-        function uiEditScalebar(obj)
-            definput = {num2str(obj.ScalebarLength), obj.UnitLabel, num2str(obj.ConversionFactor)};
-            answer = inputdlg({'Enter scalebar length', 'Enter scalebar unit', ...
-                'Enter conversion ratio'}, 'Enter scalebar info', 1, definput);
-            if isempty(answer); return; end
-            
-            scalebarLength = str2double(answer{1});
-            unitLabel = answer{2};
-            conversionFactor = str2double(answer{3});
-            
-            obj.ScalebarLength = scalebarLength;
-            obj.UnitLabel = unitLabel;
-            obj.ConversionFactor = conversionFactor;
-            
-        end
-        
-        function setAutoadjustScalebar(obj, src)
-           
-            if src.Checked
-                obj.AutoAdjustScalebarLength = false;
-                src.Checked = 'off';
-            else
-                obj.AutoAdjustScalebarLength = true;
-                src.Checked = 'on';
-                obj.autoAdjustScalebarLength()
-            end
-            
-        end
-        
-        function setLineWidth(obj, lineWidth)
-            obj.LineWidth = lineWidth;
-        end
-        
-        function setFontSize(obj, fontSize)
-            obj.FontSize = fontSize;
-        end
-        
-        function setColor(obj)
-            c = uisetcolor('Select scalebar color');
-            if isequal( c, 0)
-                return % User canceled
-            else 
-                obj.Color = c;
-            end
-        end
-        
-        function setFont(obj)
-            
-            opts = uisetfont(obj.hScalebarText);
-            if isequal( opts, 0)
-                return % User canceled
-            else 
-                obj.FontWeight = opts.FontWeight;
-                obj.FontSize = opts.FontSize;
-                obj.FontName = opts.FontName;
-            end
-            
-        end
-        
-        function setLocation(obj, newLocation)
-            obj.Location = newLocation;
-        end
-        
-    end
-    
-    methods (Static)
-        function demo()
-            scalebarDemo()
-        end
-        
-        function test()
-            testScalebar()
-        end
-    end
-
-end
-
-function [nvPairs, varargin] = getnvpairs(varargin)
-%getnvpairs Get name value pairs from a list of input arguments
+%  scalebar
+%  scalebar('length',ScaleLength)
+%  scalebar('units',LengthUnit)
+%  scalebar('location',LocationOnMap)
+%  scalebar('orientation',ScalebarOrientation)
+%  scalebar('TextProperty',TextValue)
+%  scalebar('LineProperty',LineValue)
+%  h = scalebar(...)
+% 
+%% Description 
+% 
+% scalebar places a graphical reference scale at the lower left-hand
+% corner of a map. Length of the scale is determined automatically based on 
+% current extents of the map. 
+% 
+% scalebar('length',ScaleLength) specifies the length of the scalebar. 
+% Default ScaleLength is approximately one fifth of the width of the current map.
+% 
+% scalebar('units',LengthUnit) specifies a length unit. Most common length
+% units are supported. Text of the scalebar label matches input length
+% unit--i.e., If LengthUnit is 'mi', a scalebar may show 100 mi as its label. If 
+% you enter 'miles', the scalebar will show 100 miles as its label. Default 
+% LengthUnit is 'km'. 
+% 
+% scalebar('location',LocationOnMap) specifies location of the scalebar
+% on the map. Location can be 
+%           'southwest' or 'sw' (lower left) {default} 
+%           'northwest' or 'nw' (upper left) 
+%           'northeast' or 'ne' (upper right)
+%           'southeast' or 'se' (lower right) 
 %
-%   [nvPairs, varargin] = getnvpairs(varargin)
+% scalebar('orientation',ScalebarOrientation) specifies a 'vertical' or
+% 'horizontal' scalebar. Default ScalebarOrientation is 'horizontal'. 
+%
+% scalebar('TextProperty',TextValue) specifies properties of text. 
+%
+% scalebar('LineProperty',LineValue) specifies properties of the reference
+% scale line. 
+%
+% h = scalebar(...) returns a handle for the scalebar. 
+% 
+%% Examples 
+% 
+% EXAMPLE 1: 
+% figure; usamap('texas')
+% states = shaperead('usastatelo.shp','UseGeoCoords',true);
+% geoshow(states, 'DisplayType', 'polygon')
+% scalebar % <--SIMPLEST CASE
+% scalebar('length',68,'color','b','units','miles','location','se')
+% 
+% EXAMPLE 2: (Requires Antarctic Mapping Tools)
+% load coast
+% antmap
+% patchm(lat,long,[.588 .976 .482])
+% scalebar
+% 
+% EXAMPLE 3: (Requires Bedmap2 Toolbox)
+% bedmap2 'patchgl'
+% bedmap2('patchshelves','oceancolor',[0.0118 0.4431 0.6118])
+% mapzoom 'Mertz Glacier Tongue'
+% scarlabel('Mertz Glacier Tongue','fontangle','italic')
+% scalebar
+%
+%% Author Info.  
+% 
+% This function was created by Chad A. Greene of the University of Texas 
+% Institute for Geophysics in 2013. This function was originally designed
+% for the Bedmap2 Toolbox for Matlab, but has been slightly updated for 
+% inclusion in the Antarctic Mapping Tools package.  Although this function 
+% was designed for Antarctic maps, it should work for other maps as well.
+% 
+% Updated July 2015 to automatically select length and allow any user-defined 
+% length unit. 
+% 
+% See also scaleruler. 
 
-    
-    if numel(varargin)==1 && iscell(varargin{1}) 
-        % Assume varargin is passed on directly and need to be unpacked
-        varargin = varargin{1};
+%% Error checks:
+
+assert(license('test','map_toolbox')==1,'Sorry, the scalebar function requires Matlab''s Mapping Toolbox.') 
+assert(ismap(gca)==1,'A map must be open to use the scalebar function.') 
+
+%% Set defaults:
+
+lngth = 'auto'; % scalebar length automatically set as 1/5 mapwidth 
+location = 'southwest'; % default location
+orientation = 'horizontal'; % default orientation
+units = 'km'; 
+
+%% Parse inputs: 
+
+% Check for user-declared location: 
+tmp = strncmpi(varargin,'loc',3); 
+if any(tmp)
+    location = varargin{find(tmp)+1}; 
+    tmp(find(tmp)+1)=1; 
+    varargin = varargin(~tmp); 
+    assert(isnumeric(location)==0,'scalebar location must be a string.')
+end
+
+% Check for user-declared length (also accept "width" or "scale")
+tmp = strncmpi(varargin,'len',3)|strncmpi(varargin,'wid',3)|strcmpi(varargin,'scale'); 
+if any(tmp)
+    lngth = varargin{find(tmp)+1}; 
+    tmp(find(tmp)+1)=1; 
+    varargin = varargin(~tmp); 
+    assert(isscalar(lngth)==1,'Scalebar Length must be a scalar value in kilometers.')
+end
+
+ 
+% Check for user-declared orientation: 
+tmp = strncmpi(varargin,'orient',6); 
+if any(tmp)
+    orientation = varargin{find(tmp)+1}; 
+    tmp(find(tmp)+1)=1; 
+    varargin = varargin(~tmp); 
+    assert(isnumeric(orientation)==0,'Scalebar orientation can only be vertical or horizontal.')
+end
+
+tmp = strncmpi(varargin,'units',4); 
+if any(tmp)
+    units = varargin{find(tmp)+1}; 
+    tmp(find(tmp)+1)=1; 
+    varargin = varargin(~tmp); 
+    try
+        validateLengthUnit(units); 
+    catch
+        error('Invalid length unit.') 
     end
+end
 
-    nvPairs = {};
+%% Get size scale: 
+        
+[lat1,lon1]=minvtran(0,0);
+[lat2,lon2]=minvtran(.1,0);
+dstpermapunit = 10*pathdist([lat1;lat2],[lon1;lon2],units);
+dstpermapunit = dstpermapunit(2); 
+
+xl = get(gca,'xlim');
+yl = get(gca,'ylim'); 
+
+
+% Set automatic scale size as one approximately fifth of the current map width:   
+if strcmpi(lngth,'auto') 
     
-    for i = numel(varargin) : -2 : 1
-        
-        if i == 1; break; end
-        
-        if ischar( varargin{i-1} )
-            nvPairs = [nvPairs, varargin(i-1:i)]; %#ok<AGROW>
-            varargin(i-1:i) = [];
-        else
-            break
+    % left and right extents of the current map: 
+    [leftlat,leftlon]=minvtran(xl(1),mean(yl));
+    [rightlat,rightlon]=minvtran(xl(2),mean(yl));
+    
+    % width of the current map: 
+    mapwidth = pathdist([leftlat;rightlat],[leftlon;rightlon],units);
+    
+    % Reasonable values of auto scalebar length:
+    lengths = [0.001 0.01 0.1 0.25 0.5 1 2 5 10 20 25 50 100 200 250 500 1000 2000 2500 5000 10000 20000 25000 50000]; 
+ 
+    % Set auto scalebar length as one fifth of the current map width: 
+    lngth = interp1(lengths,lengths,mapwidth(2)/5,'nearest');
+end
+
+switch lower(orientation)
+    case 'horizontal'
+    switch lower(location)
+        case {'southwest','sw'}
+            x1 = .05*(xl(2)-xl(1))+xl(1); 
+            x2 = x1+lngth/dstpermapunit; 
+            y1 = .05*(yl(2)-yl(1))+yl(1); 
+            y2 = y1; 
+
+        case {'southeast','se'}
+            x1 = .95*(xl(2)-xl(1))+xl(1); 
+            x2 = x1-lngth/dstpermapunit; 
+            y1 = .05*(yl(2)-yl(1))+yl(1); 
+            y2 = y1; 
+
+        case {'northwest','nw'}
+            x1 = .05*(xl(2)-xl(1))+xl(1); 
+            x2 = x1+lngth/dstpermapunit; 
+            y1 = .94*(yl(2)-yl(1))+yl(1); 
+            y2 = y1;         
+
+        case {'northeast','ne'}
+            x1 = .95*(xl(2)-xl(1))+xl(1); 
+            x2 = x1-lngth/dstpermapunit; 
+            y1 = .94*(yl(2)-yl(1))+yl(1); 
+            y2 = y1;  
+            
+        otherwise
+            error('Invalid location string for scalebar.')
+    end
+    
+    case 'vertical'
+        switch lower(location)
+        case {'southwest','sw'}
+            x1 = .05*(xl(2)-xl(1))+xl(1); 
+            x2 = x1;
+            y1 = .05*(yl(2)-yl(1))+yl(1); 
+            y2 = y1 + lngth/dstpermapunit; 
+
+        case {'southeast','se'}
+            x1 = .95*(xl(2)-xl(1))+xl(1); 
+            x2 = x1; 
+            y1 = .05*(yl(2)-yl(1))+yl(1); 
+            y2 = y1 + lngth/dstpermapunit; 
+
+        case {'northwest','nw'}
+            x1 = .05*(xl(2)-xl(1))+xl(1); 
+            x2 = x1; 
+            y1 = .95*(yl(2)-yl(1))+yl(1); 
+            y2 = y1 - lngth/dstpermapunit;        
+
+        case {'northeast','ne'}
+            x1 = .95*(xl(2)-xl(1))+xl(1); 
+            x2 = x1; 
+            y1 = .95*(yl(2)-yl(1))+yl(1); 
+            y2 = y1 - lngth/dstpermapunit; 
+            
+        otherwise
+            error('Invalid location string for scalebar.')
         end
-        
+end
+
+% In Jan 2015, I added a z value to the scale bar and the text
+% because sometimes the scale bar was getting buried underneath
+% transparent layers:
+h(1)=line([x1 x2],[y1 y2],9999*[1 1],'color','k','linewidth',2);
+
+h(2) = text(mean([x1 x2]),mean([y1 y2]),9999,[num2str(lngth),' ',units],...
+    'horizontalalignment','center',...
+    'verticalalignment','bottom');
+    
+% This is brute-force, but it says let's try to set everything that can
+% be set, be them text properties or line properties:
+for k = 1:2:length(varargin)
+    try
+        set(h(1),varargin{k},varargin{k+1})
     end
-        
-end
-
-function props2prefs(obj)
-    
-    [~, groupName, ~] = fileparts(mfilename('fullpath'));
-    propNames = scalebar.STYLE_PROPS;
-    
-    for i = 1:numel(propNames)
-        setpref(groupName, propNames{i}, obj.(propNames{i}))
+    try
+        set(h(2),varargin{k},varargin{k+1})
     end
-    
 end
 
-function nvPairs = prefs2props()
-    
-    [~, groupName, ~] = fileparts(mfilename('fullpath'));
-    propNames = scalebar.STYLE_PROPS;
-    % todo: get from mc...
-    defaultValues = {12, 'normal', 1, 'k', 'southeast', 'Helvetica Neue'};
-    prefValues = cell(1, numel(propNames));
-    
-    for i = 1:numel(propNames)
-        prefValues{i} = getpref(groupName, propNames{i}, defaultValues{i});
-    end
-    
-    nvPairs = cat(1, propNames, prefValues);
-    nvPairs = transpose( nvPairs(:) );
-    
+% Return the title handle only if it is desired: 
+if nargout==0
+    clear h; 
 end
 
-function hScalebar = scalebarDemo()
 
-    f = figure();
-    hAx = axes(f);
-
-    imshow('cell.tif', 'Parent', hAx);
-
-    pixPerUm = 5;
-    scalebarLength = 10;  % scalebar will be 10 micrometer long
-    label = sprintf('%sm', '\mu'); % micrometer
-    
-    hScalebar = scalebar(hAx, 'x', scalebarLength, label, 'Location', 'southeast', ...
-        'ConversionFactor', pixPerUm, 'Margin', [10,10]);
-    
-    if ~nargout; clear hScalebar; end
-
-end
-
-function testScalebar()
-    
-    figure;
-    ax = axes;
-    imshow(imread('cameraman.tif'))
-    
-    axis = {'x', 'y'};
-    locs = {'northeast', 'northwest', 'southeast', 'southwest'};
-    
-    for i = 1:2
-        for j = 1:4
-            for k = 1:2
-                loc = locs{j};
-                c = 'w';
-                if k == 2
-                    loc = strcat(loc, 'outside');
-                    c = 'r';
-                end
-                scalebar(ax, axis{i}, 50, 'pixels', 'ConversionFactor', 1, 'Location', loc, 'Color', c, 'LineWidth', 2)
-            end
-        end
-    end
-
-end
