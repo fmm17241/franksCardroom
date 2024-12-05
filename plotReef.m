@@ -43,6 +43,8 @@ load contourinfo
 
 
 yes=figure()
+TT = tiledlayout(2,5)
+ax1 = nexttile([2,2])
 hb=plot(coastline.x,coastline.y,'k'); set(hb,'linewidth',2); hold on;
 axis equal
 hold on
@@ -52,21 +54,26 @@ plot(reef3(2),reef3(1),'linestyle','none','marker','*','color','k');
 plot(reef4(2),reef4(1),'linestyle','none','marker','*','color','k');
 xlabel('Longitude');
 ylabel('Latitude');
-title('Georgia''s Inner Coastal Shelf');
+title('The South Atlantic Bight');
 for i=1:length(bathymetry)
   hc(i)=line(bathymetry(i).x(:),bathymetry(i).y(:),'color',[.6 .6 .6],'LineWidth',0.5);
 end
-SkiO = [31.988137878676937, -81.0219881445705]
-scatter(SkiO(2),SkiO(1),600,'r','p','filled');
+states = readgeotable('usastatehi.shp');
+geoshow(states, 'FaceColor', [0.75 0.75 0.75])
 
-h(1) = plot(nan,nan,'rp','MarkerSize',50,'DisplayName','Skidaway Institute of Oceanography');
+% SkiO = [31.988137878676937, -81.0219881445705]
+% scatter(SkiO(2),SkiO(1),600,'r','p','filled');
+
+% h(1) = scatter(nan,nan,'r','p','filled','DisplayName','Skidaway Institute of Oceanography');
 h(2) = plot(nan,nan,'k*','DisplayName','Gray''s Reef NMS');
 legend(h);
+xlim([-82.44 -77.02])
+ylim([24.42 36.14])
+
+
+
 
 % exportgraphics(yes,'GRNMSBigPic5.jpeg');
-
-
-
 
 load mooredGPS 
 % transmitters = {'63068' '63073' '63067' '63079' '63080' '63066' '63076' '63078' '63063'...
@@ -77,20 +84,27 @@ load mooredGPS
 %           'SURTASS_STN20','SURTASS_FS15'}.';
 %       
 %       
-figure()
+ax2 = nexttile([2,3])
+plot(mooredGPS(15,2),mooredGPS(15,1),'linestyle','none','marker','^','color','r','MarkerFaceColor','r','MarkerSize',12);
+hold on
 plot(mooredGPS(:,2),mooredGPS(:,1),'linestyle','none','marker','o','color','k','MarkerFaceColor','k'); 
 xlabel('Longitude');
 ylabel('Latitude');
 
-hold on
-plot(mooredGPS(15,2),mooredGPS(15,1),'linestyle','none','marker','^','color','r','MarkerFaceColor','r','MarkerSize',12);
 
 plot(buoyLocation(2),buoyLocation(1),'linestyle','none','marker','pentagram','color','b','MarkerFaceColor','b','MarkerSize',12);
 xlim([-80.91 -80.83])
 ylim([31.358 31.41])
-axis equal
-legend('Moored VR2Tx Transceiver','SoundTrap Hydrophone','Station 41008 - Weather Buoy')
-title('Acoustic Array')
+% axis equal
+legend('SoundTrap Hydrophone','VR2Tx Transceiver','NDBC Station 41008')
+title('Gray''s Reef Acoustic Array')
+box off
+
+
+xline(ah,ah.XLim(2))
+yline(ah,ah.YLim(2))
+
+
 
 exportgraphics(gcf,'acousticArray.png');
 
