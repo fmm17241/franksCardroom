@@ -89,6 +89,7 @@ for k = 1:length(receiverDataFISH)
     monthlyVARFISH{k} = retime(receiverDataFISH{k}(15:end,:),'monthly',@std);
 end
 
+index = receiverData{1}.daytime ==1;
 
 
 
