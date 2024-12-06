@@ -323,6 +323,10 @@ loop3.NoiseSBLpvalue = P(1,2)
 loop3.DetectionsSBLsqrd = R(1,2)*R(1,2)
 loop3.DetectionsSBLpvalue = P(1,2)
 
+    
+    [R P] = corrcoef(envData.HourlyDets(loop3Index),surfaceData.SBLcapped(loop3Index))
+
+    
 %%
 %Mar. 30 03:00 - Apr. 3 12:00
 %1429:1534
