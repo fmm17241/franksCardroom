@@ -46,23 +46,23 @@ mooringTagAnalysis.CollisionProb = 1-mooringTagAnalysis.mean;
 choTagAnalysis.CollisionProb = 1-choTagAnalysis.mean;
 
 
-figure()
-plot(fishTagAnalysis.Var1,fishTagAnalysis.CollisionProb,'r','LineWidth',3);
-hold on
-plot(mooringTagAnalysis.Var1,mooringTagAnalysis.CollisionProb,'b','LineWidth',3);
-title('Collision Probability Analysis: Gray''s Reef 2020','(1-Detection Probability)')
-scatter(fishTagAnalysis.Var1(6),fishTagAnalysis.CollisionProb(6),70,'k','filled')
-scatter(mooringTagAnalysis.Var1(4),mooringTagAnalysis.CollisionProb(4),70,'k','filled')
-plot(choTagAnalysis.Var1,choTagAnalysis.CollisionProb,'k--','LineWidth',4)
-legend('Fish Tags','Moorings','Worst Case 2020','','Cho et al 2016')
-ylabel('Collision Probability')
-xlabel('# of Transmitters within Detection Range')
-
-
-
-figure()
-plot(mooringTagAnalysis.Var1,mooringTagAnalysis.CollisionProb)
-
+% figure()
+% plot(fishTagAnalysis.Var1,fishTagAnalysis.CollisionProb,'r','LineWidth',3);
+% hold on
+% plot(mooringTagAnalysis.Var1,mooringTagAnalysis.CollisionProb,'b','LineWidth',3);
+% title('Collision Probability Analysis: Gray''s Reef 2020','(1-Detection Probability)')
+% scatter(fishTagAnalysis.Var1(6),fishTagAnalysis.CollisionProb(6),70,'k','filled')
+% scatter(mooringTagAnalysis.Var1(4),mooringTagAnalysis.CollisionProb(4),70,'k','filled')
+% plot(choTagAnalysis.Var1,choTagAnalysis.CollisionProb,'k--','LineWidth',4)
+% legend('Fish Tags','Moorings','Worst Case 2020','','Cho et al 2016')
+% ylabel('Collision Probability')
+% xlabel('# of Transmitters within Detection Range')
+% 
+% 
+% 
+% figure()
+% plot(mooringTagAnalysis.Var1,mooringTagAnalysis.CollisionProb)
+% 
 
 %%
 
@@ -78,16 +78,16 @@ for k = 1:length(receiverData)
     monthlyVAR{k} = retime(receiverData{k},'monthly',@std);
 end
 
-for k = 1:length(receiverDataFISH)
-    hourlyAVGFISH{k} = retime(receiverDataFISH{k}(15:end,:),'hourly','mean');
-    hourlyVARFISH{k}= retime(receiverDataFISH{k}(15:end,:),'hourly',@std);
-    
-    dailyAVGFISH{k} = retime(receiverDataFISH{k}(15:end,:),'daily','mean');
-    dailyVARFISH{k} = retime(receiverDataFISH{k}(15:end,:),'daily',@std);
-    
-    monthlyAVGFISH{k} = retime(receiverDataFISH{k}(15:end,:),'monthly','mean');
-    monthlyVARFISH{k} = retime(receiverDataFISH{k}(15:end,:),'monthly',@std);
-end
+% for k = 1:length(receiverDataFISH)
+%     hourlyAVGFISH{k} = retime(receiverDataFISH{k}(15:end,:),'hourly','mean');
+%     hourlyVARFISH{k}= retime(receiverDataFISH{k}(15:end,:),'hourly',@std);
+% 
+%     dailyAVGFISH{k} = retime(receiverDataFISH{k}(15:end,:),'daily','mean');
+%     dailyVARFISH{k} = retime(receiverDataFISH{k}(15:end,:),'daily',@std);
+% 
+%     monthlyAVGFISH{k} = retime(receiverDataFISH{k}(15:end,:),'monthly','mean');
+%     monthlyVARFISH{k} = retime(receiverDataFISH{k}(15:end,:),'monthly',@std);
+% end
 
 index = receiverData{1}.daytime ==1;
 

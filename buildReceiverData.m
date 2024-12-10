@@ -356,6 +356,3 @@ for transceiver = 1:length(receiverData)
     receiverData{transceiver}.Noise = fillmissing(receiverData{transceiver}.Noise, 'linear');
      receiverData{transceiver}.HourlyDets = fillmissing(receiverData{transceiver}.HourlyDets, 'linear');
 end
-
-
-
