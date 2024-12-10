@@ -24,21 +24,30 @@ selfID = ['A69-1601-63062';'A69-1601-63064';'A69-1601-63066';'A69-1601-63067';..
     'A69-1601-63075';'A69-1601-63076';'A69-1601-63079';'A69-1601-63080';...
     'A69-1601-63081'];
 
+%
 
-% for k = 1:length(rawDetFile)
-%     % Sample array
-%     % Find unique elements
-%     data{k} = rawDetFile{k,1}.Var3;
-%     uniqueElements{k} = unique(data{k});
-%     % Example cell array of strings
-% 
-%     % Find unique strings and their indices
-%     [uniqueStr{k}, ~, idx{k}] = unique(data{k});
-% 
-%     % Count occurrences of each unique string
-%     occurrences{k} = histc(idx, 1:numel(uniqueStr{k}));
-% 
-% end
+%
+for k = 1:length(rawDetFile)
+    % Extract the data from Var3
+    data{k} = rawDetFile{k,1}.Var3;
+
+    % Ensure it's a string array for easier processing
+    data{k} = string(data{k});
+
+    % Get unique strings and their counts
+    [occurrences{k}(1,:), TEST{k}] = groupcounts(data{k});
+end
+
+TEST{13} = TEST{13}';
+
+all = height(rawDetFile{1})+height(rawDetFile{2})+height(rawDetFile{3})+height(rawDetFile{4})+height(rawDetFile{5})+height(rawDetFile{6})+height(rawDetFile{7})+height(rawDetFile{8})+height(rawDetFile{9})+height(rawDetFile{10})+height(rawDetFile{11})+height(rawDetFile{12})+height(rawDetFile{13})
+
+for k = 1:length(rawDetFile)
+    data{k} = string(rawDetFile{k,1}.Var3); % Convert to string array
+    filteredData{k} = data{k}(startsWith(data{k}, 'A69-1602-')); % Filter by prefix
+end
+
+
 
 % THIS removes self detections, and adds a line of "1s" in a columnn so I
 % can do an hourly sum of detections.
