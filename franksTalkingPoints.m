@@ -85,19 +85,78 @@ ylabel('')
 title('Snapping Shrimp Activity, Spring','40-Hr Lowpass Filter')
 title('Snapping Shrimp Activity, Fall','40-Hr Lowpass Filter')
 
-% 
-% 
-load envDataFall
-% Full snaprate dataset
-load snapRateDataFall
-% Snaprate binned hourly
-load snapRateHourlyFall
-% Snaprate binned per minute
-load snapRateMinuteFall
-load surfaceDataFall
-load filteredData4Bin40HrLowFALLpruned.mat
 
-times = envData.DT;
+figure()
+TT = tiledlayout(2,4)
+ax1 = nexttile([1,4])
+yyaxis left
+plot(times(92:948),filteredData.SBLcapped(92:948),'b--','LineWidth',2)
+ylim([0 16])
+ylabel('SBL (dB)')
+title('Surface Bubble Loss and Detections','SURTASSTN20, 40-hour lowpass filter')
+
+yyaxis right
+plot(times(92:948),filteredData.Detections(92:948),'r','LineWidth',2)
+ylim([0 2.8])
+ylabel('Detections')
+
+legend('SBL','Detections')
+
+ax2 = nexttile([1,4])
+yyaxis left
+plot(times(92:948),filteredData.SBLcapped(92:948),'b--','LineWidth',2)
+ylim([0 16])
+ylabel('SBL (dB)')
+
+
+yyaxis right
+plot(times(92:948),filteredData.Noise(92:948),'k','LineWidth',2)
+ylim([525 700])
+ylabel('HF Noise (mV)')
+legend('SBL','Noise')
+
+linkaxes([ax1,ax2],'x')
+ax2.YAxis(2).Color = 'k';
+title('Surface Bubble Loss and Noise (50-90 kHz)','SURTASSTN20, 40-hour lowpass filter')
+
+
+% Make stats for above figure
+starttime =   times(92);%Feb 3rd, 10:00
+endtime    =  times(948);%Mar 10th, 02:00
+
+noise = filteredData.Noise(92:948);
+dets  = filteredData.Detections(92:948);
+SBL   = filteredData.SBLcapped(92:948);
+
+[R,P] = corrcoef(SBL,dets)
+R(1,2)*R(1,2)
+% R^2 = 0.39, p-val<0.01
+
+
+[R,P] = corrcoef(SBL,noise)
+R(1,2)*R(1,2)
+% R^2 = 0.52, p-val<0.01
+
+% 
+
+% 
+% 
+% load envDataFall
+% % Full snaprate dataset
+% load snapRateDataFall
+% % Snaprate binned hourly
+% load snapRateHourlyFall
+% % Snaprate binned per minute
+% load snapRateMinuteFall
+% load surfaceDataFall
+% load filteredData4Bin40HrLowFALLpruned.mat
+% 
+% times = envData.DT;
+
+figure()
+yyaxis left
+plot(filteredData.DT)
+
 
 
 
