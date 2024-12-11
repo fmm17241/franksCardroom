@@ -61,6 +61,17 @@ for k = 1:length(receiverData)
     monthlyVAR{k} = retime(receiverData{k},'monthly',@std);
 end
 %
+figure()
+yyaxis left
+plot(snapRateHourly.Time,snapRateHourly.SnapCount,'b','LineWidth',2)
+ylabel('Snaprate (\hr)')
+yyaxis right
+plot(envData.DT,envData.HourlyDets,'LineWidth',2)
+yyaxis right
+ylabel('Detections')
+legend('SnapRate','Detections')
+title('Raw Hourly Snaps and Detections','Spring 2020, SURTASSTN20')
+
 
 
 %
