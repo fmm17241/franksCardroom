@@ -39,6 +39,23 @@ Rsqrd = R(1,2)*R(1,2)
 surface = retime(surfaceData,'monthly','mean')
 enviro = retime(envData,'monthly','mean')
 snhaps = retime(snapRateHourly,'monthly','mean')
+
+
+%% 
+%Frank calculating AVG/VARS for snap rate.
+for k = 1:length(receiverData)
+    hourlyAVG{k} = retime(receiverData{k},'hourly','mean');
+    hourlyVAR{k}= retime(receiverData{k},'hourly',@std);
+
+    dailyAVG{k} = retime(receiverData{k},'daily','mean');
+    dailyVAR{k} = retime(receiverData{k},'daily',@std);
+    
+    monthlyAVG{k} = retime(receiverData{k},'monthly','mean');
+    monthlyVAR{k} = retime(receiverData{k},'monthly',@std);
+end
+%
+
+
 %
 decimatedData.Snaps = decimate(filteredData.Snaps,4);
 decimatedData.Noise = decimate(filteredData.Noise,4);
