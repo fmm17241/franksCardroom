@@ -35,10 +35,17 @@ Rsqrd = R(1,2)*R(1,2)
 Rsqrd = R(1,2)*R(1,2)
 
 
+load snapRateDataFall.mat
+
+load snapRateHourlyFall.mat
+
 %Create monthly variables
 surface = retime(surfaceData,'monthly','mean')
 enviro = retime(envData,'monthly','mean')
-snhaps = retime(snapRateHourly,'monthly','mean')
+
+shnapsAVG = retime(snapRateHourly,'monthly','mean')
+shnapsVAR = retime(snapRateHourly,'monthly',@std)
+
 
 
 %% 
