@@ -2,6 +2,7 @@
 %FM, we got this.
 
 
+buildReceiverData   
 
 fileLocation = ([oneDrive,'\acousticAnalysis\matlabVariables']);
 cd (fileLocation)
@@ -35,9 +36,9 @@ Rsqrd = R(1,2)*R(1,2)
 Rsqrd = R(1,2)*R(1,2)
 
 
-load snapRateDataFall.mat
-
-load snapRateHourlyFall.mat
+% load snapRateDataFall.mat
+% 
+% load snapRateHourlyFall.mat
 
 %Create monthly variables
 surface = retime(surfaceData,'monthly','mean')
@@ -97,12 +98,51 @@ t_crit_monthly = tinv(1-alpha/2, monthlyCOUNT.Variables - 1);
 monthlyCI_upper = monthlyAVG.Variables + t_crit_monthly .* (monthlySTD.Variables ./ sqrt(monthlyCOUNT.Variables));
 monthlyCI_lower = monthlyAVG.Variables - t_crit_monthly .* (monthlySTD.Variables ./ sqrt(monthlyCOUNT.Variables));
 
+% Interpolate NaNs in dailyCI_lower
+dailyCI_lower = fillmissing(dailyCI_lower, 'linear', 'EndValues', 'nearest');
 
-dailyCI_lower = dailyCI_lower(1:end-1,:)
-dailyCI_upper = dailyCI_upper(1:end-1,:)
-dailyAVG  = dailyAVG(1:end-1,:)
+% Interpolate NaNs in dailyCI_upper
+dailyCI_upper = fillmissing(dailyCI_upper, 'linear', 'EndValues', 'nearest');
+
+% Interpolate NaNs in dailyAVG (mean values)
+dailyAVG.Variables = fillmissing(dailyAVG.Variables, 'linear', 'EndValues', 'nearest');
+
+% Aggregate daily averages and standard deviations
+snapDailyAVG = retime(snapRateHourly, 'daily', 'mean');
+snapDailySTD = retime(snapRateHourly, 'daily', @std);
+snapDailyCOUNT = retime(snapRateHourly, 'daily', 'count'); % Count of observations per day
+
+% Compute daily 95% CI
+alpha = 0.05;
+t_crit_daily = tinv(1-alpha/2, snapDailyCOUNT.SnapCount - 1);
+snapDailyCI_upper = snapDailyAVG.SnapCount + t_crit_daily .* (snapDailySTD.SnapCount ./ sqrt(snapDailyCOUNT.SnapCount));
+snapDailyCI_lower = snapDailyAVG.SnapCount - t_crit_daily .* (snapDailySTD.SnapCount ./ sqrt(snapDailyCOUNT.SnapCount));
+
+% Handle NaNs
+snapDailyCI_upper = fillmissing(snapDailyCI_upper, 'linear', 'EndValues', 'nearest');
+snapDailyCI_lower = fillmissing(snapDailyCI_lower, 'linear', 'EndValues', 'nearest');
+snapDailyAVG.SnapCount = fillmissing(snapDailyAVG.SnapCount, 'linear', 'EndValues', 'nearest');
+% Aggregate monthly averages and standard deviations
+snapMonthlyAVG = retime(snapRateHourly, 'monthly', 'mean');
+snapMonthlySTD = retime(snapRateHourly, 'monthly', @std);
+snapMonthlyCOUNT = retime(snapRateHourly, 'monthly', 'count'); % Count of observations per month
+
+% Compute monthly 95% CI
+t_crit_monthly = tinv(1-alpha/2, snapMonthlyCOUNT.SnapCount - 1);
+snapMonthlyCI_upper = snapMonthlyAVG.SnapCount + t_crit_monthly .* (snapMonthlySTD.SnapCount ./ sqrt(snapMonthlyCOUNT.SnapCount));
+snapMonthlyCI_lower = snapMonthlyAVG.SnapCount - t_crit_monthly .* (snapMonthlySTD.SnapCount ./ sqrt(snapMonthlyCOUNT.SnapCount));
+
+% Handle NaNs
+snapMonthlyCI_upper = fillmissing(snapMonthlyCI_upper, 'linear', 'EndValues', 'nearest');
+snapMonthlyCI_lower = fillmissing(snapMonthlyCI_lower, 'linear', 'EndValues', 'nearest');
+snapMonthlyAVG.SnapCount = fillmissing(snapMonthlyAVG.SnapCount, 'linear', 'EndValues', 'nearest');
+
+
 % Example plot for daily CI
 time = dailyAVG.DT;
+snapTime = snapDailyAVG.Time;
+
+%
 figure()
 ciplot(dailyCI_lower(:,1), dailyCI_upper(:,1), time,'b'); % Confidence interval shaded region
 hold on;
@@ -111,8 +151,20 @@ xlabel('Date');
 ylabel('Daily Average');
 title('Daily Average with 95% CI');
 
-
-
+%%
+figure()
+ciplot(dailyCI_lower(:,14), dailyCI_upper(:,14), time,'r'); % Confidence interval shaded region
+hold on;
+plot(time, dailyAVG.HourlyDets, 'r'); % Mean line
+xlabel('Date');
+ylabel('Daily Average');
+title('Daily Average with 95% CI');
+ylabel('Detections')
+yyaxis right
+ciplot(snapDailyCI_lower, snapDailyCI_upper, snapTime,'b'); % Confidence interval shaded region
+hold on
+plot(snapTime, snapDailyAVG.SnapCount, 'r'); % Mean line
+legend('Detections','','Snaprate')
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 
