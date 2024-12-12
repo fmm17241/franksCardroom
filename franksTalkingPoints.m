@@ -246,6 +246,7 @@ ylim([0 10])
 xlim([surfaceData.time(1402), surfaceData.time(1555)])
 ylabel('Detections')
 title('Example Wind Event #3')
+legend('Windspeed','Detections')
 ax = gca; % Get current axes
 ax.YColor = 'k'; % Set right y-axis color to black
 

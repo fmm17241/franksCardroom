@@ -38,14 +38,14 @@ for k = 1:length(rawDetFile)
     [occurrences{k}(1,:), TEST{k}] = groupcounts(data{k});
 end
 
-TEST{13} = TEST{13}';
-
-all = height(rawDetFile{1})+height(rawDetFile{2})+height(rawDetFile{3})+height(rawDetFile{4})+height(rawDetFile{5})+height(rawDetFile{6})+height(rawDetFile{7})+height(rawDetFile{8})+height(rawDetFile{9})+height(rawDetFile{10})+height(rawDetFile{11})+height(rawDetFile{12})+height(rawDetFile{13})
-
-for k = 1:length(rawDetFile)
-    data{k} = string(rawDetFile{k,1}.Var3); % Convert to string array
-    filteredData{k} = data{k}(startsWith(data{k}, 'A69-1602-')); % Filter by prefix
-end
+% TEST{13} = TEST{13}';
+% 
+% all = height(rawDetFile{1})+height(rawDetFile{2})+height(rawDetFile{3})+height(rawDetFile{4})+height(rawDetFile{5})+height(rawDetFile{6})+height(rawDetFile{7})+height(rawDetFile{8})+height(rawDetFile{9})+height(rawDetFile{10})+height(rawDetFile{11})+height(rawDetFile{12})+height(rawDetFile{13})
+% 
+% for k = 1:length(rawDetFile)
+%     data{k} = string(rawDetFile{k,1}.Var3); % Convert to string array
+%     filteredData{k} = data{k}(startsWith(data{k}, 'A69-1602-')); % Filter by prefix
+% end
 
 
 
