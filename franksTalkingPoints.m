@@ -66,11 +66,84 @@ yyaxis left
 plot(snapRateHourly.Time,snapRateHourly.SnapCount,'b','LineWidth',2)
 ylabel('Snaprate (\hr)')
 yyaxis right
-plot(envData.DT,envData.HourlyDets,'LineWidth',2)
+plot(receiverData{1}.DT,receiverData{1}.HourlyDets,'LineWidth',2)
 yyaxis right
 ylabel('Detections')
 legend('SnapRate','Detections')
 title('Raw Hourly Snaps and Detections','Spring 2020, SURTASSTN20')
+hold on
+plot(monthlyAVG{1}.DT,monthlyAVG{1}.HourlyDets,'LineWidth',5)
+
+
+%%AI generated testing.
+% Aggregate daily
+dailyAVG = retime(receiverData{1}, 'daily', 'mean');
+dailySTD = retime(receiverData{1}, 'daily', @std);
+dailyCOUNT = retime(receiverData{1}, 'daily', 'count'); % Count of observations per day
+
+% Compute daily 95% CI
+alpha = 0.05;
+t_crit = tinv(1-alpha/2, dailyCOUNT.Variables - 1); % t critical values
+dailyCI_upper = dailyAVG.Variables + t_crit .* (dailySTD.Variables ./ sqrt(dailyCOUNT.Variables));
+dailyCI_lower = dailyAVG.Variables - t_crit .* (dailySTD.Variables ./ sqrt(dailyCOUNT.Variables));
+
+% Aggregate monthly
+monthlyAVG = retime(receiverData{1}, 'monthly', 'mean');
+monthlySTD = retime(receiverData{1}, 'monthly', @std);
+monthlyCOUNT = retime(receiverData{1}, 'monthly', 'count'); % Count of observations per month
+
+% Compute monthly 95% CI
+t_crit_monthly = tinv(1-alpha/2, monthlyCOUNT.Variables - 1);
+monthlyCI_upper = monthlyAVG.Variables + t_crit_monthly .* (monthlySTD.Variables ./ sqrt(monthlyCOUNT.Variables));
+monthlyCI_lower = monthlyAVG.Variables - t_crit_monthly .* (monthlySTD.Variables ./ sqrt(monthlyCOUNT.Variables));
+
+
+dailyCI_lower = dailyCI_lower(1:end-1,:)
+dailyCI_upper = dailyCI_upper(1:end-1,:)
+dailyAVG  = dailyAVG(1:end-1,:)
+% Example plot for daily CI
+time = dailyAVG.DT;
+figure()
+ciplot(dailyCI_lower(:,1), dailyCI_upper(:,1), time,'b'); % Confidence interval shaded region
+hold on;
+plot(time, dailyAVG.Noise, 'r'); % Mean line
+xlabel('Date');
+ylabel('Daily Average');
+title('Daily Average with 95% CI');
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% %Day Noise Confidence Intervals
+% for k = 1:length(seasons)
+%     %Finding standard deviations/CIs of values
+%     SEM = std(daySounds{1,k}(:),'omitnan')/sqrt(length(daySounds{1,k}));  
+%     ts = tinv([0.025  0.975],length(daySounds{1,k})-1);  
+%     CIdayNoise(k,:) = mean(daySounds{:,k},'all','omitnan') + ts*SEM; 
+% end
+
+%Confidence Intervals
+
+%Finding standard deviations/CIs of values
+SEM = std(receiverData{1}.HourlyDets,'omitnan')/sqrt(length(receiverData{1}.HourlyDets));  
+ts = tinv([0.025  0.975],length(receiverData{1}.HourlyDets-1));  
+CIDets = mean(receiverData{1}.HourlyDets,'all','omitnan') + ts*SEM; 
+
+
+
+figure()
+hold on
+% ciplot(CIsunsetNoise(:,1),CIsunsetNoise(:,2),1:5,'k')
+ciplot(CInightNoise(:,1),CInightNoise(:,2),1:5,'b')
+ciplot(CIdayNoise(:,1),CIdayNoise(:,2),1:5,'r')
+xlabel('Seasons, 2020')
+ylabel('Average Noise (mV)')
+title('Average Noise By Time of Day and Season','95% Conf. Interval, 69 kHz')
+legend('Night','Day')
+
+
 
 
 
