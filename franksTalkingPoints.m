@@ -180,8 +180,74 @@ xlim([time(4) time(95)])
 
 [R,P] = corrcoef(snapDailyAVG.SnapCount(4:95),dailyAVG.HourlyDets(4:95))
 
+% Fuck it, lets try it.
+
+figure()
+tiledlayout(4,9)
+ax1 = nexttile([3,9]);
+ciplot(dailyCI_lower(:,14), dailyCI_upper(:,14), time,'r'); % Confidence interval shaded region
+hold on;
+plot(time, dailyAVG.HourlyDets, 'r'); % Mean line
+xlabel('Date');
+ylabel('Daily Average');
+ylabel('Hourly Detections')
+ylim([0 13])
+yyaxis right
+ciplot(snapDailyCI_lower, snapDailyCI_upper, snapTime,'b'); % Confidence interval shaded region
+hold on
+plot(snapTime, snapDailyAVG.SnapCount, 'r'); % Mean line
+ylabel('Snaprate')
+ylim([500 , 4700])
+legend('Detections','','Snaprate')
+% Change right axis color to black
+ax = gca; % Get current axes
+ax.YColor = 'k'; % Set right y-axis color to black
+title('Daily Averages, Spring 2020 SURTASSTN20','95% CI shaded')
+xlim([time(4) time(95)])
 
 
+ax2 = nexttile([1,3])
+yyaxis left
+plot(surfaceData.time,surfaceData.WSPD,'LineWidth',3)
+ylabel('Windspeed (m/s)')
+ylim([0 15])
+yyaxis right
+plot(receiverData{1}.DT,receiverData{1}.HourlyDets,'k')
+ylim([0 10])
+% plot(dailyAVG.DT,dailyAVG.HourlyDets)
+xlim([surfaceData.time(442), surfaceData.time(586)])
+% ylabel('Detections')
+title('Example Wind Event #1')
+ax = gca; % Get current axes
+ax.YColor = 'k'; % Set right y-axis color to black
+
+ax3 = nexttile([1,3])
+yyaxis left
+plot(surfaceData.time,surfaceData.WSPD,'LineWidth',3)
+% ylabel('Windspeed (m/s)')
+ylim([0 15])
+yyaxis right
+plot(receiverData{1}.DT,receiverData{1}.HourlyDets,'k')
+ylim([0 10])
+xlim([surfaceData.time(630), surfaceData.time(793)])
+% ylabel('Detections')
+title('Example Wind Event #2')
+ax = gca; % Get current axes
+ax.YColor = 'k'; % Set right y-axis color to black
+
+ax4 = nexttile([1,3])
+yyaxis left
+plot(surfaceData.time,surfaceData.WSPD,'LineWidth',3)
+ylim([0 15])
+% ylabel('Windspeed (m/s)')
+yyaxis right
+plot(receiverData{1}.DT,receiverData{1}.HourlyDets,'k')
+ylim([0 10])
+xlim([surfaceData.time(1402), surfaceData.time(1555)])
+ylabel('Detections')
+title('Example Wind Event #3')
+ax = gca; % Get current axes
+ax.YColor = 'k'; % Set right y-axis color to black
 
 % ax2 = nexttile([2,2]);
 % ciplot(dailyCI_lower(:,14), dailyCI_upper(:,14), time,'r'); % Confidence interval shaded region
