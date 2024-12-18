@@ -52,7 +52,7 @@ env = pm.create_env2d(
     bottom_soundspeed=1450,
     bottom_density=1200,
     bottom_absorption=0.0,
-    tx_depth=13.5,
+    tx_depth=14.5,
     nbeams=1000
 )
 pm.print_env(env)
@@ -68,24 +68,56 @@ pm.plot_rays(rays, env=env,width=900,title='Ray Tracing: Flat Surface')
 # Okay I've got to loop and try Beam Density Analysis in Python.
 rayMax = []
 beamDistances = []
-distances_to_check = list(range(0,1001,25))
-
+distances_to_check = list(range(0, 1001, 25))
 
 for ray_array in rays.ray:
-    max_value = max(ray_array[:,0])
+    # Ensure ray_array is a NumPy array
+    ray_array = np.array(ray_array)
+    
+    # Get the maximum value from the first column (distance)
+    max_value = max(ray_array[:, 0])
+    rayMax.append(max_value)
+    
+    # Create the binary list
     binary_values = []
     for distance in distances_to_check:
-        if max_value > distance: 
+        if max_value > distance:
             binary_values.append(1)
         else:
             binary_values.append(0)
-            
-            
-    rayMax.append(max_value)
+    
     beamDistances.append(binary_values)
+
+print("Maximum distances for each ray:", rayMax)
+print("Binary distance checks:", beamDistances[:5])  # First 5 for brevity
+
+
+# Convert beamDistances to a NumPy array for easier summation
+beamDistances_array = np.array(beamDistances)
+
+# Sum along the rows (axis=0) to get the count for each distance
+rays_per_distance = np.sum(beamDistances_array, axis=0)
+
+# Print the results
+for distance, count in zip(distances_to_check, rays_per_distance):
+    print(f"Distance: {distance} m, Rays: {count}")
     
 
 rays['rayDistance'] = rayMax
+
+test = rays_per_distance/1000
+
+# Using range to generate numbers from 1 to len(test)
+x = list(range(1, len(test) + 25))
+
+x = np.arange(0, 1001, 25)
+
+
+# Print the array to verify
+print(x)
+
+plt.plot(x,test)
+
 
 ###########
 

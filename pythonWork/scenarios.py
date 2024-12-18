@@ -32,7 +32,8 @@ bathy = [
     [300, 17],  # 15 m water depth 300 m away
     [350, 18],  # 15 m water depth 300 m away
     [600, 20],  # 20 m water depth at 600 m
-    [800, 20]
+    [800, 20],
+    [1000, 20],
 ]
 
 #Changes soundspeed profile
@@ -47,7 +48,7 @@ ssp = [
 #Creates new environment, accounting for change in SSP and bathy, then prints & plots. This is for transmission loss.
 env = pm.create_env2d(
     frequency=69000,
-    rx_range= np.linspace(0, 450, 1001),
+    rx_range= np.linspace(0, 1000, 1001),
     rx_depth= np.linspace(0, 20, 301),
     depth=bathy,
     soundspeed=ssp,
@@ -60,6 +61,13 @@ env = pm.create_env2d(
 )
 pm.print_env(env)
 
+tloss = pm.compute_transmission_loss(env, mode='incoherent')
+
+axxx = pm.plot_transmission_loss(tloss, env=env, clim=[-50,-10], width=900,title='Incoherent Loss: 69 kHz, Wavy Surface', clabel='Noise Loss (dBs)')
+
+
+rays = pm.compute_rays(env)
+pm.plot_rays(rays, env=env,width=900)
 
 
 
