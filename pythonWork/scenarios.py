@@ -27,10 +27,10 @@ import pandas as pd
 
 #Sets bottom boundary layer of the environment
 bathy = [
-    [0, 15],    # 20 m water depth at the transmitter
-    [200, 17],    # 20 m water depth at the transmitter    
-    [300, 17],  # 15 m water depth 300 m away
-    [350, 18],  # 15 m water depth 300 m away
+    [0, 20],    # 20 m water depth at the transmitter
+    [200, 20],    # 20 m water depth at the transmitter    
+    [300, 20],  # 15 m water depth 300 m away
+    [350, 20],  # 15 m water depth 300 m away
     [600, 20],  # 20 m water depth at 600 m
     [800, 20],
     [1000, 20],
@@ -55,7 +55,7 @@ env = pm.create_env2d(
     bottom_soundspeed=1450,
     bottom_density=1200,
     bottom_absorption=0.0,
-    tx_depth=13.5,
+    tx_depth=18.5,
    # surface = surface,
     surface_interp = 'curvilinear',
     nbeams=1000
@@ -64,7 +64,7 @@ pm.print_env(env)
 
 tloss = pm.compute_transmission_loss(env, mode='incoherent')
 
-axxx = pm.plot_transmission_loss(tloss, env=env, clim=[-50,-10], width=900,title='Incoherent Loss: 69 kHz, Wavy Surface', clabel='Noise Loss (dBs)')
+axxx = pm.plot_transmission_loss(tloss, env=env, clim=[-50,-10], width=900,title='Incoherent Loss: 69 kHz, Flat Surface', clabel='Noise Loss (dBs)')
 
 
 rays = pm.compute_rays(env)
@@ -108,29 +108,39 @@ rays_per_distance = np.sum(beamDistances_array, axis=0)
 for distance, count in zip(distances_to_check, rays_per_distance):
     print(f"Distance: {distance} m, Rays: {count}")
     
-
+    
 rays['rayDistance'] = rayMax
 
-test = rays_per_distance/1000
-
-# Using range to generate numbers from 1 to len(test)
-x = list(range(1, len(test) + 25))
 
 x = np.arange(0, 1001, 25)
 
 
-# Print the array to verify
-print(x)
-
 ##########
 sumBDA = np.sum(beamDistances, axis=0)
-dataFraming = pd.DataFrame({'Distance': distances_to_check, 'Rays': sumBDA})
-plt.plot(dataFraming['Distance'], dataFraming['Rays'], 'o-', xlabel='Distances', ylabel='Beams Traveled', title='Beam Density Analysis: FLat Environment')
+dataFraming = pd.DataFrame({'Distance': distances_to_check, 'Rays': sumBDA, 'Efficiency': sumBDA/1000})
+plt.plot(dataFraming['Distance'], dataFraming['Efficiency'], 'o-', xlabel='Distances', ylabel='% of Beams Traveled', title='Beam Density Analysis: Flat Environment')
 
 ########################################
 
 
+surface = np.array([[r, 2.0+2.0*np.sin(10*np.pi*0.002*r)] for r in np.linspace(0,1000,1001)])
 
+#Creates new environment, accounting for change in SSP and bathy, then prints & plots. This is for transmission loss.
+env = pm.create_env2d(
+    frequency=69000,
+    rx_range= np.linspace(0, 1000, 1001),
+    rx_depth= np.linspace(0, 20, 301),
+    depth=bathy,
+    soundspeed=ssp,
+    bottom_soundspeed=1450,
+    bottom_density=1200,
+    bottom_absorption=0.0,
+    tx_depth=18.5,
+    surface = surface,
+    surface_interp = 'curvilinear',
+    nbeams=1000
+)
+pm.print_env(env)
 
 
 
