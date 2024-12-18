@@ -122,7 +122,10 @@ x = np.arange(0, 1001, 25)
 # Print the array to verify
 print(x)
 
-plt.plot(x,test)
+##########
+sumBDA = np.sum(beamDistances, axis=0)
+dataFraming = pd.DataFrame({'Distance': distances_to_check, 'Rays': sumBDA})
+plt.plot(dataFraming['Distance'], dataFraming['Rays'], 'o-', xlabel='Distances', ylabel='Beams Traveled', title='Beam Density Analysis: FLat Environment')
 
 ########################################
 
