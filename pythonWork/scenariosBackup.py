@@ -69,7 +69,7 @@ tloss = pm.compute_transmission_loss(env, mode='incoherent')
 axxx = pm.plot_transmission_loss(tloss, env=env, clim=[-50,-10], width=900,title='Incoherent Loss: 69 kHz, Flat Surface', clabel='Noise Loss (dBs)')
 
 
-rays = pm.compute_eigenrays(env)
+rays = pm.compute_rays(env)
 pm.plot_rays(rays, env=env,width=900)
 
 #######
@@ -151,8 +151,6 @@ env = pm.create_env2d(
     frequency=69000,
     rx_range= np.linspace(0, 1000, 1001),
     rx_depth= np.linspace(0, 20, 301),
-    #rx_range = 1000,
-    #rx_depth = 18,
     depth=bathy,
     soundspeed=ssp,
     bottom_soundspeed=1450,
@@ -161,7 +159,7 @@ env = pm.create_env2d(
     tx_depth=18.5,
     surface = surface,
     surface_interp = 'curvilinear',
-    nbeams=1000
+    nbeams=10
 )
 pm.print_env(env)
 

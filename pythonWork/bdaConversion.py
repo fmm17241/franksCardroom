@@ -52,7 +52,7 @@ env = pm.create_env2d(
     bottom_soundspeed=1450,
     bottom_density=1200,
     bottom_absorption=0.0,
-    tx_depth=14.5,
+    tx_depth=12.5,
     nbeams=1000
 )
 pm.print_env(env)
@@ -60,7 +60,7 @@ pm.plot_env(env)
 
 
 
-rays = pm.compute_rays(env)
+rays = pm.compute_eigenrays(env)
 pm.plot_rays(rays, env=env,width=900,title='Ray Tracing: Flat Surface')
 
 
@@ -107,18 +107,8 @@ rays['rayDistance'] = rayMax
 
 test = rays_per_distance/1000
 
-# Using range to generate numbers from 1 to len(test)
-x = list(range(1, len(test) + 25))
-
+# Using range to generate numbers
 x = np.arange(0, 1001, 25)
-
-
-# Print the array to verify
-print(x)
-
-plt.plot(x,test)
-
-
 ###########
 
 #Computes the arrival time of rays from T to R
