@@ -157,7 +157,7 @@ env = pm.create_env2d(
     tx_depth=18.5,
     surface = surface,
     surface_interp = 'curvilinear',
-    nbeams=100
+    nbeams=10
 )
 pm.print_env(env)
 
