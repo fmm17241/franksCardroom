@@ -157,7 +157,7 @@ env = pm.create_env2d(
     tx_depth=18.5,
     surface = surface,
     surface_interp = 'curvilinear',
-    nbeams=1000
+    nbeams=100
 )
 pm.print_env(env)
 
@@ -217,7 +217,7 @@ x = np.arange(0, 1001, 25)
 
 ##########
 sumBDA = np.sum(beamDistances, axis=0)
-dataFraming = pd.DataFrame({'Distance': distances_to_check, 'Rays': sumBDA, 'Efficiency': sumBDA/1000})
+dataFraming = pd.DataFrame({'Distance': distances_to_check, 'Rays': sumBDA, 'Efficiency': sumBDA/100})
 plt.plot(dataFraming['Distance'], dataFraming['Efficiency'], 'o-', xlabel='Distances', ylabel='% of Beams Traveled', title='Beam Density Analysis: Wavy Environment')
 
 
