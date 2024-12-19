@@ -14,6 +14,7 @@ import shutil
 import inspect
 #Find where bellhop is, then set path
 os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\toolbox\AT\executables")
+os.chdir(r"D:\OneDrive - University of Georgia\data\toolbox\AT\executables")
 #os.chdir(r"C:\Users\fmac4\OneDrive - University of Georgia\data\toolbox\AT\executables")
 #Import
 import arlpy.uwapm as pm
@@ -60,7 +61,7 @@ env = pm.create_env2d(
     bottom_soundspeed=1450,
     bottom_density=1200,
     bottom_absorption=10.0,
-    tx_depth=13.5,
+    tx_depth=10.5,
     surface_interp = 'curvilinear'
 )
 pm.print_env(env)
