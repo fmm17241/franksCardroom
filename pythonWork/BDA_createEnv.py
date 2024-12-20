@@ -7,6 +7,10 @@ Created on Fri Dec 20 14:51:49 2024
 
 import arlpy.uwapm as pm
 import numpy as np
+import BDA_surfaceLevels
+import BDA_bathymetry
+import BDA_SSP
+
 
 def create_environment(
     surface_type,
@@ -16,8 +20,8 @@ def create_environment(
 #    rx_range=None,
 #    rx_depth=None,
     range    = 1000,
-    receiverType = botPoint,
-    tx_depth=9.5,
+    receiverType = "botPoint",
+    tx_depth=12.5,
     bottom_soundspeed=1450,
     bottom_density=1200,
     bottom_absorption=0.0
@@ -54,9 +58,24 @@ def create_environment(
     Returns:
         Configured environment object.
     """
-    
-    
-    
+    if surface_type == "F":
+        surface_type = BDA_surfaceLevels.flat_surface()
+    if surface_type == "M":  
+        surface_type = BDA_surfaceLevels.mid_surface()
+    if surface_type == "W":    
+        surface_type = BDA_surfaceLevels.wavy_surface()
+###########
+    if bottom_type == "F":
+        bottom_type = BDA_bathymetry.flat_bottom()
+    if bottom_type == "D":
+        bottom_type = BDA_bathymetry.downhill_bottom()
+    if bottom_type == "U":
+        bottom_type = BDA_bathymetry.uphill_bottom()
+    if bottom_type == "C":
+        bottom_type = BDA_bathymetry.complex_bottom()
+###########
+
+
     if receiverType == "Full":
         rx_range = np.linspace(0, 1000, 1001)
         rx_depth = np.linspace(0, 20, 21)
@@ -66,7 +85,7 @@ def create_environment(
     if receiverType == "topPoint":
        rx_range = 1000                          # Receiver top of water column
        rx_depth = 1
-       
+###########       
     # Create the environment
     env = pm.create_env2d(
         frequency=frequency,
