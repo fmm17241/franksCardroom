@@ -26,8 +26,7 @@ def create_environment(
     range    = 1000,
     depth    = 20,
     frequency=69000,
-#    rx_range=None,
-#    rx_depth=None,
+    nBeams = 1000,
     receiverType = "botPoint",
     tx_depth=12.5,
     bottom_soundspeed=1450,
@@ -124,6 +123,6 @@ def create_environment(
         tx_depth=tx_depth,
         surface=surface_type,
         surface_interp='curvilinear',
-        nbeams=100
+        nbeams=nBeams
     )
     return env
