@@ -29,8 +29,12 @@ import numpy as np
 import pandas as pd
 ############################
 #RANGE CREATION
-rxFull_Range = np.linspace(0, 1000, 1001)
-rxFull_Depth = np.linspace(0, 20, 301)
+rx_Range_TL = np.linspace(0, 1000, 1001)
+rx_Depth_TL = np.linspace(0, 20, 301)
+
+rx_Range_Bottom = 
+rx_Depth_Bottom = 
+
 
 
 ## SURFACE LEVEL CREATION
@@ -50,12 +54,6 @@ janSSP = BDA_SSP.january(depth=20)
 aprSSP = BDA_SSP.april(depth=20)
 julSSP = BDA_SSP.july(depth=20)
 ###############################
-
-
-
-
-
-
 
 
 # MIXED COLD FLAT
