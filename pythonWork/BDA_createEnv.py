@@ -15,7 +15,8 @@ def create_environment(
     frequency=69000,
 #    rx_range=None,
 #    rx_depth=None,
-    receiver = ,
+    range    = 1000,
+    receiverType = botPoint,
     tx_depth=9.5,
     bottom_soundspeed=1450,
     bottom_density=1200,
@@ -39,7 +40,7 @@ def create_environment(
             Apr : April  2020 example profile, strong shelf
             Jul : July  2020 example profile, diurnal strat.
         frequency: Transmission frequency in Hz.
-        receiver: Receiver ranges and depths (array), sets rx_range and rx_depth.
+        receiverType: Receiver ranges and depths (array), sets rx_range and rx_depth.
             Full : Full column for plotting Transmission Loss
             botPoint : Specific source of sound, 1 m off bottom
             topPoint : Specific source of sound, 1 m off surface
@@ -56,13 +57,13 @@ def create_environment(
     
     
     
-    if receiver == "Full":
+    if receiverType == "Full":
         rx_range = np.linspace(0, 1000, 1001)
         rx_depth = np.linspace(0, 20, 21)
-    if receiver == "botPoint":
+    if receiverType == "botPoint":
        rx_range = 1000
        rx_depth = 19
-    if receiver == "topPoint":
+    if receiverType == "topPoint":
        rx_range = 1000                          # Receiver top of water column
        rx_depth = 1
        
