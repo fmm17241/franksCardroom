@@ -16,7 +16,7 @@ os.chdir(r"C:\Users\fmm17241\Documents\GitHub\franksCardroom\pythonWork")
 
 import BDA_surfaceLevels
 import BDA_bathymetry
-
+import BDA_SSP
 
 #Bellhop's location.
 os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\toolbox\AT\executables")
@@ -44,7 +44,9 @@ downhillBottom = BDA_bathymetry.downhill_bottom()
 uphillBottom = BDA_bathymetry.uphill_bottom()
 
 ## SSP CREATION
-
+janSSP = BDA_SSP.january(depth=20)
+aprSSP = BDA_SSP.april(depth=20)
+julSSP = BDA_SSP.july(depth=20)
 
 ###############################
 
