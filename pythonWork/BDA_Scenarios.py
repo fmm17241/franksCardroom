@@ -27,7 +27,9 @@ import arlpy.plot as plt
 import matplotlib.pyplot as plt2
 import numpy as np
 import pandas as pd
-############################
+
+
+#################################
 #RANGE CREATION
 range = 1000
 depth = 20
@@ -38,10 +40,9 @@ rx_Depth_TL = np.linspace(0, depth, depth+1)
 
 rx_Range_Rays = range
 rx_Depth_Rays = depth
-
-
-
+#################################
 ## SURFACE LEVEL CREATION
+
 # Calls script that generates surfaces for us.
 # Flat surface, perfect reflectance expected.
 flatSurface = BDA_surfaceLevels.flat_surface()
@@ -58,12 +59,13 @@ janSSP = BDA_SSP.january(depth=20)
 aprSSP = BDA_SSP.april(depth=20)
 julSSP = BDA_SSP.july(depth=20)
 ###############################
+# DEFINING THE ENVIRONMENT
 
-
-# MIXED COLD FLAT
-topDescrip = "FlatSurface"
+# Description for Plot title
+topDescrip = "Flat Surface"
 botDescrip  = "Downhill"
 sspDescrip     = "Homogeneous"
+
 
 env = pm.create_env2d(
     frequency=69000,
