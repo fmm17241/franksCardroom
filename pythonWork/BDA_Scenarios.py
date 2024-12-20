@@ -29,11 +29,15 @@ import numpy as np
 import pandas as pd
 ############################
 #RANGE CREATION
-rx_Range_TL = np.linspace(0, 1000, 1001)
-rx_Depth_TL = np.linspace(0, 20, 301)
+range = 1000
+depth = 20
 
-rx_Range_Bottom = 
-rx_Depth_Bottom = 
+rx_Range_TL = np.linspace(0, range, range+1)
+rx_Depth_TL = np.linspace(0, depth, depth+1)
+
+
+rx_Range_Rays = range
+rx_Depth_Rays = depth
 
 
 
