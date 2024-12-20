@@ -25,11 +25,25 @@ def create_environment(
     
     Args:
         surface_type: Surface configuration (e.g., flatSurface, midSurface).
+            F : Flat
+            M : Mid
+            W : wavy
         bottom_type: Bottom configuration (e.g., flatBottom, downhillBottom).
+            F : Flat
+            D : Downhill
+            U : Uphill
+            C : Complex
         ssp_type: Sound speed profile (e.g., janSSP, aprSSP).
+            Jan : January 2020 example, homogeneous
+            Apr : April  2020 example profile, strong shelf
+            Jul : July  2020 example profile, diurnal strat.
         frequency: Transmission frequency in Hz.
-        rx_range: Receiver ranges (array).
+        rx_range and rx_depth: Receiver ranges and depths (array).
+            Full : Full column for plotting TL
+            botPoint : Specific source of sound, 1 m off bottom
+            topPoint : Specific source of sound, 1 m off surface
         rx_depth: Receiver depths (array).
+            
         tx_depth: Transmitter depth.
         bottom_soundspeed: Sound speed of the bottom.
         bottom_density: Density of the bottom.
