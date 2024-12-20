@@ -86,7 +86,18 @@ env = pm.create_env2d(
 pm.print_env(env)
 
 
-
+env = BDA_createEnv(
+    surface_type = ,
+    bottom_type = ,
+    ssp_type = ,
+    frequency= ,
+    rx_range=None,
+    rx_depth=None,
+    tx_depth=9.5,
+    bottom_soundspeed=1450,
+    bottom_density=1200,
+    bottom_absorption=0.0
+)
 
 
 
