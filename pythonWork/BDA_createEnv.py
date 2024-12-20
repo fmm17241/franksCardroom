@@ -19,16 +19,16 @@ import BDA_bathymetry
 import BDA_SSP
 
 
-def create_environment(
-    surface_type,
-    bottom_type,
-    ssp_type,
+def createEnv(
+    surface_type = "F",
+    bottom_type = "F",
+    ssp_type = "Jan",
     range    = 1000,
     depth    = 20,
     frequency=69000,
     nBeams = 1000,
     receiverType = "botPoint",
-    tx_depth=12.5,
+    transDepth=12.5,
     bottom_soundspeed=1450,
     bottom_density=1200,
     bottom_absorption=0.0
@@ -68,46 +68,68 @@ def create_environment(
     Returns:
         Configured environment object.
     """
+# Validate surface_type
+    valid_surface_types = ["F", "M", "W"]
+    if surface_type not in valid_surface_types:
+        raise ValueError(f"Invalid surface_type '{surface_type}'. Must be one of {valid_surface_types}.")
+
+    
 ########### 
     if surface_type == "F":
-        surface_type = BDA_surfaceLevels.flat_surface()
-    if surface_type == "M":  
-        surface_type = BDA_surfaceLevels.mid_surface()
-    if surface_type == "W":    
-        surface_type = BDA_surfaceLevels.wavy_surface()
+        surface = BDA_surfaceLevels.flat_surface()
+    elif surface_type == "M":  
+        surface = BDA_surfaceLevels.mid_surface()
+    elif surface_type == "W":    
+        surface = BDA_surfaceLevels.wavy_surface()
+    else:
+       raise ValueError(f"Invalid surface_type '{surface_type}'. Must be 'F', 'M', or 'W'.")
+
 ###########
     if bottom_type == "F":
-        bottom_type = BDA_bathymetry.flat_bottom()
-    if bottom_type == "D":
-        bottom_type = BDA_bathymetry.downhill_bottom()
-    if bottom_type == "U":
-        bottom_type = BDA_bathymetry.uphill_bottom()
-    if bottom_type == "C":
-        bottom_type = BDA_bathymetry.complex_bottom()
+        bottom = BDA_bathymetry.flat_bottom()
+    elif bottom_type == "D":
+        bottom = BDA_bathymetry.downhill_bottom()
+    elif bottom_type == "U":
+        bottom = BDA_bathymetry.uphill_bottom()
+    elif bottom_type == "C":
+        bottom = BDA_bathymetry.complex_bottom()
+    else:
+        raise ValueError(f"Invalid bottom_type '{bottom_type}'. Must be 'F', 'D', 'U', or 'C'.")
+  
 ###########
     if receiverType == "Full":
         rx_range = np.linspace(0, range, range+1)
         rx_depth = np.linspace(0, depth, depth+1)
-    if receiverType == "botPoint":
+    elif receiverType == "botPoint":
        rx_range = range
        rx_depth = depth-1        # Receiver bottom of water column
-    if receiverType == "topPoint":
+    elif receiverType == "topPoint":
        rx_range = range              
        rx_depth = depth-1
+    else:
+       raise ValueError(f"Invalid receiver_type '{receiverType}'. Must be 'Full', 'botPoint', or 'topPoint'.")
+       
 ########### 
     if ssp_type == "Jan":
         soundspeed = BDA_SSP.january(depth=depth)
-    if ssp_type == "Apr":
+    elif ssp_type == "Apr":
         soundspeed = BDA_SSP.april(depth=depth)
-    if ssp_type == "Jul":
+    elif ssp_type == "Jul":
         soundspeed = BDA_SSP.july(depth=depth)
+    else:
+        raise ValueError(f"Invalid ssp_type '{ssp_type}'. Must be 'Jan', 'Apr', or 'Jul'.")
+
 ########### 
-    if tx_depth == "T": 
+    if transDepth == "T": 
         tx_depth = 1.5
-    if tx_depth == "M":
+    elif transDepth == "M":
         tx_depth = depth-depth/2
-    if tx_depth == "B":
+    elif transDepth == "B":
         tx_depth = depth-1.5
+    else:
+        raise ValueError(f"Invalid transDepth '{transDepth}'. Must be 'T', 'M', or 'B'.")
+  
+        
 ###########    
 
     # Create the environment
@@ -115,13 +137,13 @@ def create_environment(
         frequency=frequency,
         rx_range=rx_range,
         rx_depth=rx_depth,
-        depth=bottom_type,
+        depth=bottom,
         soundspeed=soundspeed,
         bottom_soundspeed=bottom_soundspeed,
         bottom_density=bottom_density,
         bottom_absorption=bottom_absorption,
         tx_depth=tx_depth,
-        surface=surface_type,
+        surface=surface,
         surface_interp='curvilinear',
         nbeams=nBeams
     )

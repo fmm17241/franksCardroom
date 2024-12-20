@@ -17,6 +17,7 @@ os.chdir(r"C:\Users\fmm17241\Documents\GitHub\franksCardroom\pythonWork")
 import BDA_surfaceLevels
 import BDA_bathymetry
 import BDA_SSP
+from BDA_createEnv import createEnv
 
 #Bellhop's location.
 os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\toolbox\AT\executables")
@@ -85,19 +86,23 @@ env = pm.create_env2d(
 )
 pm.print_env(env)
 
-
-env = BDA_createEnv(
-    surface_type = ,
-    bottom_type = ,
-    ssp_type = ,
-    frequency= ,
-    rx_range=None,
-    rx_depth=None,
-    tx_depth=9.5,
+env = createEnv(
+    surface_type = "F",
+    bottom_type = "F",
+    ssp_type = "Jan",
+    range    = 1000,
+    depth    = 20,
+    frequency=69000,
+    nBeams = 1000,
+    receiverType = "botPoint",
+    tx_depth=12.5,
     bottom_soundspeed=1450,
     bottom_density=1200,
     bottom_absorption=0.0
 )
+
+
+env = createEnv()
 
 
 
