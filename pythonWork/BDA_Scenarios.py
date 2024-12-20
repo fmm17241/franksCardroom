@@ -14,7 +14,9 @@ import inspect
 os.chdir(r"C:\Users\fmm17241\Documents\GitHub\franksCardroom\pythonWork")
 
 
-import surface_levels
+import BDA_surfaceLevels
+import BDA_bathymetry
+
 
 #Bellhop's location.
 os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\toolbox\AT\executables")
@@ -27,40 +29,26 @@ import numpy as np
 import pandas as pd
 ############################
 
-
+## SURFACE LEVEL CREATION
 # Calls script that generates surfaces for us.
 # Flat surface, perfect reflectance expected.
-flatSurface = surface_levels.flat_surface()
-
-# Amount between
-midSurface = surface_levels.mid_surface()
-
+flatSurface = BDA_surfaceLevels.flat_surface()
+# Small waves
+midSurface = BDA_surfaceLevels.mid_surface()
 #Winds causing 4m between crest and trough.
-wavySurface = surface_levels.wavy_surface()
+wavySurface = BDA_surfaceLevels.wavy_surface()
+
+## BATHYMETRY CREATION
+flatBottom = BDA_bathymetry.flat_bottom()
+downhillBottom = BDA_bathymetry.downhill_bottom()
+uphillBottom = BDA_bathymetry.uphill_bottom()
+
+## SSP CREATION
 
 
-#Modeling calm day. Flat bottom, flat surface, maximum reflection.
+###############################
 
 
-
-#Sets bottom boundary layer of the environment
-bathy = [
-    [0, 20],    # 20 m water depth at the transmitter
-    [200, 20],    # 20 m water depth at the transmitter    
-    [300, 20],  # 15 m water depth 300 m away
-    [350, 20],  # 15 m water depth 300 m away
-    [600, 20],  # 20 m water depth at 600 m
-    [800, 20],
-    [1000, 20],
-]
-
-#Changes soundspeed profile
-ssp = [
-    [ 0, 1540],  # 1540 m/s at the surface
-    [10, 1530],  # 1530 m/s at 10 m depth
-    [15, 1532],  # 1532 m/s at 20 m depth
-    [20, 1533],  # 1533 m/s at 25 m depth
-]
 
 
 #Creates new environment, accounting for change in SSP and bathy, then prints & plots. This is for transmission loss.
@@ -68,7 +56,7 @@ env = pm.create_env2d(
     frequency=69000,
     rx_range= np.linspace(0, 1000, 1001),
     rx_depth= np.linspace(0, 20, 301),
-    depth=bathy,
+    depth=uphillBottom,
     soundspeed=ssp,
     bottom_soundspeed=1450,
     bottom_density=1200,
