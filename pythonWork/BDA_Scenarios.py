@@ -61,11 +61,17 @@ julSSP = BDA_SSP.july(depth=20)
 
 
 # MIXED COLD FLAT
+topDescrip = "FlatSurface"
+botDescrip  = "Downhill"
+sspDescrip     = "Homogeneous"
+
 env = pm.create_env2d(
     frequency=69000,
-    rx_range= np.linspace(0, 1000, 1001),
-    rx_depth= np.linspace(0, 20, 301),
-    depth=flatBottom,
+#    rx_range= np.linspace(0, 1000, 1001),
+#    rx_depth= np.linspace(0, 20, 301),
+    rx_range= rx_Range_TL,
+    rx_depth= rx_Depth_TL,
+    depth=downhillBottom,
     soundspeed=janSSP,
     bottom_soundspeed=1450,
     bottom_density=1200,
@@ -83,8 +89,11 @@ pm.print_env(env)
 
 
 tloss = pm.compute_transmission_loss(env, mode='incoherent')
-
-axxx = pm.plot_transmission_loss(tloss, env=env, clim=[-50,-10], width=900,title='Incoherent Loss: 69 kHz, Flat Surface', clabel='Noise Loss (dBs)')
+axxx = pm.plot_transmission_loss(tloss, 
+                                 env=env, 
+                                 clim=[-50,-10], width=900,
+                                 title= f"Incoherent Loss: 69 kHz,{topDescrip}, {botDescrip}, {sspDescrip} Environment", 
+                                 clabel='Noise Loss (dBs)')
 
 
 ########################################
