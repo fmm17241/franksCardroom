@@ -23,4 +23,3 @@ def wavy_surface(range_max=1000, wave_amplitude=2.0, wave_frequency=0.02, num_po
     """Creates a wavy surface."""
     return np.array([[r, 2.0 + wave_amplitude * np.sin(10 * np.pi * wave_frequency * r)] 
                      for r in np.linspace(0, range_max, num_points)])
-
