@@ -3,6 +3,13 @@
 Created on Fri Dec 20 14:51:49 2024
 
 @author: fmm17241
+
+Okay. Frank's trying to streamline the creation of environments for modeling.
+
+Instead of retyping every time, I'm adding uses to this code.
+
+Now I can call this code later to create bellhop environments.
+
 """
 
 import arlpy.uwapm as pm
@@ -16,10 +23,11 @@ def create_environment(
     surface_type,
     bottom_type,
     ssp_type,
+    range    = 1000,
+    depth    = 20,
     frequency=69000,
 #    rx_range=None,
 #    rx_depth=None,
-    range    = 1000,
     receiverType = "botPoint",
     tx_depth=12.5,
     bottom_soundspeed=1450,
@@ -51,6 +59,9 @@ def create_environment(
         rx_depth: Receiver depths (array).
             
         tx_depth: Transmitter depth.
+            T : 1.5 meter off top
+            M : Halfway between top and bottom
+            B : 1.5 m off bottom
         bottom_soundspeed: Sound speed of the bottom.
         bottom_density: Density of the bottom.
         bottom_absorption: Absorption of the bottom.
@@ -58,6 +69,7 @@ def create_environment(
     Returns:
         Configured environment object.
     """
+########### 
     if surface_type == "F":
         surface_type = BDA_surfaceLevels.flat_surface()
     if surface_type == "M":  
@@ -74,25 +86,38 @@ def create_environment(
     if bottom_type == "C":
         bottom_type = BDA_bathymetry.complex_bottom()
 ###########
-
-
     if receiverType == "Full":
-        rx_range = np.linspace(0, 1000, 1001)
-        rx_depth = np.linspace(0, 20, 21)
+        rx_range = np.linspace(0, range, range+1)
+        rx_depth = np.linspace(0, depth, depth+1)
     if receiverType == "botPoint":
-       rx_range = 1000
-       rx_depth = 19
+       rx_range = range
+       rx_depth = depth-1        # Receiver bottom of water column
     if receiverType == "topPoint":
-       rx_range = 1000                          # Receiver top of water column
-       rx_depth = 1
-###########       
+       rx_range = range              
+       rx_depth = depth-1
+########### 
+    if ssp_type == "Jan":
+        soundspeed = BDA_SSP.january(depth=depth)
+    if ssp_type == "Apr":
+        soundspeed = BDA_SSP.april(depth=depth)
+    if ssp_type == "Jul":
+        soundspeed = BDA_SSP.july(depth=depth)
+########### 
+    if tx_depth == "T": 
+        tx_depth = 1.5
+    if tx_depth == "M":
+        tx_depth = depth-depth/2
+    if tx_depth == "B":
+        tx_depth = depth-1.5
+###########    
+
     # Create the environment
     env = pm.create_env2d(
         frequency=frequency,
         rx_range=rx_range,
         rx_depth=rx_depth,
         depth=bottom_type,
-        soundspeed=ssp_type,
+        soundspeed=soundspeed,
         bottom_soundspeed=bottom_soundspeed,
         bottom_density=bottom_density,
         bottom_absorption=bottom_absorption,
