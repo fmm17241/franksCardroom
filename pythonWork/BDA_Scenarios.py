@@ -28,14 +28,16 @@ import matplotlib.pyplot as plt2
 import numpy as np
 import pandas as pd
 ############################
+#RANGE CREATION
+rxFull_Range = np.linspace(0, 1000, 1001)
+rxFull_Depth = np.linspace(0, 20, 301)
+
 
 ## SURFACE LEVEL CREATION
 # Calls script that generates surfaces for us.
 # Flat surface, perfect reflectance expected.
 flatSurface = BDA_surfaceLevels.flat_surface()
-# Small waves
 midSurface = BDA_surfaceLevels.mid_surface()
-#Winds causing 4m between crest and trough.
 wavySurface = BDA_surfaceLevels.wavy_surface()
 
 ## BATHYMETRY CREATION
@@ -47,28 +49,35 @@ uphillBottom = BDA_bathymetry.uphill_bottom()
 janSSP = BDA_SSP.january(depth=20)
 aprSSP = BDA_SSP.april(depth=20)
 julSSP = BDA_SSP.july(depth=20)
-
 ###############################
 
 
 
 
-#Creates new environment, accounting for change in SSP and bathy, then prints & plots. This is for transmission loss.
+
+
+
+
+# MIXED COLD FLAT
 env = pm.create_env2d(
     frequency=69000,
     rx_range= np.linspace(0, 1000, 1001),
     rx_depth= np.linspace(0, 20, 301),
-    depth=uphillBottom,
+    depth=flatBottom,
     soundspeed=janSSP,
     bottom_soundspeed=1450,
     bottom_density=1200,
     bottom_absorption=0.0,
-    tx_depth=18.5,
-    surface = midSurface,
+    tx_depth=9.5,
+    surface = flatSurface,
     surface_interp = 'curvilinear',
     nbeams=100
 )
 pm.print_env(env)
+
+
+
+
 
 
 tloss = pm.compute_transmission_loss(env, mode='incoherent')
