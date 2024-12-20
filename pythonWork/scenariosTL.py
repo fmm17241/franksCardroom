@@ -10,7 +10,13 @@ import arlpy
 import os
 import shutil
 import inspect
-#Find where bellhop is, then set path
+
+os.chdir(r"C:\Users\fmm17241\Documents\GitHub\franksCardroom\pythonWork")
+
+
+import surface_levels
+
+#Bellhop's location.
 os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\toolbox\AT\executables")
 #os.chdir(r"C:\Users\fmac4\OneDrive - University of Georgia\data\toolbox\AT\executables")
 #Import
@@ -21,12 +27,16 @@ import numpy as np
 import pandas as pd
 ############################
 
-######Creating surfaces.
-# Flat Surface
-surface1 = np.array([[r, 0.0] for r in np.linspace(0, 1000, 1001)])
 
-#Wavy Surface
-surface2 = np.array([[r, 2.0+2.0*np.sin(10*np.pi*0.002*r)] for r in np.linspace(0,1000,1001)])
+# Calls script that generates surfaces for us.
+# Flat surface, perfect reflectance expected.
+flatSurface = surface_levels.flat_surface()
+
+# Amount between
+midSurface = surface_levels.mid_surface()
+
+#Winds causing 4m between crest and trough.
+wavySurface = surface_levels.wavy_surface()
 
 
 #Modeling calm day. Flat bottom, flat surface, maximum reflection.
@@ -64,7 +74,7 @@ env = pm.create_env2d(
     bottom_density=1200,
     bottom_absorption=0.0,
     tx_depth=18.5,
-    surface = surface2,
+    surface = midSurface,
     surface_interp = 'curvilinear',
     nbeams=100
 )
