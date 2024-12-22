@@ -45,16 +45,19 @@ env, topDescrip, botDescrip, sspDescrip = createEnv(
     bottom_absorption=0.0
 )
 
+###############################
+# MODELING RAYS THROUGH THE ENVIRONMENT
 
+# ALL RAYS
 rays = pm.compute_rays(env)
+#rays = pm.compute_eigenrays(env)
 pm.plot_rays(rays, env=env,
              width=900,
              title= f"Ray Tracing: 69 kHz,{topDescrip}, {botDescrip}, {sspDescrip} Environment") 
 
+###############################
+# BDA, QUANTIFYING RAY DISTANCE TRAVELED
 
-
-
-# Okay I've got to loop and try Beam Density Analysis in Python.
 rayMax = []
 beamDistances = []
 distances_to_check = list(range(0, 1001, 25))
@@ -91,8 +94,20 @@ rays_per_distance = np.sum(beamDistances_array, axis=0)
 for distance, count in zip(distances_to_check, rays_per_distance):
     print(f"Distance: {distance} m, Rays: {count}")
     
-
 rays['rayDistance'] = rayMax
+
+
+###############################
+# PLOT BEAM DENSITY ANALYSIS RESULTS
+
+sumBDA = np.sum(beamDistances, axis=0)
+dataFraming = pd.DataFrame({'Distance': distances_to_check, 'Rays': sumBDA})
+plt.plot(dataFraming['Distance'], dataFraming['Rays'], 'o-', xlabel='Distances', ylabel='Beams Traveled', title='Beam Density Analysis: FLat Environment')
+
+
+
+
+
 
 test = rays_per_distance/1000
 
@@ -109,11 +124,6 @@ arrivals[['time_of_arrival', 'angle_of_arrival', 'surface_bounces', 'bottom_boun
 
 arrivalsFlat = arrivals
 test = np.mean(arrivals['arrival_amplitude'])
-
-##########
-sumBDA = np.sum(beamDistances, axis=0)
-dataFraming = pd.DataFrame({'Distance': distances_to_check, 'Rays': sumBDA})
-plt.plot(dataFraming['Distance'], dataFraming['Rays'], 'o-', xlabel='Distances', ylabel='Beams Traveled', title='Beam Density Analysis: FLat Environment')
 
 
 
