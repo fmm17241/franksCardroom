@@ -187,3 +187,12 @@ pm.plot_arrivals(arrivals, width=500,title='Arrival Timing: Higher Wavy Surface'
 sumBDA = np.sum(beamDistances, axis=0)
 dataFraming = pd.DataFrame({'Distance': distances_to_check, 'Rays': sumBDA})
 plt.plot(dataFraming['Distance'], dataFraming['Rays'], 'o-', xlabel='Distances', ylabel='Beams Traveled', title='Beam Density Analysis: Very Wavy Environment')
+
+
+########################################
+#tloss = pm.compute_transmission_loss(env, mode='incoherent')
+#axxx = pm.plot_transmission_loss(tloss, 
+#                                 env=env, 
+#                                 clim=[-50,-10], width=900,
+#                                 title= f"Incoherent Loss: 69 kHz,{topDescrip}, {botDescrip}, {sspDescrip} Environment", 
+#                                 clabel='Noise Loss (dBs)')

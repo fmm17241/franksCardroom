@@ -150,7 +150,6 @@ def createEnv(
   
         
 ###########    
-
     # Create the environment
     env = pm.create_env2d(
         frequency=frequency,
@@ -166,4 +165,5 @@ def createEnv(
         surface_interp='curvilinear',
         nbeams=nBeams
     )
+
     return env, topDescrip, botDescrip, sspDescrip
