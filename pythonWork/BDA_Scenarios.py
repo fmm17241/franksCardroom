@@ -46,13 +46,7 @@ rx_Depth_Rays = depth
 ###############################
 # DEFINING THE ENVIRONMENT
 
-# Description for Plot title
-topDescrip = "Flat Surface"
-botDescrip  = "Downhill"
-sspDescrip     = "Homogeneous"
-
-
-env = createEnv(
+env, topDescrip, botDescrip, sspDescrip = createEnv(
     surface_type = "F",
     bottom_type = "F",
     ssp_type = "Jan",

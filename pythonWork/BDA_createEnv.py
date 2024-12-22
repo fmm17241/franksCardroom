@@ -77,22 +77,35 @@ def createEnv(
 ########### 
     if surface_type == "F":
         surface = BDA_surfaceLevels.flat_surface()
+        topDescrip = "Flat Surface"
+        
     elif surface_type == "M":  
         surface = BDA_surfaceLevels.mid_surface()
+        topDescrip = "Disturbed Surface"
+        
     elif surface_type == "W":    
         surface = BDA_surfaceLevels.wavy_surface()
+        topDescrip = "Wavy Surface"
     else:
        raise ValueError(f"Invalid surface_type '{surface_type}'. Must be 'F', 'M', or 'W'.")
 
 ###########
     if bottom_type == "F":
         bottom = BDA_bathymetry.flat_bottom()
+        botDescrip  = "Flat Bottom"
+        
     elif bottom_type == "D":
         bottom = BDA_bathymetry.downhill_bottom()
+        botDescrip  = "Downhill"
+        
     elif bottom_type == "U":
         bottom = BDA_bathymetry.uphill_bottom()
+        botDescrip  = "Uphill"
+        
     elif bottom_type == "C":
         bottom = BDA_bathymetry.complex_bottom()
+        botDescrip  = "Structured"
+        
     else:
         raise ValueError(f"Invalid bottom_type '{bottom_type}'. Must be 'F', 'D', 'U', or 'C'.")
   
@@ -112,10 +125,16 @@ def createEnv(
 ########### 
     if ssp_type == "Jan":
         soundspeed = BDA_SSP.january(depth=depth)
+        sspDescrip     = "Homogeneous"
+        
     elif ssp_type == "Apr":
         soundspeed = BDA_SSP.april(depth=depth)
+        sspDescrip     = "Freshwater Lens"
+        
     elif ssp_type == "Jul":
         soundspeed = BDA_SSP.july(depth=depth)
+        sspDescrip     = "Stratified"
+        
     else:
         raise ValueError(f"Invalid ssp_type '{ssp_type}'. Must be 'Jan', 'Apr', or 'Jul'.")
 
@@ -147,4 +166,4 @@ def createEnv(
         surface_interp='curvilinear',
         nbeams=nBeams
     )
-    return env
+    return env, topDescrip, botDescrip, sspDescrip
