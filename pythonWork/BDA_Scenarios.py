@@ -42,23 +42,7 @@ rx_Depth_TL = np.linspace(0, depth, depth+1)
 rx_Range_Rays = range
 rx_Depth_Rays = depth
 #################################
-## SURFACE LEVEL CREATION
 
-# Calls script that generates surfaces for us.
-# Flat surface, perfect reflectance expected.
-flatSurface = BDA_surfaceLevels.flat_surface()
-midSurface = BDA_surfaceLevels.mid_surface()
-wavySurface = BDA_surfaceLevels.wavy_surface()
-
-## BATHYMETRY CREATION
-flatBottom = BDA_bathymetry.flat_bottom()
-downhillBottom = BDA_bathymetry.downhill_bottom()
-uphillBottom = BDA_bathymetry.uphill_bottom()
-
-## SSP CREATION
-janSSP = BDA_SSP.january(depth=20)
-aprSSP = BDA_SSP.april(depth=20)
-julSSP = BDA_SSP.july(depth=20)
 ###############################
 # DEFINING THE ENVIRONMENT
 
@@ -67,24 +51,6 @@ topDescrip = "Flat Surface"
 botDescrip  = "Downhill"
 sspDescrip     = "Homogeneous"
 
-
-env = pm.create_env2d(
-    frequency=69000,
-#    rx_range= np.linspace(0, 1000, 1001),
-#    rx_depth= np.linspace(0, 20, 301),
-    rx_range= rx_Range_TL,
-    rx_depth= rx_Depth_TL,
-    depth=downhillBottom,
-    soundspeed=janSSP,
-    bottom_soundspeed=1450,
-    bottom_density=1200,
-    bottom_absorption=0.0,
-    tx_depth=9.5,
-    surface = flatSurface,
-    surface_interp = 'curvilinear',
-    nbeams=100
-)
-pm.print_env(env)
 
 env = createEnv(
     surface_type = "F",
@@ -95,7 +61,7 @@ env = createEnv(
     frequency=69000,
     nBeams = 1000,
     receiverType = "botPoint",
-    tx_depth=12.5,
+    transDepth= "B",
     bottom_soundspeed=1450,
     bottom_density=1200,
     bottom_absorption=0.0
