@@ -49,7 +49,7 @@ env, topDescrip, botDescrip, sspDescrip = createEnv(
 # MODELING RAYS THROUGH THE ENVIRONMENT
 
 # ALL RAYS
-rays = pm.compute_rays(env)
+rays = pm.compute_eigenrays(env)
 #rays = pm.compute_eigenrays(env)
 pm.plot_rays(rays, env=env,
              width=900,
