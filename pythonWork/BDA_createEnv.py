@@ -56,7 +56,9 @@ def createEnv(
             botPoint : Specific source of sound, 1 m off bottom
             topPoint : Specific source of sound, 1 m off surface
         rx_depth: Receiver depths (array).
-            
+            F : Full depth profile, used for transmission loss
+            B : Receiver placed near bottom
+            T : Receiver placed near top
         tx_depth: Transmitter depth.
             T : 1.5 meter off top
             M : Halfway between top and bottom
@@ -110,15 +112,15 @@ def createEnv(
         raise ValueError(f"Invalid bottom_type '{bottom_type}'. Must be 'F', 'D', 'U', or 'C'.")
   
 ###########
-    if receiverType == "Full":
+    if receiverType == "F":
         rx_range = np.linspace(0, range, range+1)
         rx_depth = np.linspace(0, depth, depth+1)
-    elif receiverType == "botPoint":
+    elif receiverType == "B":
        rx_range = range
        rx_depth = depth-1        # Receiver bottom of water column
-    elif receiverType == "topPoint":
+    elif receiverType == "T":
        rx_range = range              
-       rx_depth = depth-1
+       rx_depth = 2
     else:
        raise ValueError(f"Invalid receiver_type '{receiverType}'. Must be 'Full', 'botPoint', or 'topPoint'.")
        
