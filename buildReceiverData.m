@@ -55,14 +55,18 @@ for transceiver = 1:length(rawDetFile)
     heardSelf{transceiver}    = strcmp(rawDetFile{transceiver,1}.Var3,selfID(transceiver,:))
     % heardMooring{transceiver} = strfind(rawDetFile{transceiver,1}.Var3,'A69-1601') 
     % heardMooring{transceiver} = contains(rawDetFile{transceiver,1}.Var3,'A69-1601')
+    
     % FM targetting a single mooring.
     heardMooring{transceiver} = contains(rawDetFile{transceiver,1}.Var3,'A69-1601-63073')
-
     selfDets{transceiver} = rawDetFile{transceiver,1}(heardSelf{transceiver},:)
 
     % countMooring{transceiver} = sum(heardMooring{transceiver})
     countSelfDetects(transceiver,1) = sum(heardSelf{transceiver});
-    rawDetFile{transceiver}(strcmp(rawDetFile{transceiver,1}.Var3,selfID(transceiver,:)),:) = [];
+    % rawDetFile{transceiver}(strcmp(rawDetFile{transceiver,1}.Var3,selfID(transceiver,:)),:) = [];
+    % FM Just targetting single mooring. Not only removing self, removing all others.
+    % rawDetFile{transceiver}(strcmp(rawDetFile{transceiver,1}.Var3,heardMooring{transceiver}),:) = [];
+    % FM
+    rawDetFile{transceiver} = rawDetFile{transceiver}(heardMooring{transceiver},:);
     %
     howMany{transceiver} = height(rawDetFile{transceiver});
     addIt = ones(howMany{transceiver},1);
@@ -91,6 +95,8 @@ for transceiver = 1:length(rawDetFile)
     selfArray{transceiver}.DT.TimeZone = "UTC";
     selfArray{transceiver}.ExpectedSelfPings = selfArray{transceiver}.SelfDets*8;
 end
+
+test = retime(rawDetFile{1},'monthly','mean')
 
 
 cd ([oneDrive,'Moored'])
