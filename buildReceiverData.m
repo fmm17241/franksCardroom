@@ -97,6 +97,7 @@ for transceiver = 1:length(rawDetFile)
 end
 
 test = retime(rawDetFile{1},'monthly','mean')
+test(:,2) = test(:,1)./6;
 
 
 cd ([oneDrive,'Moored'])
