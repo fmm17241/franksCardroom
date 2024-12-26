@@ -54,7 +54,10 @@ end
 for transceiver = 1:length(rawDetFile)
     heardSelf{transceiver}    = strcmp(rawDetFile{transceiver,1}.Var3,selfID(transceiver,:))
     % heardMooring{transceiver} = strfind(rawDetFile{transceiver,1}.Var3,'A69-1601') 
-    heardMooring{transceiver} = contains(rawDetFile{transceiver,1}.Var3,'A69-1601')
+    % heardMooring{transceiver} = contains(rawDetFile{transceiver,1}.Var3,'A69-1601')
+    % FM targetting a single mooring.
+    heardMooring{transceiver} = contains(rawDetFile{transceiver,1}.Var3,'A69-1601-63073')
+
     selfDets{transceiver} = rawDetFile{transceiver,1}(heardSelf{transceiver},:)
 
     % countMooring{transceiver} = sum(heardMooring{transceiver})
@@ -67,6 +70,7 @@ for transceiver = 1:length(rawDetFile)
     howManySelf{transceiver} = height(selfDets{transceiver});
     addIt2 = zeros(howManySelf{transceiver},1);
     selfDets{transceiver}.Var4 = addIt2;
+
 end
 
 %This turns my raw detection files into a timetable, then bins it hourly
