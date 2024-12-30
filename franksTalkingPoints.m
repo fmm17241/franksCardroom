@@ -7,6 +7,13 @@ buildReceiverData
 fileLocation = ([oneDrive,'\acousticAnalysis\matlabVariables']);
 cd (fileLocation)
 
+load envDataFall.mat
+load snapRateDataFall.mat
+load snapRateHourlyFall.mat
+load surfaceDataFall.mat
+load filteredData4Bin40HrLowFALLpruned.mat
+times = envData.DT;
+
 %%
 % % Load in saved data
 % % Environmental data matched to the hourly snaps.
@@ -20,6 +27,8 @@ load snapRateMinuteSpring
 load surfaceDataSpring
 load filteredData4Bin40HrLowSPRING.mat
 times = surfaceData.time;
+
+
 
 
 [R,P] = corrcoef(filteredData.SBLcapped,filteredData.Noise)
