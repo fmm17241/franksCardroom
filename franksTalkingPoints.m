@@ -303,9 +303,6 @@ title('Average Noise By Time of Day and Season','95% Conf. Interval, 69 kHz')
 legend('Night','Day')
 
 
-
-
-
 %
 decimatedData.Snaps = decimate(filteredData.Snaps,4);
 decimatedData.Noise = decimate(filteredData.Noise,4);
@@ -318,6 +315,22 @@ decimatedData.SBL = decimate(filteredData.SBL,4);
 decimatedData.SBLcapped = decimate(filteredData.SBLcapped,4);
 decimatedData.Detections = decimate(filteredData.Detections,4);
 decimatedData.SST = decimate(filteredData.SST,4);
+
+%%
+% Frank creating a variable to shade the darkness.
+time = receiverData{1}.DT;
+daytime = receiverData{1}.daytime;
+nightmask = daytime == 0;
+
+% Use area to shade the nighttime
+hold on; % Keep the snap rate plot
+area(time, nightMask * max(snapRateHourly.SnapCount), 'FaceColor', [0.8 0.8 0.8], 'EdgeColor', 'none', 'FaceAlpha', 0.5);
+
+
+
+%%
+
+
 
 figure()
 TT = tiledlayout(3,4)
@@ -335,7 +348,10 @@ plot(snapRateHourly.Time,snapRateHourly.SnapCount,'k','LineWidth',3)
 set(gca,'YAxisLocation','left')
 ylabel('Snaps Per Hour')
 title('Daily Shrimp Activity')
-
+% Use area to shade the nighttime
+hold on; % Keep the snap rate plot
+area(time, nightmask * max(snapRateHourly.SnapCount), 'FaceColor', [0.8 0.8 0.8], 'EdgeColor', 'none', 'FaceAlpha', 0.5);
+plot(snapRateHourly.Time,snapRateHourly.SnapCount,'k','LineWidth',3)
 
 ax2 = nexttile([2,2])
 yyaxis left

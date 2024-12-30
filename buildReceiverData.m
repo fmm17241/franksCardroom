@@ -52,26 +52,37 @@ end
 % THIS removes self detections, and adds a line of "1s" in a columnn so I
 % can do an hourly sum of detections.
 for transceiver = 1:length(rawDetFile)
+    rawDetFile{transceiver}(strcmp(rawDetFile{transceiver,1}.Var3,selfID(transceiver,:)),:) = [];
     heardSelf{transceiver}    = strcmp(rawDetFile{transceiver,1}.Var3,selfID(transceiver,:))
     % heardMooring{transceiver} = strfind(rawDetFile{transceiver,1}.Var3,'A69-1601') 
     heardMooring{transceiver} = contains(rawDetFile{transceiver,1}.Var3,'A69-1601')
+
+    %% FRANK FIX THIS. Looking for table numbers, total dets and percent from fish/transceivers.
+    heardFish{transceiver} = contains(rawDetFile{transceiver,1}.Var3,'A69-1602')
+    heardFish2{transceiver} = contains(rawDetFile{transceiver,1}.Var3,'A69-9001')
     
     % FM targetting a single mooring.
     % heardMooring{transceiver} = contains(rawDetFile{transceiver,1}.Var3,'A69-1601-63073')
     selfDets{transceiver} = rawDetFile{transceiver,1}(heardSelf{transceiver},:)
-
+    fish1Dets{transceiver} = rawDetFile{transceiver,1}(heardFish{transceiver},:)
+    fish2Dets{transceiver} = rawDetFile{transceiver,1}(heardFish2{transceiver},:)
+    mooringDets{transceiver} = rawDetFile{transceiver,1}(heardMooring{transceiver},:)
+    
     % countMooring{transceiver} = sum(heardMooring{transceiver})
     countSelfDetects(transceiver,1) = sum(heardSelf{transceiver});
     rawDetFile{transceiver}(strcmp(rawDetFile{transceiver,1}.Var3,selfID(transceiver,:)),:) = [];
     % FM Just targetting single mooring. Not only removing self, removing all others.
     % rawDetFile{transceiver}(strcmp(rawDetFile{transceiver,1}.Var3,heardMooring{transceiver}),:) = [];
-    % FM
+    % FM (21:end,:)
     % rawDetFile{transceiver} = rawDetFile{transceiver}(heardMooring{transceiver},:);
     %
     howMany{transceiver} = height(rawDetFile{transceiver});
     addIt = ones(howMany{transceiver},1);
     rawDetFile{transceiver}.Var4 = addIt;
     howManySelf{transceiver} = height(selfDets{transceiver});
+    howManyMooring{transceiver} = height(mooringDets{transceiver});
+    fishDets{transceiver} = height(fish1Dets{transceiver}) + height(fish2Dets{transceiver});
+    % howManyFish{transceiver} = height(heardFish{transceiver})
     addIt2 = zeros(howManySelf{transceiver},1);
     selfDets{transceiver}.Var4 = addIt2;
 
@@ -319,7 +330,7 @@ receiverData{11}= receiverData{11}(4:7685,:);
 receiverData{12}= receiverData{12}(2:8832,:);
 receiverData{13}= receiverData{13}(14:9373,:);
 
-selfArray{1} = selfArray{1}(21:7780,:);
+% selfArray{1} = selfArray{1}(21:7780,:);
 % rawDetFile{transceiver}.NonSelfPings = rawDetFile{transceiver}.Pings-selfArray{transceiver}.ExpectedSelfPings;
 % 
 % for k = 1:length(receiverData)
