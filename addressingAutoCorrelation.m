@@ -156,13 +156,38 @@ autocorr(glsResidualsFilt, 'NumLags', 50);
 
 
 
+%%
+% Create time variable (in hours) normalized by 24-hour period
+t = (1:length(receiverData{1}.Noise))'; % Time index
+omega = 2 * pi / 24; % Diurnal frequency
+
+% Create periodic terms
+sinTerm = sin(omega * t);
+cosTerm = cos(omega * t);
+
+% Fit model with periodic terms
+modelWithPeriodicity = fitlm([receiverData{1}.windSpd, sinTerm, cosTerm], receiverData{1}.Noise);
+
+% Check residuals
+plotResiduals(modelWithPeriodicity);
+figure()
+autocorr(modelWithPeriodicity.Residuals.Raw, 'NumLags', 100);
 
 
+% Detrend the data
+detrendedNoise = detrend(receiverData{1}.Noise, 'linear');
+detrendedWinds = detrend(receiverData{1}.windSpd, 'linear');
+
+% Fit model on detrended data
+modelDetrended = fitlm([detrendedWinds, sinTerm, cosTerm], detrendedNoise);
+
+figure()
+plot(modelDetrended)
 
 
-
-
-
+gamModel = fitrgam(receiverData{1}, 'ResponseVar', 'Noise', ...
+                   'PredictorVars', {'Winds'}, ...
+                   'Interactions', 'all');
 
 
 
