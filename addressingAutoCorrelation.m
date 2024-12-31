@@ -27,55 +27,130 @@ times = surfaceData.time;
 
 
 %%
-%%
-%Auto correlation testing
+% %%
+% %Auto correlation testing
+% 
+% filteredACF = autocorr(filteredData.Snaps,'NumLags',100)
+% rawACF = autocorr(receiverData{1}.Noise,'NumLags',100)
+% 
+% % Plot
+% lags = 0:100; % Include lag 0
+% plot(lags, rawACF, '-o', 'DisplayName', 'Raw Data');
+% hold on;
+% plot(lags, filteredACF, '-s', 'DisplayName', 'Filtered Data');
+% xlabel('Lag (hours)');
+% ylabel('Autocorrelation');
+% legend;
+% title('Autocorrelation Comparison');
+% hold off;
+% 
+% disp(['Lag 1 Raw ACF: ', num2str(rawACF(2)), ', Filtered ACF: ', num2str(filteredACF(2))]);
+% disp(['Lag 24 Raw ACF: ', num2str(rawACF(25)), ', Filtered ACF: ', num2str(filteredACF(25))]);
+% 
+% 
+% %%
+% % This tells me there's significant auto-correlation in our noise data
+% residuals = filteredData.Noise - mean(filteredData.Noise);
+% 
+% % Durbin-Watson statistic
+% numerator = sum(diff(residuals).^2);
+% denominator = sum(residuals.^2);
+% DW = numerator / denominator;
+% 
+% disp(['Durbin-Watson Statistic: ', num2str(DW)]);
+% %
+% 
+% laggedValue = lagmatrix(filteredData.Noise, 1); % Creates a 1-hour lag
+% model = fitlm([laggedValue, filteredData.Winds], filteredData.Noise);
+% figure()
+% plot(model)
+% 
+% 
+% crosscorr(receiverData{1}.windSpd, receiverData{1}.Noise, 'NumLags', 50);
+% 
+% laggedWind = lagmatrix(filteredData.Winds, [0 2]); % Includes current and lag-2 values
+% model = fitlm(laggedWind, filteredData.Noise);
+% 
+% residuals = model.Residuals.Raw;
+% autocorr(residuals, 'NumLags', 50);
 
-filteredACF = autocorr(filteredData.Snaps,'NumLags',100)
-rawACF = autocorr(receiverData{1}.Noise,'NumLags',100)
-
-% Plot
-lags = 0:100; % Include lag 0
-plot(lags, rawACF, '-o', 'DisplayName', 'Raw Data');
-hold on;
-plot(lags, filteredACF, '-s', 'DisplayName', 'Filtered Data');
-xlabel('Lag (hours)');
-ylabel('Autocorrelation');
-legend;
-title('Autocorrelation Comparison');
-hold off;
-
-disp(['Lag 1 Raw ACF: ', num2str(rawACF(2)), ', Filtered ACF: ', num2str(filteredACF(2))]);
-disp(['Lag 24 Raw ACF: ', num2str(rawACF(25)), ', Filtered ACF: ', num2str(filteredACF(25))]);
-
-
-%%
-% This tells me there's significant auto-correlation in our noise data
-residuals = filteredData.Noise - mean(filteredData.Noise);
-
-% Durbin-Watson statistic
-numerator = sum(diff(residuals).^2);
-denominator = sum(residuals.^2);
-DW = numerator / denominator;
-
-disp(['Durbin-Watson Statistic: ', num2str(DW)]);
 %
-
-laggedValue = lagmatrix(filteredData.Noise, 1); % Creates a 1-hour lag
-model = fitlm([laggedValue, filteredData.Winds], filteredData.Noise);
-
-plot(model)
+%Frank needs to use ARIMA model to reduce autocorrelation which persists, or GLS
 
 
-crosscorr(receiverData{1}.windSpd, receiverData{1}.Noise, 'NumLags', 50);
 
-laggedWind = lagmatrix(filteredData.Winds, [0 2]); % Includes current and lag-2 values
-model = fitlm(laggedWind, filteredData.Noise);
+% STEPS TO PERFORMING Generalized Least Square Analysis GLS
+% Estimate autocorrelation structure using Ordinary Least Squares (OLS) model
+% OLS model
+olsRawModel = fitlm(receiverData{1}.windSpd, receiverData{1}.Noise);
+olsFiltModel = fitlm(filteredData.Winds, filteredData.Noise);
 
-residuals = model.Residuals.Raw;
-autocorr(residuals, 'NumLags', 50);
+figure()
+plot(olsRawModel)
 
-%
-%Frank needs to use ARIMA model to reduce autocorrelation which persists
+figure()
+plot(olsFiltModel)
+
+
+% Extract residuals
+residualsRaw = olsRawModel.Residuals.Raw;
+residualsFilt = olsFiltModel.Residuals.Raw;
+
+% Check autocorrelation in residuals
+figure()
+autocorr(residualsRaw, 'NumLags', 50);
+
+figure()
+autocorr(residualsFilt, 'NumLags', 50);
+
+
+
+% Estimate autoregressive Structure
+
+% Fit an AR(1) model to the residuals
+arModel = arima('ARLags', 1, 'Constant', 0);
+estARraw = estimate(arModel, residualsRaw);
+estARfilt = estimate(arModel, residualsFilt);
+
+% Extract AR coefficient (phi)
+phiRaw = estARraw.AR{1};
+phiFilt = estARfilt.AR{1};
+disp(['Estimated AR coefficient: ', num2str(phiRaw)]);
+disp(['Estimated AR coefficient: ', num2str(phiFilt)]);
+
+
+
+%Transform data for GLS
+% Transform predictors (winds) and response (noise)
+transformedNoise = filteredData.Noise(2:end) - phi * filteredData.Noise(1:end-1);
+transformedWinds = filteredData.Winds(2:end) - phi * filteredData.Winds(1:end-1);
+
+% Fit the GLS Model
+% Fit GLS model
+glsModel = fitlm(transformedWinds, transformedNoise);
+
+% Display GLS model summary
+disp(glsModel);
+
+% Check residuals
+% Extract GLS residuals
+glsResiduals = glsModel.Residuals.Raw;
+
+% Check autocorrelation of GLS residuals
+autocorr(glsResiduals, 'NumLags', 50);
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
