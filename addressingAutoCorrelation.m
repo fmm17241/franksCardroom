@@ -122,23 +122,37 @@ disp(['Estimated AR coefficient: ', num2str(phiFilt)]);
 
 %Transform data for GLS
 % Transform predictors (winds) and response (noise)
-transformedNoise = filteredData.Noise(2:end) - phi * filteredData.Noise(1:end-1);
-transformedWinds = filteredData.Winds(2:end) - phi * filteredData.Winds(1:end-1);
+transformedRawNoise = receiverData{1}.Noise(2:end) - phiRaw * receiverData{1}.Noise(1:end-1);
+transformedRawWinds = receiverData{1}.windSpd(2:end) - phiRaw * receiverData{1}.windSpd(1:end-1);
+
+transformedFiltNoise = filteredData.Noise(2:end) - phiFilt * filteredData.Noise(1:end-1);
+transformedFiltWinds = filteredData.Winds(2:end) - phiFilt * filteredData.Winds(1:end-1);
 
 % Fit the GLS Model
 % Fit GLS model
-glsModel = fitlm(transformedWinds, transformedNoise);
+glsModelRaw = fitlm(transformedRawWinds, transformedRawNoise);
+glsModelFilt = fitlm(transformedFiltWinds, transformedFiltNoise);
+
 
 % Display GLS model summary
-disp(glsModel);
+disp(glsModelRaw);
+disp(glsModelFilt);
+
 
 % Check residuals
 % Extract GLS residuals
-glsResiduals = glsModel.Residuals.Raw;
+glsResidualsRaw = glsModelRaw.Residuals.Raw;
+
+glsResidualsFilt = glsModelFilt.Residuals.Raw;
+
+
 
 % Check autocorrelation of GLS residuals
-autocorr(glsResiduals, 'NumLags', 50);
+figure()
+autocorr(glsResidualsRaw, 'NumLags', 50);
 
+figure()
+autocorr(glsResidualsFilt, 'NumLags', 50);
 
 
 
