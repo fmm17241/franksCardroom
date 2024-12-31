@@ -48,6 +48,27 @@ hold off;
 disp(['Lag 1 Raw ACF: ', num2str(rawACF(2)), ', Filtered ACF: ', num2str(filteredACF(2))]);
 disp(['Lag 24 Raw ACF: ', num2str(rawACF(25)), ', Filtered ACF: ', num2str(filteredACF(25))]);
 
+
+%%
+% This tells me there's significant auto-correlation in our noise data
+residuals = filteredData.Noise - mean(filteredData.Noise);
+
+% Durbin-Watson statistic
+numerator = sum(diff(residuals).^2);
+denominator = sum(residuals.^2);
+DW = numerator / denominator;
+
+disp(['Durbin-Watson Statistic: ', num2str(DW)]);
+%
+
+laggedValue = lagmatrix(filteredData.Noise, 1); % Creates a 1-hour lag
+model = fitlm([laggedValue, filteredData.Winds], filteredData.Noise);
+
+plot(model)
+
+
+crosscorr(filteredData.Winds, filteredData.Noise, 'NumLags', 50);
+
 %%
 
 
