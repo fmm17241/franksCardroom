@@ -109,8 +109,8 @@ autocorr(residualsFilt, 'NumLags', 50);
 
 % Fit an AR(1) model to the residuals
 arModel = arima('ARLags', 1, 'Constant', 0);
-estARraw = estimate(arModel, residualsRaw);
-estARfilt = estimate(arModel, residualsFilt);
+estARraw = estimate(arModel, residualsRaw)
+estARfilt = estimate(arModel, residualsFilt)
 
 % Extract AR coefficient (phi)
 phiRaw = estARraw.AR{1};
@@ -157,38 +157,32 @@ autocorr(glsResidualsFilt, 'NumLags', 50);
 
 
 %%
-% Create time variable (in hours) normalized by 24-hour period
-t = (1:length(receiverData{1}.Noise))'; % Time index
+% Create periodic terms for diurnal cycle
+t = (1:height(receiverData{1}))'; % Time index
 omega = 2 * pi / 24; % Diurnal frequency
-
-% Create periodic terms
 sinTerm = sin(omega * t);
 cosTerm = cos(omega * t);
 
-% Fit model with periodic terms
-modelWithPeriodicity = fitlm([receiverData{1}.windSpd, sinTerm, cosTerm], receiverData{1}.Noise);
+% Add periodic terms to GLS model
+predictors = [receiverData{1}.windSpd, sinTerm, cosTerm];
+modelWithPeriodicity = fitlm(predictors, receiverData{1}.Noise);
 
-% Check residuals
-plotResiduals(modelWithPeriodicity);
+% Extract residuals
+glsResidualsWithPeriodicity = modelWithPeriodicity.Residuals.Raw;
+
+% Check autocorrelation of new residuals
 figure()
-autocorr(modelWithPeriodicity.Residuals.Raw, 'NumLags', 100);
-
+autocorr(glsResidualsWithPeriodicity, 'NumLags', 50);
 
 % Detrend the data
 detrendedNoise = detrend(receiverData{1}.Noise, 'linear');
 detrendedWinds = detrend(receiverData{1}.windSpd, 'linear');
 
-% Fit model on detrended data
-modelDetrended = fitlm([detrendedWinds, sinTerm, cosTerm], detrendedNoise);
+% Fit GLS with detrended data and periodic terms
+modelDetrendedWithPeriodicity = fitlm([detrendedWinds, sinTerm, cosTerm], detrendedNoise);
 
 figure()
-plot(modelDetrended)
-
-
-gamModel = fitrgam(receiverData{1}, 'ResponseVar', 'Noise', ...
-                   'PredictorVars', {'Winds'}, ...
-                   'Interactions', 'all');
-
+plot(modelDetrendedWithPeriodicity)
 
 
 
