@@ -147,8 +147,6 @@ glsResidualsRaw = glsModelRaw.Residuals.Raw;
 
 glsResidualsFilt = glsModelFilt.Residuals.Raw;
 
-
-
 % Check autocorrelation of GLS residuals
 figure()
 autocorr(glsResidualsRaw, 'NumLags', 50);
