@@ -16,23 +16,60 @@ import pandas as pd
 #import shutil
 #import inspect
 
-os.chdir(r"C:\Users\fmm17241\Documents\GitHub\franksCardroom\pythonWork")
+#os.chdir(r"C:\Users\fmm17241\Documents\GitHub\franksCardroom\pythonWork")
+os.chdir(r"C:\Users\fmac4\OneDrive\Documents\GitHub\franksCardroom\pythonWork")
 from BDA_createEnv import createEnv
 #import BDA_surfaceLevels
 #import BDA_bathymetry
 #import BDA_SSP
 
 #Bellhop's location.
-os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\toolbox\AT\executables")
-#os.chdir(r"C:\Users\fmac4\OneDrive - University of Georgia\data\toolbox\AT\executables")
+#os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\toolbox\AT\executables")
+os.chdir(r"C:\Users\fmac4\OneDrive - University of Georgia\data\toolbox\AT\executables")
 
 ###############################
 # DEFINING THE ENVIRONMENT
+# Copied from createEnv():
+#Create an underwater environment with the given parameters.
+#
+#Args:
+#    surface_type: Surface configuration (e.g., flatSurface, midSurface).
+#        F : Flat
+#        M : Mid
+#        W : wavy
+#    bottom_type: Bottom configuration (e.g., flatBottom, downhillBottom).
+#        F : Flat
+#        D : Downhill
+#        U : Uphill
+#        C : Complex
+#    ssp_type: Sound speed profile (e.g., janSSP, aprSSP).
+#        Jan : January 2020 example, homogeneous
+#        Apr : April  2020 example profile, strong shelf
+#        Jul : July  2020 example profile, diurnal strat.
+#    frequency: Transmission frequency in Hz.
+#    receiverType: Receiver ranges and depths (array), sets rx_range and rx_depth.
+#        Full : Full column for plotting Transmission Loss
+#        botPoint : Specific source of sound, 1 m off bottom
+#        topPoint : Specific source of sound, 1 m off surface
+#    rx_depth: Receiver depths (array).
+#        F : Full depth profile, used for transmission loss
+#        B : Receiver placed near bottom
+#        T : Receiver placed near top
+#    tx_depth: Transmitter depth.
+#        T : 1.5 meter off top
+#        M : Halfway between top and bottom
+#        B : 1.5 m off bottom
+#    bottom_soundspeed: Sound speed of the bottom.
+#    bottom_density: Density of the bottom.
+#    bottom_absorption: Absorption of the bottom.
+#
+#Returns:
+#    Configured environment object.
 
 env, topDescrip, botDescrip, sspDescrip = createEnv(
 #env = createEnv(
     surface_type = "F",
-    bottom_type = "U",
+    bottom_type = "F",
     ssp_type = "Jan",
     range    = 1000,
     depth    = 20,
@@ -49,7 +86,7 @@ env, topDescrip, botDescrip, sspDescrip = createEnv(
 # MODELING RAYS THROUGH THE ENVIRONMENT
 
 # ALL RAYS
-rays = pm.compute_eigenrays(env)
+rays = pm.compute_rays(env)
 #rays = pm.compute_eigenrays(env)
 pm.plot_rays(rays, env=env,
              width=900,
