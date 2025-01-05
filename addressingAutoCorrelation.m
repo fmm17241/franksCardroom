@@ -208,12 +208,16 @@ decimatedData.SBL = filteredData.SBL(1:4:end);
 decimatedData.SBLcapped = filteredData.SBLcapped(1:4:end);
 decimatedData.Detections = filteredData.Detections(1:4:end);
 decimatedData.SST = filteredData.SST(1:4:end);
-
-% Downsample datetime values
 decimatedData.Time = times(1:4:end);
 
 
 X = 1:length(decimatedData.SBL);
+
+figure()
+plot(decimatedData.Time,decimatedData.SBLcapped,'b')
+hold on
+plot(times,filteredData.SBLcapped,'r')
+
 
 [R,P] = corrcoef(decimatedData.SBLcapped,decimatedData.Snaps)
 
@@ -240,23 +244,23 @@ loop7Index = 2050:2140;
 %Apr. 28 19:00 - May 2 12:00
 loop8Index = 2141:2230;
 
-% Numbered in "DecimatedData"
+% Numbered in "decimatedData"
 %Feb 5 00:00 - Feb 10 09:00 
-loop1Index = 130:259;
+loop1Index = 
 %Feb 12 04:00 - Feb 18 18:00 
-loop2Index = 302:460;
+loop2Index = 
 %Feb 18 19:00 - Feb 24 15:00
-loop3Index = 461:601;
+loop3Index = 
 %Mar. 30 03:00 - Apr. 3 12:00
-loop4Index = 1429:1534;
+loop4Index = 
 %Apr. 11 08:00 - Apr. 14 19:00
-loop5Index = 1722:1805;
+loop5Index = 
 %Apr. 14 20:00 - Apr. 18 09:00
-loop6Index = 1806:1891;
+loop6Index = 
 %Apr. 25 00:00 - Apr. 28 18:00
-loop7Index = 2050:2140;
+loop7Index = 
 %Apr. 28 19:00 - May 2 12:00
-loop8Index = 2141:2230;
+loop8Index = 
 
 
 
