@@ -167,42 +167,95 @@ autocorr(glsResidualsFilt, 'NumLags', 50);
 
 % Hmm okay, maybe much simpler than what I was trying to do. Let me try below.
 % Load in data.
+% % Load in saved data
+% % Environmental data matched to the hourly snaps.
+load envDataSpring
+% % Full snaprate dataset
+load snapRateDataSpring
+% % Snaprate binned hourly
+load snapRateHourlySpring
+% % Snaprate binned per minute
+load snapRateMinuteSpring
+load surfaceDataSpring
 load filteredData4Bin40HrLowSPRING.mat
+times = surfaceData.time;
+timesDN = datenum(times);
 disp(filteredData)
 
 
+%%
+%Hmmm okay, decimate() actually applies its own lowpass filter. 
 
-decimatedData.Snaps = decimate(filteredData.Snaps,4);
-decimatedData.Noise = decimate(filteredData.Noise,4);
-decimatedData.Winds = decimate(filteredData.Winds,4);
-decimatedData.Waves = decimate(filteredData.Waves,4);
-decimatedData.Tides = decimate(filteredData.Tides,4);
-decimatedData.TidesAbsolute = decimate(filteredData.TidesAbsolute,4);
-decimatedData.WindDir = decimate(filteredData.WindDir,4);
-decimatedData.SBL = decimate(filteredData.SBL,4);
-decimatedData.SBLcapped = decimate(filteredData.SBLcapped,4);
-decimatedData.Detections = decimate(filteredData.Detections,4);
-decimatedData.SST = decimate(filteredData.SST,4);
+% decimatedData.Snaps = decimate(filteredData.Snaps,4);
+% decimatedData.Noise = decimate(filteredData.Noise,4);
+% decimatedData.Winds = decimate(filteredData.Winds,4);
+% decimatedData.Waves = decimate(filteredData.Waves,4);
+% decimatedData.Tides = decimate(filteredData.Tides,4);
+% decimatedData.TidesAbsolute = decimate(filteredData.TidesAbsolute,4);
+% decimatedData.WindDir = decimate(filteredData.WindDir,4);
+% decimatedData.SBL = decimate(filteredData.SBL,4);
+% decimatedData.SBLcapped = decimate(filteredData.SBLcapped,4);
+% decimatedData.Detections = decimate(filteredData.Detections,4);
+% decimatedData.SST = decimate(filteredData.SST,4);
+%%
+% I am going to instead use a simple (1:4:end) downsampling.
+decimatedData.Snaps = filteredData.Snaps(1:4:end);
+decimatedData.Noise = filteredData.Noise(1:4:end);
+decimatedData.Winds = filteredData.Winds(1:4:end);
+decimatedData.Waves = filteredData.Waves(1:4:end);
+decimatedData.Tides = filteredData.Tides(1:4:end);
+decimatedData.TidesAbsolute = filteredData.TidesAbsolute(1:4:end);
+decimatedData.WindDir = filteredData.WindDir(1:4:end);
+decimatedData.SBL = filteredData.SBL(1:4:end);
+decimatedData.SBLcapped = filteredData.SBLcapped(1:4:end);
+decimatedData.Detections = filteredData.Detections(1:4:end);
+decimatedData.SST = filteredData.SST(1:4:end);
+
+% Downsample datetime values
+decimatedData.Time = times(1:4:end);
+
 
 X = 1:length(decimatedData.SBL);
 
-figure()
-plot(X,decimatedData.SBL)
-hold on
-plot(X,decimatedData.SBLcapped,'r')
+[R,P] = corrcoef(decimatedData.SBLcapped,decimatedData.Snaps)
 
+%Frank has to decimate the data after separating it from the full.
 
+% Numbered in "filteredData"
+%Feb 5 00:00 - Feb 10 09:00 
+loop1Index = 130:259;
+%Feb 12 04:00 - Feb 18 18:00 
+loop2Index = 302:460;
+%Feb 18 19:00 - Feb 24 15:00
+loop3Index = 461:601;
+%Mar. 30 03:00 - Apr. 3 12:00
+loop4Index = 1429:1534;
+%Apr. 11 08:00 - Apr. 14 19:00
+loop5Index = 1722:1805;
+%Apr. 14 20:00 - Apr. 18 09:00
+loop6Index = 1806:1891;
+%Apr. 25 00:00 - Apr. 28 18:00
+loop7Index = 2050:2140;
+%Apr. 28 19:00 - May 2 12:00
+loop8Index = 2141:2230;
 
-
-
-
-
-
-
-
-
-
-
+% Numbered in "DecimatedData"
+%Feb 5 00:00 - Feb 10 09:00 
+loop1Index = 130:259;
+%Feb 12 04:00 - Feb 18 18:00 
+loop2Index = 302:460;
+%Feb 18 19:00 - Feb 24 15:00
+loop3Index = 461:601;
+%Mar. 30 03:00 - Apr. 3 12:00
+loop4Index = 1429:1534;
+%Apr. 11 08:00 - Apr. 14 19:00
+loop5Index = 1722:1805;
+%Apr. 14 20:00 - Apr. 18 09:00
+loop6Index = 1806:1891;
+%Apr. 25 00:00 - Apr. 28 18:00
+loop7Index = 2050:2140;
+%Apr. 28 19:00 - May 2 12:00
+loop8Index = 2141:2230;
 
 
 
