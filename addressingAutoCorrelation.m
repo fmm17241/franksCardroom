@@ -164,7 +164,7 @@ autocorr(glsResidualsFilt, 'NumLags', 50);
 % hour data and apply a 40 hour filter, then you take every 40th data point to create new time series 
 % and use these to estimate the correlations.
 
-% Hmm okay, maybe much simpler than what I was trying to do. Let me try below.
+% Much simpler than what I was trying to do. Let me try below.
 % Load in data.
 % % Load in saved data
 % % Environmental data matched to the hourly snaps.
@@ -182,20 +182,9 @@ disp(filteredData)
 
 
 %%
-%Hmmm okay, decimate() actually applies its own lowpass filter. 
-
+% Decimate() applies its own lowpass filter, but I've previously filtered.
+% Instead of:
 % decimatedData.Snaps = decimate(filteredData.Snaps,4);
-% decimatedData.Noise = decimate(filteredData.Noise,4);
-% decimatedData.Winds = decimate(filteredData.Winds,4);
-% decimatedData.Waves = decimate(filteredData.Waves,4);
-% decimatedData.Tides = decimate(filteredData.Tides,4);
-% decimatedData.TidesAbsolute = decimate(filteredData.TidesAbsolute,4);
-% decimatedData.WindDir = decimate(filteredData.WindDir,4);
-% decimatedData.SBL = decimate(filteredData.SBL,4);
-% decimatedData.SBLcapped = decimate(filteredData.SBLcapped,4);
-% decimatedData.Detections = decimate(filteredData.Detections,4);
-% decimatedData.SST = decimate(filteredData.SST,4);
-%%
 % I am going to instead use a simple (1:4:end) downsampling.
 decimatedData.Snaps = filteredData.Snaps(1:4:end);
 decimatedData.Noise = filteredData.Noise(1:4:end);
@@ -208,6 +197,9 @@ decimatedData.SBL = filteredData.SBL(1:4:end);
 decimatedData.SBLcapped = filteredData.SBLcapped(1:4:end);
 decimatedData.Detections = filteredData.Detections(1:4:end);
 decimatedData.SST = filteredData.SST(1:4:end);
+decimatedData.BulkStrat = filteredData.BulkStrat(1:4:end);
+decimatedData.BottomTemp = filteredData.BottomTemp(1:4:end);
+
 decimatedData.Time = times(1:4:end);
 
 
@@ -221,8 +213,37 @@ plot(times,filteredData.SBLcapped,'r')
 
 [R,P] = corrcoef(decimatedData.SBLcapped,decimatedData.Snaps)
 
-[R,P] = corrcoef(filteredData.SBLcapped,filteredData.Snaps)
+[R,P] = corrcoef(decimatedData.SBLcapped,decimatedData.Snaps)
+[R,P] = corrcoef(surfaceData.SBLcapped,snapRateHourly.SnapCount)
+[R,P] = corrcoef(decimatedData.Winds,decimatedData.Snaps)
+[R,P] = corrcoef(surfaceData.WSPD,snapRateHourly.SnapCount)
 
+[R,P] = corrcoef(decimatedData.Waves,decimatedData.Snaps)
+[R,P] = corrcoef(surfaceData.waveHeight,snapRateHourly.SnapCount)
+
+[R,P] = corrcoef(decimatedData.SBLcapped,decimatedData.Noise)
+Rsqrd = R(1,2)*R(1,2)
+
+
+[R,P] = corrcoef(surfaceData.SBLcapped,envData.Noise)
+Rsqrd = R(1,2)*R(1,2)
+
+
+
+[R,P] = corrcoef(decimatedData.BulkStrat,decimatedData.Noise)
+Rsqrd = R(1,2)*R(1,2)
+
+[R,P] = corrcoef(decimatedData.Winds,decimatedData.Detections)
+Rsqrd = R(1,2)*R(1,2)
+
+[R,P] = corrcoef(decimatedData.SBLcapped,decimatedData.Detections)
+Rsqrd = R(1,2)*R(1,2)
+
+[R,P] = corrcoef(decimatedData.BottomTemp,decimatedData.Snaps)
+Rsqrd = R(1,2)*R(1,2)
+
+[R,P] = corrcoef(decimatedData.BottomTemp,decimatedData.Noise)
+Rsqrd = R(1,2)*R(1,2)
 
 %Frank has to decimate the data after separating it from the full.
 
@@ -265,8 +286,8 @@ loopIndexDS{4} = 358:385;
 loopIndexFilt{5} =  1721:1805;
 loopIndexDS{5} = 431:452;
 
-%Apr. 14 19:00 - Apr. 18 11:00
-loopIndexFilt{6} = 1805:1893;
+%Apr. 14 19:00 - Apr. 18 12:00
+loopIndexFilt{6} = 1805:1894;
 loopIndexDS{6} = 452:474;
 
 %Apr. 24 23:00 - Apr. 28 19:00
@@ -285,23 +306,23 @@ for k = 1:length(loopIndexFilt)
     singleLoop{k}.DetsMin = min(envData.HourlyDets(loopIndexFilt{k}))
     singleLoop{k}.DetsMax = max(envData.HourlyDets(loopIndexFilt{k}))
     %
-    [R P] = corrcoef(filteredData.Snaps(loopIndexDS{k}),filteredData.SBLcapped(loopIndexDS{k}))
+    [R P] = corrcoef(decimatedData.Snaps(loopIndexDS{k}),decimatedData.SBLcapped(loopIndexDS{k}))
     singleLoop{k}.SnapSBLRsqrd = R(1,2)*R(1,2)
     singleLoop{k}.SnapSBLpvalue = P(1,2);
     %
-    [R P] = corrcoef(filteredData.Noise(loopIndexDS{k}),filteredData.SBLcapped(loopIndexDS{k}))
+    [R P] = corrcoef(decimatedData.Noise(loopIndexDS{k}),decimatedData.SBLcapped(loopIndexDS{k}))
     singleLoop{k}.NoiseSBLsqrd = R(1,2)*R(1,2)
     singleLoop{k}.NoiseSBLpvalue = P(1,2);
     %
-    [R P] = corrcoef(filteredData.Detections(loopIndexDS{k}),filteredData.SBLcapped(loopIndexDS{k}))
+    [R P] = corrcoef(decimatedData.Detections(loopIndexDS{k}),decimatedData.SBLcapped(loopIndexDS{k}))
     singleLoop{k}.DetectionsSBLsqrd = R(1,2)*R(1,2)
     singleLoop{k}.DetectionsSBLpvalue = P(1,2);
     %
-    [R P] = corrcoef(filteredData.BulkStrat(loop1Index),filteredData.SBLcapped(loopIndexDS{k}))
+    [R P] = corrcoef(decimatedData.BulkStrat(loopIndexDS{k}),decimatedData.SBLcapped(loopIndexDS{k}))
     singleLoop{k}.StratSBLsqrd = R(1,2)*R(1,2)
     singleLoop{k}.StratSBLpvalue = P(1,2)
     %
-    [R P] = corrcoef(filteredData.BulkStrat(loop1Index),filteredData.Detections(loopIndexDS{k}))
+    [R P] = corrcoef(decimatedData.BulkStrat(loopIndexDS{k}),decimatedData.Detections(loopIndexDS{k}))
     singleLoop{k}.StratDetssqrd = R(1,2)*R(1,2)
     singleLoop{k}.StratDetspvalue = P(1,2)
 end
