@@ -164,7 +164,6 @@ autocorr(glsResidualsFilt, 'NumLags', 50);
 % hour data and apply a 40 hour filter, then you take every 40th data point to create new time series 
 % and use these to estimate the correlations.
 
-
 % Hmm okay, maybe much simpler than what I was trying to do. Let me try below.
 % Load in data.
 % % Load in saved data
@@ -179,7 +178,6 @@ load snapRateMinuteSpring
 load surfaceDataSpring
 load filteredData4Bin40HrLowSPRING.mat
 times = surfaceData.time;
-timesDN = datenum(times);
 disp(filteredData)
 
 
@@ -218,6 +216,9 @@ decimatedData.Time = times(1:4:end);
 X = 1:length(decimatedData.SBL);
 
 [R,P] = corrcoef(decimatedData.SBLcapped,decimatedData.Snaps)
+
+[R,P] = corrcoef(filteredData.SBLcapped,filteredData.Snaps)
+
 
 %Frank has to decimate the data after separating it from the full.
 
