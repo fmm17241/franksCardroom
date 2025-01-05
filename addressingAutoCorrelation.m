@@ -226,41 +226,87 @@ plot(times,filteredData.SBLcapped,'r')
 
 %Frank has to decimate the data after separating it from the full.
 
-% Numbered in "filteredData"
-%Feb 5 00:00 - Feb 10 09:00 
-loop1Index = 130:259;
-%Feb 12 04:00 - Feb 18 18:00 
-loop2Index = 302:460;
-%Feb 18 19:00 - Feb 24 15:00
-loop3Index = 461:601;
-%Mar. 30 03:00 - Apr. 3 12:00
-loop4Index = 1429:1534;
-%Apr. 11 08:00 - Apr. 14 19:00
-loop5Index = 1722:1805;
-%Apr. 14 20:00 - Apr. 18 09:00
-loop6Index = 1806:1891;
-%Apr. 25 00:00 - Apr. 28 18:00
-loop7Index = 2050:2140;
-%Apr. 28 19:00 - May 2 12:00
-loop8Index = 2141:2230;
+% % Numbered in "filteredData"
+% %Feb 5 00:00 - Feb 10 09:00 
+% loop1Index = 130:259;
+% %Feb 12 04:00 - Feb 18 18:00 
+% loop2Index = 302:460;
+% %Feb 18 19:00 - Feb 24 15:00
+% loop3Index = 461:601;
+% %Mar. 30 03:00 - Apr. 3 12:00
+% loop4Index = 1429:1534;
+% %Apr. 11 08:00 - Apr. 14 19:00
+% loop5Index = 1722:1805;
+% %Apr. 14 20:00 - Apr. 18 09:00
+% loop6Index = 1806:1891;
+% %Apr. 25 00:00 - Apr. 28 18:00
+% loop7Index = 2050:2140;
+% %Apr. 28 19:00 - May 2 12:00
+% loop8Index = 2141:2230;
 
 % Numbered in "decimatedData"
-%Feb 5 00:00 - Feb 10 09:00 
-loop1Index = 
-%Feb 12 04:00 - Feb 18 18:00 
-loop2Index = 
+%Feb 4 23:00 - Feb 10 11:00 
+loopIndexFilt{1} = 129:261;
+loopIndexDS{1} = 33:66;
+
+%Feb 12 03:00 - Feb 18 19:00 
+loopIndexFilt{2} = 301:461;
+loopIndexDS{2} = 76:116;
+
 %Feb 18 19:00 - Feb 24 15:00
-loop3Index = 
-%Mar. 30 03:00 - Apr. 3 12:00
-loop4Index = 
-%Apr. 11 08:00 - Apr. 14 19:00
-loop5Index = 
-%Apr. 14 20:00 - Apr. 18 09:00
-loop6Index = 
-%Apr. 25 00:00 - Apr. 28 18:00
-loop7Index = 
-%Apr. 28 19:00 - May 2 12:00
-loop8Index = 
+loopIndexFilt{3} = 461:601;
+loopIndexDS{3} = 116:151;
+
+%Mar. 30 03:00 - Apr. 3 15:00
+loopIndexFilt{4} = 1429:1537;
+loopIndexDS{4} = 358:385;
+
+%Apr. 11 07:00 - Apr. 14 19:00
+loopIndexFilt{5} =  1721:1805;
+loopIndexDS{5} = 431:452;
+
+%Apr. 14 19:00 - Apr. 18 11:00
+loopIndexFilt{6} = 1805:1893;
+loopIndexDS{6} = 452:474;
+
+%Apr. 24 23:00 - Apr. 28 19:00
+loopIndexFilt{7} = 2049:2141;
+loopIndexDS{7} = 513:536;
+
+%Apr. 28 19:00 - May 2 15:00
+loopIndexFilt{8} = 2141:2233;
+loopIndexDS{8} = 536:559;
+
+for k = 1:length(loopIndexFilt)
+    singleLoop{k}.Duration = length(surfaceData.WSPD(loopIndexFilt{k}))
+    singleLoop{k}.WindMin = min(surfaceData.WSPD(loopIndexFilt{k}))
+    singleLoop{k}.WindMax = max(surfaceData.WSPD(loopIndexFilt{k}))
+    %
+    singleLoop{k}.DetsMin = min(envData.HourlyDets(loopIndexFilt{k}))
+    singleLoop{k}.DetsMax = max(envData.HourlyDets(loopIndexFilt{k}))
+    %
+    [R P] = corrcoef(filteredData.Snaps(loopIndexDS{k}),filteredData.SBLcapped(loopIndexDS{k}))
+    singleLoop{k}.SnapSBLRsqrd = R(1,2)*R(1,2)
+    singleLoop{k}.SnapSBLpvalue = P(1,2);
+    %
+    [R P] = corrcoef(filteredData.Noise(loopIndexDS{k}),filteredData.SBLcapped(loopIndexDS{k}))
+    singleLoop{k}.NoiseSBLsqrd = R(1,2)*R(1,2)
+    singleLoop{k}.NoiseSBLpvalue = P(1,2);
+    %
+    [R P] = corrcoef(filteredData.Detections(loopIndexDS{k}),filteredData.SBLcapped(loopIndexDS{k}))
+    singleLoop{k}.DetectionsSBLsqrd = R(1,2)*R(1,2)
+    singleLoop{k}.DetectionsSBLpvalue = P(1,2);
+    %
+    [R P] = corrcoef(filteredData.BulkStrat(loop1Index),filteredData.SBLcapped(loopIndexDS{k}))
+    singleLoop{k}.StratSBLsqrd = R(1,2)*R(1,2)
+    singleLoop{k}.StratSBLpvalue = P(1,2)
+    %
+    [R P] = corrcoef(filteredData.BulkStrat(loop1Index),filteredData.Detections(loopIndexDS{k}))
+    singleLoop{k}.StratDetssqrd = R(1,2)*R(1,2)
+    singleLoop{k}.StratDetspvalue = P(1,2)
+end
+
+
 
 
 
