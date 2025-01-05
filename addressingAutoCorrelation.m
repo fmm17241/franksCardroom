@@ -184,8 +184,12 @@ decimatedData.SBLcapped = decimate(filteredData.SBLcapped,4);
 decimatedData.Detections = decimate(filteredData.Detections,4);
 decimatedData.SST = decimate(filteredData.SST,4);
 
+X = 1:length(decimatedData.SBL);
 
-
+figure()
+plot(X,decimatedData.SBL)
+hold on
+plot(X,decimatedData.SBLcapped,'r')
 
 
 
