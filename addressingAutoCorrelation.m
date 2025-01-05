@@ -157,32 +157,47 @@ autocorr(glsResidualsFilt, 'NumLags', 50);
 
 
 %%
-% Create periodic terms for diurnal cycle
-t = (1:height(receiverData{1}))'; % Time index
-omega = 2 * pi / 24; % Diurnal frequency
-sinTerm = sin(omega * t);
-cosTerm = cos(omega * t);
+%%
+%From CBW: 
+%My comment on the correlations for the filtered data refers to that when you filter a data set, 
+% you need to subsample it to get the right number of independent data points. e.g. if you have 1 
+% hour data and apply a 40 hour filter, then you take every 40th data point to create new time series 
+% and use these to estimate the correlations.
 
-% Add periodic terms to GLS model
-predictors = [receiverData{1}.windSpd, sinTerm, cosTerm];
-modelWithPeriodicity = fitlm(predictors, receiverData{1}.Noise);
 
-% Extract residuals
-glsResidualsWithPeriodicity = modelWithPeriodicity.Residuals.Raw;
+% Hmm okay, maybe much simpler than what I was trying to do. Let me try below.
+% Load in data.
+load filteredData4Bin40HrLowSPRING.mat
+disp(filteredData)
 
-% Check autocorrelation of new residuals
-figure()
-autocorr(glsResidualsWithPeriodicity, 'NumLags', 50);
 
-% Detrend the data
-detrendedNoise = detrend(receiverData{1}.Noise, 'linear');
-detrendedWinds = detrend(receiverData{1}.windSpd, 'linear');
 
-% Fit GLS with detrended data and periodic terms
-modelDetrendedWithPeriodicity = fitlm([detrendedWinds, sinTerm, cosTerm], detrendedNoise);
+decimatedData.Snaps = decimate(filteredData.Snaps,4);
+decimatedData.Noise = decimate(filteredData.Noise,4);
+decimatedData.Winds = decimate(filteredData.Winds,4);
+decimatedData.Waves = decimate(filteredData.Waves,4);
+decimatedData.Tides = decimate(filteredData.Tides,4);
+decimatedData.TidesAbsolute = decimate(filteredData.TidesAbsolute,4);
+decimatedData.WindDir = decimate(filteredData.WindDir,4);
+decimatedData.SBL = decimate(filteredData.SBL,4);
+decimatedData.SBLcapped = decimate(filteredData.SBLcapped,4);
+decimatedData.Detections = decimate(filteredData.Detections,4);
+decimatedData.SST = decimate(filteredData.SST,4);
 
-figure()
-plot(modelDetrendedWithPeriodicity)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
