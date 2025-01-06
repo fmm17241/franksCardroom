@@ -210,6 +210,9 @@ plot(decimatedData.Time,decimatedData.SBLcapped,'b')
 hold on
 plot(times,filteredData.SBLcapped,'r')
 
+[R,P] = corrcoef(decimatedData.Detections,decimatedData.Snaps)
+
+
 
 [R,P] = corrcoef(decimatedData.SBLcapped,decimatedData.Snaps)
 
