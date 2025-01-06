@@ -233,6 +233,7 @@ Rsqrd = R(1,2)*R(1,2)
 
 
 
+
 [R,P] = corrcoef(decimatedData.BulkStrat,decimatedData.Noise)
 Rsqrd = R(1,2)*R(1,2)
 
