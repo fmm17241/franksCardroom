@@ -2,7 +2,7 @@
 % Load in data. Consolidating my figures so I don't lose them.
 
 % franksTalkingPoints
-
+% addressingAutoCorrelation
 
 X1 = 1:length(times);
 X2 = 1:length(decimatedData.Snaps);
@@ -162,6 +162,11 @@ RSqrd = R(1,2)*R(1,2)
 
 %%%
 % "FullStoryTilesHorizontal"
+
+%Feb 18 19:00 - Feb 24 15:00
+loopIndexFilt{3} = 461:601;
+loopIndexDS{3} = 116:151;
+
 figure()
 TT = tiledlayout(2,4)
 ax1 = nexttile([1,4])
