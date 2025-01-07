@@ -304,6 +304,18 @@ htitle = get(hleg,'Title');
 set(htitle,'String','Raw Data')
 
 % Setting up stats for the 6-tile wind event plot.
+%Tile 1
+[R,P] = corrcoef(decimatedData.SBLcapped,decimatedData.Snaps)
+%Tile 2
+
+%Tile 3
+
+%Tile 4
+[R,P] = corrcoef(surfaceData.SBLcapped,snapRateHourly.SnapCount)
+%Tile 5
+
+%Tile 6
+
 [R, P] = corr(decimatedData.Detections,decimatedData.Winds, 'Type', 'Spearman')
 
 
