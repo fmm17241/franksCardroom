@@ -257,11 +257,11 @@ set(htitle,'String','Lowpass-Filtered')
 
 ax4 = nexttile([2,2])
 yyaxis left
-scatter(times(461:601),surfaceData.SBLcapped(461:601),70,'filled')
+scatter(times(loopIndexFilt{3}),surfaceData.SBLcapped(loopIndexFilt{3}),70,'filled')
 ylim([0 15])
 ylabel('SBL (dB)')
 yyaxis right
-scatter(times(461:601),envData.Noise(461:601),70,'k','filled','^')
+scatter(times(loopIndexFilt{3}),envData.Noise(loopIndexFilt{3}),70,'k','filled','^')
 ylabel('Noise (mV)')
 % title('','Raw Data')
 % title('Raw Data','Noise Attenuation due to SBL')
@@ -273,11 +273,11 @@ set(htitle,'String','Raw Data')
 
 ax5 = nexttile([2,2])
 yyaxis left
-scatter(times(461:601),surfaceData.SBLcapped(461:601),70,'filled')
+scatter(times(loopIndexFilt{3}),surfaceData.SBLcapped(loopIndexFilt{3}),70,'filled')
 ylim([0 15])
 % ylabel('SBL (dB)')
 yyaxis right
-scatter(times(461:601),envData.HourlyDets(461:601),70,'r','filled','hexagram')
+scatter(times(loopIndexFilt{3}),envData.HourlyDets(loopIndexFilt{3}),70,'r','filled','hexagram')
 ylabel('Detections')
 % title('','Raw Data')
 % title('','Surface Attenuation Enabling Acoustic Telemetry')
@@ -290,11 +290,11 @@ set(htitle,'String','Raw Data')
 
 ax6 = nexttile([2,2])
 yyaxis left
-scatter(times(461:601),surfaceData.SBLcapped(461:601),70,'filled')
+scatter(times(loopIndexFilt{3}),surfaceData.SBLcapped(loopIndexFilt{3}),70,'filled')
 ylim([0 15])
 % ylabel('SBL (dB)')
 yyaxis right
-scatter(times(461:601),snapRateHourly.SnapCount(461:601),70,'g','filled','diamond')
+scatter(times(loopIndexFilt{3}),snapRateHourly.SnapCount(loopIndexFilt{3}),70,'g','filled','diamond')
 ylabel('Snaps')
 % title('','Raw Data')
 % title('','Snaprate Unnaffected by Winds')
@@ -305,27 +305,27 @@ set(htitle,'String','Raw Data')
 
 % Setting up stats for the 6-tile wind event plot.
 %Tile 1 - Filtered/Decimated SBL vs Noise
-[R,P] = corrcoef(decimatedData.SBLcapped,decimatedData.Noise)
+[R,P] = corrcoef(decimatedData.SBLcapped(loopIndexDS{3}),decimatedData.Noise(loopIndexDS{3}))
 R(1,2)*R(1,2)
 
 %Tile 2 - Filtered/Decimated SBL vs Detections
-[R, P] = corr(decimatedData.Detections,decimatedData.Winds, 'Type', 'Spearman')
+[R, P] = corr(decimatedData.Detections(loopIndexDS{3}),decimatedData.Winds(loopIndexDS{3}), 'Type', 'Spearman')
 R
 P
 
 %Tile 3 - Filtered/Decimated SBL vs Snaps
-[R,P] = corrcoef(decimatedData.SBLcapped,decimatedData.Snaps)
+[R,P] = corrcoef(decimatedData.SBLcapped(loopIndexDS{3}),decimatedData.Snaps(loopIndexDS{3}))
 R(1,2)*R(1,2)
 
 %Tile 4 - Raw SBL vs Noise
-[R,P] = corrcoef(surfaceData.SBLcapped,envData.Noise)
+[R,P] = corrcoef(surfaceData.SBLcappedloopIndexFilt{3},envData.NoiseloopIndexFilt{3})
 R(1,2)*R(1,2)
 
 %Tile 5 - Raw SBL vs Detections
-[R, P] = corr(surfaceData.SBLcapped,envData.Detections, 'Type', 'Spearman')
+[R, P] = corr(surfaceData.SBLcappedloopIndexFilt{3},envData.DetectionsloopIndexFilt{3}, 'Type', 'Spearman')
 
 %Tile 6 - Raw SBL vs Snaps
-[R,P] = corrcoef(surfaceData.SBLcapped,snapRateHourly.SnapCount)
+[R,P] = corrcoef(surfaceData.SBLcappedloopIndexFilt{3},snapRateHourly.SnapCountloopIndexFilt{3})
 R(1,2)*R(1,2)
 
 
