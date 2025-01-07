@@ -1,6 +1,8 @@
 
 % Load in data. Consolidating my figures so I don't lose them.
 
+% franksTalkingPoints
+
 
 X1 = 1:length(times);
 X2 = 1:length(decimatedData.Snaps);
@@ -158,7 +160,41 @@ RSqrd = R(1,2)*R(1,2)
 RSqrd = R(1,2)*R(1,2)
 %
 
-%
+%%%
+% "FullStoryTilesHorizontal"
+figure()
+TT = tiledlayout(2,4)
+ax1 = nexttile([1,4])
+yyaxis left
+plot(times(92:948),filteredData.SBLcapped(92:948),'b--','LineWidth',2)
+ylim([0 16])
+ylabel('SBL (dB)')
+title('Surface Bubble Loss and Detections','SURTASSTN20, 40-hour lowpass filter')
+
+yyaxis right
+plot(times(92:948),filteredData.Detections(92:948),'r','LineWidth',2)
+ylim([0 2.8])
+ylabel('Detections')
+
+legend('SBL','Detections')
+
+ax2 = nexttile([1,4])
+yyaxis left
+plot(times(92:948),filteredData.SBLcapped(92:948),'b--','LineWidth',2)
+ylim([0 16])
+ylabel('SBL (dB)')
+
+
+yyaxis right
+plot(times(92:948),filteredData.Noise(92:948),'k','LineWidth',2)
+ylim([525 700])
+ylabel('HF Noise (mV)')
+legend('SBL','Noise')
+
+linkaxes([ax1,ax2],'x')
+ax2.YAxis(2).Color = 'k';
+title('Surface Bubble Loss and Noise (50-90 kHz)','SURTASSTN20, 40-hour lowpass filter')
+
 
 
 
