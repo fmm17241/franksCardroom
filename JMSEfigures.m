@@ -161,11 +161,7 @@ RSqrd = R(1,2)*R(1,2)
 %
 
 %%%
-% "FullStoryTilesHorizontal"
-
-%Feb 18 19:00 - Feb 24 15:00
-loopIndexFilt{3} = 461:601;
-loopIndexDS{3} = 116:151;
+% LowpassTilesLabel
 
 figure()
 TT = tiledlayout(2,4)
@@ -201,6 +197,118 @@ ax2.YAxis(2).Color = 'k';
 title('Surface Bubble Loss and Noise (50-90 kHz)','SURTASSTN20, 40-hour lowpass filter')
 
 
+%%
+% "FullStoryTilesHorizontal"
+
+%Feb 18 19:00 - Feb 24 15:00
+loopIndexFilt{3} = 461:601;
+loopIndexDS{3} = 116:151;
+
+figure()
+TTTT = tiledlayout(4,6)
+ax1 = nexttile([2,2])
+yyaxis left
+scatter(decimatedData.Time(loopIndexDS{3}),decimatedData.SBLcapped(loopIndexDS{3}),70,'filled')
+ylim([0 15])
+ylabel('SBL (dB)')
+yyaxis right
+scatter(decimatedData.Time(loopIndexDS{3}),decimatedData.Noise(loopIndexDS{3}),70,'k','filled','^')
+ylabel('Noise (mV)')
+% title('Noise Attenuation due to SBL','40Hr Lowpass')
+title('Noise Attenuation due to Surface Bubble Loss')
+% legend('SBL','Noise')
+hleg = legend('SBL','Noise');
+htitle = get(hleg,'Title');
+set(htitle,'String','Lowpass-Filtered')
 
 
+ax2 = nexttile([2,2])
+yyaxis left
+scatter(decimatedData.Time(loopIndexDS{3}),decimatedData.SBLcapped(loopIndexDS{3}),70,'filled')
+ylim([0 15])
+% ylabel('SBL (dB)')
+yyaxis right
+scatter(decimatedData.Time(loopIndexDS{3}),decimatedData.Detections(loopIndexDS{3}),70,'r','filled','hexagram')
+ylabel('Detections')
+% title('Surface Attenuation Enabling Acoustic Telemetry','40Hr Lowpass')
+title('Telemetry Efficiency Versus Background Noise')
+% legend('SBL','Detections')
+hleg = legend('SBL','Detections');
+htitle = get(hleg,'Title');
+set(htitle,'String','Lowpass-Filtered')
+
+
+
+ax3 = nexttile([2,2])
+yyaxis left
+scatter(decimatedData.Time(loopIndexDS{3}),decimatedData.SBLcapped(loopIndexDS{3}),70,'filled')
+ylim([0 15])
+% ylabel('SBL (dB)')
+yyaxis right
+scatter(decimatedData.Time(loopIndexDS{3}),decimatedData.Snaps(loopIndexDS{3}),70,'g','filled','diamond')
+ylabel('Snaps')
+% title('Snaprate Unnaffected by Winds','40Hr Lowpass')
+title('Snapping Shrimp Behavior')
+% legend('SBL','Snaps')
+hleg = legend('SBL','Snaps');
+htitle = get(hleg,'Title');
+set(htitle,'String','Lowpass-Filtered')
+
+
+ax4 = nexttile([2,2])
+yyaxis left
+scatter(times(461:601),surfaceData.SBLcapped(461:601),70,'filled')
+ylim([0 15])
+ylabel('SBL (dB)')
+yyaxis right
+scatter(times(461:601),envData.Noise(461:601),70,'k','filled','^')
+ylabel('Noise (mV)')
+% title('','Raw Data')
+% title('Raw Data','Noise Attenuation due to SBL')
+% legend('SBL','Noise')
+hleg = legend('SBL','Noise');
+htitle = get(hleg,'Title');
+set(htitle,'String','Raw Data')
+
+
+ax5 = nexttile([2,2])
+yyaxis left
+scatter(times(461:601),surfaceData.SBLcapped(461:601),70,'filled')
+ylim([0 15])
+% ylabel('SBL (dB)')
+yyaxis right
+scatter(times(461:601),envData.HourlyDets(461:601),70,'r','filled','hexagram')
+ylabel('Detections')
+% title('','Raw Data')
+% title('','Surface Attenuation Enabling Acoustic Telemetry')
+% legend('SBL','Detections')
+hleg = legend('SBL','Detections');
+htitle = get(hleg,'Title');
+set(htitle,'String','Raw Data')
+
+
+
+ax6 = nexttile([2,2])
+yyaxis left
+scatter(times(461:601),surfaceData.SBLcapped(461:601),70,'filled')
+ylim([0 15])
+% ylabel('SBL (dB)')
+yyaxis right
+scatter(times(461:601),snapRateHourly.SnapCount(461:601),70,'g','filled','diamond')
+ylabel('Snaps')
+% title('','Raw Data')
+% title('','Snaprate Unnaffected by Winds')
+% legend('SBL','Snaps')
+hleg = legend('SBL','Snaps');
+htitle = get(hleg,'Title');
+set(htitle,'String','Raw Data')
+
+% Setting up stats for the 6-tile wind event plot.
+[R, P] = corr(decimatedData.Detections,decimatedData.Winds, 'Type', 'Spearman')
+
+
+[R,P] = corrcoef(decimatedData.SBLcapped,decimatedData.Snaps)
+
+[R,P] = corrcoef(decimatedData.SBLcapped,decimatedData.Snaps)
+[R,P] = corrcoef(surfaceData.SBLcapped,snapRateHourly.SnapCount)
 
