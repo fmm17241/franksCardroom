@@ -306,11 +306,11 @@ set(htitle,'String','Raw Data')
 % Setting up stats for the 6-tile wind event plot.
 %Tile 1 - Filtered/Decimated SBL vs Noise
 [R,P] = corrcoef(decimatedData.SBLcapped(loopIndexDS{3}),decimatedData.Noise(loopIndexDS{3}))
-R(1,2)*R(1,2)
+Rsqrd = R(1,2)*R(1,2)
 
 %Tile 2 - Filtered/Decimated SBL vs Detections
 [R, P] = corr(decimatedData.Detections(loopIndexDS{3}),decimatedData.Winds(loopIndexDS{3}), 'Type', 'Spearman')
-R
+R*R
 P
 
 %Tile 3 - Filtered/Decimated SBL vs Snaps
@@ -318,14 +318,14 @@ P
 R(1,2)*R(1,2)
 
 %Tile 4 - Raw SBL vs Noise
-[R,P] = corrcoef(surfaceData.SBLcappedloopIndexFilt{3},envData.NoiseloopIndexFilt{3})
+[R,P] = corrcoef(surfaceData.SBLcapped(loopIndexFilt{3}),envData.Noise(loopIndexFilt{3}))
 R(1,2)*R(1,2)
 
 %Tile 5 - Raw SBL vs Detections
-[R, P] = corr(surfaceData.SBLcappedloopIndexFilt{3},envData.DetectionsloopIndexFilt{3}, 'Type', 'Spearman')
-
+[R, P] = corr(surfaceData.SBLcapped(loopIndexFilt{3}),envData.HourlyDets(loopIndexFilt{3}), 'Type', 'Spearman')
+R*R
 %Tile 6 - Raw SBL vs Snaps
-[R,P] = corrcoef(surfaceData.SBLcappedloopIndexFilt{3},snapRateHourly.SnapCountloopIndexFilt{3})
+[R,P] = corrcoef(surfaceData.SBLcapped(loopIndexFilt{3}),snapRateHourly.SnapCount(loopIndexFilt{3}))
 R(1,2)*R(1,2)
 
 
