@@ -210,14 +210,11 @@ plot(decimatedData.Time,decimatedData.SBLcapped,'b')
 hold on
 plot(times,filteredData.SBLcapped,'r')
 
-[R, P] = corr(decimatedData.Detections,decimatedData.Snaps, 'Type', 'Spearman')
+[R, P] = corr(decimatedData.Detections,decimatedData.SBLcapped, 'Type', 'Spearman')
+
+R*R
 
 [R, P] = corr(decimatedData.Detections,decimatedData.Winds, 'Type', 'Spearman')
-
-[R, P] = corr(decimatedData.Noise,decimatedData.Winds, 'Type', 'Spearman')
-
-
-mdl = fitglm(windSpeed, detections, 'Distribution', 'Poisson');
 
 
 
@@ -315,6 +312,7 @@ loopIndexDS{7} = 513:536;
 %Apr. 28 19:00 - May 2 15:00
 loopIndexFilt{8} = 2141:2233;
 loopIndexDS{8} = 536:559;
+%%
 
 for k = 1:length(loopIndexFilt)
     singleLoop{k}.Duration = length(surfaceData.WSPD(loopIndexFilt{k}))
@@ -332,17 +330,18 @@ for k = 1:length(loopIndexFilt)
     singleLoop{k}.NoiseSBLsqrd = R(1,2)*R(1,2)
     singleLoop{k}.NoiseSBLpvalue = P(1,2);
     %
-    [R P] = corrcoef(decimatedData.Detections(loopIndexDS{k}),decimatedData.SBLcapped(loopIndexDS{k}))
-    singleLoop{k}.DetectionsSBLsqrd = R(1,2)*R(1,2)
-    singleLoop{k}.DetectionsSBLpvalue = P(1,2);
+    [R P] = corr(decimatedData.Detections(loopIndexDS{k}),decimatedData.SBLcapped(loopIndexDS{k}), 'Type', 'Spearman')
+  
+    singleLoop{k}.DetectionsSBLsqrd = R*R
+    singleLoop{k}.DetectionsSBLpvalue = P;
     %
     [R P] = corrcoef(decimatedData.BulkStrat(loopIndexDS{k}),decimatedData.SBLcapped(loopIndexDS{k}))
     singleLoop{k}.StratSBLsqrd = R(1,2)*R(1,2)
     singleLoop{k}.StratSBLpvalue = P(1,2)
     %
-    [R P] = corrcoef(decimatedData.BulkStrat(loopIndexDS{k}),decimatedData.Detections(loopIndexDS{k}))
-    singleLoop{k}.StratDetssqrd = R(1,2)*R(1,2)
-    singleLoop{k}.StratDetspvalue = P(1,2)
+    [R P] = corr(decimatedData.BulkStrat(loopIndexDS{k}),decimatedData.Detections(loopIndexDS{k}),'Type', 'Spearman')
+    singleLoop{k}.StratDetssqrd = R*R
+    singleLoop{k}.StratDetspvalue = P
 end
 
 
