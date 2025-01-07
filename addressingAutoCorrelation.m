@@ -210,6 +210,20 @@ plot(decimatedData.Time,decimatedData.SBLcapped,'b')
 hold on
 plot(times,filteredData.SBLcapped,'r')
 
+[R, P] = corr(decimatedData.Detections,decimatedData.Snaps, 'Type', 'Spearman')
+
+[R, P] = corr(decimatedData.Detections,decimatedData.Winds, 'Type', 'Spearman')
+
+[R, P] = corr(decimatedData.Noise,decimatedData.Winds, 'Type', 'Spearman')
+
+
+mdl = fitglm(windSpeed, detections, 'Distribution', 'Poisson');
+
+
+
+[R,P] = corrcoef(decimatedData.Detections,decimatedData.Snaps)
+
+
 [R,P] = corrcoef(decimatedData.Detections,decimatedData.Snaps)
 
 
