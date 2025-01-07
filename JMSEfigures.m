@@ -304,23 +304,34 @@ htitle = get(hleg,'Title');
 set(htitle,'String','Raw Data')
 
 % Setting up stats for the 6-tile wind event plot.
-%Tile 1
-[R,P] = corrcoef(decimatedData.SBLcapped,decimatedData.Snaps)
-%Tile 2
+%Tile 1 - Filtered/Decimated SBL vs Noise
+[R,P] = corrcoef(decimatedData.SBLcapped,decimatedData.Noise)
+R(1,2)*R(1,2)
 
-%Tile 3
-
-%Tile 4
-[R,P] = corrcoef(surfaceData.SBLcapped,snapRateHourly.SnapCount)
-%Tile 5
-
-%Tile 6
-
+%Tile 2 - Filtered/Decimated SBL vs Detections
 [R, P] = corr(decimatedData.Detections,decimatedData.Winds, 'Type', 'Spearman')
+R
+P
 
-
+%Tile 3 - Filtered/Decimated SBL vs Snaps
 [R,P] = corrcoef(decimatedData.SBLcapped,decimatedData.Snaps)
+R(1,2)*R(1,2)
 
-[R,P] = corrcoef(decimatedData.SBLcapped,decimatedData.Snaps)
+%Tile 4 - Raw SBL vs Noise
+[R,P] = corrcoef(surfaceData.SBLcapped,envData.Noise)
+R(1,2)*R(1,2)
+
+%Tile 5 - Raw SBL vs Detections
+[R, P] = corr(surfaceData.SBLcapped,envData.Detections, 'Type', 'Spearman')
+
+%Tile 6 - Raw SBL vs Snaps
 [R,P] = corrcoef(surfaceData.SBLcapped,snapRateHourly.SnapCount)
+R(1,2)*R(1,2)
+
+
+
+
+
+
+
 
