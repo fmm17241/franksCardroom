@@ -1,68 +1,105 @@
 
 % Load in data. Consolidating my figures so I don't lose them.
 
+% Much simpler than what I was trying to do. Let me try below.
+% Load in data.
+% % Load in saved data
+% % Environmental data matched to the hourly snaps.
+load envDataSpring
+% % Full snaprate dataset
+load snapRateDataSpring
+% % Snaprate binned hourly
+load snapRateHourlySpring
+% % Snaprate binned per minute
+load snapRateMinuteSpring
+load surfaceDataSpring
+load filteredData4Bin40HrLowSPRING.mat
+load decimatedDataSpring
+times = surfaceData.time;
+disp(filteredData)
+
 % franksTalkingPoints
 % addressingAutoCorrelation
 
 X1 = 1:length(times);
 X2 = 1:length(decimatedData.Snaps);
 
+logNoise = log(envData.Noise)
+
+[R, P] = corr(logNoise,snapRateHourly.SnapCount, 'Type', 'Spearman')
+R*R
+[R, P] = corr(envData.Noise,snapRateHourly.SnapCount, 'Type', 'Spearman')
+R*R
+
+% Binning, hmgsvfbmgbf
+
+
 figure()
 Tiled = tiledlayout(4,3)
-ax4 = nexttile([2,1])
+ax1 = nexttile([2,1])
+% semilogx(snapRateHourly.SnapCount,logNoise)
 scatter(snapRateHourly.SnapCount,envData.Noise,[],X1)
-% hold on
-% scatter(decimatedData.Snaps,decimatedData.Noise,[],X2,'filled')
+set(gca, 'XScale', 'log');
 xlabel('Snap Rate')
 ylabel('HF Noise (mV)')
 title('','High-Frequency Noise Being Created')
+xlim([500 7000])
+ylim([400 780])
 % legend('Raw','40Hr Lowpass')
-Log this?
+% Log this?
 
-ax5 = nexttile([2,1])
+ax2 = nexttile([2,1])
 % scatter(surfaceData.WSPD,envData.Noise)
 scatter(surfaceData.SBLcapped,envData.Noise,[],X1)
-hold on
-% scatter(filteredData.Winds,filteredData.Noise)
-% scatter(decimatedData.SBLcapped,decimatedData.Noise,[],X2,'filled')
+xlim([0 15])
+ylim([400 780])
 ylabel('HF Noise (mV)')
 xlabel('Surface Bubble Loss (dBs)')
 title('Gray''s Reef Soundscape, Spring 2020','Noise Being Attenuated at the Surface')
 
 
-ax6 = nexttile([2,1])
+ax3 = nexttile([2,1])
 scatter(surfaceData.WSPD,snapRateHourly.SnapCount,[],X1)
-% hold on
-% scatter(decimatedData.Winds,decimatedData.Snaps,[],X2,'filled')
+xlim([0 15])
+ylim([0 6000])
+
 ylabel('Snap Rate')
 xlabel('Windspeed (m/s)')
 title('','Wind''s Effect on Snap Rate')
 
-ax1 = nexttile([2,1])
+ax4 = nexttile([2,1])
 % scatter(snapRateHourly.SnapCount,envData.Noise,[],X1)
 % hold on
 scatter(decimatedData.Snaps,decimatedData.Noise,[],X2,'filled')
+set(gca, 'XScale', 'log');
+xlim([500 7000])
+ylim([400 780])
 xlabel('Snap Rate')
 ylabel('HF Noise (mV)')
 title('','High-Frequency Noise Being Created')
 % legend('Raw','40Hr Lowpass')
 
 
-ax2 = nexttile([2,1])
+ax5 = nexttile([2,1])
 % scatter(surfaceData.WSPD,envData.Noise)
 % scatter(surfaceData.SBLcapped,envData.Noise,[],X1)
 % hold on
 % scatter(filteredData.Winds,filteredData.Noise)
 scatter(decimatedData.SBLcapped,decimatedData.Noise,[],X2,'filled')
+xlim([0 15])
+ylim([400 780])
+% set(gca, 'XScale', 'log');
 ylabel('HF Noise (mV)')
 xlabel('Surface Bubble Loss (dBs)')
 title('40Hr Lowpass-Filtered','Noise Being Attenuated at the Surface')
 
 
-ax3 = nexttile([2,1])
+ax6 = nexttile([2,1])
 % scatter(surfaceData.WSPD,snapRateHourly.SnapCount,[],X1)
 % hold on
 scatter(decimatedData.Winds,decimatedData.Snaps,[],X2,'filled')
+ylim([0 6000])
+xlim([0 15])
 ylabel('Hourly Snaps')
 xlabel('Windspeed (m/s)')
 title('','Wind''s Effect on Snap Rate')
