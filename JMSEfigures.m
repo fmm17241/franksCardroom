@@ -46,7 +46,7 @@ snapBinX = 750:750:6750;
 binningSBL
 SBLbinX  = 2:2:14;
 %
-binningWind
+binningWSPD
 windBinX = 2:2:14;
 %
 % Values for color-changing, Raw and Snaps

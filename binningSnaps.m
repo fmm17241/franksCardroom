@@ -39,15 +39,12 @@ end
 x = 750:750:6750;
 
 
-figure()
-semilogx(x,noiseVsSnaps,'k','LineWidth',1.75)
-hold on
-scatter(x,noiseVsSnaps,'k','filled')
+% figure()
+% semilogx(x,noiseVsSnaps,'k','LineWidth',1.75)
+% hold on
+% scatter(x,noiseVsSnaps,'k','filled')
+% 
 
-figure()
-semilogx(x,windsVsSnaps)
-
-scatter(x,snapsVsSBL)
 
 
 

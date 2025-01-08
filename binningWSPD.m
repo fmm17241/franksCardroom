@@ -40,18 +40,18 @@ x = 2:2:14
 
 
 
-figure()
-semilogx(x,noiseVsWind,'k','LineWidth',1.75)
-hold on
-scatter(x,noiseVsWind,'k','filled')
+% figure()
+% semilogx(x,noiseVsWind,'k','LineWidth',1.75)
+% hold on
+% scatter(x,noiseVsWind,'k','filled')
 
 
 
 
-figure()
-semilogx(x,windsVsSnaps)
-
-scatter(x,snapsVsSBL)
+% figure()
+% semilogx(x,windsVsSnaps)
+% 
+% scatter(x,snapsVsSBL)
 
 
 
