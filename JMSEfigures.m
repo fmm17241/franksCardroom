@@ -20,10 +20,6 @@ disp(filteredData)
 
 % franksTalkingPoints
 % addressingAutoCorrelation
-
-X1 = 1:length(times);
-X2 = 1:length(decimatedData.Snaps);
-
 logNoise = log(envData.Noise)
 
 [R, P] = corr(logNoise,snapRateHourly.SnapCount, 'Type', 'Spearman')
@@ -32,6 +28,18 @@ R*R
 R*R
 
 % Binning, hmgsvfbmgbf
+binningSnaps
+snapBinX = 750:750:6750;
+%
+binningSBL
+SBLbinX  = 2:2:14;
+%
+binningWind
+windBinX = 2:2:14;
+%
+% Values for color-changing, Raw and Snaps
+X1 = 1:length(times);
+X2 = 1:length(decimatedData.Snaps);
 
 
 figure()
@@ -45,12 +53,20 @@ ylabel('HF Noise (mV)')
 title('','High-Frequency Noise Being Created')
 xlim([500 7000])
 ylim([400 780])
+hold on
+x = 750:750:6750;
+semilogx(snapBinX,noiseVsSnaps,'k','LineWidth',1.75)
+scatter(snapBinX,noiseVsSnaps,'k','filled')
+
 % legend('Raw','40Hr Lowpass')
 % Log this?
 
 ax2 = nexttile([2,1])
 % scatter(surfaceData.WSPD,envData.Noise)
 scatter(surfaceData.SBLcapped,envData.Noise,[],X1)
+hold on
+plot(SBLbinX,noiseVsSBL,'k','LineWidth',1.75)
+scatter(SBLbinX,noiseVsSBL,'k','filled')
 xlim([0 15])
 ylim([400 780])
 ylabel('HF Noise (mV)')
@@ -62,7 +78,9 @@ ax3 = nexttile([2,1])
 scatter(surfaceData.WSPD,snapRateHourly.SnapCount,[],X1)
 xlim([0 15])
 ylim([0 6000])
-
+hold on
+plot(windBinX,snapsVsWind,'k','LineWidth',1.75)
+scatter(windBinX,snapsVsWind,'k','filled')
 ylabel('Snap Rate')
 xlabel('Windspeed (m/s)')
 title('','Wind''s Effect on Snap Rate')

@@ -28,14 +28,29 @@ snapRateBins(9,:) = snapRateHourly.SnapCount > 6000;
 
 % Binning the data
 for k = 1:height(snapRateBins)
-    snapRateBinData{k}           = envData(snapRateBins(k,:),:);
-    noiseVsSnaps(k) = mean(snapRateBinData{1,k}.Noise);    
-    countAnnual(k)            = height(snapRateBinData{k})
+    snapRateEnvData{k}           = envData(snapRateBins(k,:),:);
+    snapRateSurfData{k}          = surfaceData(snapRateBins(k,:),:);
+
+    noiseVsSnaps(k) = mean(snapRateEnvData{1,k}.Noise); 
+    windsVsSnaps(k)   =mean(snapRateSurfData{1,k}.WSPD) 
+
+    countBINS(k)            = height(snapRateSurfData{k})
 end
 x = 750:750:6750;
 
 
 figure()
-semilogx(x,noiseVsSnaps)
+semilogx(x,noiseVsSnaps,'k','LineWidth',1.75)
 hold on
-scatter(x,noiseVsSnaps,'filled')
+scatter(x,noiseVsSnaps,'k','filled')
+
+figure()
+semilogx(x,windsVsSnaps)
+
+scatter(x,snapsVsSBL)
+
+
+
+
+
+
