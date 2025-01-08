@@ -3,7 +3,8 @@
 
 % Much simpler than what I was trying to do. Let me try below.
 % Load in data.
-% % Load in saved data
+% franksTalkingPoints
+% addressingAutoCorrelation
 % % Environmental data matched to the hourly snaps.
 load envDataSpring
 % % Full snaprate dataset
@@ -18,14 +19,25 @@ load decimatedDataSpring
 times = surfaceData.time;
 disp(filteredData)
 
-% franksTalkingPoints
-% addressingAutoCorrelation
-logNoise = log(envData.Noise)
+%%%
+% RawVsFilteredComparisonFigure, 6 tiles, colored and trended
 
-[R, P] = corr(logNoise,snapRateHourly.SnapCount, 'Type', 'Spearman')
-R*R
+%Column 1 stats
 [R, P] = corr(envData.Noise,snapRateHourly.SnapCount, 'Type', 'Spearman')
 R*R
+[R, P] = corr(decimatedData.Noise,decimatedData.Snaps, 'Type', 'Spearman')
+R*R
+%Column 2 stats
+[R, P] = corr(surfaceData.SBLcapped,envData.Noise, 'Type', 'Spearman')
+R*R
+[R, P] = corr(decimatedData.SBLcapped,decimatedData.Noise, 'Type', 'Spearman')
+R*R
+%Column 3 stats
+[R, P] = corr(surfaceData.WSPD,snapRateHourly.SnapCount, 'Type', 'Spearman')
+R*R
+[R, P] = corr(decimatedData.Winds,decimatedData.Snaps, 'Type', 'Spearman')
+R*R
+
 
 % Binning, hmgsvfbmgbf
 binningSnaps
@@ -40,7 +52,6 @@ windBinX = 2:2:14;
 % Values for color-changing, Raw and Snaps
 X1 = 1:length(times);
 X2 = 1:length(decimatedData.Snaps);
-
 
 figure()
 Tiled = tiledlayout(4,3)
