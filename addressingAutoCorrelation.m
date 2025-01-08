@@ -197,7 +197,7 @@ decimatedData.SBL = filteredData.SBL(1:4:end);
 decimatedData.SBLcapped = filteredData.SBLcapped(1:4:end);
 decimatedData.Detections = filteredData.Detections(1:4:end);
 decimatedData.SST = filteredData.SST(1:4:end);
-decimatedData.BulkStrat = filteredData.BulkStrat(1:4:end);
+%decimatedData.BulkStrat = filteredData.BulkStrat(1:4:end);
 decimatedData.BottomTemp = filteredData.BottomTemp(1:4:end);
 
 decimatedData.Time = times(1:4:end);

@@ -415,6 +415,15 @@ ev3Index = 1402:1550;
 [R, P] = corr(envData.Noise(ev3Index),envData.HourlyDets(ev3Index), 'Type', 'Spearman')
 R*R
 
+%%
+%Shrimp Activity Shaded
+%
+[R,P] = corrcoef(decimatedData.BottomTemp,decimatedData.Snaps)
+R(1,2)*R(1,2)
+
+% Load Fall data
+[R,P] = corrcoef(decimatedData.BottomTemp,decimatedData.Snaps)
+R(1,2)*R(1,2)
 
 
 

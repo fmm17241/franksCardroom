@@ -7,26 +7,26 @@ buildReceiverData
 fileLocation = ([oneDrive,'\acousticAnalysis\matlabVariables']);
 cd (fileLocation)
 % 
-% load envDataFall.mat
-% load snapRateDataFall.mat
-% load snapRateHourlyFall.mat
-% load surfaceDataFall.mat
-% load filteredData4Bin40HrLowFALLpruned.mat
-% times = envData.DT;
+load envDataFall.mat
+load snapRateDataFall.mat
+load snapRateHourlyFall.mat
+load surfaceDataFall.mat
+load filteredData4Bin40HrLowFALLpruned.mat
+times = envData.DT;
 
 %%
 % % Load in saved data
 % % Environmental data matched to the hourly snaps.
-load envDataSpring
-% % Full snaprate dataset
-load snapRateDataSpring
-% % Snaprate binned hourly
-load snapRateHourlySpring
-% % Snaprate binned per minute
-load snapRateMinuteSpring
-load surfaceDataSpring
-load filteredData4Bin40HrLowSPRING.mat
-times = surfaceData.time;
+% load envDataSpring
+% % % Full snaprate dataset
+% load snapRateDataSpring
+% % % Snaprate binned hourly
+% load snapRateHourlySpring
+% % % Snaprate binned per minute
+% load snapRateMinuteSpring
+% load surfaceDataSpring
+% load filteredData4Bin40HrLowSPRING.mat
+% times = surfaceData.time;
 
 
 
