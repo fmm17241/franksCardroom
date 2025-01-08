@@ -13,11 +13,11 @@ ax4 = nexttile([2,1])
 scatter(snapRateHourly.SnapCount,envData.Noise,[],X1)
 % hold on
 % scatter(decimatedData.Snaps,decimatedData.Noise,[],X2,'filled')
-xlabel('Hourly Snaprate')
+xlabel('Snap Rate')
 ylabel('HF Noise (mV)')
 title('','High-Frequency Noise Being Created')
 % legend('Raw','40Hr Lowpass')
-
+Log this?
 
 ax5 = nexttile([2,1])
 % scatter(surfaceData.WSPD,envData.Noise)
@@ -34,7 +34,7 @@ ax6 = nexttile([2,1])
 scatter(surfaceData.WSPD,snapRateHourly.SnapCount,[],X1)
 % hold on
 % scatter(decimatedData.Winds,decimatedData.Snaps,[],X2,'filled')
-ylabel('Hourly Snaps')
+ylabel('Snap Rate')
 xlabel('Windspeed (m/s)')
 title('','Wind''s Effect on Snap Rate')
 
@@ -42,7 +42,7 @@ ax1 = nexttile([2,1])
 % scatter(snapRateHourly.SnapCount,envData.Noise,[],X1)
 % hold on
 scatter(decimatedData.Snaps,decimatedData.Noise,[],X2,'filled')
-xlabel('Hourly Snaprate')
+xlabel('Snap Rate')
 ylabel('HF Noise (mV)')
 title('','High-Frequency Noise Being Created')
 % legend('Raw','40Hr Lowpass')
