@@ -28,12 +28,14 @@ snapRateBins(9,:) = snapRateHourly.SnapCount > 6000;
 
 % Binning the data
 for k = 1:height(snapRateBins)
-    snapRateBinData{k}           = snapRateHourly.SnapCount(snapRateBins(k,:));
-    averageWindSpeedAnnual(k) = mean(snapRateBinData{1,k});    
-    countAnnual(k)            = length(snapRateBinData{k})
+    snapRateBinData{k}           = envData(snapRateBins(k,:),:);
+    noiseVsSnaps(k) = mean(snapRateBinData{1,k}.Noise);    
+    countAnnual(k)            = height(snapRateBinData{k})
 end
+x = 750:750:6750;
 
-x = 1:length(countAnnual)
+
 figure()
-semilogx(x,countAnnual)
-
+semilogx(x,noiseVsSnaps)
+hold on
+scatter(x,noiseVsSnaps,'filled')
