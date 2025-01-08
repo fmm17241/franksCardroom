@@ -401,10 +401,19 @@ R*R
 
 %%
 %DailySnapDetections
+%Wind Event #1
+ev1Index = 1139:1280;
+[R, P] = corr(envData.Noise(ev1Index),envData.HourlyDets(ev1Index), 'Type', 'Spearman')
+R*R
 
-
-
-
+%Wind Event #2
+ev2Index = 632:791;
+[R, P] = corr(envData.Noise(ev2Index),envData.HourlyDets(ev2Index), 'Type', 'Spearman')
+R*R
+%Wind Event #3
+ev3Index = 1402:1550;
+[R, P] = corr(envData.Noise(ev3Index),envData.HourlyDets(ev3Index), 'Type', 'Spearman')
+R*R
 
 
 
