@@ -162,40 +162,77 @@ RSqrd = R(1,2)*R(1,2)
 
 %%%
 % LowpassTilesLabel
+% Feb 03 11:00 to Mar 10 03:00
+figIndex = 24:238;
 
 figure()
-TT = tiledlayout(2,4)
-ax1 = nexttile([1,4])
+TT = tiledlayout(3,4)
+ax3 = nexttile([1,4])
 yyaxis left
-plot(times(92:948),filteredData.SBLcapped(92:948),'b--','LineWidth',2)
-ylim([0 16])
+plot(decimatedData.Time(figIndex),decimatedData.SBLcapped(figIndex),'b--','LineWidth',3)
+ylim([0 14])
 ylabel('SBL (dB)')
-title('Surface Bubble Loss and Detections','SURTASSTN20, 40-hour lowpass filter')
 
 yyaxis right
-plot(times(92:948),filteredData.Detections(92:948),'r','LineWidth',2)
-ylim([0 2.8])
-ylabel('Detections')
+plot(decimatedData.Time(figIndex),decimatedData.Snaps(figIndex),'g','LineWidth',3)
+ylim([800 2000])
+ylabel('Snap Rate')
+legend('SBL','Snaps')
+title('Snapping Shrimp Activity During High Wind Periods','SURTASSTN20, lowpass filter')
 
-legend('SBL','Detections')
 
 ax2 = nexttile([1,4])
 yyaxis left
-plot(times(92:948),filteredData.SBLcapped(92:948),'b--','LineWidth',2)
-ylim([0 16])
+plot(decimatedData.Time(figIndex),decimatedData.SBLcapped(figIndex),'b--','LineWidth',3)
+ylim([0 14])
 ylabel('SBL (dB)')
 
-
 yyaxis right
-plot(times(92:948),filteredData.Noise(92:948),'k','LineWidth',2)
-ylim([525 700])
+plot(decimatedData.Time(figIndex),decimatedData.Noise(figIndex),'k','LineWidth',3)
+ylim([525 675])
 ylabel('HF Noise (mV)')
 legend('SBL','Noise')
+title('High-Frequency Noise During High Wind Periods','SURTASSTN20, 50-90 kHz, lowpass filter')
 
-linkaxes([ax1,ax2],'x')
+
+
+%FM Creating efficiency from Detection rates
+efficiency = decimatedData.Detections(figIndex)/6;
+
+
+ax1 = nexttile([1,4])
+yyaxis left
+% plot(times(92:948),filteredData.SBLcapped(92:948),'b--','LineWidth',2)
+plot(decimatedData.Time(figIndex),decimatedData.SBLcapped(figIndex),'b--','LineWidth',3)
+ylim([0 14])
+ylabel('SBL (dB)')
+title('Telemetry Success Rates During High Wind Periods','SURTASSTN20 to STSNEW1, 440 meters, lowpass filter')
+
+yyaxis right
+plot(decimatedData.Time(figIndex),efficiency,'r','LineWidth',3)
+ylim([0 0.28])
+ylabel('Det. Efficiency (%)')
+
+legend('SBL','Det. Efficiency')
+
+linkaxes([ax1,ax2,ax3],'x')
+ax1.YAxis(2).Color = 'k';
 ax2.YAxis(2).Color = 'k';
-title('Surface Bubble Loss and Noise (50-90 kHz)','SURTASSTN20, 40-hour lowpass filter')
+ax3.YAxis(2).Color = 'k';
 
+%Tile 1 - FILT SBL vs FILT Snaps
+[R,P] = corrcoef(decimatedData.SBLcapped(figIndex),decimatedData.Snaps(figIndex))
+R(1,2)*R(1,2)
+
+%Tile 2 - FILT SBL vs FILT Noise
+[R,P] = corrcoef(decimatedData.SBLcapped(figIndex),decimatedData.Noise(figIndex))
+R(1,2)*R(1,2)
+
+%Tile 1 - FILT SBL vs FILT Detections
+[R, P] = corr(decimatedData.SBLcapped(figIndex),decimatedData.Detections(figIndex), 'Type', 'Spearman')
+R*R
+
+testf = decimatedData.Time(loopIndexDS{3})
 
 %%
 % "FullStoryTilesHorizontal"
@@ -327,6 +364,49 @@ R*R
 %Tile 6 - Raw SBL vs Snaps
 [R,P] = corrcoef(surfaceData.SBLcapped(loopIndexFilt{3}),snapRateHourly.SnapCount(loopIndexFilt{3}))
 R(1,2)*R(1,2)
+
+%%
+%%Stats Table
+[R, P] = corr(decimatedData.SBLcapped,decimatedData.Detections, 'Type', 'Spearman')
+R*R
+[R, P] = corr(surfaceData.SBLcapped,envData.HourlyDets, 'Type', 'Spearman')
+R*R
+
+[R, P] = corr(decimatedData.Snaps,decimatedData.Detections, 'Type', 'Spearman')
+R*R
+[R, P] = corr(snapRateHourly.SnapCount,envData.HourlyDets, 'Type', 'Spearman')
+R*R
+
+[R, P] = corr(decimatedData.BulkStrat,decimatedData.Detections, 'Type', 'Spearman')
+R*R
+[R, P] = corr(envData.bulkThermalStrat,envData.HourlyDets, 'Type', 'Spearman')
+R*R
+
+%%
+% April Case Study
+% Find index
+aprilIndex = 1985:2146;
+
+[R, P] = corr(envData.Noise(aprilIndex),envData.HourlyDets(aprilIndex), 'Type', 'Spearman')
+R*R
+
+%
+febIndex = 239:526;
+[R, P] = corr(envData.Noise(febIndex),envData.HourlyDets(febIndex), 'Type', 'Spearman')
+R*R
+%
+marIndex = 820:1120;
+[R, P] = corr(envData.Noise(febIndex),envData.HourlyDets(febIndex), 'Type', 'Spearman')
+R*R
+
+%%
+%DailySnapDetections
+
+
+
+
+
+
 
 
 
