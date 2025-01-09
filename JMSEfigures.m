@@ -68,6 +68,7 @@ hold on
 x = 750:750:6750;
 semilogx(snapBinX,noiseVsSnaps,'k','LineWidth',1.75)
 scatter(snapBinX,noiseVsSnaps,'k','filled')
+% scatter(snapRateHourly.SnapCount(loopIndexFilt{3}),envData.Noise(loopIndexFilt{3}),[],'r','filled')
 
 % legend('Raw','40Hr Lowpass')
 % Log this?
@@ -78,6 +79,7 @@ scatter(surfaceData.SBLcapped,envData.Noise,[],X1)
 hold on
 plot(SBLbinX,noiseVsSBL,'k','LineWidth',1.75)
 scatter(SBLbinX,noiseVsSBL,'k','filled')
+% scatter(surfaceData.SBLcapped(loopIndexFilt{3}),envData.Noise(loopIndexFilt{3}),[],'r','filled')
 xlim([0 15])
 ylim([400 780])
 ylabel('HF Noise (mV)')
@@ -92,6 +94,7 @@ ylim([0 6000])
 hold on
 plot(windBinX,snapsVsWind,'k','LineWidth',1.75)
 scatter(windBinX,snapsVsWind,'k','filled')
+% scatter(surfaceData.WSPD(loopIndexFilt{3}),snapRateHourly.SnapCount(loopIndexFilt{3}),[],'r','filled')
 ylabel('Snap Rate')
 xlabel('Windspeed (m/s)')
 title('','Wind''s Effect on Snap Rate')
@@ -100,6 +103,8 @@ ax4 = nexttile([2,1])
 % scatter(snapRateHourly.SnapCount,envData.Noise,[],X1)
 % hold on
 scatter(decimatedData.Snaps,decimatedData.Noise,[],X2,'filled')
+hold on
+scatter(decimatedData.Snaps(loopIndexDS{3}),decimatedData.Noise(loopIndexDS{3}),[],'r','filled')
 set(gca, 'XScale', 'log');
 xlim([500 7000])
 ylim([400 780])
@@ -117,6 +122,8 @@ ax5 = nexttile([2,1])
 scatter(decimatedData.SBLcapped,decimatedData.Noise,[],X2,'filled')
 xlim([0 15])
 ylim([400 780])
+hold on
+scatter(decimatedData.SBLcapped(loopIndexDS{3}),decimatedData.Noise(loopIndexDS{3}),[],'r','filled')
 % set(gca, 'XScale', 'log');
 ylabel('HF Noise (mV)')
 xlabel('Surface Bubble Loss (dBs)')
@@ -127,6 +134,8 @@ ax6 = nexttile([2,1])
 % scatter(surfaceData.WSPD,snapRateHourly.SnapCount,[],X1)
 % hold on
 scatter(decimatedData.Winds,decimatedData.Snaps,[],X2,'filled')
+hold on
+scatter(decimatedData.Winds(loopIndexDS{3}),decimatedData.Snaps(loopIndexDS{3}),[],'r','filled')
 ylim([0 6000])
 xlim([0 15])
 ylabel('Hourly Snaps')
