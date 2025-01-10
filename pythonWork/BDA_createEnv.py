@@ -55,10 +55,6 @@ def createEnv(
             F : Full column for plotting Transmission Loss
             B : Specific source of sound, 1 m off bottom
             T : Specific source of sound, 1 m off surface
-        rx_depth: Receiver depths (array).
-            F : Full depth profile, used for transmission loss
-            B : Receiver placed near bottom
-            T : Receiver placed near top
         tx_depth: Transmitter depth.
             T : 1.5 meter off top
             M : Halfway between top and bottom

@@ -47,14 +47,10 @@ os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\toolbox\AT\ex
 #        Apr : April  2020 example profile, strong shelf
 #        Jul : July  2020 example profile, diurnal strat.
 #    frequency: Transmission frequency in Hz.
-#    receiverType: Receiver ranges and depths (array), sets rx_range and rx_depth.
-#        Full : Full column for plotting Transmission Loss
-#        botPoint : Specific source of sound, 1 m off bottom
-#        topPoint : Specific source of sound, 1 m off surface
-#    rx_depth: Receiver depths (array).
-#        F : Full depth profile, used for transmission loss
-#        B : Receiver placed near bottom
-#        T : Receiver placed near top
+#    receiverDepth: Receiver ranges and depths (array), sets rx_range and rx_depth.
+#        F : Full column for plotting Transmission Loss
+#        B : Specific receiver, 1 m off bottom
+#        T : Specific receiver, 1 m off surface
 #    tx_depth: Transmitter depth.
 #        T : 1.5 meter off top
 #        M : Halfway between top and bottom
@@ -68,15 +64,15 @@ os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\toolbox\AT\ex
 #
 env, topDescrip, botDescrip, sspDescrip = createEnv(
 #env = createEnv(
-    surface_type = "W",
-    bottom_type = "F",
+    surface_type = "M",
+    bottom_type = "D",
     ssp_type = "Jan",
     range    = 1000,
     depth    = 20,
     frequency=69000,
     nBeams = 1000,
-    receiverType = "topPoint",
-    transDepth= "B",
+    receiverType = "T",
+    transDepth= "T",
     bottom_soundspeed=1450,
     bottom_density=1200,
     bottom_absorption=0.0
