@@ -348,31 +348,5 @@ for COUNT = 1:width(octaveLevel{4}.Var1)
 end
 
 
-%%
-
-figure()
-tiledlayout(3,1,'TileSpacing','Compact')
-ax1 = nexttile()
-yyaxis left
-plot(receiverData{4}.DT,receiverData{4}.windSpd)
-ylabel('Windspeed (m/s)')
-yyaxis right
-plot(receiverData{4}.DT,receiverData{4}.HourlyDets)
-ylabel('Detections')
-ylim([0 8])
-title('Comparing Wind Effects','Windspeed')
-
-ax2 = nexttile()
-plot(octaveLevel{1,4}.Time,octaveLevel{1,4}.Var1(:,4))
-title('Low-Frequency Reef Noise')
-ylabel('Sound Pressure Level')
-
-ax3 = nexttile()
-plot(receiverData{4}.DT,receiverData{4}.Noise)
-title('High-Frequency Reef Noise')
-ylabel('High-Freq. Noise (mV)')
-
-linkaxes([ax1 ax2 ax3],'x')
-
-
+%
 

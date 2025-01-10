@@ -1,5 +1,5 @@
 
-%Frank's attempt at rotating the currents to be parallel or perpendicular
+% Rotating the predicted currents to be parallel or perpendicular
 %to a transceiver pairing. In 2014, this was done purposefully so cross and
 %along shore are easy to separate; in 2020, it is much more challenging. So
 %instead of using the major axes of the ellipses, we can compare magnitude
