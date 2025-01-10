@@ -27,7 +27,7 @@ def createEnv(
     depth    = 20,
     frequency=69000,
     nBeams = 1000,
-    receiverType = "botPoint",
+    receiverType = "B",
     transDepth=12.5,
     bottom_soundspeed=1450,
     bottom_density=1200,
@@ -52,9 +52,9 @@ def createEnv(
             Jul : July  2020 example profile, diurnal strat.
         frequency: Transmission frequency in Hz.
         receiverType: Receiver ranges and depths (array), sets rx_range and rx_depth.
-            Full : Full column for plotting Transmission Loss
-            botPoint : Specific source of sound, 1 m off bottom
-            topPoint : Specific source of sound, 1 m off surface
+            F : Full column for plotting Transmission Loss
+            B : Specific source of sound, 1 m off bottom
+            T : Specific source of sound, 1 m off surface
         rx_depth: Receiver depths (array).
             F : Full depth profile, used for transmission loss
             B : Receiver placed near bottom
@@ -73,7 +73,7 @@ def createEnv(
 # Validate surface_type
     valid_surface_types = ["F", "M", "W"]
     if surface_type not in valid_surface_types:
-        raise ValueError(f"Invalid surface_type '{surface_type}'. Must be one of {valid_surface_types}.")
+        raise ValueError(f"Invalid surface_type '{surface_type}'. Must be 'F' for flat, 'M' for Mid, or 'W' for Wavy.")
 
     
 ########### 
@@ -89,7 +89,7 @@ def createEnv(
         surface = BDA_surfaceLevels.wavy_surface()
         topDescrip = "Wavy Surface"
     else:
-       raise ValueError(f"Invalid surface_type '{surface_type}'. Must be 'F', 'M', or 'W'.")
+       raise ValueError(f"Invalid surface_type '{surface_type}'. Must be 'F' for flat, 'M' for Mid, or 'W' for Wavy.")
 
 ###########
     if bottom_type == "F":
@@ -109,7 +109,7 @@ def createEnv(
         botDescrip  = "Structured"
         
     else:
-        raise ValueError(f"Invalid bottom_type '{bottom_type}'. Must be 'F', 'D', 'U', or 'C'.")
+        raise ValueError(f"Invalid bottom_type '{bottom_type}'. Must be 'F' for flat, 'D' for downhill, 'U' for uphill, or 'C' for complex.")
   
 ###########
     if receiverType == "F":
@@ -122,7 +122,7 @@ def createEnv(
        rx_range = range              
        rx_depth = 2
     else:
-       raise ValueError(f"Invalid receiver_type '{receiverType}'. Must be 'Full', 'botPoint', or 'topPoint'.")
+       raise ValueError(f"Invalid receiver_type '{receiverType}'. Must be 'F' for full/transmission loss, 'B' for bottom, or 'T' for top.")
        
 ########### 
     if ssp_type == "Jan":
@@ -148,7 +148,7 @@ def createEnv(
     elif transDepth == "B":
         tx_depth = depth-1.5
     else:
-        raise ValueError(f"Invalid transDepth '{transDepth}'. Must be 'T', 'M', or 'B'.")
+        raise ValueError(f"Invalid transDepth '{transDepth}'. Must be 'T' for top, 'M' for mid, or 'B' for bottom.")
   
         
 ###########    

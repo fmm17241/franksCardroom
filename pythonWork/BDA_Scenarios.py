@@ -68,15 +68,15 @@ os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\toolbox\AT\ex
 #
 env, topDescrip, botDescrip, sspDescrip = createEnv(
 #env = createEnv(
-    surface_type = "F",
+    surface_type = "W",
     bottom_type = "F",
     ssp_type = "Jan",
     range    = 1000,
     depth    = 20,
     frequency=69000,
     nBeams = 1000,
-    receiverType = "T",
-    transDepth= "T",
+    receiverType = "topPoint",
+    transDepth= "B",
     bottom_soundspeed=1450,
     bottom_density=1200,
     bottom_absorption=0.0
