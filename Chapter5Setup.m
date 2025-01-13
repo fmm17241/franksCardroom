@@ -42,27 +42,40 @@ load angusebdAprilMay
 % 2. Separate the data into single glider yos (yoDefiner or something)
 [yoSSP,yotemps,yotimes,yodepths,yosalt,yospeed] = yoDefiner(dn, depth, temperature, salt, speed);
 % count =1;
-for k = 1:50:length(yoSSP)
+for k = 1:10:length(yoSSP)
     if k == 1
-        count = 1
+        count = 1;
     else
         count = count+1;
     end
     %
     time = datetime(yoSSP{1,k}(:,1),'convertfrom','datenum');
     sspExample{count} = timetable(time,yoSSP{1,k}(:,2),yoSSP{1,k}(:,3));
+    sspExample{count}.Properties.VariableNames = {'Depth', 'SoundSpeed'};
 end
 
-test = datetime(yoSSP{1,5}(:,1),'convertfrom','datenum');
-testTable{2} = timetable(test, yoSSP{1,5}(:,2), yoSSP{1,5}(:,3));
-
-
-for k = 4000:4200
+for k = 1:length(sspExample)
     figure()
-plot(yoSSP{1,k}(:,3),yoSSP{1,k}(:,2))
-title(sprintf('My Plot %d',k))
-set(gca,'ydir','reverse')
+    plot(sspExample{1,k}.SoundSpeed,sspExample{1,k}.Depth)
+    title(sprintf('My Plot %d',k))
+    set(gca,'ydir','reverse')
 end
+
+%%
+% Alright, now I've gotta figure out which ones and how to move it to Python for processing. 
+% Matlab's Bellhop can work, but I believe Python will be smoother and prettier.
+
+%List of some sspExample{1,X} that I want:
+% 6, 14, 24, 67, 141, 180/181, 189, 247, 297, 307, 413, 496, 498, 547, 544, 556, 561,..
+%   572, 578, 598, 721, 763, 817
+
+figure()
+plot(sspExample{1,496}.SoundSpeed,sspExample{1,496}.Depth)
+title('Test')
+set(gca,'ydir','reverse')
+
+
+
 
 
 %
