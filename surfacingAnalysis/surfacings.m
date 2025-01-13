@@ -28,7 +28,7 @@ directory = (localPlots);
 
 
 %Full ray tracing, show all
-[waterdepth,beamFile] = ModelSoundSingle(yoSSP,directory);
+[waterdepth,beamFile] = ModelSoundSingle(yoSSP,directory, datadir);
 
 
 % Beam Density Analysis, finding ray propagation down range
@@ -36,7 +36,7 @@ directory = (localPlots);
 
 
 % Beam Density Plot, visualization of the beam density analysis
-bdaPlotSingle(beamFile,gridpoints,sumRays,directory,gliderstr,yotimes)
+bdaPlotSingle(beamFile,gridpoints,sumRays)
 
 
 
