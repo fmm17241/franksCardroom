@@ -21,7 +21,7 @@ load angusebdAprilMay
 %Detection subset, no doubles
 % [transmitters, correctedDN,correctedLat,correctedLon,correctedGPS,scidn,...
 %     temperature,density,depth,pressure,salt,speed] =processDetections(fstruct,sstruct,vems);
-[temperature,density,depth,pressure,salt,speed,gliderGPS,pathDT] =processGliderData(fstruct,sstruct);
+[temperature,density,depth,pressure,salt,speed,gliderGPS,gliderPath] =processGliderData(fstruct,sstruct);
 
 
 % 2. Separate the data into single glider yos (yoDefiner or something)

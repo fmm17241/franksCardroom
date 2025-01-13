@@ -1,4 +1,4 @@
-function [DT,temperature,density,depth,pressure,salt,speed,gliderGPS] = processGliderData(fstruct,sstruct)
+function [DT,temperature,density,depth,pressure,salt,speed,gliderPath] = processGliderData(fstruct,sstruct)
 
 %Glider data cleanup; finds unique time values without NaNs.
 sciDN = sstruct.dn;
@@ -40,4 +40,5 @@ gliderLon(nanIndices) = interp1(uniqueDT(knownIndices), gliderLon(knownIndices),
 %Just the flight pathing.
 DT = uniqueDT;
 % pathDT = datetime(sciDN,'ConvertFrom','datenum');
-gliderGPS = [gliderLat; gliderLon];
+gliderPath = timetable(DT,gliderLat,gliderLon);
+gliderGPS = [gliderLat, gliderLon];
