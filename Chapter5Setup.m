@@ -46,7 +46,7 @@ for k = 4000:4200
     figure()
 plot(yoSSP{1,k}(:,3),yoSSP{1,k}(:,2))
 title(sprintf('My Plot %d',k))
-
+set(gca,'ydir','reverse')
 end
 
 
