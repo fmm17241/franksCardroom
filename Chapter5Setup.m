@@ -42,6 +42,13 @@ load angusebdAprilMay
 % 2. Separate the data into single glider yos (yoDefiner or something)
 [yoSSP,yotemps,yotimes,yodepths,yosalt,yospeed] = yoDefiner(dn, depth, temperature, salt, speed);
 
+for k = 1:length(yoSSP)
+    time = datetime(yoSSP{1,k}(:,1),'convertfrom','datenum');
+    sspExample{k} = timetable(time,yoSSP{1,k}(:,2),yoSSP{1,k}(:,3));
+end
+
+test = datetime(yoSSP{1,1}(:,1),'convertfrom','datenum');
+
 for k = 4000:4200
     figure()
 plot(yoSSP{1,k}(:,3),yoSSP{1,k}(:,2))
@@ -57,7 +64,7 @@ end
 directory = (localPlots);
 
 %Full ray tracing, show all
-[waterdepth,beamFile] = ModelSoundSingle(yoSSP,directory, datadir);
+[waterdepth,beamFile] = ModelSoundSingle(yoSSP{5},directory, datadir);
 
 % 4. Run Bellhop, tracking beams/arrival times/transmission loss
 %
