@@ -66,7 +66,7 @@ end
 % Matlab's Bellhop can work, but I believe Python will be smoother and prettier.
 
 %List of some sspExample{1,X} that I want:
-% 6, 14, 24, 141, 180/181, 189, 247, 297, 307, 413, 496, 498, 547, 544, 556, 561,..
+% 6, 14, 24, 141, 180/181, 189, 247, 297, 413, 496, 498, 547, 544, 556, 561,..
 %   572, 578, 598, 721, 763, 817
 
 example = 496;
@@ -81,6 +81,11 @@ plot(sspExample{1,example}.SoundSpeed,sspExample{1,example}.Depth)
 title('Example of a Sound Speed Profile: Fresh Lens')
 set(gca,'ydir','reverse')
 
+example = 6; 
+figure()
+plot(sspExample{1,example}.SoundSpeed,sspExample{1,example}.Depth)
+title('Example of a Sound Speed Profile:')
+set(gca,'ydir','reverse')
 
 
 
