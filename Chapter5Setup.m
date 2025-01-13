@@ -13,10 +13,16 @@ load angusebdAprilMay
 [matstruct,dn,z,temp] = Bindata(fstruct,sstruct);
 
 
-%Processs raw .vem files, the outputs of our sensors
-cd ([oneDrive,'Glider\Data\Vemco\SpringFallDets'])
+% %Processs raw .vem files, the outputs of our sensors
+% cd ([oneDrive,'Glider\Data\Vemco\SpringFallDets'])
+% 
+% vems = vemProcess(pwd);
 
-vems = vemProcess(pwd);
+%Detection subset, no doubles
+% [transmitters, correctedDN,correctedLat,correctedLon,correctedGPS,scidn,...
+%     temperature,density,depth,pressure,salt,speed] =processDetections(fstruct,sstruct,vems);
+[temperature,density,depth,pressure,salt,speed,gliderGPS,pathDT] =processGliderData(fstruct,sstruct);
+
 
 % 2. Separate the data into single glider yos (yoDefiner or something)
 [yoSSP,yotemps,yotimes,yodepths,yosalt,yospeed] = yoDefinerAuto(dn, depth, temperature, salt, speed)
