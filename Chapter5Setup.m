@@ -41,13 +41,21 @@ load angusebdAprilMay
 
 % 2. Separate the data into single glider yos (yoDefiner or something)
 [yoSSP,yotemps,yotimes,yodepths,yosalt,yospeed] = yoDefiner(dn, depth, temperature, salt, speed);
-
-for k = 1:length(yoSSP)
+% count =1;
+for k = 1:50:length(yoSSP)
+    if k == 1
+        count = 1
+    else
+        count = count+1;
+    end
+    %
     time = datetime(yoSSP{1,k}(:,1),'convertfrom','datenum');
-    sspExample{k} = timetable(time,yoSSP{1,k}(:,2),yoSSP{1,k}(:,3));
+    sspExample{count} = timetable(time,yoSSP{1,k}(:,2),yoSSP{1,k}(:,3));
 end
 
-test = datetime(yoSSP{1,1}(:,1),'convertfrom','datenum');
+test = datetime(yoSSP{1,5}(:,1),'convertfrom','datenum');
+testTable{2} = timetable(test, yoSSP{1,5}(:,2), yoSSP{1,5}(:,3));
+
 
 for k = 4000:4200
     figure()
