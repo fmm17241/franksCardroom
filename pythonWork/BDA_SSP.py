@@ -15,23 +15,73 @@ os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\Chapter5Scena
 file_paths = glob.glob("*.csv")
 
 # Read in all .csv files as data frames
-profiles = [pandas.read_csv(file, header=None) for file in file_paths]
+profilesDataFrame = [pandas.read_csv(file, header=None) for file in file_paths]
 
 
 columnNames = ['Depth', 'SoundSpeed']
 
-for df in profiles:
+for df in profilesDataFrame:
     df.columns = columnNames
     
+
+#########################################################################
+for i, df in enumerate(profilesDataFrame):
+    profilesDataFrame[i].columns = [col.strip().lower() for col in df.columns]
+
+def get_profile(profilesDataFrame, index):
+    """
+    Returns the Depth and Soundspeed columns from a specific profile.
+
+    Parameters:
+        profilesDataFrame (list): List of DataFrames containing profile data.
+        index (int): Index of the desired profile in the list (e.g., 0 for "one").
+
+    Returns:
+        DataFrame: A DataFrame with the Depth and Soundspeed columns from the selected profile.
+    """
+    # Ensure the index is within the range of profiles
+    if index < 0 or index >= len(profilesDataFrame):
+        raise IndexError("Index out of range for profiles list.")
     
-print(profiles[0].head())
+    # Select the DataFrame at the given index
+    selected_profile = profilesDataFrame[index]
+
+    # Check for normalized column names
+    if not {"depth", "soundspeed"}.issubset(selected_profile.columns):
+        raise ValueError("Selected profile does not contain required columns: 'depth' and 'soundspeed'.")
+    
+    # Return the relevant columns as a new DataFrame
+    return selected_profile[["depth", "soundspeed"]]
+
+
+def example_profile(profilesDataFrame, index):
+    """
+    Returns the Depth and Soundspeed data for a specific profile.
+
+    Parameters:
+        profilesDataFrame (list): List of DataFrames containing profile data.
+        index (int): Index of the desired profile in the list.
+
+    Returns:
+        list: A list of [Depth, Soundspeed] pairs from the selected profile.
+    """
+    # Get the selected profile DataFrame
+    selected_profile = get_profile(profilesDataFrame, index)
+
+    # Convert the DataFrame into a list of [Depth, Soundspeed]
+    profile_list = selected_profile.values.tolist()
+
+    return profile_list
+
+# Example usage:
+# `profilesDataFrame` is SSP profiles from glider
+profile_one = example_profile(profilesDataFrame, index=0)  # Get the first profile
+print(profile_one)
 
 
 
-# Frank is loading in SSPs from Matlab processing
 
-
-
+###########################################################
 
 def exampleJan(depth=20):
     return [
