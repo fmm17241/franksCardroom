@@ -77,30 +77,52 @@ for k = 1:length(deepSSPs)
 end
 
 
-ssp1 = deepSSPs{2};
-ssp2 = deepSSPs{4};
-ssp3 = deepSSPs{5};
-ssp4 = deepSSPs{8};
-ssp5 = deepSSPs{9};
-ssp6 = deepSSPs{11};
-ssp7 = deepSSPs{12};
-ssp8 = deepSSPs{13};
-
+ssp{1} = deepSSPs{2};
+ssp{2} = deepSSPs{4};
+ssp{3} = deepSSPs{5};
+ssp{4} = deepSSPs{8};
+ssp{5} = deepSSPs{9};
+ssp{6} = deepSSPs{11};
+ssp{7} = deepSSPs{12};
+ssp{8} = deepSSPs{13};
+%%
 % Frank adding top and bottom to the profiles due to the glider inflections.
-surface_depths = [0:0.1:3.98]; % Replace with your surface depth increments
-bottom_depths = [17.5:0.1:20]; % Replace with your bottom depth increments
+%Had to remove some repeat rows, one in ssp7 (ssp{1, 7}(79,:) = [];) 
+% and two in ssp8 (ssp{1, 8}(32,:) = []; ssp{1, 8}(41,:) = [];)
+for K = 1:8
+    cutoffTop = min(ssp{K}.Depth);
+    cutoffBot = max(ssp{K}.Depth);
+    %
+    surface_depths{K} = [0:0.2:cutoffTop]; % Replace with your surface depth increments
+    bottom_depths{K} = [cutoffBot:0.2:20]; % Replace with your bottom depth increments
+    %
+    interpolated_surface{K} = interp1(ssp{K}.Depth, ssp{K}.SoundSpeed, surface_depths{K}, 'linear', 'extrap');
+    interpolated_bottom{K} = interp1(ssp{K}.Depth, ssp{K}.SoundSpeed, bottom_depths{K}, 'linear', 'extrap');
+    
+    % Combine original and interpolated data
+    completeSSP{K}(:,1) = [surface_depths{K}'; ssp{K}.Depth; bottom_depths{K}'];
+    completeSSP{K}(:,2) = [interpolated_surface{K}'; ssp{K}.SoundSpeed; interpolated_bottom{K}'];
 
+    figure()
+    plot(completeSSP{K}(:,2),completeSSP{K}(:,1),'LineWidth',2)
+    title(sprintf('DeepSSP %d',K))
+    set(gca,'ydir','reverse')
+end
+% Manually pruning some that had bad interpolated fits.
+
+
+%%
 
 
 cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Chapter5Scenarios\SSPs'
-writetimetable(ssp1, 'ssp1.csv');
-writetimetable(ssp2, 'ssp2.csv');
-writetimetable(ssp3, 'ssp3.csv');
-writetimetable(ssp4, 'ssp4.csv');
-writetimetable(ssp5, 'ssp5.csv');
-writetimetable(ssp6, 'ssp6.csv');
-writetimetable(ssp7, 'ssp7.csv');
-writetimetable(ssp8, 'ssp8.csv');
+writetimetable(ssp{1}, 'ssp1.csv');
+writetimetable(ssp{2}, 'ssp2.csv');
+writetimetable(ssp{3}, 'ssp3.csv');
+writetimetable(ssp{4}, 'ssp4.csv');
+writetimetable(ssp{5}, 'ssp5.csv');
+writetimetable(ssp{6}, 'ssp6.csv');
+writetimetable(ssp{7}, 'ssp7.csv');
+writetimetable(ssp{8}, 'ssp8.csv');
 
 
 
