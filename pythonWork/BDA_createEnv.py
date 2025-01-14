@@ -22,7 +22,7 @@ import BDA_SSP
 def createEnv(
     surface_type = "F",
     bottom_type = "F",
-    ssp_type = "Jan",
+    ssp_type = "exampleJan",
     range    = 1000,
     depth    = 20,
     frequency=69000,
@@ -47,9 +47,9 @@ def createEnv(
             U : Uphill
             C : Complex
         ssp_type: Sound speed profile (e.g., janSSP, aprSSP).
-            Jan : January 2020 example, homogeneous
-            Apr : April  2020 example profile, strong shelf
-            Jul : July  2020 example profile, diurnal strat.
+            exampleJan : January 2020 example, homogeneous
+            exampleApr : April  2020 example profile, strong shelf
+            exampleJul : July  2020 example profile, diurnal strat.
         frequency: Transmission frequency in Hz.
         receiverType: Receiver ranges and depths (array), sets rx_range and rx_depth.
             F : Full column for plotting Transmission Loss
@@ -121,20 +121,24 @@ def createEnv(
        raise ValueError(f"Invalid receiver_type '{receiverType}'. Must be 'F' for full/transmission loss, 'B' for bottom, or 'T' for top.")
        
 ########### 
-    if ssp_type == "Jan":
+    if ssp_type == "exampleJan":
         soundspeed = BDA_SSP.january(depth=depth)
         sspDescrip     = "Homogeneous"
         
-    elif ssp_type == "Apr":
+    elif ssp_type == "exampleApr":
         soundspeed = BDA_SSP.april(depth=depth)
         sspDescrip     = "Freshwater Lens"
         
-    elif ssp_type == "Jul":
+    elif ssp_type == "exampleJul":
         soundspeed = BDA_SSP.july(depth=depth)
         sspDescrip     = "Stratified"
         
+    elif ssp_type == "example1"
+        soundspeed = BDA_SSP.july(depth=depth)
+        sspDescrip     = "Example1"
+    
     else:
-        raise ValueError(f"Invalid ssp_type '{ssp_type}'. Must be 'Jan', 'Apr', or 'Jul'.")
+        raise ValueError(f"Invalid ssp_type '{ssp_type}'. Must be 'exampleJan', 'exampleApr', or 'exampleJul'.")
 
 ########### 
     if transDepth == "T": 
