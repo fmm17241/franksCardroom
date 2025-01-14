@@ -56,7 +56,7 @@ end
 
 
 %find SSPs that are deepest
-for ex = 1:length(yoSSP)
+for ex = 1:length(sspExample)
     maxDepth(ex) = max(sspExample{1,ex}.Depth);
 end
 
@@ -71,6 +71,9 @@ for k = 1:length(deepSSPs)
     title(sprintf('My Plot %d',k))
     set(gca,'ydir','reverse')
 end
+
+
+
 save('deepSSPs.mat','deepSSPs')
 
 
