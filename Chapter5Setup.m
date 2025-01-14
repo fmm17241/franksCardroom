@@ -64,6 +64,7 @@ indexx = maxDepth >= 17;
 
 deepSSPs = sspExample(indexx);
 
+depths = 0:0.5:20;
 
 
 
