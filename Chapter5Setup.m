@@ -109,20 +109,44 @@ for K = 1:8
     set(gca,'ydir','reverse')
 end
 % Manually pruning some that had bad interpolated fits.
+completeSSP{1}(1:22,2) = 1521.24
+figure()
+plot(completeSSP{1}(:,2),completeSSP{1}(:,1),'LineWidth',2)
+title(sprintf('DeepSSP %d',1))
+set(gca,'ydir','reverse')
 
+completeSSP{3}(1:22,2) = 1520.93
+figure()
+plot(completeSSP{3}(:,2),completeSSP{3}(:,1),'LineWidth',2)
+title(sprintf('DeepSSP %d',3))
+set(gca,'ydir','reverse')
 
+completeSSP{6}(1:15,2) = 1526.00
+completeSSP{6}(91:end,2) = 1524.95
+
+figure()
+plot(completeSSP{6}(:,2),completeSSP{6}(:,1),'LineWidth',2)
+title(sprintf('DeepSSP %d',6))
+set(gca,'ydir','reverse')
+
+completeSSP{8}(1:19,2) = 1524.75
+
+figure()
+plot(completeSSP{8}(:,2),completeSSP{8}(:,1),'LineWidth',2)
+title(sprintf('DeepSSP %d',8))
+set(gca,'ydir','reverse')
 %%
 
 
 cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Chapter5Scenarios\SSPs'
-writetimetable(ssp{1}, 'ssp1.csv');
-writetimetable(ssp{2}, 'ssp2.csv');
-writetimetable(ssp{3}, 'ssp3.csv');
-writetimetable(ssp{4}, 'ssp4.csv');
-writetimetable(ssp{5}, 'ssp5.csv');
-writetimetable(ssp{6}, 'ssp6.csv');
-writetimetable(ssp{7}, 'ssp7.csv');
-writetimetable(ssp{8}, 'ssp8.csv');
+writematrix(completeSSP{1}, 'ssp1.csv');
+writematrix(completeSSP{2}, 'ssp2.csv');
+writematrix(completeSSP{3}, 'ssp3.csv');
+writematrix(completeSSP{4}, 'ssp4.csv');
+writematrix(completeSSP{5}, 'ssp5.csv');
+writematrix(completeSSP{6}, 'ssp6.csv');
+writematrix(completeSSP{7}, 'ssp7.csv');
+writematrix(completeSSP{8}, 'ssp8.csv');
 
 
 
