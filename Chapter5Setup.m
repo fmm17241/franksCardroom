@@ -54,39 +54,50 @@ for k = 1:10:length(yoSSP)
     sspExample{count}.Properties.VariableNames = {'Depth', 'SoundSpeed'};
 end
 
-for k = 1:length(sspExample)
-    figure()
-    plot(sspExample{1,k}.SoundSpeed,sspExample{1,k}.Depth)
-    title(sprintf('My Plot %d',k))
-    set(gca,'ydir','reverse')
+%find SSPs that are deepest
+for ex = 1:length(yoSSP)
+    maxDepth(ex) = max(sspExample{1,ex}.Depth);
 end
+
+indexx = maxDepth >= 17;
+
+deepSSPs = sspExample(indexx);
+
+% 
+% for k = 1:length(sspExample)
+%     figure()
+%     plot(sspExample{1,k}.SoundSpeed,sspExample{1,k}.Depth)
+%     title(sprintf('My Plot %d',k))
+%     set(gca,'ydir','reverse')
+% end
 
 %%
 % Alright, now I've gotta figure out which ones and how to move it to Python for processing. 
 % Matlab's Bellhop can work, but I believe Python will be smoother and prettier.
 
 %List of some sspExample{1,X} that I want:
-% 6, 14, 24, 141, 180/181, 189, 247, 297, 413, 496, 498, 547, 544, 556, 561,..
+% 14, 180/181, 189, 247, 297, 413, 496, 498, 547, 544, 556, 561,..
 %   572, 578, 598, 721, 763, 817
 
-example = 496;
-figure()
-plot(sspExample{1,example}.SoundSpeed,sspExample{1,example}.Depth)
-title('Example of a Sound Speed Profile: Top Shelf')
-set(gca,'ydir','reverse')
 
-example = 547; 
-figure()
-plot(sspExample{1,example}.SoundSpeed,sspExample{1,example}.Depth)
-title('Example of a Sound Speed Profile: Fresh Lens')
-set(gca,'ydir','reverse')
+examples = [14; 180; 189; 247; 297; 496; 547; 556; 561; 572; 721; 763; 817];
 
-example = 6; 
-figure()
-plot(sspExample{1,example}.SoundSpeed,sspExample{1,example}.Depth)
-title('Example of a Sound Speed Profile:')
-set(gca,'ydir','reverse')
+for ex = 1:length(examples)
+    figure()
+    plot(sspExample{1,examples(ex)}.SoundSpeed,sspExample{1,examples(ex)}.Depth)
+    title('Example of a Sound Speed Profile')
+    set(gca,'ydir','reverse')
+end
 
+%find SSPs that are deepest
+for ex = 1:length(examples)
+    maxDepth(ex) = max(sspExample{ex}.Depth);
+end
+
+
+
+
+save('sspExamples.mat','sspExample')
 
 
 %
