@@ -4,6 +4,17 @@ Created on Thu Dec 19 19:52:10 2024
 
 @author: fmm17241
 """
+import os
+os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\Chapter5Scenarios\SSPs")
+
+from scipy.io import loadmat
+data = loadmat('deepSSPs.mat')
+your_cell_array = data['yourCellArray']
+
+# Frank is loading in SSPs from Matlab processing
+
+
+
 
 def january(depth=20):
     return [
