@@ -8,8 +8,15 @@ import os
 os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\Chapter5Scenarios\SSPs")
 
 from scipy.io import loadmat
-data = loadmat('deepSSPs.mat')
-your_cell_array = data['yourCellArray']
+data = loadmat('sspStructure.mat')
+
+struct_array = data['sspStructure']
+
+first_table = struct_array[0,0]
+
+time_column = first_table['time']
+depth = first_table['Depth']
+soundSpeed = first_table['SoundSpeed']
 
 # Frank is loading in SSPs from Matlab processing
 

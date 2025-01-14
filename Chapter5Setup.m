@@ -54,6 +54,7 @@ for k = 1:10:length(yoSSP)
     sspExample{count}.Properties.VariableNames = {'Depth', 'SoundSpeed'};
 end
 
+
 %find SSPs that are deepest
 for ex = 1:length(yoSSP)
     maxDepth(ex) = max(sspExample{1,ex}.Depth);
