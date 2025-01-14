@@ -77,8 +77,31 @@ for k = 1:length(deepSSPs)
 end
 
 
+ssp1 = deepSSPs{2};
+ssp2 = deepSSPs{4};
+ssp3 = deepSSPs{5};
+ssp4 = deepSSPs{8};
+ssp5 = deepSSPs{9};
+ssp6 = deepSSPs{11};
+ssp7 = deepSSPs{12};
+ssp8 = deepSSPs{13};
 
-save('deepSSPs.mat','deepSSPs')
+% Frank adding top and bottom to the profiles due to the glider inflections.
+surface_depths = [0:0.1:3.98]; % Replace with your surface depth increments
+bottom_depths = [17.5:0.1:20]; % Replace with your bottom depth increments
+
+
+
+cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Chapter5Scenarios\SSPs'
+writetimetable(ssp1, 'ssp1.csv');
+writetimetable(ssp2, 'ssp2.csv');
+writetimetable(ssp3, 'ssp3.csv');
+writetimetable(ssp4, 'ssp4.csv');
+writetimetable(ssp5, 'ssp5.csv');
+writetimetable(ssp6, 'ssp6.csv');
+writetimetable(ssp7, 'ssp7.csv');
+writetimetable(ssp8, 'ssp8.csv');
+
 
 
 %%
