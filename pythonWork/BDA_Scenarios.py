@@ -43,9 +43,10 @@ os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\toolbox\AT\ex
 #        U : Uphill
 #        C : Complex
 #    ssp_type: Sound speed profile (e.g., janSSP, aprSSP).
-#        Jan : January 2020 example, homogeneous
-#        Apr : April  2020 example profile, strong shelf
-#        Jul : July  2020 example profile, diurnal strat.
+#        Listed SSPs 1-8, or:
+#        exampleJan : January 2020 example, homogeneous
+#        exampleApr : April  2020 example profile, strong shelf
+#        exampleJul : July  2020 example profile, diurnal strat.
 #    frequency: Transmission frequency in Hz.
 #    receiverDepth: Receiver ranges and depths (array), sets rx_range and rx_depth.
 #        F : Full column for plotting Transmission Loss
