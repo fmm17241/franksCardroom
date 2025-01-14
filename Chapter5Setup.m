@@ -64,12 +64,14 @@ indexx = maxDepth >= 17;
 deepSSPs = sspExample(indexx);
 
 % 
-% for k = 1:length(sspExample)
-%     figure()
-%     plot(sspExample{1,k}.SoundSpeed,sspExample{1,k}.Depth)
-%     title(sprintf('My Plot %d',k))
-%     set(gca,'ydir','reverse')
-% end
+for k = 1:length(deepSSPs)
+    figure()
+    plot(deepSSPs{1,k}.SoundSpeed,deepSSPs{1,k}.Depth)
+    title(sprintf('My Plot %d',k))
+    set(gca,'ydir','reverse')
+end
+save('deepSSPs.mat','deepSSPs')
+
 
 %%
 % Alright, now I've gotta figure out which ones and how to move it to Python for processing. 
