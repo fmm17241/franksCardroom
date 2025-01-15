@@ -60,7 +60,7 @@ os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\toolbox\AT\ex
 #
 env, topDescrip, botDescrip, sspDescrip = createEnv(
 #env = createEnv(
-    surface_type = "F",
+    surface_type = "M",
     bottom_type = "F",
     ssp_type = "gliderProfile6",
     range    = 1000,
