@@ -113,6 +113,7 @@ def createEnv(
        raise ValueError(f"Invalid surface_type '{surface_type}'. Must be 'F' for flat, 'M' for Mid, or 'W' for Wavy.")
 
 ########### 
+# Generated example profiles.
     if ssp_type == "exampleJan":
         soundspeed = BDA_SSP.january(depth=20)
         sspDescrip     = "Homogeneous"
@@ -127,14 +128,34 @@ def createEnv(
         soundspeed = BDA_SSP.july(depth=20)
         sspDescrip     = "Stratified"
         depth = 20
-        
+        # Glider profiles. Not just random examples, these use Glider data from Apr/May 2020.
     elif ssp_type == "gliderProfile1":
-        
-        soundspeed, depth = BDA_SSP.gliderProfile(profilesDataFrame, index=1)
+        soundspeed, depth = BDA_SSP.gliderProfile(profilesDataFrame, index=0)
         sspDescrip     = "Example1"
+    elif ssp_type == "gliderProfile2":
+        soundspeed, depth = BDA_SSP.gliderProfile(profilesDataFrame, index=1)
+        sspDescrip     = "Example2"
+    elif ssp_type == "gliderProfile3":
+        soundspeed, depth = BDA_SSP.gliderProfile(profilesDataFrame, index=2)
+        sspDescrip     = "Example3"
+    elif ssp_type == "gliderProfile4":
+        soundspeed, depth = BDA_SSP.gliderProfile(profilesDataFrame, index=3)
+        sspDescrip     = "Example4"
+    elif ssp_type == "gliderProfile5":
+        soundspeed, depth = BDA_SSP.gliderProfile(profilesDataFrame, index=4)
+        sspDescrip     = "Example5"
+    elif ssp_type == "gliderProfile6":
+        soundspeed, depth = BDA_SSP.gliderProfile(profilesDataFrame, index=5)
+        sspDescrip     = "Example6"
+    elif ssp_type == "gliderProfile7":
+        soundspeed, depth = BDA_SSP.gliderProfile(profilesDataFrame, index=6)
+        sspDescrip     = "Example7"
+    elif ssp_type == "gliderProfile8":
+        soundspeed, depth = BDA_SSP.gliderProfile(profilesDataFrame, index=7)
+        sspDescrip     = "Example8"        
         
     else:
-        raise ValueError(f"Invalid ssp_type '{ssp_type}'. Must be 'gliderprofileX(1-8)', 'exampleJan', 'exampleApr', or 'exampleJul'.")
+        raise ValueError(f"Invalid ssp_type '{ssp_type}'. Must be 'gliderProfileX' with X being 1-8, 'exampleJan', 'exampleApr', or 'exampleJul'.")
 
 ###########
     if bottom_type == "F":
