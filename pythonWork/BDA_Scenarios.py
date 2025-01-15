@@ -60,18 +60,23 @@ os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\toolbox\AT\ex
 #
 env, topDescrip, botDescrip, sspDescrip = createEnv(
 #env = createEnv(
-    surface_type = "M",
-    bottom_type = "D",
+    surface_type = "F",
+    bottom_type = "F",
     ssp_type = "gliderProfile1",
     range    = 1000,
     frequency=69000,
     nBeams = 1000,
     receiverType = "B",
-    transDepth= "T",
+    transDepth= "B",
     bottom_soundspeed=1450,
     bottom_density=1200,
     bottom_absorption=0.0
 )
+
+
+pm.print_env(env)
+pm.plot_env(env)
+
 
 ###############################
 # MODELING RAYS THROUGH THE ENVIRONMENT
@@ -130,7 +135,7 @@ rays['rayDistance'] = rayMax
 
 sumBDA = np.sum(beamDistances, axis=0)
 dataFraming = pd.DataFrame({'Distance': distances_to_check, 'Rays': sumBDA})
-plt.plot(dataFraming['Distance'], dataFraming['Rays'], 'o-', xlabel='Distances', ylabel='Beams Traveled', title='Beam Density Analysis: FLat Environment')
+plt.plot(dataFraming['Distance'], dataFraming['Rays'], 'o-', xlabel='Distances', ylabel='Beams Traveled', title='Beam Density Analysis: Flat Environment')
 
 
 
