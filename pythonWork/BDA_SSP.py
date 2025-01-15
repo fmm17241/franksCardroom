@@ -54,7 +54,7 @@ def get_profile(profilesDataFrame, index):
     return selected_profile[["depth", "soundspeed"]]
 
 
-def example_profile(profilesDataFrame, index):
+def gliderProfile(profilesDataFrame, index):
     """
     Returns the Depth and Soundspeed data for a specific profile.
 
@@ -75,7 +75,7 @@ def example_profile(profilesDataFrame, index):
 
 # Example usage:
 # `profilesDataFrame` is SSP profiles from glider
-profile_one = example_profile(profilesDataFrame, index=7)  # Get the first profile
+profile_one = gliderProfile(profilesDataFrame, index=7)  # Get the first profile
 print(profile_one)
 
 
