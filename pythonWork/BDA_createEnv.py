@@ -14,6 +14,8 @@ Now I can call this code later to create bellhop environments.
 
 import arlpy.uwapm as pm
 import numpy as np
+import os
+os.chdir(r"C:\Users\fmm17241\Documents\GitHub\franksCardroom\pythonWork")
 import BDA_surfaceLevels
 import BDA_bathymetry
 import BDA_SSP
@@ -24,21 +26,9 @@ import pandas as pd
 #import BDA_bathymetry
 #import BDA_SSP
 
-# LOADS IN GLIDER DATA TO CREATE PROFILES
+#############################
 
-# Find all .csv files in working folder
-file_paths = glob.glob("*.csv")
-
-# Read in all .csv files as data frames
-profilesDataFrame = [pd.read_csv(file, header=None) for file in file_paths]
-columnNames = ['Depth', 'SoundSpeed']
-for df in profilesDataFrame:
-    df.columns = columnNames
-#########################################################################
-for i, df in enumerate(profilesDataFrame):
-    profilesDataFrame[i].columns = [col.strip().lower() for col in df.columns]
-#####
-
+#################################################
 
 def createEnv(
     surface_type = "F",
@@ -86,10 +76,25 @@ def createEnv(
     Returns:
         Configured environment object.
     """
+    # LOADS IN GLIDER DATA TO CREATE PROFILES
+    # Find all .csv files in working folder
+    os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\Chapter5Scenarios\SSPs\aprilMay")
+    file_paths = glob.glob("*.csv")
+    
+    # Read in all .csv files as data frames
+    profilesDataFrame = [pd.read_csv(file, header=None) for file in file_paths]
+    columnNames = ['Depth', 'SoundSpeed']
+    for df in profilesDataFrame:
+        df.columns = columnNames
+    
+    for i, df in enumerate(profilesDataFrame):
+        profilesDataFrame[i].columns = [col.strip().lower() for col in df.columns]
+        
 # Validate surface_type
     valid_surface_types = ["F", "M", "W"]
     if surface_type not in valid_surface_types:
         raise ValueError(f"Invalid surface_type '{surface_type}'. Must be 'F' for flat, 'M' for Mid, or 'W' for Wavy.")
+
 
     
 ########### 
@@ -124,9 +129,10 @@ def createEnv(
         depth = 20
         
     elif ssp_type == "gliderProfile1":
-        soundspeed, depth = BDA_SSP.gliderProfile(profilesDataFrame, index=0)
+        
+        soundspeed, depth = BDA_SSP.gliderProfile(profilesDataFrame, index=1)
         sspDescrip     = "Example1"
-        depth = depth
+        
     else:
         raise ValueError(f"Invalid ssp_type '{ssp_type}'. Must be 'gliderprofileX(1-8)', 'exampleJan', 'exampleApr', or 'exampleJul'.")
 

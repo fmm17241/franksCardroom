@@ -18,9 +18,6 @@ import pandas as pd
 os.chdir(r"C:\Users\fmm17241\Documents\GitHub\franksCardroom\pythonWork")
 from BDA_createEnv import createEnv
 
-#os.chdir(r"C:\Users\fmac4\OneDrive\Documents\GitHub\franksCardroom\pythonWork")
-
-
 #Bellhop's location.
 os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\toolbox\AT\executables")
 #os.chdir(r"C:\Users\fmac4\OneDrive - University of Georgia\data\toolbox\AT\executables")
