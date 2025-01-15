@@ -37,7 +37,7 @@ def createEnv(
     range    = 1000,
     frequency=69000,
     nBeams = 1000,
-    receiverType = "B",
+    receiverType = "TL",
     transDepth=12.5,
     bottom_soundspeed=1450,
     bottom_density=1200,
@@ -62,7 +62,7 @@ def createEnv(
             exampleJul : July  2020 example profile, diurnal strat.
         frequency: Transmission frequency in Hz.
         receiverType: Receiver ranges and depths (array), sets rx_range and rx_depth.
-            F : Full column for plotting Transmission Loss
+            TL : Full column for plotting Transmission Loss
             B : Specific source of sound, 1 m off bottom
             T : Specific source of sound, 1 m off surface
         tx_depth: Transmitter depth.
@@ -178,7 +178,7 @@ def createEnv(
         raise ValueError(f"Invalid bottom_type '{bottom_type}'. Must be 'F' for flat, 'D' for downhill, 'U' for uphill, or 'C' for complex.")
   
 ###########
-    if receiverType == "F":
+    if receiverType == "TL":
         rx_range = np.linspace(0, range, range+1)
         rx_depth = np.linspace(0, depth, depth+1)
     elif receiverType == "B":
@@ -188,7 +188,7 @@ def createEnv(
        rx_range = range              
        rx_depth = 2
     else:
-       raise ValueError(f"Invalid receiver_type '{receiverType}'. Must be 'F' for full/transmission loss, 'B' for bottom, or 'T' for top.")
+       raise ValueError(f"Invalid receiver_type '{receiverType}'. Must be 'TL' for full/transmission loss, 'B' for bottom, or 'T' for top.")
        
 ########### 
     if transDepth == "T": 

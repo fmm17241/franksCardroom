@@ -59,9 +59,6 @@ os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\toolbox\AT\ex
 #    Configured environment object.
 #
 
-Frank: Combine surface, bottom, and receiver/transdepth. This would allow me to feed a string of letters
-instead of having to change each setting separately. This fixes the issue of "uphill" environment with "b"ottom transceiver hearing nothing.
-
 env, topDescrip, botDescrip, sspDescrip = createEnv(
 #env = createEnv(
     surface_type = "M",
@@ -70,7 +67,7 @@ env, topDescrip, botDescrip, sspDescrip = createEnv(
     range    = 1000,
     frequency=69000,
     nBeams = 1000,
-    receiverType = "B",
+    receiverType = "TL",
     transDepth= "B",
     bottom_soundspeed=1450,
     bottom_density=1200,
