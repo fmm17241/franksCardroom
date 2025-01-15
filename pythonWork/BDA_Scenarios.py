@@ -80,7 +80,9 @@ pm.plot_env(env)
 
 ###############################
 # MODELING RAYS THROUGH THE ENVIRONMENT
-
+#Bellhop's location.
+os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\toolbox\AT\executables")
+#os.chdir(r"C:\Users\fmac4\OneDrive - University of Georgia\data\toolbox\AT\executables")
 # ALL RAYS
 rays = pm.compute_rays(env)
 #rays = pm.compute_eigenrays(env)
