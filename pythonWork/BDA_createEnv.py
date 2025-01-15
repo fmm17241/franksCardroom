@@ -45,7 +45,6 @@ def createEnv(
     bottom_type = "F",
     ssp_type = "exampleJan",
     range    = 1000,
-    depth    = 20,
     frequency=69000,
     nBeams = 1000,
     receiverType = "B",
@@ -108,21 +107,44 @@ def createEnv(
     else:
        raise ValueError(f"Invalid surface_type '{surface_type}'. Must be 'F' for flat, 'M' for Mid, or 'W' for Wavy.")
 
+########### 
+    if ssp_type == "exampleJan":
+        soundspeed = BDA_SSP.january(depth=20)
+        sspDescrip     = "Homogeneous"
+        depth = 20
+        
+    elif ssp_type == "exampleApr":
+        soundspeed = BDA_SSP.april(depth=20)
+        sspDescrip     = "Freshwater Lens"
+        depth = 20
+        
+    elif ssp_type == "exampleJul":
+        soundspeed = BDA_SSP.july(depth=20)
+        sspDescrip     = "Stratified"
+        depth = 20
+        
+    elif ssp_type == "gliderProfile1":
+        soundspeed, depth = BDA_SSP.gliderProfile(profilesDataFrame, index=0)
+        sspDescrip     = "Example1"
+        depth = depth
+    else:
+        raise ValueError(f"Invalid ssp_type '{ssp_type}'. Must be 'gliderprofileX(1-8)', 'exampleJan', 'exampleApr', or 'exampleJul'.")
+
 ###########
     if bottom_type == "F":
-        bottom = BDA_bathymetry.flat_bottom()
+        bottom = BDA_bathymetry.flat_bottom(depth=depth)
         botDescrip  = "Flat Bottom"
         
     elif bottom_type == "D":
-        bottom = BDA_bathymetry.downhill_bottom()
+        bottom = BDA_bathymetry.downhill_bottom(depth=depth)
         botDescrip  = "Downhill"
         
     elif bottom_type == "U":
-        bottom = BDA_bathymetry.uphill_bottom()
+        bottom = BDA_bathymetry.uphill_bottom(depth=depth)
         botDescrip  = "Uphill"
         
     elif bottom_type == "C":
-        bottom = BDA_bathymetry.complex_bottom()
+        bottom = BDA_bathymetry.complex_bottom(depth=depth)
         botDescrip  = "Structured"
         
     else:
@@ -141,26 +163,6 @@ def createEnv(
     else:
        raise ValueError(f"Invalid receiver_type '{receiverType}'. Must be 'F' for full/transmission loss, 'B' for bottom, or 'T' for top.")
        
-########### 
-    if ssp_type == "exampleJan":
-        soundspeed = BDA_SSP.january(depth=depth)
-        sspDescrip     = "Homogeneous"
-        
-    elif ssp_type == "exampleApr":
-        soundspeed = BDA_SSP.april(depth=depth)
-        sspDescrip     = "Freshwater Lens"
-        
-    elif ssp_type == "exampleJul":
-        soundspeed = BDA_SSP.july(depth=depth)
-        sspDescrip     = "Stratified"
-        
-    elif ssp_type == "gliderProfile1":
-        soundspeed = BDA_SSP.gliderProfile(profilesDataFrame, index=0)
-        sspDescrip     = "Example1"
-    
-    else:
-        raise ValueError(f"Invalid ssp_type '{ssp_type}'. Must be 'exampleJan', 'exampleApr', or 'exampleJul'.")
-
 ########### 
     if transDepth == "T": 
         tx_depth = 1.5

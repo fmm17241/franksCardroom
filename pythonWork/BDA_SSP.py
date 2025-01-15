@@ -69,9 +69,9 @@ def gliderProfile(profilesDataFrame, index):
     selected_profile = get_profile(profilesDataFrame, index)
 
     # Convert the data into bellhop format: [Depth, Soundspeed]
-    profile_list = selected_profile.values.tolist()
-
-    return profile_list
+    profile = selected_profile.values.tolist()
+    depth = max(selected_profile.Depth)
+    return profile, depth
 
 # Example usage:
 # `profilesDataFrame` is SSP profiles from glider

@@ -15,8 +15,9 @@ import numpy as np
 import pandas as pd
 #import shutil
 #import inspect
-from BDA_createEnv import createEnv
 os.chdir(r"C:\Users\fmm17241\Documents\GitHub\franksCardroom\pythonWork")
+from BDA_createEnv import createEnv
+
 #os.chdir(r"C:\Users\fmac4\OneDrive\Documents\GitHub\franksCardroom\pythonWork")
 
 
@@ -66,7 +67,6 @@ env, topDescrip, botDescrip, sspDescrip = createEnv(
     bottom_type = "D",
     ssp_type = "gliderProfile1",
     range    = 1000,
-    depth    = 20,
     frequency=69000,
     nBeams = 1000,
     receiverType = "B",
