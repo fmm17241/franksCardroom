@@ -15,13 +15,10 @@ import numpy as np
 import pandas as pd
 #import shutil
 #import inspect
-
+from BDA_createEnv import createEnv
 os.chdir(r"C:\Users\fmm17241\Documents\GitHub\franksCardroom\pythonWork")
 #os.chdir(r"C:\Users\fmac4\OneDrive\Documents\GitHub\franksCardroom\pythonWork")
-from BDA_createEnv import createEnv
-#import BDA_surfaceLevels
-#import BDA_bathymetry
-#import BDA_SSP
+
 
 #Bellhop's location.
 os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\toolbox\AT\executables")
@@ -67,7 +64,7 @@ env, topDescrip, botDescrip, sspDescrip = createEnv(
 #env = createEnv(
     surface_type = "M",
     bottom_type = "D",
-    ssp_type = "exampleJan",
+    ssp_type = "gliderProfile1",
     range    = 1000,
     depth    = 20,
     frequency=69000,
