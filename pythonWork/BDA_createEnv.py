@@ -180,7 +180,7 @@ def createEnv(
 ###########
     if receiverType == "TL":
         rx_range = np.linspace(0, range, range+1)
-        rx_depth = np.linspace(0, depth, depth+1)
+        rx_depth = np.linspace(0, depth, int(depth)+1)
     elif receiverType == "B":
        rx_range = range
        rx_depth = depth-1        # Receiver bottom of water column

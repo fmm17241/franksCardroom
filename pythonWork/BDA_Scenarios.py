@@ -44,7 +44,7 @@ os.chdir(r"C:\Users\fmm17241\OneDrive - University of Georgia\data\toolbox\AT\ex
 #        exampleJul : July  2020 example profile, diurnal strat.
 #    frequency: Transmission frequency in Hz.
 #    receiverDepth: Receiver ranges and depths (array), sets rx_range and rx_depth.
-#        F : Full column for plotting Transmission Loss
+#        TL : Full column for plotting Transmission Loss
 #        B : Specific receiver, 1 m off bottom
 #        T : Specific receiver, 1 m off surface
 #    tx_depth: Transmitter depth.
