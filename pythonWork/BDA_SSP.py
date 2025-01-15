@@ -65,17 +65,17 @@ def example_profile(profilesDataFrame, index):
     Returns:
         list: A list of [Depth, Soundspeed] pairs from the selected profile.
     """
-    # Get the selected profile DataFrame
+    # Get the selected profile
     selected_profile = get_profile(profilesDataFrame, index)
 
-    # Convert the DataFrame into a list of [Depth, Soundspeed]
+    # Convert the data into bellhop format: [Depth, Soundspeed]
     profile_list = selected_profile.values.tolist()
 
     return profile_list
 
 # Example usage:
 # `profilesDataFrame` is SSP profiles from glider
-profile_one = example_profile(profilesDataFrame, index=0)  # Get the first profile
+profile_one = example_profile(profilesDataFrame, index=7)  # Get the first profile
 print(profile_one)
 
 
