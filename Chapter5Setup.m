@@ -394,7 +394,48 @@ directory = (localPlots);
 % [percentage]=writeBDAoutput(sumRays,gridpoints);
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%Lets try summer
+cd 'C:\Users\fmac4\OneDrive - University of Georgia\data'
+load Summer_2019_angus_dbds.mat
+load Summer_2019_angus_ebds.mat
 
 
+[matstruct,dn,z,temp] = Bindata(fstruct,sstruct);
 
 
+%Used for EBD/TBDs
+[dn,scidn,temperature,salt,density,depth,speed]=beautifyGliderData(sstruct);
+
+
+%Used for NBDs
+%[dn,temperature,salt,density,depth,speed]=beautifyData(sstruct);
+
+
+% 2. Separate the data into single glider yos (yoDefiner or something)
+[yoSSP,yotemps,yotimes,yodepths,yosalt,yospeed] = yoDefiner(dn, depth, temperature, salt, speed);
+% count =1;
+
+for k = 1:10:length(yoSSP)
+    if k == 1
+        count = 1;
+    else
+        count = count+1;
+    end
+    %
+    time = datetime(yoSSP{1,k}(:,1),'convertfrom','datenum');
+    sspExample{count} = timetable(time,yoSSP{1,k}(:,2),yoSSP{1,k}(:,3));
+    sspExample{count}.Properties.VariableNames = {'Depth', 'SoundSpeed'};
+end
+
+
+%find SSPs that are deepest
+for ex = 1:length(sspExample)
+    maxDepth(ex) = max(sspExample{1,ex}.Depth);
+end
+
+indexx = maxDepth >= 17;
+
+deepSSPs = sspExample(indexx);
+
+depths = 0:0.5:20;

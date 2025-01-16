@@ -27,8 +27,8 @@ yoSSP=cell(1,1);
 
 
 howmany = length(indextop);
-% for k = 1:howmany
-for k = 1:5400; %Frank quickfixing some november mess-up
+for k = 1:howmany
+% for k = 1:5400; %Frank quickfixing some november mess-up
     test = indexbot(indextop(k)<indexbot);
     useindex = test(1);
     yotemps{k} = temperature(indextop(k):useindex);
