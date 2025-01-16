@@ -22,6 +22,8 @@ disp(filteredData)
 %%%
 % RawVsFilteredComparisonFigure, 6 tiles, colored and trended
 
+
+
 %Column 1 stats
 [R, P] = corr(envData.Noise,snapRateHourly.SnapCount, 'Type', 'Spearman')
 R*R
