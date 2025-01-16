@@ -7,7 +7,7 @@
 % Required steps:
 % 1. Collect/Create environmental data as a medium for acoustic propagation
 % datadir = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Chapter5Scenarios\environmentalData\AprilMay2020';
-datadir = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Chapter5Scenarios\environmentalData\November2019';
+datadir = 'C:\Users\fmac4\OneDrive - University of Georgia\data\Chapter5Scenarios\environmentalData\November2019';
 
 cd (datadir)
 % load angusdbdAprilMay
@@ -90,15 +90,15 @@ plot(ssp{1}.SoundSpeed,ssp{1}.Depth)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %NOVEMBER 2019
-Frank come back here please plase, need
-ssp{1} = deepSSPs{};
-ssp{2} = deepSSPs{};
-ssp{3} = deepSSPs{};
-ssp{4} = deepSSPs{};
-ssp{5} = deepSSPs{};
-ssp{6} = deepSSPs{};
-ssp{7} = deepSSPs{};
-ssp{8} = deepSSPs{};
+%Pruning, monotonic.
+ssp{1} = deepSSPs{1};
+ssp{2} = deepSSPs{3};
+ssp{3} = deepSSPs{5};
+ssp{4} = deepSSPs{6};
+ssp{5} = deepSSPs{7};
+ssp{6} = deepSSPs{8};
+ssp{7} = deepSSPs{11};
+ssp{8} = deepSSPs{12};
 
 
 for K = 1:8
@@ -120,6 +120,84 @@ for K = 1:8
     title(sprintf('DeepSSP %d',K))
     set(gca,'ydir','reverse')
 end
+
+
+completeSSP{7}(1:18,2) = 1517.73;
+completeSSP{6}(1:16,2) = 1520.00;
+completeSSP{5}(1:19,2) = 1519.36;
+completeSSP{4}(82:end,2) = 1519.64;
+completeSSP{3}(1:18,2) = 1519.3;
+completeSSP{1}(1:19,2) = 1521.49;
+
+
+figure()
+Tiled = tiledlayout(4,2)
+ax1 = nexttile([1,1])
+plot(completeSSP{1}(:,2),completeSSP{1}(:,1),'LineWidth',2)
+title(sprintf('SSP1: November 16, 2019 11:55',8))
+set(gca,'ydir','reverse')
+xlim([1516 1522])
+ylabel('Depth (m)')
+
+ax2 = nexttile([1,1])
+plot(completeSSP{2}(:,2),completeSSP{2}(:,1),'LineWidth',2)
+title(sprintf('SSP2: November 16, 2019 19:55',8))
+set(gca,'ydir','reverse')
+xlim([1516 1522])
+
+ax3 = nexttile([1,1])
+plot(completeSSP{3}(:,2),completeSSP{3}(:,1),'LineWidth',2)
+title(sprintf('SSP3: November 18, 2019 10:26',8))
+set(gca,'ydir','reverse')
+xlim([1516 1522])
+ylabel('Depth (m)')
+
+ax4 = nexttile([1,1])
+plot(completeSSP{4}(:,2),completeSSP{4}(:,1),'LineWidth',2)
+title(sprintf('SSP4: November 18, 2019 12:05',8))
+set(gca,'ydir','reverse')
+xlim([1516 1522])
+
+ax5 = nexttile([1,1])
+plot(completeSSP{5}(:,2),completeSSP{5}(:,1),'LineWidth',2)
+title(sprintf('SSP5: November 18, 2019 12:48',8))
+set(gca,'ydir','reverse')
+xlim([1516 1522])
+ylabel('Depth (m)')
+
+ax6 = nexttile([1,1])
+plot(completeSSP{6}(:,2),completeSSP{6}(:,1),'LineWidth',2)
+title(sprintf('SSP6: November 18, 2019 14:50',8))
+set(gca,'ydir','reverse')
+xlim([1516 1522])
+
+ax7 = nexttile([1,1])
+plot(completeSSP{7}(:,2),completeSSP{7}(:,1),'LineWidth',2)
+title(sprintf('SSP7: November 21, 2019 11:04',8))
+set(gca,'ydir','reverse')
+xlim([1516 1522])
+ylabel('Depth (m)')
+xlabel('Sound Speed Profile (m/s)')
+
+ax8 = nexttile([1,1])
+plot(completeSSP{8}(:,2),completeSSP{8}(:,1),'LineWidth',2)
+title(sprintf('SSP8: November 25, 2019 14:09',8))
+set(gca,'ydir','reverse')
+xlim([1516 1522])
+xlabel('Sound Speed Profile (m/s)')
+
+
+
+cd 'C:\Users\fmac4\OneDrive - University of Georgia\data\Chapter5Scenarios\SSPs\november'
+writematrix(completeSSP{1}, 'ssp1.csv');
+writematrix(completeSSP{2}, 'ssp2.csv');
+writematrix(completeSSP{3}, 'ssp3.csv');
+writematrix(completeSSP{4}, 'ssp4.csv');
+writematrix(completeSSP{5}, 'ssp5.csv');
+writematrix(completeSSP{6}, 'ssp6.csv');
+writematrix(completeSSP{7}, 'ssp7.csv');
+writematrix(completeSSP{8}, 'ssp8.csv');
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % APRIL/MAY
