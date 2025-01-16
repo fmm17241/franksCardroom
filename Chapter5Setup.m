@@ -85,6 +85,10 @@ ssp{5} = deepSSPs{9};
 ssp{6} = deepSSPs{11};
 ssp{7} = deepSSPs{12};
 ssp{8} = deepSSPs{13};
+
+figure()
+plot(ssp{1}.SoundSpeed,ssp{1}.Depth)
+
 %%
 % Frank adding top and bottom to the profiles due to the glider inflections.
 %Had to remove some repeat rows, one in ssp7 (ssp{1, 7}(79,:) = [];) 
@@ -137,6 +141,61 @@ title(sprintf('DeepSSP %d',8))
 set(gca,'ydir','reverse')
 %%
 
+figure()
+Tiled = tiledlayout(4,2)
+ax1 = nexttile([1,1])
+plot(completeSSP{1}(:,2),completeSSP{1}(:,1),'LineWidth',2)
+title(sprintf('SSP1: April 21, 2020 23:43',8))
+set(gca,'ydir','reverse')
+xlim([1520 1526])
+ylabel('Depth (m)')
+
+ax2 = nexttile([1,1])
+plot(completeSSP{2}(:,2),completeSSP{2}(:,1),'LineWidth',2)
+title(sprintf('SSP2: April 22, 2020 03:07',8))
+set(gca,'ydir','reverse')
+xlim([1520 1526])
+
+ax3 = nexttile([1,1])
+plot(completeSSP{3}(:,2),completeSSP{3}(:,1),'LineWidth',2)
+title(sprintf('SSP3: April 22, 2020 05:36',8))
+set(gca,'ydir','reverse')
+xlim([1520 1526])
+ylabel('Depth (m)')
+
+ax4 = nexttile([1,1])
+plot(completeSSP{4}(:,2),completeSSP{4}(:,1),'LineWidth',2)
+title(sprintf('SSP4: April 30, 2020 06:02',8))
+set(gca,'ydir','reverse')
+xlim([1520 1526])
+
+ax5 = nexttile([1,1])
+plot(completeSSP{5}(:,2),completeSSP{5}(:,1),'LineWidth',2)
+title(sprintf('SSP5: May 2, 2020 21:15',8))
+set(gca,'ydir','reverse')
+xlim([1520 1526])
+ylabel('Depth (m)')
+
+ax6 = nexttile([1,1])
+plot(completeSSP{6}(:,2),completeSSP{6}(:,1),'LineWidth',2)
+title(sprintf('SSP6: May 2, 2020 22:53',8))
+set(gca,'ydir','reverse')
+xlim([1520 1526])
+
+ax7 = nexttile([1,1])
+plot(completeSSP{7}(:,2),completeSSP{7}(:,1),'LineWidth',2)
+title(sprintf('SSP7: May 4, 2020 19:29',8))
+set(gca,'ydir','reverse')
+xlim([1520 1526])
+ylabel('Depth (m)')
+xlabel('Sound Speed Profile (m/s)')
+
+ax8 = nexttile([1,1])
+plot(completeSSP{8}(:,2),completeSSP{8}(:,1),'LineWidth',2)
+title(sprintf('SSP8: May 4, 2020 22:05',8))
+set(gca,'ydir','reverse')
+xlim([1520 1526])
+xlabel('Sound Speed Profile (m/s)')
 
 cd 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Chapter5Scenarios\SSPs'
 writematrix(completeSSP{1}, 'ssp1.csv');
@@ -147,6 +206,9 @@ writematrix(completeSSP{5}, 'ssp5.csv');
 writematrix(completeSSP{6}, 'ssp6.csv');
 writematrix(completeSSP{7}, 'ssp7.csv');
 writematrix(completeSSP{8}, 'ssp8.csv');
+
+
+
 
 
 
