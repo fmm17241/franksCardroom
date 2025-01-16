@@ -137,6 +137,7 @@ ylabel('HF Noise (mV)')
 xlabel('Surface Bubble Loss (dBs)')
 title('40Hr Lowpass-Filtered','Noise Being Attenuated at the Surface')
 
+add lines to this plot showing some wind events
 
 ax6 = nexttile([2,1])
 % scatter(surfaceData.WSPD,snapRateHourly.SnapCount,[],X1)
