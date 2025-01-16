@@ -63,7 +63,7 @@ scatter(snapRateHourly.SnapCount,envData.Noise,[],X1)
 set(gca, 'XScale', 'log');
 xlabel('Snap Rate')
 ylabel('HF Noise (mV)')
-title('','High-Frequency Noise Being Created')
+% title('','High-Frequency Noise Being Created')
 xlim([500 7000])
 ylim([400 780])
 hold on
@@ -90,7 +90,7 @@ xlim([0 15])
 ylim([400 780])
 ylabel('HF Noise (mV)')
 xlabel('Surface Bubble Loss (dBs)')
-title('Gray''s Reef Soundscape, Spring 2020','Noise Being Attenuated at the Surface')
+% title('Gray''s Reef Soundscape, Spring 2020','Noise Being Attenuated at the Surface')
 
 
 ax3 = nexttile([2,1])
@@ -105,7 +105,7 @@ scatter(windBinX, snapsVsWind, 'k', 'filled'); % Overlay points for clarity
 % scatter(surfaceData.WSPD(loopIndexFilt{3}),snapRateHourly.SnapCount(loopIndexFilt{3}),[],'r','filled')
 ylabel('Snap Rate')
 xlabel('Windspeed (m/s)')
-title('','Wind''s Effect on Snap Rate')
+% title('','Wind''s Effect on Snap Rate')
 
 ax4 = nexttile([2,1])
 % scatter(snapRateHourly.SnapCount,envData.Noise,[],X1)
@@ -118,7 +118,7 @@ xlim([500 7000])
 ylim([400 780])
 xlabel('Snap Rate')
 ylabel('HF Noise (mV)')
-title('','High-Frequency Noise Being Created')
+% title('','High-Frequency Noise Being Created')
 % legend('Raw','40Hr Lowpass')
 
 
@@ -135,9 +135,9 @@ hold on
 % set(gca, 'XScale', 'log');
 ylabel('HF Noise (mV)')
 xlabel('Surface Bubble Loss (dBs)')
-title('40Hr Lowpass-Filtered','Noise Being Attenuated at the Surface')
+% title('40Hr Lowpass-Filtered','Noise Being Attenuated at the Surface')
 
-add lines to this plot showing some wind events
+% add lines to this plot showing some wind events
 
 ax6 = nexttile([2,1])
 % scatter(surfaceData.WSPD,snapRateHourly.SnapCount,[],X1)
@@ -149,7 +149,7 @@ ylim([0 6000])
 xlim([0 15])
 ylabel('Hourly Snaps')
 xlabel('Windspeed (m/s)')
-title('','Wind''s Effect on Snap Rate')
+% title('','Wind''s Effect on Snap Rate')
 
 
 
