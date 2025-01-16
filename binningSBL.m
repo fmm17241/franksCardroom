@@ -31,6 +31,11 @@ for k = 1:height(SBLbins)
 
     noiseVsSBL(k) = mean(SBLenvData{1,k}.Noise); 
     windsVsSBL(k)   =mean(SBLsurfData{1,k}.SBLcapped) 
+    
+    % Calculate standard error of the mean (SEM)
+    noiseSBLSEM(k) = std(SBLenvData{k}.Noise) / sqrt(height(SBLenvData{k}));
+    windSBLSEM(k) = std(SBLsurfData{k}.WSPD) / sqrt(height(SBLsurfData{k}));
+
 
     countBINS(k)            = height(SBLsurfData{k})
 end

@@ -34,6 +34,10 @@ for k = 1:height(snapRateBins)
     noiseVsSnaps(k) = mean(snapRateEnvData{1,k}.Noise); 
     windsVsSnaps(k)   =mean(snapRateSurfData{1,k}.WSPD) 
 
+ % Calculate standard error of the mean (SEM)
+    noiseSEM(k) = std(snapRateEnvData{k}.Noise) / sqrt(height(snapRateEnvData{k}));
+    windSEM(k) = std(snapRateSurfData{k}.WSPD) / sqrt(height(snapRateSurfData{k}));
+
     countBINS(k)            = height(snapRateSurfData{k})
 end
 x = 750:750:6750;

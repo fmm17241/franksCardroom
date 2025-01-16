@@ -68,10 +68,12 @@ xlim([500 7000])
 ylim([400 780])
 hold on
 x = 750:750:6750;
-semilogx(snapBinX,noiseVsSnaps,'k','LineWidth',1.75)
-scatter(snapBinX,noiseVsSnaps,'k','filled')
-% scatter(snapRateHourly.SnapCount(loopIndexFilt{3}),envData.Noise(loopIndexFilt{3}),[],'r','filled')
 
+% Scatter plot with error bars
+errorbar(snapBinX, noiseVsSnaps, noiseSEM, 'k.', 'MarkerSize', 10, 'LineWidth', 1.5);
+scatter(snapBinX, noiseVsSnaps, 'k', 'filled'); % Overlay points for clarity
+
+% scatter(snapRateHourly.SnapCount(loopIndexFilt{3}),envData.Noise(loopIndexFilt{3}),[],'r','filled')
 % legend('Raw','40Hr Lowpass')
 % Log this?
 
@@ -79,8 +81,10 @@ ax2 = nexttile([2,1])
 % scatter(surfaceData.WSPD,envData.Noise)
 scatter(surfaceData.SBLcapped,envData.Noise,[],X1)
 hold on
-plot(SBLbinX,noiseVsSBL,'k','LineWidth',1.75)
-scatter(SBLbinX,noiseVsSBL,'k','filled')
+% plot(SBLbinX,noiseVsSBL,'k','LineWidth',1.75)
+% Scatter plot with error bars
+errorbar(SBLbinX, noiseVsSBL, noiseSBLSEM, 'k.', 'MarkerSize', 10, 'LineWidth', 1.5);
+scatter(SBLbinX, noiseVsSBL, 'k', 'filled'); % Overlay points for clarity
 % scatter(surfaceData.SBLcapped(loopIndexFilt{3}),envData.Noise(loopIndexFilt{3}),[],'r','filled')
 xlim([0 15])
 ylim([400 780])
@@ -94,8 +98,10 @@ scatter(surfaceData.WSPD,snapRateHourly.SnapCount,[],X1)
 xlim([0 15])
 ylim([0 6000])
 hold on
-plot(windBinX,snapsVsWind,'k','LineWidth',1.75)
-scatter(windBinX,snapsVsWind,'k','filled')
+% plot(windBinX,snapsVsWind,'k','LineWidth',1.75)
+% Scatter plot with error bars
+errorbar(windBinX, snapsVsWind, windSnapSEM, 'k.', 'MarkerSize', 10, 'LineWidth', 1.5);
+scatter(windBinX, snapsVsWind, 'k', 'filled'); % Overlay points for clarity
 % scatter(surfaceData.WSPD(loopIndexFilt{3}),snapRateHourly.SnapCount(loopIndexFilt{3}),[],'r','filled')
 ylabel('Snap Rate')
 xlabel('Windspeed (m/s)')

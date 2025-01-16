@@ -32,6 +32,11 @@ for k = 1:height(windBins)
 
     noiseVsWind(k) = mean(windEnvData{1,k}.Noise); 
     snapsVsWind(k)   =mean(windSnapData{1,k}) 
+    
+    % Calculate standard error of the mean (SEM)
+    noiseWindSEM(k) = std(windEnvData{k}.Noise) / sqrt(height(windEnvData{k}));
+    windSnapSEM(k) = std(windSnapData{k}) / sqrt(height(windSnapData{k}));
+
 
     countBINS(k)            = height(windSurfData{k})
 end
