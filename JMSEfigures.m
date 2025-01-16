@@ -110,9 +110,9 @@ title('','Wind''s Effect on Snap Rate')
 ax4 = nexttile([2,1])
 % scatter(snapRateHourly.SnapCount,envData.Noise,[],X1)
 % hold on
-scatter(decimatedData.Snaps,decimatedData.Noise,[],X2,'filled')
+scatter(decimatedData.Snaps,decimatedData.Noise,[],X2,'filled','MarkerFaceAlpha',0.45,'MarkerEdgeAlpha',0.45)
 hold on
-scatter(decimatedData.Snaps(loopIndexDS{3}),decimatedData.Noise(loopIndexDS{3}),[],'r','filled')
+% scatter(decimatedData.Snaps(loopIndexDS{3}),decimatedData.Noise(loopIndexDS{3}),[],'r','filled')
 set(gca, 'XScale', 'log');
 xlim([500 7000])
 ylim([400 780])
@@ -131,7 +131,7 @@ scatter(decimatedData.SBLcapped,decimatedData.Noise,[],X2,'filled')
 xlim([0 15])
 ylim([400 780])
 hold on
-scatter(decimatedData.SBLcapped(loopIndexDS{3}),decimatedData.Noise(loopIndexDS{3}),[],'r','filled')
+% scatter(decimatedData.SBLcapped(loopIndexDS{3}),decimatedData.Noise(loopIndexDS{3}),[],'r','filled')
 % set(gca, 'XScale', 'log');
 ylabel('HF Noise (mV)')
 xlabel('Surface Bubble Loss (dBs)')
@@ -143,7 +143,7 @@ ax6 = nexttile([2,1])
 % hold on
 scatter(decimatedData.Winds,decimatedData.Snaps,[],X2,'filled')
 hold on
-scatter(decimatedData.Winds(loopIndexDS{3}),decimatedData.Snaps(loopIndexDS{3}),[],'r','filled')
+% scatter(decimatedData.Winds(loopIndexDS{3}),decimatedData.Snaps(loopIndexDS{3}),[],'r','filled')
 ylim([0 6000])
 xlim([0 15])
 ylabel('Hourly Snaps')
