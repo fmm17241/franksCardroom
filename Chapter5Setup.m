@@ -6,10 +6,15 @@
 
 % Required steps:
 % 1. Collect/Create environmental data as a medium for acoustic propagation
-datadir = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Chapter5Scenarios\environmentalData\AprilMay2020';
+% datadir = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Chapter5Scenarios\environmentalData\AprilMay2020';
+datadir = 'C:\Users\fmm17241\OneDrive - University of Georgia\data\Chapter5Scenarios\environmentalData\November2019';
+
 cd (datadir)
-load angusdbdAprilMay
-load angusebdAprilMay
+% load angusdbdAprilMay
+% load angusebdAprilMay
+load nov19dbd
+load nov19ebd
+
 [matstruct,dn,z,temp] = Bindata(fstruct,sstruct);
 
 %Frank removing extreme outliers before/after mission
@@ -42,6 +47,7 @@ load angusebdAprilMay
 % 2. Separate the data into single glider yos (yoDefiner or something)
 [yoSSP,yotemps,yotimes,yodepths,yosalt,yospeed] = yoDefiner(dn, depth, temperature, salt, speed);
 % count =1;
+
 for k = 1:10:length(yoSSP)
     if k == 1
         count = 1;
@@ -77,6 +83,47 @@ for k = 1:length(deepSSPs)
 end
 
 
+
+
+figure()
+plot(ssp{1}.SoundSpeed,ssp{1}.Depth)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%NOVEMBER 2019
+Frank come back here please plase, need
+ssp{1} = deepSSPs{};
+ssp{2} = deepSSPs{};
+ssp{3} = deepSSPs{};
+ssp{4} = deepSSPs{};
+ssp{5} = deepSSPs{};
+ssp{6} = deepSSPs{};
+ssp{7} = deepSSPs{};
+ssp{8} = deepSSPs{};
+
+
+for K = 1:8
+    cutoffTop = min(ssp{K}.Depth);
+    cutoffBot = max(ssp{K}.Depth);
+    %
+    surface_depths{K} = [0:0.2:cutoffTop]; % Replace with your surface depth increments
+    bottom_depths{K} = [cutoffBot:0.2:20]; % Replace with your bottom depth increments
+    %
+    interpolated_surface{K} = interp1(ssp{K}.Depth, ssp{K}.SoundSpeed, surface_depths{K}, 'linear', 'extrap');
+    interpolated_bottom{K} = interp1(ssp{K}.Depth, ssp{K}.SoundSpeed, bottom_depths{K}, 'linear', 'extrap');
+    
+    % Combine original and interpolated data
+    completeSSP{K}(:,1) = [surface_depths{K}'; ssp{K}.Depth; bottom_depths{K}'];
+    completeSSP{K}(:,2) = [interpolated_surface{K}'; ssp{K}.SoundSpeed; interpolated_bottom{K}'];
+
+    figure()
+    plot(completeSSP{K}(:,2),completeSSP{K}(:,1),'LineWidth',2)
+    title(sprintf('DeepSSP %d',K))
+    set(gca,'ydir','reverse')
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% APRIL/MAY
+
 ssp{1} = deepSSPs{2};
 ssp{2} = deepSSPs{4};
 ssp{3} = deepSSPs{5};
@@ -86,10 +133,6 @@ ssp{6} = deepSSPs{11};
 ssp{7} = deepSSPs{12};
 ssp{8} = deepSSPs{13};
 
-figure()
-plot(ssp{1}.SoundSpeed,ssp{1}.Depth)
-
-%%
 % Frank adding top and bottom to the profiles due to the glider inflections.
 %Had to remove some repeat rows, one in ssp7 (ssp{1, 7}(79,:) = [];) 
 % and two in ssp8 (ssp{1, 8}(32,:) = []; ssp{1, 8}(41,:) = [];)
@@ -206,7 +249,7 @@ writematrix(completeSSP{5}, 'ssp5.csv');
 writematrix(completeSSP{6}, 'ssp6.csv');
 writematrix(completeSSP{7}, 'ssp7.csv');
 writematrix(completeSSP{8}, 'ssp8.csv');
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 

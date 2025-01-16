@@ -7,12 +7,12 @@ function [yoSSP,yotemps,yotimes,yodepths,yosalt,yospeed] = yoDefiner(dn, depth, 
 
 
 
-inflectionsBot = islocalmax(depth,'MinProminence',3,'MinSeparation',3,'FlatSelection','first');
+inflectionsBot = islocalmax(depth,'MinProminence',5,'MinSeparation',5,'FlatSelection','first');
 indexbot    = find(inflectionsBot);
 % yobotdepth = depth(inflectionsBot);
 % yobottime = dn(inflectionsBot);
 
-inflectionsTop = islocalmin(depth,'MinProminence',3,'MinSeparation',3,'FlatSelection','first');
+inflectionsTop = islocalmin(depth,'MinProminence',5,'MinSeparation',5,'FlatSelection','first');
 indextop = find(inflectionsTop);
 % yotopdepth = depth(inflectionsTop);
 % yotoptime = dn(inflectionsTop);
@@ -27,7 +27,8 @@ yoSSP=cell(1,1);
 
 
 howmany = length(indextop);
-for k = 1:howmany
+% for k = 1:howmany
+for k = 1:5400; %Frank quickfixing some november mess-up
     test = indexbot(indextop(k)<indexbot);
     useindex = test(1);
     yotemps{k} = temperature(indextop(k):useindex);
@@ -36,5 +37,6 @@ for k = 1:howmany
     yosalt{k} = salt(indextop(k):useindex);
     yospeed{k}  = speed(indextop(k):useindex);
     yoSSP{k}    =[yotimes{k},yodepths{k},yospeed{k}];   
+    woot = {k}
 end
 end
