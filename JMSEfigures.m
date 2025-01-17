@@ -55,6 +55,36 @@ windBinX = 2:2:14;
 X1 = 1:length(times);
 X2 = 1:length(decimatedData.Snaps);
 
+
+%Creates indexes for lines to show wind events. Gotta get creative.
+index{1} = [75;116];
+index{2} = [116;150]; 
+index{3} = [150;189];
+index{4} = [189;240];
+index{5} = [360;384];
+index{6} = [430;452];
+index{7} = [513;535];
+index{8} = [535;567];
+
+midIndex=[96;133;170;215;372;441;524;551]
+
+for K = 1:length(index)
+    startSBLcapped(K) = mean(decimatedData.SBLcapped(index{K}));
+    startNoise(K)     = mean(decimatedData.Noise(index{K}));
+    startWinds(K)     = mean(decimatedData.Winds(index{K}));
+    startSnaps(K)     = mean(decimatedData.Snaps(index{1}));
+
+    endSBL(K)    = decimatedData.SBLcapped(midIndex(K));
+    endNoise(K)  = decimatedData.Noise(midIndex(K));
+    endWinds(K)  = decimatedData.Winds(midIndex(K));
+    endSnaps(K)  = decimatedData.Snaps(midIndex(K));
+end
+
+
+
+
+%%%%%%%%%%%%%%%%
+%%
 figure()
 Tiled = tiledlayout(4,3)
 ax1 = nexttile([2,1])
@@ -112,12 +142,15 @@ ax4 = nexttile([2,1])
 % hold on
 scatter(decimatedData.Snaps,decimatedData.Noise,[],X2,'filled','MarkerFaceAlpha',0.45,'MarkerEdgeAlpha',0.45)
 hold on
+plot(decimatedData.Snaps(index{1}),decimatedData.Noise(index{1}),'k','LineWidth', 4)
 % scatter(decimatedData.Snaps(loopIndexDS{3}),decimatedData.Noise(loopIndexDS{3}),[],'r','filled')
 set(gca, 'XScale', 'log');
 xlim([500 7000])
 ylim([400 780])
 xlabel('Snap Rate')
 ylabel('HF Noise (mV)')
+
+
 % title('','High-Frequency Noise Being Created')
 % legend('Raw','40Hr Lowpass')
 
@@ -127,12 +160,11 @@ ax5 = nexttile([2,1])
 % scatter(surfaceData.SBLcapped,envData.Noise,[],X1)
 % hold on
 % scatter(filteredData.Winds,filteredData.Noise)
-scatter(decimatedData.SBLcapped,decimatedData.Noise,[],X2,'filled')
+scatter(decimatedData.SBLcapped,decimatedData.Noise,[],X2,'filled','MarkerFaceAlpha',0.45,'MarkerEdgeAlpha',0.45)
 xlim([0 15])
 ylim([400 780])
 hold on
-% scatter(decimatedData.SBLcapped(loopIndexDS{3}),decimatedData.Noise(loopIndexDS{3}),[],'r','filled')
-% set(gca, 'XScale', 'log');
+plot(decimatedData.SBLcapped(index{1}),decimatedData.Noise(index{1}),'k','LineWidth', 4)
 ylabel('HF Noise (mV)')
 xlabel('Surface Bubble Loss (dBs)')
 % title('40Hr Lowpass-Filtered','Noise Being Attenuated at the Surface')
@@ -142,7 +174,7 @@ xlabel('Surface Bubble Loss (dBs)')
 ax6 = nexttile([2,1])
 % scatter(surfaceData.WSPD,snapRateHourly.SnapCount,[],X1)
 % hold on
-scatter(decimatedData.Winds,decimatedData.Snaps,[],X2,'filled')
+scatter(decimatedData.Winds,decimatedData.Snaps,[],X2,'filled','MarkerFaceAlpha',0.45,'MarkerEdgeAlpha',0.45)
 hold on
 % scatter(decimatedData.Winds(loopIndexDS{3}),decimatedData.Snaps(loopIndexDS{3}),[],'r','filled')
 ylim([0 6000])
