@@ -388,58 +388,6 @@ figure()
 TTTT = tiledlayout(4,6)
 ax1 = nexttile([2,2])
 yyaxis left
-scatter(decimatedData.Time(loopIndexDS{3}),decimatedData.SBLcapped(loopIndexDS{3}),70,'filled')
-ylim([0 15])
-ylabel('SBL (dB)')
-yyaxis right
-scatter(decimatedData.Time(loopIndexDS{3}),decimatedData.Noise(loopIndexDS{3}),70,'k','filled','^')
-ylabel('Noise (mV)')
-ylim([500 725])
-% title('Noise Attenuation due to SBL','40Hr Lowpass')
-title('Noise Attenuation due to Surface Bubble Loss')
-% legend('SBL','Noise')
-hleg = legend('SBL','Noise');
-htitle = get(hleg,'Title');
-set(htitle,'String','Lowpass-Filtered')
-
-
-ax2 = nexttile([2,2])
-yyaxis left
-scatter(decimatedData.Time(loopIndexDS{3}),decimatedData.SBLcapped(loopIndexDS{3}),70,'filled')
-ylim([0 15])
-% ylabel('SBL (dB)')
-yyaxis right
-scatter(decimatedData.Time(loopIndexDS{3}),decimatedData.Detections(loopIndexDS{3}),70,'r','filled','hexagram')
-ylabel('Detections')
-ylim([0 4])
-% title('Surface Attenuation Enabling Acoustic Telemetry','40Hr Lowpass')
-title('Telemetry Efficiency Versus Background Noise')
-% legend('SBL','Detections')
-hleg = legend('SBL','Detections');
-htitle = get(hleg,'Title');
-set(htitle,'String','Lowpass-Filtered')
-
-
-
-ax3 = nexttile([2,2])
-yyaxis left
-scatter(decimatedData.Time(loopIndexDS{3}),decimatedData.SBLcapped(loopIndexDS{3}),70,'filled')
-ylim([0 15])
-% ylabel('SBL (dB)')
-yyaxis right
-scatter(decimatedData.Time(loopIndexDS{3}),decimatedData.Snaps(loopIndexDS{3}),70,'g','filled','diamond')
-ylabel('Snaps')
-ylim([200 3500])
-% title('Snaprate Unnaffected by Winds','40Hr Lowpass')
-title('Snapping Shrimp Behavior')
-% legend('SBL','Snaps')
-hleg = legend('SBL','Snaps');
-htitle = get(hleg,'Title');
-set(htitle,'String','Lowpass-Filtered')
-
-
-ax4 = nexttile([2,2])
-yyaxis left
 scatter(times(loopIndexFilt{3}),surfaceData.SBLcapped(loopIndexFilt{3}),70,'filled')
 ylim([0 15])
 ylabel('SBL (dB)')
@@ -454,8 +402,7 @@ hleg = legend('SBL','Noise');
 htitle = get(hleg,'Title');
 set(htitle,'String','Raw Data')
 
-
-ax5 = nexttile([2,2])
+ax2 = nexttile([2,2])
 yyaxis left
 scatter(times(loopIndexFilt{3}),surfaceData.SBLcapped(loopIndexFilt{3}),70,'filled')
 ylim([0 15])
@@ -471,9 +418,7 @@ hleg = legend('SBL','Detections');
 htitle = get(hleg,'Title');
 set(htitle,'String','Raw Data')
 
-
-
-ax6 = nexttile([2,2])
+ax3 = nexttile([2,2])
 yyaxis left
 scatter(times(loopIndexFilt{3}),surfaceData.SBLcapped(loopIndexFilt{3}),70,'filled')
 ylim([0 15])
@@ -488,6 +433,54 @@ ylim([200 3500])
 hleg = legend('SBL','Snaps');
 htitle = get(hleg,'Title');
 set(htitle,'String','Raw Data')
+
+ax4 = nexttile([2,2])
+yyaxis left
+% scatter(decimatedData.Time(loopIndexDS{3}),decimatedData.SBLcapped(loopIndexDS{3}),70,'filled')
+plot(decimatedData.Time(loopIndexDS{3}),decimatedData.SBLcapped(loopIndexDS{3}),'b','LineWidth',3)
+ylim([0 15])
+ylabel('SBL (dB)')
+yyaxis right
+% scatter(decimatedData.Time(loopIndexDS{3}),decimatedData.Noise(loopIndexDS{3}),70,'k','filled','^')
+plot(decimatedData.Time(loopIndexDS{3}),decimatedData.Noise(loopIndexDS{3}),'k','LineWidth',3)
+ylabel('Noise (mV)')
+ylim([500 725])
+% legend('SBL','Noise')
+hleg = legend('SBL','Noise');
+htitle = get(hleg,'Title');
+set(htitle,'String','Lowpass-Filtered')
+
+
+ax5 = nexttile([2,2])
+yyaxis left
+plot(decimatedData.Time(loopIndexDS{3}),decimatedData.SBLcapped(loopIndexDS{3}),'b','LineWidth',3)
+ylim([0 15])
+% ylabel('SBL (dB)')
+yyaxis right
+plot(decimatedData.Time(loopIndexDS{3}),decimatedData.Detections(loopIndexDS{3}),'r','LineWidth',3)
+ylabel('Detections')
+ylim([0 4])
+% legend('SBL','Detections')
+hleg = legend('SBL','Detections');
+htitle = get(hleg,'Title');
+set(htitle,'String','Lowpass-Filtered')
+
+
+
+ax6 = nexttile([2,2])
+yyaxis left
+plot(decimatedData.Time(loopIndexDS{3}),decimatedData.SBLcapped(loopIndexDS{3}),'b','LineWidth',3)
+ylim([0 15])
+% ylabel('SBL (dB)')
+yyaxis right
+plot(decimatedData.Time(loopIndexDS{3}),decimatedData.Snaps(loopIndexDS{3}),'g','LineWidth',3)
+ylabel('Snaps')
+ylim([200 3500])
+% legend('SBL','Snaps')
+hleg = legend('SBL','Snaps');
+htitle = get(hleg,'Title');
+set(htitle,'String','Lowpass-Filtered')
+
 
 % Setting up stats for the 6-tile wind event plot.
 %Tile 1 - Filtered/Decimated SBL vs Noise
