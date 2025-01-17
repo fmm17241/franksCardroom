@@ -398,7 +398,7 @@ ylim([500 725])
 % title('','Raw Data')
 % title('Raw Data','Noise Attenuation due to SBL')
 % legend('SBL','Noise')
-hleg = legend('SBL','Noise');
+% hleg = legend('SBL','Noise');
 % htitle = get(hleg,'Title');
 % set(htitle,'String','Raw Data')
 
@@ -414,25 +414,30 @@ ylim([0 4])
 % title('','Raw Data')
 % title('','Surface Attenuation Enabling Acoustic Telemetry')
 % legend('SBL','Detections')
-hleg = legend('SBL','Detections');
+% hleg = legend('SBL','Detections');
 % htitle = get(hleg,'Title');
 % set(htitle,'String','Raw Data')
+timeNaN = times(loopIndexFilt{3}(1:3))
+fillNaN = [NaN;NaN;NaN]
 
 ax3 = nexttile([2,2])
 yyaxis left
+hold on
 scatter(times(loopIndexFilt{3}),surfaceData.SBLcapped(loopIndexFilt{3}),70,'filled')
+scatter(timeNaN,fillNaN,130,'k','filled','^')
+scatter(timeNaN,fillNaN,130,[0.7,0,0],'filled','hexagram')
 ylim([0 15])
 % ylabel('SBL (dB)')
 yyaxis right
-scatter(times(loopIndexFilt{3}),snapRateHourly.SnapCount(loopIndexFilt{3}),70,[0,0.4,0],'filled','diamond')
+scatter(times(loopIndexFilt{3}),snapRateHourly.SnapCount(loopIndexFilt{3}),130,[0,0.4,0],'filled','diamond')
 ylabel('Snaps')
 ylim([200 3500])
 % title('','Raw Data')
 % title('','Snaprate Unnaffected by Winds')
 % legend('SBL','Snaps')
-hleg = legend('SBL','Snaps');
-% htitle = get(hleg,'Title');
-% set(htitle,'String','Raw Data')
+hleg = legend('SBL','Noise','Detections','Snaps');
+htitle = get(hleg,'Title');
+set(htitle,'String','Raw Data')
 
 ax4 = nexttile([2,2])
 yyaxis left
@@ -470,6 +475,9 @@ ylim([0 4])
 ax6 = nexttile([2,2])
 yyaxis left
 plot(decimatedData.Time(loopIndexDS{3}),decimatedData.SBLcapped(loopIndexDS{3}),'b','LineWidth',3)
+hold on
+plot(timeNaN,fillNaN,'k','LineWidth',3)
+plot(timeNaN,fillNaN,'Color',[0.7,0,0],'LineWidth',3)
 ylim([0 15])
 % ylabel('SBL (dB)')
 yyaxis right
@@ -477,9 +485,9 @@ plot(decimatedData.Time(loopIndexDS{3}),decimatedData.Snaps(loopIndexDS{3}),'Col
 ylabel('Snaps')
 ylim([200 3500])
 % legend('SBL','Snaps')
-% hleg = legend('SBL','Snaps');
-% htitle = get(hleg,'Title');
-% set(htitle,'String','Lowpass-Filtered')
+hleg = legend('SBL','Noise','Detections','Snaps');
+htitle = get(hleg,'Title');
+set(htitle,'String','Lowpass-Filtered')
 
 ax1.YAxis(2).Color = 'k';
 ax2.YAxis(2).Color = [0.7,0,0];
