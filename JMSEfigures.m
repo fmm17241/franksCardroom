@@ -399,8 +399,8 @@ ylim([500 725])
 % title('Raw Data','Noise Attenuation due to SBL')
 % legend('SBL','Noise')
 hleg = legend('SBL','Noise');
-htitle = get(hleg,'Title');
-set(htitle,'String','Raw Data')
+% htitle = get(hleg,'Title');
+% set(htitle,'String','Raw Data')
 
 ax2 = nexttile([2,2])
 yyaxis left
@@ -415,8 +415,8 @@ ylim([0 4])
 % title('','Surface Attenuation Enabling Acoustic Telemetry')
 % legend('SBL','Detections')
 hleg = legend('SBL','Detections');
-htitle = get(hleg,'Title');
-set(htitle,'String','Raw Data')
+% htitle = get(hleg,'Title');
+% set(htitle,'String','Raw Data')
 
 ax3 = nexttile([2,2])
 yyaxis left
@@ -424,15 +424,15 @@ scatter(times(loopIndexFilt{3}),surfaceData.SBLcapped(loopIndexFilt{3}),70,'fill
 ylim([0 15])
 % ylabel('SBL (dB)')
 yyaxis right
-scatter(times(loopIndexFilt{3}),snapRateHourly.SnapCount(loopIndexFilt{3}),70,[0,0.5,0],'filled','diamond')
+scatter(times(loopIndexFilt{3}),snapRateHourly.SnapCount(loopIndexFilt{3}),70,[0,0.4,0],'filled','diamond')
 ylabel('Snaps')
 ylim([200 3500])
 % title('','Raw Data')
 % title('','Snaprate Unnaffected by Winds')
 % legend('SBL','Snaps')
 hleg = legend('SBL','Snaps');
-htitle = get(hleg,'Title');
-set(htitle,'String','Raw Data')
+% htitle = get(hleg,'Title');
+% set(htitle,'String','Raw Data')
 
 ax4 = nexttile([2,2])
 yyaxis left
@@ -446,9 +446,9 @@ plot(decimatedData.Time(loopIndexDS{3}),decimatedData.Noise(loopIndexDS{3}),'k',
 ylabel('Noise (mV)')
 ylim([500 725])
 % legend('SBL','Noise')
-hleg = legend('SBL','Noise');
-htitle = get(hleg,'Title');
-set(htitle,'String','Lowpass-Filtered')
+% hleg = legend('SBL','Noise');
+% htitle = get(hleg,'Title');
+% set(htitle,'String','Lowpass-Filtered')
 
 
 ax5 = nexttile([2,2])
@@ -457,13 +457,13 @@ plot(decimatedData.Time(loopIndexDS{3}),decimatedData.SBLcapped(loopIndexDS{3}),
 ylim([0 15])
 % ylabel('SBL (dB)')
 yyaxis right
-plot(decimatedData.Time(loopIndexDS{3}),decimatedData.Detections(loopIndexDS{3}),'r','LineWidth',3)
+plot(decimatedData.Time(loopIndexDS{3}),decimatedData.Detections(loopIndexDS{3}),'Color',[0.7,0,0],'LineWidth',3)
 ylabel('Detections')
 ylim([0 4])
 % legend('SBL','Detections')
-hleg = legend('SBL','Detections');
-htitle = get(hleg,'Title');
-set(htitle,'String','Lowpass-Filtered')
+% hleg = legend('SBL','Detections');
+% htitle = get(hleg,'Title');
+% set(htitle,'String','Lowpass-Filtered')
 
 
 
@@ -473,17 +473,20 @@ plot(decimatedData.Time(loopIndexDS{3}),decimatedData.SBLcapped(loopIndexDS{3}),
 ylim([0 15])
 % ylabel('SBL (dB)')
 yyaxis right
-plot(decimatedData.Time(loopIndexDS{3}),decimatedData.Snaps(loopIndexDS{3}),'g','LineWidth',3)
+plot(decimatedData.Time(loopIndexDS{3}),decimatedData.Snaps(loopIndexDS{3}),'Color',[0,0.4,0],'LineWidth',3)
 ylabel('Snaps')
 ylim([200 3500])
 % legend('SBL','Snaps')
-hleg = legend('SBL','Snaps');
-htitle = get(hleg,'Title');
-set(htitle,'String','Lowpass-Filtered')
+% hleg = legend('SBL','Snaps');
+% htitle = get(hleg,'Title');
+% set(htitle,'String','Lowpass-Filtered')
 
 ax1.YAxis(2).Color = 'k';
-ax2.YAxis(2).Color = 'k';
-ax3.YAxis(2).Color = 'k';
+ax2.YAxis(2).Color = [0.7,0,0];
+ax3.YAxis(2).Color = [0,0.4,0];
+ax4.YAxis(2).Color = 'k';
+ax5.YAxis(2).Color = [0.7,0,0];
+ax6.YAxis(2).Color = [0,0.4,0];
 
 
 % Setting up stats for the 6-tile wind event plot.
