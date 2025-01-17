@@ -481,6 +481,10 @@ hleg = legend('SBL','Snaps');
 htitle = get(hleg,'Title');
 set(htitle,'String','Lowpass-Filtered')
 
+ax1.YAxis(2).Color = 'k';
+ax2.YAxis(2).Color = 'k';
+ax3.YAxis(2).Color = 'k';
+
 
 % Setting up stats for the 6-tile wind event plot.
 %Tile 1 - Filtered/Decimated SBL vs Noise
