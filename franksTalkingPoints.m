@@ -1230,9 +1230,9 @@ title('Water Column Profile: Temperature','Glider mission')
 ylabel('Z (m)')
 ylim([4 15])
 
-yyaxis right
-plot(datenum(times),surfaceData.WSPD,'LineWidth',4)
-ylabel('Windspeed (m/s)')
+% yyaxis right
+% plot(datenum(times),surfaceData.WSPD,'LineWidth',4)
+% ylabel('Windspeed (m/s)')
 
 
 ax2 = nexttile([1,3])
