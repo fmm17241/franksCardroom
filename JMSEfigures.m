@@ -476,8 +476,8 @@ ax6 = nexttile([2,2])
 yyaxis left
 plot(decimatedData.Time(loopIndexDS{3}),decimatedData.SBLcapped(loopIndexDS{3}),'b','LineWidth',3)
 hold on
-plot(timeNaN,fillNaN,'k','LineWidth',3)
-plot(timeNaN,fillNaN,'Color',[0.7,0,0],'LineWidth',3)
+plot(timeNaN,fillNaN,'k-','LineWidth',3)
+plot(timeNaN,fillNaN,'-','Color',[0.7,0,0],'LineWidth',3)
 ylim([0 15])
 % ylabel('SBL (dB)')
 yyaxis right
