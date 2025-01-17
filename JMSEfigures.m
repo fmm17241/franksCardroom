@@ -408,7 +408,7 @@ scatter(times(loopIndexFilt{3}),surfaceData.SBLcapped(loopIndexFilt{3}),70,'fill
 ylim([0 15])
 % ylabel('SBL (dB)')
 yyaxis right
-scatter(times(loopIndexFilt{3}),envData.HourlyDets(loopIndexFilt{3}),70,'r','filled','hexagram')
+scatter(times(loopIndexFilt{3}),envData.HourlyDets(loopIndexFilt{3}),70,[0.7,0,0],'filled','hexagram')
 ylabel('Detections')
 ylim([0 4])
 % title('','Raw Data')
