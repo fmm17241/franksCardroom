@@ -153,7 +153,7 @@ ax4 = nexttile([2,1])
 scatter(decimatedData.Snaps,decimatedData.Noise,[],X2,'filled','MarkerFaceAlpha',0.45,'MarkerEdgeAlpha',0.45)
 hold on
 for K = 1:length(plot4Lines)
-    plot(plot4Lines{K}(:,1),plot4Lines{K}(:,2),'k','LineWidth', 2.5)
+    plot(plot4Lines{K}(:,1),plot4Lines{K}(:,2),'k','LineWidth', 2)
 end
 set(gca, 'XScale', 'log');
 xlim([500 7000])
@@ -177,7 +177,7 @@ ylim([400 780])
 hold on
 hold on
 for K = 1:length(plot5Lines)
-    plot(plot5Lines{K}(:,1),plot5Lines{K}(:,2),'k','LineWidth', 2.5)
+    plot(plot5Lines{K}(:,1),plot5Lines{K}(:,2),'k','LineWidth', 2)
 end
 ylabel('HF Noise (mV)')
 xlabel('Surface Bubble Loss (dBs)')
@@ -191,7 +191,7 @@ ax6 = nexttile([2,1])
 scatter(decimatedData.Winds,decimatedData.Snaps,[],X2,'filled','MarkerFaceAlpha',0.45,'MarkerEdgeAlpha',0.45)
 hold on
 for K = 1:length(plot6Lines)
-    plot(plot6Lines{K}(:,1),plot6Lines{K}(:,2),'k--','LineWidth', 2.5)
+    plot(plot6Lines{K}(:,1),plot6Lines{K}(:,2),'k','LineWidth', 2)
 end
 ylim([0 6000])
 xlim([0 15])
