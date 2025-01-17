@@ -72,16 +72,23 @@ for K = 1:length(index)
     startSBLcapped(K) = mean(decimatedData.SBLcapped(index{K}));
     startNoise(K)     = mean(decimatedData.Noise(index{K}));
     startWinds(K)     = mean(decimatedData.Winds(index{K}));
-    startSnaps(K)     = mean(decimatedData.Snaps(index{1}));
+    startSnaps(K)     = mean(decimatedData.Snaps(index{K}));
 
     endSBL(K)    = decimatedData.SBLcapped(midIndex(K));
     endNoise(K)  = decimatedData.Noise(midIndex(K));
     endWinds(K)  = decimatedData.Winds(midIndex(K));
     endSnaps(K)  = decimatedData.Snaps(midIndex(K));
+
 end
-
-
-
+for K = 1:length(index)
+    %Piece it together
+    %Snaps and Noise
+    plot4Lines{K} = [startSnaps(K),startNoise(K); endSnaps(K),endNoise(K)]
+    %SBL and Noise
+    plot5Lines{K} = [startSBLcapped(K),startNoise(K); endSBL(K),endNoise(K)]
+    %Winds and Snaps
+    plot6Lines{K} = [startWinds(K),startSnaps(K); endWinds(K),endSnaps(K)]
+end
 
 %%%%%%%%%%%%%%%%
 %%
@@ -142,8 +149,9 @@ ax4 = nexttile([2,1])
 % hold on
 scatter(decimatedData.Snaps,decimatedData.Noise,[],X2,'filled','MarkerFaceAlpha',0.45,'MarkerEdgeAlpha',0.45)
 hold on
-plot(decimatedData.Snaps(index{1}),decimatedData.Noise(index{1}),'k','LineWidth', 4)
-% scatter(decimatedData.Snaps(loopIndexDS{3}),decimatedData.Noise(loopIndexDS{3}),[],'r','filled')
+for K = 1:length(plot4Lines)
+    plot(plot4Lines{K}(:,1),plot4Lines{K}(:,2),'k','LineWidth', 4)
+end
 set(gca, 'XScale', 'log');
 xlim([500 7000])
 ylim([400 780])
@@ -164,7 +172,10 @@ scatter(decimatedData.SBLcapped,decimatedData.Noise,[],X2,'filled','MarkerFaceAl
 xlim([0 15])
 ylim([400 780])
 hold on
-plot(decimatedData.SBLcapped(index{1}),decimatedData.Noise(index{1}),'k','LineWidth', 4)
+hold on
+for K = 1:length(plot5Lines)
+    plot(plot5Lines{K}(:,1),plot5Lines{K}(:,2),'k','LineWidth', 4)
+end
 ylabel('HF Noise (mV)')
 xlabel('Surface Bubble Loss (dBs)')
 % title('40Hr Lowpass-Filtered','Noise Being Attenuated at the Surface')
@@ -176,7 +187,9 @@ ax6 = nexttile([2,1])
 % hold on
 scatter(decimatedData.Winds,decimatedData.Snaps,[],X2,'filled','MarkerFaceAlpha',0.45,'MarkerEdgeAlpha',0.45)
 hold on
-% scatter(decimatedData.Winds(loopIndexDS{3}),decimatedData.Snaps(loopIndexDS{3}),[],'r','filled')
+for K = 1:length(plot6Lines)
+    plot(plot6Lines{K}(:,1),plot6Lines{K}(:,2),'k','LineWidth', 4)
+end
 ylim([0 6000])
 xlim([0 15])
 ylabel('Hourly Snaps')
