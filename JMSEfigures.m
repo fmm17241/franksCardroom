@@ -66,7 +66,7 @@ index{6} = [430;452];
 index{7} = [513;535];
 index{8} = [535;567];
 
-midIndex=[96;133;170;215;372;441;524;551]
+midIndex=[97;132;170;219;371;441;525;548]
 
 for K = 1:length(index)
     startSBLcapped(K) = mean(decimatedData.SBLcapped(index{K}));
@@ -101,7 +101,7 @@ ax1 = nexttile([2,1])
 % semilogx(snapRateHourly.SnapCount,logNoise)
 scatter(snapRateHourly.SnapCount,envData.Noise,[],X1)
 set(gca, 'XScale', 'log');
-xlabel('Snap Rate')
+% xlabel('Snap Rate')
 ylabel('HF Noise (mV)')
 % title('','High-Frequency Noise Being Created')
 xlim([500 7000])
@@ -112,7 +112,9 @@ x = 750:750:6750;
 % Scatter plot with error bars
 errorbar(snapBinX, noiseVsSnaps, noiseSEM, 'k.', 'MarkerSize', 10, 'LineWidth', 1.5);
 scatter(snapBinX, noiseVsSnaps, 'k', 'filled'); % Overlay points for clarity
-
+customTicks = [1000, 2000, 4000, 6000]; % Tick positions
+xticks(customTicks);              % Apply custom ticks
+xticklabels(string(customTicks)); % Use the same values as labels
 % scatter(snapRateHourly.SnapCount(loopIndexFilt{3}),envData.Noise(loopIndexFilt{3}),[],'r','filled')
 % legend('Raw','40Hr Lowpass')
 % Log this?
@@ -129,12 +131,13 @@ scatter(SBLbinX, noiseVsSBL, 'k', 'filled'); % Overlay points for clarity
 xlim([0 15])
 ylim([400 780])
 ylabel('HF Noise (mV)')
-xlabel('Surface Bubble Loss (dBs)')
+% xlabel('Surface Bubble Loss (dBs)')
 % title('Gray''s Reef Soundscape, Spring 2020','Noise Being Attenuated at the Surface')
 
 
 ax3 = nexttile([2,1])
-scatter(surfaceData.WSPD,snapRateHourly.SnapCount,[],X1)
+% scatter(surfaceData.WSPD,snapRateHourly.SnapCount,[],X1)
+scatter(surfaceData.SBLcapped,snapRateHourly.SnapCount,[],X1)
 xlim([0 15])
 ylim([0 6000])
 hold on
@@ -144,7 +147,7 @@ errorbar(windBinX, snapsVsWind, windSnapSEM, 'k.', 'MarkerSize', 10, 'LineWidth'
 scatter(windBinX, snapsVsWind, 'k', 'filled'); % Overlay points for clarity
 % scatter(surfaceData.WSPD(loopIndexFilt{3}),snapRateHourly.SnapCount(loopIndexFilt{3}),[],'r','filled')
 ylabel('Snap Rate')
-xlabel('Windspeed (m/s)')
+% xlabel('Windspeed (m/s)')
 % title('','Wind''s Effect on Snap Rate')
 
 ax4 = nexttile([2,1])
@@ -160,6 +163,9 @@ xlim([500 7000])
 ylim([400 780])
 xlabel('Snap Rate')
 ylabel('HF Noise (mV)')
+customTicks = [1000, 2000, 4000, 6000]; % Tick positions
+xticks(customTicks);              % Apply custom ticks
+xticklabels(string(customTicks)); % Use the same values as labels
 
 
 % title('','High-Frequency Noise Being Created')
@@ -195,7 +201,7 @@ for K = 1:length(plot6Lines)
 end
 ylim([0 6000])
 xlim([0 15])
-ylabel('Hourly Snaps')
+ylabel('Snap Rate')
 xlabel('Windspeed (m/s)')
 % title('','Wind''s Effect on Snap Rate')
 
