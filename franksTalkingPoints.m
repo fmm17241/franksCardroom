@@ -1222,14 +1222,19 @@ figure;
 TTT = tiledlayout(5,3)
 ax1 = nexttile([2,3])
 yyaxis left
-h1=pcolor(dn,z,temp'); shading interp; colorbar; set(gca,'ydir','reverse'); 
-datetick('x','keeplimits');
-clim([20.5 22])
-xlim([dn(1,1) dn(1,170)])
+% h1=pcolor(dn,z,temp'); shading interp; colorbar; set(gca,'ydir','reverse'); 
+% datetick('x','keeplimits');
+% clim([20.5 22])
+
 title('Water Column Profile: Temperature','Glider mission')
 ylabel('Z (m)')
 ylim([4 15])
 
+pcolor(dn,z,matstruct.rho')
+shading interp; colorbar; set(gca,'ydir','reverse'); datetick('x','keeplimits'); ylim([0 18]);
+% caxis([1021 1024]);
+caxis([1021.5 1024]);
+xlim([dn(1,1) dn(1,170)])
 % yyaxis right
 % plot(datenum(times),surfaceData.WSPD,'LineWidth',4)
 % ylabel('Windspeed (m/s)')
