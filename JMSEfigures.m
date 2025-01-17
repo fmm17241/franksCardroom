@@ -424,7 +424,7 @@ scatter(times(loopIndexFilt{3}),surfaceData.SBLcapped(loopIndexFilt{3}),70,'fill
 ylim([0 15])
 % ylabel('SBL (dB)')
 yyaxis right
-scatter(times(loopIndexFilt{3}),snapRateHourly.SnapCount(loopIndexFilt{3}),70,'g','filled','diamond')
+scatter(times(loopIndexFilt{3}),snapRateHourly.SnapCount(loopIndexFilt{3}),70,[0,0.5,0],'filled','diamond')
 ylabel('Snaps')
 ylim([200 3500])
 % title('','Raw Data')
