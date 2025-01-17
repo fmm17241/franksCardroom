@@ -1253,6 +1253,7 @@ plot(times,surfaceData.SBLcapped,'r','LineWidth',3)
 yline(4.85,'--','Whitecaps  ')
 ylabel('SBL (dB)')
 title('','Surface Bubble Loss, Attenuation')
+Frank: add thermal strat from glider here? Brunt Vaisalla?
 
 ax4 = nexttile([1,3])
 plot(times,snapRateHourly.SnapCount,'k','LineWidth',2)
