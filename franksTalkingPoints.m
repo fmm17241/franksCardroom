@@ -1050,7 +1050,7 @@ load surfaceDataSpring
 load filteredData4Bin40HrLowSPRING.mat
 load gliderDataAprilMay.mat
 times = surfaceData.time;
-dt = datetime(dn,'convertfrom','datenum')
+DatTime = datetime(dn,'convertfrom','datenum')
 
 
 %Create stratification variable from glider data
