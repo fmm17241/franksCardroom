@@ -1035,13 +1035,26 @@ min(surfaceData.WSPD(461:601))
 %%%%%%%%%%%%%%%%%%%%%%%%
 %%
 
-load angusdbdAprilMay
-load angusebdAprilMay
-
-% Bindata for different missions
-[matstruct,dn,z,temp] = Bindata(fstruct,sstruct);
-
+% load angusdbdAprilMay
+% load angusebdAprilMay
+% Load in saved data
+% Environmental data matched to the hourly snaps.
+load envDataSpring
+% % Full snaprate dataset
+load snapRateDataSpring
+% % Snaprate binned hourly
+load snapRateHourlySpring
+% % Snaprate binned per minute
+load snapRateMinuteSpring
+load surfaceDataSpring
+load filteredData4Bin40HrLowSPRING.mat
+load gliderDataAprilMay.mat
+times = surfaceData.time;
 dt = datetime(dn,'convertfrom','datenum')
+
+
+%Create stratification variable from glider data
+
 
 
 % test plot
@@ -1081,11 +1094,15 @@ yline(650,'--','Challenging')
 title('','Detection Efficiency Versus Noise Interference')
 
 ax3 = nexttile([1,3])
+yyaxis left
 plot(surfaceData.time,surfaceData.SBLcapped,'r','LineWidth',3)
 yline(4.85,'--','Whitecaps  ')
 ylabel('SBL (dB)')
 title('','Surface Bubble Loss, Attenuation')
 % Frank: add thermal strat from glider here? Brunt Vaisalla?
+yyaxis right
+
+
 
 ax4 = nexttile([1,3])
 plot(snapRateHourly.Time,snapRateHourly.SnapCount,'k','LineWidth',2)
