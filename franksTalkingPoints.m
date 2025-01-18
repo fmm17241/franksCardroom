@@ -1054,7 +1054,46 @@ dt = datetime(dn,'convertfrom','datenum')
 
 
 %Create stratification variable from glider data
+%% GENERATEDEDIT
+% Assuming matstruct.rho is the variable of interest (738x60 matrix)
+rho = matstruct.rho; % 738 hours, 60 depths
 
+% Preallocate arrays for results
+minVals = nan(738, 1);         % Min value for each hour
+maxVals = nan(738, 1);         % Max value for each hour
+stratification = nan(738, 1);  % Bulk stratification for each hour
+minDepth = nan(738, 1);        % Depth index of min value for each hour
+maxDepth = nan(738, 1);        % Depth index of max value for each hour
+
+% Loop through each hour
+for hour = 1:738
+    % Extract the depth profile for the current hour
+    depthProfile = rho(hour, :);
+    
+    % Find min and max values, ignoring NaNs
+    [minVals(hour), minDepth(hour)] = min(depthProfile,[],'omitnan');
+    [maxVals(hour), maxDepth(hour)] = max(depthProfile,[],'omitnan');
+    
+    % Calculate stratification
+    stratification(hour) = maxVals(hour) - minVals(hour);
+end
+
+% Find hour with the largest stratification
+[maxStratification, maxIndex] = max(stratification);
+
+% Output results
+fprintf('Hour with largest stratification: %d\n', maxIndex);
+fprintf('Max stratification: %.2f\n', maxStratification);
+fprintf('Min value depth at this hour: %d\n', minDepth(maxIndex));
+fprintf('Max value depth at this hour: %d\n', maxDepth(maxIndex));
+
+% Optional: Display the results for all hours in a table
+resultsTable = table((1:738)', minVals, minDepth, maxVals, maxDepth, stratification, ...
+    'VariableNames', {'Hour', 'MinValue', 'MinDepth', 'MaxValue', 'MaxDepth', 'Stratification'});
+disp(resultsTable);
+
+
+%%
 
 
 % test plot
